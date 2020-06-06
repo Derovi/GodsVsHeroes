@@ -1,0 +1,8 @@
+name: GodsVsHeroes
+main: by.dero.gvh.Plugin
+authors: [Derovi, Hattonuri]
+version: 0.6.5
+commands:
+  # Main plugin command
+  game:
+    aliases: [gvh]

@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group 'Dero'
+version '0.6.6'
+
+sourceCompatibility = 1.10
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'by.dero.gvh.Plugin'
+        )
+    }
+}
+
+dependencies {
+    implementation files('lib/spigot.jar')
+}
