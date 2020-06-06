@@ -6,17 +6,27 @@ import by.dero.gvh.model.ItemInfo;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class GamePlayer {
     private Player player;
     private String className;
-    private List<Item> items;
+    private HashMap<String, Item> items = new HashMap<>();
     private int team;
 
     public GamePlayer(Player player, String className) {
         this.player = player;
         this.className = className;
+    }
+
+    public Item getSelectedItem() {
+        ItemStack selectedItem = player.getInventory().getItemInMainHand();
+        if (!selectedItem.hasItemMeta()) {
+            return null;
+        }
+        
+        return null;
     }
 
     public void addItem(String name, int level) {
@@ -25,7 +35,7 @@ public class GamePlayer {
             ItemInfo itemInfo = itemDescription.getLevels().get(level);
             Item item = (Item) Plugin.getInstance().getData().getItemNameToClass().
                     get(name).getConstructor().newInstance();
-            items.add(item);
+            items.put(name, item);
             ItemStack itemStack = new ItemStack(itemInfo.getMaterial(), itemInfo.getAmount());
             player.getInventory().setItem(itemDescription.getSlot(), itemStack);
         } catch (Exception ex) {
@@ -49,12 +59,8 @@ public class GamePlayer {
         this.className = className;
     }
 
-    public List<Item> getItems() {
+    public HashMap<String, Item> getItems() {
         return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
     }
 
     public int getTeam() {

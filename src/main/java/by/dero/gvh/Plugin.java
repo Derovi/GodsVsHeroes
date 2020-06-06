@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Plugin extends JavaPlugin {
     private static Plugin instance;
     private Data data;
+    private Game game;
 
     private CommandManager commandManager;
 
@@ -17,6 +18,8 @@ public class Plugin extends JavaPlugin {
         instance = this;
         registerEvents();
         commandManager = new CommandManager();
+        //Data data = new Data();
+        Game game = new Game();
     }
 
     private void registerEvents() {
@@ -29,6 +32,10 @@ public class Plugin extends JavaPlugin {
 
     public Data getData() {
         return data;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public CommandManager getCommandManager() {

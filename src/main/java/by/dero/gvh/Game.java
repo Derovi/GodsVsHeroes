@@ -1,22 +1,20 @@
 package by.dero.gvh;
 
+import by.dero.gvh.model.Item;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
-    private List<GamePlayer> players = new LinkedList<>();
+    private HashMap<String, GamePlayer> players = new HashMap<>();
 
     public void addPlayer(Player player, String className) {
-        players.add(new GamePlayer(player, className));
+        players.put(player.getName(), new GamePlayer(player, className));
     }
 
-    public List<GamePlayer> getPlayers() {
+    public HashMap<String, GamePlayer> getPlayers() {
         return players;
-    }
-
-    public void setPlayers(List<GamePlayer> players) {
-        this.players = players;
     }
 }

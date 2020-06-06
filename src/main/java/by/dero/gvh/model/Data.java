@@ -7,7 +7,7 @@ public class Data {
         this.storageInterface = storageInterface;
     }
 
-    public void registerItem(String name, Class infoClass, Class itemClass) {
+    public void registerItem(String name, Class infoClass, Class<?> itemClass) {
         itemNameToInfo.put(name, infoClass);
         itemNameToClass.put(name, itemClass);
     }
@@ -15,14 +15,14 @@ public class Data {
     private StorageInterface storageInterface;
 
     private HashMap<String, ItemDescription> items = new HashMap<>();
-    private HashMap<String, Class> itemNameToInfo = new HashMap<>();
-    private HashMap<String, Class> itemNameToClass = new HashMap<>();
+    private HashMap<String, Class<?>> itemNameToInfo = new HashMap<>();
+    private HashMap<String, Class<?>> itemNameToClass = new HashMap<>();
 
-    public HashMap<String, Class> getItemNameToInfo() {
+    public HashMap<String, Class<?>> getItemNameToInfo() {
         return itemNameToInfo;
     }
 
-    public HashMap<String, Class> getItemNameToClass() {
+    public HashMap<String, Class<?>> getItemNameToClass() {
         return itemNameToClass;
     }
 
