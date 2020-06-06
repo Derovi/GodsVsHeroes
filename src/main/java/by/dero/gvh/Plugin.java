@@ -1,11 +1,13 @@
 package by.dero.gvh;
 
 import by.dero.gvh.events.PlayerEvents;
+import by.dero.gvh.model.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Plugin extends JavaPlugin {
     private static Plugin instance;
+    private Data data;
 
     private CommandManager commandManager;
 
@@ -23,6 +25,10 @@ public class Plugin extends JavaPlugin {
 
     public static Plugin getInstance() {
         return instance;
+    }
+
+    public Data getData() {
+        return data;
     }
 
     public CommandManager getCommandManager() {
