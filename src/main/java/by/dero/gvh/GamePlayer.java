@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class GamePlayer {
     private Player player;
@@ -41,8 +40,13 @@ public class GamePlayer {
                     get(name).getConstructor().newInstance();
             items.put(name, item);
             ItemStack itemStack = new ItemStack(itemInfo.getMaterial(), itemInfo.getAmount());
+            itemStack.getItemMeta().setDisplayName(itemInfo.getDisplayName());
+            itemStack.getItemMeta().setLore(itemInfo.getLore());
+            // add tag as last line of lore
+            itemStack.getItemMeta().getLore().add(Plugin.getInstance().getData().getItemNameToTag().get(name));
             player.getInventory().setItem(itemDescription.getSlot(), itemStack);
         } catch (Exception ex) {
+            System.err.println("Can't add item! " + name + ":" + String.valueOf(level) + " to " + getPlayer().getName());
             ex.printStackTrace();
         }
     }
