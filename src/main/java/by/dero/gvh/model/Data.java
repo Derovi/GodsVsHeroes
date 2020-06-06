@@ -10,6 +10,9 @@ public class Data {
     public void registerItem(String name, Class infoClass, Class<?> itemClass) {
         itemNameToInfo.put(name, infoClass);
         itemNameToClass.put(name, itemClass);
+        String tag = Item.getTag(name);
+        itemNameToTag.put(name, tag);
+        tagToItemName.put(tag, name);
     }
 
     private StorageInterface storageInterface;
@@ -17,6 +20,16 @@ public class Data {
     private HashMap<String, ItemDescription> items = new HashMap<>();
     private HashMap<String, Class<?>> itemNameToInfo = new HashMap<>();
     private HashMap<String, Class<?>> itemNameToClass = new HashMap<>();
+    private HashMap<String, String> itemNameToTag = new HashMap<>();
+    private HashMap<String, String> tagToItemName = new HashMap<>();
+
+    public HashMap<String, String> getItemNameToTag() {
+        return itemNameToTag;
+    }
+
+    public HashMap<String, String> getTagToItemName() {
+        return tagToItemName;
+    }
 
     public HashMap<String, Class<?>> getItemNameToInfo() {
         return itemNameToInfo;

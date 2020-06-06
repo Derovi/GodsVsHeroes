@@ -25,8 +25,12 @@ public class GamePlayer {
         if (!selectedItem.hasItemMeta()) {
             return null;
         }
-        
-        return null;
+        if (!selectedItem.getItemMeta().hasLore() || selectedItem.getItemMeta().getLore().isEmpty()) {
+            return  null;
+        }
+        String tag = selectedItem.getItemMeta().getLore().get(selectedItem.getItemMeta().getLore().size() - 1);
+        String itemName = Plugin.getInstance().getData().getTagToItemName().get(tag);
+        return items.getOrDefault(itemName, null);
     }
 
     public void addItem(String name, int level) {

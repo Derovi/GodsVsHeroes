@@ -14,6 +14,16 @@ public abstract class Item {
         this.owner = owner;
     }
 
+    public static String getTag(String name) {
+        StringBuilder tag = new StringBuilder();
+        int hashcode = Math.abs(name.hashCode());
+        while (hashcode > 0) {
+            tag.append(hashcode % 10);
+            hashcode /= 10;
+        }
+        return tag.toString();
+    }
+
     public ItemInfo getInfo() {
         return Plugin.getInstance().getData().getItemDescription(name).getLevels().get(level);
     }
