@@ -25,7 +25,7 @@ public class ItemDescription {
                 throw new JsonParseException("Name: " + result.getName() + " not found in data!");
             }
             Class<?> itemInfoClass = data.getItemNameToInfo().get(result.getName());
-            for (var entry : object.get("levels").getAsJsonArray()) {
+            for (JsonElement entry : object.get("levels").getAsJsonArray()) {
                 result.getLevels().add(jsonDeserializationContext.deserialize(entry, itemInfoClass));
             }
             return result;

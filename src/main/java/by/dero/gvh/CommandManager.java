@@ -1,11 +1,13 @@
 package by.dero.gvh;
 
+import by.dero.gvh.model.ItemDescription;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class CommandManager implements CommandExecutor {
@@ -19,7 +21,7 @@ public class CommandManager implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String commandString, String[] params) {
         if (params.length == 0) {
             commandSender.sendMessage("§6====== Gods vs Heroes ======");
-            for (var entry : commands.entrySet()) {
+            for (Map.Entry<String, PluginCommand> entry : commands.entrySet()) {
                 commandSender.sendMessage("§2" + entry.getKey() + "§9 " + entry.getValue().getDescription());
             }
             commandSender.sendMessage("§6============================");

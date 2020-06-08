@@ -5,7 +5,7 @@ plugins {
 group 'Dero'
 version '0.6.6'
 
-sourceCompatibility = 1.10
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()

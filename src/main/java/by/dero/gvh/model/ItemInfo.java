@@ -23,7 +23,7 @@ public class ItemInfo {
         description.setName("flybow");
         description.getLevels().add(new ItemInfo());
         description.getLevels().add(new FlyBowInfo());
-        for (var info : description.getLevels()) {
+        for (ItemInfo info : description.getLevels()) {
             System.out.println(info instanceof FlyBowInfo);
         }
         Gson gson = new GsonBuilder().registerTypeAdapter(ItemDescription.class,
