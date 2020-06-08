@@ -16,22 +16,19 @@ public class ItemDescription {
     }
 
     public static JsonDeserializer<ItemDescription> getDeserializer(Data data) {
-        return new JsonDeserializer<ItemDescription>() {
-            @Override
-            public ItemDescription deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-                ItemDescription result = new ItemDescription();
-                JsonObject object = jsonElement.getAsJsonObject();
-                result.setName(object.get("name").getAsString());
-                result.setSlot(object.get("slot").getAsInt());
-                if (!data.getItemNameToInfo().containsKey(result.getName())) {
-                    throw new JsonParseException("Name: " + result.getName() + " not found in data!");
-                }
-                Class<?> itemInfoClass = data.getItemNameToInfo().get(result.getName());
-                for (var entry : object.get("levels").getAsJsonArray()) {
-                    result.getLevels().add(jsonDeserializationContext.deserialize(entry, itemInfoClass));
-                }
-                return result;
+        return (jsonElement, type, jsonDeserializationContext) -> {
+            ItemDescription result = new ItemDescription();
+            JsonObject object = jsonElement.getAsJsonObject();
+            result.setName(object.get("name").getAsString());
+            result.setSlot(object.get("slot").getAsInt());
+            if (!data.getItemNameToInfo().containsKey(result.getName())) {
+                throw new JsonParseException("Name: " + result.getName() + " not found in data!");
             }
+            Class<?> itemInfoClass = data.getItemNameToInfo().get(result.getName());
+            for (var entry : object.get("levels").getAsJsonArray()) {
+                result.getLevels().add(jsonDeserializationContext.deserialize(entry, itemInfoClass));
+            }
+            return result;
         };
     }
 

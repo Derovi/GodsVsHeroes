@@ -1,10 +1,18 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.model.items.FlyBow;
+import by.dero.gvh.model.itemsinfo.FlyBowInfo;
+
 import java.util.HashMap;
 
 public class Data {
-    Data(StorageInterface storageInterface) {
+    public Data(StorageInterface storageInterface) {
         this.storageInterface = storageInterface;
+        registerItems();
+    }
+
+    public void load() {
+
     }
 
     public void registerItem(String name, Class infoClass, Class<?> itemClass) {
@@ -15,13 +23,18 @@ public class Data {
         tagToItemName.put(tag, name);
     }
 
-    private StorageInterface storageInterface;
+    private void registerItems() {
+        // IMPORTANT register all items
+        registerItem("flybow", FlyBowInfo.class, FlyBow.class);
+    }
+
+    private final StorageInterface storageInterface;
 
     private HashMap<String, ItemDescription> items = new HashMap<>();
-    private HashMap<String, Class<?>> itemNameToInfo = new HashMap<>();
-    private HashMap<String, Class<?>> itemNameToClass = new HashMap<>();
-    private HashMap<String, String> itemNameToTag = new HashMap<>();
-    private HashMap<String, String> tagToItemName = new HashMap<>();
+    private final HashMap<String, Class<?>> itemNameToInfo = new HashMap<>();
+    private final HashMap<String, Class<?>> itemNameToClass = new HashMap<>();
+    private final HashMap<String, String> itemNameToTag = new HashMap<>();
+    private final HashMap<String, String> tagToItemName = new HashMap<>();
 
     public HashMap<String, String> getItemNameToTag() {
         return itemNameToTag;
