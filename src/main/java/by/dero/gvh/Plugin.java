@@ -22,6 +22,7 @@ public class Plugin extends JavaPlugin {
         registerEvents();
         commandManager = new CommandManager();
         storage = new LocalStorage();
+        storage.prepare();
         Data data = new Data(storage);
         data.load();
         Game game = new Game();
