@@ -7,6 +7,15 @@ version '0.6.6'
 
 sourceCompatibility = 1.10
 
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation files('lib/spigot.jar')
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+}
+
 jar {
     manifest {
         attributes(
@@ -14,8 +23,4 @@ jar {
                 'Main-Class': 'by.dero.gvh.Plugin'
         )
     }
-}
-
-dependencies {
-    implementation files('lib/spigot.jar')
 }
