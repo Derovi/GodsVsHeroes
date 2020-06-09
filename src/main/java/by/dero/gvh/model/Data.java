@@ -6,9 +6,13 @@ import by.dero.gvh.model.itemsinfo.FlyBowInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class Data {
     public Data(StorageInterface storageInterface) {
@@ -17,14 +21,10 @@ public class Data {
     }
 
     public void load() {
-        ClassLoader classLoader = getClass().getClassLoader();
         try {
-            URL url = classLoader.getResource("items");
-            String path = url.getPath();
-            for (File file : new File(path).listFiles()) {
-                String itemName = file.getName().substring(0, file.getName().lastIndexOf('.'));
+            for (String itemName : itemNameToClass.keySet()) {
                 if (!storageInterface.exists("items", itemName)) {
-                    storageInterface.save("items", itemName, Utils.getResourceFileText("items/" + itemName + ".json"));
+                    storageInterface.save("items", itemName, Utils.readResourceFile("/items/" + itemName + ".json"));
                 }
                 String itemJson = storageInterface.load("items", itemName);
                 Gson gson = new GsonBuilder().registerTypeAdapter(ItemDescription.class,

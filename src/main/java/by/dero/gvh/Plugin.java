@@ -7,6 +7,11 @@ import by.dero.gvh.model.StorageInterface;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class Plugin extends JavaPlugin {
     private static Plugin instance;
     private StorageInterface storage;

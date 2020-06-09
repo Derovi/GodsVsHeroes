@@ -1,13 +1,18 @@
 package by.dero.gvh;
 
-import java.io.InputStream;
+import java.io.*;
 
 public class Utils {
-    public static String getResourceFileText(String fileName) {
+    public static String readResourceFile(String path) throws IOException {
+        StringBuilder builder = new StringBuilder();
         try {
-            InputStream inputStream = Utils.class
-                    .getClassLoader().getResourceAsStream(fileName);
-            return new String(inputStream.readAllBytes());
+            InputStream is = Utils.class.getResourceAsStream(path);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line).append('\n');
+            }
+            return builder.toString();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
