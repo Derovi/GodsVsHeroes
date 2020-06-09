@@ -10,8 +10,8 @@ import java.util.List;
 public class Game {
     private HashMap<String, GamePlayer> players = new HashMap<>();
 
-    public void addPlayer(Player player, String className) {
-        players.put(player.getName(), new GamePlayer(player, className));
+    public void addPlayer(Player player) {
+        players.put(player.getName(), new GamePlayer(player));
     }
 
     public HashMap<String, GamePlayer> getPlayers() {
