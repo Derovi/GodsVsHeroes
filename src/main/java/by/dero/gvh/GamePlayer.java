@@ -3,6 +3,7 @@ package by.dero.gvh;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
+import by.dero.gvh.model.UnitClassDescription;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,7 +17,7 @@ public class GamePlayer {
 
     public GamePlayer(Player player, String className) {
         this.player = player;
-        this.className = className;
+        selectClass(className);
     }
 
     public Item getSelectedItem() {
@@ -30,6 +31,16 @@ public class GamePlayer {
         String tag = selectedItem.getItemMeta().getLore().get(selectedItem.getItemMeta().getLore().size() - 1);
         String itemName = Plugin.getInstance().getData().getTagToItemName().get(tag);
         return items.getOrDefault(itemName, null);
+    }
+
+    public void selectClass(String className) {
+        this.className = className;
+        items.clear();
+        player.getInventory().clear();
+        UnitClassDescription classDescription = Plugin.getInstance().getData().getUnits().get(className);
+        for (String itemName : classDescription.getItemNames()) {
+            addItem(itemName, 0);
+        }
     }
 
     public void addItem(String name, int level) {

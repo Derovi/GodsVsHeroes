@@ -1,6 +1,5 @@
 package by.dero.gvh.model;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface StorageInterface {
