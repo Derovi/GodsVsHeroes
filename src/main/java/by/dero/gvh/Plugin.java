@@ -1,5 +1,6 @@
 package by.dero.gvh;
 
+import by.dero.gvh.commands.SelectCommand;
 import by.dero.gvh.events.PlayerEvents;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
@@ -25,15 +26,20 @@ public class Plugin extends JavaPlugin {
         super.onEnable();
         instance = this;
         registerEvents();
-        commandManager = new CommandManager();
+        registerCommands();
         storage = new LocalStorage();
         Data data = new Data(storage);
         data.load();
-        Game game = new Game();
+        game = new Game();
     }
 
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new PlayerEvents(), this);
+    }
+
+    private void registerCommands() {
+        commandManager = new CommandManager();
+        commandManager.getCommands().put("select", new SelectCommand());
     }
 
     public static Plugin getInstance() {

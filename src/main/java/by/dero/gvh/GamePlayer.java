@@ -15,9 +15,8 @@ public class GamePlayer {
     private HashMap<String, Item> items = new HashMap<>();
     private int team;
 
-    public GamePlayer(Player player, String className) {
+    public GamePlayer(Player player) {
         this.player = player;
-        selectClass(className);
     }
 
     public Item getSelectedItem() {

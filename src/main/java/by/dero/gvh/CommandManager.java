@@ -11,7 +11,11 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CommandManager implements CommandExecutor {
-    private HashMap<String, PluginCommand> commands;
+    private HashMap<String, PluginCommand> commands = new HashMap<>();
+
+    public HashMap<String, PluginCommand> getCommands() {
+        return commands;
+    }
 
     CommandManager() {
         Objects.requireNonNull(Bukkit.getPluginCommand("game")).setExecutor(this);
@@ -34,7 +38,7 @@ public class CommandManager implements CommandExecutor {
         }
         String[] arguments = new String[params.length - 1];
         System.arraycopy(params, 1, arguments, 0, params.length - 1);
-        commands.get(commandName).execute(arguments);
+        commands.get(commandName).execute(commandSender, arguments);
         return true;
     }
 }

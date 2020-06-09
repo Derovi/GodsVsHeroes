@@ -6,6 +6,7 @@ import by.dero.gvh.model.interfaces.ShootBowInterface;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerEvents implements Listener {
     @EventHandler
@@ -17,6 +18,10 @@ public class PlayerEvents implements Listener {
                 ((ShootBowInterface) selectedItem).onPlayerShootBow(event);
             }
         }
+    }
 
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Plugin.getInstance().getGame().addPlayer(event.getPlayer());
     }
 }

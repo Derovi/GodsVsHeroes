@@ -1,0 +1,24 @@
+package by.dero.gvh.commands;
+
+import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
+import by.dero.gvh.PluginCommand;
+import org.bukkit.command.CommandSender;
+
+public class SelectCommand implements PluginCommand {
+    @Override
+    public void execute(CommandSender sender, String[] arguments) {
+        if (arguments.length != 1) {
+            sender.sendMessage("§cInvalid arguments!");
+            return;
+        }
+        GamePlayer player = Plugin.getInstance().getGame().getPlayers().get(sender.getName());
+        player.selectClass(arguments[0]);
+        sender.sendMessage("§aSelected class: " + arguments[0]);
+    }
+
+    @Override
+    public String getDescription() {
+        return "<class> -  select class";
+    }
+}
