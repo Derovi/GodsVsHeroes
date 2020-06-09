@@ -8,7 +8,6 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.util.Vector;
 
 public class FlyBow extends Item implements ShootBowInterface {
-
     public FlyBow(String name, int level, Player owner) {
         super(name, level, owner);
     }

@@ -4,17 +4,17 @@
   "levels": [
     {
       "modifier": 1.0,
-      "material": "BEDROCK",
+      "material": "BOW",
       "displayName": "§cFly bow",
       "lore": [
         "§aВыстрелите из лука для полёта.",
-        "§6Уровень 1"
+        "&6Уровень 1"
       ],
       "amount": 1
     },
     {
       "modifier": 1.2,
-      "material": "BEDROCK",
+      "material": "BOW",
       "displayName": "§cFly bow",
       "lore": [
         "§aВыстрелите из лука для полёта.",

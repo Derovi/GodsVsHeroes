@@ -12,6 +12,10 @@ public class SelectCommand implements PluginCommand {
             sender.sendMessage("§cInvalid arguments!");
             return;
         }
+        if (!Plugin.getInstance().getData().getUnits().containsKey(arguments[0])) {
+            sender.sendMessage("§cClass not found!");
+            return;
+        }
         GamePlayer player = Plugin.getInstance().getGame().getPlayers().get(sender.getName());
         player.selectClass(arguments[0]);
         sender.sendMessage("§aSelected class: " + arguments[0]);

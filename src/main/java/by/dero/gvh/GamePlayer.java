@@ -6,8 +6,10 @@ import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class GamePlayer {
     private Player player;
@@ -47,13 +49,17 @@ public class GamePlayer {
             ItemDescription itemDescription = Plugin.getInstance().getData().getItems().get(name);
             ItemInfo itemInfo = itemDescription.getLevels().get(level);
             Item item = (Item) Plugin.getInstance().getData().getItemNameToClass().
-                    get(name).getConstructor().newInstance();
+                    get(name).getConstructor(String.class, int.class, Player.class).newInstance(name, level, player);
             items.put(name, item);
             ItemStack itemStack = new ItemStack(itemInfo.getMaterial(), itemInfo.getAmount());
-            itemStack.getItemMeta().setDisplayName(itemInfo.getDisplayName());
-            itemStack.getItemMeta().setLore(itemInfo.getLore());
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            System.out.println("name: " + itemInfo.getDisplayName());
+            itemMeta.setDisplayName(itemInfo.getDisplayName());
+            List<String> lore = itemInfo.getLore();
             // add tag as last line of lore
-            itemStack.getItemMeta().getLore().add(Plugin.getInstance().getData().getItemNameToTag().get(name));
+            lore.add(Plugin.getInstance().getData().getItemNameToTag().get(name));
+            itemMeta.setLore(lore);
+            itemStack.setItemMeta(itemMeta);
             player.getInventory().setItem(itemDescription.getSlot(), itemStack);
         } catch (Exception ex) {
             System.err.println("Can't add item! " + name + ":" + String.valueOf(level) + " to " + getPlayer().getName());

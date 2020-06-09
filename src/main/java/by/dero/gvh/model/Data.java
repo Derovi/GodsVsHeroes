@@ -31,7 +31,7 @@ public class Data {
                 String itemJson = storageInterface.load("items", itemName);
                 Gson gson = new GsonBuilder().registerTypeAdapter(ItemDescription.class,
                         ItemDescription.getDeserializer(this)).setPrettyPrinting().create();
-                items.put(itemJson, gson.fromJson(itemJson, ItemDescription.class));
+                items.put(itemName, gson.fromJson(itemJson, ItemDescription.class));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
