@@ -21,6 +21,11 @@ public class Data {
         registerItems();
     }
 
+    private void registerItems() {
+        // IMPORTANT register all items
+        registerItem("flybow", FlyBowInfo.class, FlyBow.class);
+    }
+
     public void load() {
         //load items
         try {
@@ -68,11 +73,6 @@ public class Data {
         String tag = Item.getTag(name);
         itemNameToTag.put(name, tag);
         tagToItemName.put(tag, name);
-    }
-
-    private void registerItems() {
-        // IMPORTANT register all items
-        registerItem("flybow", FlyBowInfo.class, FlyBow.class);
     }
 
     private final StorageInterface storageInterface;
