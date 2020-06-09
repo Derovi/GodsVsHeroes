@@ -19,9 +19,7 @@ public class LocalStorage implements StorageInterface {
     @Override
     public void save(String collection, String name, String object) throws IOException {
         File directory = new File(getPrefix() + collection);
-        System.out.println(directory.getAbsolutePath());
         directory.mkdirs();
-        System.out.println("object:" + object);
         BufferedWriter writer = new BufferedWriter(new FileWriter(getPrefix() + collection + "/" + name + ".json"));
         writer.write(object);
         writer.close();
