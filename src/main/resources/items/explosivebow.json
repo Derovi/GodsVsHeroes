@@ -1,0 +1,36 @@
+{
+  "name": "explosivebow",
+  "slot": 0,
+  "levels": [
+    {
+      "multiplier": 1.0,
+      "material": "BOW",
+      "displayName": "§cExplosive Bow",
+      "lore": [
+        "§aИспользуйте этот лук, чтобы пускать взрывные стрелы.",
+        "&6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "multiplier": 1.0,
+      "material": "BOW",
+      "displayName": "§cExplosive Bow",
+      "lore": [
+        "§aИспользуйте этот лук, чтобы пускать взрывные стрелы.",
+        "&6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "multiplier": 1.0,
+      "material": "BOW",
+      "displayName": "§cExplosive Bow",
+      "lore": [
+        "§aИспользуйте этот лук, чтобы пускать взрывные стрелы.",
+        "&6Уровень 3"
+      ],
+      "amount": 1
+    }
+  ]
+}
