@@ -1,16 +1,11 @@
 package by.dero.gvh;
 
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.ItemDescription;
-import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
-import java.util.List;
-
 public class GamePlayer {
     private Player player;
     private String className;
@@ -46,11 +41,10 @@ public class GamePlayer {
 
     public void addItem(String name, int level) {
         try {
-            ItemDescription itemDescription = Plugin.getInstance().getData().getItems().get(name);
             Item item = (Item) Plugin.getInstance().getData().getItemNameToClass().
                     get(name).getConstructor(String.class, int.class, Player.class).newInstance(name, level, player);
             items.put(name, item);
-            player.getInventory().setItem(itemDescription.getSlot(), item.getItemStack());
+            player.getInventory().addItem(item.getItemStack());
         } catch (Exception ex) {
             System.err.println("Can't add item! " + name + ":" + String.valueOf(level) + " to " + getPlayer().getName());
             ex.printStackTrace();
