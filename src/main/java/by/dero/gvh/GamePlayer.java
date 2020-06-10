@@ -47,20 +47,10 @@ public class GamePlayer {
     public void addItem(String name, int level) {
         try {
             ItemDescription itemDescription = Plugin.getInstance().getData().getItems().get(name);
-            ItemInfo itemInfo = itemDescription.getLevels().get(level);
             Item item = (Item) Plugin.getInstance().getData().getItemNameToClass().
                     get(name).getConstructor(String.class, int.class, Player.class).newInstance(name, level, player);
             items.put(name, item);
-            ItemStack itemStack = new ItemStack(itemInfo.getMaterial(), itemInfo.getAmount());
-            ItemMeta itemMeta = itemStack.getItemMeta();
-            System.out.println("name: " + itemInfo.getDisplayName());
-            itemMeta.setDisplayName(itemInfo.getDisplayName());
-            List<String> lore = itemInfo.getLore();
-            // add tag as last line of lore
-            lore.add(Plugin.getInstance().getData().getItemNameToTag().get(name));
-            itemMeta.setLore(lore);
-            itemStack.setItemMeta(itemMeta);
-            player.getInventory().setItem(itemDescription.getSlot(), itemStack);
+            player.getInventory().setItem(itemDescription.getSlot(), item.getItemStack());
         } catch (Exception ex) {
             System.err.println("Can't add item! " + name + ":" + String.valueOf(level) + " to " + getPlayer().getName());
             ex.printStackTrace();
