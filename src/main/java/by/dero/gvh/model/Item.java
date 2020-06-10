@@ -3,10 +3,16 @@ package by.dero.gvh.model;
 import by.dero.gvh.Plugin;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 public abstract class Item {
     private Player owner;
     private String name;
     private int level;
+
+    private final Set<UUID> summonedEntityIds = new HashSet<>();
 
     public Item(String name, int level, Player owner) {
         this.name = name;
@@ -22,6 +28,10 @@ public abstract class Item {
             hashcode /= 10;
         }
         return tag.toString();
+    }
+
+    public Set<UUID> getSummonedEntityIds() {
+        return summonedEntityIds;
     }
 
     public ItemInfo getInfo() {

@@ -9,11 +9,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerEvents implements Listener {
     @EventHandler
     public void onEntityShoot(org.bukkit.event.entity.EntityShootBowEvent event) {
+        System.out.println("Shoot!");
         if ((event.getEntity() instanceof Player)) {
             String playerName = event.getEntity().getName();
             Item selectedItem = Plugin.getInstance().getGame().getPlayers().get(playerName).getSelectedItem();
@@ -24,10 +26,35 @@ public class PlayerEvents implements Listener {
     }
 
     @EventHandler
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+        if (event.getEntity().getShooter() instanceof Player) {
+            String shooterName = ((Player) event.getEntity().getShooter()).getName();
+            GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(shooterName);
+            Item itemInHand = gamePlayer.getSelectedItem();
+            if (itemInHand == null) {
+                return;
+            }
+            itemInHand.getSummonedEntityIds().add(event.getEntity().getUniqueId());
+        }
+    }
+
+    @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
         if (event.getEntity().getShooter() instanceof Player) {
             String shooterName = ((Player) event.getEntity().getShooter()).getName();
             GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(shooterName);
+            for (Item item : gamePlayer.getItems().values()) {
+                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId())) {
+                    if (item instanceof ProjectileHitInterface) {
+                        ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
+                    }
+                    item.getSummonedEntityIds().remove(event.getEntity().getUniqueId());
+                }
+            }
+        }
+        if (event.getHitEntity() != null && event.getHitEntity() instanceof Player) {
+            String playerName = ((Player) event.getHitEntity()).getName();
+            GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(playerName);
             for (Item item : gamePlayer.getItems().values()) {
                 if (item instanceof ProjectileHitInterface) {
                     ((ProjectileHitInterface) item).onProjectileHit(event);
