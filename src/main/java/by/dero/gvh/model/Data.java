@@ -1,8 +1,8 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Utils;
-import by.dero.gvh.model.items.FlyBow;
-import by.dero.gvh.model.itemsinfo.FlyBowInfo;
+import by.dero.gvh.model.items.*;
+import by.dero.gvh.model.itemsinfo.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -19,7 +19,12 @@ public class Data {
 
     private void registerItems() {
         // IMPORTANT register all items
+        registerItem("airleap", AirLeapInfo.class, AirLeap.class);
+        registerItem("chainlightning", ChainLightningInfo.class, ChainLightning.class);
+        registerItem("explosivebow", ExplosiveBowInfo.class, ExplosiveBow.class);
         registerItem("flybow", FlyBowInfo.class, FlyBow.class);
+        registerItem("magicrod", MagicRodInfo.class, MagicRod.class);
+        registerItem("magnetizeorb", MagnetizeOrbInfo.class, MagnetizeOrb.class);
     }
 
     public void load() {
