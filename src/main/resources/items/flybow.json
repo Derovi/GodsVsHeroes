@@ -1,5 +1,6 @@
 {
   "name": "flybow",
+  "slot": -1,
   "levels": [
     {
       "modifier": 1.0,
