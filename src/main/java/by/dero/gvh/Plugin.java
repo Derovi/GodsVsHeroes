@@ -5,7 +5,9 @@ import by.dero.gvh.commands.FinishCommand;
 import by.dero.gvh.commands.SelectCommand;
 import by.dero.gvh.commands.StartCommand;
 import by.dero.gvh.events.PlayerEvents;
+import by.dero.gvh.game.DeathMatch;
 import by.dero.gvh.game.Game;
+import by.dero.gvh.game.GameData;
 import by.dero.gvh.game.GameInfo;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
@@ -15,8 +17,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Plugin extends JavaPlugin {
     private static Plugin instance;
-    private Data data;
     private Game game;
+    private Data data;
+    private GameData gameData;
 
     private CommandManager commandManager;
 
@@ -28,15 +31,8 @@ public class Plugin extends JavaPlugin {
         registerCommands();
         data = new Data(new LocalStorage());
         data.load();
-        GameInfo gameInfo = new GameInfo();
-        try {
-            gameInfo = new Gson().fromJson(Data.loadOrDefault(new LocalStorage(), "game", "game",
-                    Utils.readResourceFile("/game.json")), GameInfo.class);
-        } catch (Exception exception) {
-            System.err.println("Can't load game info!");
-            exception.printStackTrace();
-        }
-        game = new Game(gameInfo);
+        gameData = new GameData(new LocalStorage());
+        game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
     }
 
     private void registerEvents() {

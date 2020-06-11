@@ -1,20 +1,15 @@
 package by.dero.gvh.model;
 
-import by.dero.gvh.Utils;
+import by.dero.gvh.utils.ResourceUtils;
 import by.dero.gvh.model.items.FlyBow;
 import by.dero.gvh.model.itemsinfo.FlyBowInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 public class Data {
     public Data(StorageInterface storageInterface) {
@@ -27,19 +22,12 @@ public class Data {
         registerItem("flybow", FlyBowInfo.class, FlyBow.class);
     }
 
-    public static String loadOrDefault(StorageInterface storage, String collection, String name, String defaultObject) throws IOException {
-        if (!storage.exists(collection, name)) {
-            storage.save(collection, name, defaultObject);
-        }
-        return storage.load(collection, name);
-    }
-
     public void load() {
         //load items
         try {
             for (String itemName : itemNameToClass.keySet()) {
                 if (!storageInterface.exists("items", itemName)) {
-                    storageInterface.save("items", itemName, Utils.readResourceFile("/items/" + itemName + ".json"));
+                    storageInterface.save("items", itemName, ResourceUtils.readResourceFile("/items/" + itemName + ".json"));
                 }
                 String itemJson = storageInterface.load("items", itemName);
                 Gson gson = new GsonBuilder().registerTypeAdapter(ItemDescription.class,
@@ -52,7 +40,7 @@ public class Data {
         //load unit classes
         try {
             if (!storageInterface.exists("data", "classes")) {
-                storageInterface.save("data", "classes", Utils.readResourceFile("/classes.json"));
+                storageInterface.save("data", "classes", ResourceUtils.readResourceFile("/classes.json"));
             }
             List<UnitClassDescription> unitList = new Gson().fromJson(storageInterface.load("data", "classes"),
                     new TypeToken<List<UnitClassDescription>>() {}.getType());
