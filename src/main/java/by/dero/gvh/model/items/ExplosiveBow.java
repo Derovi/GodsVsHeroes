@@ -21,10 +21,16 @@ import java.util.Set;
 import static java.lang.Math.random;
 
 public class ExplosiveBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
+    private final double reclining;
+    private final double multiplier;
+
     private final Set<Entity> arrows = new HashSet<>();
 
     public ExplosiveBow(String name, int level, Player owner) {
         super(name, level, owner);
+        ExplosiveBowInfo info = (ExplosiveBowInfo)getInfo();
+        reclining = info.getReclining();
+        multiplier = info.getMultiplier();
     }
 
     @Override
@@ -52,15 +58,19 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                         1,0,0,0,0);
                 player.spawnParticle(Particle.LAVA, obj.getLocation(), 10);
                 if (!arrows.contains(obj)) {
-                    obj.getWorld().createExplosion(obj.getLocation(), (float) (power*power*((ExplosiveBowInfo)getInfo()).getMultiplier()));
+                    float force = (float)(power*power*multiplier);
+                    Bukkit.getServer().broadcastMessage("kek" + force);
+                    obj.getWorld().createExplosion(obj.getLocation(), force);
+                    player.getWorld().createExplosion(player.getLocation(), force);
                     this.cancel();
                 }
                 power = obj.getVelocity().length();
+                Bukkit.getServer().broadcastMessage(""+power);
                 ticks++;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 1);
         player.setVelocity(new Vector(0, 0, 0).
-                subtract(obj.getVelocity()).multiply(((ExplosiveBowInfo)getInfo()).getMultiplier()));
+                subtract(obj.getVelocity()).multiply(reclining));
     }
 
     @Override

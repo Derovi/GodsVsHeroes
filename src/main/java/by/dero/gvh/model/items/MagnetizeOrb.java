@@ -13,16 +13,17 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
-public class MagnetizeOrb extends Item implements ProjectileHitInterface, InfiniteReplenishInterface {
+public class MagnetizeOrb extends Item implements ProjectileHitInterface, InfiniteReplenishInterface, PlayerInteractInterface {
+    private final double radius;
     public MagnetizeOrb(String name, int level, Player owner) {
         super(name, level, owner);
+        radius = ((MagnetizeOrbInfo)getInfo()).getRadius();
     }
 
     @Override
     public void onProjectileHit(ProjectileHitEvent event) {
         Entity proj = event.getEntity();
         Location loc = proj.getLocation();
-        double radius = ((MagnetizeOrbInfo)getInfo()).getRadius();
         for (Entity obj : proj.getNearbyEntities(radius, radius, radius)) {
             if (loc.distance(obj.getLocation()) > radius) {
                 continue;
@@ -35,6 +36,11 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface, Infini
 
     @Override
     public void onProjectileHitEnemy(ProjectileHitEvent event) {
+
+    }
+
+    @Override
+    public void onPlayerInteract(PlayerInteractEvent event) {
 
     }
 }

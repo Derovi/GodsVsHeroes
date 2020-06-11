@@ -25,10 +25,12 @@ public class Data {
         registerItem("flybow", FlyBowInfo.class, FlyBow.class);
         registerItem("magicrod", MagicRodInfo.class, MagicRod.class);
         registerItem("magnetizeorb", MagnetizeOrbInfo.class, MagnetizeOrb.class);
-        registerItem("healingpotion", HealPotionInfo.class, HealPotion.class);
+        registerItem("healpotion", HealPotionInfo.class, HealPotion.class);
         registerItem("damagepotion", DamagePotionInfo.class, DamagePotion.class);
         registerItem("invisibilitypotion", InvisibilityPotionInfo.class, InvisibilityPotion.class);
         registerItem("stunrocks", StunRocksInfo.class, StunRocks.class);
+        registerItem("eaglevision", EagleVisionInfo.class, EagleVision.class);
+        registerItem("lightningstorm", LightningStormInfo.class, LightningStorm.class);
     }
 
     public void load() {

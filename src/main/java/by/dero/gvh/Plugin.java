@@ -28,6 +28,7 @@ public class Plugin extends JavaPlugin {
         super.onEnable();
         instance = this;
         stunAPI = new StunAPI();
+//        stunAPI.start();
         registerEvents();
         registerCommands();
         storage = new LocalStorage();

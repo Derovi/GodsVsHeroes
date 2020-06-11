@@ -3,8 +3,8 @@ package by.dero.gvh.model.itemsinfo;
 import by.dero.gvh.model.ItemInfo;
 
 public class HealPotionInfo extends ItemInfo {
-    private double radius = 3;
-    private int heal = 4;
+    private double radius;
+    private int heal;
 
     public double getRadius() {
         return radius;

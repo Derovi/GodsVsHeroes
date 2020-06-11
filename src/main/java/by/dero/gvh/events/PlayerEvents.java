@@ -4,18 +4,15 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerEvents implements Listener {
     @EventHandler
@@ -53,8 +50,11 @@ public class PlayerEvents implements Listener {
         Item itemInHand = gamePlayer.getSelectedItem();
         if (itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof InfiniteReplenishInterface) {
-                PlayerInventory inv = event.getPlayer().getInventory();
-                inv.getItemInMainHand().setAmount(2);
+                event.getPlayer().getInventory().getItemInMainHand().setAmount(2);
+            }
+            if (itemInHand instanceof UltimateInterface) {
+                ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+                item.setAmount(item.getAmount()-1);
             }
             ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
         }
@@ -75,7 +75,7 @@ public class PlayerEvents implements Listener {
             }
         }
         if (event.getHitEntity() != null && event.getHitEntity() instanceof Player) {
-            String playerName = ((Player) event.getHitEntity()).getName();
+            String playerName = event.getHitEntity().getName();
             GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(playerName);
             for (Item item : gamePlayer.getItems().values()) {
                 if (item instanceof ProjectileHitInterface) {
@@ -85,12 +85,12 @@ public class PlayerEvents implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void destroyArrows(ProjectileHitEvent event) {
-        if (event.getEntity() instanceof Arrow) {
-            event.getEntity().remove();
-        }
-    }
+//    @EventHandler(priority = EventPriority.HIGHEST)
+//    public void destroyArrows(ProjectileHitEvent event) {
+//        if (event.getEntity() instanceof Arrow) {
+//            event.getEntity().remove();
+//        }
+//    }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {

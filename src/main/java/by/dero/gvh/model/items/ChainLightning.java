@@ -5,7 +5,6 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChainLightningInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -19,10 +18,15 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 public class ChainLightning extends Item implements PlayerInteractInterface {
+    private final double radius;
+    private final double damage;
+
     public ChainLightning(String name, int level, Player owner) {
         super(name, level, owner);
+        ChainLightningInfo info = (ChainLightningInfo)getInfo();
+        damage = info.getDamage();
+        radius = info.getRadius();
     }
-
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -43,8 +47,6 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
             final HashSet<LivingEntity> hit = new HashSet<>();
             LivingEntity cur = player;
             LivingEntity next = (LivingEntity) ray.getHitEntity();
-            final double damage = ((ChainLightningInfo)getInfo()).getDamage();
-            final double radius = ((ChainLightningInfo)getInfo()).getRadius();
             @Override
             public void run() {
                 Drawings.drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.FIREWORKS_SPARK);

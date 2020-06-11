@@ -4,7 +4,6 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.MagicRodInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Damageable;
@@ -18,8 +17,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class MagicRod extends Item implements PlayerInteractInterface {
+    private final double damage;
     public MagicRod(String name, int level, Player owner) {
         super(name, level, owner);
+        damage = ((MagicRodInfo)getInfo()).getDamage();
     }
 
     @Override
@@ -34,7 +35,6 @@ public class MagicRod extends Item implements PlayerInteractInterface {
             ).normalize();
             final Location start = p.getLocation().clone().add(p.getLocation().getDirection().multiply(2));
             final UUID sender = p.getUniqueId();
-            final double damage = ((MagicRodInfo)getInfo()).getDamage();
             @Override
             public void run() {
                 start.add(start.getDirection().multiply(1));
