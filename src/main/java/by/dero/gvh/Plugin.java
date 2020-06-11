@@ -2,16 +2,12 @@ package by.dero.gvh;
 
 import by.dero.gvh.commands.SelectCommand;
 import by.dero.gvh.events.PlayerEvents;
+import by.dero.gvh.game.Game;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
 import by.dero.gvh.model.StorageInterface;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class Plugin extends JavaPlugin {
     private static Plugin instance;

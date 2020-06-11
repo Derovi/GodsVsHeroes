@@ -1,0 +1,33 @@
+{
+  "world": "World",
+  "teamCount": 2,
+  "minPlayerCount": 2,
+  "maxPlayerCount": 24,
+  "livesCount": 20,
+  "spawnPoints": [
+    [
+      {
+        "x": 50,
+        "y": 65,
+        "z": 50
+      },
+      {
+        "x": 20,
+        "y": 65,
+        "z": 40
+      }
+    ],
+    [
+      {
+        "x": 250,
+        "y": 65,
+        "z": 250
+      },
+      {
+        "x": 220,
+        "y": 65,
+        "z": 240
+      }
+    ]
+  ]
+}
