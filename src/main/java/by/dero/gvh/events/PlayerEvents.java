@@ -3,9 +3,11 @@ package by.dero.gvh.events;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -14,12 +16,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerEvents implements Listener {
     @EventHandler
     public void onEntityShootBow(org.bukkit.event.entity.EntityShootBowEvent event) {
-        System.out.println("Shoot!");
         if ((event.getEntity() instanceof Player)) {
             String playerName = event.getEntity().getName();
             Item selectedItem = Plugin.getInstance().getGame().getPlayers().get(playerName).getSelectedItem();
@@ -39,11 +41,20 @@ public class PlayerEvents implements Listener {
             if (itemInHand == null) {
                 return;
             }
-            if (itemInHand instanceof ProjectileLaunchInterface &&
-                itemInHand.getInfo().getMaterial().toString().equals(proj.getType().toString())) {
+            if (itemInHand instanceof ProjectileLaunchInterface) {
                 ((ProjectileLaunchInterface)itemInHand).onProjectileLaunch(event);
             }
             itemInHand.getSummonedEntityIds().add(event.getEntity().getUniqueId());
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        String shooterName = event.getPlayer().getName();
+        GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(shooterName);
+        Item itemInHand = gamePlayer.getSelectedItem();
+        if (itemInHand instanceof PlayerInteractInterface) {
+            ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
         }
     }
 
@@ -55,7 +66,7 @@ public class PlayerEvents implements Listener {
             for (Item item : gamePlayer.getItems().values()) {
                 if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId())) {
                     if (item instanceof ProjectileHitInterface) {
-                        ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
+                        ((ProjectileHitInterface) item).onProjectileHit(event);
                     }
                     item.getSummonedEntityIds().remove(event.getEntity().getUniqueId());
                 }
@@ -66,7 +77,7 @@ public class PlayerEvents implements Listener {
             GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(playerName);
             for (Item item : gamePlayer.getItems().values()) {
                 if (item instanceof ProjectileHitInterface) {
-                    ((ProjectileHitInterface) item).onProjectileHit(event);
+                    ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
                 }
             }
         }

@@ -1,33 +1,33 @@
 {
-  "name": "airleap",
+  "name": "magicrod",
   "slot": 0,
   "levels": [
     {
-      "damage": 8,
+      "damage": 3,
       "material": "BLAZE_ROD",
-      "displayName": "§cMagic rod",
+      "displayName": "§cMagic Rod",
       "lore": [
-        "§aИспользуйте этот посох, чтобы пускать волны энергии.",
+        "§aИспользуйте, чтобы пустить волну темной\n энергии по вашим врагам.",
         "&6Уровень 1"
       ],
       "amount": 1
     },
     {
-      "damage": 8,
+      "damage": 3,
       "material": "BLAZE_ROD",
-      "displayName": "§cMagic rod",
+      "displayName": "§cMagic Rod",
       "lore": [
-        "§aИспользуйте этот посох, чтобы пускать волны энергии.",
+        "§aИспользуйте, чтобы пустить волну темной\n энергии по вашим врагам.",
         "&6Уровень 2"
       ],
       "amount": 1
     },
     {
-      "damage": 8,
+      "damage": 3,
       "material": "BLAZE_ROD",
-      "displayName": "§cMagic rod",
+      "displayName": "§cMagic Rod",
       "lore": [
-        "§aИспользуйте этот посох, чтобы пускать волны энергии.",
+        "§aИспользуйте, чтобы пустить волну темной\n энергии по вашим врагам.",
         "&6Уровень 3"
       ],
       "amount": 1

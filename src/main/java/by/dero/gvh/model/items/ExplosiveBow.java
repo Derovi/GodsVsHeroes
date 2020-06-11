@@ -5,6 +5,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -21,7 +22,6 @@ import static java.lang.Math.random;
 
 public class ExplosiveBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
     private final Set<Entity> arrows = new HashSet<>();
-    private double repulsionMultiplier = 0.7;
 
     public ExplosiveBow(String name, int level, Player owner) {
         super(name, level, owner);
@@ -60,7 +60,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 1);
         player.setVelocity(new Vector(0, 0, 0).
-                subtract(obj.getVelocity()).multiply(repulsionMultiplier));
+                subtract(obj.getVelocity()).multiply(((ExplosiveBowInfo)getInfo()).getMultiplier()));
     }
 
     @Override
@@ -70,6 +70,5 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
 
     @Override
     public void onProjectileHitEnemy(ProjectileHitEvent event) {
-
     }
 }

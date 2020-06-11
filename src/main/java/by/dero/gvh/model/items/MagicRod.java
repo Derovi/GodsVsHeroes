@@ -2,8 +2,9 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InteractInterface;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.MagicRodInfo;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Damageable;
@@ -16,7 +17,7 @@ import org.bukkit.util.Vector;
 import java.util.Objects;
 import java.util.UUID;
 
-public class MagicRod extends Item implements InteractInterface {
+public class MagicRod extends Item implements PlayerInteractInterface {
     public MagicRod(String name, int level, Player owner) {
         super(name, level, owner);
     }
@@ -31,14 +32,11 @@ public class MagicRod extends Item implements InteractInterface {
                     Math.random(),
                     Math.random()
             ).normalize();
-            Location start = null;
+            final Location start = p.getLocation().clone().add(p.getLocation().getDirection().multiply(2));
             final UUID sender = p.getUniqueId();
             final double damage = ((MagicRodInfo)getInfo()).getDamage();
             @Override
             public void run() {
-                if (start == null) {
-                    start = p.getLocation().clone().add(p.getLocation().getDirection().multiply(2));
-                }
                 start.add(start.getDirection().multiply(1));
                 Vector kek = st.clone().crossProduct(start.getDirection()).multiply(Math.sin(ticks) * 3);
                 Objects.requireNonNull(start.getWorld()).spawnParticle(Particle.LAVA, start, 1);
@@ -50,8 +48,8 @@ public class MagicRod extends Item implements InteractInterface {
                         } catch (Exception ignored){}
                     }
                 }
-                int steps = 16;
-                for (int i = 0; i < 16; i ++) {
+                final int steps = 16;
+                for (int i = 0; i < steps; i ++) {
                     kek.rotateAroundAxis(start.getDirection(), Math.PI * 2 / steps);
                     start.getWorld().spawnParticle(Particle.SPELL_WITCH, new Location(
                             start.getWorld(),

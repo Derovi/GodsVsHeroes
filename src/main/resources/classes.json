@@ -2,7 +2,11 @@
   {
     "name": "default",
     "itemNames": [
-      "flybow"
+      "airleap",
+      "chainlightning",
+      "magicrod",
+      "magnetizeorb",
+      "explosivebow"
     ]
   },
   {

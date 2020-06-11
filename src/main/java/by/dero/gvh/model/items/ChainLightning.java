@@ -3,13 +3,13 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InteractInterface;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChainLightningInfo;
+import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.RayTraceResult;
@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class ChainLightning extends Item implements InteractInterface {
+public class ChainLightning extends Item implements PlayerInteractInterface {
     public ChainLightning(String name, int level, Player owner) {
         super(name, level, owner);
     }

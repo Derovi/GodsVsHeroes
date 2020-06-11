@@ -2,6 +2,6 @@ package by.dero.gvh.model.interfaces;
 
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public interface InteractInterface {
+public interface PlayerInteractInterface {
     void onPlayerInteract(PlayerInteractEvent event);
 }

@@ -2,8 +2,11 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,6 +21,18 @@ public abstract class Item {
         this.name = name;
         this.level = level;
         this.owner = owner;
+    }
+
+    public ItemStack getItemStack() {
+        ItemStack itemStack = new ItemStack(getInfo().getMaterial(), getInfo().getAmount());
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(getInfo().getDisplayName());
+        List<String> lore = getInfo().getLore();
+        // add tag as last line of lore
+        lore.add(Plugin.getInstance().getData().getItemNameToTag().get(name));
+        itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
     }
 
     public static String getTag(String name) {
