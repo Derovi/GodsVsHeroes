@@ -7,6 +7,7 @@ import by.dero.gvh.game.GameInfo;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
 import by.dero.gvh.model.StorageInterface;
+import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,7 +28,15 @@ public class Plugin extends JavaPlugin {
         storage = new LocalStorage();
         data = new Data(storage);
         data.load();
-        game = new Game(new GameInfo()); // todo GameInfo loading
+        GameInfo gameInfo = new GameInfo();
+        try {
+            gameInfo = new Gson().fromJson(Data.loadOrDefault(new LocalStorage(), "game", "game",
+                    Utils.readResourceFile("/game.json")), GameInfo.class);
+        } catch (Exception exception) {
+            System.err.println("Can't load game info!");
+            exception.printStackTrace();
+        }
+        game = new Game(gameInfo);
     }
 
     private void registerEvents() {

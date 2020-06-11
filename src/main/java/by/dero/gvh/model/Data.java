@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -24,6 +25,13 @@ public class Data {
     private void registerItems() {
         // IMPORTANT register all items
         registerItem("flybow", FlyBowInfo.class, FlyBow.class);
+    }
+
+    public static String loadOrDefault(StorageInterface storage, String collection, String name, String defaultObject) throws IOException {
+        if (!storage.exists(collection, name)) {
+            storage.save(collection, name, defaultObject);
+        }
+        return storage.load(collection, name);
     }
 
     public void load() {
@@ -54,17 +62,6 @@ public class Data {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        List<UnitClassDescription> units = new LinkedList<>();
-        UnitClassDescription desc1 = new UnitClassDescription();
-        desc1.setName("default");
-        desc1.getItemNames().add("flybow");
-        units.add(desc1);
-        units.add(desc1);
-        units.add(desc1);
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(units));
     }
 
     public void registerItem(String name, Class infoClass, Class<?> itemClass) {
