@@ -1,6 +1,9 @@
 package by.dero.gvh;
 
+import by.dero.gvh.commands.AddSpawnPointCommand;
+import by.dero.gvh.commands.FinishCommand;
 import by.dero.gvh.commands.SelectCommand;
+import by.dero.gvh.commands.StartCommand;
 import by.dero.gvh.events.PlayerEvents;
 import by.dero.gvh.game.Game;
 import by.dero.gvh.game.GameInfo;
@@ -43,6 +46,9 @@ public class Plugin extends JavaPlugin {
     private void registerCommands() {
         commandManager = new CommandManager();
         commandManager.getCommands().put("select", new SelectCommand());
+        commandManager.getCommands().put("start", new StartCommand());
+        commandManager.getCommands().put("finish", new FinishCommand());
+        commandManager.getCommands().put("addspawnpoint", new AddSpawnPointCommand());
     }
 
     public static Plugin getInstance() {
