@@ -56,6 +56,7 @@ public abstract class Game implements Listener {
         }
         for (String playerName : players.keySet()) {
             removePlayer(playerName);
+            players.get(playerName).getPlayer().kickPlayer("§cGame finished!");
         }
         state = State.PREPARING;
         prepare();
@@ -83,11 +84,13 @@ public abstract class Game implements Listener {
     }
 
     public void removePlayer(String playerName) {
-        lobby.onPlayerLeft(players.get(playerName));
+        GamePlayer player = players.get(playerName);
+        lobby.onPlayerLeft(player);
         players.remove(playerName);
     }
 
     public void spawnPlayer(GamePlayer player, int rebirthTime) {
+        System.out.println("Spawn player " + player.getPlayer());
         int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
         Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
         player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
