@@ -12,9 +12,10 @@ public class Game {
 
     public Game(GameInfo info) {
         this.info = info;
-        state = State.WAITING;
+        prepare();
     }
 
+    private Lobby lobby;
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
@@ -45,6 +46,7 @@ public class Game {
     }
 
     public void prepare() {
+        lobby = new Lobby(this);
         state = State.WAITING;
     }
 
@@ -58,9 +60,11 @@ public class Game {
             return;
         }
         players.put(player.getName(), new GamePlayer(player));
+        lobby.onPlayerJoined(players.get(player.getName()));
     }
 
     public void removePlayer(String playerName) {
+        lobby.onPlayerLeft(players.get(playerName));
         players.remove(playerName);
     }
 
