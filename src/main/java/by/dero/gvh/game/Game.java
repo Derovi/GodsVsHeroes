@@ -2,11 +2,12 @@ package by.dero.gvh.game;
 
 import by.dero.gvh.GamePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 
 import java.util.EventListener;
 import java.util.HashMap;
 
-public class Game implements EventListener {
+public abstract class Game implements Listener {
     public enum State {
         GAME, WAITING, PREPARING
     }
@@ -48,9 +49,12 @@ public class Game implements EventListener {
     }
 
     public void prepare() {
+        load();
         lobby = new Lobby(this);
         state = State.WAITING;
     }
+
+    abstract void load();
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {

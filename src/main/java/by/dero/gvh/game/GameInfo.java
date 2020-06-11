@@ -5,7 +5,6 @@ public class GameInfo {
     int teamCount = 2;
     int minPlayerCount = 2;
     int maxPlayerCount = 24;
-    int livesCount = 20;
     Position lobbyPosition;
     Position[][] spawnPoints = {{new Position(50,65,50), new Position(20,65,40)},
             {new Position(250,65,250), new Position(220,65,240)}};
@@ -48,14 +47,6 @@ public class GameInfo {
 
     public void setMaxPlayerCount(int maxPlayerCount) {
         this.maxPlayerCount = maxPlayerCount;
-    }
-
-    public int getLivesCount() {
-        return livesCount;
-    }
-
-    public void setLivesCount(int livesCount) {
-        this.livesCount = livesCount;
     }
 
     public Position[][] getSpawnPoints() {
