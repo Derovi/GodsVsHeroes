@@ -1,14 +1,22 @@
 package by.dero.gvh.game;
 
-import com.google.gson.GsonBuilder;
 public class GameInfo {
     String world = "World";
     int teamCount = 2;
     int minPlayerCount = 2;
     int maxPlayerCount = 24;
     int livesCount = 20;
+    Position lobbyPosition;
     Position[][] spawnPoints = {{new Position(50,65,50), new Position(20,65,40)},
             {new Position(250,65,250), new Position(220,65,240)}};
+
+    public Position getLobbyPosition() {
+        return lobbyPosition;
+    }
+
+    public void setLobbyPosition(Position lobbyPosition) {
+        this.lobbyPosition = lobbyPosition;
+    }
 
     public String getWorld() {
         return world;

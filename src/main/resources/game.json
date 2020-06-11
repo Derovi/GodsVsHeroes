@@ -4,6 +4,11 @@
   "minPlayerCount": 2,
   "maxPlayerCount": 24,
   "livesCount": 20,
+  "lobbyPosition": {
+    "x": 300,
+    "y": 65,
+    "z": 300
+  },
   "spawnPoints": [
     [
       {
