@@ -15,9 +15,9 @@ public class Game {
         state = State.WAITING;
     }
 
-    private GameInfo info;
+    private final GameInfo info;
     private State state;
-    private HashMap<String, GamePlayer> players = new HashMap<>();
+    private final HashMap<String, GamePlayer> players = new HashMap<>();
 
     public void start() {
         if (state == State.GAME) {
@@ -32,18 +32,36 @@ public class Game {
         state = State.GAME;
     }
 
-    public void finish() {
+    public void finish(int winnerTeam) {
         if (state != State.GAME) {
             System.err.println("Can't finish game, not in game! Current status: " + state);
             return;
         }
-
+        for (String playerName : players.keySet()) {
+            removePlayer(playerName);
+        }
         state = State.PREPARING;
         prepare();
     }
 
     public void prepare() {
         state = State.WAITING;
+    }
+
+    public void addPlayer(Player player) {
+        if (state == State.GAME) {
+            player.kickPlayer("§cGame already started, try later!");
+            return;
+        }
+        if (state == State.PREPARING) {
+            player.kickPlayer("§cGame preparing, try later!");
+            return;
+        }
+        players.put(player.getName(), new GamePlayer(player));
+    }
+
+    public void removePlayer(String playerName) {
+        players.remove(playerName);
     }
 
     public GameInfo getInfo() {
@@ -54,13 +72,7 @@ public class Game {
         return state;
     }
 
-    public void addPlayer(Player player) {
-        players.put(player.getName(), new GamePlayer(player));
-    }
-
     public HashMap<String, GamePlayer> getPlayers() {
         return players;
     }
-
-
 }

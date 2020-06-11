@@ -6,14 +6,12 @@ import by.dero.gvh.game.Game;
 import by.dero.gvh.game.GameInfo;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
-import by.dero.gvh.model.StorageInterface;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Plugin extends JavaPlugin {
     private static Plugin instance;
-    private StorageInterface storage;
     private Data data;
     private Game game;
 
@@ -25,8 +23,7 @@ public class Plugin extends JavaPlugin {
         instance = this;
         registerEvents();
         registerCommands();
-        storage = new LocalStorage();
-        data = new Data(storage);
+        data = new Data(new LocalStorage());
         data.load();
         GameInfo gameInfo = new GameInfo();
         try {
