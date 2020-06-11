@@ -5,6 +5,7 @@ import by.dero.gvh.events.PlayerEvents;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
 import by.dero.gvh.model.StorageInterface;
+import com.questcraft.stunned.StunAPI.StunAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,6 +16,7 @@ import java.io.InputStreamReader;
 
 public class Plugin extends JavaPlugin {
     private static Plugin instance;
+    private static StunAPI stunAPI;
     private StorageInterface storage;
     private Data data;
     private Game game;
@@ -25,6 +27,7 @@ public class Plugin extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
         instance = this;
+        stunAPI = new StunAPI();
         registerEvents();
         registerCommands();
         storage = new LocalStorage();
@@ -44,6 +47,10 @@ public class Plugin extends JavaPlugin {
 
     public static Plugin getInstance() {
         return instance;
+    }
+
+    public static StunAPI getStunAPI() {
+        return stunAPI;
     }
 
     public Data getData() {

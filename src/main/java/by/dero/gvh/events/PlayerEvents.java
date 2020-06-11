@@ -3,10 +3,7 @@ package by.dero.gvh.events;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.PlayerInteractInterface;
-import by.dero.gvh.model.interfaces.ProjectileHitInterface;
-import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
-import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
+import by.dero.gvh.model.interfaces.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -18,6 +15,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.PlayerInventory;
 
 public class PlayerEvents implements Listener {
     @EventHandler
@@ -54,6 +52,10 @@ public class PlayerEvents implements Listener {
         GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(shooterName);
         Item itemInHand = gamePlayer.getSelectedItem();
         if (itemInHand instanceof PlayerInteractInterface) {
+            if (itemInHand instanceof InfiniteReplenishInterface) {
+                PlayerInventory inv = event.getPlayer().getInventory();
+                inv.getItemInMainHand().setAmount(2);
+            }
             ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
         }
     }

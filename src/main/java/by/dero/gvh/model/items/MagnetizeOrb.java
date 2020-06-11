@@ -1,6 +1,7 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.MagnetizeOrbInfo;
@@ -12,15 +13,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
-public class MagnetizeOrb extends Item implements ProjectileHitInterface, PlayerInteractInterface {
+public class MagnetizeOrb extends Item implements ProjectileHitInterface, InfiniteReplenishInterface {
     public MagnetizeOrb(String name, int level, Player owner) {
         super(name, level, owner);
-    }
-
-    @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        PlayerInventory inv = event.getPlayer().getInventory();
-        inv.getItemInMainHand().setAmount(2);
     }
 
     @Override

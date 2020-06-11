@@ -6,8 +6,6 @@ import by.dero.gvh.model.itemsinfo.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -27,6 +25,10 @@ public class Data {
         registerItem("flybow", FlyBowInfo.class, FlyBow.class);
         registerItem("magicrod", MagicRodInfo.class, MagicRod.class);
         registerItem("magnetizeorb", MagnetizeOrbInfo.class, MagnetizeOrb.class);
+        registerItem("healingpotion", HealPotionInfo.class, HealPotion.class);
+        registerItem("damagepotion", DamagePotionInfo.class, DamagePotion.class);
+        registerItem("invisibilitypotion", InvisibilityPotionInfo.class, InvisibilityPotion.class);
+        registerItem("stunrocks", StunRocksInfo.class, StunRocks.class);
     }
 
     public void load() {
