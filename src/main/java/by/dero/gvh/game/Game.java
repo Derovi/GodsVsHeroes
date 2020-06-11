@@ -3,9 +3,10 @@ package by.dero.gvh.game;
 import by.dero.gvh.GamePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.EventListener;
 import java.util.HashMap;
 
-public class Game {
+public class Game implements EventListener {
     public enum State {
         GAME, WAITING, PREPARING
     }
@@ -31,6 +32,7 @@ public class Game {
         }
 
         state = State.GAME;
+        lobby = null;
     }
 
     public void finish(int winnerTeam) {
