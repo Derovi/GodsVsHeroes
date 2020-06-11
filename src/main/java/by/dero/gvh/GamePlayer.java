@@ -31,12 +31,6 @@ public class GamePlayer {
 
     public void selectClass(String className) {
         this.className = className;
-        items.clear();
-        player.getInventory().clear();
-        UnitClassDescription classDescription = Plugin.getInstance().getData().getUnits().get(className);
-        for (String itemName : classDescription.getItemNames()) {
-            addItem(itemName, 0);
-        }
     }
 
     public void addItem(String name, int level) {

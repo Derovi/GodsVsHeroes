@@ -1,11 +1,13 @@
 package by.dero.gvh.game;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
+import by.dero.gvh.model.UnitClassDescription;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-import java.util.EventListener;
-import java.util.HashMap;
+import java.util.*;
 
 public abstract class Game implements Listener {
     public enum State {
@@ -31,9 +33,20 @@ public abstract class Game implements Listener {
             System.err.println("Can't start game, status is PREPARING!");
             return;
         }
-
+        chooseTeams();
+        for (GamePlayer player : players.values()) {
+            spawnPlayer(player, 0);
+        }
         state = State.GAME;
         lobby = null;
+    }
+
+    private void chooseTeams() {
+        List<String> playerNames = new ArrayList<>(players.keySet());
+        Collections.shuffle(playerNames);
+        for (int index = 0; index < playerNames.size(); ++index) {
+            players.get(playerNames.get(index)).setTeam(index % getInfo().getTeamCount());
+        }
     }
 
     public void finish(int winnerTeam) {
@@ -72,6 +85,19 @@ public abstract class Game implements Listener {
     public void removePlayer(String playerName) {
         lobby.onPlayerLeft(players.get(playerName));
         players.remove(playerName);
+    }
+
+    public void spawnPlayer(GamePlayer player, int rebirthTime) {
+        int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
+        Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
+        player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
+                spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
+        player.getItems().clear();
+        player.getPlayer().getInventory().clear();
+        UnitClassDescription classDescription = Plugin.getInstance().getData().getUnits().get(player.getClassName());
+        for (String itemName : classDescription.getItemNames()) {
+            player.addItem(itemName, 0);
+        }
     }
 
     public GameInfo getInfo() {
