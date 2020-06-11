@@ -3,6 +3,7 @@ package by.dero.gvh;
 import by.dero.gvh.commands.SelectCommand;
 import by.dero.gvh.events.PlayerEvents;
 import by.dero.gvh.game.Game;
+import by.dero.gvh.game.GameInfo;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
 import by.dero.gvh.model.StorageInterface;
@@ -26,7 +27,7 @@ public class Plugin extends JavaPlugin {
         storage = new LocalStorage();
         data = new Data(storage);
         data.load();
-        game = new Game();
+        game = new Game(new GameInfo()); // todo GameInfo loading
     }
 
     private void registerEvents() {
