@@ -10,6 +10,11 @@ public class Lobby {
         this.game = game;
     }
 
+    public void startGame() {
+
+        game.start();
+    }
+
     public void onPlayerJoined(GamePlayer gamePlayer) {
         if (game.getPlayers().size() >= game.getInfo().getMinPlayerCount()) {
             game.start();

@@ -124,6 +124,10 @@ public abstract class Game implements Listener {
         }
     }
 
+    public Lobby getLobby() {
+        return lobby;
+    }
+
     public GameInfo getInfo() {
         return info;
     }

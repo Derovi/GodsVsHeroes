@@ -32,6 +32,7 @@ public class Data {
         registerItem("eaglevision", EagleVisionInfo.class, EagleVision.class);
         registerItem("lightningstorm", LightningStormInfo.class, LightningStorm.class);
         registerItem("exchange", ExchangeInfo.class, Exchange.class);
+        registerItem("arrowrain", ArrowRainInfo.class, ArrowRain.class);
     }
 
     public void load() {

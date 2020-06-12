@@ -16,7 +16,7 @@ public class StartCommand implements PluginCommand {
             sender.sendMessage("§cCan't start game, not prepared yet!");
             return;
         }
-        Plugin.getInstance().getGame().start();
+        Plugin.getInstance().getGame().getLobby().startGame();
     }
 
     @Override
