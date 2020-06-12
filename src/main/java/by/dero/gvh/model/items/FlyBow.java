@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
 
-public class FlyBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
+public class FlyBow extends Item implements PlayerShootBowInterface {
     public FlyBow(String name, int level, Player owner) {
         super(name, level, owner);
     }
@@ -22,15 +22,5 @@ public class FlyBow extends Item implements PlayerShootBowInterface, ProjectileH
                 event.getProjectile().getVelocity().getY() * modifier,
                 event.getProjectile().getVelocity().getZ() * modifier));
         event.getProjectile().remove();
-    }
-
-    @Override
-    public void onProjectileHit(ProjectileHitEvent event) {
-        System.out.println("Projectile hit me");
-    }
-
-    @Override
-    public void onProjectileHitEnemy(ProjectileHitEvent event) {
-        System.out.println("My projectile hit");
     }
 }

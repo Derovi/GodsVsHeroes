@@ -2,3 +2,5 @@
 /build/
 *.pro.user
 /.gradle/
+/gradle/
+.gradle
