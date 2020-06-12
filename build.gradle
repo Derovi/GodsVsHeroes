@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'Dero'
-version '0.6.6'
+version '0.6.12'
 
 sourceCompatibility = 1.8
 
@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     implementation files('lib/spigot.jar')
+    implementation files('lib/Stunned.jar')
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
 }
 

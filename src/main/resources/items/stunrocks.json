@@ -1,0 +1,36 @@
+{
+  "name": "stunrocks",
+  "slot": 0,
+  "levels": [
+    {
+      "duration": 1,
+      "material": "SNOWBALL",
+      "displayName": "§cStun Rocks",
+      "lore": [
+        "§aОтомсти буржуям",
+        "&6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "duration": 1,
+      "material": "SNOWBALL",
+      "displayName": "§cStun Rocks",
+      "lore": [
+        "§aОтомсти буржуям",
+        "&6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "duration": 1,
+      "material": "SNOWBALL",
+      "displayName": "§cStun Rocks",
+      "lore": [
+        "§aОтомсти буржуям",
+        "&6Уровень 3"
+      ],
+      "amount": 1
+    }
+  ]
+}

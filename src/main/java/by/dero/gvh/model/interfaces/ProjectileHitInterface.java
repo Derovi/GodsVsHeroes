@@ -4,4 +4,5 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 
 public interface ProjectileHitInterface {
     void onProjectileHit(ProjectileHitEvent event);
+    void onProjectileHitEnemy(ProjectileHitEvent event);
 }

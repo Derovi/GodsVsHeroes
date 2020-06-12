@@ -1,0 +1,36 @@
+{
+  "name": "magnetizeorb",
+  "slot": 0,
+  "levels": [
+    {
+      "radius": 7,
+      "material": "SNOWBALL",
+      "displayName": "§cMagnetize orb",
+      "lore": [
+        "§aВ точку падения этой сферы\n притянутся окружающие существа",
+        "&6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "radius": 7,
+      "material": "SNOWBALL",
+      "displayName": "§cMagnetize orb",
+      "lore": [
+        "§aВ точку падения этой сферы\n притянутся окружающие существа",
+        "&6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "radius": 7,
+      "material": "SNOWBALL",
+      "displayName": "§cMagnetize orb",
+      "lore": [
+        "§aВ точку падения этой сферы\n притянутся окружающие существа",
+        "&6Уровень 3"
+      ],
+      "amount": 1
+    }
+  ]
+}

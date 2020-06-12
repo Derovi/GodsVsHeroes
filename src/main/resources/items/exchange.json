@@ -1,0 +1,36 @@
+{
+  "name": "exchange",
+  "slot": 0,
+  "levels": [
+    {
+      "maxRange": 20,
+      "material": "STICK",
+      "displayName": "§cExchange",
+      "lore": [
+        "§aПоменяйтесь местами с тем, на кого смотрите.",
+        "&6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "maxRange": 20,
+      "material": "STICK",
+      "displayName": "§cExchange",
+      "lore": [
+        "§aПоменяйтесь местами с тем, на кого смотрите.",
+        "&6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "maxRange": 20,
+      "material": "STICK",
+      "displayName": "§cExchange",
+      "lore": [
+        "§aПоменяйтесь местами с тем, на кого смотрите.",
+        "&6Уровень 3"
+      ],
+      "amount": 1
+    }
+  ]
+}

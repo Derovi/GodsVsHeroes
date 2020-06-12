@@ -1,19 +1,15 @@
 package by.dero.gvh.model;
 
-import by.dero.gvh.Utils;
+import by.dero.gvh.utils.ResourceUtils;
 import by.dero.gvh.model.items.FlyBow;
 import by.dero.gvh.model.itemsinfo.FlyBowInfo;
+import by.dero.gvh.model.items.*;
+import by.dero.gvh.model.itemsinfo.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
-import java.io.File;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 public class Data {
     public Data(StorageInterface storageInterface) {
@@ -23,7 +19,20 @@ public class Data {
 
     private void registerItems() {
         // IMPORTANT register all items
+        registerItem("airleap", AirLeapInfo.class, AirLeap.class);
+        registerItem("chainlightning", ChainLightningInfo.class, ChainLightning.class);
+        registerItem("explosivebow", ExplosiveBowInfo.class, ExplosiveBow.class);
         registerItem("flybow", FlyBowInfo.class, FlyBow.class);
+        registerItem("magicrod", MagicRodInfo.class, MagicRod.class);
+        registerItem("magnetizeorb", MagnetizeOrbInfo.class, MagnetizeOrb.class);
+        registerItem("healpotion", HealPotionInfo.class, HealPotion.class);
+        registerItem("damagepotion", DamagePotionInfo.class, DamagePotion.class);
+        registerItem("invisibilitypotion", InvisibilityPotionInfo.class, InvisibilityPotion.class);
+        registerItem("stunrocks", StunRocksInfo.class, StunRocks.class);
+        registerItem("eaglevision", EagleVisionInfo.class, EagleVision.class);
+        registerItem("lightningstorm", LightningStormInfo.class, LightningStorm.class);
+        registerItem("exchange", ExchangeInfo.class, Exchange.class);
+        registerItem("arrowrain", ArrowRainInfo.class, ArrowRain.class);
     }
 
     public void load() {
@@ -31,7 +40,7 @@ public class Data {
         try {
             for (String itemName : itemNameToClass.keySet()) {
                 if (!storageInterface.exists("items", itemName)) {
-                    storageInterface.save("items", itemName, Utils.readResourceFile("/items/" + itemName + ".json"));
+                    storageInterface.save("items", itemName, ResourceUtils.readResourceFile("/items/" + itemName + ".json"));
                 }
                 String itemJson = storageInterface.load("items", itemName);
                 Gson gson = new GsonBuilder().registerTypeAdapter(ItemDescription.class,
@@ -44,7 +53,7 @@ public class Data {
         //load unit classes
         try {
             if (!storageInterface.exists("data", "classes")) {
-                storageInterface.save("data", "classes", Utils.readResourceFile("/classes.json"));
+                storageInterface.save("data", "classes", ResourceUtils.readResourceFile("/classes.json"));
             }
             List<UnitClassDescription> unitList = new Gson().fromJson(storageInterface.load("data", "classes"),
                     new TypeToken<List<UnitClassDescription>>() {}.getType());
@@ -54,17 +63,6 @@ public class Data {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        List<UnitClassDescription> units = new LinkedList<>();
-        UnitClassDescription desc1 = new UnitClassDescription();
-        desc1.setName("default");
-        desc1.getItemNames().add("flybow");
-        units.add(desc1);
-        units.add(desc1);
-        units.add(desc1);
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(units));
     }
 
     public void registerItem(String name, Class infoClass, Class<?> itemClass) {

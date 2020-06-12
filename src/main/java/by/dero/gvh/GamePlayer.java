@@ -1,20 +1,15 @@
 package by.dero.gvh;
 
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.ItemDescription;
-import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
-import java.util.List;
-
 public class GamePlayer {
     private Player player;
-    private String className;
-    private HashMap<String, Item> items = new HashMap<>();
+    private String className = "default";
+    private final HashMap<String, Item> items = new HashMap<>();
     private int team;
 
     public GamePlayer(Player player) {
@@ -36,31 +31,27 @@ public class GamePlayer {
 
     public void selectClass(String className) {
         this.className = className;
-        items.clear();
-        player.getInventory().clear();
-        UnitClassDescription classDescription = Plugin.getInstance().getData().getUnits().get(className);
-        for (String itemName : classDescription.getItemNames()) {
-            addItem(itemName, 0);
-        }
     }
 
     public void addItem(String name, int level) {
         try {
-            ItemDescription itemDescription = Plugin.getInstance().getData().getItems().get(name);
-            ItemInfo itemInfo = itemDescription.getLevels().get(level);
             Item item = (Item) Plugin.getInstance().getData().getItemNameToClass().
                     get(name).getConstructor(String.class, int.class, Player.class).newInstance(name, level, player);
             items.put(name, item);
-            ItemStack itemStack = new ItemStack(itemInfo.getMaterial(), itemInfo.getAmount());
-            ItemMeta itemMeta = itemStack.getItemMeta();
-            System.out.println("name: " + itemInfo.getDisplayName());
-            itemMeta.setDisplayName(itemInfo.getDisplayName());
-            List<String> lore = itemInfo.getLore();
-            // add tag as last line of lore
-            lore.add(Plugin.getInstance().getData().getItemNameToTag().get(name));
-            itemMeta.setLore(lore);
-            itemStack.setItemMeta(itemMeta);
-            player.getInventory().setItem(itemDescription.getSlot(), itemStack);
+            int slot = Plugin.getInstance().getData().getItems().get(item.getName()).getSlot();
+            if (slot > 0) {
+                player.getInventory().setItem(slot, item.getItemStack());
+            } else if (slot == -1) {
+                player.getInventory().setHelmet(item.getItemStack());
+            } else if (slot == -2) {
+                player.getInventory().setChestplate(item.getItemStack());
+            } else if (slot == -3) {
+                player.getInventory().setLeggings(item.getItemStack());
+            } else if (slot == -4) {
+                player.getInventory().setBoots(item.getItemStack());
+            } else {
+                player.getInventory().addItem(item.getItemStack());
+            }
         } catch (Exception ex) {
             System.err.println("Can't add item! " + name + ":" + String.valueOf(level) + " to " + getPlayer().getName());
             ex.printStackTrace();

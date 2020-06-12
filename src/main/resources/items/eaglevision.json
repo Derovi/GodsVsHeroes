@@ -1,0 +1,42 @@
+{
+  "name": "eaglevision",
+  "slot": 0,
+  "levels": [
+    {
+      "radius": 400.0,
+      "glowTime": 1200,
+      "searchParticle": "DRAGON_BREATH",
+      "material": "SPECTRAL_ARROW",
+      "displayName": "§cEagle Vision",
+      "lore": [
+        "§aУльтимативная. Найдите всех своих врагов.",
+        "&6Уровень 1"
+      ],
+      "amount": 64
+    },
+    {
+      "radius": 400.0,
+      "glowTime": 1200,
+      "searchParticle": "DRAGON_BREATH",
+      "material": "SPECTRAL_ARROW",
+      "displayName": "§cEagle Vision",
+      "lore": [
+        "§aУльтимативная. Найдите всех своих врагов.",
+        "&6Уровень 2"
+      ],
+      "amount": 64
+    },
+    {
+      "radius": 400.0,
+      "glowTime": 1200,
+      "searchParticle": "DRAGON_BREATH",
+      "material": "SPECTRAL_ARROW",
+      "displayName": "§cEagle Vision",
+      "lore": [
+        "§aУльтимативная. Найдите всех своих врагов.",
+        "&6Уровень 3"
+      ],
+      "amount": 64
+    }
+  ]
+}
