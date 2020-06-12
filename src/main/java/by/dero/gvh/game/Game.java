@@ -92,7 +92,7 @@ public abstract class Game implements Listener {
     }
 
     public void respawnPlayer(GamePlayer gamePlayer) {
-
+        spawnPlayer(gamePlayer, getInfo().getRespawnTime());
     }
 
     public void spawnPlayer(GamePlayer player, int rebirthTime) {

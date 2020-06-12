@@ -3,6 +3,7 @@ package by.dero.gvh.game;
 public class GameInfo {
     String world = "World";
     int teamCount = 2;
+    int respawnTime = 10;
     int minPlayerCount = 2;
     int maxPlayerCount = 24;
     Position lobbyPosition;
@@ -15,6 +16,14 @@ public class GameInfo {
 
     public void setLobbyPosition(Position lobbyPosition) {
         this.lobbyPosition = lobbyPosition;
+    }
+
+    public int getRespawnTime() {
+        return respawnTime;
+    }
+
+    public void setRespawnTime(int respawnTime) {
+        this.respawnTime = respawnTime;
     }
 
     public String getWorld() {

@@ -3,6 +3,7 @@
   "teamCount": 2,
   "minPlayerCount": 2,
   "maxPlayerCount": 24,
+  "respawnTime": 10,
   "lobbyPosition": {
     "x": 300,
     "y": 65,
