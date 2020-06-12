@@ -3,18 +3,25 @@ package by.dero.gvh.events;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.ProjectileHitInterface;
+import org.bukkit.Bukkit;
 import by.dero.gvh.model.interfaces.*;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerEvents implements Listener {
+
     @EventHandler
     public void onEntityShootBow(org.bukkit.event.entity.EntityShootBowEvent event) {
         if ((event.getEntity() instanceof Player)) {
@@ -85,15 +92,30 @@ public class PlayerEvents implements Listener {
         }
     }
 
-//    @EventHandler(priority = EventPriority.HIGHEST)
-//    public void destroyArrows(ProjectileHitEvent event) {
-//        if (event.getEntity() instanceof Arrow) {
-//            event.getEntity().remove();
-//        }
-//    }
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void destroyArrows(ProjectileHitEvent event) {
+        if (event.getEntity() instanceof Arrow) {
+            event.getEntity().remove();
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDie(PlayerDeathEvent event) {
+        event.getDrops().clear();
+        event.setDeathMessage(null);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
+            event.getEntity().spigot().respawn();
+            Plugin.getInstance().getGame().respawnPlayer(Plugin.getInstance().getGame().getPlayers().get(event.getEntity().getName()));
+        }, 1L);
+    }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Plugin.getInstance().getGame().addPlayer(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        Plugin.getInstance().getGame().removePlayer(event.getPlayer().getName());
     }
 }

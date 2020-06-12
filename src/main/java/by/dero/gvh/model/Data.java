@@ -1,14 +1,14 @@
 package by.dero.gvh.model;
 
-import by.dero.gvh.Utils;
+import by.dero.gvh.utils.ResourceUtils;
+import by.dero.gvh.model.items.FlyBow;
+import by.dero.gvh.model.itemsinfo.FlyBowInfo;
 import by.dero.gvh.model.items.*;
 import by.dero.gvh.model.itemsinfo.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Data {
@@ -32,6 +32,7 @@ public class Data {
         registerItem("eaglevision", EagleVisionInfo.class, EagleVision.class);
         registerItem("lightningstorm", LightningStormInfo.class, LightningStorm.class);
         registerItem("exchange", ExchangeInfo.class, Exchange.class);
+        registerItem("arrowrain", ArrowRainInfo.class, ArrowRain.class);
     }
 
     public void load() {
@@ -39,7 +40,7 @@ public class Data {
         try {
             for (String itemName : itemNameToClass.keySet()) {
                 if (!storageInterface.exists("items", itemName)) {
-                    storageInterface.save("items", itemName, Utils.readResourceFile("/items/" + itemName + ".json"));
+                    storageInterface.save("items", itemName, ResourceUtils.readResourceFile("/items/" + itemName + ".json"));
                 }
                 String itemJson = storageInterface.load("items", itemName);
                 Gson gson = new GsonBuilder().registerTypeAdapter(ItemDescription.class,
@@ -52,7 +53,7 @@ public class Data {
         //load unit classes
         try {
             if (!storageInterface.exists("data", "classes")) {
-                storageInterface.save("data", "classes", Utils.readResourceFile("/classes.json"));
+                storageInterface.save("data", "classes", ResourceUtils.readResourceFile("/classes.json"));
             }
             List<UnitClassDescription> unitList = new Gson().fromJson(storageInterface.load("data", "classes"),
                     new TypeToken<List<UnitClassDescription>>() {}.getType());
@@ -62,17 +63,6 @@ public class Data {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        List<UnitClassDescription> units = new LinkedList<>();
-        UnitClassDescription desc1 = new UnitClassDescription();
-        desc1.setName("default");
-        desc1.getItemNames().add("flybow");
-        units.add(desc1);
-        units.add(desc1);
-        units.add(desc1);
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(units));
     }
 
     public void registerItem(String name, Class infoClass, Class<?> itemClass) {

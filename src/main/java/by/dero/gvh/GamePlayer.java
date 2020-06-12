@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 public class GamePlayer {
     private Player player;
-    private String className;
+    private String className = "default";
     private final HashMap<String, Item> items = new HashMap<>();
     private int team;
 
@@ -31,12 +31,6 @@ public class GamePlayer {
 
     public void selectClass(String className) {
         this.className = className;
-        items.clear();
-        player.getInventory().clear();
-        UnitClassDescription classDescription = Plugin.getInstance().getData().getUnits().get(className);
-        for (String itemName : classDescription.getItemNames()) {
-            addItem(itemName, 0);
-        }
     }
 
     public void addItem(String name, int level) {

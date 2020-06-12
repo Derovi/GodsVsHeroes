@@ -1,7 +1,13 @@
 package by.dero.gvh;
 
+import by.dero.gvh.commands.AddSpawnPointCommand;
+import by.dero.gvh.commands.FinishCommand;
 import by.dero.gvh.commands.SelectCommand;
+import by.dero.gvh.commands.StartCommand;
 import by.dero.gvh.events.PlayerEvents;
+import by.dero.gvh.game.DeathMatch;
+import by.dero.gvh.game.Game;
+import by.dero.gvh.game.GameData;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
 import by.dero.gvh.model.StorageInterface;
@@ -9,17 +15,13 @@ import com.questcraft.stunned.StunAPI.StunAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 public class Plugin extends JavaPlugin {
     private static Plugin instance;
     private static StunAPI stunAPI;
     private StorageInterface storage;
     private Data data;
     private Game game;
+    private GameData gameData;
 
     private CommandManager commandManager;
 
@@ -31,10 +33,14 @@ public class Plugin extends JavaPlugin {
 //        stunAPI.start();
         registerEvents();
         registerCommands();
-        storage = new LocalStorage();
-        data = new Data(storage);
+        data = new Data(new LocalStorage());
         data.load();
-        game = new Game();
+        gameData = new GameData(new LocalStorage());
+        gameData.load();
+        System.out.println("n3 " + (gameData.getDeathMatchInfo() == null));
+        game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
+        game.prepare();
+        Bukkit.getPluginManager().registerEvents(game, this);
     }
 
     private void registerEvents() {
@@ -44,6 +50,9 @@ public class Plugin extends JavaPlugin {
     private void registerCommands() {
         commandManager = new CommandManager();
         commandManager.getCommands().put("select", new SelectCommand());
+        commandManager.getCommands().put("start", new StartCommand());
+        commandManager.getCommands().put("finish", new FinishCommand());
+        commandManager.getCommands().put("addspawnpoint", new AddSpawnPointCommand());
     }
 
     public static Plugin getInstance() {
