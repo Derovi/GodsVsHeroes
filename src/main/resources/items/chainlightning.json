@@ -1,0 +1,39 @@
+{
+  "name": "chainlightning",
+  "slot": 0,
+  "levels": [
+    {
+      "damage": 3,
+      "radius": 4.0,
+      "material": "STICK",
+      "displayName": "§cChain Lightning",
+      "lore": [
+        "§aНажмите, чтобы пустить цепную\n молнию по вашим врагам.",
+        "&6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "damage": 3,
+      "radius": 4.0,
+      "material": "STICK",
+      "displayName": "§cChain Lightning",
+      "lore": [
+        "§aНажмите, чтобы пустить цепную\n молнию по вашим врагам.",
+        "&6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "damage": 3,
+      "radius": 4.0,
+      "material": "STICK",
+      "displayName": "§cChain Lightning",
+      "lore": [
+        "§aНажмите, чтобы пустить цепную\n молнию по вашим врагам.",
+        "&6Уровень 3"
+      ],
+      "amount": 1
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "arrowrain",
+  "slot": 0,
+  "levels": [
+    {
+      "radius": 20.0,
+      "arrowCycles": 100,
+      "cycleDelay": 5,
+      "material": "END_CRYSTAL",
+      "displayName": "§cArrow Rain",
+      "lore": [
+        "§aУльтимативная. Используйте, чтобы начать дождь стрел",
+        "&6Уровень 1"
+      ],
+      "amount": 64
+    },
+    {
+      "radius": 20.0,
+      "arrowCycles": 100,
+      "cycleDelay": 5,
+      "material": "END_CRYSTAL",
+      "displayName": "§cArrow Rain",
+      "lore": [
+        "§aУльтимативная. Используйте, чтобы начать дождь стрел",
+        "&6Уровень 2"
+      ],
+      "amount": 64
+    },
+    {
+      "radius": 20.0,
+      "arrowCycles": 100,
+      "cycleDelay": 5,
+      "material": "END_CRYSTAL",
+      "displayName": "§cArrow Rain",
+      "lore": [
+        "§aУльтимативная. Используйте, чтобы начать дождь стрел",
+        "&6Уровень 3"
+      ],
+      "amount": 64
+    }
+  ]
+}

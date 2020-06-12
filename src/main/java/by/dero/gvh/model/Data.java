@@ -3,11 +3,11 @@ package by.dero.gvh.model;
 import by.dero.gvh.utils.ResourceUtils;
 import by.dero.gvh.model.items.FlyBow;
 import by.dero.gvh.model.itemsinfo.FlyBowInfo;
+import by.dero.gvh.model.items.*;
+import by.dero.gvh.model.itemsinfo.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,7 +19,19 @@ public class Data {
 
     private void registerItems() {
         // IMPORTANT register all items
+        registerItem("airleap", AirLeapInfo.class, AirLeap.class);
+        registerItem("chainlightning", ChainLightningInfo.class, ChainLightning.class);
+        registerItem("explosivebow", ExplosiveBowInfo.class, ExplosiveBow.class);
         registerItem("flybow", FlyBowInfo.class, FlyBow.class);
+        registerItem("magicrod", MagicRodInfo.class, MagicRod.class);
+        registerItem("magnetizeorb", MagnetizeOrbInfo.class, MagnetizeOrb.class);
+        registerItem("healpotion", HealPotionInfo.class, HealPotion.class);
+        registerItem("damagepotion", DamagePotionInfo.class, DamagePotion.class);
+        registerItem("invisibilitypotion", InvisibilityPotionInfo.class, InvisibilityPotion.class);
+        registerItem("stunrocks", StunRocksInfo.class, StunRocks.class);
+        registerItem("eaglevision", EagleVisionInfo.class, EagleVision.class);
+        registerItem("lightningstorm", LightningStormInfo.class, LightningStorm.class);
+        registerItem("exchange", ExchangeInfo.class, Exchange.class);
     }
 
     public void load() {

@@ -8,17 +8,19 @@ import by.dero.gvh.events.PlayerEvents;
 import by.dero.gvh.game.DeathMatch;
 import by.dero.gvh.game.Game;
 import by.dero.gvh.game.GameData;
-import by.dero.gvh.game.GameInfo;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
-import com.google.gson.Gson;
+import by.dero.gvh.model.StorageInterface;
+import com.questcraft.stunned.StunAPI.StunAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Plugin extends JavaPlugin {
     private static Plugin instance;
-    private Game game;
+    private static StunAPI stunAPI;
+    private StorageInterface storage;
     private Data data;
+    private Game game;
     private GameData gameData;
 
     private CommandManager commandManager;
@@ -27,6 +29,8 @@ public class Plugin extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
         instance = this;
+        stunAPI = new StunAPI();
+//        stunAPI.start();
         registerEvents();
         registerCommands();
         data = new Data(new LocalStorage());
@@ -53,6 +57,10 @@ public class Plugin extends JavaPlugin {
 
     public static Plugin getInstance() {
         return instance;
+    }
+
+    public static StunAPI getStunAPI() {
+        return stunAPI;
     }
 
     public Data getData() {

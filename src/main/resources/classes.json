@@ -2,7 +2,19 @@
   {
     "name": "default",
     "itemNames": [
-      "flybow"
+      "airleap",
+      "chainlightning",
+      "magicrod",
+      "magnetizeorb",
+      "explosivebow",
+      "healpotion",
+      "damagepotion",
+      "invisibilitypotion",
+      "stunrocks",
+      "eaglevision",
+      "lightningstorm",
+      "arrowrain",
+      "exchange"
     ]
   },
   {
