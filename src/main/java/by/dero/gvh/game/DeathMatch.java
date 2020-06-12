@@ -4,7 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class DeathMatch extends Game {
-    private DeathMatchInfo deathMatchInfo;
+    private final DeathMatchInfo deathMatchInfo;
 
     int[] currentLivesCount;
 
@@ -17,7 +17,7 @@ public class DeathMatch extends Game {
     void load() {
         currentLivesCount = new int[getInfo().getTeamCount()];
         for (int index = 0; index < getInfo().getTeamCount(); ++index) {
-            currentLivesCount[index] = deathMatchInfo.getLivesCount();
+            currentLivesCount[index] = this.deathMatchInfo.getLivesCount();
         }
     }
 

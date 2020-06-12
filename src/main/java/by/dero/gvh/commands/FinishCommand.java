@@ -13,7 +13,7 @@ public class FinishCommand implements PluginCommand {
             return;
         }
         if (Plugin.getInstance().getGame().getState() == Game.State.PREPARING) {
-            sender.sendMessage("§cCan't start game, not prepared yet!");
+            sender.sendMessage("§cCan't finish game, not prepared yet!");
             return;
         }
         int winnerTeam;

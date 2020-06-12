@@ -32,7 +32,10 @@ public class Plugin extends JavaPlugin {
         data = new Data(new LocalStorage());
         data.load();
         gameData = new GameData(new LocalStorage());
+        gameData.load();
+        System.out.println("n3 " + (gameData.getDeathMatchInfo() == null));
         game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
+        game.prepare();
     }
 
     private void registerEvents() {

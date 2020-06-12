@@ -16,7 +16,6 @@ public abstract class Game implements Listener {
 
     public Game(GameInfo info) {
         this.info = info;
-        prepare();
     }
 
     private Lobby lobby;
@@ -85,7 +84,10 @@ public abstract class Game implements Listener {
 
     public void removePlayer(String playerName) {
         GamePlayer player = players.get(playerName);
-        lobby.onPlayerLeft(player);
+        player.getPlayer().getInventory().clear();
+        if (state == State.WAITING) {
+            lobby.onPlayerLeft(player);
+        }
         players.remove(playerName);
     }
 
@@ -98,6 +100,8 @@ public abstract class Game implements Listener {
         player.getItems().clear();
         player.getPlayer().getInventory().clear();
         UnitClassDescription classDescription = Plugin.getInstance().getData().getUnits().get(player.getClassName());
+        System.out.println("class: " + player.getClassName());
+        System.out.println("null: " + (classDescription == null));
         for (String itemName : classDescription.getItemNames()) {
             player.addItem(itemName, 0);
         }
