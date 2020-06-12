@@ -28,17 +28,18 @@ public class Lobby {
                 if (showTime[showIndex] == timeLeft) {
                     PacketPlayOutTitle title = new PacketPlayOutTitle(
                             PacketPlayOutTitle.EnumTitleAction.TITLE,
-                            ChatSerializer.a("{\"text\":\"" + (ChatColor.GREEN + "" + timeLeft) + "\"}"), 0, 20, 0);
+                            ChatSerializer.a("{\"text\":\"" + (ChatColor.GREEN + "" + timeLeft) + "\"}"),
+                            0, 20, 0);
                     for (GamePlayer player : game.getPlayers().values()) {
                         ((CraftPlayer)player.getPlayer()).getHandle().playerConnection.sendPacket(title);
                     }
                     showIndex++;
                 }
+                timeLeft--;
                 if (timeLeft == 0) {
                     game.start();
                     this.cancel();
                 }
-                timeLeft--;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
     }
@@ -50,15 +51,15 @@ public class Lobby {
             ready = true;
             startGame();
         }
-        Plugin.getInstance().getServer().broadcastMessage("§aPlayer " + gamePlayer.getPlayer().getName() + " joined! " +
-                players + '/' + needed);
+        Plugin.getInstance().getServer().broadcastMessage("§aPlayer " +
+                gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed);
     }
 
     public void onPlayerLeft(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size() - 1;
         final int need = game.getInfo().getMinPlayerCount();
-        Plugin.getInstance().getServer().broadcastMessage("§aPlayer " + gamePlayer.getPlayer().getName() + " left! " +
-                players + '/' + need);
+        Plugin.getInstance().getServer().broadcastMessage("§aPlayer " +
+                gamePlayer.getPlayer().getName() + " left! " + players + '/' + need);
         if (players < need) {
             ready = false;
         }

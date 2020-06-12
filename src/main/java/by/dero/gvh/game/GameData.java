@@ -7,7 +7,7 @@ import by.dero.gvh.model.StorageInterface;
 import com.google.gson.Gson;
 
 public class GameData {
-    private StorageInterface storage;
+    private final StorageInterface storage;
     private GameInfo gameInfo;
     private DeathMatchInfo deathMatchInfo;
 
