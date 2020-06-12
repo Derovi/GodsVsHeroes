@@ -54,8 +54,8 @@ public abstract class Game implements Listener {
             return;
         }
         for (String playerName : players.keySet()) {
-            removePlayer(playerName);
             players.get(playerName).getPlayer().kickPlayer("§cGame finished!");
+            removePlayer(playerName);
         }
         state = State.PREPARING;
         prepare();
@@ -89,6 +89,10 @@ public abstract class Game implements Listener {
             lobby.onPlayerLeft(player);
         }
         players.remove(playerName);
+    }
+
+    public void respawnPlayer(GamePlayer gamePlayer) {
+
     }
 
     public void spawnPlayer(GamePlayer player, int rebirthTime) {

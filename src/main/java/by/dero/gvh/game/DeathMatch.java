@@ -36,6 +36,7 @@ public class DeathMatch extends Game {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
+        System.out.println("Player die!");
         if (getState() != State.GAME) {
             return;
         }

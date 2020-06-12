@@ -36,6 +36,7 @@ public class Plugin extends JavaPlugin {
         System.out.println("n3 " + (gameData.getDeathMatchInfo() == null));
         game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
         game.prepare();
+        Bukkit.getPluginManager().registerEvents(game, this);
     }
 
     private void registerEvents() {

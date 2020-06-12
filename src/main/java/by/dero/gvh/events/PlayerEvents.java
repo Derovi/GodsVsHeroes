@@ -5,15 +5,19 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.interfaces.ShootBowInterface;
+import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerEvents implements Listener {
+
     @EventHandler
     public void onEntityShoot(org.bukkit.event.entity.EntityShootBowEvent event) {
         System.out.println("Shoot!");
@@ -62,6 +66,15 @@ public class PlayerEvents implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerDie(PlayerDeathEvent event) {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
+            event.getDrops().clear();
+            event.getEntity().spigot().respawn();
+            Plugin.getInstance().getGame().respawnPlayer(Plugin.getInstance().getGame().getPlayers().get(event.getEntity().getName()));
+        }, 1L);
     }
 
     @EventHandler
