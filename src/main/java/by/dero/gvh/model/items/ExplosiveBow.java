@@ -57,15 +57,13 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                         new Location(obj.getWorld(), at.getX(), at.getY(), at.getZ()),
                         1,0,0,0,0);
                 player.spawnParticle(Particle.LAVA, obj.getLocation(), 10);
-                if (!arrows.contains(obj)) {
+                if (!arrows.contains(obj) || ticks > 300) {
                     float force = (float)(power*power*multiplier);
-                    Bukkit.getServer().broadcastMessage("kek" + force);
                     obj.getWorld().createExplosion(obj.getLocation(), force);
-                    player.getWorld().createExplosion(player.getLocation(), force);
                     this.cancel();
+                    return;
                 }
                 power = obj.getVelocity().length();
-                Bukkit.getServer().broadcastMessage(""+power);
                 ticks++;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 1);

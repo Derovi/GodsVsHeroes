@@ -24,5 +24,4 @@ jar {
                 'Main-Class': 'by.dero.gvh.Plugin'
         )
     }
-    destinationDir project.file('C:/server/plugins')
 }

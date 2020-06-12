@@ -10,6 +10,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
@@ -40,13 +42,7 @@ public class EagleVision extends Item implements UltimateInterface {
             if (!(obj instanceof LivingEntity) || dst > radius) {
                 continue;
             }
-            obj.setGlowing(true);
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    obj.setGlowing(false);
-                }
-            }.runTaskLater(Plugin.getInstance(), glowTime);
+            new PotionEffect(PotionEffectType.GLOWING, Math.toIntExact(glowTime), 1).apply(event.getPlayer());
         }
         drawSign(player.getLocation().clone());
     }
