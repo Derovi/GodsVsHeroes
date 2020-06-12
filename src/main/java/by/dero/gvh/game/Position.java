@@ -1,5 +1,8 @@
 package by.dero.gvh.game;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+
 public class Position {
     double x, y, z;
 
@@ -10,6 +13,10 @@ public class Position {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public Location toLocation(String worldName) {
+        return new Location(Bukkit.getWorld(worldName), x, y, z);
     }
 
     public double getX() {

@@ -92,7 +92,15 @@ public abstract class Game implements Listener {
     }
 
     public void respawnPlayer(GamePlayer gamePlayer) {
-        spawnPlayer(gamePlayer, getInfo().getRespawnTime());
+        if (state == State.WAITING) {
+            teleportToLobby(gamePlayer.getPlayer());
+        } else {
+            spawnPlayer(gamePlayer, getInfo().getRespawnTime());
+        }
+    }
+
+    private void teleportToLobby(Player player) {
+        player.teleport(getInfo().getLobbyPosition().toLocation(getInfo().getWorld()));
     }
 
     public void spawnPlayer(GamePlayer player, int rebirthTime) {
