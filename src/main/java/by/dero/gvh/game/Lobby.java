@@ -17,9 +17,11 @@ public class Lobby {
 
     private boolean ready = false;
     private final int[] showTime = {60, 45, 30, 15, 10, 5, 4, 3, 2, 1};
+
     public void startGame() {
         new BukkitRunnable() {
             int timeLeft = 60, showIndex = 0;
+
             @Override
             public void run() {
                 if (!ready) {
@@ -31,7 +33,7 @@ public class Lobby {
                             ChatSerializer.a("{\"text\":\"" + (ChatColor.GREEN + "" + timeLeft) + "\"}"),
                             0, 20, 0);
                     for (GamePlayer player : game.getPlayers().values()) {
-                        ((CraftPlayer)player.getPlayer()).getHandle().playerConnection.sendPacket(title);
+                        ((CraftPlayer) player.getPlayer()).getHandle().playerConnection.sendPacket(title);
                     }
                     showIndex++;
                 }
@@ -65,7 +67,7 @@ public class Lobby {
         }
     }
 
-    public Game getGame() {
+    public Game getGame () {
         return game;
     }
 }

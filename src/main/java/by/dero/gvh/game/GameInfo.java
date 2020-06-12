@@ -6,8 +6,8 @@ public class GameInfo {
     private int respawnTime = 10;
     private int minPlayerCount = 2;
     private int maxPlayerCount = 24;
-    Position lobbyPosition;
-    Position[][] spawnPoints = {{new Position(50,65,50), new Position(20,65,40)},
+    private Position lobbyPosition;
+    private Position[][] spawnPoints = {{new Position(50,65,50), new Position(20,65,40)},
             {new Position(250,65,250), new Position(220,65,240)}};
 
     public Position getLobbyPosition() {
