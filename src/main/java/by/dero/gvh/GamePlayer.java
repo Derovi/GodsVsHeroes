@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 public class GamePlayer {
     private Player player;
-    private String className;
+    private String className = "default";
     private final HashMap<String, Item> items = new HashMap<>();
     private int team;
 

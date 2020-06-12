@@ -54,8 +54,9 @@ public abstract class Game implements Listener {
             return;
         }
         for (String playerName : players.keySet()) {
-            players.get(playerName).getPlayer().kickPlayer("§cGame finished!");
+            Player player = players.get(playerName).getPlayer();
             removePlayer(playerName);
+            player.kickPlayer("§cGame finished!");
         }
         state = State.PREPARING;
         prepare();
@@ -79,10 +80,14 @@ public abstract class Game implements Listener {
             return;
         }
         players.put(player.getName(), new GamePlayer(player));
+        teleportToLobby(player);
         lobby.onPlayerJoined(players.get(player.getName()));
     }
 
     public void removePlayer(String playerName) {
+        if (!players.containsKey(playerName)) {
+            return;
+        }
         GamePlayer player = players.get(playerName);
         player.getPlayer().getInventory().clear();
         if (state == State.WAITING) {

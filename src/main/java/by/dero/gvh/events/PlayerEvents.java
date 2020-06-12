@@ -70,6 +70,7 @@ public class PlayerEvents implements Listener {
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
         event.getDrops().clear();
+        event.setDeathMessage(null);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             event.getEntity().spigot().respawn();
             Plugin.getInstance().getGame().respawnPlayer(Plugin.getInstance().getGame().getPlayers().get(event.getEntity().getName()));
