@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'Dero'
-version '0.6.6'
+version '0.6.12'
 
 sourceCompatibility = 1.8
 
