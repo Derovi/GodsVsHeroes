@@ -2,11 +2,12 @@ package by.dero.gvh.game;
 
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
+import by.dero.gvh.model.LocalStorage;
 import by.dero.gvh.model.StorageInterface;
 import com.google.gson.Gson;
 
 public class GameData {
-    private final StorageInterface storage;
+    private StorageInterface storage;
     private GameInfo gameInfo;
     private DeathMatchInfo deathMatchInfo;
 

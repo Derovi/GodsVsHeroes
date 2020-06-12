@@ -4,15 +4,40 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import net.minecraft.server.v1_15_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_15_R1.PacketPlayOutTitle;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.*;
 
 public class Lobby {
     private final Game game;
+    private final Scoreboard board;
+    private final Team counterTeam;
+    private final Team timeLeftTeam;
 
     public Lobby(Game game) {
         this.game = game;
+
+        board = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective obj = board.registerNewObjective("ServerName", "dummy", "Lobby");
+        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+        counterTeam = board.registerNewTeam("counterTeam");
+        counterTeam.setSuffix("");
+        counterTeam.addEntry("§a");
+        obj.getScore("§a").setScore(2);
+
+        timeLeftTeam = board.registerNewTeam("timeLeftTeam");
+        timeLeftTeam.setSuffix("");
+        timeLeftTeam.setPrefix("§eWaiting for players");
+        timeLeftTeam.addEntry("§b");
+        obj.getScore("§b").setScore(1);
+    }
+
+    private void updatePlayerBoard() {
+        counterTeam.setPrefix("§aPreparing: §4" +
+                game.getPlayers().size() + "/" + game.getInfo().getMinPlayerCount());
     }
 
     private boolean ready = false;
@@ -21,10 +46,10 @@ public class Lobby {
     public void startGame() {
         new BukkitRunnable() {
             int timeLeft = 60, showIndex = 0;
-
             @Override
             public void run() {
                 if (!ready) {
+                    timeLeftTeam.setPrefix("§eWaiting for players");
                     this.cancel();
                 }
                 if (showTime[showIndex] == timeLeft) {
@@ -38,6 +63,8 @@ public class Lobby {
                     showIndex++;
                 }
                 timeLeft--;
+                timeLeftTeam.setPrefix("§bTime left : " + timeLeft);
+
                 if (timeLeft == 0) {
                     game.start();
                     this.cancel();
@@ -49,19 +76,22 @@ public class Lobby {
     public void onPlayerJoined(GamePlayer gamePlayer) {
         final int needed = game.getInfo().getMinPlayerCount();
         final int players = game.getPlayers().size();
+        Bukkit.getServer().broadcastMessage("§aPlayer " +
+                gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed);
+        updatePlayerBoard();
+        gamePlayer.getPlayer().setScoreboard(board);
         if (players >= needed) {
             ready = true;
-            startGame();
+            this.startGame();
         }
-        Plugin.getInstance().getServer().broadcastMessage("§aPlayer " +
-                gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed);
     }
 
     public void onPlayerLeft(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size() - 1;
         final int need = game.getInfo().getMinPlayerCount();
-        Plugin.getInstance().getServer().broadcastMessage("§aPlayer " +
+        Bukkit.getServer().broadcastMessage("§aPlayer " +
                 gamePlayer.getPlayer().getName() + " left! " + players + '/' + need);
+        updatePlayerBoard();
         if (players < need) {
             ready = false;
         }
