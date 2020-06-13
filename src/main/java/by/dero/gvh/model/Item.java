@@ -1,14 +1,13 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import org.apache.logging.log4j.core.util.JsonUtils;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class Item {
     private Player owner;
@@ -26,6 +25,11 @@ public abstract class Item {
     public ItemStack getItemStack() {
         ItemStack itemStack = new ItemStack(getInfo().getMaterial(), getInfo().getAmount());
         ItemMeta itemMeta = itemStack.getItemMeta();
+        System.out.println(getInfo().getDisplayName() + " " + getInfo().getEnchantments().size());
+        for (ItemInfo.EnchantInfo enchantInfo : getInfo().getEnchantments()) {
+            System.out.println(enchantInfo.getKey().getKey());
+            itemMeta.addEnchant(Enchantment.getByKey(enchantInfo.getKey()), enchantInfo.getLevel(), enchantInfo.isVisible());
+        }
         itemMeta.setDisplayName(getInfo().getDisplayName());
         List<String> lore = getInfo().getLore();
         // add tag as last line of lore

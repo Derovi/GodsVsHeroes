@@ -34,6 +34,7 @@ public class GamePlayer {
     }
 
     public void addItem(String name, int level) {
+
         try {
             Item item = (Item) Plugin.getInstance().getData().getItemNameToClass().
                     get(name).getConstructor(String.class, int.class, Player.class).newInstance(name, level, player);
