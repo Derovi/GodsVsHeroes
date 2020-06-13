@@ -8,7 +8,8 @@ import java.util.List;
 
 public class ItemDescription {
     private String name;
-    private int slot;
+    private int slot = 0;
+    private boolean invisible = false;
     private List<ItemInfo> levels = new LinkedList<>();
 
     public String getName() {
@@ -21,6 +22,7 @@ public class ItemDescription {
             JsonObject object = jsonElement.getAsJsonObject();
             result.setName(object.get("name").getAsString());
             result.setSlot(object.get("slot").getAsInt());
+            result.setInvisible(object.get("invisible").getAsBoolean());
             if (!data.getItemNameToInfo().containsKey(result.getName())) {
                 throw new JsonParseException("Name: " + result.getName() + " not found in data!");
             }
@@ -30,6 +32,14 @@ public class ItemDescription {
             }
             return result;
         };
+    }
+
+    public boolean isInvisible() {
+        return invisible;
+    }
+
+    public void setInvisible(boolean invisible) {
+        this.invisible = invisible;
     }
 
     public void setName(String name) {

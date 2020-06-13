@@ -53,8 +53,12 @@ public class Item {
         return summonedEntityIds;
     }
 
+    public ItemDescription getDescription() {
+        return Plugin.getInstance().getData().getItemDescription(name);
+    }
+
     public ItemInfo getInfo() {
-        return Plugin.getInstance().getData().getItemDescription(name).getLevels().get(level);
+        return getDescription().getLevels().get(level);
     }
 
     public String getName() {
