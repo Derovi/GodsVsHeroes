@@ -94,13 +94,6 @@ public class PlayerEvents implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void destroyArrows(ProjectileHitEvent event) {
-        if (event.getEntity() instanceof Arrow) {
-            event.getEntity().remove();
-        }
-    }
-
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
         event.getDrops().clear();

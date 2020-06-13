@@ -4,8 +4,8 @@
   "levels": [
     {
       "radius": 20.0,
-      "arrowCycles": 100,
-      "cycleDelay": 5,
+      "arrowCycles": 10,
+      "cycleDelay": 10,
       "material": "END_CRYSTAL",
       "enchantments": [
         {
