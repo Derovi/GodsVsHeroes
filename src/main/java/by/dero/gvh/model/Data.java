@@ -8,6 +8,8 @@ import by.dero.gvh.model.itemsinfo.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.bukkit.Material;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +35,17 @@ public class Data {
         registerItem("lightningstorm", LightningStormInfo.class, LightningStorm.class);
         registerItem("exchange", ExchangeInfo.class, Exchange.class);
         registerItem("arrowrain", ArrowRainInfo.class, ArrowRain.class);
+        registerItem("escape", EscapeInfo.class, Escape.class);
+        registerItem("poisonpotion", PoisonPotionInfo.class, PoisonPotion.class);
+        registerItem("improvedbow", ImprovedBowInfo.class, ImprovedBow.class);
+        registerItem("defaultsword", ItemInfo.class, Item.class);
+        registerItem("defaultaxe", ItemInfo.class, Item.class);
+        registerItem("defaulthelmet", ItemInfo.class, Item.class);
+        registerItem("defaultchestplate", ItemInfo.class, Item.class);
+        registerItem("defaultleggins", ItemInfo.class, Item.class);
+        registerItem("defaultboots", ItemInfo.class, Item.class);
+        registerItem("defaultbow", ItemInfo.class, Item.class);
+        registerItem("defaultarrow", ItemInfo.class, Item.class);
     }
 
     public void load() {

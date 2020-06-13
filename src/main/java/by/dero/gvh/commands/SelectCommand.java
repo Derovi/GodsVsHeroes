@@ -3,6 +3,7 @@ package by.dero.gvh.commands;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginCommand;
+import by.dero.gvh.model.UnitClassDescription;
 import org.bukkit.command.CommandSender;
 
 public class SelectCommand implements PluginCommand {
@@ -18,6 +19,10 @@ public class SelectCommand implements PluginCommand {
         }
         GamePlayer player = Plugin.getInstance().getGame().getPlayers().get(sender.getName());
         player.selectClass(arguments[0]);
+        UnitClassDescription classDescription = Plugin.getInstance().getData().getUnits().get(arguments[0]);
+        for (String itemName : classDescription.getItemNames()) {
+            player.addItem(itemName, 0);
+        }
         sender.sendMessage("§aSelected class: " + arguments[0]);
     }
 

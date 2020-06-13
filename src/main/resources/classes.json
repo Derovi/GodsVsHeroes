@@ -18,15 +18,84 @@
     ]
   },
   {
-    "name": "default1",
+    "name": "mercenary",
     "itemNames": [
-      "flybow"
+      "defaultaxe",
+      "stunrocks",
+      "healpotion"
     ]
   },
   {
-    "name": "default2",
+    "name": "scout",
     "itemNames": [
-      "flybow"
+      "damagepotion",
+      "poisonpotion"
+    ]
+  },
+  {
+    "name": "paladin",
+    "itemNames": [
+      "defaultsword",
+      "defaulthelmet",
+      "defaultchestplate",
+      "defaultleggins",
+      "defaultboots",
+      "healpotion"
+    ]
+  },
+  {
+    "name": "alchemist",
+    "itemNames": [
+      "invisibilitypotion",
+      "damagepotion",
+      "healpotion",
+      "poisonpotion"
+    ]
+  },
+  {
+    "name": "archer",
+    "itemNames": [
+      "invisibilitypotion",
+      "escape",
+      "improvedbow",
+      "defaultarrow"
+    ]
+  },
+  {
+    "name": "heimdall",
+    "itemNames": [
+      "magicrod",
+      "eaglevision"
+    ]
+  },
+  {
+    "name": "odin",
+    "itemNames": [
+      "chainlightning",
+      "lightningstorm"
+    ]
+  },
+  {
+    "name": "eyre",
+    "itemNames": [
+      "damagepotion",
+      "healpotion"
+    ]
+  },
+  {
+    "name": "loki",
+    "itemNames": [
+      "airleap",
+      "exchange",
+      "invisibilitypotion"
+    ]
+  },
+  {
+    "name": "ull",
+    "itemNames": [
+      "explosivebow",
+      "defaultarrow",
+      "arrowrain"
     ]
   }
 ]

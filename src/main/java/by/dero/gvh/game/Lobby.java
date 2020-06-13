@@ -71,6 +71,13 @@ public class Lobby {
                 timeLeftTeam.setPrefix("§bTime left : ".substring(1) + timeLeft);
 
                 if (timeLeft == 0) {
+                    PacketPlayOutTitle title = new PacketPlayOutTitle(
+                            PacketPlayOutTitle.EnumTitleAction.TITLE,
+                            ChatSerializer.a("{\"text\":\"" + (ChatColor.GREEN + "Game Started") + "\"}"),
+                            0, 20, 0);
+                    for (GamePlayer player : game.getPlayers().values()) {
+                        ((CraftPlayer) player.getPlayer()).getHandle().playerConnection.sendPacket(title);
+                    }
                     game.start();
                     this.cancel();
                 }
@@ -78,13 +85,14 @@ public class Lobby {
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
     }
 
-    public String getNormal(String msg) {
+    public static String getNormal(String msg) {
         int pos = msg.indexOf("§");
         if (pos != -1) {
             msg = msg.replace(msg.substring(pos, pos+1), "");
         }
         return msg;
     }
+
     public void onPlayerJoined(GamePlayer gamePlayer) {
         final int needed = game.getInfo().getMinPlayerCount();
         final int players = game.getPlayers().size();
