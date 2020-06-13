@@ -80,6 +80,7 @@
     "name": "eyre",
     "itemNames": [
       "damagepotion",
+      "healpotion",
       "healpotion"
     ]
   },

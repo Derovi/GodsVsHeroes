@@ -1,10 +1,13 @@
 package by.dero.gvh.utils;
 
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -24,5 +27,6 @@ public class Stun implements Listener {
 
     public void stunPlayer(Player p, int latency) {
         players.put(p.getUniqueId(), Calendar.getInstance().getTimeInMillis() / 1000 + latency);
+        new PotionEffect(PotionEffectType.BLINDNESS, latency, 1).apply(p);
     }
 }
