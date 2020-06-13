@@ -7,6 +7,24 @@
       "arrowCycles": 100,
       "cycleDelay": 5,
       "material": "END_CRYSTAL",
+      "enchantments": [
+        {
+          "key": {
+            "namespace": "minecraft",
+            "key": "luck_of_the_sea"
+          },
+          "level": 7,
+          "visible": true
+        },
+        {
+          "key": {
+            "namespace": "minecraft",
+            "key": "flame"
+          },
+          "level": 4,
+          "visible": false
+        }
+      ],
       "displayName": "§cArrow Rain",
       "lore": [
         "§aУльтимативная. Используйте, чтобы начать дождь стрел",
