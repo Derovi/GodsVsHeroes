@@ -30,14 +30,19 @@ public class Lobby {
 
         timeLeftTeam = board.registerNewTeam("timeLeftTeam");
         timeLeftTeam.setSuffix("");
-        timeLeftTeam.setPrefix("§eWaiting for players");
+        updateWaiting();
         timeLeftTeam.addEntry("§b");
         obj.getScore("§b").setScore(1);
     }
 
     private void updatePlayerBoard() {
-        counterTeam.setPrefix("§aPreparing: §4" +
-                game.getPlayers().size() + "/" + game.getInfo().getMinPlayerCount());
+        String kek = "§aPreparing: §4" +
+                game.getPlayers().size() + "/" + game.getInfo().getMinPlayerCount();
+        counterTeam.setPrefix(kek.substring(1, 14) + kek.substring(15));
+    }
+    private void updateWaiting() {
+        String kek = "§eWaiting for players";
+        timeLeftTeam.setPrefix(kek.substring(1));
     }
 
     private boolean ready = false;
@@ -49,8 +54,8 @@ public class Lobby {
             @Override
             public void run() {
                 if (!ready) {
-                    timeLeftTeam.setPrefix("§eWaiting for players");
                     this.cancel();
+                    return;
                 }
                 if (showTime[showIndex] == timeLeft) {
                     PacketPlayOutTitle title = new PacketPlayOutTitle(
@@ -63,7 +68,7 @@ public class Lobby {
                     showIndex++;
                 }
                 timeLeft--;
-                timeLeftTeam.setPrefix("§bTime left : " + timeLeft);
+                timeLeftTeam.setPrefix("§bTime left : ".substring(1) + timeLeft);
 
                 if (timeLeft == 0) {
                     game.start();
@@ -76,9 +81,10 @@ public class Lobby {
     public void onPlayerJoined(GamePlayer gamePlayer) {
         final int needed = game.getInfo().getMinPlayerCount();
         final int players = game.getPlayers().size();
-        Bukkit.getServer().broadcastMessage("§aPlayer " +
+        Bukkit.getServer().broadcastMessage("§aPlayer ".substring(1) +
                 gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed);
-        updatePlayerBoard();
+        Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
+        { updatePlayerBoard(); updateWaiting();}, 5);
         gamePlayer.getPlayer().setScoreboard(board);
         if (players >= needed) {
             ready = true;
@@ -89,9 +95,11 @@ public class Lobby {
     public void onPlayerLeft(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size() - 1;
         final int need = game.getInfo().getMinPlayerCount();
-        Bukkit.getServer().broadcastMessage("§aPlayer " +
+        Bukkit.getServer().broadcastMessage("§aPlayer ".substring(1) +
                 gamePlayer.getPlayer().getName() + " left! " + players + '/' + need);
-        updatePlayerBoard();
+        Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
+        { updatePlayerBoard(); updateWaiting();}, 5);
+
         if (players < need) {
             ready = false;
         }
