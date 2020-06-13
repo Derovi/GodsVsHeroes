@@ -22,7 +22,9 @@ public class ItemDescription {
             JsonObject object = jsonElement.getAsJsonObject();
             result.setName(object.get("name").getAsString());
             result.setSlot(object.get("slot").getAsInt());
-            result.setInvisible(object.get("invisible").getAsBoolean());
+            if (object.has("invisible")) {
+                result.setInvisible(object.get("invisible").getAsBoolean());
+            }
             if (!data.getItemNameToInfo().containsKey(result.getName())) {
                 throw new JsonParseException("Name: " + result.getName() + " not found in data!");
             }

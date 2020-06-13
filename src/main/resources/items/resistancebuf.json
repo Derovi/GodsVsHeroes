@@ -1,0 +1,25 @@
+{
+  "name": "resistancebuf",
+  "slot": 0,
+  "invisible": true,
+  "levels": [
+    {
+      "material": "FEATHER",
+      "displayName": "",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "FEATHER",
+      "displayName": "",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "FEATHER",
+      "displayName": "",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

@@ -19,7 +19,9 @@ public class StunRocks extends Item implements InfiniteReplenishInterface, Proje
 
     @Override
     public void onProjectileHitEnemy(ProjectileHitEvent event) {
-        Plugin.getStunAPI().add(event.getHitEntity().getUniqueId(), duration);
+        if (event.getHitEntity() instanceof Player) {
+            Plugin.getStunAPI().stunPlayer((Player) event.getHitEntity(), duration);
+        }
     }
 
     @Override

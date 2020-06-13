@@ -29,7 +29,7 @@ public class PoisonPotion extends Item implements PlayerInteractInterface, Infin
         Entity at = event.getEntity();
         for (Entity ent : at.getNearbyEntities(radius, radius, radius)) {
             if (ent instanceof LivingEntity && ent.getLocation().distance(at.getLocation()) <= radius) {
-                new PotionEffect(PotionEffectType.POISON, latency, 2).apply((LivingEntity) ent);
+                new PotionEffect(PotionEffectType.POISON, latency, 1).apply((LivingEntity) ent);
             }
         }
     }

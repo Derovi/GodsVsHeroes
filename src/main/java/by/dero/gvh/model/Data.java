@@ -46,6 +46,10 @@ public class Data {
         registerItem("defaultboots", ItemInfo.class, Item.class);
         registerItem("defaultbow", ItemInfo.class, Item.class);
         registerItem("defaultarrow", ItemInfo.class, Item.class);
+        registerItem("speedbuf", ItemInfo.class, SpeedBuf.class);
+        registerItem("jumpingbuf", ItemInfo.class, JumpingBuf.class);
+        registerItem("resistancebuf", ItemInfo.class, ResistanceBuf.class);
+        registerItem("slowbuf", ItemInfo.class, SlowBuf.class);
     }
 
     public void load() {
