@@ -25,24 +25,24 @@ public class Lobby {
 
         counterTeam = board.registerNewTeam("counterTeam");
         counterTeam.setSuffix("");
-        counterTeam.addEntry("§a");
-        obj.getScore("§a").setScore(2);
+        counterTeam.addEntry("§a".substring(1));
+        obj.getScore("§a".substring(1)).setScore(2);
 
         timeLeftTeam = board.registerNewTeam("timeLeftTeam");
         timeLeftTeam.setSuffix("");
         updateWaiting();
-        timeLeftTeam.addEntry("§b");
-        obj.getScore("§b").setScore(1);
+        timeLeftTeam.addEntry("§b".substring(1));
+        obj.getScore("§b".substring(1)).setScore(1);
     }
 
     private void updatePlayerBoard() {
-        String kek = "§aPreparing: §4" +
-                game.getPlayers().size() + "/" + game.getInfo().getMinPlayerCount();
-        counterTeam.setPrefix(kek.substring(1, 14) + kek.substring(15));
+        String kek = getNormal("§aPreparing: §4" +
+                game.getPlayers().size() + "/" + game.getInfo().getMinPlayerCount());
+        counterTeam.setPrefix(kek);
     }
     private void updateWaiting() {
-        String kek = "§eWaiting for players";
-        timeLeftTeam.setPrefix(kek.substring(1));
+        String kek = getNormal("§eWaiting for players");
+        timeLeftTeam.setPrefix(kek);
     }
 
     private boolean ready = false;
@@ -78,11 +78,18 @@ public class Lobby {
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
     }
 
+    public String getNormal(String msg) {
+        int pos = msg.indexOf("§");
+        if (pos != -1) {
+            msg = msg.replace(msg.substring(pos, pos+1), "");
+        }
+        return msg;
+    }
     public void onPlayerJoined(GamePlayer gamePlayer) {
         final int needed = game.getInfo().getMinPlayerCount();
         final int players = game.getPlayers().size();
-        Bukkit.getServer().broadcastMessage("§aPlayer ".substring(1) +
-                gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed);
+        Bukkit.getServer().broadcastMessage(getNormal("§aPlayer " +
+                gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed));
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
         { updatePlayerBoard(); updateWaiting();}, 5);
         gamePlayer.getPlayer().setScoreboard(board);
@@ -95,8 +102,8 @@ public class Lobby {
     public void onPlayerLeft(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size() - 1;
         final int need = game.getInfo().getMinPlayerCount();
-        Bukkit.getServer().broadcastMessage("§aPlayer ".substring(1) +
-                gamePlayer.getPlayer().getName() + " left! " + players + '/' + need);
+        Bukkit.getServer().broadcastMessage(getNormal("§aPlayer " +
+                gamePlayer.getPlayer().getName() + " left! " + players + '/' + need));
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
         { updatePlayerBoard(); updateWaiting();}, 5);
 
