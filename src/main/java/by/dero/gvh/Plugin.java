@@ -10,6 +10,7 @@ import by.dero.gvh.game.Game;
 import by.dero.gvh.game.GameData;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
+import by.dero.gvh.model.PlayerData;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.utils.Stun;
 import com.questcraft.stunned.StunAPI.StunAPI;
@@ -23,6 +24,7 @@ public class Plugin extends JavaPlugin {
     private Data data;
     private Game game;
     private GameData gameData;
+    private PlayerData playerData;
 
     private CommandManager commandManager;
 
@@ -37,6 +39,7 @@ public class Plugin extends JavaPlugin {
         data.load();
         gameData = new GameData(new LocalStorage());
         gameData.load();
+        playerData = new PlayerData(new LocalStorage());
         System.out.println("n3 " + (gameData.getDeathMatchInfo() == null));
         game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
         game.prepare();
@@ -53,6 +56,14 @@ public class Plugin extends JavaPlugin {
         commandManager.getCommands().put("start", new StartCommand());
         commandManager.getCommands().put("finish", new FinishCommand());
         commandManager.getCommands().put("addspawnpoint", new AddSpawnPointCommand());
+    }
+
+    public GameData getGameData() {
+        return gameData;
+    }
+
+    public PlayerData getPlayerData() {
+        return playerData;
     }
 
     public static Plugin getInstance() {
