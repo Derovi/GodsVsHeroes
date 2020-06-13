@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-public abstract class Item {
+public class Item {
     private Player owner;
     private String name;
     private int level;
