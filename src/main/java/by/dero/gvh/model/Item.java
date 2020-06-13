@@ -4,6 +4,7 @@ import by.dero.gvh.Plugin;
 import org.apache.logging.log4j.core.util.JsonUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -35,6 +36,10 @@ public class Item {
         // add tag as last line of lore
         lore.add(Plugin.getInstance().getData().getItemNameToTag().get(name));
         itemMeta.setLore(lore);
+        itemMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+        itemMeta.addEnchant(Enchantment.DURABILITY, 10, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
