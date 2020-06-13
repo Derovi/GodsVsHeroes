@@ -111,6 +111,11 @@ public class PlayerEvents implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        if (!Plugin.getInstance().getPlayerData().isPlayerRegistered(event.getPlayer().getName())) {
+            Plugin.getInstance().getPlayerData().registerPlayer(event.getPlayer().getName());
+            // unlocking default class
+            Plugin.getInstance().getPlayerData().unlockClass(event.getPlayer().getName(), "default");
+        }
         Plugin.getInstance().getGame().addPlayer(event.getPlayer());
     }
 

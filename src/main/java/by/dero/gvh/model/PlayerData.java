@@ -2,7 +2,6 @@ package by.dero.gvh.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.bukkit.entity.Player;
 
 public class PlayerData {
     public PlayerData(StorageInterface storage) {
@@ -10,6 +9,16 @@ public class PlayerData {
     }
 
     private final StorageInterface storage;
+
+    public void registerPlayer(String playerName) {
+        try {
+            storage.save("players", playerName, new GsonBuilder().setPrettyPrinting().create().toJson(
+                    new PlayerInfo(playerName)
+            ));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public boolean isPlayerRegistered(String playerName) {
         return storage.exists("players", playerName);
