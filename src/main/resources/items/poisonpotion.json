@@ -1,0 +1,39 @@
+{
+  "name": "poisonpotion",
+  "slot": 0,
+  "levels": [
+    {
+      "radius": 4.0,
+      "latency": 4,
+      "material": "SPLASH_POTION",
+      "displayName": "§cPoison Potion",
+      "lore": [
+        "§aТравите своих врагов!",
+        "&6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "radius": 4.0,
+      "latency": 4,
+      "material": "SPLASH_POTION",
+      "displayName": "§cPoison Potion",
+      "lore": [
+        "§aТравите своих врагов!",
+        "&6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "radius": 4.0,
+      "latency": 4,
+      "material": "SPLASH_POTION",
+      "displayName": "§cPoison Potion",
+      "lore": [
+        "§aТравите своих врагов!",
+        "&6Уровень 1"
+      ],
+      "amount": 1
+    }
+  ]
+}

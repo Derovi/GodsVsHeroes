@@ -1,0 +1,24 @@
+{
+  "name": "defaultaxe",
+  "slot": 0,
+  "levels": [
+    {
+      "material": "WOODEN_AXE",
+      "displayName": "§cТопор",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "WOODEN_AXE",
+      "displayName": "§cТопор",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "WOODEN_AXE",
+      "displayName": "§cТопор",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

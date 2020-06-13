@@ -1,16 +1,16 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import org.apache.logging.log4j.core.util.JsonUtils;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
-public abstract class Item {
+public class Item {
     private Player owner;
     private String name;
     private int level;
@@ -26,11 +26,20 @@ public abstract class Item {
     public ItemStack getItemStack() {
         ItemStack itemStack = new ItemStack(getInfo().getMaterial(), getInfo().getAmount());
         ItemMeta itemMeta = itemStack.getItemMeta();
+        System.out.println(getInfo().getDisplayName() + " " + getInfo().getEnchantments().size());
+        for (ItemInfo.EnchantInfo enchantInfo : getInfo().getEnchantments()) {
+            System.out.println(enchantInfo.getKey().getKey());
+            itemMeta.addEnchant(Enchantment.getByKey(enchantInfo.getKey()), enchantInfo.getLevel(), enchantInfo.isVisible());
+        }
         itemMeta.setDisplayName(getInfo().getDisplayName());
         List<String> lore = getInfo().getLore();
         // add tag as last line of lore
         lore.add(Plugin.getInstance().getData().getItemNameToTag().get(name));
         itemMeta.setLore(lore);
+        itemMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+        itemMeta.addEnchant(Enchantment.DURABILITY, 10, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
@@ -49,8 +58,12 @@ public abstract class Item {
         return summonedEntityIds;
     }
 
+    public ItemDescription getDescription() {
+        return Plugin.getInstance().getData().getItemDescription(name);
+    }
+
     public ItemInfo getInfo() {
-        return Plugin.getInstance().getData().getItemDescription(name).getLevels().get(level);
+        return getDescription().getLevels().get(level);
     }
 
     public String getName() {

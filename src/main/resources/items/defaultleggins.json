@@ -1,0 +1,24 @@
+{
+  "name": "defaultleggins",
+  "slot": -3,
+  "levels": [
+    {
+      "material": "CHAINMAIL_LEGGINGS",
+      "displayName": "§cПонтолоны",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "CHAINMAIL_LEGGINGS",
+      "displayName": "§cПонтолоны",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "CHAINMAIL_LEGGINGS",
+      "displayName": "§cПонтолоны",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "defaultaxe",
+  "slot": 0,
+  "levels": [
+    {
+      "material": "WOODEN_SWORD",
+      "displayName": "§cМеч",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "WOODEN_SWORD",
+      "displayName": "§cМеч",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "WOODEN_SWORD",
+      "displayName": "§cМеч",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

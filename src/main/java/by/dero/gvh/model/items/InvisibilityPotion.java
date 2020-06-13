@@ -17,7 +17,7 @@ public class InvisibilityPotion extends Item implements PlayerInteractInterface 
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        new PotionEffect(PotionEffectType.INVISIBILITY, duration, 1).apply(event.getPlayer());
+        new PotionEffect(PotionEffectType.INVISIBILITY, duration, 0).apply(event.getPlayer());
         event.setCancelled(true);
     }
 }

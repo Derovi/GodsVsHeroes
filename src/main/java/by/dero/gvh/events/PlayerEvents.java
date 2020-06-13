@@ -12,6 +12,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -19,6 +20,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 public class PlayerEvents implements Listener {
 
@@ -92,13 +94,6 @@ public class PlayerEvents implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void destroyArrows(ProjectileHitEvent event) {
-        if (event.getEntity() instanceof Arrow) {
-            event.getEntity().remove();
-        }
-    }
-
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
         event.getDrops().clear();
@@ -110,12 +105,21 @@ public class PlayerEvents implements Listener {
     }
 
     @EventHandler
+    public void onHunger(FoodLevelChangeEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Plugin.getInstance().getGame().addPlayer(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        Plugin.getInstance().getGame().removePlayer(event.getPlayer().getName());
+        Player p = event.getPlayer();
+        for (PotionEffect pt : p.getActivePotionEffects()) {
+            p.removePotionEffect(pt.getType());
+        }
+        Plugin.getInstance().getGame().removePlayer(p.getName());
     }
 }

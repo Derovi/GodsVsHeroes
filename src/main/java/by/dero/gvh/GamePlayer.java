@@ -34,23 +34,26 @@ public class GamePlayer {
     }
 
     public void addItem(String name, int level) {
+
         try {
             Item item = (Item) Plugin.getInstance().getData().getItemNameToClass().
                     get(name).getConstructor(String.class, int.class, Player.class).newInstance(name, level, player);
             items.put(name, item);
-            int slot = Plugin.getInstance().getData().getItems().get(item.getName()).getSlot();
-            if (slot > 0) {
-                player.getInventory().setItem(slot, item.getItemStack());
-            } else if (slot == -1) {
-                player.getInventory().setHelmet(item.getItemStack());
-            } else if (slot == -2) {
-                player.getInventory().setChestplate(item.getItemStack());
-            } else if (slot == -3) {
-                player.getInventory().setLeggings(item.getItemStack());
-            } else if (slot == -4) {
-                player.getInventory().setBoots(item.getItemStack());
-            } else {
-                player.getInventory().addItem(item.getItemStack());
+            if (!item.getDescription().isInvisible()) {
+                int slot = Plugin.getInstance().getData().getItems().get(item.getName()).getSlot();
+                if (slot > 0) {
+                    player.getInventory().setItem(slot, item.getItemStack());
+                } else if (slot == -1) {
+                    player.getInventory().setHelmet(item.getItemStack());
+                } else if (slot == -2) {
+                    player.getInventory().setChestplate(item.getItemStack());
+                } else if (slot == -3) {
+                    player.getInventory().setLeggings(item.getItemStack());
+                } else if (slot == -4) {
+                    player.getInventory().setBoots(item.getItemStack());
+                } else {
+                    player.getInventory().addItem(item.getItemStack());
+                }
             }
         } catch (Exception ex) {
             System.err.println("Can't add item! " + name + ":" + String.valueOf(level) + " to " + getPlayer().getName());
