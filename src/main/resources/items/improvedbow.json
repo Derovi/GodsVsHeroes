@@ -1,0 +1,33 @@
+{
+  "name": "improvedbow",
+  "slot": 0,
+  "levels": [
+    {
+      "damage": 0,
+      "material": "BOW",
+      "displayName": "§cЛук",
+      "lore": [
+        "&6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "damage": 0,
+      "material": "BOW",
+      "displayName": "§cЛук",
+      "lore": [
+        "&6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "damage": 0,
+      "material": "BOW",
+      "displayName": "§cЛук",
+      "lore": [
+        "&6Уровень 3"
+      ],
+      "amount": 1
+    }
+  ]
+}

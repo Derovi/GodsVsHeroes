@@ -1,0 +1,24 @@
+{
+  "name": "defaultboots",
+  "slot": -4,
+  "levels": [
+    {
+      "material": "CHAINMAIL_BOOTS",
+      "displayName": "§cСандали",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "CHAINMAIL_BOOTS",
+      "displayName": "§cСандали",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "CHAINMAIL_BOOTS",
+      "displayName": "§cСандали",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "defaultarrow",
+  "slot": 0,
+  "levels": [
+    {
+      "material": "ARROW",
+      "displayName": "§cСтрела",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

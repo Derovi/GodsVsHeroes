@@ -1,0 +1,24 @@
+{
+  "name": "defaultbow",
+  "slot": 0,
+  "levels": [
+    {
+      "material": "BOW",
+      "displayName": "§cЛук",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "BOW",
+      "displayName": "§cЛук",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "BOW",
+      "displayName": "§cЛук",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

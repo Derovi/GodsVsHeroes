@@ -1,0 +1,24 @@
+{
+  "name": "defaultchestplate",
+  "slot": -2,
+  "levels": [
+    {
+      "material": "CHAINMAIL_CHESTPLATE",
+      "displayName": "§cНагрудник",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "CHAINMAIL_CHESTPLATE",
+      "displayName": "§cНагрудник",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "CHAINMAIL_CHESTPLATE",
+      "displayName": "§cНагрудник",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

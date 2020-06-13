@@ -1,0 +1,24 @@
+{
+  "name": "defaulthelmet",
+  "slot": -1,
+  "levels": [
+    {
+      "material": "CHAINMAIL_HELMET",
+      "displayName": "§cШлем",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "CHAINMAIL_HELMET",
+      "displayName": "§cШлем",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "material": "CHAINMAIL_HELMET",
+      "displayName": "§cШлем",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}
