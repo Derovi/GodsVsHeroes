@@ -12,7 +12,7 @@ public class MessagingUtils {
     }
 
     public static void sendCooldownMessage(Player player, String itemName, long time) {
-        player.sendMessage(getNormal(("§Reloading. Wait §6%time%§c seconds to use §6%itemname%§c!").
+        player.sendMessage(getNormal(("§cReloading. Wait §6%time%§c seconds to use §6%itemname%§c!").
                 replace("%itemname%", itemName).replace("%time%", String.valueOf(time))));
     }
 }
