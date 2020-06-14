@@ -47,7 +47,6 @@ public class Lobby {
             @Override
             public void run() {
                 if (!ready) {
-                    startGame();
                     this.cancel();
                     return;
                 }
