@@ -24,7 +24,7 @@ public class Cooldown {
 
     public boolean isReady() {
         long currentTime = System.currentTimeMillis();
-        return startTime + duration * 1000 >= currentTime;
+        return startTime + duration * 1000 < currentTime;
     }
 
     public long getStartTime() {
