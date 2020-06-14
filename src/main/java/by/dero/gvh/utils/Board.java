@@ -25,18 +25,10 @@ public class Board {
         teams = new Team[size];
         for (int i = 0; i < size; i++) {
             teams[i] = scoreboard.registerNewTeam("" + i);
-            String x = getNormal("§" + (char)('a' + i));
+            String x = MessagingUtils.getNormal("§" + (char)('a' + i));
             teams[i].addEntry(x);
             obj.getScore(x).setScore(size-i);
         }
-    }
-
-    public static String getNormal(String msg) {
-        int pos = msg.indexOf("§");
-        if (pos != -1) {
-            msg = msg.replace(msg.substring(pos, pos+1), "");
-        }
-        return msg;
     }
 
     public void update(String[] strings, int[] vars) {
@@ -47,7 +39,7 @@ public class Board {
             for (int j = pref; j < pref + len; j++) {
                 cur[j-pref] = vars[j];
             }
-            teams[i].setPrefix(getNormal(String.format(strings[i], cur)));
+            teams[i].setPrefix(MessagingUtils.getNormal(String.format(strings[i], cur)));
             pref += len;
         }
     }
