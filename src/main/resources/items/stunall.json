@@ -1,0 +1,39 @@
+{
+  "name": "stunall",
+  "slot": 0,
+  "levels": [
+    {
+      "radius": 4.0,
+      "latency": 4,
+      "material": "NETHER_STAR",
+      "displayName": "§cStun!!!",
+      "lore": [
+        "§aОбездвижьте и ослепите врагов !",
+        "&6Уровень 1"
+      ],
+      "amount": 64
+    },
+    {
+      "radius": 4.0,
+      "latency": 4,
+      "material": "NETHER_STAR",
+      "displayName": "§cStun!!!",
+      "lore": [
+        "§aОбездвижьте и ослепите врагов !",
+        "&6Уровень 2"
+      ],
+      "amount": 64
+    },
+    {
+      "radius": 4.0,
+      "latency": 4,
+      "material": "NETHER_STAR",
+      "displayName": "§cStun!!!",
+      "lore": [
+        "§aОбездвижьте и ослепите врагов !",
+        "&6Уровень 3"
+      ],
+      "amount": 64
+    }
+  ]
+}
