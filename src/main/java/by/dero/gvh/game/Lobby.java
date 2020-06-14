@@ -35,12 +35,19 @@ public class Lobby {
     private final int[] showTime = {60, 45, 30, 15, 10, 5, 4, 3, 2, 1};
 
     public void startGame() {
+        timeLeft = 60;
+        showIndex = 0;
+        ready = false;
+        sendTitle(ChatColor.GREEN + "Game Started", game.getPlayers().values());
+        game.start();
+    }
+
+    public void startPrepairing() {
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (!ready) {
-                    timeLeft = 60;
-                    showIndex = 0;
+                    startGame();
                     this.cancel();
                     return;
                 }
@@ -51,8 +58,7 @@ public class Lobby {
                 timeLeft--;
 
                 if (timeLeft == 0) {
-                    sendTitle(ChatColor.GREEN + "Game Started", game.getPlayers().values());
-                    game.start();
+                    startGame();
                     this.cancel();
                 }
             }
@@ -67,7 +73,7 @@ public class Lobby {
         gamePlayer.getPlayer().setScoreboard(board.getScoreboard());
         if (players >= needed && !ready) {
             ready = true;
-            this.startGame();
+            startPrepairing();
         }
         if (players >= game.getInfo().getMaxPlayerCount()) {
             timeLeft = 10;
