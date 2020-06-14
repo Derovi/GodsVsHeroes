@@ -6,6 +6,7 @@
       "radius": 20.0,
       "arrowCycles": 10,
       "cycleDelay": 10,
+      "cooldown": 10,
       "material": "END_CRYSTAL",
       "enchantments": [
         {
@@ -48,6 +49,7 @@
       "radius": 20.0,
       "arrowCycles": 100,
       "cycleDelay": 5,
+      "cooldown": 7
       "material": "END_CRYSTAL",
       "displayName": "§cArrow Rain",
       "lore": [

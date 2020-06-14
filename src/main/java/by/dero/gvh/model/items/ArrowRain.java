@@ -1,10 +1,12 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.ArrowRainInfo;
+import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
@@ -25,6 +27,7 @@ public class ArrowRain extends Item implements UltimateInterface {
     private final int cycleDelay;
     private final double height = 10;
     private final HashSet<Arrow> arrows = new HashSet<>();
+    private final Cooldown cooldown;
 
     public ArrowRain(String name, int level, Player owner) {
         super(name, level, owner);
@@ -32,6 +35,8 @@ public class ArrowRain extends Item implements UltimateInterface {
         radius = info.getRadius();
         arrowCycles = info.getArrowCycles();
         cycleDelay = info.getCycleDelay();
+        cooldown = new Cooldown(info.getCooldown());
+        cooldown.makeReady();
     }
 
     @Override
@@ -43,7 +48,11 @@ public class ArrowRain extends Item implements UltimateInterface {
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-
+        if (!cooldown.isReady()) {
+            MessagingUtils.sendCooldownMessage(player, "Arrow Rain", cooldown.getSecondsRemaining());
+            return;
+        }
+        cooldown.reload();
         new BukkitRunnable() {
             int times = 0;
             final Location center = player.getLocation().clone().add(0, height, 0);

@@ -7,8 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-import static by.dero.gvh.utils.Board.getNormal;
-
 public class DeathMatch extends Game {
     private final DeathMatchInfo deathMatchInfo;
 

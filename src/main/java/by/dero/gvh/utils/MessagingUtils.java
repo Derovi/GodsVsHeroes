@@ -11,7 +11,7 @@ public class MessagingUtils {
         return msg;
     }
 
-    public static void sendCooldownMessage(Player player, String itemName, int time) {
+    public static void sendCooldownMessage(Player player, String itemName, long time) {
         player.sendMessage(getNormal(("§cПерезарядка. Чтобы использовать предмет §6%itemname%§c подождите еще " +
                 "§6%time%§c секунд.").
                 replace("itemname", itemName).replace("%time%", String.valueOf(time))));

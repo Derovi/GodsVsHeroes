@@ -3,11 +3,11 @@ package by.dero.gvh.game;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import static by.dero.gvh.utils.Board.getNormal;
 import static by.dero.gvh.utils.Board.sendTitle;
 
 public class Lobby {
@@ -67,7 +67,7 @@ public class Lobby {
     public void onPlayerJoined(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size();
         final int needed = game.getInfo().getMinPlayerCount();
-        Bukkit.getServer().broadcastMessage(getNormal("§aPlayer " +
+        Bukkit.getServer().broadcastMessage(MessagingUtils.getNormal("§aPlayer " +
                 gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed));
         gamePlayer.getPlayer().setScoreboard(board.getScoreboard());
         if (players >= needed && !ready) {
@@ -82,7 +82,7 @@ public class Lobby {
     public void onPlayerLeft(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size() - 1;
         final int need = game.getInfo().getMinPlayerCount();
-        Bukkit.getServer().broadcastMessage(getNormal("§aPlayer " +
+        Bukkit.getServer().broadcastMessage(MessagingUtils.getNormal("§aPlayer " +
                 gamePlayer.getPlayer().getName() + " left! " + players + '/' + need));
 
         if (players < need) {

@@ -10,11 +10,19 @@ public class Cooldown {
         this.startTime = System.currentTimeMillis();
     }
 
-    private long getSecondsRemaining() {
+    public long getSecondsRemaining() {
         return duration - (System.currentTimeMillis() - startTime) / 1000;
     }
 
-    boolean isReady() {
+    public void makeReady() {
+        startTime = 0;
+    }
+
+    public void reload() {
+        startTime = System.currentTimeMillis();
+    }
+
+    public boolean isReady() {
         long currentTime = System.currentTimeMillis();
         return startTime + duration * 1000 >= currentTime;
     }

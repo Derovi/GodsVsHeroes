@@ -8,7 +8,9 @@ public class ArrowRainInfo extends ItemInfo {
     private int cycleDelay = 5;
     private int cooldown = 5;
 
-
+    public int getCooldown() {
+        return cooldown;
+    }
 
     public int getArrowCycles() {
         return arrowCycles;
