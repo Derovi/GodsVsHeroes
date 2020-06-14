@@ -49,7 +49,7 @@
       "radius": 20.0,
       "arrowCycles": 100,
       "cycleDelay": 5,
-      "cooldown": 7
+      "cooldown": 7,
       "material": "END_CRYSTAL",
       "displayName": "§cArrow Rain",
       "lore": [

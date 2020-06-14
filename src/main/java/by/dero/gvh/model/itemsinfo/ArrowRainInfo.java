@@ -12,6 +12,10 @@ public class ArrowRainInfo extends ItemInfo {
         return cooldown;
     }
 
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
+    }
+
     public int getArrowCycles() {
         return arrowCycles;
     }
