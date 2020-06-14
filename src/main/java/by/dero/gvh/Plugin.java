@@ -12,7 +12,6 @@ import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.utils.Stun;
-import com.questcraft.stunned.StunAPI.StunAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

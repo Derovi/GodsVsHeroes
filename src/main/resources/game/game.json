@@ -2,7 +2,7 @@
   "world": "World",
   "teamCount": 2,
   "minPlayerCount": 2,
-  "maxPlayerCount": 24,
+  "maxPlayerCount": 3,
   "respawnTime": 10,
   "lobbyPosition": {
     "x": 300,
