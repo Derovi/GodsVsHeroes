@@ -1,9 +1,9 @@
 {
   "name": "doublejump",
+  "invisible": true,
   "slot": 0,
   "levels": [
     {
-      "invisible": true,
       "material": "FEATHER",
       "displayName": "",
       "lore": [],

@@ -5,6 +5,7 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.StunAllInfo;
+import by.dero.gvh.utils.Stun;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -42,7 +43,7 @@ public class StunAll extends Item implements UltimateInterface {
             if (ot != p &&
                     ot instanceof LivingEntity &&
                     p.getLocation().distance(ot.getLocation()) < radius) {
-                Plugin.getStunAPI().stunPlayer((LivingEntity)ot, latency);
+                Stun.stunPlayer((LivingEntity)ot, latency);
             }
         }
     }

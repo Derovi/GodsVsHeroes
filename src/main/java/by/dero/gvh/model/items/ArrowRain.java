@@ -21,6 +21,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
+
 public class ArrowRain extends Item implements UltimateInterface {
     private final double radius;
     private final int arrowCycles;
@@ -49,7 +51,7 @@ public class ArrowRain extends Item implements UltimateInterface {
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (!cooldown.isReady()) {
-            MessagingUtils.sendCooldownMessage(player, "Arrow Rain", cooldown.getSecondsRemaining());
+            sendCooldownMessage(player, "Arrow Rain", cooldown.getSecondsRemaining());
             return;
         }
         cooldown.reload();
