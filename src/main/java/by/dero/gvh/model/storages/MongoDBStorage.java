@@ -29,7 +29,6 @@ public class MongoDBStorage implements StorageInterface {
     public void save(String collection, String name, String object) throws IOException {
         BasicDBObject dbObject = BasicDBObject.parse(object);
         dbObject.put("_id", name);
-        System.out.println("save: " + dbObject.toJson());
         database.getCollection(collection).insertOne(new Document(dbObject));
     }
 
@@ -38,10 +37,8 @@ public class MongoDBStorage implements StorageInterface {
         Document document = database.getCollection(collection).find(
                 Filters.eq("_id", name)).first();
         if (document == null) {
-            System.out.println("load: null");
             return null;
         }
-        System.out.println("load: " + document.toJson());
         return document.toJson();
     }
 
@@ -50,11 +47,6 @@ public class MongoDBStorage implements StorageInterface {
         Document document = database.getCollection(collection).find(
                 Filters.eq("_id", name)).first();
         return document != null;
-    }
-
-    private ObjectId getIdByName(String name) {
-        System.out.println("HexString: " + Integer.toHexString(Math.abs(name.hashCode())));
-        return new ObjectId(Integer.toHexString(Math.abs(name.hashCode())));
     }
 
     public MongoClient getClient() {

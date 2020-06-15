@@ -10,12 +10,15 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Data {
     public Data(StorageInterface storageInterface) {
         this.storageInterface = storageInterface;
         registerItems();
+        registerClasses();
     }
 
     private void registerItems() {
@@ -54,6 +57,20 @@ public class Data {
         registerItem("healall", HealAllInfo.class, HealAll.class);
     }
 
+    private void registerClasses() {
+        registerClass("alchemist");
+        registerClass("archer");
+        registerClass("default");
+        registerClass("eyre");
+        registerClass("heimdall");
+        registerClass("loki");
+        registerClass("mercenary");
+        registerClass("odin");
+        registerClass("paladin");
+        registerClass("scout");
+        registerClass("ull");
+    }
+
     public void load() {
         //load items
         try {
@@ -71,17 +88,19 @@ public class Data {
         }
         //load unit classes
         try {
-            for (String className : classNameToDescription.keySet()) {
+            Set<String> classNames = new HashSet<>(classNameToDescription.keySet());
+            for (String className : classNames) {
                 if (!storageInterface.exists("classes", className)) {
                     storageInterface.save("classes", className, ResourceUtils.readResourceFile("/classes/" + className + ".json"));
                 }
                 String classJson = storageInterface.load("classes", className);
                 Gson gson = new Gson();
-                classNameToDescription.put(classJson, gson.fromJson(classJson, UnitClassDescription.class));
+                classNameToDescription.put(className, gson.fromJson(classJson, UnitClassDescription.class));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        System.out.println("Data loaded!");
     }
 
     public void registerItem(String name, Class infoClass, Class<?> itemClass) {
