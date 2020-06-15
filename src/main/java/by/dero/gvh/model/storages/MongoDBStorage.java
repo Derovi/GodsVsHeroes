@@ -6,7 +6,9 @@ import com.mongodb.DBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import java.io.IOException;
 
@@ -25,18 +27,32 @@ public class MongoDBStorage implements StorageInterface {
 
     @Override
     public void save(String collection, String name, String object) throws IOException {
+        ObjectId id = new ObjectId(Integer.toHexString(name.hashCode()));
         BasicDBObject dbObject = BasicDBObject.parse(object);
+        dbObject.put("_id", id);
+        System.out.println("save: " + dbObject.toJson());
         database.getCollection(collection).insertOne(new Document(dbObject));
     }
 
     @Override
     public String load(String collection, String name) {
-        return null;
+        ObjectId id = new ObjectId(Integer.toHexString(name.hashCode()));
+        Document document = database.getCollection(collection).find(
+                Filters.eq("_id", id)).first();
+        if (document == null) {
+            System.out.println("load: null");
+            return null;
+        }
+        System.out.println("load: " + document.toJson());
+        return document.toJson();
     }
 
     @Override
     public boolean exists(String collection, String name) {
-        return false;
+        ObjectId id = new ObjectId(Integer.toHexString(name.hashCode()));
+        Document document = database.getCollection(collection).find(
+                Filters.eq("_id", id)).first();
+        return document != null;
     }
 
     public MongoClient getClient() {
