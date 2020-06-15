@@ -9,11 +9,10 @@ import by.dero.gvh.game.DeathMatch;
 import by.dero.gvh.game.Game;
 import by.dero.gvh.game.GameData;
 import by.dero.gvh.model.Data;
-import by.dero.gvh.model.LocalStorage;
+import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.PlayerData;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.utils.Stun;
-import com.questcraft.stunned.StunAPI.StunAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
