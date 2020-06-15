@@ -19,7 +19,7 @@ public abstract class Game implements Listener {
         this.info = info;
     }
 
-    private Lobby lobby;
+    private GameLobby lobby;
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
@@ -69,7 +69,7 @@ public abstract class Game implements Listener {
 
     public void prepare() {
         load();
-        lobby = new Lobby(this);
+        lobby = new GameLobby(this);
         state = State.WAITING;
     }
 
@@ -130,7 +130,7 @@ public abstract class Game implements Listener {
         player.getPlayer().setScoreboard(board.getScoreboard());
     }
 
-    public Lobby getLobby() {
+    public GameLobby getLobby() {
         return lobby;
     }
 

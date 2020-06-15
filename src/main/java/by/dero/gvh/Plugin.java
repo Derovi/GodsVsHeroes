@@ -1,5 +1,6 @@
 package by.dero.gvh;
 
+import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.PlayerData;
@@ -42,7 +43,11 @@ public class Plugin extends JavaPlugin {
                     settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase());
         }
         playerData = new PlayerData(playerDataStorage);
-        pluginMode = new Minigame();
+        if (settings.getMode() == "minigame") {
+            pluginMode = new Minigame();
+        } else {
+            pluginMode = new Lobby();
+        }
         pluginMode.onEnable();
     }
 

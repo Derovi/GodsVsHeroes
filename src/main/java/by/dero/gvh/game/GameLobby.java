@@ -10,13 +10,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import static by.dero.gvh.utils.Board.sendTitle;
 
-public class Lobby {
+public class GameLobby {
     private final Game game;
     private final Board board;
     private int timeLeft = 60;
     private int showIndex = 0;
 
-    public Lobby(Game game) {
+    public GameLobby(Game game) {
         this.game = game;
         board = new Board("Lobby", 2);
         Bukkit.getServer().getScheduler().runTaskTimer(Plugin.getInstance(), ()->

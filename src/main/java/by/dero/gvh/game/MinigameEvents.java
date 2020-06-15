@@ -1,4 +1,4 @@
-package by.dero.gvh.events;
+package by.dero.gvh.game;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Minigame;
@@ -7,11 +7,9 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import org.bukkit.Bukkit;
 import by.dero.gvh.model.interfaces.*;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;

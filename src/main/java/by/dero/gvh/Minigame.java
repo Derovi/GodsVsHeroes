@@ -1,10 +1,10 @@
 package by.dero.gvh;
 
-import by.dero.gvh.commands.AddSpawnPointCommand;
-import by.dero.gvh.commands.FinishCommand;
-import by.dero.gvh.commands.SelectCommand;
-import by.dero.gvh.commands.StartCommand;
-import by.dero.gvh.events.MinigameEvents;
+import by.dero.gvh.game.commands.AddSpawnPointCommand;
+import by.dero.gvh.game.commands.FinishCommand;
+import by.dero.gvh.game.commands.SelectCommand;
+import by.dero.gvh.game.commands.StartCommand;
+import by.dero.gvh.game.MinigameEvents;
 import by.dero.gvh.game.DeathMatch;
 import by.dero.gvh.game.Game;
 import by.dero.gvh.game.GameData;

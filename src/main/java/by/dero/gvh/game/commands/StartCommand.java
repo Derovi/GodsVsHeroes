@@ -1,4 +1,4 @@
-package by.dero.gvh.commands;
+package by.dero.gvh.game.commands;
 
 import by.dero.gvh.Minigame;
 import by.dero.gvh.PluginCommand;

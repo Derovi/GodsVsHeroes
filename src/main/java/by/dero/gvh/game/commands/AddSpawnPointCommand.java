@@ -1,7 +1,6 @@
-package by.dero.gvh.commands;
+package by.dero.gvh.game.commands;
 
 import by.dero.gvh.Minigame;
-import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginCommand;
 import by.dero.gvh.game.Position;
 import by.dero.gvh.model.storages.LocalStorage;
