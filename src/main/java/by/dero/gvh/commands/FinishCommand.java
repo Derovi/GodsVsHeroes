@@ -9,7 +9,7 @@ public class FinishCommand implements PluginCommand {
     @Override
     public void execute(CommandSender sender, String[] arguments) {
         if (Plugin.getInstance().getGame().getState() == Game.State.WAITING) {
-            sender.sendMessage("§cCan't start game, not started yet!");
+            sender.sendMessage("§cCan't finish game, not started yet!");
             return;
         }
         if (Plugin.getInstance().getGame().getState() == Game.State.PREPARING) {
