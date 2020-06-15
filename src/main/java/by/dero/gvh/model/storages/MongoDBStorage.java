@@ -27,7 +27,7 @@ public class MongoDBStorage implements StorageInterface {
 
     @Override
     public void save(String collection, String name, String object) throws IOException {
-        ObjectId id = new ObjectId(Integer.toHexString(name.hashCode()));
+        ObjectId id = getIdByName(name);
         BasicDBObject dbObject = BasicDBObject.parse(object);
         dbObject.put("_id", id);
         System.out.println("save: " + dbObject.toJson());
@@ -36,7 +36,7 @@ public class MongoDBStorage implements StorageInterface {
 
     @Override
     public String load(String collection, String name) {
-        ObjectId id = new ObjectId(Integer.toHexString(name.hashCode()));
+        ObjectId id = getIdByName(name);
         Document document = database.getCollection(collection).find(
                 Filters.eq("_id", id)).first();
         if (document == null) {
@@ -49,10 +49,15 @@ public class MongoDBStorage implements StorageInterface {
 
     @Override
     public boolean exists(String collection, String name) {
-        ObjectId id = new ObjectId(Integer.toHexString(name.hashCode()));
+        ObjectId id = getIdByName(name);
         Document document = database.getCollection(collection).find(
                 Filters.eq("_id", id)).first();
         return document != null;
+    }
+
+    private ObjectId getIdByName(String name) {
+        System.out.println("HexString: " + Integer.toHexString(Math.abs(name.hashCode())));
+        return new ObjectId(Integer.toHexString(Math.abs(name.hashCode())));
     }
 
     public MongoClient getClient() {
