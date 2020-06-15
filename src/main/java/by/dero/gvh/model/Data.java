@@ -50,6 +50,9 @@ public class Data {
         registerItem("jumpingbuf", ItemInfo.class, JumpingBuf.class);
         registerItem("resistancebuf", ItemInfo.class, ResistanceBuf.class);
         registerItem("slowbuf", ItemInfo.class, SlowBuf.class);
+        registerItem("stunall", StunAllInfo.class, StunAll.class);
+        registerItem("doublejump", ItemInfo.class, DoubleJump.class);
+        registerItem("healall", HealAllInfo.class, HealAll.class);
     }
 
     public void load() {

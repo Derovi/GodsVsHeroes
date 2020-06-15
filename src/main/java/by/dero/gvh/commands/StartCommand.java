@@ -3,6 +3,7 @@ package by.dero.gvh.commands;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginCommand;
 import by.dero.gvh.game.Game;
+import by.dero.gvh.game.Lobby;
 import org.bukkit.command.CommandSender;
 
 public class StartCommand implements PluginCommand {
@@ -17,6 +18,7 @@ public class StartCommand implements PluginCommand {
             return;
         }
         Plugin.getInstance().getGame().getLobby().startGame();
+
     }
 
     @Override
