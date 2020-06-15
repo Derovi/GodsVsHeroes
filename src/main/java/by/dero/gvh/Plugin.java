@@ -12,6 +12,7 @@ import by.dero.gvh.model.Data;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.PlayerData;
 import by.dero.gvh.model.StorageInterface;
+import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.utils.Stun;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,7 +35,8 @@ public class Plugin extends JavaPlugin {
         stunAPI = new Stun();
         registerEvents();
         registerCommands();
-        data = new Data(new LocalStorage());
+        data = new Data(new MongoDBStorage("mongodb://minigame:ORg3.47gZ51@79.174.13.142:27017/?authSource=admin",
+                "gvh"));
         data.load();
         gameData = new GameData(new LocalStorage());
         gameData.load();
