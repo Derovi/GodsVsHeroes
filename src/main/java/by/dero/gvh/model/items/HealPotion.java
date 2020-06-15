@@ -5,6 +5,7 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.HealPotionInfo;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -26,7 +27,8 @@ public class HealPotion extends Item implements ProjectileHitInterface, Infinite
         Entity at = event.getEntity();
         for (Entity ent : at.getNearbyEntities(radius, radius, radius)) {
             if (ent instanceof Player && ent.getLocation().distance(at.getLocation()) <= radius) {
-                double hp = Math.min(((Player) ent).getHealth() + heal, 20);
+                double hp = Math.min(((Player) ent).getHealth() + heal,
+                        ((Player) ent).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 ((Player) ent).setHealth(hp);
             }
         }

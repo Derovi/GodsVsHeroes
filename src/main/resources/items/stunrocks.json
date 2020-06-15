@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "duration": 1,
+      "duration": 40,
       "material": "SNOWBALL",
       "displayName": "§cStun Rocks",
       "lore": [
@@ -13,7 +13,7 @@
       "amount": 1
     },
     {
-      "duration": 1,
+      "duration": 40,
       "material": "SNOWBALL",
       "displayName": "§cStun Rocks",
       "lore": [
@@ -23,7 +23,7 @@
       "amount": 1
     },
     {
-      "duration": 1,
+      "duration": 40,
       "material": "SNOWBALL",
       "displayName": "§cStun Rocks",
       "lore": [

@@ -12,13 +12,11 @@ import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.utils.Stun;
-import com.questcraft.stunned.StunAPI.StunAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Plugin extends JavaPlugin {
     private static Plugin instance;
-    private static Stun stunAPI;
     private StorageInterface storage;
     private Data data;
     private Game game;
@@ -30,7 +28,6 @@ public class Plugin extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
         instance = this;
-        stunAPI = new Stun();
         registerEvents();
         registerCommands();
         data = new Data(new LocalStorage());
@@ -57,10 +54,6 @@ public class Plugin extends JavaPlugin {
 
     public static Plugin getInstance() {
         return instance;
-    }
-
-    public static Stun getStunAPI() {
-        return stunAPI;
     }
 
     public Data getData() {

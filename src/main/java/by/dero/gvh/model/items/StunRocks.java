@@ -6,6 +6,7 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.StunRocksInfo;
+import by.dero.gvh.utils.Stun;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -20,7 +21,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface, Proje
     @Override
     public void onProjectileHitEnemy(ProjectileHitEvent event) {
         if (event.getHitEntity() instanceof Player) {
-            Plugin.getStunAPI().stunPlayer((Player) event.getHitEntity(), duration);
+            Stun.stunPlayer((Player) event.getHitEntity(), duration);
         }
     }
 
