@@ -1,5 +1,6 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.Minigame;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginCommand;
 import by.dero.gvh.game.Game;
@@ -8,11 +9,11 @@ import org.bukkit.command.CommandSender;
 public class FinishCommand implements PluginCommand {
     @Override
     public void execute(CommandSender sender, String[] arguments) {
-        if (Plugin.getInstance().getGame().getState() == Game.State.WAITING) {
-            sender.sendMessage("§cCan't start game, not started yet!");
+        if (Minigame.getInstance().getGame().getState() == Game.State.WAITING) {
+            sender.sendMessage("§cCan't finish game, not started yet!");
             return;
         }
-        if (Plugin.getInstance().getGame().getState() == Game.State.PREPARING) {
+        if (Minigame.getInstance().getGame().getState() == Game.State.PREPARING) {
             sender.sendMessage("§cCan't finish game, not prepared yet!");
             return;
         }
@@ -23,7 +24,7 @@ public class FinishCommand implements PluginCommand {
             sender.sendMessage("§cInvalid arguments!");
             return;
         }
-        Plugin.getInstance().getGame().finish(winnerTeam);
+        Minigame.getInstance().getGame().finish(winnerTeam);
     }
 
     @Override

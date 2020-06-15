@@ -8,15 +8,17 @@ import by.dero.gvh.model.itemsinfo.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import org.bukkit.Material;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Data {
     public Data(StorageInterface storageInterface) {
         this.storageInterface = storageInterface;
         registerItems();
+        registerClasses();
     }
 
     private void registerItems() {
@@ -56,6 +58,20 @@ public class Data {
         registerItem("grenade", GrenadeInfo.class, Grenade.class);
     }
 
+    private void registerClasses() {
+        registerClass("alchemist");
+        registerClass("archer");
+        registerClass("default");
+        registerClass("eyre");
+        registerClass("heimdall");
+        registerClass("loki");
+        registerClass("mercenary");
+        registerClass("odin");
+        registerClass("paladin");
+        registerClass("scout");
+        registerClass("ull");
+    }
+
     public void load() {
         //load items
         try {
@@ -73,17 +89,19 @@ public class Data {
         }
         //load unit classes
         try {
-            if (!storageInterface.exists("data", "classes")) {
-                storageInterface.save("data", "classes", ResourceUtils.readResourceFile("/classes.json"));
-            }
-            List<UnitClassDescription> unitList = new Gson().fromJson(storageInterface.load("data", "classes"),
-                    new TypeToken<List<UnitClassDescription>>() {}.getType());
-            for (UnitClassDescription description : unitList) {
-                units.put(description.getName(), description);
+            Set<String> classNames = new HashSet<>(classNameToDescription.keySet());
+            for (String className : classNames) {
+                if (!storageInterface.exists("classes", className)) {
+                    storageInterface.save("classes", className, ResourceUtils.readResourceFile("/classes/" + className + ".json"));
+                }
+                String classJson = storageInterface.load("classes", className);
+                Gson gson = new Gson();
+                classNameToDescription.put(className, gson.fromJson(classJson, UnitClassDescription.class));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        System.out.println("Data loaded!");
     }
 
     public void registerItem(String name, Class infoClass, Class<?> itemClass) {
@@ -94,9 +112,13 @@ public class Data {
         tagToItemName.put(tag, name);
     }
 
+    public void registerClass(String name) {
+        classNameToDescription.put(name, null);
+    }
+
     private final StorageInterface storageInterface;
 
-    private final HashMap<String, UnitClassDescription> units = new HashMap<>();
+    private final HashMap<String, UnitClassDescription> classNameToDescription = new HashMap<>();
 
     private HashMap<String, ItemDescription> items = new HashMap<>();
     private final HashMap<String, Class<?>> itemNameToInfo = new HashMap<>();
@@ -104,8 +126,8 @@ public class Data {
     private final HashMap<String, String> itemNameToTag = new HashMap<>();
     private final HashMap<String, String> tagToItemName = new HashMap<>();
 
-    public HashMap<String, UnitClassDescription> getUnits() {
-        return units;
+    public HashMap<String, UnitClassDescription> getClassNameToDescription() {
+        return classNameToDescription;
     }
 
     public HashMap<String, String> getItemNameToTag() {

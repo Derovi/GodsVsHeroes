@@ -1,6 +1,7 @@
 package by.dero.gvh;
 
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -10,11 +11,13 @@ import java.util.HashMap;
 public class GamePlayer {
     private Player player;
     private String className = "default";
+    private PlayerInfo playerInfo;
     private final HashMap<String, Item> items = new HashMap<>();
     private int team;
 
     public GamePlayer(Player player) {
         this.player = player;
+        this.playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
     }
 
     public Item getSelectedItem() {
@@ -35,7 +38,6 @@ public class GamePlayer {
     }
 
     public void addItem(String name, int level) {
-
         try {
             Item item = (Item) Plugin.getInstance().getData().getItemNameToClass().
                     get(name).getConstructor(String.class, int.class, Player.class).newInstance(name, level, player);
@@ -60,6 +62,14 @@ public class GamePlayer {
             System.err.println("Can't add item! " + name + ":" + String.valueOf(level) + " to " + getPlayer().getName());
             ex.printStackTrace();
         }
+    }
+
+    public PlayerInfo getPlayerInfo() {
+        return playerInfo;
+    }
+
+    public void setPlayerInfo(PlayerInfo playerInfo) {
+        this.playerInfo = playerInfo;
     }
 
     public Player getPlayer() {

@@ -1,0 +1,9 @@
+{
+  "mode": "minigame",
+  "dataStorageType": "local",
+  "dataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
+  "dataMongodbDatabase": "gvh",
+  "playerDataStorageType": "local",
+  "playerDataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
+  "playerDataMongodbDatabase": "gvh"
+}

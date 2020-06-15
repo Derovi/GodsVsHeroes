@@ -1,0 +1,12 @@
+{
+  "name": "paladin",
+  "itemNames": [
+    "defaultsword",
+    "defaulthelmet",
+    "defaultchestplate",
+    "defaultleggins",
+    "defaultboots",
+    "healpotion",
+    "slowbuf"
+  ]
+}

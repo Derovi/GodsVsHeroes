@@ -1,4 +1,6 @@
-package by.dero.gvh.model;
+package by.dero.gvh.model.storages;
+
+import by.dero.gvh.model.StorageInterface;
 
 import java.io.*;
 
