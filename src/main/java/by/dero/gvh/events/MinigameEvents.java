@@ -1,6 +1,7 @@
 package by.dero.gvh.events;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Minigame;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
@@ -22,13 +23,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-public class PlayerEvents implements Listener {
+public class MinigameEvents implements Listener {
 
     @EventHandler
     public void onEntityShootBow(org.bukkit.event.entity.EntityShootBowEvent event) {
         if ((event.getEntity() instanceof Player)) {
             String playerName = event.getEntity().getName();
-            Item selectedItem = Plugin.getInstance().getGame().getPlayers().get(playerName).getSelectedItem();
+            Item selectedItem = Minigame.getInstance().getGame().getPlayers().get(playerName).getSelectedItem();
             if (selectedItem instanceof PlayerShootBowInterface) {
                 ((PlayerShootBowInterface) selectedItem).onPlayerShootBow(event);
             }
@@ -40,7 +41,7 @@ public class PlayerEvents implements Listener {
         Projectile proj = event.getEntity();
         if (proj.getShooter() instanceof Player) {
             String shooterName = ((Player) proj.getShooter()).getName();
-            GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(shooterName);
+            GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
             Item itemInHand = gamePlayer.getSelectedItem();
             if (itemInHand == null) {
                 return;
@@ -55,7 +56,7 @@ public class PlayerEvents implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         String shooterName = event.getPlayer().getName();
-        GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(shooterName);
+        GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
         Item itemInHand = gamePlayer.getSelectedItem();
         if (itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof InfiniteReplenishInterface) {
@@ -73,7 +74,7 @@ public class PlayerEvents implements Listener {
     public void onProjectileHit(ProjectileHitEvent event) {
         if (event.getEntity().getShooter() instanceof Player) {
             String shooterName = ((Player) event.getEntity().getShooter()).getName();
-            GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(shooterName);
+            GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
             for (Item item : gamePlayer.getItems().values()) {
                 if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId())) {
                     if (item instanceof ProjectileHitInterface) {
@@ -85,7 +86,7 @@ public class PlayerEvents implements Listener {
         }
         if (event.getHitEntity() != null && event.getHitEntity() instanceof Player) {
             String playerName = event.getHitEntity().getName();
-            GamePlayer gamePlayer = Plugin.getInstance().getGame().getPlayers().get(playerName);
+            GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(playerName);
             for (Item item : gamePlayer.getItems().values()) {
                 if (item instanceof ProjectileHitInterface) {
                     ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
@@ -100,7 +101,7 @@ public class PlayerEvents implements Listener {
         event.setDeathMessage(null);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             event.getEntity().spigot().respawn();
-            Plugin.getInstance().getGame().respawnPlayer(Plugin.getInstance().getGame().getPlayers().get(event.getEntity().getName()));
+            Minigame.getInstance().getGame().respawnPlayer(Minigame.getInstance().getGame().getPlayers().get(event.getEntity().getName()));
         }, 1L);
     }
 
@@ -116,7 +117,7 @@ public class PlayerEvents implements Listener {
             // unlocking default class
             Plugin.getInstance().getPlayerData().unlockClass(event.getPlayer().getName(), "default");
         }
-        Plugin.getInstance().getGame().addPlayer(event.getPlayer());
+        Minigame.getInstance().getGame().addPlayer(event.getPlayer());
     }
 
     @EventHandler
@@ -125,6 +126,6 @@ public class PlayerEvents implements Listener {
         for (PotionEffect pt : p.getActivePotionEffects()) {
             p.removePotionEffect(pt.getType());
         }
-        Plugin.getInstance().getGame().removePlayer(p.getName());
+        Minigame.getInstance().getGame().removePlayer(p.getName());
     }
 }

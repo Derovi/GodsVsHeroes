@@ -1,6 +1,7 @@
 package by.dero.gvh.commands;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Minigame;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginCommand;
 import by.dero.gvh.model.UnitClassDescription;
@@ -21,7 +22,7 @@ public class SelectCommand implements PluginCommand {
             sender.sendMessage("§cClass isn't unlocked!");
             return;
         }
-        GamePlayer player = Plugin.getInstance().getGame().getPlayers().get(sender.getName());
+        GamePlayer player = Minigame.getInstance().getGame().getPlayers().get(sender.getName());
         player.selectClass(arguments[0]);
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(arguments[0]);
         for (String itemName : classDescription.getItemNames()) {
