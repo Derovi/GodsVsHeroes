@@ -6,7 +6,6 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.ArrowRainInfo;
-import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
@@ -51,7 +50,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (!cooldown.isReady()) {
-            sendCooldownMessage(player, "Arrow Rain", cooldown.getSecondsRemaining());
+            sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
             return;
         }
         cooldown.reload();

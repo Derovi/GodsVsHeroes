@@ -32,7 +32,8 @@
       "resistancebuf",
       "slowbuf",
       "stunall",
-      "doublejump"
+      "doublejump",
+      "grenade"
     ]
   },
   {

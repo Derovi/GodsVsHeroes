@@ -53,6 +53,7 @@ public class Data {
         registerItem("stunall", StunAllInfo.class, StunAll.class);
         registerItem("doublejump", ItemInfo.class, DoubleJump.class);
         registerItem("healall", HealAllInfo.class, HealAll.class);
+        registerItem("grenade", GrenadeInfo.class, Grenade.class);
     }
 
     public void load() {
