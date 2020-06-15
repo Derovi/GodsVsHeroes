@@ -2,6 +2,7 @@ package by.dero.gvh.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.logging.log4j.core.util.JsonUtils;
 
 public class PlayerData {
     public PlayerData(StorageInterface storage) {
@@ -12,9 +13,7 @@ public class PlayerData {
 
     public void registerPlayer(String playerName) {
         try {
-            storage.save("players", playerName, new GsonBuilder().setPrettyPrinting().create().toJson(
-                    new PlayerInfo(playerName)
-            ));
+            savePlayerInfo(playerName, new PlayerInfo(playerName));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

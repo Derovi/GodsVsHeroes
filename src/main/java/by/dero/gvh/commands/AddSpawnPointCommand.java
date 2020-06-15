@@ -1,5 +1,6 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.Minigame;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginCommand;
 import by.dero.gvh.game.Position;
@@ -26,14 +27,14 @@ public class AddSpawnPointCommand implements PluginCommand {
             return;
         }
         Player player = (Player) sender;
-        Position[] newPositions = Arrays.copyOf(Plugin.getInstance().getGame().getInfo().getSpawnPoints()[team],
-                Plugin.getInstance().getGame().getInfo().getSpawnPoints()[team].length + 1);
+        Position[] newPositions = Arrays.copyOf(Minigame.getInstance().getGame().getInfo().getSpawnPoints()[team],
+                Minigame.getInstance().getGame().getInfo().getSpawnPoints()[team].length + 1);
         newPositions[newPositions.length - 1] = new Position(player.getLocation().getX(),
                 player.getLocation().getY(), player.getLocation().getZ());
-        Plugin.getInstance().getGame().getInfo().getSpawnPoints()[team] = newPositions;
+        Minigame.getInstance().getGame().getInfo().getSpawnPoints()[team] = newPositions;
         try {
             new LocalStorage().save("game", "game",
-                    new GsonBuilder().setPrettyPrinting().create().toJson(Plugin.getInstance().getGame().getInfo()));
+                    new GsonBuilder().setPrettyPrinting().create().toJson(Minigame.getInstance().getGame().getInfo()));
         } catch (IOException e) {
             e.printStackTrace();
         }

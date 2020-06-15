@@ -121,7 +121,7 @@ public abstract class Game implements Listener {
                 spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
         player.getItems().clear();
         player.getPlayer().getInventory().clear();
-        UnitClassDescription classDescription = Plugin.getInstance().getData().getUnits().get(player.getClassName());
+        UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName());
         System.out.println("class: " + player.getClassName());
         System.out.println("null: " + (classDescription == null));
         for (String itemName : classDescription.getItemNames()) {

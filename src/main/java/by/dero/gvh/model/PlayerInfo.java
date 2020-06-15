@@ -19,7 +19,7 @@ public class PlayerInfo {
             return;
         }
         Map<String, Integer> items = new HashMap<>();
-        UnitClassDescription unitClassDescription = Plugin.getInstance().getData().getUnits().get(className);
+        UnitClassDescription unitClassDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
         for (String itemName : unitClassDescription.getItemNames()) {
             items.put(itemName, 0);
         }
