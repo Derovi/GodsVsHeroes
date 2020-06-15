@@ -35,8 +35,9 @@ public class Plugin extends JavaPlugin {
         stunAPI = new Stun();
         registerEvents();
         registerCommands();
-        data = new Data(new MongoDBStorage("mongodb://minigame:ORg3.47gZ51@79.174.13.142:27017/?authSource=admin",
-                "gvh"));
+        //data = new Data(new MongoDBStorage("mongodb://minigame:ORg3.47gZ51@79.174.13.142:27017/?authSource=admin",
+        //        "gvh"));
+        data = new Data(new LocalStorage());
         data.load();
         gameData = new GameData(new LocalStorage());
         gameData.load();
