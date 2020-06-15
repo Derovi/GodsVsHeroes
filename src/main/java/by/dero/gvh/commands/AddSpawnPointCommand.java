@@ -3,7 +3,7 @@ package by.dero.gvh.commands;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginCommand;
 import by.dero.gvh.game.Position;
-import by.dero.gvh.model.LocalStorage;
+import by.dero.gvh.model.storages.LocalStorage;
 import com.google.gson.GsonBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

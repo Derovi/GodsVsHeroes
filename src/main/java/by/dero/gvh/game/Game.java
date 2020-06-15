@@ -26,6 +26,7 @@ public abstract class Game implements Listener {
     protected Board board;
 
     public void start() {
+        System.out.println("start game");
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
             return;
@@ -35,9 +36,11 @@ public abstract class Game implements Listener {
             return;
         }
         chooseTeams();
+        System.out.println("starting");
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
         }
+        System.out.println("spawned");
         state = State.GAME;
         lobby = null;
     }
@@ -122,7 +125,7 @@ public abstract class Game implements Listener {
         System.out.println("class: " + player.getClassName());
         System.out.println("null: " + (classDescription == null));
         for (String itemName : classDescription.getItemNames()) {
-            player.addItem(itemName, 0);
+            player.addItem(itemName, player.getPlayerInfo().getItemLevel(player.getClassName(), itemName));
         }
         player.getPlayer().setScoreboard(board.getScoreboard());
     }
