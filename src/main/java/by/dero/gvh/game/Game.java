@@ -3,6 +3,7 @@ package by.dero.gvh.game;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.UnitClassDescription;
+import by.dero.gvh.utils.Board;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -22,6 +23,7 @@ public abstract class Game implements Listener {
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
+    protected Board board;
 
     public void start() {
         System.out.println("start game");
@@ -125,6 +127,7 @@ public abstract class Game implements Listener {
         for (String itemName : classDescription.getItemNames()) {
             player.addItem(itemName, player.getPlayerInfo().getItemLevel(player.getClassName(), itemName));
         }
+        player.getPlayer().setScoreboard(board.getScoreboard());
     }
 
     public Lobby getLobby() {

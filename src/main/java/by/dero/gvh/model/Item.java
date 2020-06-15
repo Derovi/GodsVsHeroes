@@ -24,15 +24,18 @@ public class Item {
     }
 
     public ItemStack getItemStack() {
-        ItemStack itemStack = new ItemStack(getInfo().getMaterial(), getInfo().getAmount());
+        return getItemStack(name, getInfo());
+    }
+
+    public static ItemStack getItemStack(String name, ItemInfo info) {
+        ItemStack itemStack = new ItemStack(info.getMaterial(), info.getAmount());
         ItemMeta itemMeta = itemStack.getItemMeta();
-        System.out.println(getInfo().getDisplayName() + " " + getInfo().getEnchantments().size());
-        for (ItemInfo.EnchantInfo enchantInfo : getInfo().getEnchantments()) {
+        for (ItemInfo.EnchantInfo enchantInfo : info.getEnchantments()) {
             System.out.println(enchantInfo.getKey().getKey());
             itemMeta.addEnchant(Enchantment.getByKey(enchantInfo.getKey()), enchantInfo.getLevel(), enchantInfo.isVisible());
         }
-        itemMeta.setDisplayName(getInfo().getDisplayName());
-        List<String> lore = getInfo().getLore();
+        itemMeta.setDisplayName(info.getDisplayName());
+        List<String> lore = info.getLore();
         // add tag as last line of lore
         lore.add(Plugin.getInstance().getData().getItemNameToTag().get(name));
         itemMeta.setLore(lore);

@@ -4,17 +4,35 @@
     "itemNames": [
       "airleap",
       "chainlightning",
+      "explosivebow",
+      "flybow",
       "magicrod",
       "magnetizeorb",
-      "explosivebow",
       "healpotion",
       "damagepotion",
       "invisibilitypotion",
       "stunrocks",
       "eaglevision",
       "lightningstorm",
+      "exchange",
       "arrowrain",
-      "exchange"
+      "escape",
+      "poisonpotion",
+      "improvedbow",
+      "defaultsword",
+      "defaultaxe",
+      "defaulthelmet",
+      "defaultchestplate",
+      "defaultleggins",
+      "defaultboots",
+      "defaultbow",
+      "defaultarrow",
+      "speedbuf",
+      "jumpingbuf",
+      "resistancebuf",
+      "slowbuf",
+      "stunall",
+      "doublejump"
     ]
   },
   {
@@ -80,6 +98,7 @@
     "name": "eyre",
     "itemNames": [
       "damagepotion",
+      "healpotion",
       "healpotion"
     ]
   },
