@@ -12,7 +12,6 @@ public class PlayerData {
     private final StorageInterface storage;
 
     public void registerPlayer(String playerName) {
-        System.out.println("register player");
         try {
             savePlayerInfo(playerName, new PlayerInfo(playerName));
         } catch (Exception ex) {
@@ -29,7 +28,6 @@ public class PlayerData {
     }
 
     public void savePlayerInfo(String playerName, PlayerInfo playerInfo) {
-        System.out.println("Save player: " + playerName);
         try {
             storage.save("players", playerName, new GsonBuilder().setPrettyPrinting().create().toJson(playerInfo));
         } catch (Exception ex) {
@@ -49,7 +47,6 @@ public class PlayerData {
     }
 
     public void unlockClass(String playerName, String className) {
-        System.out.println("unlock class");
         PlayerInfo playerInfo = getPlayerInfo(playerName);
         playerInfo.unlockClass(className);
         savePlayerInfo(playerName, playerInfo);
