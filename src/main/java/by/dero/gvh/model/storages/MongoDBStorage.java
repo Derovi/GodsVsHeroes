@@ -29,7 +29,11 @@ public class MongoDBStorage implements StorageInterface {
     public void save(String collection, String name, String object) throws IOException {
         BasicDBObject dbObject = BasicDBObject.parse(object);
         dbObject.put("_id", name);
-        database.getCollection(collection).insertOne(new Document(dbObject));
+        if (!exists(collection, name)) {
+            database.getCollection(collection).insertOne(new Document(dbObject));
+        } else {
+            database.getCollection(collection).replaceOne(Filters.eq("_id", name), new Document(dbObject));
+        }
     }
 
     @Override

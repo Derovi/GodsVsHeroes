@@ -35,6 +35,7 @@ public class PlayerInfo {
     }
 
     public int getItemLevel(String className, String item) {
+        System.out.println("get item level: " + className + ' ' + item);
         return classes.get(className).get(item);
     }
 
