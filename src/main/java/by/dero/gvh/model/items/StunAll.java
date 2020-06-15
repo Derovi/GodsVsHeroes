@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
@@ -13,37 +12,37 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static by.dero.gvh.utils.DataUtils.isEnemy;
+
 public class StunAll extends Item implements UltimateInterface {
     private final double radius;
     private final int latency;
 
-    public StunAll(String name, int level, Player owner) {
+    public StunAll(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        StunAllInfo info = (StunAllInfo) getInfo();
+        final StunAllInfo info = (StunAllInfo) getInfo();
         radius = info.getRadius();
         latency = info.getLatency();
     }
 
     @Override
-    public void drawSign(Location loc) {
-        int lines = 8;
-        Particle part = Particle.FLAME;
+    public void drawSign(final Location loc) {
+        final int lines = 8;
+        final Particle part = Particle.FLAME;
         Drawings.drawCircle(loc.clone().add(0,radius,0), radius, part);
         for (double angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / lines) {
-            Location at = Drawings.getInCircle(loc, radius, angle);
+            final Location at = Drawings.getInCircle(loc, radius, angle);
             Drawings.drawLine(at, at.add(0, radius,0), part);
         }
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
+    public void onPlayerInteract(final PlayerInteractEvent event) {
+        final Player p = event.getPlayer();
         drawSign(p.getLocation());
-        for (Entity ot : p.getNearbyEntities(radius, radius, radius)) {
-            if (ot != p &&
-                    ot instanceof LivingEntity &&
-                    p.getLocation().distance(ot.getLocation()) < radius) {
-                Stun.stunPlayer((LivingEntity)ot, latency);
+        for (final Entity ot : p.getNearbyEntities(radius, radius, radius)) {
+            if (isEnemy(ot, team) && p.getLocation().distance(ot.getLocation()) < radius) {
+                Stun.stunEntity((LivingEntity)ot, latency);
             }
         }
     }

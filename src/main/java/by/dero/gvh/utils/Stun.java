@@ -13,13 +13,10 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Stun {
-    private static final HashMap<UUID, Long> players = new HashMap<>();
-
-    public static void stunPlayer(LivingEntity p, int latency) {
-        players.put(p.getUniqueId(), Calendar.getInstance().getTimeInMillis() + latency * 50);
+    public static void stunEntity(LivingEntity p, int latency) {
         new PotionEffect(PotionEffectType.BLINDNESS, latency, 1).apply(p);
         new BukkitRunnable() {
-            Location loc = p.getLocation().clone();
+            final Location loc = p.getLocation().clone();
             int ticks = 0;
             @Override
             public void run() {

@@ -10,13 +10,13 @@ import org.bukkit.potion.PotionEffectType;
 
 public class InvisibilityPotion extends Item implements PlayerInteractInterface {
     private final int duration;
-    public InvisibilityPotion(String name, int level, Player owner) {
+    public InvisibilityPotion(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        duration = ((InvisibilityPotionInfo)getInfo()).getDuration();
+        duration = ((InvisibilityPotionInfo) getInfo()).getDuration();
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(final PlayerInteractEvent event) {
         new PotionEffect(PotionEffectType.INVISIBILITY, duration, 0).apply(event.getPlayer());
         event.setCancelled(true);
     }

@@ -29,7 +29,8 @@ public class MinigameEvents implements Listener {
     public void onEntityShootBow(org.bukkit.event.entity.EntityShootBowEvent event) {
         if ((event.getEntity() instanceof Player)) {
             String playerName = event.getEntity().getName();
-            Item selectedItem = Minigame.getInstance().getGame().getPlayers().get(playerName).getSelectedItem();
+            GamePlayer gp = Minigame.getInstance().getGame().getPlayers().get(playerName);
+            Item selectedItem = gp.getSelectedItem();
             if (selectedItem instanceof PlayerShootBowInterface) {
                 ((PlayerShootBowInterface) selectedItem).onPlayerShootBow(event);
             }

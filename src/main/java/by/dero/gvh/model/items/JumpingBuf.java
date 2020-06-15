@@ -6,7 +6,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class JumpingBuf extends Item {
-    public JumpingBuf(String name, int level, Player owner) {
+    public JumpingBuf(final String name, final int level, final Player owner) {
         super(name, level, owner);
         if (level != 0) {
             new PotionEffect(PotionEffectType.JUMP, (int)2e9, level).apply(owner);

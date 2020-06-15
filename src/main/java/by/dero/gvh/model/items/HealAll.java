@@ -12,18 +12,20 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static by.dero.gvh.utils.DataUtils.isAlly;
+
 public class HealAll extends Item implements UltimateInterface {
     private final double radius;
     private final int heal;
-    public HealAll(String name, int level, Player owner) {
+    public HealAll(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        HealAllInfo info = (HealAllInfo) getInfo();
+        final HealAllInfo info = (HealAllInfo) getInfo();
         radius = info.getRadius();
         heal = info.getHeal();
     }
 
     @Override
-    public void drawSign(Location loc) {
+    public void drawSign(final Location loc) {
         for (final LivingEntity ent : loc.getWorld().getLivingEntities()) {
             if (ent.getLocation().distance(loc) <= radius) {
                 Drawings.drawCircle(ent.getLocation(), 1, Particle.HEART);
@@ -32,12 +34,12 @@ public class HealAll extends Item implements UltimateInterface {
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
+    public void onPlayerInteract(final PlayerInteractEvent event) {
+        final Player p = event.getPlayer();
         drawSign(p.getLocation());
         for (final Entity ent : p.getNearbyEntities(radius, radius, radius)) {
-            if (ent instanceof LivingEntity && ent.getLocation().distance(p.getLocation()) <= radius) {
-                LivingEntity cur = (LivingEntity) ent;
+            if (isAlly(ent, team) && ent.getLocation().distance(p.getLocation()) <= radius) {
+                final LivingEntity cur = (LivingEntity) ent;
                 final double hp = Math.min(cur.getHealth() + heal,
                         cur.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 cur.setHealth(hp);

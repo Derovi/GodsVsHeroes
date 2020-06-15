@@ -16,16 +16,18 @@ import org.bukkit.util.Vector;
 import java.util.Objects;
 import java.util.UUID;
 
+import static by.dero.gvh.utils.DataUtils.isEnemy;
+
 public class MagicRod extends Item implements PlayerInteractInterface {
     private final double damage;
-    public MagicRod(String name, int level, Player owner) {
+    public MagicRod(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        damage = ((MagicRodInfo)getInfo()).getDamage();
+        damage = ((MagicRodInfo) getInfo()).getDamage();
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
+    public void onPlayerInteract(final PlayerInteractEvent event) {
+        final Player p = event.getPlayer();
         new BukkitRunnable() {
             double ticks = 0;
             final Vector st = new Vector(
@@ -34,18 +36,19 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                     Math.random()
             ).normalize();
             final Location start = p.getLocation().clone().add(p.getLocation().getDirection().multiply(2));
-            final UUID sender = p.getUniqueId();
             @Override
             public void run() {
                 start.add(start.getDirection().multiply(1));
-                Vector kek = st.clone().crossProduct(start.getDirection()).multiply(Math.sin(ticks) * 3);
+                final Vector kek = st.clone().crossProduct(start.getDirection()).multiply(Math.sin(ticks) * 3);
                 Objects.requireNonNull(start.getWorld()).spawnParticle(Particle.LAVA, start, 1);
-                for (Entity obj : start.getWorld().getNearbyEntities(start, 1, 1, 1)) {
-                    if (!(obj instanceof Player) || obj.getUniqueId() != sender) {
+                for (final Entity obj : start.getWorld().getNearbyEntities(start, 1, 1, 1)) {
+                    if (isEnemy(obj, team)) {
                         try {
                             obj.setFireTicks(200);
-                            ((Damageable)obj).damage(damage);
-                        } catch (Exception ignored){}
+                            ((Damageable) obj).damage(damage);
+                        } catch (Exception ignored){
+
+                        }
                     }
                 }
                 final int steps = 16;

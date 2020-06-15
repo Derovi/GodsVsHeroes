@@ -4,7 +4,7 @@
   "levels": [
     {
       "force" : 2,
-      "material": "SNOW_BALL",
+      "material": "SNOWBALL",
       "displayName": "§cGrenade",
       "lore": [
         "§aИскусство это взрыв!",
@@ -14,7 +14,7 @@
     },
     {
       "force" : 2,
-      "material": "SNOW_BALL",
+      "material": "SNOWBALL",
       "displayName": "§cGrenade",
       "lore": [
         "§aИскусство это взрыв!",
@@ -24,7 +24,7 @@
     },
     {
       "force" : 2,
-      "material": "SNOW_BALL",
+      "material": "SNOWBALL",
       "displayName": "§cGrenade",
       "lore": [
         "§aИскусство это взрыв!",

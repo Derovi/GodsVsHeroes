@@ -16,8 +16,8 @@ public class FlyBow extends Item implements PlayerShootBowInterface, ProjectileH
 
     @Override
     public void onPlayerShootBow(EntityShootBowEvent event) {
-        Player player = (Player) event.getEntity();
-        double modifier = ((FlyBowInfo) getInfo()).getModifier();
+        final Player player = (Player) event.getEntity();
+        final double modifier = ((FlyBowInfo) getInfo()).getModifier();
         player.setVelocity(new Vector(event.getProjectile().getVelocity().getX() * modifier,
                 event.getProjectile().getVelocity().getY() * modifier,
                 event.getProjectile().getVelocity().getZ() * modifier));

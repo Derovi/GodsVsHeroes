@@ -13,17 +13,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class Grenade extends Item implements InfiniteReplenishInterface, PlayerInteractInterface, ProjectileHitInterface {
     private final double force;
-    public Grenade(String name, int level, Player owner) {
+    public Grenade(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        GrenadeInfo info = (GrenadeInfo) getInfo();
-        force = info.getForce();
+        force = ((GrenadeInfo) getInfo()).getForce();
     }
 
 
     @Override
     public void onProjectileHit(ProjectileHitEvent event) {
-        Entity proj = event.getEntity();
-        Location loc = proj.getLocation();
+        final Location loc = event.getEntity().getLocation();
         loc.getWorld().createExplosion(loc, (float) force);
     }
 

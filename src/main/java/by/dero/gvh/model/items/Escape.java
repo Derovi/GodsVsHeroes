@@ -8,14 +8,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class Escape extends Item implements PlayerInteractInterface {
     private final double force;
-    public Escape(String name, int level, Player owner) {
+    public Escape(final String name, final int level, final Player owner) {
         super(name, level, owner);
         force = ((EscapeInfo) getInfo()).getForce();
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
+    public void onPlayerInteract(final PlayerInteractEvent event) {
+        final Player p = event.getPlayer();
         p.setVelocity(p.getLocation().getDirection().multiply(-force));
     }
 }

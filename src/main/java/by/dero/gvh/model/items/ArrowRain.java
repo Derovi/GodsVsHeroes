@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
+import static by.dero.gvh.utils.DataUtils.isEnemy;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class ArrowRain extends Item implements UltimateInterface, Listener {
@@ -30,9 +30,9 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
     private final HashSet<UUID> arrows = new HashSet<>();
     private final Cooldown cooldown;
 
-    public ArrowRain(String name, int level, Player owner) {
+    public ArrowRain(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        ArrowRainInfo info = (ArrowRainInfo)getInfo();
+        final ArrowRainInfo info = (ArrowRainInfo) getInfo();
         radius = info.getRadius();
         arrowCycles = info.getArrowCycles();
         cycleDelay = info.getCycleDelay();
@@ -41,13 +41,13 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
     }
 
     @Override
-    public void drawSign(Location loc) {
+    public void drawSign(final Location loc) {
         for (int rad = 10; rad <= radius; rad += 10)
             Drawings.drawCircle(loc.clone().add(0, height, 0), rad, Particle.EXPLOSION_LARGE);
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(final PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (!cooldown.isReady()) {
             sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
@@ -63,10 +63,9 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
                 Location shooter = center.clone().add(dst*Math.cos(angle),0,dst*Math.sin(angle));
                 List<Location> targets = new ArrayList<>();
                 for (Entity obj : Objects.requireNonNull(center.getWorld()).getNearbyEntities(center, radius, 50, radius)) {
-                    if (!(obj instanceof LivingEntity) || obj.isDead() || obj == player) {
-                        continue;
+                    if (isEnemy(obj, team)) {
+                        targets.add(obj.getLocation().clone());
                     }
-                    targets.add(obj.getLocation().clone());
                 }
                 for (Location obj : targets) {
                     Arrow arrow = center.getWorld().spawnArrow(shooter,
@@ -81,7 +80,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
                             }
                             arrow.getWorld().spawnParticle(Particle.LAVA, arrow.getLocation(), 1);
                         }
-                    }.runTaskTimer(Plugin.getInstance(), 0, 1);
+                    }.runTaskTimer(Plugin.getInstance(), 0, 2);
                 }
                 targets.clear();
 

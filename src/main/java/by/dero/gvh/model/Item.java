@@ -1,7 +1,6 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
-import org.apache.logging.log4j.core.util.JsonUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -10,10 +9,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
+import static by.dero.gvh.utils.DataUtils.getPlayer;
+
 public class Item {
     private Player owner;
     private String name;
     private int level;
+    protected final int team;
 
     private final Set<UUID> summonedEntityIds = new HashSet<>();
 
@@ -21,6 +23,7 @@ public class Item {
         this.name = name;
         this.level = level;
         this.owner = owner;
+        team = getPlayer(owner.getName()).getTeam();
     }
 
     public ItemStack getItemStack() {

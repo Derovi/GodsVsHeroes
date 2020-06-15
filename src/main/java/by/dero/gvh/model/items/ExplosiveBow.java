@@ -5,7 +5,6 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -26,17 +25,17 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
 
     private final Set<Entity> arrows = new HashSet<>();
 
-    public ExplosiveBow(String name, int level, Player owner) {
+    public ExplosiveBow(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        ExplosiveBowInfo info = (ExplosiveBowInfo)getInfo();
+        final ExplosiveBowInfo info = (ExplosiveBowInfo) getInfo();
         reclining = info.getReclining();
         multiplier = info.getMultiplier();
     }
 
     @Override
     public void onPlayerShootBow(EntityShootBowEvent event) {
-        Player player = (Player) event.getEntity();
-        Entity obj = event.getProjectile();
+        final Player player = (Player) event.getEntity();
+        final Entity obj = event.getProjectile();
         arrows.add(obj);
         new BukkitRunnable() {
             double power;
