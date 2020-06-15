@@ -1,55 +1,58 @@
 package by.dero.gvh;
 
-import by.dero.gvh.commands.AddSpawnPointCommand;
-import by.dero.gvh.commands.FinishCommand;
-import by.dero.gvh.commands.SelectCommand;
-import by.dero.gvh.commands.StartCommand;
-import by.dero.gvh.events.PlayerEvents;
-import by.dero.gvh.game.DeathMatch;
-import by.dero.gvh.game.Game;
-import by.dero.gvh.game.GameData;
 import by.dero.gvh.model.Data;
-import by.dero.gvh.model.LocalStorage;
+import by.dero.gvh.model.storages.LocalStorage;
+import by.dero.gvh.model.PlayerData;
 import by.dero.gvh.model.StorageInterface;
-import by.dero.gvh.utils.Stun;
-import org.bukkit.Bukkit;
+import by.dero.gvh.model.storages.MongoDBStorage;
+import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.ResourceUtils;
+import com.google.gson.Gson;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
 
 public class Plugin extends JavaPlugin {
     private static Plugin instance;
-    private StorageInterface storage;
     private Data data;
-    private Game game;
-    private GameData gameData;
-
-    private CommandManager commandManager;
+    private PlayerData playerData;
+    private PluginMode pluginMode;
+    private Settings settings;
 
     @Override
     public void onEnable() {
         super.onEnable();
         instance = this;
-        registerEvents();
-        registerCommands();
-        data = new Data(new LocalStorage());
+        try {
+            settings = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(),
+                    "settings", "settings", ResourceUtils.readResourceFile("/settings.json")),
+                    Settings.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StorageInterface dataStorage = new LocalStorage();
+        if (settings.getDataStorageType().equals("mongodb")) {
+            dataStorage = new MongoDBStorage(settings.getDataMongodbConnection(), settings.getDataMongodbDatabase());
+        }
+        data = new Data(dataStorage);
         data.load();
-        gameData = new GameData(new LocalStorage());
-        gameData.load();
-        System.out.println("n3 " + (gameData.getDeathMatchInfo() == null));
-        game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
-        game.prepare();
-        Bukkit.getPluginManager().registerEvents(game, this);
+        StorageInterface playerDataStorage = new LocalStorage();
+        if (settings.getPlayerDataStorageType().equals("mongodb")) {
+            playerDataStorage = new MongoDBStorage(
+                    settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase());
+        }
+        playerData = new PlayerData(playerDataStorage);
+        pluginMode = new Minigame();
+        pluginMode.onEnable();
     }
 
-    private void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new PlayerEvents(), this);
+    @Override
+    public void onDisable() {
+        pluginMode.onDisable();
     }
 
-    private void registerCommands() {
-        commandManager = new CommandManager();
-        commandManager.getCommands().put("select", new SelectCommand());
-        commandManager.getCommands().put("start", new StartCommand());
-        commandManager.getCommands().put("finish", new FinishCommand());
-        commandManager.getCommands().put("addspawnpoint", new AddSpawnPointCommand());
+    public PlayerData getPlayerData() {
+        return playerData;
     }
 
     public static Plugin getInstance() {
@@ -58,13 +61,5 @@ public class Plugin extends JavaPlugin {
 
     public Data getData() {
         return data;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public CommandManager getCommandManager() {
-        return commandManager;
     }
 }

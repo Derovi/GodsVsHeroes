@@ -11,9 +11,13 @@ repositories {
     mavenCentral()
 }
 
+apply plugin: 'java-library'
+
 dependencies {
     implementation files('lib/spigot.jar')
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    implementation files('lib/Stunned.jar')
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    compile 'org.mongodb:mongodb-driver-sync:3.9.1'
 }
 
 jar {
@@ -22,5 +26,8 @@ jar {
                 'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
                 'Main-Class': 'by.dero.gvh.Plugin'
         )
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }

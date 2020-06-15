@@ -1,0 +1,9 @@
+{
+  "name": "alchemist",
+  "itemNames": [
+    "invisibilitypotion",
+    "damagepotion",
+    "healpotion",
+    "poisonpotion"
+  ]
+}
