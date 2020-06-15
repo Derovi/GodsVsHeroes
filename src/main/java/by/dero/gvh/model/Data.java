@@ -8,7 +8,6 @@ import by.dero.gvh.model.itemsinfo.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import org.bukkit.Material;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,13 +68,13 @@ public class Data {
         }
         //load unit classes
         try {
-            if (!storageInterface.exists("data", "classes")) {
-                storageInterface.save("data", "classes", ResourceUtils.readResourceFile("/classes.json"));
-            }
-            List<UnitClassDescription> unitList = new Gson().fromJson(storageInterface.load("data", "classes"),
-                    new TypeToken<List<UnitClassDescription>>() {}.getType());
-            for (UnitClassDescription description : unitList) {
-                units.put(description.getName(), description);
+            for (String className : classNameToDescription.keySet()) {
+                if (!storageInterface.exists("classes", className)) {
+                    storageInterface.save("classes", className, ResourceUtils.readResourceFile("/classes/" + className + ".json"));
+                }
+                String classJson = storageInterface.load("classes", className);
+                Gson gson = new Gson();
+                classNameToDescription.put(classJson, gson.fromJson(classJson, UnitClassDescription.class));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -90,9 +89,13 @@ public class Data {
         tagToItemName.put(tag, name);
     }
 
+    public void registerClass(String name) {
+        classNameToDescription.put(name, null);
+    }
+
     private final StorageInterface storageInterface;
 
-    private final HashMap<String, UnitClassDescription> units = new HashMap<>();
+    private final HashMap<String, UnitClassDescription> classNameToDescription = new HashMap<>();
 
     private HashMap<String, ItemDescription> items = new HashMap<>();
     private final HashMap<String, Class<?>> itemNameToInfo = new HashMap<>();
@@ -100,8 +103,8 @@ public class Data {
     private final HashMap<String, String> itemNameToTag = new HashMap<>();
     private final HashMap<String, String> tagToItemName = new HashMap<>();
 
-    public HashMap<String, UnitClassDescription> getUnits() {
-        return units;
+    public HashMap<String, UnitClassDescription> getClassNameToDescription() {
+        return classNameToDescription;
     }
 
     public HashMap<String, String> getItemNameToTag() {

@@ -13,7 +13,7 @@ public class SelectCommand implements PluginCommand {
             sender.sendMessage("§cInvalid arguments!");
             return;
         }
-        if (!Plugin.getInstance().getData().getUnits().containsKey(arguments[0])) {
+        if (!Plugin.getInstance().getData().getClassNameToDescription().containsKey(arguments[0])) {
             sender.sendMessage("§cClass not found!");
             return;
         }
@@ -23,7 +23,7 @@ public class SelectCommand implements PluginCommand {
         }
         GamePlayer player = Plugin.getInstance().getGame().getPlayers().get(sender.getName());
         player.selectClass(arguments[0]);
-        UnitClassDescription classDescription = Plugin.getInstance().getData().getUnits().get(arguments[0]);
+        UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(arguments[0]);
         for (String itemName : classDescription.getItemNames()) {
             player.addItem(itemName, 0);
         }
