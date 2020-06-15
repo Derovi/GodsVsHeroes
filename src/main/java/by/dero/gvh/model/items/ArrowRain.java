@@ -13,22 +13,22 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
-public class ArrowRain extends Item implements UltimateInterface {
+public class ArrowRain extends Item implements UltimateInterface, Listener {
     private final double radius;
     private final int arrowCycles;
     private final int cycleDelay;
     private final double height = 10;
-    private final HashSet<Arrow> arrows = new HashSet<>();
+    private final HashSet<UUID> arrows = new HashSet<>();
     private final Cooldown cooldown;
 
     public ArrowRain(String name, int level, Player owner) {
@@ -73,11 +73,11 @@ public class ArrowRain extends Item implements UltimateInterface {
                     Arrow arrow = center.getWorld().spawnArrow(shooter,
                             obj.toVector().subtract(shooter.toVector()).normalize(),
                             4, 1);
-                    arrows.add(arrow);
+                    arrows.add(arrow.getUniqueId());
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            if (!arrows.contains(arrow)) {
+                            if (!arrows.contains(arrow.getUniqueId())) {
                                 this.cancel();
                             }
                             arrow.getWorld().spawnParticle(Particle.LAVA, arrow.getLocation(), 1);
@@ -103,5 +103,10 @@ public class ArrowRain extends Item implements UltimateInterface {
                 }
             }
         }.runTaskTimer(Plugin.getInstance(), 0, cycleDelay);
+    }
+
+    @EventHandler
+    public void onArrowHit(ProjectileHitEvent event) {
+        arrows.remove(event.getEntity().getUniqueId());
     }
 }
