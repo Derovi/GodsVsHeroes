@@ -1,17 +1,14 @@
 package by.dero.gvh;
 
-import by.dero.gvh.commands.AddSpawnPointCommand;
-import by.dero.gvh.commands.FinishCommand;
-import by.dero.gvh.commands.SelectCommand;
-import by.dero.gvh.commands.StartCommand;
+import by.dero.gvh.commands.*;
 import by.dero.gvh.events.PlayerEvents;
 import by.dero.gvh.game.DeathMatch;
 import by.dero.gvh.game.Game;
 import by.dero.gvh.game.GameData;
+import by.dero.gvh.game.StandManager;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.LocalStorage;
 import by.dero.gvh.model.StorageInterface;
-import by.dero.gvh.utils.Stun;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,6 +39,7 @@ public class Plugin extends JavaPlugin {
 
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new PlayerEvents(), this);
+        Bukkit.getPluginManager().registerEvents(new StandManager(), this);
     }
 
     private void registerCommands() {
@@ -50,6 +48,7 @@ public class Plugin extends JavaPlugin {
         commandManager.getCommands().put("start", new StartCommand());
         commandManager.getCommands().put("finish", new FinishCommand());
         commandManager.getCommands().put("addspawnpoint", new AddSpawnPointCommand());
+        commandManager.getCommands().put("makestand", new MakeStandCommand());
     }
 
     public static Plugin getInstance() {
