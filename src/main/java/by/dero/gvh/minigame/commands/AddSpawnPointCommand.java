@@ -1,8 +1,8 @@
-package by.dero.gvh.game.commands;
+package by.dero.gvh.minigame.commands;
 
-import by.dero.gvh.Minigame;
+import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.PluginCommand;
-import by.dero.gvh.game.Position;
+import by.dero.gvh.minigame.Position;
 import by.dero.gvh.model.storages.LocalStorage;
 import com.google.gson.GsonBuilder;
 import org.bukkit.command.CommandSender;

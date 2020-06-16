@@ -1,4 +1,4 @@
-package by.dero.gvh.game;
+package by.dero.gvh.minigame;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -1,13 +1,12 @@
-package by.dero.gvh;
+package by.dero.gvh.minigame;
 
-import by.dero.gvh.game.commands.AddSpawnPointCommand;
-import by.dero.gvh.game.commands.FinishCommand;
-import by.dero.gvh.game.commands.SelectCommand;
-import by.dero.gvh.game.commands.StartCommand;
-import by.dero.gvh.game.MinigameEvents;
-import by.dero.gvh.game.DeathMatch;
-import by.dero.gvh.game.Game;
-import by.dero.gvh.game.GameData;
+import by.dero.gvh.CommandManager;
+import by.dero.gvh.Plugin;
+import by.dero.gvh.PluginMode;
+import by.dero.gvh.minigame.commands.AddSpawnPointCommand;
+import by.dero.gvh.minigame.commands.FinishCommand;
+import by.dero.gvh.minigame.commands.SelectCommand;
+import by.dero.gvh.minigame.commands.StartCommand;
 import by.dero.gvh.model.storages.LocalStorage;
 import org.bukkit.Bukkit;
 
@@ -33,7 +32,7 @@ public class Minigame implements PluginMode {
     public void onDisable() {}
 
     private void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new MinigameEvents(), Plugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(new GameEvents(), Plugin.getInstance());
     }
 
     private void registerCommands() {

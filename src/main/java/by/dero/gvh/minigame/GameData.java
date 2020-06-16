@@ -1,4 +1,4 @@
-package by.dero.gvh.game;
+package by.dero.gvh.minigame;
 
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;

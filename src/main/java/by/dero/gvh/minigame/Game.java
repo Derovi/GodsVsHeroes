@@ -1,4 +1,4 @@
-package by.dero.gvh.game;
+package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;

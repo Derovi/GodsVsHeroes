@@ -1,4 +1,4 @@
-package by.dero.gvh.game;
+package by.dero.gvh.minigame;
 
 public class DeathMatchInfo {
     private int livesCount;

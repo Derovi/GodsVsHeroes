@@ -1,7 +1,7 @@
-package by.dero.gvh.game.commands;
+package by.dero.gvh.minigame.commands;
 
 import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Minigame;
+import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginCommand;
 import by.dero.gvh.model.UnitClassDescription;

@@ -1,7 +1,6 @@
-package by.dero.gvh.game;
+package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Minigame;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
@@ -21,7 +20,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-public class MinigameEvents implements Listener {
+public class GameEvents implements Listener {
 
     @EventHandler
     public void onEntityShootBow(org.bukkit.event.entity.EntityShootBowEvent event) {

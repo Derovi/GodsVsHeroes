@@ -1,6 +1,7 @@
 package by.dero.gvh;
 
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Data;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.PlayerData;
