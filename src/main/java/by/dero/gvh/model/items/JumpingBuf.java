@@ -9,7 +9,7 @@ public class JumpingBuf extends Item {
     public JumpingBuf(final String name, final int level, final Player owner) {
         super(name, level, owner);
         if (level != 0) {
-            new PotionEffect(PotionEffectType.JUMP, (int)2e9, level).apply(owner);
+            new PotionEffect(PotionEffectType.JUMP, (int)2e9, level-1).apply(owner);
         }
     }
 }
