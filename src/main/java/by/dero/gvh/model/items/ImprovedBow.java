@@ -11,16 +11,16 @@ import java.util.Objects;
 
 public class ImprovedBow extends Item implements ProjectileHitInterface {
     private final int damage;
-    public ImprovedBow(String name, int level, Player owner) {
+    public ImprovedBow(final String name, final int level, final Player owner) {
         super(name, level, owner);
         damage = ((ImprovedBowInfo) getInfo()).getDamage();
     }
 
     @Override
-    public void onProjectileHit(ProjectileHitEvent event) { }
+    public void onProjectileHit(final ProjectileHitEvent event) { }
 
     @Override
-    public void onProjectileHitEnemy(ProjectileHitEvent event) {
-        ((LivingEntity) Objects.requireNonNull(event.getHitEntity())).damage(damage);
+    public void onProjectileHitEnemy(final ProjectileHitEvent event) {
+        ((LivingEntity) Objects.requireNonNull(event.getHitEntity())).damage(damage, getOwner());
     }
 }

@@ -6,15 +6,6 @@ public class ArrowRainInfo extends ItemInfo {
     private double radius = 20;
     private int arrowCycles = 100;
     private int cycleDelay = 5;
-    private int cooldown = 5;
-
-    public int getCooldown() {
-        return cooldown;
-    }
-
-    public void setCooldown(int cooldown) {
-        this.cooldown = cooldown;
-    }
 
     public int getArrowCycles() {
         return arrowCycles;

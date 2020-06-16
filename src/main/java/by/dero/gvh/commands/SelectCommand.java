@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Minigame;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginCommand;
+import by.dero.gvh.model.Data;
 import by.dero.gvh.model.UnitClassDescription;
 import org.bukkit.command.CommandSender;
 
@@ -33,6 +34,10 @@ public class SelectCommand implements PluginCommand {
 
     @Override
     public String getDescription() {
-        return "<class> -  select class";
+        StringBuilder zxc = new StringBuilder("<class> -  select class\n");
+        for (String name : Plugin.getInstance().getData().getClassNameToDescription().keySet()) {
+            zxc.append(name + "\n");
+        }
+        return zxc.toString();
     }
 }

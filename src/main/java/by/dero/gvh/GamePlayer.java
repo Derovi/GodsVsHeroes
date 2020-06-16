@@ -34,6 +34,7 @@ public class GamePlayer {
     }
 
     public void selectClass(String className) {
+        player.getInventory().clear();
         this.className = className;
     }
 

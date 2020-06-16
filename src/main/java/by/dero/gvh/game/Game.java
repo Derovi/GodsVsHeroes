@@ -5,6 +5,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
 import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
@@ -43,6 +44,10 @@ public abstract class Game implements Listener {
         System.out.println("spawned");
         state = State.GAME;
         lobby = null;
+    }
+
+    public void onPlayerKilled(Player player, LivingEntity killer) {
+        player.sendMessage("Вы были обдристаны " + killer.getName());
     }
 
     private void chooseTeams() {

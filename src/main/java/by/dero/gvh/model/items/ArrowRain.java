@@ -6,81 +6,80 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.ArrowRainInfo;
-import by.dero.gvh.utils.MessagingUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
+import static by.dero.gvh.model.Drawings.getInCircle;
+import static by.dero.gvh.model.Drawings.randomCylinder;
+import static by.dero.gvh.utils.DataUtils.getNearby;
+import static by.dero.gvh.utils.DataUtils.isEnemy;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
-public class ArrowRain extends Item implements UltimateInterface {
+public class ArrowRain extends Item implements UltimateInterface, Listener {
     private final double radius;
     private final int arrowCycles;
     private final int cycleDelay;
     private final double height = 10;
-    private final HashSet<Arrow> arrows = new HashSet<>();
-    private final Cooldown cooldown;
 
-    public ArrowRain(String name, int level, Player owner) {
+    public ArrowRain(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        ArrowRainInfo info = (ArrowRainInfo)getInfo();
+        final ArrowRainInfo info = (ArrowRainInfo) getInfo();
         radius = info.getRadius();
         arrowCycles = info.getArrowCycles();
         cycleDelay = info.getCycleDelay();
-        cooldown = new Cooldown(info.getCooldown());
-        cooldown.makeReady();
     }
 
     @Override
-    public void drawSign(Location loc) {
+    public void drawSign(final Location loc) {
         for (int rad = 10; rad <= radius; rad += 10)
             Drawings.drawCircle(loc.clone().add(0, height, 0), rad, Particle.EXPLOSION_LARGE);
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(final PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (!cooldown.isReady()) {
-            sendCooldownMessage(player, "Arrow Rain", cooldown.getSecondsRemaining());
+            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            }
             return;
         }
         cooldown.reload();
+        final Location center = player.getLocation().clone().add(0, height, 0);
         new BukkitRunnable() {
             int times = 0;
-            final Location center = player.getLocation().clone().add(0, height, 0);
             @Override
             public void run() {
-                double dst = Math.random() * radius, angle = Math.random() * Math.PI * 2;
-                Location shooter = center.clone().add(dst*Math.cos(angle),0,dst*Math.sin(angle));
-                List<Location> targets = new ArrayList<>();
-                for (Entity obj : Objects.requireNonNull(center.getWorld()).getNearbyEntities(center, radius, 50, radius)) {
-                    if (!(obj instanceof LivingEntity) || obj.isDead() || obj == player) {
-                        continue;
+                final Location shooter = randomCylinder(center, radius, 0);
+                Bukkit.getServer().broadcastMessage(shooter.toString());
+                final List<Location> targets = new ArrayList<>();
+                for (LivingEntity obj : getNearby(center, radius)) {
+                    if (isEnemy(obj, team)) {
+                        targets.add(obj.getLocation().clone());
                     }
-                    targets.add(obj.getLocation().clone());
                 }
                 for (Location obj : targets) {
                     Arrow arrow = center.getWorld().spawnArrow(shooter,
                             obj.toVector().subtract(shooter.toVector()).normalize(),
-                            4, 1);
-                    arrows.add(arrow);
+                            5, 1);
+                    arrow.setShooter(getOwner());
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            if (!arrows.contains(arrow)) {
+                            if (arrow.isValid()) {
                                 this.cancel();
                             }
-                            arrow.getWorld().spawnParticle(Particle.LAVA, arrow.getLocation(), 1);
                         }
                     }.runTaskTimer(Plugin.getInstance(), 0, 1);
                 }
@@ -92,6 +91,20 @@ public class ArrowRain extends Item implements UltimateInterface {
             }
 
         }.runTaskTimer(Plugin.getInstance(), 0, cycleDelay);
+        final int particleNumber = 5;
+        new BukkitRunnable() {
+            int ticks = 0;
+            @Override
+            public void run() {
+                for (int i = 0; i < particleNumber; i++) {
+                    center.getWorld().spawnParticle(Particle.FLASH, randomCylinder(center, radius, height), 1);
+                    center.getWorld().spawnParticle(Particle.LAVA, randomCylinder(center, radius, height), 1);
+                }
+                if (++ticks >= cycleDelay * arrowCycles) {
+                    this.cancel();
+                }
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, 1);
         new BukkitRunnable() {
             double times = 0;
             final Location center = player.getLocation().clone();

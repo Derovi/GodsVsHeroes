@@ -9,6 +9,8 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
 
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
+
 public class FlyBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
     public FlyBow(String name, int level, Player owner) {
         super(name, level, owner);
@@ -16,8 +18,15 @@ public class FlyBow extends Item implements PlayerShootBowInterface, ProjectileH
 
     @Override
     public void onPlayerShootBow(EntityShootBowEvent event) {
-        Player player = (Player) event.getEntity();
-        double modifier = ((FlyBowInfo) getInfo()).getModifier();
+        final Player player = (Player) event.getEntity();
+        if (!cooldown.isReady()) {
+            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            }
+            return;
+        }
+        cooldown.reload();
+        final double modifier = ((FlyBowInfo) getInfo()).getModifier();
         player.setVelocity(new Vector(event.getProjectile().getVelocity().getX() * modifier,
                 event.getProjectile().getVelocity().getY() * modifier,
                 event.getProjectile().getVelocity().getZ() * modifier));

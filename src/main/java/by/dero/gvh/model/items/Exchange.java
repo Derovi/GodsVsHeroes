@@ -9,14 +9,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
+
 public class Exchange extends Item implements PlayerInteractInterface {
-    private double maxRange = 10;
+    private final double maxRange;
     public Exchange(String name, int level, Player owner) {
         super(name, level, owner);
-        maxRange = ((ExchangeInfo)getInfo()).getMaxRange();
-    }
-    public Player getTargetPlayer(final Player player) {
-        return getTarget(player, player.getWorld().getPlayers());
+        maxRange = ((ExchangeInfo) getInfo()).getMaxRange();
     }
 
     public Entity getTargetEntity(final Entity entity) {
@@ -48,12 +47,19 @@ public class Exchange extends Item implements PlayerInteractInterface {
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        Entity target = getTargetEntity(player);
+    public void onPlayerInteract(final PlayerInteractEvent event) {
+        final Player player = event.getPlayer();
+        final Entity target = getTargetEntity(player);
 
-        Location zxc = player.getLocation().clone();
+        final Location zxc = player.getLocation().clone();
         if (target != null) {
+            if (!cooldown.isReady()) {
+                if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                    sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+                }
+                return;
+            }
+            cooldown.reload();
             player.teleport(target);
             target.teleport(zxc);
         }

@@ -8,24 +8,35 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
-import java.util.UUID;
+
+import static by.dero.gvh.utils.DataUtils.getNearby;
+import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class MagicRod extends Item implements PlayerInteractInterface {
     private final double damage;
-    public MagicRod(String name, int level, Player owner) {
+    public MagicRod(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        damage = ((MagicRodInfo)getInfo()).getDamage();
+        damage = ((MagicRodInfo) getInfo()).getDamage();
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
+    public void onPlayerInteract(final PlayerInteractEvent event) {
+        final Player player = event.getPlayer();
+        if (!cooldown.isReady()) {
+            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            }
+            return;
+        }
+        cooldown.reload();
         new BukkitRunnable() {
             double ticks = 0;
             final Vector st = new Vector(
@@ -33,19 +44,15 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                     Math.random(),
                     Math.random()
             ).normalize();
-            final Location start = p.getLocation().clone().add(p.getLocation().getDirection().multiply(2));
-            final UUID sender = p.getUniqueId();
+            final Location start = player.getLocation().clone().add(player.getLocation().getDirection().multiply(2));
             @Override
             public void run() {
                 start.add(start.getDirection().multiply(1));
-                Vector kek = st.clone().crossProduct(start.getDirection()).multiply(Math.sin(ticks) * 3);
+                final Vector kek = st.clone().crossProduct(start.getDirection()).multiply(Math.sin(ticks) * 3);
                 Objects.requireNonNull(start.getWorld()).spawnParticle(Particle.LAVA, start, 1);
-                for (Entity obj : start.getWorld().getNearbyEntities(start, 1, 1, 1)) {
-                    if (!(obj instanceof Player) || obj.getUniqueId() != sender) {
-                        try {
-                            obj.setFireTicks(200);
-                            ((Damageable)obj).damage(damage);
-                        } catch (Exception ignored){}
+                for (final LivingEntity obj : getNearby(start, 1)) {
+                    if (isEnemy(obj, team)) {
+                        obj.damage(damage, getOwner());
                     }
                 }
                 final int steps = 16;

@@ -4,18 +4,21 @@
   "invisible": true,
   "levels": [
     {
+      "cooldown": 0,
       "material": "FEATHER",
       "displayName": "",
       "lore": [],
       "amount": 1
     },
     {
+      "cooldown": 0,
       "material": "FEATHER",
       "displayName": "",
       "lore": [],
       "amount": 1
     },
     {
+      "cooldown": 0,
       "material": "FEATHER",
       "displayName": "",
       "lore": [],

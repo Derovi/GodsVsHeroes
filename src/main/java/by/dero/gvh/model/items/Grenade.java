@@ -5,8 +5,9 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
-import by.dero.gvh.model.itemsinfo.HealPotionInfo;
-import org.bukkit.attribute.Attribute;
+import by.dero.gvh.model.itemsinfo.GrenadeInfo;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -14,32 +15,40 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.Objects;
+
 import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.DataUtils.isAlly;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
-public class HealPotion extends Item implements ProjectileHitInterface,
-        InfiniteReplenishInterface, PlayerInteractInterface, ProjectileLaunchInterface {
+public class Grenade extends Item implements InfiniteReplenishInterface,
+        PlayerInteractInterface, ProjectileHitInterface, ProjectileLaunchInterface {
     private final double radius;
-    private final int heal;
+    private final double damage;
 
-    public HealPotion(final String name, final int level, final Player owner) {
+    public Grenade(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        final HealPotionInfo info = (HealPotionInfo)getInfo();
+        GrenadeInfo info = (GrenadeInfo) getInfo();
         radius = info.getRadius();
-        heal = info.getHeal();
+        damage = info.getDamage();
     }
 
     @Override
-    public void onProjectileHit(final ProjectileHitEvent event) {
-        final Entity at = event.getEntity();
-        for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
-            if (isAlly(ent, team)) {
-                final double hp = Math.min(ent.getHealth() + heal,
-                        ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-                ent.setHealth(hp);
-            }
+    public void onProjectileHit(ProjectileHitEvent event) {
+        final Location loc = event.getEntity().getLocation();
+        loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
+        for (LivingEntity ent : getNearby(loc, radius)) {
+            ent.damage(damage, getOwner());
         }
+    }
+
+    @Override
+    public void onProjectileHitEnemy(ProjectileHitEvent event) {
+
+    }
+
+    @Override
+    public void onPlayerInteract(PlayerInteractEvent event) {
+
     }
 
     @Override
@@ -52,15 +61,5 @@ public class HealPotion extends Item implements ProjectileHitInterface,
             return;
         }
         cooldown.reload();
-    }
-
-    @Override
-    public void onProjectileHitEnemy(final ProjectileHitEvent event) {
-
-    }
-
-    @Override
-    public void onPlayerInteract(final PlayerInteractEvent event) {
-
     }
 }

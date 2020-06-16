@@ -7,7 +7,6 @@ import by.dero.gvh.model.itemsinfo.EagleVisionInfo;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
@@ -16,30 +15,35 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 
+import static by.dero.gvh.utils.DataUtils.getPlayer;
+import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
+
 public class EagleVision extends Item implements UltimateInterface {
-    final double particleDense = 32;
+    private final double particleDense = 32;
 
-    double radius;
-    Long glowTime;
-    Particle searchParticle;
+    private final double radius;
+    private final Long glowTime;
+    private final Particle searchParticle;
 
-    public EagleVision(String name, int level, Player owner) {
+    public EagleVision(final String name, final int level, final Player owner) {
         super(name, level, owner);
 
-        EagleVisionInfo info = (EagleVisionInfo)getInfo();
+        final EagleVisionInfo info = (EagleVisionInfo) getInfo();
         radius = info.getRadius();
         glowTime = info.getGlowTime();
         searchParticle = info.getSearchParticle();
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        Location loc = player.getLocation().clone();
-        for (Entity obj : Objects.requireNonNull(loc.getWorld()).getNearbyEntities(loc, radius, 200, radius)) {
-            Location cur = obj.getLocation().clone();
-            double dst = loc.distance(new Location(cur.getWorld(), cur.getX(), loc.getY(), cur.getZ()));
-            if (!(obj instanceof LivingEntity) || dst > radius) {
+    public void onPlayerInteract(final PlayerInteractEvent event) {
+        final Player player = event.getPlayer();
+        final Location loc = player.getLocation().clone();
+        final int team = getPlayer(player.getName()).getTeam();
+        for (final Entity obj : Objects.requireNonNull(loc.getWorld()).getNearbyEntities(loc, radius, 200, radius)) {
+            final Location cur = obj.getLocation().clone();
+            final double dst = loc.distance(new Location(cur.getWorld(), cur.getX(), loc.getY(), cur.getZ()));
+            if (isEnemy(obj, team) && dst <= radius) {
                 continue;
             }
             new PotionEffect(PotionEffectType.GLOWING, Math.toIntExact(glowTime), 1).apply(event.getPlayer());
@@ -48,7 +52,7 @@ public class EagleVision extends Item implements UltimateInterface {
     }
 
     @Override
-    public void drawSign(Location loc) {
+    public void drawSign(final Location loc) {
         new BukkitRunnable(){
             double r = 1, addAngle = 0;
             @Override

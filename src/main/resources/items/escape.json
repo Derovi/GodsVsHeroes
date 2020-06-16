@@ -3,6 +3,7 @@
   "slot": 0,
   "levels": [
     {
+      "cooldown": 20,
       "force": 3.0,
       "material": "FEATHER",
       "displayName": "§cEscape",
@@ -13,6 +14,7 @@
       "amount": 1
     },
     {
+      "cooldown": 20,
       "force": 3.0,
       "material": "FEATHER",
       "displayName": "§cEscape",
@@ -23,6 +25,7 @@
       "amount": 2
     },
     {
+      "cooldown": 20,
       "force": 3.0,
       "material": "FEATHER",
       "displayName": "§cEscape",

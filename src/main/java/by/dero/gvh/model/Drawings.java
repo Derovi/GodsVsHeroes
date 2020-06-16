@@ -4,8 +4,20 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
 
+import java.util.Random;
+
 public class Drawings {
     private static final double dense = 2;
+
+    public static Location randomCylinder(final Location center, final double radius, final double depth) {
+        final double dst = Math.random() * radius;
+        final double angle = Math.random() * Math.PI * 2;
+        return center.clone().add(
+                dst*Math.cos(angle),
+                -Math.random() * depth,
+                dst*Math.sin(angle)
+        );
+    }
 
     public static void drawLine(Location a, Location b, Particle obj) {
         Vector cur = a.toVector();

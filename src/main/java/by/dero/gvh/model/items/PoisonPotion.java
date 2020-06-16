@@ -4,43 +4,62 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
+import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.PoisonPotionInfo;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class PoisonPotion extends Item implements PlayerInteractInterface, InfiniteReplenishInterface, ProjectileHitInterface {
+import static by.dero.gvh.utils.DataUtils.getNearby;
+import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
+
+public class PoisonPotion extends Item implements PlayerInteractInterface,
+        InfiniteReplenishInterface, ProjectileHitInterface, ProjectileLaunchInterface {
     private final double radius;
     private final int latency;
 
-    public PoisonPotion(String name, int level, Player owner) {
+    public PoisonPotion(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        PoisonPotionInfo info = (PoisonPotionInfo) getInfo();
+        final PoisonPotionInfo info = (PoisonPotionInfo) getInfo();
         radius = info.getRadius();
         latency = info.getLatency();
     }
 
     @Override
-    public void onProjectileHit(ProjectileHitEvent event) {
-        Entity at = event.getEntity();
-        for (Entity ent : at.getNearbyEntities(radius, radius, radius)) {
-            if (ent instanceof LivingEntity && ent.getLocation().distance(at.getLocation()) <= radius) {
-                new PotionEffect(PotionEffectType.POISON, latency, 1).apply((LivingEntity) ent);
+    public void onProjectileHit(final ProjectileHitEvent event) {
+        final Entity at = event.getEntity();
+        for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
+            if (isEnemy(ent, team)) {
+                new PotionEffect(PotionEffectType.POISON, latency * 100, 1).apply(ent);
             }
         }
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+        if (!cooldown.isReady()) {
+            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            }
+            event.setCancelled(true);
+            return;
+        }
+        cooldown.reload();
+    }
+
+    @Override
+    public void onPlayerInteract(final PlayerInteractEvent event) {
 
     }
 
     @Override
-    public void onProjectileHitEnemy(ProjectileHitEvent event) {
+    public void onProjectileHitEnemy(final ProjectileHitEvent event) {
 
     }
 }

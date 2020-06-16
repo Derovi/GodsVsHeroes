@@ -8,15 +8,24 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
+
 public class InvisibilityPotion extends Item implements PlayerInteractInterface {
     private final int duration;
-    public InvisibilityPotion(String name, int level, Player owner) {
+    public InvisibilityPotion(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        duration = ((InvisibilityPotionInfo)getInfo()).getDuration();
+        duration = ((InvisibilityPotionInfo) getInfo()).getDuration();
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(final PlayerInteractEvent event) {
+        if (!cooldown.isReady()) {
+            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            }
+            return;
+        }
+        cooldown.reload();
         new PotionEffect(PotionEffectType.INVISIBILITY, duration, 0).apply(event.getPlayer());
         event.setCancelled(true);
     }

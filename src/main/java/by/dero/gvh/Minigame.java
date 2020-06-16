@@ -1,18 +1,17 @@
 package by.dero.gvh;
 
-import by.dero.gvh.commands.AddSpawnPointCommand;
-import by.dero.gvh.commands.FinishCommand;
-import by.dero.gvh.commands.SelectCommand;
-import by.dero.gvh.commands.StartCommand;
+import by.dero.gvh.commands.*;
 import by.dero.gvh.events.MinigameEvents;
 import by.dero.gvh.game.DeathMatch;
 import by.dero.gvh.game.Game;
 import by.dero.gvh.game.GameData;
+import by.dero.gvh.model.AreaManager;
 import by.dero.gvh.model.storages.LocalStorage;
 import org.bukkit.Bukkit;
 
 public class Minigame implements PluginMode {
     private static Minigame instance;
+    private static AreaManager areaManager;
     private GameData gameData;
     private Game game;
     private CommandManager commandManager;
@@ -20,6 +19,7 @@ public class Minigame implements PluginMode {
     @Override
     public void onEnable() {
         instance = this;
+        areaManager = new AreaManager();
         gameData = new GameData(new LocalStorage());
         gameData.load();
         game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
@@ -42,6 +42,7 @@ public class Minigame implements PluginMode {
         commandManager.getCommands().put("start", new StartCommand());
         commandManager.getCommands().put("finish", new FinishCommand());
         commandManager.getCommands().put("addspawnpoint", new AddSpawnPointCommand());
+        commandManager.getCommands().put("addarea", new AddAreaCommand());
     }
 
     public static Minigame getInstance() {
@@ -58,5 +59,9 @@ public class Minigame implements PluginMode {
 
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    public static AreaManager getAreaManager() {
+        return areaManager;
     }
 }

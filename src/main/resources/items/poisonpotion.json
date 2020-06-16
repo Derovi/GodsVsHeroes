@@ -3,8 +3,9 @@
   "slot": 0,
   "levels": [
     {
+      "cooldown": 20,
       "radius": 4.0,
-      "latency": 4,
+      "latency": 80,
       "material": "SPLASH_POTION",
       "displayName": "§cPoison Potion",
       "lore": [
@@ -14,8 +15,9 @@
       "amount": 1
     },
     {
+      "cooldown": 20,
       "radius": 4.0,
-      "latency": 4,
+      "latency": 80,
       "material": "SPLASH_POTION",
       "displayName": "§cPoison Potion",
       "lore": [
@@ -25,8 +27,9 @@
       "amount": 1
     },
     {
+      "cooldown": 20,
       "radius": 4.0,
-      "latency": 4,
+      "latency": 80,
       "material": "SPLASH_POTION",
       "displayName": "§cPoison Potion",
       "lore": [

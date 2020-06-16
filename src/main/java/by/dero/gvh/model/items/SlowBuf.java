@@ -6,8 +6,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class SlowBuf extends Item {
-    public SlowBuf(String name, int level, Player owner) {
+    public SlowBuf(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        new PotionEffect(PotionEffectType.SLOW, (int)2e9, 1).apply(owner);
+        new PotionEffect(PotionEffectType.SLOW, (int)2e9, 0).apply(owner);
     }
 }

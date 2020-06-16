@@ -5,10 +5,10 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -18,25 +18,36 @@ import org.bukkit.util.Vector;
 import java.util.HashSet;
 import java.util.Set;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 import static java.lang.Math.random;
 
 public class ExplosiveBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
     private final double reclining;
     private final double multiplier;
+    private final double radiusMultiplier;
 
     private final Set<Entity> arrows = new HashSet<>();
 
-    public ExplosiveBow(String name, int level, Player owner) {
+    public ExplosiveBow(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        ExplosiveBowInfo info = (ExplosiveBowInfo)getInfo();
+        final ExplosiveBowInfo info = (ExplosiveBowInfo) getInfo();
         reclining = info.getReclining();
         multiplier = info.getMultiplier();
+        radiusMultiplier = info.getRadiusMultiplier();
     }
 
     @Override
     public void onPlayerShootBow(EntityShootBowEvent event) {
-        Player player = (Player) event.getEntity();
-        Entity obj = event.getProjectile();
+        final Player player = (Player) event.getEntity();
+        if (!cooldown.isReady()) {
+            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            }
+            return;
+        }
+        cooldown.reload();
+        final Entity obj = event.getProjectile();
         arrows.add(obj);
         new BukkitRunnable() {
             double power;
@@ -58,8 +69,12 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                         1,0,0,0,0);
                 player.spawnParticle(Particle.LAVA, obj.getLocation(), 10);
                 if (!arrows.contains(obj) || ticks > 300) {
-                    float force = (float)(power*power*multiplier);
-                    obj.getWorld().createExplosion(obj.getLocation(), force);
+                    final float force = (float)(power*power*multiplier);
+                    Location loc = obj.getLocation();
+                    loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 3);
+                    for (LivingEntity ent : getNearby(loc, power*power*radiusMultiplier)) {
+                        ent.damage(force, getOwner());
+                    }
                     this.cancel();
                     return;
                 }

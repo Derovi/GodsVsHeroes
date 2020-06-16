@@ -1,7 +1,4 @@
-{
-  "name": "default",
-  "itemNames": [
-    "airleap",
+"airleap",
     "chainlightning",
     "explosivebow",
     "flybow",
@@ -33,5 +30,3 @@
     "stunall",
     "doublejump",
     "grenade"
-  ]
-}

@@ -1,36 +1,39 @@
 {
-  "name": "stunrocks",
+  "name": "grenade",
   "slot": 0,
   "levels": [
     {
       "cooldown": 20,
-      "duration": 40,
+      "damage" : 4,
+      "radius" : 3,
       "material": "SNOWBALL",
-      "displayName": "§cStun Rocks",
+      "displayName": "§cGrenade",
       "lore": [
-        "§aОтомсти буржуям",
+        "§aИскусство это взрыв!",
         "&6Уровень 1"
       ],
       "amount": 1
     },
     {
       "cooldown": 20,
-      "duration": 40,
+      "damage" : 4,
+      "radius" : 3,
       "material": "SNOWBALL",
-      "displayName": "§cStun Rocks",
+      "displayName": "§cGrenade",
       "lore": [
-        "§aОтомсти буржуям",
+        "§aИскусство это взрыв!",
         "&6Уровень 2"
       ],
       "amount": 1
     },
     {
       "cooldown": 20,
-      "duration": 40,
+      "damage" : 4,
+      "radius" : 3,
       "material": "SNOWBALL",
-      "displayName": "§cStun Rocks",
+      "displayName": "§cGrenade",
       "lore": [
-        "§aОтомсти буржуям",
+        "§aИскусство это взрыв!",
         "&6Уровень 3"
       ],
       "amount": 1

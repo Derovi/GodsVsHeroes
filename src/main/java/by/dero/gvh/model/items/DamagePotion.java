@@ -11,22 +11,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
+import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
+
 public class DamagePotion extends Item implements ProjectileHitInterface, InfiniteReplenishInterface, PlayerInteractInterface {
     private final double radius;
     private final double damage;
-    public DamagePotion(String name, int level, Player owner) {
+    public DamagePotion(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        DamagePotionInfo info = (DamagePotionInfo)getInfo();
+        final DamagePotionInfo info = (DamagePotionInfo) getInfo();
         radius = info.getRadius();
         damage = info.getDamage();
     }
 
     @Override
-    public void onProjectileHit(ProjectileHitEvent event) {
-        Entity at = event.getEntity();
-        for (Entity ent : at.getNearbyEntities(radius, radius, radius)) {
-            if (ent instanceof LivingEntity && ent.getLocation().distance(at.getLocation()) <= radius) {
-                ((LivingEntity) ent).damage(damage);
+    public void onProjectileHit(final ProjectileHitEvent event) {
+        final Entity at = event.getEntity();
+        for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
+            if (isEnemy(ent, team)) {
+                ent.damage(damage, getOwner());
             }
         }
     }
@@ -38,7 +42,14 @@ public class DamagePotion extends Item implements ProjectileHitInterface, Infini
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-
+        if (!cooldown.isReady()) {
+            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            }
+            event.setCancelled(true);
+            return;
+        }
+        cooldown.reload();
     }
 }
 
