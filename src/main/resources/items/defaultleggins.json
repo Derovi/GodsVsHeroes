@@ -3,18 +3,21 @@
   "slot": -3,
   "levels": [
     {
+      "cooldown": 0,
       "material": "CHAINMAIL_LEGGINGS",
       "displayName": "§cПонтолоны",
       "lore": [],
       "amount": 1
     },
     {
+      "cooldown": 0,
       "material": "CHAINMAIL_LEGGINGS",
       "displayName": "§cПонтолоны",
       "lore": [],
       "amount": 1
     },
     {
+      "cooldown": 0,
       "material": "CHAINMAIL_LEGGINGS",
       "displayName": "§cПонтолоны",
       "lore": [],

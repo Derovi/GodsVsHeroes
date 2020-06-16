@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
+
 public class Exchange extends Item implements PlayerInteractInterface {
     private final double maxRange;
     public Exchange(String name, int level, Player owner) {
@@ -51,6 +53,11 @@ public class Exchange extends Item implements PlayerInteractInterface {
 
         final Location zxc = player.getLocation().clone();
         if (target != null) {
+            if (!cooldown.isReady()) {
+                sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+                return;
+            }
+            cooldown.reload();
             player.teleport(target);
             target.teleport(zxc);
         }

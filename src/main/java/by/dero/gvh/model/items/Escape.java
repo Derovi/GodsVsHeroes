@@ -6,6 +6,8 @@ import by.dero.gvh.model.itemsinfo.EscapeInfo;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
+
 public class Escape extends Item implements PlayerInteractInterface {
     private final double force;
     public Escape(final String name, final int level, final Player owner) {
@@ -15,7 +17,12 @@ public class Escape extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final Player p = event.getPlayer();
-        p.setVelocity(p.getLocation().getDirection().multiply(-force));
+        final Player player = event.getPlayer();
+        if (!cooldown.isReady()) {
+            sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            return;
+        }
+        cooldown.reload();
+        player.setVelocity(player.getLocation().getDirection().multiply(-force));
     }
 }

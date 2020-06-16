@@ -3,7 +3,7 @@ package by.dero.gvh;
 
 public class Cooldown {
     private long startTime;
-    private long duration;
+    private final long duration;
 
     public Cooldown(long duration) {
         this.duration = duration;
@@ -11,7 +11,7 @@ public class Cooldown {
     }
 
     public long getSecondsRemaining() {
-        return duration - (System.currentTimeMillis() - startTime) / 1000;
+        return (long) (Math.ceil((double) duration / 20) - (System.currentTimeMillis() - startTime) / 1000);
     }
 
     public void makeReady() {
@@ -24,7 +24,7 @@ public class Cooldown {
 
     public boolean isReady() {
         long currentTime = System.currentTimeMillis();
-        return startTime + duration * 1000 < currentTime;
+        return startTime + duration * 50 < currentTime;
     }
 
     public long getStartTime() {

@@ -3,18 +3,21 @@
   "slot": 0,
   "levels": [
     {
+      "cooldown": 0,
       "material": "WOODEN_AXE",
       "displayName": "§cТопор",
       "lore": [],
       "amount": 1
     },
     {
+      "cooldown": 0,
       "material": "WOODEN_AXE",
       "displayName": "§cТопор",
       "lore": [],
       "amount": 1
     },
     {
+      "cooldown": 0,
       "material": "WOODEN_AXE",
       "displayName": "§cТопор",
       "lore": [],

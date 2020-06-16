@@ -14,9 +14,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class MagicRod extends Item implements PlayerInteractInterface {
     private final double damage;
@@ -27,7 +27,13 @@ public class MagicRod extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final Player p = event.getPlayer();
+        final Player player = event.getPlayer();
+        if (!cooldown.isReady()) {
+            sendCooldownMessage(player,
+                    getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            return;
+        }
+        cooldown.reload();
         new BukkitRunnable() {
             double ticks = 0;
             final Vector st = new Vector(
@@ -35,7 +41,7 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                     Math.random(),
                     Math.random()
             ).normalize();
-            final Location start = p.getLocation().clone().add(p.getLocation().getDirection().multiply(2));
+            final Location start = player.getLocation().clone().add(player.getLocation().getDirection().multiply(2));
             @Override
             public void run() {
                 start.add(start.getDirection().multiply(1));

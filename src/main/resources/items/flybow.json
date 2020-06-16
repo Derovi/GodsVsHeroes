@@ -3,6 +3,7 @@
   "slot": 0,
   "levels": [
     {
+      "cooldown": 20,
       "modifier": 1.0,
       "material": "BOW",
       "displayName": "§cFly bow",
@@ -13,6 +14,7 @@
       "amount": 1
     },
     {
+      "cooldown": 20,
       "modifier": 1.2,
       "material": "BOW",
       "displayName": "§cFly bow",

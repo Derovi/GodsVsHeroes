@@ -3,18 +3,21 @@
   "slot": -2,
   "levels": [
     {
+      "cooldown": 0,
       "material": "CHAINMAIL_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],
       "amount": 1
     },
     {
+      "cooldown": 0,
       "material": "CHAINMAIL_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],
       "amount": 1
     },
     {
+      "cooldown": 0,
       "material": "CHAINMAIL_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],

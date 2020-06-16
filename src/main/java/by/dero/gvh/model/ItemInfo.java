@@ -39,6 +39,7 @@ public class ItemInfo {
     private String displayName = "§cNot found";
     private List<String> lore = Arrays.asList("First line", "Second line");
     private int amount = 1;
+    private int cooldown = 5;
 
     public static void main(String[] args) throws IOException {
         ItemInfo info = new ItemInfo();
@@ -47,22 +48,6 @@ public class ItemInfo {
         String json = ResourceUtils.readResourceFile("/items/arrowrain.json");
         ItemInfo info2 = new Gson().fromJson(json, ItemInfo.class);
         System.out.println(info2.getEnchantments().size());
-        /*Data data = new Data(new LocalStorage());
-        data.registerItem("flybow", FlyBowInfo.class, FlyBow.class);
-        ItemDescription description = new ItemDescription();
-        description.setName("flybow");
-        description.getLevels().add(new ItemInfo());
-        description.getLevels().add(new FlyBowInfo());
-        for (ItemInfo info : description.getLevels()) {
-            System.out.println(info instanceof FlyBowInfo);
-        }
-        Gson gson = new GsonBuilder().registerTypeAdapter(ItemDescription.class,
-                ItemDescription.getDeserializer(data)).setPrettyPrinting().create();
-        String serialized = gson.toJson(description);
-        System.out.println(serialized);
-        System.out.println("------------------------------------");
-        description = gson.fromJson(serialized, ItemDescription.class);
-        System.out.println(gson.toJson(description));*/
     }
 
     public List<EnchantInfo> getEnchantments() {
@@ -99,5 +84,13 @@ public class ItemInfo {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
     }
 }

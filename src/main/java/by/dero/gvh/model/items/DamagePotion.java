@@ -12,6 +12,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class DamagePotion extends Item implements ProjectileHitInterface, InfiniteReplenishInterface, PlayerInteractInterface {
     private final double radius;
@@ -40,6 +41,12 @@ public class DamagePotion extends Item implements ProjectileHitInterface, Infini
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (!cooldown.isReady()) {
+            sendCooldownMessage(event.getPlayer(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            event.setCancelled(true);
+            return;
+        }
+        cooldown.reload();
 
     }
 }

@@ -3,6 +3,7 @@
   "slot": 0,
   "levels": [
     {
+      "cooldown": 20,
       "damage": 0,
       "material": "BOW",
       "displayName": "§cЛук",
@@ -12,6 +13,7 @@
       "amount": 1
     },
     {
+      "cooldown": 20,
       "damage": 0,
       "material": "BOW",
       "displayName": "§cЛук",
@@ -21,6 +23,7 @@
       "amount": 1
     },
     {
+      "cooldown": 20,
       "damage": 0,
       "material": "BOW",
       "displayName": "§cЛук",

@@ -4,18 +4,22 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
+import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.PoisonPotionInfo;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
-public class PoisonPotion extends Item implements PlayerInteractInterface, InfiniteReplenishInterface, ProjectileHitInterface {
+public class PoisonPotion extends Item implements PlayerInteractInterface,
+        InfiniteReplenishInterface, ProjectileHitInterface, ProjectileLaunchInterface {
     private final double radius;
     private final int latency;
 
@@ -34,6 +38,17 @@ public class PoisonPotion extends Item implements PlayerInteractInterface, Infin
                 new PotionEffect(PotionEffectType.POISON, latency, 1).apply((LivingEntity) ent);
             }
         }
+    }
+
+    @Override
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+        if (!cooldown.isReady()) {
+            sendCooldownMessage((Player) event.getEntity(),
+                    getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            event.setCancelled(true);
+            return;
+        }
+        cooldown.reload();
     }
 
     @Override

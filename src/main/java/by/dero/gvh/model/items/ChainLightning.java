@@ -1,5 +1,6 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
@@ -18,6 +19,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class ChainLightning extends Item implements PlayerInteractInterface {
     private final double radius;
@@ -29,15 +31,24 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
         damage = info.getDamage();
         radius = info.getRadius();
     }
+
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
+        if (!cooldown.isReady()) {
+            sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            return;
+        }
+        cooldown.reload();
         RayTraceResult ray = player.getWorld().rayTraceEntities(
                 player.getEyeLocation(),
                 player.getLocation().getDirection(),
                 100, (p) -> isEnemy(p, team)
         );
         if (ray == null || !isEnemy(ray.getHitEntity(), team)) {
+            Drawings.drawLine(player.getEyeLocation(),
+                    player.getEyeLocation().clone().add(player.getLocation().getDirection().multiply(100)),
+                    Particle.FIREWORKS_SPARK);
             return;
         }
         new BukkitRunnable() {

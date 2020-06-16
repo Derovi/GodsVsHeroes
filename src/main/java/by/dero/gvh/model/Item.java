@@ -1,5 +1,6 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -16,6 +17,7 @@ public class Item {
     private String name;
     private int level;
     protected final int team;
+    protected Cooldown cooldown;
 
     private final Set<UUID> summonedEntityIds = new HashSet<>();
 
@@ -24,6 +26,8 @@ public class Item {
         this.level = level;
         this.owner = owner;
         team = getPlayer(owner.getName()).getTeam();
+        cooldown = new Cooldown(getInfo().getCooldown());
+        cooldown.makeReady();
     }
 
     public ItemStack getItemStack() {

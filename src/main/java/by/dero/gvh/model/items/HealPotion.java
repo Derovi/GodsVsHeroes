@@ -4,17 +4,21 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
+import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.HealPotionInfo;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import static by.dero.gvh.utils.DataUtils.isAlly;
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
-public class HealPotion extends Item implements ProjectileHitInterface, InfiniteReplenishInterface, PlayerInteractInterface {
+public class HealPotion extends Item implements ProjectileHitInterface,
+        InfiniteReplenishInterface, PlayerInteractInterface, ProjectileLaunchInterface {
     private final double radius;
     private final int heal;
 
@@ -36,6 +40,17 @@ public class HealPotion extends Item implements ProjectileHitInterface, Infinite
                 cur.setHealth(hp);
             }
         }
+    }
+
+    @Override
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+        if (!cooldown.isReady()) {
+            sendCooldownMessage((Player) event.getEntity(),
+                    getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            event.setCancelled(true);
+            return;
+        }
+        cooldown.reload();
     }
 
     @Override

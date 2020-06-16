@@ -17,6 +17,7 @@ import org.bukkit.util.Vector;
 import java.util.HashSet;
 import java.util.Set;
 
+import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 import static java.lang.Math.random;
 
 public class ExplosiveBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
@@ -35,6 +36,11 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
     @Override
     public void onPlayerShootBow(EntityShootBowEvent event) {
         final Player player = (Player) event.getEntity();
+        if (!cooldown.isReady()) {
+            sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            return;
+        }
+        cooldown.reload();
         final Entity obj = event.getProjectile();
         arrows.add(obj);
         new BukkitRunnable() {

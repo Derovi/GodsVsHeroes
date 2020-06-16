@@ -28,7 +28,6 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
     private final int cycleDelay;
     private final double height = 10;
     private final HashSet<UUID> arrows = new HashSet<>();
-    private final Cooldown cooldown;
 
     public ArrowRain(final String name, final int level, final Player owner) {
         super(name, level, owner);
@@ -36,8 +35,6 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
         radius = info.getRadius();
         arrowCycles = info.getArrowCycles();
         cycleDelay = info.getCycleDelay();
-        cooldown = new Cooldown(info.getCooldown());
-        cooldown.makeReady();
     }
 
     @Override
