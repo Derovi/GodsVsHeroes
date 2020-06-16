@@ -1,6 +1,6 @@
 package by.dero.gvh.lobby;
 
-import by.dero.gvh.minigame.Position;
+import by.dero.gvh.utils.Position;
 
 public class LobbyRecord {
     private int version;

@@ -1,6 +1,6 @@
 package by.dero.gvh.lobby;
 
-import by.dero.gvh.minigame.Position;
+import by.dero.gvh.utils.Position;
 import by.dero.gvh.model.StorageInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

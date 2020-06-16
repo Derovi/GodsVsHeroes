@@ -13,10 +13,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
 public class Lobby implements PluginMode {
     private static Lobby instance;
     private LobbyInfo info;
     private LobbyData data;
+    private File lobbySchematicFile;
     private final String worldName = "Lobby";
     private World world;
 
@@ -44,10 +49,26 @@ public class Lobby implements PluginMode {
                     Plugin.getInstance().getSettings().getLobbyDataMongodbDatabase());
         }
         data = new LobbyData(dataStorage);
+        System.out.println("Loading schematic");
+        loadSchematic();
     }
 
     @Override
     public void onDisable() {}
+
+    private void loadSchematic() {
+        try {
+            String data = ResourceUtils.readResourceFile("/lobby/lobby.schem");
+            File directory = new File(LocalStorage.getPrefix());
+            directory.mkdirs();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(LocalStorage.getPrefix() + "lobby/lobby.schem"));
+            writer.write(data);
+            writer.close();
+            System.out.println("Schematic loaded");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public static Lobby getInstance() {
         return instance;
@@ -71,5 +92,9 @@ public class Lobby implements PluginMode {
 
     public World getWorld() {
         return world;
+    }
+
+    public File getLobbySchematicFile() {
+        return lobbySchematicFile;
     }
 }

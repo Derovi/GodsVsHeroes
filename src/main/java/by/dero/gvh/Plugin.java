@@ -44,7 +44,7 @@ public class Plugin extends JavaPlugin {
                     settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase());
         }
         playerData = new PlayerData(playerDataStorage);
-        if (settings.getMode() == "minigame") {
+        if (settings.getMode().equals("minigame")) {
             pluginMode = new Minigame();
         } else {
             pluginMode = new Lobby();

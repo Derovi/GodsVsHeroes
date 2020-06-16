@@ -15,7 +15,7 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation files('lib/spigot.jar')
-    implementation files('lib/Stunned.jar')
+    implementation files('lib/worldedit.jar')
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
     compile 'org.mongodb:mongodb-driver-sync:3.9.1'
 }

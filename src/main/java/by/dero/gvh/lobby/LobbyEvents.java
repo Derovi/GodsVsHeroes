@@ -1,5 +1,6 @@
 package by.dero.gvh.lobby;
 
+import by.dero.gvh.utils.Position;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -13,5 +14,9 @@ public class LobbyEvents implements Listener {
         Player player = event.getPlayer();
         player.setGameMode(GameMode.CREATIVE);
         player.teleport(new Location(Lobby.getInstance().getWorld(), 0, 60, 0));
+        LobbyRecord record = new LobbyRecord();
+        record.setPosition(new Position(0, 50, 0));
+        PlayerLobby lobby = new PlayerLobby(record);
+        lobby.create();
     }
 }
