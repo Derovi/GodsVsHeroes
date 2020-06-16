@@ -8,6 +8,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import org.bukkit.Bukkit;
 import by.dero.gvh.model.interfaces.*;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -99,6 +100,9 @@ public class MinigameEvents implements Listener {
                 }
             }
         }
+        if (event.getHitEntity() instanceof Arrow) {
+            event.getHitEntity().remove();
+        }
     }
 
     @EventHandler
@@ -137,7 +141,10 @@ public class MinigameEvents implements Listener {
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
             game.respawnPlayer(game.getPlayers().get(player.getName()));
-            inv.forEach((s, item) -> gp.addItem(s, item.getLevel()));
+            inv.forEach((s, item) -> {
+                gp.addItem(s, item.getLevel());
+                gp.getItems().get(s).getItemStack().setAmount(item.getItemStack().getAmount());
+            });
         }, 1L);
     }
 
