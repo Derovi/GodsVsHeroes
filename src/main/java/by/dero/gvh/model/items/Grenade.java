@@ -7,12 +7,15 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.GrenadeInfo;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.Objects;
 
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
@@ -32,7 +35,7 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
     @Override
     public void onProjectileHit(ProjectileHitEvent event) {
         final Location loc = event.getEntity().getLocation();
-        loc.getWorld().createExplosion(loc, 0);
+        loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
         for (LivingEntity ent : getNearby(loc, radius)) {
             ent.damage(damage, getOwner());
         }
@@ -51,8 +54,9 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
     @Override
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
         if (!cooldown.isReady()) {
-            sendCooldownMessage((Player) event.getEntity(),
-                    getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            }
             event.setCancelled(true);
             return;
         }

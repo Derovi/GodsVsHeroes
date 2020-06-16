@@ -18,6 +18,7 @@ public class Item {
     private int level;
     protected final int team;
     protected Cooldown cooldown;
+    protected int lastUsed;
 
     private final Set<UUID> summonedEntityIds = new HashSet<>();
 

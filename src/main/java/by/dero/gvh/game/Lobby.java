@@ -18,7 +18,7 @@ public class Lobby {
 
     public Lobby(Game game) {
         this.game = game;
-        board = new Board("Lobby", 2);
+        board = new Board("Lobby", 3);
         Bukkit.getServer().getScheduler().runTaskTimer(Plugin.getInstance(), ()->
                 board.update(new String[] {
                                 "§aPreparing: §4 %d/%d",

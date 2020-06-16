@@ -4,7 +4,8 @@
   "levels": [
     {
       "cooldown": 20,
-      "force" : 2,
+      "damage" : 4,
+      "radius" : 3,
       "material": "SNOWBALL",
       "displayName": "§cGrenade",
       "lore": [
@@ -15,7 +16,8 @@
     },
     {
       "cooldown": 20,
-      "force" : 2,
+      "damage" : 4,
+      "radius" : 3,
       "material": "SNOWBALL",
       "displayName": "§cGrenade",
       "lore": [
@@ -26,7 +28,8 @@
     },
     {
       "cooldown": 20,
-      "force" : 2,
+      "damage" : 4,
+      "radius" : 3,
       "material": "SNOWBALL",
       "displayName": "§cGrenade",
       "lore": [

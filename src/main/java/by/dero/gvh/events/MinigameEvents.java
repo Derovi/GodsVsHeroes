@@ -6,7 +6,6 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.game.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
-import by.dero.gvh.utils.DataUtils;
 import org.bukkit.Bukkit;
 import by.dero.gvh.model.interfaces.*;
 import org.bukkit.entity.LivingEntity;
@@ -23,9 +22,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.HashMap;
+import java.util.Map;
 
-import static by.dero.gvh.utils.DataUtils.getLastLightningTime;
-import static by.dero.gvh.utils.DataUtils.getLastUsedLightning;
+import static by.dero.gvh.utils.DataUtils.*;
 
 
 public class MinigameEvents implements Listener {
@@ -127,14 +126,18 @@ public class MinigameEvents implements Listener {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        GamePlayer gp = getPlayer(player.getName());
+
+        HashMap<String, Item> inv = (HashMap<String, Item>) gp.getItems().clone();
         event.getDrops().clear();
         event.setDeathMessage(null);
         Game game = Minigame.getInstance().getGame();
-        Player player = event.getEntity();
         game.onPlayerKilled(player, damageCause.getOrDefault(player, null));
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
             game.respawnPlayer(game.getPlayers().get(player.getName()));
+            inv.forEach((s, item) -> gp.addItem(s, item.getLevel()));
         }, 1L);
     }
 

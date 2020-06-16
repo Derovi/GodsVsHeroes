@@ -54,7 +54,9 @@ public class Exchange extends Item implements PlayerInteractInterface {
         final Location zxc = player.getLocation().clone();
         if (target != null) {
             if (!cooldown.isReady()) {
-                sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+                if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                    sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+                }
                 return;
             }
             cooldown.reload();

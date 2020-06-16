@@ -5,7 +5,7 @@ import by.dero.gvh.model.ItemInfo;
 public class ExplosiveBowInfo extends ItemInfo {
     private double multiplier;
     private double reclining;
-    private double radius;
+    private double radiusMultiplier;
 
     public double getMultiplier() {
         return multiplier;
@@ -23,11 +23,11 @@ public class ExplosiveBowInfo extends ItemInfo {
         this.reclining = reclining;
     }
 
-    public double getRadius() {
-        return radius;
+    public double getRadiusMultiplier() {
+        return radiusMultiplier;
     }
 
-    public void setRadius(double radius) {
-        this.radius = radius;
+    public void setRadiusMultiplier(double radiusMultiplier) {
+        this.radiusMultiplier = radiusMultiplier;
     }
 }

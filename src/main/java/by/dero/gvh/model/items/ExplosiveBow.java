@@ -25,7 +25,7 @@ import static java.lang.Math.random;
 public class ExplosiveBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
     private final double reclining;
     private final double multiplier;
-    private final double radius;
+    private final double radiusMultiplier;
 
     private final Set<Entity> arrows = new HashSet<>();
 
@@ -34,14 +34,16 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
         final ExplosiveBowInfo info = (ExplosiveBowInfo) getInfo();
         reclining = info.getReclining();
         multiplier = info.getMultiplier();
-        radius = info.getRadius();
+        radiusMultiplier = info.getRadiusMultiplier();
     }
 
     @Override
     public void onPlayerShootBow(EntityShootBowEvent event) {
         final Player player = (Player) event.getEntity();
         if (!cooldown.isReady()) {
-            sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
+            }
             return;
         }
         cooldown.reload();
@@ -68,8 +70,9 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                 player.spawnParticle(Particle.LAVA, obj.getLocation(), 10);
                 if (!arrows.contains(obj) || ticks > 300) {
                     final float force = (float)(power*power*multiplier);
-                    obj.getWorld().createExplosion(obj.getLocation(), 0);
-                    for (LivingEntity ent : getNearby(obj.getLocation(), radius)) {
+                    Location loc = obj.getLocation();
+                    loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 3);
+                    for (LivingEntity ent : getNearby(loc, power*power*radiusMultiplier)) {
                         ent.damage(force, getOwner());
                     }
                     this.cancel();

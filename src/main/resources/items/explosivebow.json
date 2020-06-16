@@ -6,11 +6,11 @@
       "cooldown": 20,
       "multiplier": 1.0,
       "reclining": 0.7,
-      "radius": 4,
+      "radiusMultiplier": 0.8,
       "material": "BOW",
       "displayName": "§cExplosive Bow",
       "lore": [
-        "§aИспользуйте этот лук, чтобы пускать взрывные стрелы.",
+        "§aИскусство это взрыв!",
         "&6Уровень 1"
       ],
       "amount": 1
@@ -23,7 +23,7 @@
       "material": "BOW",
       "displayName": "§cExplosive Bow",
       "lore": [
-        "§aИспользуйте этот лук, чтобы пускать взрывные стрелы.",
+        "§aИскусство это взрыв!",
         "&6Уровень 2"
       ],
       "amount": 1
@@ -36,7 +36,7 @@
       "material": "BOW",
       "displayName": "§cExplosive Bow",
       "lore": [
-        "§aИспользуйте этот лук, чтобы пускать взрывные стрелы.",
+        "§aИскусство это взрыв!",
         "&6Уровень 3"
       ],
       "amount": 1
