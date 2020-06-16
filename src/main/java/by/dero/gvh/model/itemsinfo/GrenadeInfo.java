@@ -3,13 +3,22 @@ package by.dero.gvh.model.itemsinfo;
 import by.dero.gvh.model.ItemInfo;
 
 public class GrenadeInfo extends ItemInfo {
-    private double force;
+    private double radius;
+    private double damage;
 
-    public double getForce() {
-        return force;
+    public double getRadius() {
+        return radius;
     }
 
-    public void setForce(int force) {
-        this.force = force;
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public double getDamage() {
+        return damage;
+    }
+
+    public void setDamage(double damage) {
+        this.damage = damage;
     }
 }

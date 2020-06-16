@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,6 +16,7 @@ import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
@@ -47,14 +49,9 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                 start.add(start.getDirection().multiply(1));
                 final Vector kek = st.clone().crossProduct(start.getDirection()).multiply(Math.sin(ticks) * 3);
                 Objects.requireNonNull(start.getWorld()).spawnParticle(Particle.LAVA, start, 1);
-                for (final Entity obj : start.getWorld().getNearbyEntities(start, 1, 1, 1)) {
+                for (final LivingEntity obj : getNearby(start, 1)) {
                     if (isEnemy(obj, team)) {
-                        try {
-                            obj.setFireTicks(200);
-                            ((Damageable) obj).damage(damage);
-                        } catch (Exception ignored){
-
-                        }
+                        obj.damage(damage, getOwner());
                     }
                 }
                 final int steps = 16;

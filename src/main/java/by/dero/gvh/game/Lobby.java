@@ -22,10 +22,12 @@ public class Lobby {
         Bukkit.getServer().getScheduler().runTaskTimer(Plugin.getInstance(), ()->
                 board.update(new String[] {
                                 "§aPreparing: §4 %d/%d",
+                                "§aMinimum required: %d",
                                 "§bTime left : %d"
                         },
                         new int[] {
                                 game.getPlayers().size(),
+                                game.getInfo().getMaxPlayerCount(),
                                 game.getInfo().getMinPlayerCount(),
                                 timeLeft
                         }), 0, 10);

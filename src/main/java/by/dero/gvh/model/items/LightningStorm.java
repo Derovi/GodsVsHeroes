@@ -8,6 +8,7 @@ import by.dero.gvh.model.itemsinfo.LightningStormInfo;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -16,7 +17,7 @@ import java.util.Objects;
 
 import static by.dero.gvh.model.Drawings.drawLine;
 import static by.dero.gvh.model.Drawings.getInCircle;
-import static by.dero.gvh.utils.DataUtils.isAlly;
+import static by.dero.gvh.utils.DataUtils.*;
 
 public class LightningStorm extends Item implements UltimateInterface {
     private final double radius;
@@ -71,8 +72,9 @@ public class LightningStorm extends Item implements UltimateInterface {
             final Location center = player.getLocation().clone();
             @Override
             public void run() {
-                for (final Entity obj : Objects.requireNonNull(center.getWorld()).getNearbyEntities(center, radius, radius, radius)) {
+                for (final LivingEntity obj : getNearby(center, radius)) {
                     if (isAlly(obj, team) && center.distance(obj.getLocation()) <= radius) {
+                        setLastUsedLightning(getOwner());
                         center.getWorld().strikeLightning(obj.getLocation());
                     }
                 }

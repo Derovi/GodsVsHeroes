@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
@@ -27,9 +28,9 @@ public class DamagePotion extends Item implements ProjectileHitInterface, Infini
     @Override
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();
-        for (final Entity ent : at.getNearbyEntities(radius, radius, radius)) {
-            if (isEnemy(ent, team) && ent.getLocation().distance(at.getLocation()) <= radius) {
-                ((LivingEntity) ent).damage(damage);
+        for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
+            if (isEnemy(ent, team)) {
+                ent.damage(damage, getOwner());
             }
         }
     }
@@ -47,7 +48,6 @@ public class DamagePotion extends Item implements ProjectileHitInterface, Infini
             return;
         }
         cooldown.reload();
-
     }
 }
 

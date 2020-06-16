@@ -12,6 +12,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isAlly;
 
 public class HealAll extends Item implements UltimateInterface {
@@ -37,12 +38,11 @@ public class HealAll extends Item implements UltimateInterface {
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player p = event.getPlayer();
         drawSign(p.getLocation());
-        for (final Entity ent : p.getNearbyEntities(radius, radius, radius)) {
-            if (isAlly(ent, team) && ent.getLocation().distance(p.getLocation()) <= radius) {
-                final LivingEntity cur = (LivingEntity) ent;
-                final double hp = Math.min(cur.getHealth() + heal,
-                        cur.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-                cur.setHealth(hp);
+        for (final LivingEntity ent : getNearby(p.getLocation(), radius)) {
+            if (isAlly(ent, team)) {
+                final double hp = Math.min(ent.getHealth() + heal,
+                        ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+                ent.setHealth(hp);
             }
         }
     }

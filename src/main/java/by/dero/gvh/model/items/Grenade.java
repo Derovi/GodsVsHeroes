@@ -8,26 +8,34 @@ import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.GrenadeInfo;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class Grenade extends Item implements InfiniteReplenishInterface,
         PlayerInteractInterface, ProjectileHitInterface, ProjectileLaunchInterface {
-    private final double force;
+    private final double radius;
+    private final double damage;
+
     public Grenade(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        force = ((GrenadeInfo) getInfo()).getForce();
+        GrenadeInfo info = (GrenadeInfo) getInfo();
+        radius = info.getRadius();
+        damage = info.getDamage();
     }
-
 
     @Override
     public void onProjectileHit(ProjectileHitEvent event) {
         final Location loc = event.getEntity().getLocation();
-        loc.getWorld().createExplosion(loc, (float) force);
+        loc.getWorld().createExplosion(loc, 0);
+        for (LivingEntity ent : getNearby(loc, radius)) {
+            ent.damage(damage, getOwner());
+        }
     }
 
     @Override

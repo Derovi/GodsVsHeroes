@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
@@ -33,9 +34,9 @@ public class PoisonPotion extends Item implements PlayerInteractInterface,
     @Override
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();
-        for (final Entity ent : at.getNearbyEntities(radius, radius, radius)) {
-            if (isEnemy(ent, team) && ent.getLocation().distance(at.getLocation()) <= radius) {
-                new PotionEffect(PotionEffectType.POISON, latency, 1).apply((LivingEntity) ent);
+        for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
+            if (isEnemy(ent, team)) {
+                new PotionEffect(PotionEffectType.POISON, latency, 1).apply(ent);
             }
         }
     }

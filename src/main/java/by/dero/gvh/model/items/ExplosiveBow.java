@@ -8,6 +8,7 @@ import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -17,12 +18,14 @@ import org.bukkit.util.Vector;
 import java.util.HashSet;
 import java.util.Set;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 import static java.lang.Math.random;
 
 public class ExplosiveBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
     private final double reclining;
     private final double multiplier;
+    private final double radius;
 
     private final Set<Entity> arrows = new HashSet<>();
 
@@ -31,6 +34,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
         final ExplosiveBowInfo info = (ExplosiveBowInfo) getInfo();
         reclining = info.getReclining();
         multiplier = info.getMultiplier();
+        radius = info.getRadius();
     }
 
     @Override
@@ -63,8 +67,11 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                         1,0,0,0,0);
                 player.spawnParticle(Particle.LAVA, obj.getLocation(), 10);
                 if (!arrows.contains(obj) || ticks > 300) {
-                    float force = (float)(power*power*multiplier);
-                    obj.getWorld().createExplosion(obj.getLocation(), force);
+                    final float force = (float)(power*power*multiplier);
+                    obj.getWorld().createExplosion(obj.getLocation(), 0);
+                    for (LivingEntity ent : getNearby(obj.getLocation(), radius)) {
+                        ent.damage(force, getOwner());
+                    }
                     this.cancel();
                     return;
                 }

@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
@@ -18,6 +17,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
@@ -60,13 +60,12 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
                 Drawings.drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.FIREWORKS_SPARK);
                 Objects.requireNonNull(next.getEyeLocation().getWorld()).spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
                 hit.add(next.getUniqueId());
-                next.damage(damage);
+                next.damage(damage, getOwner());
                 cur = next;
                 next = null;
-                for (Entity obj : cur.getNearbyEntities(radius, radius, radius)) {
-                    if (isEnemy(obj, team) && obj.getLocation().distance(cur.getLocation()) <= radius &&
-                            !hit.contains(obj.getUniqueId())) {
-                        next = (LivingEntity) obj;
+                for (LivingEntity obj : getNearby(cur.getLocation(), radius)) {
+                    if (isEnemy(obj, team) && !hit.contains(obj.getUniqueId())) {
+                        next = obj;
                         break;
                     }
                 }

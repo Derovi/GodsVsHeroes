@@ -14,6 +14,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isAlly;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
@@ -32,12 +33,11 @@ public class HealPotion extends Item implements ProjectileHitInterface,
     @Override
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();
-        for (final Entity ent : at.getNearbyEntities(radius, radius, radius)) {
-            if (isAlly(ent, team) && ent.getLocation().distance(at.getLocation()) <= radius) {
-                final LivingEntity cur = (LivingEntity) ent;
-                final double hp = Math.min(cur.getHealth() + heal,
-                        cur.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-                cur.setHealth(hp);
+        for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
+            if (isAlly(ent, team)) {
+                final double hp = Math.min(ent.getHealth() + heal,
+                        ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+                ent.setHealth(hp);
             }
         }
     }

@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,6 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
@@ -59,7 +61,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
                 double dst = Math.random() * radius, angle = Math.random() * Math.PI * 2;
                 Location shooter = center.clone().add(dst*Math.cos(angle),0,dst*Math.sin(angle));
                 List<Location> targets = new ArrayList<>();
-                for (Entity obj : Objects.requireNonNull(center.getWorld()).getNearbyEntities(center, radius, 50, radius)) {
+                for (LivingEntity obj : getNearby(center, radius)) {
                     if (isEnemy(obj, team)) {
                         targets.add(obj.getLocation().clone());
                     }
@@ -68,6 +70,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
                     Arrow arrow = center.getWorld().spawnArrow(shooter,
                             obj.toVector().subtract(shooter.toVector()).normalize(),
                             4, 1);
+                    arrow.setShooter(getOwner());
                     arrows.add(arrow.getUniqueId());
                     new BukkitRunnable() {
                         @Override

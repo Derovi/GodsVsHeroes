@@ -12,6 +12,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 
 public class StunAll extends Item implements UltimateInterface {
@@ -40,9 +41,9 @@ public class StunAll extends Item implements UltimateInterface {
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player p = event.getPlayer();
         drawSign(p.getLocation());
-        for (final Entity ot : p.getNearbyEntities(radius, radius, radius)) {
-            if (isEnemy(ot, team) && p.getLocation().distance(ot.getLocation()) < radius) {
-                Stun.stunEntity((LivingEntity)ot, latency);
+        for (final LivingEntity ot : getNearby(p.getLocation(), radius)) {
+            if (isEnemy(ot, team)) {
+                Stun.stunEntity(ot, latency);
             }
         }
     }
