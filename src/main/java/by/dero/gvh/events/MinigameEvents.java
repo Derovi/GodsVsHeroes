@@ -65,7 +65,7 @@ public class MinigameEvents implements Listener {
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
         Item itemInHand = gamePlayer.getSelectedItem();
         Player player = event.getPlayer();
-        if (!itemInHand.getCooldown().isReady()) {
+        if (itemInHand == null || !itemInHand.getCooldown().isReady()) {
             return;
         }
         if (itemInHand instanceof PlayerInteractInterface) {
