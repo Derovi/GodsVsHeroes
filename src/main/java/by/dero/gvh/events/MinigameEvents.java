@@ -23,7 +23,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static by.dero.gvh.utils.DataUtils.*;
 
@@ -65,12 +64,21 @@ public class MinigameEvents implements Listener {
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
         Item itemInHand = gamePlayer.getSelectedItem();
+        Player player = event.getPlayer();
+        if (!itemInHand.getCooldown().isReady()) {
+            return;
+        }
         if (itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof InfiniteReplenishInterface) {
-                event.getPlayer().getInventory().getItemInMainHand().setAmount(2);
+                GamePlayer gp = getPlayer(player.getName());
+                Item item = gp.getSelectedItem();
+                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()-> {
+                    gp.addItem(item.getName(), item.getLevel());
+                    gp.getSelectedItem().getCooldown().reload();
+                    }, 1);
             }
             if (itemInHand instanceof UltimateInterface) {
-                ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+                ItemStack item = player.getInventory().getItemInMainHand();
                 item.setAmount(item.getAmount()-1);
             }
             ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
@@ -121,7 +129,7 @@ public class MinigameEvents implements Listener {
 
     @EventHandler
     public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player)) {
+        if (!(event.getEntity() instanceof Player) || event.getFinalDamage() == 0) {
             return;
         }
         Player player = (Player) event.getEntity();
@@ -130,13 +138,14 @@ public class MinigameEvents implements Listener {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
-        Player player = event.getEntity();
-        GamePlayer gp = getPlayer(player.getName());
+        final Player player = event.getEntity();
+        final float exp = player.getExp();
+        final GamePlayer gp = getPlayer(player.getName());
 
-        HashMap<String, Item> inv = (HashMap<String, Item>) gp.getItems().clone();
+        final HashMap<String, Item> inv = (HashMap<String, Item>) gp.getItems().clone();
         event.getDrops().clear();
         event.setDeathMessage(null);
-        Game game = Minigame.getInstance().getGame();
+        final Game game = Minigame.getInstance().getGame();
         game.onPlayerKilled(player, damageCause.getOrDefault(player, null));
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
@@ -145,6 +154,7 @@ public class MinigameEvents implements Listener {
                 gp.addItem(s, item.getLevel());
                 gp.getItems().get(s).getItemStack().setAmount(item.getItemStack().getAmount());
             });
+            player.setExp(exp);
         }, 1L);
     }
 

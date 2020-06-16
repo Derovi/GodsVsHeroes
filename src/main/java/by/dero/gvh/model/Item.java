@@ -17,6 +17,11 @@ public class Item {
     private String name;
     private int level;
     protected final int team;
+
+    public Cooldown getCooldown() {
+        return cooldown;
+    }
+
     protected Cooldown cooldown;
     protected int lastUsed;
 
