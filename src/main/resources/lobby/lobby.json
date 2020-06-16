@@ -2,6 +2,11 @@
   "version": 0,
   "height": 48,
   "width": 48,
+  "spawnPosition": {
+    "x": 0.0,
+    "y": 16.0,
+    "z": 16.0
+  },
   "monuments": {
     "default": {
       "x": 19.0,

@@ -8,9 +8,15 @@ public class LobbyInfo {
     private int version;
     private int height;
     private int width;
+    private Position spawnPosition;
 
     @SerializedName("monuments")
     private Map<String, Position> classNameToMonumentPosition;
+
+
+    public Position getSpawnPosition() {
+        return spawnPosition;
+    }
 
     public int getVersion() {
         return version;

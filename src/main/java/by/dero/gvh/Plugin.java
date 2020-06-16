@@ -57,6 +57,10 @@ public class Plugin extends JavaPlugin {
         pluginMode.onDisable();
     }
 
+    public Settings getSettings() {
+        return settings;
+    }
+
     public PlayerData getPlayerData() {
         return playerData;
     }
