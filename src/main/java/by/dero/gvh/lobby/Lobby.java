@@ -32,7 +32,6 @@ public class Lobby implements PluginMode {
     @Override
     public void onEnable() {
         instance = this;
-        registerEvents();
         try {
             info = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(), "lobby", "lobby",
                     ResourceUtils.readResourceFile("/lobby/lobby.json")), LobbyInfo.class);
@@ -55,6 +54,8 @@ public class Lobby implements PluginMode {
         data = new LobbyData(dataStorage);
         data.load();
         monumentManager = new MonumentManager();
+        Bukkit.getPluginManager().registerEvents(monumentManager, Plugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
         System.out.println("Loading schematic");
         loadSchematic();
     }
@@ -140,10 +141,6 @@ public class Lobby implements PluginMode {
 
     public LobbyData getData() {
         return data;
-    }
-
-    private void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
     }
 
     public LobbyInfo getInfo() {
