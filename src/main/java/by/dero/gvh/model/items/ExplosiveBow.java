@@ -46,6 +46,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
             if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
                 sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
             }
+            event.setCancelled(true);
             return;
         }
         cooldown.reload();

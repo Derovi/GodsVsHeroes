@@ -43,6 +43,7 @@ public class Minigame implements PluginMode {
         commandManager.getCommands().put("finish", new FinishCommand());
         commandManager.getCommands().put("addspawnpoint", new AddSpawnPointCommand());
         commandManager.getCommands().put("addarea", new AddAreaCommand());
+        commandManager.getCommands().put("unlock", new UnlockClassCommand());
     }
 
     public static Minigame getInstance() {

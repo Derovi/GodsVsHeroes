@@ -5,6 +5,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;

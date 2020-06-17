@@ -57,7 +57,6 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
             if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
                 sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
             }
-            event.setCancelled(true);
             return;
         }
         cooldown.reload();

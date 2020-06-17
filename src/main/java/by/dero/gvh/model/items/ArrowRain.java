@@ -53,6 +53,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
             if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
                 sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
             }
+            event.setCancelled(true);
             return;
         }
         cooldown.reload();

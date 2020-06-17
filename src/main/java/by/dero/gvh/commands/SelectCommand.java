@@ -19,10 +19,10 @@ public class SelectCommand implements PluginCommand {
             sender.sendMessage("§cClass not found!");
             return;
         }
-//        if (!Plugin.getInstance().getPlayerData().getPlayerInfo(sender.getName()).isClassUnlocked(arguments[0])) {
-//            sender.sendMessage("§cClass isn't unlocked!");
-//            return;
-//        }
+        if (!Plugin.getInstance().getPlayerData().getPlayerInfo(sender.getName()).isClassUnlocked(arguments[0])) {
+            sender.sendMessage("§cClass isn't unlocked!");
+            return;
+        }
         GamePlayer player = Minigame.getInstance().getGame().getPlayers().get(sender.getName());
         player.selectClass(arguments[0]);
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(arguments[0]);

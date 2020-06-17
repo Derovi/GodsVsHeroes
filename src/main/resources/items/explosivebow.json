@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 20,
+      "cooldown": 200,
       "multiplier": 1.0,
       "reclining": 0.7,
       "radiusMultiplier": 0.8,
@@ -16,7 +16,7 @@
       "amount": 1
     },
     {
-      "cooldown": 20,
+      "cooldown": 200,
       "multiplier": 1.0,
       "reclining": 0.7,
       "radius": 4,
@@ -29,7 +29,7 @@
       "amount": 1
     },
     {
-      "cooldown": 20,
+      "cooldown": 200,
       "multiplier": 1.0,
       "reclining": 0.7,
       "radius": 4,

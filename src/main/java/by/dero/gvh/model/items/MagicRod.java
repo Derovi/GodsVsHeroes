@@ -14,7 +14,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.UUID;
 
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
@@ -45,14 +47,16 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                     Math.random()
             ).normalize();
             final Location start = player.getLocation().clone().add(player.getLocation().getDirection().multiply(2));
+            final HashSet<UUID> stroke = new HashSet<>();
             @Override
             public void run() {
                 start.add(start.getDirection().multiply(1));
                 final Vector kek = st.clone().crossProduct(start.getDirection()).multiply(Math.sin(ticks) * 3);
                 Objects.requireNonNull(start.getWorld()).spawnParticle(Particle.LAVA, start, 1);
-                for (final LivingEntity obj : getNearby(start, 1)) {
-                    if (isEnemy(obj, team)) {
+                for (final LivingEntity obj : getNearby(start, 2)) {
+                    if (isEnemy(obj, team) && !stroke.contains(obj.getUniqueId())) {
                         obj.damage(damage, getOwner());
+                        stroke.add(obj.getUniqueId());
                     }
                 }
                 final int steps = 16;

@@ -23,6 +23,7 @@ public class FlyBow extends Item implements PlayerShootBowInterface, ProjectileH
             if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
                 sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
             }
+            event.setCancelled(true);
             return;
         }
         cooldown.reload();
