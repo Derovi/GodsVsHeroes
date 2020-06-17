@@ -26,7 +26,7 @@ public class GameLobby {
                                 "§bTime left : %d"
                         },
                         new int[] {
-                                game.getPlayers().size(),
+                                Bukkit.getServer().getOnlinePlayers().size(),
                                 game.getInfo().getMaxPlayerCount(),
                                 game.getInfo().getMinPlayerCount(),
                                 timeLeft
@@ -49,6 +49,8 @@ public class GameLobby {
             @Override
             public void run() {
                 if (!ready) {
+                    showIndex = 0;
+                    timeLeft = 60;
                     this.cancel();
                     return;
                 }

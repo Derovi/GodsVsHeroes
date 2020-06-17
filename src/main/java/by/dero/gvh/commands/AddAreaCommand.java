@@ -3,6 +3,7 @@ package by.dero.gvh.commands;
 import by.dero.gvh.PluginCommand;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Area;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -15,6 +16,7 @@ public class AddAreaCommand implements PluginCommand {
         if (args.length != 8) {
             return;
         }
+        sender.sendMessage("abassis");
         World world = getPlayer(sender.getName()).getPlayer().getWorld();
         Minigame.getAreaManager().addArea(new Area(
                 new Location(
@@ -29,9 +31,10 @@ public class AddAreaCommand implements PluginCommand {
                         Integer.parseInt(args[4]),
                         Integer.parseInt(args[5])
                 ),
-                Boolean.getBoolean(args[6]),
-                Boolean.getBoolean(args[7])
+                args[6].equals("1"),
+                args[7].equals("1")
         ));
+        Bukkit.getServer().broadcastMessage(Minigame.getAreaManager().toString());
     }
 
     @Override

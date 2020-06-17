@@ -10,6 +10,7 @@ import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -50,6 +51,9 @@ public class Plugin extends JavaPlugin {
             pluginMode = new Lobby();
         }
         pluginMode.onEnable();
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "difficulty peaceful");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule doMobSpawning False");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "difficulty normal");
     }
 
     @Override

@@ -5,7 +5,7 @@
     {
       "cooldown": 20,
       "damage" : 4,
-      "radius" : 3,
+      "radius" : 5,
       "material": "SNOWBALL",
       "displayName": "§cGrenade",
       "lore": [
@@ -17,7 +17,7 @@
     {
       "cooldown": 20,
       "damage" : 4,
-      "radius" : 3,
+      "radius" : 5,
       "material": "SNOWBALL",
       "displayName": "§cGrenade",
       "lore": [
@@ -29,7 +29,7 @@
     {
       "cooldown": 20,
       "damage" : 4,
-      "radius" : 3,
+      "radius" : 5,
       "material": "SNOWBALL",
       "displayName": "§cGrenade",
       "lore": [

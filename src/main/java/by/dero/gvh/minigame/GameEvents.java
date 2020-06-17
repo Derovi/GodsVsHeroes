@@ -62,16 +62,17 @@ public class GameEvents implements Listener {
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
         Item itemInHand = gamePlayer.getSelectedItem();
         Player player = event.getPlayer();
-        if (itemInHand == null || !itemInHand.getCooldown().isReady()) {
+        if (itemInHand == null ||
+                !itemInHand.getCooldown().isReady()) {
             return;
         }
         if (itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof InfiniteReplenishInterface) {
-                GamePlayer gp = getPlayer(player.getName());
-                Item item = gp.getSelectedItem();
+                final GamePlayer gp = getPlayer(player.getName());
+                final Item item = gp.getSelectedItem();
+                final int slot = player.getInventory().getHeldItemSlot();
                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()-> {
-                    gp.addItem(item.getName(), item.getLevel());
-                    gp.getSelectedItem().getCooldown().reload();
+                    player.getInventory().setItem(slot, item.getItemStack());
                     }, 1);
             }
             if (itemInHand instanceof UltimateInterface) {
@@ -130,7 +131,9 @@ public class GameEvents implements Listener {
             return;
         }
         Player player = (Player) event.getEntity();
-        damageCause.put(player, (LivingEntity) event.getDamager());
+        if (event.getDamager() instanceof LivingEntity) {
+            damageCause.put(player, (LivingEntity) event.getDamager());
+        }
     }
 
     @EventHandler
@@ -143,7 +146,7 @@ public class GameEvents implements Listener {
         event.getDrops().clear();
         event.setDeathMessage(null);
         final Game game = Minigame.getInstance().getGame();
-        game.onPlayerKilled(player, damageCause.getOrDefault(player, null));
+        game.onPlayerKilled(player, damageCause.getOrDefault(player, player));
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
             game.respawnPlayer(game.getPlayers().get(player.getName()));
@@ -164,7 +167,6 @@ public class GameEvents implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!Plugin.getInstance().getPlayerData().isPlayerRegistered(event.getPlayer().getName())) {
             Plugin.getInstance().getPlayerData().registerPlayer(event.getPlayer().getName());
-            // unlocking default class
             Plugin.getInstance().getPlayerData().unlockClass(event.getPlayer().getName(), "default");
         }
         Minigame.getInstance().getGame().addPlayer(event.getPlayer());
@@ -183,5 +185,4 @@ public class GameEvents implements Listener {
     public void onDropItem(PlayerDropItemEvent event) {
         event.setCancelled(true);
     }
-
 }

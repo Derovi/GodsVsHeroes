@@ -6,6 +6,7 @@ import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.Position;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -131,6 +132,7 @@ public abstract class Game implements Listener {
         System.out.println("class: " + player.getClassName());
         System.out.println("null: " + (classDescription == null));
         for (String itemName : classDescription.getItemNames()) {
+            System.out.println("add item: " + itemName);
             player.addItem(itemName, player.getPlayerInfo().getItemLevel(player.getClassName(), itemName));
         }
         player.getPlayer().setScoreboard(board.getScoreboard());

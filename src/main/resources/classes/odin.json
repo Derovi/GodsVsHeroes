@@ -1,6 +1,11 @@
 {
   "name": "odin",
   "itemNames": [
+    "defaultaxe",
+    "defaulthelmet",
+    "defaultchestplate",
+    "defaultleggins",
+    "defaultboots",
     "chainlightning",
     "lightningstorm"
   ]

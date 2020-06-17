@@ -7,7 +7,7 @@
       "radius": 400.0,
       "glowTime": 1200,
       "searchParticle": "DRAGON_BREATH",
-      "material": "SPECTRAL_ARROW",
+      "material": "GLOWSTONE_DUST",
       "displayName": "§cEagle Vision",
       "lore": [
         "§aУльтимативная. Найдите всех своих врагов.",
@@ -20,7 +20,7 @@
       "radius": 400.0,
       "glowTime": 1200,
       "searchParticle": "DRAGON_BREATH",
-      "material": "SPECTRAL_ARROW",
+      "material": "GLOWSTONE_DUST",
       "displayName": "§cEagle Vision",
       "lore": [
         "§aУльтимативная. Найдите всех своих врагов.",
@@ -33,7 +33,7 @@
       "radius": 400.0,
       "glowTime": 1200,
       "searchParticle": "DRAGON_BREATH",
-      "material": "SPECTRAL_ARROW",
+      "material": "GLOWSTONE_DUST",
       "displayName": "§cEagle Vision",
       "lore": [
         "§aУльтимативная. Найдите всех своих врагов.",
