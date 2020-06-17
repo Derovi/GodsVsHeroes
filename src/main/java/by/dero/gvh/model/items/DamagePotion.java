@@ -4,18 +4,20 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
+import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.DamagePotionInfo;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
-public class DamagePotion extends Item implements ProjectileHitInterface, InfiniteReplenishInterface, PlayerInteractInterface {
+public class DamagePotion extends Item implements ProjectileHitInterface, InfiniteReplenishInterface, PlayerInteractInterface, ProjectileLaunchInterface {
     private final double radius;
     private final double damage;
     public DamagePotion(final String name, final int level, final Player owner) {
@@ -42,6 +44,11 @@ public class DamagePotion extends Item implements ProjectileHitInterface, Infini
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
+
+    }
+
+    @Override
+    public void onProjectileLaunch(ProjectileLaunchEvent event) {
         if (!cooldown.isReady()) {
             if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
                 sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
