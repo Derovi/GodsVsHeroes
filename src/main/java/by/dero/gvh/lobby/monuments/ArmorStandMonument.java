@@ -1,7 +1,9 @@
 package by.dero.gvh.lobby.monuments;
 
+import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.utils.Position;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 public class ArmorStandMonument extends Monument {
@@ -13,12 +15,13 @@ public class ArmorStandMonument extends Monument {
 
     @Override
     public void load() {
-
+        armorStand = (ArmorStand) Lobby.getInstance().getWorld().spawnEntity(
+                getPosition().toLocation(Lobby.getInstance().getWorld()), EntityType.ARMOR_STAND);
     }
 
     @Override
     public void unload() {
-
+        armorStand.remove();
     }
 
     public ArmorStand getArmorStand() {

@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class MonumentManager implements Listener {
-    private HashMap<String, Class<? extends Monument>> classNameToMonument;
+    private final HashMap<String, Class<? extends Monument>> classNameToMonument = new HashMap<>();
 
     public MonumentManager() {
         registerMonuments();
