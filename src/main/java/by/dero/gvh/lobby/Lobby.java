@@ -2,6 +2,7 @@ package by.dero.gvh.lobby;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
+import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.lobby.utils.VoidGenerator;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
@@ -26,6 +27,7 @@ public class Lobby implements PluginMode {
     private final String worldName = "Lobby";
     private World world;
     private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
+    private MonumentManager monumentManager;
 
     @Override
     public void onEnable() {
@@ -52,6 +54,7 @@ public class Lobby implements PluginMode {
         }
         data = new LobbyData(dataStorage);
         data.load();
+        monumentManager = new MonumentManager();
         System.out.println("Loading schematic");
         loadSchematic();
     }
@@ -129,6 +132,10 @@ public class Lobby implements PluginMode {
 
     public static Lobby getInstance() {
         return instance;
+    }
+
+    public MonumentManager getMonumentManager() {
+        return monumentManager;
     }
 
     public LobbyData getData() {

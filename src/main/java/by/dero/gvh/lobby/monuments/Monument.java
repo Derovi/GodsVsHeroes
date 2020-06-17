@@ -14,9 +14,9 @@ public abstract class Monument {
         this.owner = owner;
     }
 
-    abstract void load();
+    public abstract void load();
 
-    abstract void unload();
+    public abstract void unload();
 
     public void onSelect(Player player) {
         if (!owner.getName().equals(player.getName())) {
