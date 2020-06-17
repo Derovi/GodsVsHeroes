@@ -139,6 +139,10 @@ public class Lobby implements PluginMode {
         return monumentManager;
     }
 
+    public HashMap<String, PlayerLobby> getActiveLobbies() {
+        return activeLobbies;
+    }
+
     public LobbyData getData() {
         return data;
     }
