@@ -17,7 +17,7 @@ public class CommandManager implements CommandExecutor {
         return commands;
     }
 
-    CommandManager() {
+    public CommandManager() {
         Objects.requireNonNull(Bukkit.getPluginCommand("game")).setExecutor(this);
     }
 

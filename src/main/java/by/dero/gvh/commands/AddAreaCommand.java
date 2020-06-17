@@ -1,7 +1,7 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.Minigame;
 import by.dero.gvh.PluginCommand;
+import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Area;
 import org.bukkit.Location;
 import org.bukkit.World;

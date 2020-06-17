@@ -8,6 +8,9 @@ public class Settings {
     private String playerDataStorageType;
     private String playerDataMongodbConnection;
     private String playerDataMongodbDatabase;
+    private String lobbyDataStorageType;
+    private String lobbyDataMongodbConnection;
+    private String lobbyDataMongodbDatabase;
 
     public String getMode() {
         return mode;
@@ -63,5 +66,29 @@ public class Settings {
 
     public void setPlayerDataMongodbDatabase(String playerDataMongodbDatabase) {
         this.playerDataMongodbDatabase = playerDataMongodbDatabase;
+    }
+
+    public String getLobbyDataStorageType() {
+        return lobbyDataStorageType;
+    }
+
+    public void setLobbyDataStorageType(String lobbyDataStorageType) {
+        this.lobbyDataStorageType = lobbyDataStorageType;
+    }
+
+    public String getLobbyDataMongodbConnection() {
+        return lobbyDataMongodbConnection;
+    }
+
+    public void setLobbyDataMongodbConnection(String lobbyDataMongodbConnection) {
+        this.lobbyDataMongodbConnection = lobbyDataMongodbConnection;
+    }
+
+    public String getLobbyDataMongodbDatabase() {
+        return lobbyDataMongodbDatabase;
+    }
+
+    public void setLobbyDataMongodbDatabase(String lobbyDataMongodbDatabase) {
+        this.lobbyDataMongodbDatabase = lobbyDataMongodbDatabase;
     }
 }

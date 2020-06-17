@@ -1,7 +1,7 @@
 package by.dero.gvh.utils;
 
 import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Minigame;
+import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
