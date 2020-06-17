@@ -1,6 +1,7 @@
 package by.dero.gvh.lobby;
 
 import by.dero.gvh.model.storages.LocalStorage;
+import by.dero.gvh.utils.WorldEditUtils;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
@@ -13,7 +14,9 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
 
 public class PlayerLobby {
     private LobbyRecord record;
@@ -23,21 +26,8 @@ public class PlayerLobby {
     }
 
     public void create() {
-        try {
-            ClipboardFormat format = ClipboardFormats.findByFile(Lobby.getInstance().getLobbySchematicFile());
-            ClipboardReader reader = format.getReader(new FileInputStream(Lobby.getInstance().getLobbySchematicFile()));
-            Clipboard clipboard = reader.read();
-            EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(
-                    (World) Lobby.getInstance().getWorld(), -1);
-            Operation operation = new ClipboardHolder(clipboard)
-                    .createPaste(editSession)
-                    .to(BlockVector3.at(record.getPosition().getX(), record.getPosition().getY(), record.getPosition().getZ()))
-                    .ignoreAirBlocks(false)
-                    .build();
-            Operations.complete(operation);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        WorldEditUtils.pasteSchematic(Lobby.getInstance().getLobbySchematicFile(), Lobby.getInstance().getWorld(),
+                record.getPosition());
     }
 
     public void destroy() {

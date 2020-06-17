@@ -57,6 +57,14 @@ public class Lobby implements PluginMode {
     public void onDisable() {}
 
     private void loadSchematic() {
+        lobbySchematicFile = new File(LocalStorage.getPrefix() + "lobby/lobby.schem");
+        try {
+            ResourceUtils.exportResource("/lobby/lobby.schem", LocalStorage.getPrefix() + "lobby/lobby.schem");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return;
+        /*
         try {
             String data = ResourceUtils.readResourceFile("/lobby/lobby.schem");
             File directory = new File(LocalStorage.getPrefix());
@@ -67,7 +75,7 @@ public class Lobby implements PluginMode {
             System.out.println("Schematic loaded");
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
+        }*/
     }
 
     public static Lobby getInstance() {
