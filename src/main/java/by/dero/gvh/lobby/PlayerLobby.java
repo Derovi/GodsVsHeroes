@@ -35,7 +35,7 @@ public class PlayerLobby {
                 String monumentName = entry.getKey();
                 Monument monument = Lobby.getInstance().getMonumentManager().getClassNameToMonument().
                         get(monumentName).getConstructor(Position.class, String.class, Player.class).
-                        newInstance(entry.getValue(), monumentName, player);
+                        newInstance(transformFromLobbyCord(entry.getValue()), monumentName, player);
                 monument.load();
                 monuments.put(monumentName, monument);
             } catch (Exception ex) {

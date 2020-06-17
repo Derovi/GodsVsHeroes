@@ -61,7 +61,11 @@ public class Lobby implements PluginMode {
     }
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+        for (PlayerLobby playerLobby : activeLobbies.values()) {
+            playerLobby.unload();
+        }
+    }
 
     private void loadSchematic() {
         lobbySchematicFile = new File(LocalStorage.getPrefix() + "lobby/lobby.schem");
@@ -97,9 +101,7 @@ public class Lobby implements PluginMode {
     }
 
     public void playerLeft(Player player) {
-        LobbyRecord record = data.getRecord(player.getName());
-        PlayerLobby playerLobby = new PlayerLobby(record);
-        playerLobby.unload();
+        activeLobbies.get(player.getName()).unload();
         activeLobbies.remove(player.getName());
     }
 
