@@ -5,6 +5,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -17,6 +18,7 @@ import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
@@ -27,7 +29,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
     private final double multiplier;
     private final double radiusMultiplier;
 
-    private final Set<Entity> arrows = new HashSet<>();
+    private final Set<UUID> arrows = new HashSet<>();
 
     public ExplosiveBow(final String name, final int level, final Player owner) {
         super(name, level, owner);
@@ -48,7 +50,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
         }
         cooldown.reload();
         final Entity obj = event.getProjectile();
-        arrows.add(obj);
+        arrows.add(obj.getUniqueId());
         new BukkitRunnable() {
             double power;
             int ticks = 0;
@@ -68,7 +70,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                         new Location(obj.getWorld(), at.getX(), at.getY(), at.getZ()),
                         1,0,0,0,0);
                 player.spawnParticle(Particle.LAVA, obj.getLocation(), 10);
-                if (!arrows.contains(obj) || ticks > 300) {
+                if (!arrows.contains(obj.getUniqueId()) || ticks > 300) {
                     final float force = (float)(power*power*multiplier);
                     Location loc = obj.getLocation();
                     loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 3);
@@ -88,7 +90,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
 
     @Override
     public void onProjectileHit(ProjectileHitEvent event) {
-        arrows.remove(event.getEntity());
+        arrows.remove(event.getEntity().getUniqueId());
     }
 
     @Override

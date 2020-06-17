@@ -1,8 +1,10 @@
 {
   "name": "loki",
   "itemNames": [
+    "defaultsword",
+    "grenade",
     "airleap",
-    "exchange",
-    "invisibilitypotion"
+    "doublejump",
+    "exchange"
   ]
 }

@@ -2,6 +2,10 @@
   "name": "scout",
   "itemNames": [
     "damagepotion",
-    "poisonpotion"
+    "poisonpotion",
+    "speedbuf",
+    "jumpingbuf",
+    "doublejump",
+    "grenade"
   ]
 }

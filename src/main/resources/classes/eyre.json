@@ -1,8 +1,11 @@
 {
   "name": "eyre",
   "itemNames": [
+    "defaultsword",
+    "resistancebuf",
     "damagepotion",
     "healpotion",
-    "healpotion"
+    "healpotion",
+    "healall"
   ]
 }

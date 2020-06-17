@@ -62,7 +62,6 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
             @Override
             public void run() {
                 final Location shooter = randomCylinder(center, radius, 0);
-                Bukkit.getServer().broadcastMessage(shooter.toString());
                 final List<Location> targets = new ArrayList<>();
                 for (LivingEntity obj : getNearby(center, radius)) {
                     if (isEnemy(obj, team)) {

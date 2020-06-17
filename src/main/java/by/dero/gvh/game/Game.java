@@ -130,6 +130,7 @@ public abstract class Game implements Listener {
         System.out.println("class: " + player.getClassName());
         System.out.println("null: " + (classDescription == null));
         for (String itemName : classDescription.getItemNames()) {
+            System.out.println("add item: " + itemName);
             player.addItem(itemName, player.getPlayerInfo().getItemLevel(player.getClassName(), itemName));
         }
         player.getPlayer().setScoreboard(board.getScoreboard());

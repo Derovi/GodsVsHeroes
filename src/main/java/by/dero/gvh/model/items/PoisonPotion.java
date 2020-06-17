@@ -36,7 +36,7 @@ public class PoisonPotion extends Item implements PlayerInteractInterface,
         final Entity at = event.getEntity();
         for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
             if (isEnemy(ent, team)) {
-                new PotionEffect(PotionEffectType.POISON, latency * 100, 1).apply(ent);
+                new PotionEffect(PotionEffectType.POISON, latency, 1).apply(ent);
             }
         }
     }

@@ -2,6 +2,10 @@
   "name": "heimdall",
   "itemNames": [
     "magicrod",
-    "eaglevision"
+    "eaglevision",
+    "defaultsword",
+    "exchange",
+    "improvedbow",
+    "defaultarrow"
   ]
 }
