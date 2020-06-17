@@ -6,6 +6,7 @@ import by.dero.gvh.lobby.monuments.Monument;
 import com.sk89q.worldedit.util.gson.GsonUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
@@ -19,12 +20,47 @@ import java.util.UUID;
 public class MonumentManager implements Listener {
     private final HashMap<String, Class<? extends Monument>> classNameToMonument = new HashMap<>();
 
+    private final HashMap<UUID, UUID> active = new HashMap<>();
+
     public MonumentManager() {
         registerMonuments();
     }
 
     private void registerMonuments() {
+        registerMonument("alchemist", ArmorStandMonument.class);
+        registerMonument("archer", ArmorStandMonument.class);
         registerMonument("default", ArmorStandMonument.class);
+        registerMonument("eyre", ArmorStandMonument.class);
+        registerMonument("heimdall", ArmorStandMonument.class);
+        registerMonument("loki", ArmorStandMonument.class);
+        registerMonument("mercenary", ArmorStandMonument.class);
+        registerMonument("odin", ArmorStandMonument.class);
+        registerMonument("paladin", ArmorStandMonument.class);
+        registerMonument("scout", ArmorStandMonument.class);
+        registerMonument("ull", ArmorStandMonument.class);
+    }
+
+    @EventHandler
+    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+        event.setCancelled(true);
+        UUID entityId = event.getRightClicked().getUniqueId();
+        Player player = event.getPlayer();
+        Collection<Monument> playerMonuments = Lobby.getInstance().getActiveLobbies().get(player.getName()).getMonuments().values();
+        for (Monument monument : playerMonuments) {
+            if (!(monument instanceof ArmorStandMonument)) {
+                continue;
+            }
+            ArmorStandMonument standMonument = (ArmorStandMonument) monument;
+            ArmorStand armorStand = standMonument.getArmorStand();
+            if (armorStand.getUniqueId().equals(entityId)) {
+                standMonument.onSelect(player);
+                active.put(player.getUniqueId(), entityId);
+            }
+        }
+    }
+
+    public HashMap<UUID, UUID> getActive() {
+        return active;
     }
 
     private void registerMonument(String className, Class<? extends Monument> monument) {
@@ -33,27 +69,5 @@ public class MonumentManager implements Listener {
 
     public HashMap<String, Class<? extends Monument>> getClassNameToMonument() {
         return classNameToMonument;
-    }
-
-    @EventHandler
-    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
-        UUID entityId = event.getRightClicked().getUniqueId();
-        System.out.println("Interact with " + entityId.toString());
-        Collection<Monument> playerMonuments = Lobby.getInstance().getActiveLobbies().get(event.getPlayer().getName()).getMonuments().values();
-        for (Monument monument : playerMonuments) {
-            System.out.println("Monument " + monument.getClassName());
-            if (!(monument instanceof ArmorStandMonument)) {
-                continue;
-            }
-            System.out.println("Is armor stand");
-            ArmorStandMonument standMonument = (ArmorStandMonument) monument;
-            ArmorStand armorStand = standMonument.getArmorStand();
-            System.out.println("Interact id " + entityId);
-            System.out.println("Stand id " + armorStand.getUniqueId());
-            if (armorStand.getUniqueId().equals(entityId)) {
-                System.out.println("id ueqials");
-                standMonument.onSelect(event.getPlayer());
-            }
-        }
     }
 }

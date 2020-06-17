@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerLobby {
-    private LobbyRecord record;
-    private Player player;
-    private HashMap<String, Monument> monuments = new HashMap<>();
+    private final LobbyRecord record;
+    private final Player player;
+    private final HashMap<String, Monument> monuments = new HashMap<>();
 
     public PlayerLobby(LobbyRecord record) {
         this.record = record;

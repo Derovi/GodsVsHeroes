@@ -1,6 +1,9 @@
 package by.dero.gvh.lobby.monuments;
 
+import by.dero.gvh.Plugin;
+import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.utils.Position;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 
 public abstract class Monument {
