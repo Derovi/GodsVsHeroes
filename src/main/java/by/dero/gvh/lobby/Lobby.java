@@ -11,10 +11,10 @@ import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Random;
@@ -88,6 +88,22 @@ public class Lobby implements PluginMode {
             record = data.getRecord(player.getName());
             playerLobby = new PlayerLobby(record);
         }
+        new BukkitRunnable() {
+            double angle = 0;
+            final double turnsPerSec = 0.25;
+            final double radius = 1.2;
+            final int parts = 3;
+            final Location center = record.getPosition().toLocation(world).clone().add(15.5,1.5,29.5);
+            @Override
+            public void run() {
+                for (int i = 0; i < parts; i++) {
+                    final double cur = angle + Math.PI * 2 * i / parts;
+                    final Location at = center.clone().add(Math.cos(cur) * radius, Math.sin(cur) * radius,0);
+                    world.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
+                }
+                angle += Math.PI * turnsPerSec / 20 * 2;
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, 2);
         if (record.getVersion() != info.getVersion()) {
             // if player lobby is old, update
             playerLobby.destroy();
