@@ -11,14 +11,11 @@ import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
-
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Lobby implements PluginMode {
@@ -28,6 +25,7 @@ public class Lobby implements PluginMode {
     private File lobbySchematicFile;
     private final String worldName = "Lobby";
     private World world;
+    private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -91,12 +89,14 @@ public class Lobby implements PluginMode {
         }
         player.teleport(playerLobby.transformFromLobbyCord(info.getSpawnPosition()).toLocation(world));
         playerLobby.load();
+        activeLobbies.put(player.getName(), playerLobby);
     }
 
     public void playerLeft(Player player) {
         LobbyRecord record = data.getRecord(player.getName());
         PlayerLobby playerLobby = new PlayerLobby(record);
         playerLobby.unload();
+        activeLobbies.remove(player.getName());
     }
 
     public LobbyRecord generateNewRecord(String playerName) {
