@@ -65,7 +65,8 @@ public class MinigameEvents implements Listener {
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
         Item itemInHand = gamePlayer.getSelectedItem();
         Player player = event.getPlayer();
-        if (itemInHand == null || !itemInHand.getCooldown().isReady()) {
+        if (itemInHand == null ||
+                !itemInHand.getCooldown().isReady()) {
             return;
         }
         if (itemInHand instanceof PlayerInteractInterface) {
@@ -187,4 +188,8 @@ public class MinigameEvents implements Listener {
         event.setCancelled(true);
     }
 
+    @EventHandler
+    public void onEntitySpawn(EntitySpawnEvent event) {
+        event.setCancelled(true);
+    }
 }
