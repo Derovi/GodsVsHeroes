@@ -68,19 +68,6 @@ public class Lobby implements PluginMode {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return;
-        /*
-        try {
-            String data = ResourceUtils.readResourceFile("/lobby/lobby.schem");
-            File directory = new File(LocalStorage.getPrefix());
-            directory.mkdirs();
-            BufferedWriter writer = new BufferedWriter(new FileWriter(LocalStorage.getPrefix() + "lobby/lobby.schem"));
-            writer.write(data);
-            writer.close();
-            System.out.println("Schematic loaded");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }*/
     }
 
     public void playerJoined(Player player) {
@@ -125,7 +112,7 @@ public class Lobby implements PluginMode {
 
     private Position getNextLobbyPosition(Position position) {
         int xIdx = (int) position.getX() / 96;
-        int yIdx = (int) position.getY() / 96;
+        int yIdx = (int) position.getZ() / 96;
         if (-yIdx < xIdx && xIdx < yIdx && yIdx > 0) {
             ++xIdx;
         } else
@@ -137,7 +124,7 @@ public class Lobby implements PluginMode {
         } else {
             ++yIdx;
         }
-        return new Position(xIdx * 96, 68 + new Random().nextInt() % 20, yIdx * 96);
+        return new Position(xIdx * 96, 68 + Math.abs(new Random().nextInt()) % 20, yIdx * 96);
     }
 
     public static Lobby getInstance() {
