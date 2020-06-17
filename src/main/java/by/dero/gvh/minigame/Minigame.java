@@ -4,6 +4,7 @@ import by.dero.gvh.CommandManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.commands.AddAreaCommand;
+import by.dero.gvh.commands.UnlockClassCommand;
 import by.dero.gvh.minigame.commands.AddSpawnPointCommand;
 import by.dero.gvh.minigame.commands.FinishCommand;
 import by.dero.gvh.minigame.commands.SelectCommand;
