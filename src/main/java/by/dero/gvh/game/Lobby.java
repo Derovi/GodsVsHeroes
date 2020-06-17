@@ -26,7 +26,7 @@ public class Lobby {
                                 "§bTime left : %d"
                         },
                         new int[] {
-                                game.getPlayers().size(),
+                                Bukkit.getServer().getOnlinePlayers().size(),
                                 game.getInfo().getMaxPlayerCount(),
                                 game.getInfo().getMinPlayerCount(),
                                 timeLeft
