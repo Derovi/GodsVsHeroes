@@ -2,6 +2,7 @@ package by.dero.gvh.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 public class Position {
     double x, y, z;
@@ -17,6 +18,10 @@ public class Position {
 
     public Location toLocation(String worldName) {
         return new Location(Bukkit.getWorld(worldName), x, y, z);
+    }
+
+    public Location toLocation(World world) {
+        return new Location(world, x, y, z);
     }
 
     public double getX() {

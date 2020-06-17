@@ -7,15 +7,19 @@ import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Random;
 
 public class Lobby implements PluginMode {
     private static Lobby instance;
@@ -49,6 +53,7 @@ public class Lobby implements PluginMode {
                     Plugin.getInstance().getSettings().getLobbyDataMongodbDatabase());
         }
         data = new LobbyData(dataStorage);
+        data.load();
         System.out.println("Loading schematic");
         loadSchematic();
     }
@@ -76,6 +81,63 @@ public class Lobby implements PluginMode {
         } catch (Exception ex) {
             ex.printStackTrace();
         }*/
+    }
+
+    public void playerJoined(Player player) {
+        LobbyRecord record;
+        PlayerLobby playerLobby;
+        if (!data.recordExists(player.getName())) {
+            // if record not exists (player is new), create record and loby
+            record = generateNewRecord(player.getName());
+            playerLobby = new PlayerLobby(record);
+            playerLobby.create();
+        } else {
+            record = data.getRecord(player.getName());
+            playerLobby = new PlayerLobby(record);
+        }
+        if (record.getVersion() != info.getVersion()) {
+            // if player lobby is old, update
+            playerLobby.destroy();
+            playerLobby.create();
+            record.setVersion(info.getVersion());
+            data.saveRecord(player.getName(), record);
+        }
+        player.teleport(playerLobby.transformFromLobbyCord(info.getSpawnPosition()).toLocation(world));
+        playerLobby.load();
+    }
+
+    public void playerLeft(Player player) {
+        LobbyRecord record = data.getRecord(player.getName());
+        PlayerLobby playerLobby = new PlayerLobby(record);
+        playerLobby.unload();
+    }
+
+    public LobbyRecord generateNewRecord(String playerName) {
+        LobbyRecord record = new LobbyRecord();
+        record.setOwner(playerName);
+        record.setPosition(getNextLobbyPosition(data.getLastLobbyPosition()));
+        record.setVersion(info.getVersion());
+        data.saveRecord(playerName, record);
+        data.updateLastLobbyPosition(record.getPosition());
+        return record;
+    }
+
+
+    private Position getNextLobbyPosition(Position position) {
+        int xIdx = (int) position.getX() / 96;
+        int yIdx = (int) position.getY() / 96;
+        if (-yIdx < xIdx && xIdx < yIdx && yIdx > 0) {
+            ++xIdx;
+        } else
+        if (-xIdx < yIdx && yIdx <= xIdx && xIdx > 0) {
+            --yIdx;
+        } else
+        if (xIdx > yIdx && yIdx < 0) {
+            --xIdx;
+        } else {
+            ++yIdx;
+        }
+        return new Position(xIdx * 96, 68 + new Random().nextInt() % 20, yIdx * 96);
     }
 
     public static Lobby getInstance() {

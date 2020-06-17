@@ -12,11 +12,6 @@ public class LobbyEvents implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        player.setGameMode(GameMode.CREATIVE);
-        player.teleport(new Location(Lobby.getInstance().getWorld(), 0, 60, 0));
-        LobbyRecord record = new LobbyRecord();
-        record.setPosition(new Position(0, 50, 0));
-        PlayerLobby lobby = new PlayerLobby(record);
-        lobby.create();
+        Lobby.getInstance().playerJoined(player);
     }
 }

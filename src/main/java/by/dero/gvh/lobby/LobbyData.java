@@ -12,11 +12,19 @@ public class LobbyData {
         this.storage = storage;
     }
 
+    public void load() {
+        if (!storage.exists("lobby", "lastPosition")) {
+            try {
+                storage.save("lobby", "lastPosition",
+                        new GsonBuilder().setPrettyPrinting().create().toJson(new Position(0, 0, 70)));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     public Position getLastLobbyPosition() {
         String json = storage.load("lobby", "lastPosition");
-        if (json == null) {
-            return new Position(0,64,0);
-        }
         return new Gson().fromJson(json, Position.class);
     }
 
@@ -27,6 +35,10 @@ public class LobbyData {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public boolean recordExists(String playerName) {
+        return storage.exists("lobbyRecords", playerName);
     }
 
     public LobbyRecord getRecord(String playerName) {
