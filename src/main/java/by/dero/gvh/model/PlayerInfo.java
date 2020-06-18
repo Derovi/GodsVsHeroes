@@ -9,7 +9,7 @@ import java.util.Map;
 public class PlayerInfo {
     private String name;
     private String selectedClass = "default";
-    private int balance = 0;
+    private int balance = 60;
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
     public PlayerInfo(String name) {
@@ -41,11 +41,20 @@ public class PlayerInfo {
         return classes.get(className).get(item);
     }
 
-    public void upgradeItem(String className, String item) {
+    public boolean canUpgradeItem(String className, String item) {
         Map<String, Integer> items = getItems(className);
         int level = items.get(item);
-        if (level + 1 < Plugin.getInstance().getData().getItemDescription(item).getLevels().size()) {
-            items.put(item, level + 1);
+        if (level + 1 >= Plugin.getInstance().getData().getItemDescription(item).getLevels().size()) {
+            return false;
+        }
+        int cost = Plugin.getInstance().getData().getItemDescription(item).getLevels().get(level + 1).getCost();
+        return cost <= getBalance();
+    }
+
+    public void upgradeItem(String className, String item) {
+        if (canUpgradeItem(className, item)) {
+            Map<String, Integer> items = getItems(className);
+            items.put(item, items.get(item) + 1);
         }
     }
 

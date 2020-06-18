@@ -29,9 +29,9 @@ public class ItemInfo {
             return visible;
         }
 
-        private NamespacedKey key;
-        private int level;
-        private boolean visible;
+        private final NamespacedKey key;
+        private final int level;
+        private final boolean visible;
     }
 
     private Material material = Material.BEDROCK;
@@ -40,6 +40,7 @@ public class ItemInfo {
     private List<String> lore = Arrays.asList("First line", "Second line");
     private int amount = 1;
     private int cooldown = 5;
+    private int cost = 5;
 
     public static void main(String[] args) throws IOException {
         ItemInfo info = new ItemInfo();
@@ -52,6 +53,14 @@ public class ItemInfo {
 
     public List<EnchantInfo> getEnchantments() {
         return enchantments;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     public Material getMaterial() {
