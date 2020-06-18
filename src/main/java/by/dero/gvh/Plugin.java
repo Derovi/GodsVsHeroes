@@ -11,11 +11,15 @@ import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 
-public class Plugin extends JavaPlugin {
+public class Plugin extends JavaPlugin implements Listener {
     private static Plugin instance;
     private Data data;
     private PlayerData playerData;
@@ -59,6 +63,14 @@ public class Plugin extends JavaPlugin {
     @Override
     public void onDisable() {
         pluginMode.onDisable();
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        if (!playerData.isPlayerRegistered(event.getPlayer().getName())) {
+            playerData.registerPlayer(event.getPlayer().getName());
+            playerData.unlockClass(event.getPlayer().getName(), "default");
+        }
     }
 
     public Settings getSettings() {

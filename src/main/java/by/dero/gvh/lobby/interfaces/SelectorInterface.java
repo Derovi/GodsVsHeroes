@@ -1,6 +1,5 @@
 package by.dero.gvh.lobby.interfaces;
 
-import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
 import org.bukkit.Material;
@@ -17,7 +16,7 @@ public class SelectorInterface extends Interface {
         };
 
         Runnable upgrade = () -> {
-            //System.out.println("upgrade");
+            System.out.println("upgrade");
         };
 
         ItemStack selectItemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
