@@ -32,6 +32,7 @@ public class Lobby implements PluginMode {
     private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
     private MonumentManager monumentManager;
     private InterfaceManager interfaceManager;
+    private HashMap<String, LobbyPlayer> players = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -83,6 +84,9 @@ public class Lobby implements PluginMode {
     }
 
     public void playerJoined(Player player) {
+        LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
+        lobbyPlayer.loadInfo();
+        players.put(player.getName(), lobbyPlayer);
         LobbyRecord record;
         PlayerLobby playerLobby;
         if (!data.recordExists(player.getName())) {
@@ -109,6 +113,7 @@ public class Lobby implements PluginMode {
     public void playerLeft(Player player) {
         activeLobbies.get(player.getName()).unload();
         activeLobbies.remove(player.getName());
+        players.remove(player.getName());
     }
 
     public LobbyRecord generateNewRecord(String playerName) {
@@ -153,6 +158,10 @@ public class Lobby implements PluginMode {
 
     public HashMap<String, PlayerLobby> getActiveLobbies() {
         return activeLobbies;
+    }
+
+    public HashMap<String, LobbyPlayer> getPlayers() {
+        return players;
     }
 
     public LobbyData getData() {

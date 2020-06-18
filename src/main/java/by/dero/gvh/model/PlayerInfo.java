@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class PlayerInfo {
     private String name;
+    private String selectedClass = "default";
     private int balance = 0;
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
@@ -50,6 +51,14 @@ public class PlayerInfo {
 
     public boolean isClassUnlocked(String className) {
         return classes.containsKey(className);
+    }
+
+    public String getSelectedClass() {
+        return selectedClass;
+    }
+
+    public void selectClass(String selectedClass) {
+        this.selectedClass = selectedClass;
     }
 
     public void setName(String name) {
