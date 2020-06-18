@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CommandManager implements CommandExecutor {
-    private HashMap<String, PluginCommand> commands = new HashMap<>();
+    private final HashMap<String, PluginCommand> commands = new HashMap<>();
 
     public HashMap<String, PluginCommand> getCommands() {
         return commands;

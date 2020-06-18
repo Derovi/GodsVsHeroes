@@ -13,6 +13,8 @@ import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -77,6 +79,7 @@ public class Lobby implements PluginMode {
     }
 
     public void playerJoined(Player player) {
+        new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0).apply(player);
         LobbyRecord record;
         PlayerLobby playerLobby;
         if (!data.recordExists(player.getName())) {
@@ -96,6 +99,9 @@ public class Lobby implements PluginMode {
             final Location center = record.getPosition().toLocation(world).clone().add(15.5,1.5,29.5);
             @Override
             public void run() {
+                if (!player.isOnline()) {
+                    this.cancel();
+                }
                 for (int i = 0; i < parts; i++) {
                     final double cur = angle + Math.PI * 2 * i / parts;
                     final Location at = center.clone().add(Math.cos(cur) * radius, Math.sin(cur) * radius,0);
