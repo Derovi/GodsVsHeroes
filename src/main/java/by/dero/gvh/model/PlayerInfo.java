@@ -54,7 +54,9 @@ public class PlayerInfo {
     public void upgradeItem(String className, String item) {
         if (canUpgradeItem(className, item)) {
             Map<String, Integer> items = getItems(className);
-            items.put(item, items.get(item) + 1);
+            int newLevel = items.get(item) + 1;
+            items.put(item, newLevel);
+            balance -= Plugin.getInstance().getData().getItems().get(item).getLevels().get(newLevel).getCost();
         }
     }
 

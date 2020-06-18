@@ -26,6 +26,10 @@ public class Interface {
         manager.register(player.getName(), this);
     }
 
+    public void update() {
+        player.updateInventory();
+    }
+
     public void close() {
         player.closeInventory();
     }
