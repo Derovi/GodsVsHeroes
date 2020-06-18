@@ -4,21 +4,21 @@
   "levels": [
     {
       "cooldown": 0,
-      "material": "CHAINMAIL_HELMET",
+      "material": "LEATHER_HELMET",
       "displayName": "§cШлем",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
-      "material": "CHAINMAIL_HELMET",
+      "material": "GOLDEN_HELMET",
       "displayName": "§cШлем",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
-      "material": "CHAINMAIL_HELMET",
+      "material": "IRON_HELMET",
       "displayName": "§cШлем",
       "lore": [],
       "amount": 1

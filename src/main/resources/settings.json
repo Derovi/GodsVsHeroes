@@ -1,12 +1,12 @@
 {
   "mode": "lobby",
-  "dataStorageType": "local",
-  "dataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
+  "dataStorageType": "mongodb",
+  "dataMongodbConnection": "mongodb://minigame:ORg3.47gZ51@79.174.13.142:27017/?authSource=admin",
   "dataMongodbDatabase": "gvh",
-  "playerDataStorageType": "local",
-  "playerDataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
+  "playerDataStorageType": "mongodb",
+  "playerDataMongodbConnection": "mongodb://minigame:ORg3.47gZ51@79.174.13.142:27017/?authSource=admin",
   "playerDataMongodbDatabase": "gvh",
-  "lobbyDataStorageType": "local",
-  "lobbyDataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
+  "lobbyDataStorageType": "mongodb",
+  "lobbyDataMongodbConnection": "mongodb://minigame:ORg3.47gZ51@79.174.13.142:27017/?authSource=admin",
   "lobbyDataMongodbDatabase": "gvh"
 }

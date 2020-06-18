@@ -14,7 +14,7 @@
     },
     {
       "cooldown": 20,
-      "damage": 0,
+      "damage": 1,
       "material": "BOW",
       "displayName": "§cЛук",
       "lore": [
@@ -24,7 +24,7 @@
     },
     {
       "cooldown": 20,
-      "damage": 0,
+      "damage": 2,
       "material": "BOW",
       "displayName": "§cЛук",
       "lore": [

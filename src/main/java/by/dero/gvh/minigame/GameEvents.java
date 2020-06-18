@@ -6,10 +6,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import org.bukkit.Bukkit;
 import by.dero.gvh.model.interfaces.*;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
@@ -136,24 +133,22 @@ public class GameEvents implements Listener {
         }
     }
 
+
+    @EventHandler
+    public void onEntityDie(EntityDeathEvent event) {
+        event.getDrops().clear();
+    }
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
         final Player player = event.getEntity();
         final float exp = player.getExp();
-        final GamePlayer gp = getPlayer(player.getName());
 
-        final HashMap<String, Item> inv = (HashMap<String, Item>) gp.getItems().clone();
-        event.getDrops().clear();
         event.setDeathMessage(null);
         final Game game = Minigame.getInstance().getGame();
         game.onPlayerKilled(player, damageCause.getOrDefault(player, player));
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
             game.respawnPlayer(game.getPlayers().get(player.getName()));
-            inv.forEach((s, item) -> {
-                gp.addItem(s, item.getLevel());
-                gp.getItems().get(s).getItemStack().setAmount(item.getItemStack().getAmount());
-            });
             player.setExp(exp);
         }, 1L);
     }
@@ -177,6 +172,14 @@ public class GameEvents implements Listener {
         Minigame.getInstance().getGame().removePlayer(p.getName());
     }
 
+    @EventHandler
+    public void removeEntities(EntitySpawnEvent event) {
+        final Entity ent = event.getEntity();
+        if (ent instanceof LivingEntity &&
+                !(ent instanceof Player)) {
+            ent.remove();
+        }
+    }
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
         event.setCancelled(true);

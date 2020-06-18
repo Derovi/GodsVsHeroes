@@ -4,21 +4,21 @@
   "levels": [
     {
       "cooldown": 0,
-      "material": "CHAINMAIL_LEGGINGS",
+      "material": "LEATHER_LEGGINGS",
       "displayName": "§cПонтолоны",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
-      "material": "CHAINMAIL_LEGGINGS",
+      "material": "GOLDEN_LEGGINGS",
       "displayName": "§cПонтолоны",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
-      "material": "CHAINMAIL_LEGGINGS",
+      "material": "IRON_LEGGINGS",
       "displayName": "§cПонтолоны",
       "lore": [],
       "amount": 1
