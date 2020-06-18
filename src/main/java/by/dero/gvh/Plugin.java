@@ -10,9 +10,14 @@ import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
+import net.minecraft.server.v1_15_R1.GameRules;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
+import org.bukkit.GameRule;
+import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 
@@ -46,17 +51,19 @@ public class Plugin extends JavaPlugin {
                     settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase());
         }
         playerData = new PlayerData(playerDataStorage);
+        World world = Bukkit.getWorld("world");
         if (settings.getMode().equals("minigame")) {
             pluginMode = new Minigame();
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "difficulty normal");
         } else {
             pluginMode = new Lobby();
 
             Bukkit.getPluginManager().registerEvents((Listener) pluginMode, this);
+            world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+            world.setDifficulty(Difficulty.PEACEFUL);
         }
         pluginMode.onEnable();
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "difficulty peaceful");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule doMobSpawning False");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "difficulty normal");
+        world.setGameRule(GameRule.DO_MOB_LOOT, false);
     }
 
     @Override
