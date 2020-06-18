@@ -26,6 +26,7 @@ public abstract class Monument {
         }
         SelectorInterface selectorInterface = new SelectorInterface(
                 Lobby.getInstance().getInterfaceManager(), player, className);
+        selectorInterface.open();
     }
 
     public void onUpdateSelected(Player player) {

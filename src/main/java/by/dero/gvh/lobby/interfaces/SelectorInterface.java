@@ -16,7 +16,9 @@ public class SelectorInterface extends Interface {
         };
 
         Runnable upgrade = () -> {
-            System.out.println("upgrade");
+            close();
+            UpgradeInterface upgradeInterface = new UpgradeInterface(manager, player, className);
+            upgradeInterface.open();
         };
 
         ItemStack selectItemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);

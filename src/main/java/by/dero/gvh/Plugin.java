@@ -19,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 
-public class Plugin extends JavaPlugin implements Listener {
+public class Plugin extends JavaPlugin {
     private static Plugin instance;
     private Data data;
     private PlayerData playerData;
@@ -63,14 +63,6 @@ public class Plugin extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         pluginMode.onDisable();
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!playerData.isPlayerRegistered(event.getPlayer().getName())) {
-            playerData.registerPlayer(event.getPlayer().getName());
-            playerData.unlockClass(event.getPlayer().getName(), "default");
-        }
     }
 
     public Settings getSettings() {

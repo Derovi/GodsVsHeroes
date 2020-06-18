@@ -10,13 +10,20 @@ public class Interface {
     private final Player player;
     private Inventory inventory;
     private final Runnable[] buttonActions;
+    private final InterfaceManager manager;
+    private int height;
 
     public Interface(InterfaceManager manager, Player player, int height, String name) {
+        this.manager = manager;
+        this.height = height;
+        this.player = player;
         inventory = Bukkit.createInventory(null, 9 * height, name);
         buttonActions = new Runnable[9 * height];
-        this.player = player;
-        manager.register(player.getName(), this);
+    }
+
+    public void open() {
         player.openInventory(inventory);
+        manager.register(player.getName(), this);
     }
 
     public void close() {
@@ -33,21 +40,25 @@ public class Interface {
     }
 
     public void addItem(int x, int y, ItemStack itemStack) {
-        int pos = y * 9 + x;
+        int pos = getPos(x, y);
         buttonActions[pos] = null;
         inventory.setItem(pos, itemStack);
     }
 
     public void addButton(int x, int y, ItemStack itemStack, Runnable onClick) {
-        int pos = y * 9 + x;
+        int pos = getPos(x, y);
         buttonActions[pos] = onClick;
         inventory.setItem(pos, itemStack);
     }
 
     public void removeButton(int x, int y) {
-        int pos = y * 9 + x;
+        int pos = getPos(x, y);
         buttonActions[pos] = null;
         inventory.setItem(pos, new ItemStack(Material.AIR));
+    }
+
+    private int getPos(int x, int y) {
+        return (height - y - 1) * 9 + x;
     }
 
     public Player getPlayer() {

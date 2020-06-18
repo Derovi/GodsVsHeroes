@@ -9,6 +9,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class UpgradeInterface extends Interface {
     private final String className;
 
@@ -18,10 +21,20 @@ public class UpgradeInterface extends Interface {
         PlayerInfo playerInfo = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
         int index = 0;
-        for (; index < (9 - classDescription.getItemNames().size()) / 2; ++index) {
+        for (; index < Math.max(0, (9 - classDescription.getItemNames().size()) / 2); ++index) {
             fillEmptyLine(index);
         }
+        List<String> itemNames = new LinkedList<>();
         for (String itemName : classDescription.getItemNames()) {
+            if (itemNames.size() == 9) {
+                break;
+            }
+            if (Plugin.getInstance().getData().getItems().get(itemName).getLevels().size() < 2) {
+                continue;
+            }
+            itemNames.add(itemName);
+        }
+        for (String itemName : itemNames) {
             updateItemLine(index++, itemName, playerInfo);
         }
         for (; index < 9; ++index) {
@@ -48,7 +61,7 @@ public class UpgradeInterface extends Interface {
             currentLevelItemStack = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         }
         addItem(position, currentLevel + 1, currentLevelItemStack);
-        for (int index = currentLevel + 2; index <= 6; ++index) {
+        for (int index = currentLevel + 2; index < 6; ++index) {
             ItemStack itemStack = new ItemStack(Material.RED_STAINED_GLASS_PANE);
             addItem(position, index, itemStack);
         }
