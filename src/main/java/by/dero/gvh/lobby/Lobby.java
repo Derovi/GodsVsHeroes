@@ -1,10 +1,7 @@
 package by.dero.gvh.lobby;
 
-import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
-import by.dero.gvh.lobby.monuments.ArmorStandMonument;
-import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.lobby.utils.VoidGenerator;
 import by.dero.gvh.model.StorageInterface;
@@ -17,6 +14,9 @@ import com.google.gson.Gson;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -24,7 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.util.*;
 
-public class Lobby implements PluginMode {
+public class Lobby implements PluginMode, Listener {
     private static Lobby instance;
     private LobbyInfo info;
     private LobbyData data;
@@ -195,5 +195,20 @@ public class Lobby implements PluginMode {
 
     public File getLobbySchematicFile() {
         return lobbySchematicFile;
+    }
+
+
+    private final HashMap<UUID, Location> onGround = new HashMap<>();
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        Player p = event.getPlayer();
+        if (p.isOnGround()) {
+            onGround.put(p.getUniqueId(), p.getLocation());
+        } else {
+            if (p.getLocation().getY() < 30) {
+                p.teleport(onGround.get(p.getUniqueId()));
+            }
+        }
+
     }
 }

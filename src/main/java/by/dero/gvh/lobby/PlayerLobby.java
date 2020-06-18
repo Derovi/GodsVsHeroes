@@ -13,7 +13,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class PlayerLobby {
-    private final List<FlyingText> texts = new ArrayList<>();
     private final LobbyRecord record;
     private final Player player;
     private final HashMap<String, Monument> monuments = new HashMap<>();
