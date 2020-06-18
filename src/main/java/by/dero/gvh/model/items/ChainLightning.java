@@ -46,9 +46,9 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
         RayTraceResult ray = player.getWorld().rayTraceEntities(
                 player.getEyeLocation(),
                 player.getLocation().getDirection(),
-                100, (p) -> isEnemy(p, team)
+                100, (p) -> isEnemy(p, getTeam())
         );
-        if (ray == null || !isEnemy(ray.getHitEntity(), team)) {
+        if (ray == null || !isEnemy(ray.getHitEntity(), getTeam())) {
             Drawings.drawLine(player.getEyeLocation(),
                     player.getEyeLocation().clone().add(player.getLocation().getDirection().multiply(100)),
                     Particle.FIREWORKS_SPARK);
@@ -67,7 +67,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
                 cur = next;
                 next = null;
                 for (LivingEntity obj : getNearby(cur.getLocation(), radius)) {
-                    if (isEnemy(obj, team) && !hit.contains(obj.getUniqueId())) {
+                    if (isEnemy(obj, getTeam()) && !hit.contains(obj.getUniqueId())) {
                         next = obj;
                         break;
                     }

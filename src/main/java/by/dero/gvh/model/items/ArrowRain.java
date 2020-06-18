@@ -65,7 +65,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
                 final Location shooter = randomCylinder(center, radius, 0);
                 final List<Location> targets = new ArrayList<>();
                 for (LivingEntity obj : getNearby(center, radius)) {
-                    if (isEnemy(obj, team)) {
+                    if (isEnemy(obj, getTeam())) {
                         targets.add(obj.getLocation().clone());
                     }
                 }

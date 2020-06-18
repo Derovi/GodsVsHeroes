@@ -10,10 +10,22 @@ public class Position {
     public Position() {
     }
 
+    public Position(Location location) {
+        x = location.getX();
+        y = location.getY();
+        z = location.getZ();
+    }
+
     public Position(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public double distance(Position other) {
+        return Math.sqrt((x - other.x) * (x - other.x) +
+                        (y - other.y) * (y - other.y) +
+                        (z - other.z) * (z - other.z));
     }
 
     public Location toLocation(String worldName) {

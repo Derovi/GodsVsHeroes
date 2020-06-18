@@ -9,6 +9,7 @@ public class LobbyInfo {
     private int height;
     private int width;
     private Position spawnPosition;
+    private Position portalPosition;
 
     @SerializedName("monuments")
     private Map<String, Position> classNameToMonumentPosition;
@@ -28,6 +29,10 @@ public class LobbyInfo {
 
     public int getWidth() {
         return width;
+    }
+
+    public Position getPortalPosition() {
+        return portalPosition;
     }
 
     public Map<String, Position> getClassNameToMonumentPosition() {

@@ -1,6 +1,5 @@
 package by.dero.gvh;
 
-import by.dero.gvh.model.ItemDescription;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CommandManager implements CommandExecutor {
-    private HashMap<String, PluginCommand> commands = new HashMap<>();
+    private final HashMap<String, PluginCommand> commands = new HashMap<>();
 
     public HashMap<String, PluginCommand> getCommands() {
         return commands;

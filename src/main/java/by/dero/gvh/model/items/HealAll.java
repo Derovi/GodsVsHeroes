@@ -39,7 +39,7 @@ public class HealAll extends Item implements UltimateInterface {
         final Player p = event.getPlayer();
         drawSign(p.getLocation());
         for (final LivingEntity ent : getNearby(p.getLocation(), radius)) {
-            if (isAlly(ent, team)) {
+            if (isAlly(ent, getTeam())) {
                 final double hp = Math.min(ent.getHealth() + heal,
                         ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 ent.setHealth(hp);

@@ -1,5 +1,5 @@
 {
-  "mode": "minigame",
+  "mode": "lobby",
   "dataStorageType": "local",
   "dataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
   "dataMongodbDatabase": "gvh",

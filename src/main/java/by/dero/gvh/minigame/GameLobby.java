@@ -21,16 +21,10 @@ public class GameLobby {
         board = new Board("Lobby", 3);
         Bukkit.getServer().getScheduler().runTaskTimer(Plugin.getInstance(), ()->
                 board.update(new String[] {
-                                "§aPreparing: §4 %d/%d",
-                                "§aMinimum required: %d",
-                                "§bTime left : %d"
-                        },
-                        new int[] {
-                                Bukkit.getServer().getOnlinePlayers().size(),
-                                game.getInfo().getMaxPlayerCount(),
-                                game.getInfo().getMinPlayerCount(),
-                                timeLeft
-                        }), 0, 10);
+                                "§aPreparing: §4 " + Bukkit.getServer().getOnlinePlayers().size() + "/" + game.getInfo().getMaxPlayerCount(),
+                                "§aMinimum required: " + game.getInfo().getMinPlayerCount(),
+                                "§bTime left : " + timeLeft
+                        }), 0, 20);
     }
 
     private boolean ready = false;
