@@ -1,5 +1,7 @@
 package by.dero.gvh.lobby.monuments;
 
+import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.lobby.interfaces.SelectorInterface;
 import by.dero.gvh.utils.Position;
 import org.bukkit.entity.Player;
 
@@ -22,7 +24,8 @@ public abstract class Monument {
         if (!owner.getName().equals(player.getName())) {
             return;
         }
-        System.out.println("Selected " + className + " by " + owner.getName());
+        SelectorInterface selectorInterface = new SelectorInterface(
+                Lobby.getInstance().getInterfaceManager(), player, className);
     }
 
     public void onUpdateSelected(Player player) {

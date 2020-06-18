@@ -7,18 +7,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class Interface {
-    private Player player;
+    private final Player player;
     private Inventory inventory;
     private final Runnable[] buttonActions;
 
-    public Interface(InterfaceManager manager, Player player, int height) {
-        inventory = Bukkit.createInventory(null, 9 * height);
+    public Interface(InterfaceManager manager, Player player, int height, String name) {
+        inventory = Bukkit.createInventory(null, 9 * height, name);
         buttonActions = new Runnable[9 * height];
         this.player = player;
         manager.register(player.getName(), this);
-    }
-
-    public void open() {
         player.openInventory(inventory);
     }
 
@@ -27,6 +24,9 @@ public class Interface {
     }
 
     public void clicked(int pos) {
+        if (pos < 0) {
+            return;
+        }
         if (buttonActions[pos] != null) {
             buttonActions[pos].run();
         }

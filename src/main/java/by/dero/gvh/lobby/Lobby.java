@@ -2,6 +2,7 @@ package by.dero.gvh.lobby;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
+import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.lobby.utils.VoidGenerator;
 import by.dero.gvh.model.StorageInterface;
@@ -15,6 +16,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
+
+import javax.swing.plaf.PanelUI;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Random;
@@ -28,6 +31,7 @@ public class Lobby implements PluginMode {
     private World world;
     private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
     private MonumentManager monumentManager;
+    private InterfaceManager interfaceManager;
 
     @Override
     public void onEnable() {
@@ -54,6 +58,8 @@ public class Lobby implements PluginMode {
         data = new LobbyData(dataStorage);
         data.load();
         monumentManager = new MonumentManager();
+        interfaceManager = new InterfaceManager();
+        Bukkit.getPluginManager().registerEvents(interfaceManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(monumentManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
         System.out.println("Loading schematic");
@@ -135,6 +141,10 @@ public class Lobby implements PluginMode {
 
     public static Lobby getInstance() {
         return instance;
+    }
+
+    public InterfaceManager getInterfaceManager() {
+        return interfaceManager;
     }
 
     public MonumentManager getMonumentManager() {
