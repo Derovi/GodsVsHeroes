@@ -6,7 +6,12 @@ import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import static by.dero.gvh.utils.Board.sendTitle;
 
@@ -35,6 +40,17 @@ public class GameLobby {
         showIndex = 0;
         ready = false;
         sendTitle(ChatColor.GREEN + "Game Started", game.getPlayers().values());
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard board = manager.getNewScoreboard();
+
+        Objective objective = board.registerNewObjective("showhealth", "health", "");
+        objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        objective.setDisplayName("/ 20");
+
+        for(Player online : Bukkit.getOnlinePlayers()){
+            online.setScoreboard(board);
+            online.setHealth(online.getHealth());
+        }
         game.start();
     }
 
