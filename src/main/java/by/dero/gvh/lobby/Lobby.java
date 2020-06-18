@@ -1,7 +1,10 @@
 package by.dero.gvh.lobby;
 
+import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
+import by.dero.gvh.lobby.monuments.ArmorStandMonument;
+import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.lobby.utils.VoidGenerator;
 import by.dero.gvh.model.StorageInterface;
@@ -12,14 +15,14 @@ import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 public class Lobby implements PluginMode {
     private static Lobby instance;
@@ -40,6 +43,7 @@ public class Lobby implements PluginMode {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
         // create world
         if (Plugin.getInstance().getServer().getWorld(worldName) == null) {
             WorldCreator creator = new WorldCreator(worldName);
@@ -47,6 +51,10 @@ public class Lobby implements PluginMode {
             world = creator.createWorld();
         }
         world = Plugin.getInstance().getServer().getWorld(worldName);
+
+        for (Entity obj : world.getEntities()) {
+            obj.remove();
+        }
         StorageInterface dataStorage = new LocalStorage();
         if (Plugin.getInstance().getSettings().getPlayerDataStorageType().equals("mongodb")) {
             dataStorage = new MongoDBStorage(
@@ -91,12 +99,13 @@ public class Lobby implements PluginMode {
             record = data.getRecord(player.getName());
             playerLobby = new PlayerLobby(record);
         }
+        final Position recPos = record.getPosition();
         new BukkitRunnable() {
             double angle = 0;
             final double turnsPerSec = 0.25;
             final double radius = 1.2;
             final int parts = 3;
-            final Location center = record.getPosition().toLocation(world).clone().add(15.5,1.5,29.5);
+            final Location center = recPos.toLocation(world).clone().add(15.5,1.5,29.5);
             @Override
             public void run() {
                 if (!player.isOnline()) {
@@ -110,6 +119,7 @@ public class Lobby implements PluginMode {
                 angle += Math.PI * turnsPerSec / 20 * 2;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 2);
+
         if (record.getVersion() != info.getVersion()) {
             // if player lobby is old, update
             playerLobby.destroy();

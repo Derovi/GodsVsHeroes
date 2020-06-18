@@ -5,10 +5,7 @@ import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Position;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -19,6 +16,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static by.dero.gvh.utils.DataUtils.getPlayer;
+import static by.dero.gvh.utils.MessagingUtils.getNormal;
 
 public class ArmorStandMonument extends Monument {
     private final double turnPerSec = 0.3;
@@ -33,6 +31,8 @@ public class ArmorStandMonument extends Monument {
     public void load() {
         final World at = Lobby.getInstance().getWorld();
         armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
+        armorStand.setCustomNameVisible(true);
+        armorStand.setCustomName(getNormal(ChatColor.AQUA + "RMC to select: " + getClassName()));
 
         final Location loc = armorStand.getLocation();
         final UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(getClassName());

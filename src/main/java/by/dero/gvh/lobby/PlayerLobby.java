@@ -1,15 +1,19 @@
 package by.dero.gvh.lobby;
 
+import by.dero.gvh.FlyingText;
+import by.dero.gvh.Plugin;
+import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.WorldEditUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class PlayerLobby {
+    private final List<FlyingText> texts = new ArrayList<>();
     private final LobbyRecord record;
     private final Player player;
     private final HashMap<String, Monument> monuments = new HashMap<>();
@@ -43,6 +47,26 @@ public class PlayerLobby {
                 ex.printStackTrace();
             }
         }
+        final Position recPos = record.getPosition();
+        final FlyingText selectedClass = new FlyingText(
+                new Position(recPos.getX() + 15.5, recPos.getY()+1.5, recPos.getZ()+26.5),
+                "", player);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                final UUID id = Lobby.getInstance().getMonumentManager().getActive().getOrDefault(player.getUniqueId(), player.getUniqueId());
+                for (Monument obj : getMonuments().values()) {
+                    if (obj instanceof ArmorStandMonument) {
+                        if (((ArmorStandMonument) obj).getArmorStand().getUniqueId().equals(id)) {
+                            selectedClass.setText("§aSelected class: " + obj.getClassName());
+                            return;
+                        }
+                    }
+                }
+                selectedClass.setText("§aSelected class: default");
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, 5);
     }
 
     public void unload() {

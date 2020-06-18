@@ -1,19 +1,13 @@
 package by.dero.gvh.lobby.monuments;
 
 import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.lobby.monuments.ArmorStandMonument;
-import by.dero.gvh.lobby.monuments.Monument;
-import com.sk89q.worldedit.util.gson.GsonUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
