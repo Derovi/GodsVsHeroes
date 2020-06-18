@@ -11,7 +11,11 @@ import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
+import net.minecraft.server.v1_15_R1.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_15_R1.ParticleParam;
+import net.minecraft.server.v1_15_R1.ParticleType;
 import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -108,13 +112,14 @@ public class Lobby implements PluginMode, Listener {
             final Location center = recPos.toLocation(world).clone().add(15.5,1.5,29.5);
             @Override
             public void run() {
-                if (!player.isOnline()) {
+                if (!Bukkit.getOnlinePlayers().contains(player)) {
                     this.cancel();
+                    return;
                 }
                 for (int i = 0; i < parts; i++) {
                     final double cur = angle + Math.PI * 2 * i / parts;
                     final Location at = center.clone().add(Math.cos(cur) * radius, Math.sin(cur) * radius,0);
-                    world.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
+                    player.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
                 }
                 angle += Math.PI * turnsPerSec / 20 * 2;
             }

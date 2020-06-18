@@ -48,7 +48,7 @@ public class PlayerLobby {
         }
         final Position recPos = record.getPosition();
         final FlyingText selectedClass = new FlyingText(
-                new Position(recPos.getX() + 15.5, recPos.getY()+1.5, recPos.getZ()+26.5),
+                new Position(recPos.getX() + 15.5, recPos.getY()+1, recPos.getZ()+26.5),
                 "", player);
 
         new BukkitRunnable() {

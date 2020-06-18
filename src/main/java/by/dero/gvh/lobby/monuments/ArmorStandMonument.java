@@ -68,6 +68,9 @@ public class ArmorStandMonument extends Monument {
             final HashMap<UUID, UUID> active = Lobby.getInstance().getMonumentManager().getActive();
             @Override
             public void run() {
+                if (!getOwner().isOnline()) {
+                    this.cancel();
+                }
                 if (active.getOrDefault(getOwner().getUniqueId(), new UUID(0,0)).equals(armorStand.getUniqueId())) {
                     at.spawnParticle(Particle.DRAGON_BREATH,
                             st.clone().add(Math.cos(angle)*radius, 0, Math.sin(angle)*radius),
