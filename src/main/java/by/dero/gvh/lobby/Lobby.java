@@ -12,17 +12,19 @@ import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
+import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-
-import javax.swing.plaf.PanelUI;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
-public class Lobby implements PluginMode {
+public class Lobby implements PluginMode, Listener {
     private static Lobby instance;
     private LobbyInfo info;
     private LobbyData data;
@@ -43,6 +45,7 @@ public class Lobby implements PluginMode {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
         // create world
         if (Plugin.getInstance().getServer().getWorld(worldName) == null) {
             WorldCreator creator = new WorldCreator(worldName);
@@ -50,6 +53,10 @@ public class Lobby implements PluginMode {
             world = creator.createWorld();
         }
         world = Plugin.getInstance().getServer().getWorld(worldName);
+
+        for (Entity obj : world.getEntities()) {
+            obj.remove();
+        }
         StorageInterface dataStorage = new LocalStorage();
         if (Plugin.getInstance().getSettings().getPlayerDataStorageType().equals("mongodb")) {
             dataStorage = new MongoDBStorage(
@@ -87,6 +94,7 @@ public class Lobby implements PluginMode {
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
         lobbyPlayer.loadInfo();
         players.put(player.getName(), lobbyPlayer);
+        new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0).apply(player);
         LobbyRecord record;
         PlayerLobby playerLobby;
         if (!data.recordExists(player.getName())) {
@@ -98,6 +106,27 @@ public class Lobby implements PluginMode {
             record = data.getRecord(player.getName());
             playerLobby = new PlayerLobby(record);
         }
+        final Position recPos = record.getPosition();
+        new BukkitRunnable() {
+            double angle = 0;
+            final double turnsPerSec = 0.25;
+            final double radius = 1.2;
+            final int parts = 3;
+            final Location center = recPos.toLocation(world).clone().add(15.5,1.5,29.5);
+            @Override
+            public void run() {
+                if (!player.isOnline()) {
+                    this.cancel();
+                }
+                for (int i = 0; i < parts; i++) {
+                    final double cur = angle + Math.PI * 2 * i / parts;
+                    final Location at = center.clone().add(Math.cos(cur) * radius, Math.sin(cur) * radius,0);
+                    player.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
+                }
+                angle += Math.PI * turnsPerSec / 20 * 2;
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, 2);
+
         if (record.getVersion() != info.getVersion()) {
             // if player lobby is old, update
             playerLobby.destroy();
@@ -182,5 +211,20 @@ public class Lobby implements PluginMode {
 
     public File getLobbySchematicFile() {
         return lobbySchematicFile;
+    }
+
+
+    private final HashMap<UUID, Location> onGround = new HashMap<>();
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        Player p = event.getPlayer();
+        if (p.isOnGround()) {
+            onGround.put(p.getUniqueId(), p.getLocation());
+        } else {
+            if (p.getLocation().getY() < 30) {
+                p.teleport(onGround.get(p.getUniqueId()));
+            }
+        }
+
     }
 }

@@ -54,7 +54,7 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                 final Vector kek = st.clone().crossProduct(start.getDirection()).multiply(Math.sin(ticks) * 3);
                 Objects.requireNonNull(start.getWorld()).spawnParticle(Particle.LAVA, start, 1);
                 for (final LivingEntity obj : getNearby(start, 2)) {
-                    if (isEnemy(obj, team) && !stroke.contains(obj.getUniqueId())) {
+                    if (isEnemy(obj, getTeam()) && !stroke.contains(obj.getUniqueId())) {
                         obj.damage(damage, getOwner());
                         stroke.add(obj.getUniqueId());
                     }
