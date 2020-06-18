@@ -34,7 +34,7 @@ public class Lobby implements PluginMode, Listener {
     private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
     private MonumentManager monumentManager;
     private InterfaceManager interfaceManager;
-    private HashMap<String, LobbyPlayer> players = new HashMap<>();
+    private final HashMap<String, LobbyPlayer> players = new HashMap<>();
 
     @Override
     public void onEnable() {

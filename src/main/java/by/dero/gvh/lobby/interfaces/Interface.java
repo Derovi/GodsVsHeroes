@@ -11,7 +11,7 @@ public class Interface {
     private Inventory inventory;
     private final Runnable[] buttonActions;
     private final InterfaceManager manager;
-    private int height;
+    private final int height;
 
     public Interface(InterfaceManager manager, Player player, int height, String name) {
         this.manager = manager;
