@@ -65,12 +65,9 @@ public class GameEvents implements Listener {
         }
         if (itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof InfiniteReplenishInterface) {
-                final GamePlayer gp = getPlayer(player.getName());
-                final Item item = gp.getSelectedItem();
-                final int slot = player.getInventory().getHeldItemSlot();
-                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()-> {
-                    player.getInventory().setItem(slot, item.getItemStack());
-                    }, 1);
+                ItemStack item = player.getInventory().getItemInMainHand();
+                item.setAmount(2);
+                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()->item.setAmount(1), 1);
             }
             if (itemInHand instanceof UltimateInterface) {
                 ItemStack item = player.getInventory().getItemInMainHand();
