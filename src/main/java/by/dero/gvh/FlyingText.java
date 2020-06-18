@@ -26,4 +26,8 @@ public class FlyingText {
     public void setText(String text) {
         armorStand.setCustomName(getNormal(text));
     }
+
+    public void unload() {
+        armorStand.remove();
+    }
 }

@@ -2,6 +2,7 @@ package by.dero.gvh.lobby;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
+import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.lobby.utils.VoidGenerator;
 import by.dero.gvh.model.StorageInterface;
@@ -24,6 +25,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.util.*;
@@ -37,6 +39,8 @@ public class Lobby implements PluginMode, Listener {
     private World world;
     private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
     private MonumentManager monumentManager;
+    private InterfaceManager interfaceManager;
+    private final HashMap<String, LobbyPlayer> players = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -68,6 +72,8 @@ public class Lobby implements PluginMode, Listener {
         data = new LobbyData(dataStorage);
         data.load();
         monumentManager = new MonumentManager();
+        interfaceManager = new InterfaceManager();
+        Bukkit.getPluginManager().registerEvents(interfaceManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(monumentManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
         System.out.println("Loading schematic");
@@ -91,6 +97,9 @@ public class Lobby implements PluginMode, Listener {
     }
 
     public void playerJoined(Player player) {
+        LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
+        lobbyPlayer.loadInfo();
+        players.put(player.getName(), lobbyPlayer);
         new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0).apply(player);
         LobbyRecord record;
         PlayerLobby playerLobby;
@@ -103,27 +112,6 @@ public class Lobby implements PluginMode, Listener {
             record = data.getRecord(player.getName());
             playerLobby = new PlayerLobby(record);
         }
-        final Position recPos = record.getPosition();
-        new BukkitRunnable() {
-            double angle = 0;
-            final double turnsPerSec = 0.25;
-            final double radius = 1.2;
-            final int parts = 3;
-            final Location center = recPos.toLocation(world).clone().add(15.5,1.5,29.5);
-            @Override
-            public void run() {
-                if (!Bukkit.getOnlinePlayers().contains(player)) {
-                    this.cancel();
-                    return;
-                }
-                for (int i = 0; i < parts; i++) {
-                    final double cur = angle + Math.PI * 2 * i / parts;
-                    final Location at = center.clone().add(Math.cos(cur) * radius, Math.sin(cur) * radius,0);
-                    player.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
-                }
-                angle += Math.PI * turnsPerSec / 20 * 2;
-            }
-        }.runTaskTimer(Plugin.getInstance(), 0, 2);
 
         if (record.getVersion() != info.getVersion()) {
             // if player lobby is old, update
@@ -140,6 +128,7 @@ public class Lobby implements PluginMode, Listener {
     public void playerLeft(Player player) {
         activeLobbies.get(player.getName()).unload();
         activeLobbies.remove(player.getName());
+        players.remove(player.getName());
     }
 
     public LobbyRecord generateNewRecord(String playerName) {
@@ -174,12 +163,20 @@ public class Lobby implements PluginMode, Listener {
         return instance;
     }
 
+    public InterfaceManager getInterfaceManager() {
+        return interfaceManager;
+    }
+
     public MonumentManager getMonumentManager() {
         return monumentManager;
     }
 
     public HashMap<String, PlayerLobby> getActiveLobbies() {
         return activeLobbies;
+    }
+
+    public HashMap<String, LobbyPlayer> getPlayers() {
+        return players;
     }
 
     public LobbyData getData() {
@@ -209,6 +206,9 @@ public class Lobby implements PluginMode, Listener {
         Player p = event.getPlayer();
         if (p.isOnGround()) {
             onGround.put(p.getUniqueId(), p.getLocation());
+            if (p.getLocation().clone().subtract(0,1,0).getBlock().getType() == Material.GOLD_BLOCK) {
+                p.setVelocity(new Vector(0,0,2));
+            }
         } else {
             if (p.getLocation().getY() < 30) {
                 p.teleport(onGround.get(p.getUniqueId()));

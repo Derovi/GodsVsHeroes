@@ -165,10 +165,6 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!Plugin.getInstance().getPlayerData().isPlayerRegistered(event.getPlayer().getName())) {
-            Plugin.getInstance().getPlayerData().registerPlayer(event.getPlayer().getName());
-            Plugin.getInstance().getPlayerData().unlockClass(event.getPlayer().getName(), "default");
-        }
         Minigame.getInstance().getGame().addPlayer(event.getPlayer());
     }
 

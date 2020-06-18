@@ -39,7 +39,14 @@ public class PlayerData {
         return getPlayerInfo(playerName).getBalance();
     }
 
-    public void upgradePlayerBalance(String playerName, int balance) {
+    public void selectClass(String playerName, String className) {
+        PlayerInfo playerInfo = getPlayerInfo(playerName);
+        playerInfo.selectClass(className);
+        savePlayerInfo(playerName, playerInfo);
+        // TODO for database
+    }
+
+    public void updatePlayerBalance(String playerName, int balance) {
         PlayerInfo playerInfo = getPlayerInfo(playerName);
         playerInfo.setBalance(balance);
         savePlayerInfo(playerName, playerInfo);

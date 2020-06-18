@@ -31,16 +31,9 @@ public class Board {
         }
     }
 
-    public void update(final String[] strings, final int[] vars) {
-        int pref = 0;
+    public void update(final String[] strings) {
         for (int i = 0; i < strings.length; i++) {
-            final int len = StringUtils.countMatches(strings[i], "%");
-            Object[] cur = new Object[len];
-            for (int j = pref; j < pref + len; j++) {
-                cur[j-pref] = vars[j];
-            }
-            teams[i].setPrefix(MessagingUtils.getNormal(String.format(strings[i], cur)));
-            pref += len;
+            teams[i].setPrefix(MessagingUtils.getNormal(strings[i]));
         }
     }
 

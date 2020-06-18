@@ -12,7 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import static by.dero.gvh.utils.DataUtils.getPlayer;
@@ -22,19 +24,49 @@ public class ArmorStandMonument extends Monument {
     private final double turnPerSec = 0.3;
     private final double radius = 0.8;
     private ArmorStand armorStand;
+    private final List<BukkitRunnable> runnables = new ArrayList<>();
 
     public ArmorStandMonument(Position position, String className, Player owner) {
         super(position, className, owner);
     }
+
+    private void drawParticles() {
+        final BukkitRunnable runnable = new BukkitRunnable() {
+            final Location loc = armorStand.getLocation();
+            final Location st = loc.clone().subtract(0, 2, 0);
+            double angle = 0;
+            @Override
+            public void run() {
+                if (Lobby.getInstance().getPlayers().get(getOwner().getName()).getPlayerInfo().getSelectedClass().equals(getClassName())) {
+                    getOwner().spawnParticle(Particle.DRAGON_BREATH,
+                            st.clone().add(Math.cos(angle)*radius, 0, Math.sin(angle)*radius),
+                            0,0,-0.05,0);
+                    getOwner().spawnParticle(Particle.DRAGON_BREATH,
+                            st.clone().add(Math.cos(angle + Math.PI)*radius, 0, Math.sin(angle + Math.PI)*radius),
+                            0,0, -0.05,0);
+                } else {
+                    getOwner().spawnParticle(Particle.FIREWORKS_SPARK,
+                            st.clone().add(Math.cos(angle)*radius, 0, Math.sin(angle)*radius),
+                            0,0,0,0);
+                    getOwner().spawnParticle(Particle.FIREWORKS_SPARK,
+                            st.clone().add(Math.cos(angle + Math.PI)*radius, 0, Math.sin(angle + Math.PI)*radius),
+                            0,0, 0,0);
+                }
+                angle += Math.PI * turnPerSec / 5;
+            }
+        };
+        runnable.runTaskTimer(Plugin.getInstance(), 80, 2);
+        runnables.add(runnable);
+    }
+
 
     @Override
     public void load() {
         final World at = Lobby.getInstance().getWorld();
         armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
         armorStand.setCustomNameVisible(true);
-        armorStand.setCustomName(getNormal(ChatColor.AQUA + "RMC to select: " + getClassName()));
+        armorStand.setCustomName(getNormal(ChatColor.AQUA + "RMB to select: " + getClassName()));
 
-        final Location loc = armorStand.getLocation();
         final UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(getClassName());
         for (final String name : classDescription.getItemNames()) {
             if (!name.startsWith("default")) {
@@ -61,39 +93,14 @@ public class ArmorStandMonument extends Monument {
                 case -4: eq.setBoots(item.getItemStack()); break;
             }
         }
-
-        new BukkitRunnable() {
-            final Location st = loc.clone().subtract(0, 2, 0);
-            double angle = 0;
-            final HashMap<UUID, UUID> active = Lobby.getInstance().getMonumentManager().getActive();
-            @Override
-            public void run() {
-                if (!getOwner().isOnline()) {
-                    this.cancel();
-                }
-                if (active.getOrDefault(getOwner().getUniqueId(), new UUID(0,0)).equals(armorStand.getUniqueId())) {
-                    at.spawnParticle(Particle.DRAGON_BREATH,
-                            st.clone().add(Math.cos(angle)*radius, 0, Math.sin(angle)*radius),
-                            0,0,-0.05,0);
-                    at.spawnParticle(Particle.DRAGON_BREATH,
-                            st.clone().add(Math.cos(angle + Math.PI)*radius, 0, Math.sin(angle + Math.PI)*radius),
-                            0,0, -0.05,0);
-                } else {
-                    at.spawnParticle(Particle.FIREWORKS_SPARK,
-                            st.clone().add(Math.cos(angle)*radius, 0, Math.sin(angle)*radius),
-                            0,0,0,0);
-                    at.spawnParticle(Particle.FIREWORKS_SPARK,
-                            st.clone().add(Math.cos(angle + Math.PI)*radius, 0, Math.sin(angle + Math.PI)*radius),
-                            0,0, 0,0);
-                }
-
-                angle += Math.PI * turnPerSec / 5;
-            }
-        }.runTaskTimer(Plugin.getInstance(), 60, 2);
+        drawParticles();
     }
 
     @Override
     public void unload() {
+        for (BukkitRunnable runnable : runnables) {
+            runnable.cancel();
+        }
         armorStand.remove();
     }
 

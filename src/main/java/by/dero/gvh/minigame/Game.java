@@ -91,7 +91,9 @@ public abstract class Game implements Listener {
             player.kickPlayer("§cGame preparing, try later!");
             return;
         }
-        players.put(player.getName(), new GamePlayer(player));
+        GamePlayer gamePlayer = new GamePlayer(player);
+        gamePlayer.setClassName(Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()).getSelectedClass());
+        players.put(player.getName(), gamePlayer);
         teleportToLobby(player);
         lobby.onPlayerJoined(players.get(player.getName()));
     }

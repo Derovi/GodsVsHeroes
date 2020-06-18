@@ -29,7 +29,7 @@ public class DeathMatch extends Game {
             for (int i = 0; i < currentLivesCount.length; i++) {
                 str[i] = "§" + (char)('a' + i) + "Command " + (i + 1) + " : §f" + currentLivesCount[i];
             }
-            board.update(str, new int[10]);
+            board.update(str);
         }, 0, 10);
         for (GamePlayer gp : getPlayers().values()) {
             gp.getPlayer().setScoreboard(board.getScoreboard());
