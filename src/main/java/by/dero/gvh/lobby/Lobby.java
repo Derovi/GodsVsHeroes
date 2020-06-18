@@ -8,6 +8,7 @@ import by.dero.gvh.lobby.utils.VoidGenerator;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
+import by.dero.gvh.utils.BungeeUtils;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
@@ -157,6 +158,10 @@ public class Lobby implements PluginMode, Listener {
             ++yIdx;
         }
         return new Position(xIdx * 96, 68 + Math.abs(new Random().nextInt()) % 20, yIdx * 96);
+    }
+
+    public void playerEnteredPortal(LobbyPlayer player) {
+        BungeeUtils.redirectPlayer(player.getPlayer(), "minigame");
     }
 
     public static Lobby getInstance() {
