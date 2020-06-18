@@ -106,26 +106,6 @@ public class Lobby implements PluginMode, Listener {
             record = data.getRecord(player.getName());
             playerLobby = new PlayerLobby(record);
         }
-        final Position recPos = record.getPosition();
-        new BukkitRunnable() {
-            double angle = 0;
-            final double turnsPerSec = 0.25;
-            final double radius = 1.2;
-            final int parts = 3;
-            final Location center = recPos.toLocation(world).clone().add(15.5,1.5,29.5);
-            @Override
-            public void run() {
-                if (!player.isOnline()) {
-                    this.cancel();
-                }
-                for (int i = 0; i < parts; i++) {
-                    final double cur = angle + Math.PI * 2 * i / parts;
-                    final Location at = center.clone().add(Math.cos(cur) * radius, Math.sin(cur) * radius,0);
-                    player.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
-                }
-                angle += Math.PI * turnsPerSec / 20 * 2;
-            }
-        }.runTaskTimer(Plugin.getInstance(), 0, 2);
 
         if (record.getVersion() != info.getVersion()) {
             // if player lobby is old, update

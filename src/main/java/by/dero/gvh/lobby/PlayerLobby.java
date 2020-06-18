@@ -7,6 +7,8 @@ import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.WorldEditUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,6 +18,7 @@ public class PlayerLobby {
     private final LobbyRecord record;
     private final Player player;
     private final HashMap<String, Monument> monuments = new HashMap<>();
+    private final List<BukkitRunnable> particleRunnables = new LinkedList<>();
 
     public PlayerLobby(LobbyRecord record) {
         this.record = record;
@@ -33,6 +36,8 @@ public class PlayerLobby {
     }
 
     public void load() {
+        loadPortal();
+
         for (Map.Entry<String, Position> entry :
                 Lobby.getInstance().getInfo().getClassNameToMonumentPosition().entrySet()) {
             try {
@@ -68,9 +73,34 @@ public class PlayerLobby {
         }.runTaskTimer(Plugin.getInstance(), 0, 5);
     }
 
+    private void loadPortal() {
+        final Position recPos = record.getPosition();
+        BukkitRunnable runnable = new BukkitRunnable() {
+            double angle = 0;
+            final double turnsPerSec = 0.25;
+            final double radius = 1.2;
+            final int parts = 3;
+            final Location center = recPos.toLocation(Lobby.getInstance().getWorld()).clone().add(15.5,1.5,29.5);
+            @Override
+            public void run() {
+                for (int i = 0; i < parts; i++) {
+                    final double cur = angle + Math.PI * 2 * i / parts;
+                    final Location at = center.clone().add(Math.cos(cur) * radius, Math.sin(cur) * radius,0);
+                    player.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
+                }
+                angle += Math.PI * turnsPerSec / 20 * 2;
+            }
+        };
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
+        particleRunnables.add(runnable);
+    }
+
     public void unload() {
         for (Monument monument : monuments.values()) {
             monument.unload();
+        }
+        for (BukkitRunnable runnable : particleRunnables) {
+            runnable.cancel();
         }
     }
 
