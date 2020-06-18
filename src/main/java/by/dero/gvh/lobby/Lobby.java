@@ -153,6 +153,10 @@ public class Lobby implements PluginMode, Listener {
         return new Position(xIdx * 96, 68 + Math.abs(new Random().nextInt()) % 20, yIdx * 96);
     }
 
+    public void playerEnteredPortal(LobbyPlayer player) {
+        System.out.println("In portal!");
+    }
+
     public static Lobby getInstance() {
         return instance;
     }

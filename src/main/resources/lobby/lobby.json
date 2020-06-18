@@ -3,9 +3,14 @@
   "height": 48,
   "width": 48,
   "spawnPosition": {
-    "x": 15.0,
+    "x": 15.5,
     "y": 2.0,
     "z": 6.0
+  },
+  "portalPosition": {
+    "x": 15.5,
+    "y": 2.0,
+    "z": 29.0
   },
   "monuments": {
     "mercenary": {
