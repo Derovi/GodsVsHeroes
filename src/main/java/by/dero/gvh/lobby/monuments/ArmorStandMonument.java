@@ -33,7 +33,7 @@ public class ArmorStandMonument extends Monument {
     private void drawParticles() {
         final BukkitRunnable runnable = new BukkitRunnable() {
             final Location loc = armorStand.getLocation();
-            final Location st = loc.clone().subtract(0, 2, 0);
+            final Location st = loc.clone();
             double angle = 0;
             @Override
             public void run() {
@@ -55,7 +55,7 @@ public class ArmorStandMonument extends Monument {
                 angle += Math.PI * turnPerSec / 5;
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 80, 2);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
         runnables.add(runnable);
     }
 
