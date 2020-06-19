@@ -72,7 +72,7 @@ public class GameLobby {
                 }
                 updateDisplays();
                 if (showTime[showIndex] == timeLeft) {
-                    sendTitle(ChatColor.GREEN + "" + timeLeft, game.getPlayers().values());
+                    sendTitle("§a" + timeLeft, game.getPlayers().values());
                     showIndex++;
                 }
                 timeLeft--;
@@ -96,7 +96,7 @@ public class GameLobby {
         gamePlayer.getPlayer().setScoreboard(board.getScoreboard());
         updateDisplays();
         gamePlayer.getPlayer().getInventory().clear();
-        if (players >= needed && !ready) {
+        if (players >= game.getInfo().getMinPlayerCount() && !ready) {
             ready = true;
             startPrepairing();
         }
