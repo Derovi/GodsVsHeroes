@@ -2,13 +2,14 @@ package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
+import by.dero.gvh.model.Lang;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class SelectorInterface extends Interface {
     public SelectorInterface(InterfaceManager manager, Player player, String className) {
-        super(manager, player, 6, "§6" + className);
+        super(manager, player, 6, Lang.get("selectHero").replace("%className%", Lang.get("classes." + className)));
         Runnable select = () -> {
             LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
             lobbyPlayer.getPlayerInfo().selectClass(className);

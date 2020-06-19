@@ -51,6 +51,9 @@ public class Lang {
     }
 
     public static String get(String key) {
+        if (!Plugin.getInstance().getLang().getLiterals().containsKey(key)) {
+            return key;
+        }
         return Plugin.getInstance().getLang().getLiterals().get(key);
     }
 }

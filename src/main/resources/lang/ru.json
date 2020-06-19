@@ -1,4 +1,9 @@
 {
   "itemReloading": "§6Перезагрузка. Подождите §6%time%§c секунд, чтобы использовать §6%itemname%§c!",
-  "test": "kek"
+  "selectHero": "§6Нажмите, чтобы выбрать героя §c%classname%§6.",
+  "classes": {
+    "archer": "Лучник",
+    "mercenary": "Наемник",
+    "alchemist": "Алхимик"
+  }
 }
