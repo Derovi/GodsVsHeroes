@@ -2,6 +2,7 @@ package by.dero.gvh;
 
 public class Settings {
     private String mode;
+    private String locale;
     private String serverName;
     private String dataStorageType;
     private String dataMongodbConnection;
@@ -126,5 +127,13 @@ public class Settings {
 
     public void setServerDataMongodbDatabase(String serverDataMongodbDatabase) {
         this.serverDataMongodbDatabase = serverDataMongodbDatabase;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
     }
 }

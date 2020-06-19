@@ -19,8 +19,11 @@ public class AirLeap extends Item implements PlayerInteractInterface {
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
         final Player player = event.getPlayer();
+        System.out.println("Interact");
         if (!cooldown.isReady()) {
+            System.out.println("Cooldown");
             if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
+                System.out.println("Cooldown message");
                 sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
             }
             event.setCancelled(true);

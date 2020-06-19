@@ -1,5 +1,6 @@
 {
   "mode": "minigame",
+  "locale": "ru",
   "serverName": "minigame",
   "dataStorageType": "local",
   "dataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",

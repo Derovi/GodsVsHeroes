@@ -2,11 +2,8 @@ package by.dero.gvh;
 
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Minigame;
-import by.dero.gvh.model.Data;
-import by.dero.gvh.model.ServerData;
+import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
-import by.dero.gvh.model.PlayerData;
-import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
@@ -34,6 +31,7 @@ public class Plugin extends JavaPlugin implements Listener {
     private ServerData serverData;
     private PluginMode pluginMode;
     private Settings settings;
+    private Lang lang;
 
     @Override
     public void onEnable() {
@@ -46,6 +44,8 @@ public class Plugin extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        lang = new Lang(new LocalStorage());
+        lang.load(settings.getLocale());
         StorageInterface dataStorage = new LocalStorage();
         if (settings.getDataStorageType().equals("mongodb")) {
             dataStorage = new MongoDBStorage(settings.getDataMongodbConnection(), settings.getDataMongodbDatabase());
@@ -91,6 +91,10 @@ public class Plugin extends JavaPlugin implements Listener {
 
     public ServerData getServerData() {
         return serverData;
+    }
+
+    public Lang getLang() {
+        return lang;
     }
 
     public Settings getSettings() {
