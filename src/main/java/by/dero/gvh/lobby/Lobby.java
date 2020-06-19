@@ -5,6 +5,7 @@ import by.dero.gvh.PluginMode;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.lobby.utils.VoidGenerator;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
@@ -27,6 +28,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.io.File;
+import java.nio.file.LinkOption;
 import java.util.*;
 
 public class Lobby implements PluginMode, Listener {
@@ -104,9 +106,10 @@ public class Lobby implements PluginMode, Listener {
     }
 
     public void updateDisplays(Player player) {
-        activeLobbies.get(player.getName()).getScoreboardUpdater().run();
-        activeLobbies.get(player.getName()).getSelectedClass().setText("§aSelected class: " +
-                Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().getSelectedClass());
+        final PlayerLobby lobby = activeLobbies.get(player.getName());
+        lobby.getScoreboardUpdater().run();
+        lobby.getSelectedClass().setText(Lang.get("lobby.selectedClass")
+                .replace("%class%", Lang.get("classes." + players.get(player.getName()).getPlayerInfo().getSelectedClass())));
     }
 
     public void playerJoined(Player player) {

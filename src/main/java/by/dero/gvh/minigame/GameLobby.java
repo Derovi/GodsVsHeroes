@@ -2,8 +2,8 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.Board;
-import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -24,22 +24,28 @@ public class GameLobby {
     public GameLobby(Game game) {
         this.game = game;
         board = new Board("Lobby", 3);
-        Bukkit.getServer().getScheduler().runTaskTimer(Plugin.getInstance(), ()->
-                board.update(new String[] {
-                                "§aГотово к игре: §4 " + Bukkit.getServer().getOnlinePlayers().size() + "/" + game.getInfo().getMaxPlayerCount(),
-                                "§aНужно как минимум: " + game.getInfo().getMinPlayerCount(),
-                                "§bОсталось времени : " + timeLeft
-                        }), 0, 20);
     }
 
     private boolean ready = false;
     private final int[] showTime = {60, 45, 30, 15, 10, 5, 4, 3, 2, 1};
 
+    public void updateDisplays() {
+        board.update(new String[] {
+                Lang.get("gameLobby.boardReady").
+                        replace("%cur%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size())).
+                        replace("%max%", String.valueOf(game.getInfo().getMaxPlayerCount())),
+                Lang.get("gameLobby.boardRequired").
+                        replace("%min%", String.valueOf(game.getInfo().getMinPlayerCount())),
+                Lang.get("gameLobby.boardTimeLeft").
+                        replace("%time%", String.valueOf(timeLeft))
+        });
+    }
+
     public void startGame() {
         timeLeft = 60;
         showIndex = 0;
         ready = false;
-        sendTitle(ChatColor.GREEN + "Игра началась", game.getPlayers().values());
+        sendTitle(Lang.get("game.gameAlreadyStarted"), game.getPlayers().values());
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard board = manager.getNewScoreboard();
 
@@ -64,6 +70,7 @@ public class GameLobby {
                     this.cancel();
                     return;
                 }
+                updateDisplays();
                 if (showTime[showIndex] == timeLeft) {
                     sendTitle(ChatColor.GREEN + "" + timeLeft, game.getPlayers().values());
                     showIndex++;
@@ -80,10 +87,14 @@ public class GameLobby {
 
     public void onPlayerJoined(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size();
-        final int needed = game.getInfo().getMinPlayerCount();
-        Bukkit.getServer().broadcastMessage("§aИгрок " +
-                gamePlayer.getPlayer().getName() + " присоединился! " + players + '/' + needed);
+        final int needed = game.getInfo().getMaxPlayerCount();
+        Bukkit.getServer().broadcastMessage(Lang.get("gameLobby.playerJoined")
+                .replace("%name%", gamePlayer.getPlayer().getName())
+                .replace("%cur%", String.valueOf(players))
+                .replace("%max%", String.valueOf(needed))
+        );
         gamePlayer.getPlayer().setScoreboard(board.getScoreboard());
+        updateDisplays();
         gamePlayer.getPlayer().getInventory().clear();
         if (players >= needed && !ready) {
             ready = true;
@@ -96,11 +107,15 @@ public class GameLobby {
 
     public void onPlayerLeft(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size() - 1;
-        final int need = game.getInfo().getMinPlayerCount();
-        Bukkit.getServer().broadcastMessage("§aИгрок " +
-                gamePlayer.getPlayer().getName() + " покинул игру! " + players + '/' + need);
+        final int needed = game.getInfo().getMinPlayerCount();
+        Bukkit.getServer().broadcastMessage(Lang.get("gameLobby.playerLeft")
+                .replace("%name%", gamePlayer.getPlayer().getName())
+                .replace("%cur%", String.valueOf(players))
+                .replace("%max%", String.valueOf(needed))
+        );
 
-        if (players < need) {
+        updateDisplays();
+        if (players < needed) {
             ready = false;
         }
     }
