@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PortalManager implements Listener {
-    private final int timeout = 2000;
+    private final int timeout = 1500;
     private final HashMap<String, Long> playersInPortal = new HashMap<>();
 
     public PortalManager() {
