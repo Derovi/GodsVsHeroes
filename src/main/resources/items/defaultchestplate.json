@@ -4,21 +4,21 @@
   "levels": [
     {
       "cooldown": 0,
-      "material": "CHAINMAIL_CHESTPLATE",
+      "material": "LEATHER_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
-      "material": "CHAINMAIL_CHESTPLATE",
+      "material": "GOLDEN_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
-      "material": "CHAINMAIL_CHESTPLATE",
+      "material": "IRON_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],
       "amount": 1

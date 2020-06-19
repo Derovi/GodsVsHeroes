@@ -3,8 +3,8 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 20,
-      "duration": 1000,
+      "cooldown": 400,
+      "duration": 60,
       "material": "POTION",
       "displayName": "§cInvisibility Potion",
       "lore": [
@@ -14,8 +14,8 @@
       "amount": 1
     },
     {
-      "cooldown": 20,
-      "duration": 1000,
+      "cooldown": 400,
+      "duration": 80,
       "material": "POTION",
       "displayName": "§cInvisibility Potion",
       "lore": [
@@ -25,8 +25,8 @@
       "amount": 1
     },
     {
-      "cooldown": 20,
-      "duration": 1000,
+      "cooldown": 400,
+      "duration": 100,
       "material": "POTION",
       "displayName": "§cInvisibility Potion",
       "lore": [

@@ -3,9 +3,9 @@
   "slot": 0,
   "levels": [
     {
-      "damage": 3,
-      "radius": 4.0,
-      "cooldown": 20,
+      "damage": 4,
+      "radius": 3.0,
+      "cooldown": 40,
       "material": "STICK",
       "displayName": "§cChain Lightning",
       "lore": [
@@ -15,9 +15,9 @@
       "amount": 1
     },
     {
-      "damage": 3,
+      "damage": 5,
       "radius": 4.0,
-      "cooldown": 20,
+      "cooldown": 40,
       "material": "STICK",
       "displayName": "§cChain Lightning",
       "lore": [
@@ -27,9 +27,9 @@
       "amount": 1
     },
     {
-      "damage": 3,
+      "damage": 6,
       "radius": 4.0,
-      "cooldown": 20,
+      "cooldown": 40,
       "material": "STICK",
       "displayName": "§cChain Lightning",
       "lore": [

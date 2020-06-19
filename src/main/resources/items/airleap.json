@@ -4,7 +4,7 @@
   "levels": [
     {
       "force": 3.0,
-      "cooldown": 20,
+      "cooldown": 60,
       "material": "FEATHER",
       "displayName": "§cAir leap",
       "lore": [
@@ -15,7 +15,7 @@
     },
     {
       "force": 3.0,
-      "cooldown": 20,
+      "cooldown": 50,
       "material": "FEATHER",
       "displayName": "§cAir leap",
       "lore": [
@@ -26,7 +26,7 @@
     },
     {
       "force": 3.0,
-      "cooldown": 20,
+      "cooldown": 40,
       "material": "FEATHER",
       "displayName": "§cAir leap",
       "lore": [

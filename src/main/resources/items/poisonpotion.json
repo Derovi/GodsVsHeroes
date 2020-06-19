@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 20,
+      "cooldown": 200,
       "radius": 4.0,
       "latency": 80,
       "material": "SPLASH_POTION",
@@ -15,7 +15,7 @@
       "amount": 1
     },
     {
-      "cooldown": 20,
+      "cooldown": 180,
       "radius": 4.0,
       "latency": 80,
       "material": "SPLASH_POTION",
@@ -27,7 +27,7 @@
       "amount": 1
     },
     {
-      "cooldown": 20,
+      "cooldown": 160,
       "radius": 4.0,
       "latency": 80,
       "material": "SPLASH_POTION",

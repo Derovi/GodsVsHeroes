@@ -4,8 +4,11 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.Board;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
+
+import static by.dero.gvh.utils.MessagingUtils.getNormal;
 
 public class DeathMatch extends Game {
     private final DeathMatchInfo deathMatchInfo;
@@ -31,8 +34,10 @@ public class DeathMatch extends Game {
             }
             board.update(str);
         }, 0, 10);
-        for (GamePlayer gp : getPlayers().values()) {
-            gp.getPlayer().setScoreboard(board.getScoreboard());
+        for (final GamePlayer gp : getPlayers().values()) {
+            final Player player = gp.getPlayer();
+            player.setScoreboard(board.getScoreboard());
+            player.setDisplayName(getNormal("§" + ((char)('a' + gp.getTeam())) + player.getDisplayName()));
         }
     }
 

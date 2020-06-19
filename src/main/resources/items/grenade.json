@@ -16,7 +16,7 @@
     },
     {
       "cooldown": 20,
-      "damage" : 4,
+      "damage" : 5,
       "radius" : 5,
       "material": "SNOWBALL",
       "displayName": "§cGrenade",
@@ -28,7 +28,7 @@
     },
     {
       "cooldown": 20,
-      "damage" : 4,
+      "damage" : 6,
       "radius" : 5,
       "material": "SNOWBALL",
       "displayName": "§cGrenade",
