@@ -7,8 +7,6 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import static by.dero.gvh.utils.MessagingUtils.getNormal;
-
 public class FlyingText {
     private final ArmorStand armorStand;
 
@@ -24,7 +22,7 @@ public class FlyingText {
     }
 
     public void setText(String text) {
-        armorStand.setCustomName(getNormal(text));
+        armorStand.setCustomName(text);
     }
 
     public void unload() {

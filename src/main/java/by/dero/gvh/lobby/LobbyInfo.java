@@ -1,5 +1,6 @@
 package by.dero.gvh.lobby;
 
+import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 import com.google.gson.annotations.SerializedName;
 import java.util.Map;
@@ -8,14 +9,14 @@ public class LobbyInfo {
     private int version;
     private int height;
     private int width;
-    private Position spawnPosition;
+    private DirectedPosition spawnPosition;
     private Position portalPosition;
 
     @SerializedName("monuments")
-    private Map<String, Position> classNameToMonumentPosition;
+    private Map<String, DirectedPosition> classNameToMonumentPosition;
 
 
-    public Position getSpawnPosition() {
+    public DirectedPosition getSpawnPosition() {
         return spawnPosition;
     }
 
@@ -35,7 +36,7 @@ public class LobbyInfo {
         return portalPosition;
     }
 
-    public Map<String, Position> getClassNameToMonumentPosition() {
+    public Map<String, DirectedPosition> getClassNameToMonumentPosition() {
         return classNameToMonumentPosition;
     }
 }

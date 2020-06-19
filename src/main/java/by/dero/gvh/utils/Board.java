@@ -25,7 +25,7 @@ public class Board {
         teams = new Team[size];
         for (int i = 0; i < size; i++) {
             teams[i] = scoreboard.registerNewTeam("" + i);
-            final String x = MessagingUtils.getNormal("§" + (char)('a' + i));
+            final String x = "§" + (char)('a' + i);
             teams[i].addEntry(x);
             obj.getScore(x).setScore(size-i);
         }
@@ -33,7 +33,7 @@ public class Board {
 
     public void update(final String[] strings) {
         for (int i = 0; i < strings.length; i++) {
-            teams[i].setPrefix(MessagingUtils.getNormal(strings[i]));
+            teams[i].setPrefix(strings[i]);
         }
     }
 

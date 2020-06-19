@@ -8,8 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-import static by.dero.gvh.utils.MessagingUtils.getNormal;
-
 public class DeathMatch extends Game {
     private final DeathMatchInfo deathMatchInfo;
 
@@ -37,7 +35,7 @@ public class DeathMatch extends Game {
         for (final GamePlayer gp : getPlayers().values()) {
             final Player player = gp.getPlayer();
             player.setScoreboard(board.getScoreboard());
-            player.setDisplayName(getNormal("§" + ((char)('a' + gp.getTeam())) + player.getDisplayName()));
+            player.setDisplayName("§" + ((char)('a' + gp.getTeam())) + player.getDisplayName());
         }
     }
 

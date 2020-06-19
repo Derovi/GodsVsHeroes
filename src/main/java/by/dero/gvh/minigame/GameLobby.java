@@ -81,8 +81,8 @@ public class GameLobby {
     public void onPlayerJoined(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size();
         final int needed = game.getInfo().getMinPlayerCount();
-        Bukkit.getServer().broadcastMessage(MessagingUtils.getNormal("§aPlayer " +
-                gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed));
+        Bukkit.getServer().broadcastMessage("§aPlayer " +
+                gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed);
         gamePlayer.getPlayer().setScoreboard(board.getScoreboard());
         if (players >= needed && !ready) {
             ready = true;
@@ -96,8 +96,8 @@ public class GameLobby {
     public void onPlayerLeft(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size() - 1;
         final int need = game.getInfo().getMinPlayerCount();
-        Bukkit.getServer().broadcastMessage(MessagingUtils.getNormal("§aPlayer " +
-                gamePlayer.getPlayer().getName() + " left! " + players + '/' + need));
+        Bukkit.getServer().broadcastMessage("§aPlayer " +
+                gamePlayer.getPlayer().getName() + " left! " + players + '/' + need);
 
         if (players < need) {
             ready = false;

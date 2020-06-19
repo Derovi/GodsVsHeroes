@@ -157,11 +157,13 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        event.setJoinMessage(null);
         Minigame.getInstance().getGame().addPlayer(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
+        event.setQuitMessage(null);
         Player p = event.getPlayer();
         for (PotionEffect pt : p.getActivePotionEffects()) {
             p.removePotionEffect(pt.getType());

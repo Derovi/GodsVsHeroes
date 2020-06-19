@@ -5,6 +5,7 @@ import by.dero.gvh.PluginMode;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.lobby.utils.VoidGenerator;
+import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
@@ -38,11 +39,14 @@ public class Lobby implements PluginMode, Listener {
     private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
     private MonumentManager monumentManager;
     private InterfaceManager interfaceManager;
+    private PortalManager portalManager;
     private final HashMap<String, LobbyPlayer> players = new HashMap<>();
 
     @Override
     public void onEnable() {
         instance = this;
+        Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
+                ServerType.LOBBY);
         try {
             info = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(), "lobby", "lobby",
                     ResourceUtils.readResourceFile("/lobby/lobby.json")), LobbyInfo.class);
@@ -71,6 +75,8 @@ public class Lobby implements PluginMode, Listener {
         data.load();
         monumentManager = new MonumentManager();
         interfaceManager = new InterfaceManager();
+        portalManager = new PortalManager();
+        Bukkit.getPluginManager().registerEvents(portalManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(interfaceManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(monumentManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
@@ -157,10 +163,6 @@ public class Lobby implements PluginMode, Listener {
             ++yIdx;
         }
         return new Position(xIdx * 96, 68 + Math.abs(new Random().nextInt()) % 20, yIdx * 96);
-    }
-
-    public void playerEnteredPortal(LobbyPlayer player) {
-        BungeeUtils.redirectPlayer(player.getPlayer(), "minigame");
     }
 
     public static Lobby getInstance() {
