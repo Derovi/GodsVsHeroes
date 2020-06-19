@@ -5,7 +5,7 @@
     {
       "cooldown": 400,
       "duration": 60,
-      "material": "POTION",
+      "material": "GLASS_BOTTLE",
       "displayName": "§cInvisibility Potion",
       "lore": [
         "§aСтаньте невидимым для окружающих",
@@ -16,7 +16,7 @@
     {
       "cooldown": 400,
       "duration": 80,
-      "material": "POTION",
+      "material": "GLASS_BOTTLE",
       "displayName": "§cInvisibility Potion",
       "lore": [
         "§aСтаньте невидимым для окружающих",
@@ -27,7 +27,7 @@
     {
       "cooldown": 400,
       "duration": 100,
-      "material": "POTION",
+      "material": "GLASS_BOTTLE",
       "displayName": "§cInvisibility Potion",
       "lore": [
         "§aСтаньте невидимым для окружающих",

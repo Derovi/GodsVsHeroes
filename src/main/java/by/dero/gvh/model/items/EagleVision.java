@@ -44,9 +44,8 @@ public class EagleVision extends Item implements UltimateInterface {
             final Location cur = obj.getLocation().clone();
             final double dst = loc.distance(new Location(cur.getWorld(), cur.getX(), loc.getY(), cur.getZ()));
             if (isEnemy(obj, team) && dst <= radius) {
-                continue;
+                new PotionEffect(PotionEffectType.GLOWING, Math.toIntExact(glowTime), 1).apply(event.getPlayer());
             }
-            new PotionEffect(PotionEffectType.GLOWING, Math.toIntExact(glowTime), 1).apply(event.getPlayer());
         }
         drawSign(player.getLocation().clone());
     }

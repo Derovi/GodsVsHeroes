@@ -65,23 +65,23 @@ public class Plugin extends JavaPlugin implements Listener {
         }
         serverData = new ServerData(serverDataStorage);
         serverData.load();
-        World world = Bukkit.getWorld("world");
+        World world;
         if (settings.getMode().equals("minigame")) {
             pluginMode = new Minigame();
+            pluginMode.onEnable();
+
+            world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getWorld());
             for (final Entity ent : world.getLivingEntities()) {
                 ent.remove();
             }
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "difficulty normal");
         } else {
             pluginMode = new Lobby();
+            pluginMode.onEnable();
 
+            world = Lobby.getInstance().getWorld();
             Bukkit.getPluginManager().registerEvents((Listener) pluginMode, this);
-            world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
-            world.setDifficulty(Difficulty.PEACEFUL);
         }
-        pluginMode.onEnable();
         Bukkit.getPluginManager().registerEvents(this, this);
-        world.setGameRule(GameRule.DO_MOB_LOOT, false);
     }
 
     @Override

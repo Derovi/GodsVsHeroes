@@ -26,9 +26,9 @@ public class GameLobby {
         board = new Board("Lobby", 3);
         Bukkit.getServer().getScheduler().runTaskTimer(Plugin.getInstance(), ()->
                 board.update(new String[] {
-                                "§aPreparing: §4 " + Bukkit.getServer().getOnlinePlayers().size() + "/" + game.getInfo().getMaxPlayerCount(),
-                                "§aMinimum required: " + game.getInfo().getMinPlayerCount(),
-                                "§bTime left : " + timeLeft
+                                "§aГотово к игре: §4 " + Bukkit.getServer().getOnlinePlayers().size() + "/" + game.getInfo().getMaxPlayerCount(),
+                                "§aНужно как минимум: " + game.getInfo().getMinPlayerCount(),
+                                "§bОсталось времени : " + timeLeft
                         }), 0, 20);
     }
 
@@ -39,7 +39,7 @@ public class GameLobby {
         timeLeft = 60;
         showIndex = 0;
         ready = false;
-        sendTitle(ChatColor.GREEN + "Game Started", game.getPlayers().values());
+        sendTitle(ChatColor.GREEN + "Игра началась", game.getPlayers().values());
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard board = manager.getNewScoreboard();
 
@@ -81,9 +81,10 @@ public class GameLobby {
     public void onPlayerJoined(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size();
         final int needed = game.getInfo().getMinPlayerCount();
-        Bukkit.getServer().broadcastMessage("§aPlayer " +
-                gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed);
+        Bukkit.getServer().broadcastMessage("§aИгрок " +
+                gamePlayer.getPlayer().getName() + " присоединился! " + players + '/' + needed);
         gamePlayer.getPlayer().setScoreboard(board.getScoreboard());
+        gamePlayer.getPlayer().getInventory().clear();
         if (players >= needed && !ready) {
             ready = true;
             startPrepairing();
@@ -96,8 +97,8 @@ public class GameLobby {
     public void onPlayerLeft(GamePlayer gamePlayer) {
         final int players = game.getPlayers().size() - 1;
         final int need = game.getInfo().getMinPlayerCount();
-        Bukkit.getServer().broadcastMessage("§aPlayer " +
-                gamePlayer.getPlayer().getName() + " left! " + players + '/' + need);
+        Bukkit.getServer().broadcastMessage("§aИгрок " +
+                gamePlayer.getPlayer().getName() + " покинул игру! " + players + '/' + need);
 
         if (players < need) {
             ready = false;
