@@ -133,6 +133,7 @@ public class Lobby implements PluginMode, Listener {
         player.teleport(playerLobby.transformFromLobbyCord(info.getSpawnPosition()).toLocation(world));
         playerLobby.load();
         activeLobbies.put(player.getName(), playerLobby);
+        Lobby.getInstance().updateDisplays(player);
     }
 
     public void playerLeft(Player player) {

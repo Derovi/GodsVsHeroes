@@ -14,6 +14,7 @@ public class SelectorInterface extends Interface {
             LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
             lobbyPlayer.getPlayerInfo().selectClass(className);
             lobbyPlayer.saveInfo();
+            Lobby.getInstance().updateDisplays(getPlayer());
         };
 
         Runnable upgrade = () -> {
