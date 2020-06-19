@@ -2,6 +2,7 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.Position;
@@ -92,7 +93,8 @@ public abstract class Game implements Listener {
             return;
         }
         GamePlayer gamePlayer = new GamePlayer(player);
-        gamePlayer.setClassName(Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()).getSelectedClass());
+        PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
+        gamePlayer.setClassName(info.getSelectedClass());
         players.put(player.getName(), gamePlayer);
         teleportToLobby(player);
         lobby.onPlayerJoined(players.get(player.getName()));

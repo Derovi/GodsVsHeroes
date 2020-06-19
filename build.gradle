@@ -12,6 +12,8 @@ repositories {
 }
 
 apply plugin: 'java-library'
+apply plugin: 'java'
+compileJava.options.encoding = 'UTF-8'
 
 dependencies {
     implementation files('lib/spigot.jar')
