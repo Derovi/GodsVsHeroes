@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class LobbyEvents implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        event.setJoinMessage(null);
         if (!Plugin.getInstance().getPlayerData().isPlayerRegistered(event.getPlayer().getName())) {
             Plugin.getInstance().getPlayerData().registerPlayer(event.getPlayer().getName());
             //Plugin.getInstance().getPlayerData().unlockClass(event.getPlayer().getName(), "default");
@@ -26,6 +27,7 @@ public class LobbyEvents implements Listener {
 
     @EventHandler
     public void onPlayerLeft(PlayerQuitEvent event) {
+        event.setQuitMessage(null);
         Player player = event.getPlayer();
         Lobby.getInstance().playerLeft(player);
     }

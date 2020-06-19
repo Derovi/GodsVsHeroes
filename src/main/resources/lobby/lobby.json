@@ -5,7 +5,8 @@
   "spawnPosition": {
     "x": 15.5,
     "y": 2.0,
-    "z": 6.0
+    "z": 6.0,
+    "dz": 1
   },
   "portalPosition": {
     "x": 15.5,
