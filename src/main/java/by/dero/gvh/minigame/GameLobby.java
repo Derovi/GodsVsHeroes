@@ -67,6 +67,7 @@ public class GameLobby {
                 if (!ready) {
                     showIndex = 0;
                     timeLeft = 60;
+                    updateDisplays();
                     this.cancel();
                     return;
                 }
@@ -111,13 +112,15 @@ public class GameLobby {
         Bukkit.getServer().broadcastMessage(Lang.get("gameLobby.playerLeft")
                 .replace("%name%", gamePlayer.getPlayer().getName())
                 .replace("%cur%", String.valueOf(players))
-                .replace("%max%", String.valueOf(needed))
+                .replace("%max%", String.valueOf(game.getInfo().getMaxPlayerCount()))
         );
 
-        updateDisplays();
-        if (players < needed) {
-            ready = false;
-        }
+        Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()-> {
+            updateDisplays();
+            if (players < needed) {
+                ready = false;
+            }
+        }, 2);
     }
 
     public Game getGame () {

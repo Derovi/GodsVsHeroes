@@ -2,7 +2,7 @@
   "game": {
     "livesLeft": "§cЖизней осталось",
     "itemReloading": "§6Перезагрузка. Подождите §6%time%§c секунд, чтобы использовать §6%itemname%§c!",
-    "gameAlreadyStarted": "§4Игра уже началась!",
+    "gameAlreadyStarted": "§4Игра началась!",
     "gamePrepairing": "§2Загружаемся",
     "gameFinished": "§4Игра окончена",
     "deathMessage": "Вы были убиты игроком %name%"
