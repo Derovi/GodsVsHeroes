@@ -2,13 +2,15 @@
   "name": "paladin",
   "itemNames": [
     "defaultsword",
-    "defaulthelmet",
+    "improvedbow",
     "defaultchestplate",
-    "defaultleggins",
-    "defaultboots",
+    "defaultleggings",
     "healpotion",
-    "healpotion",
-    "slowbuf",
-    "resistancebuf"
+    "airleap",
+
+    "defaultarrow",
+    "resistancebuf",
+    "defaulthelmet",
+    "defaultboots"
   ]
 }

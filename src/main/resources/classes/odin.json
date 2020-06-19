@@ -3,12 +3,15 @@
   "itemNames": [
     "defaultaxe",
     "improvedbow",
-    "healpotion",
-    "defaulthelmet",
-    "defaultchestplate",
-    "defaultleggins",
-    "defaultboots",
     "chainlightning",
-    "lightningstorm"
+    "healpotion",
+    "airleap",
+    "magnetizeorb",
+    "lightningstorm",
+    "defaultchestplate",
+    "defaultleggings",
+
+    "defaulthelmet",
+    "defaultboots"
   ]
 }

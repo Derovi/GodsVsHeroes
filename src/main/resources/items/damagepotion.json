@@ -5,7 +5,7 @@
     {
       "cooldown": 40,
       "radius": 5.0,
-      "damage": 4,
+      "damage": 6,
       "material": "SPLASH_POTION",
       "displayName": "§cDamage Potion",
       "lore": [
@@ -17,7 +17,7 @@
     {
       "cooldown": 30,
       "radius": 5.0,
-      "damage": 4,
+      "damage": 6,
       "material": "SPLASH_POTION",
       "displayName": "§cDamage Potion",
       "lore": [
@@ -29,7 +29,7 @@
     {
       "cooldown": 20,
       "radius": 5.0,
-      "damage": 4,
+      "damage": 6,
       "material": "SPLASH_POTION",
       "displayName": "§cDamage Potion",
       "lore": [

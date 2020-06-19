@@ -48,7 +48,6 @@ public abstract class Game implements Listener {
         System.out.println("starting");
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
-            addItems(player);
             player.getPlayer().setScoreboard(board.getScoreboard());
         }
         System.out.println("spawned");
@@ -161,7 +160,7 @@ public abstract class Game implements Listener {
         player.teleport(getInfo().getLobbyPosition().toLocation(getInfo().getWorld()));
     }
 
-    public void addItems(GamePlayer player) {
+    private void addItems(GamePlayer player) {
         player.getItems().clear();
         player.getPlayer().getInventory().clear();
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName());
@@ -176,6 +175,7 @@ public abstract class Game implements Listener {
         Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
         player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
                 spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
+        addItems(player);
     }
 
     public RewardManager getRewardManager() {

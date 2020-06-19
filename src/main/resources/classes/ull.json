@@ -2,12 +2,14 @@
   "name": "ull",
   "itemNames": [
     "defaultsword",
-    "defaultchestplate",
-    "healpotion",
     "explosivebow",
-    "magicrod",
     "improvedbow",
+    "magicrod",
+    "healpotion",
+    "arrowrain",
+    "defaultchestplate",
+    "defaulthelmet",
     "defaultarrow",
-    "arrowrain"
+    "doublejump"
   ]
 }

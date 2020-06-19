@@ -179,7 +179,11 @@ public class GameEvents implements Listener {
         final ItemStack[] inv = player.getInventory().getContents();
         event.setDeathMessage(null);
         final Game game = Minigame.getInstance().getGame();
-        game.onPlayerKilled(player, damageCause.getOrDefault(player, player));
+        LivingEntity kil = player.getKiller();
+        if (kil == null) {
+            kil = damageCause.getOrDefault(player, player);
+        }
+        game.onPlayerKilled(player, kil);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
             game.respawnPlayer(game.getPlayers().get(player.getName()));

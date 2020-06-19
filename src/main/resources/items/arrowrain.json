@@ -4,7 +4,7 @@
   "levels": [
     {
       "radius": 20.0,
-      "arrowCycles": 2,
+      "arrowCycles": 3,
       "cycleDelay": 20,
       "cooldown": 0,
       "material": "END_CRYSTAL",
@@ -26,11 +26,11 @@
         "§aУльтимативная. Используйте, чтобы начать дождь стрел",
         "&6Уровень 2"
       ],
-      "amount": 3
+      "amount": 4
     },
     {
       "radius": 20.0,
-      "arrowCycles": 4,
+      "arrowCycles": 3,
       "cycleDelay": 20,
       "cooldown": 0,
       "material": "END_CRYSTAL",
@@ -39,7 +39,7 @@
         "§aУльтимативная. Используйте, чтобы начать дождь стрел",
         "&6Уровень 3"
       ],
-      "amount": 3
+      "amount": 5
     }
   ]
 }
