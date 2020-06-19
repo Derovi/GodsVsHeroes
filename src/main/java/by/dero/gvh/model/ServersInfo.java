@@ -21,6 +21,10 @@ public class ServersInfo {
         servers.get(serverName).setOnline(online);
     }
 
+    public ServerInfo get(String serverName) {
+        return servers.get(serverName);
+    }
+
     public Map<String, ServerInfo> getServers() {
         return servers;
     }
