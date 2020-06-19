@@ -73,7 +73,7 @@ public class LightningStorm extends Item implements UltimateInterface {
             @Override
             public void run() {
                 for (final LivingEntity obj : getNearby(center, radius)) {
-                    if (isAlly(obj, getTeam()) && center.distance(obj.getLocation()) <= radius) {
+                    if (isEnemy(obj, getTeam())) {
                         setLastUsedLightning(getOwner());
                         center.getWorld().strikeLightning(obj.getLocation());
                     }

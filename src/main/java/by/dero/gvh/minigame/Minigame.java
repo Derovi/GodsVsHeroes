@@ -10,8 +10,12 @@ import by.dero.gvh.minigame.commands.FinishCommand;
 import by.dero.gvh.minigame.commands.SelectCommand;
 import by.dero.gvh.minigame.commands.StartCommand;
 import by.dero.gvh.model.AreaManager;
+import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
+import org.bukkit.GameRule;
+import org.bukkit.World;
 
 public class Minigame implements PluginMode {
     private static Minigame instance;
@@ -23,10 +27,21 @@ public class Minigame implements PluginMode {
     @Override
     public void onEnable() {
         instance = this;
+
+        Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
+                ServerType.GAME);
         areaManager = new AreaManager();
         gameData = new GameData(new LocalStorage());
         gameData.load();
         game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
+
+        final World world = Bukkit.getWorld(game.getInfo().getWorld());
+        world.setGameRule(GameRule.KEEP_INVENTORY, true);
+        world.setDifficulty(Difficulty.NORMAL);
+        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+        world.setGameRule(GameRule.DO_MOB_LOOT, false);
+        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+        world.setGameRule(GameRule.DO_MOB_LOOT, false);
         game.prepare();
         Bukkit.getPluginManager().registerEvents(game, Plugin.getInstance());
         registerEvents();

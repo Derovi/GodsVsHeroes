@@ -16,7 +16,6 @@ public class AddAreaCommand implements PluginCommand {
         if (args.length != 8) {
             return;
         }
-        sender.sendMessage("abassis");
         World world = getPlayer(sender.getName()).getPlayer().getWorld();
         Minigame.getAreaManager().addArea(new Area(
                 new Location(
@@ -34,7 +33,6 @@ public class AddAreaCommand implements PluginCommand {
                 args[6].equals("1"),
                 args[7].equals("1")
         ));
-        Bukkit.getServer().broadcastMessage(Minigame.getAreaManager().toString());
     }
 
     @Override

@@ -42,6 +42,7 @@ public class UpgradeInterface extends Interface {
                     lobbyPlayer.getPlayerInfo().upgradeItem(className, itemName);
                     lobbyPlayer.saveInfo();
                     updateAll(lobbyPlayer.getPlayerInfo());
+                    Lobby.getInstance().updateDisplays(getPlayer());
                     update();
                 });
             } else {

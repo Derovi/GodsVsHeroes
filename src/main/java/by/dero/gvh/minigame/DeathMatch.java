@@ -6,9 +6,8 @@ import by.dero.gvh.utils.Board;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-
-import static by.dero.gvh.utils.MessagingUtils.getNormal;
 
 public class DeathMatch extends Game {
     private final DeathMatchInfo deathMatchInfo;
@@ -37,7 +36,7 @@ public class DeathMatch extends Game {
         for (final GamePlayer gp : getPlayers().values()) {
             final Player player = gp.getPlayer();
             player.setScoreboard(board.getScoreboard());
-            player.setDisplayName(getNormal("§" + ((char)('a' + gp.getTeam())) + player.getDisplayName()));
+            player.setDisplayName("§" + ((char)('a' + gp.getTeam())) + player.getDisplayName());
         }
     }
 
@@ -62,5 +61,11 @@ public class DeathMatch extends Game {
         }
         --currentLivesCount[getPlayers().get(event.getEntity().getName()).getTeam()];
         checkForGameEnd();
+    }
+    @EventHandler
+    public void onDamage(EntityDamageEvent event) {
+        if (getState() != State.GAME) {
+            event.setCancelled(true);
+        }
     }
 }

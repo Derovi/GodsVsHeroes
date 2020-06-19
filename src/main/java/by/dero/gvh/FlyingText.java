@@ -1,5 +1,6 @@
 package by.dero.gvh;
 
+import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.utils.Position;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -7,12 +8,12 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import static by.dero.gvh.utils.MessagingUtils.getNormal;
-
 public class FlyingText {
     private final ArmorStand armorStand;
+    private final Player owner;
 
     public FlyingText(Position pos, String text, Player owner) {
+        this.owner = owner;
         final World world = owner.getWorld();
         armorStand = (ArmorStand) world.spawnEntity(new Location(world, pos.getX(), pos.getY(), pos.getZ()), EntityType.ARMOR_STAND);
 
@@ -24,7 +25,7 @@ public class FlyingText {
     }
 
     public void setText(String text) {
-        armorStand.setCustomName(getNormal(text));
+        armorStand.setCustomName(text);
     }
 
     public void unload() {

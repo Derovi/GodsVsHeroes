@@ -6,6 +6,8 @@ import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.Position;
+import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -43,14 +45,18 @@ public abstract class Game implements Listener {
         System.out.println("starting");
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
+            addItems(player);
+            player.getPlayer().setScoreboard(board.getScoreboard());
         }
         System.out.println("spawned");
         state = State.GAME;
+        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                state.toString());
         lobby = null;
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
-        player.sendMessage("Вы были обдристаны " + killer.getName());
+        player.sendMessage("§aВы были убиты " + killer.getName());
     }
 
     private void chooseTeams() {
@@ -69,9 +75,11 @@ public abstract class Game implements Listener {
         for (String playerName : players.keySet()) {
             Player player = players.get(playerName).getPlayer();
             removePlayer(playerName);
-            player.kickPlayer("§cGame finished!");
+            player.kickPlayer("§cИгра окончена!");
         }
         state = State.PREPARING;
+        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                state.toString());
         prepare();
     }
 
@@ -79,17 +87,20 @@ public abstract class Game implements Listener {
         load();
         lobby = new GameLobby(this);
         state = State.WAITING;
+        System.out.println("update status " + state.toString());
+        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                state.toString());
     }
 
     abstract void load();
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {
-            player.kickPlayer("§cGame already started, try later!");
+            player.kickPlayer("§cИгра уже началась");
             return;
         }
         if (state == State.PREPARING) {
-            player.kickPlayer("§cGame preparing, try later!");
+            player.kickPlayer("§cИгра готовится");
             return;
         }
         GamePlayer gamePlayer = new GamePlayer(player);
@@ -124,22 +135,21 @@ public abstract class Game implements Listener {
         player.teleport(getInfo().getLobbyPosition().toLocation(getInfo().getWorld()));
     }
 
-    public void spawnPlayer(GamePlayer player, int rebirthTime) {
-        System.out.println("Spawn player " + player.getPlayer());
-        int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
-        Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
-        player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
-                spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
+    public void addItems(GamePlayer player) {
         player.getItems().clear();
         player.getPlayer().getInventory().clear();
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName());
-        System.out.println("class: " + player.getClassName());
-        System.out.println("null: " + (classDescription == null));
         for (String itemName : classDescription.getItemNames()) {
             System.out.println("add item: " + itemName);
             player.addItem(itemName, player.getPlayerInfo().getItemLevel(player.getClassName(), itemName));
         }
-        player.getPlayer().setScoreboard(board.getScoreboard());
+    }
+
+    public void spawnPlayer(GamePlayer player, int rebirthTime) {
+        int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
+        Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
+        player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
+                spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
     }
 
     public GameLobby getLobby() {

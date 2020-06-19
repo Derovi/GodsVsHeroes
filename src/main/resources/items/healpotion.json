@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 60,
+      "cooldown": 40,
       "radius": 5.0,
       "heal": 4,
       "material": "SPLASH_POTION",
@@ -15,7 +15,7 @@
       "amount": 1
     },
     {
-      "cooldown": 60,
+      "cooldown": 40,
       "radius": 5.0,
       "heal": 5,
       "material": "SPLASH_POTION",
@@ -27,7 +27,7 @@
       "amount": 1
     },
     {
-      "cooldown": 60,
+      "cooldown": 40,
       "radius": 5.0,
       "heal": 6,
       "material": "SPLASH_POTION",
