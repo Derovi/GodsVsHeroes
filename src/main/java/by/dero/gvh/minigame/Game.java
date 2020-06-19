@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -78,15 +79,32 @@ public abstract class Game implements Listener {
             System.err.println("Can't finish game, not in game! Current status: " + state);
             return;
         }
-        for (String playerName : players.keySet()) {
-            Player player = players.get(playerName).getPlayer();
-            removePlayer(playerName);
-            player.kickPlayer("§cИгра окончена!");
+
+        for (GamePlayer player : players.values()) {
+            Reward reward;
+            if (player.getTeam() == winnerTeam) {
+                reward = rewardManager.get("winGame");
+            } else {
+                reward = rewardManager.get("loseGame");
+            }
+            reward.give(player.getPlayer());
         }
-        state = State.PREPARING;
-        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
-                state.toString());
-        prepare();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Set<String> playerNames = new HashSet<>(players.keySet());
+                for (String playerName : playerNames) {
+                    Player player = players.get(playerName).getPlayer();
+                    removePlayer(playerName);
+                    player.kickPlayer("§cИгра окончена!");
+                }
+                state = State.PREPARING;
+                Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                        state.toString());
+                prepare();
+            }
+        }.runTaskLater(Plugin.getInstance(), 40);
     }
 
     public void prepare() {
