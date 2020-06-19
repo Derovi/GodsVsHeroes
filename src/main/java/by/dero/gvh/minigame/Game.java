@@ -56,7 +56,7 @@ public abstract class Game implements Listener {
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
-        player.sendMessage("Вы были обдристаны " + killer.getName());
+        player.sendMessage("§aВы были убиты " + killer.getName());
     }
 
     private void chooseTeams() {
@@ -75,7 +75,7 @@ public abstract class Game implements Listener {
         for (String playerName : players.keySet()) {
             Player player = players.get(playerName).getPlayer();
             removePlayer(playerName);
-            player.kickPlayer("§cGame finished!");
+            player.kickPlayer("§cИгра окончена!");
         }
         state = State.PREPARING;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
@@ -96,11 +96,11 @@ public abstract class Game implements Listener {
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {
-            player.kickPlayer("§cGame already started, try later!");
+            player.kickPlayer("§cИгра уже началась");
             return;
         }
         if (state == State.PREPARING) {
-            player.kickPlayer("§cGame preparing, try later!");
+            player.kickPlayer("§cИгра готовится");
             return;
         }
         GamePlayer gamePlayer = new GamePlayer(player);

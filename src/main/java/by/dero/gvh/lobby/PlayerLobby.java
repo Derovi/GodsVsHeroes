@@ -73,7 +73,7 @@ public class PlayerLobby {
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                selectedClass.setText("§aSelected class: " +
+                selectedClass.setText("§aВыбранный класс: " +
                         Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().getSelectedClass());
             }
         };
@@ -89,8 +89,8 @@ public class PlayerLobby {
             public void run() {
                 PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
                 String[] ar = new String[] {
-                        ChatColor.AQUA + "Selected: " + info.getSelectedClass(),
-                        ChatColor.GOLD + "Money " + info.getBalance()
+                        ChatColor.AQUA + "Выбранный класс: " + info.getSelectedClass(),
+                        ChatColor.GOLD + "Деняк: " + info.getBalance()
                 };
                 board.update(ar);
             }
