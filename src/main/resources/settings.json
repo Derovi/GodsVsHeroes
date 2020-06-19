@@ -1,5 +1,6 @@
 {
   "mode": "minigame",
+  "serverName": "minigame",
   "dataStorageType": "local",
   "dataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
   "dataMongodbDatabase": "gvh",
@@ -8,5 +9,8 @@
   "playerDataMongodbDatabase": "gvh",
   "lobbyDataStorageType": "local",
   "lobbyDataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
-  "lobbyDataMongodbDatabase": "gvh"
+  "lobbyDataMongodbDatabase": "gvh",
+  "serverDataStorageType": "local",
+  "serverDataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
+  "serverDataMongodbDatabase": "gvh"
 }

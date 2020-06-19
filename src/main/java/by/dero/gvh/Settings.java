@@ -11,6 +11,9 @@ public class Settings {
     private String lobbyDataStorageType;
     private String lobbyDataMongodbConnection;
     private String lobbyDataMongodbDatabase;
+    private String serverDataStorageType;
+    private String serverDataMongodbConnection;
+    private String serverDataMongodbDatabase;
 
     public String getMode() {
         return mode;
@@ -90,5 +93,29 @@ public class Settings {
 
     public void setLobbyDataMongodbDatabase(String lobbyDataMongodbDatabase) {
         this.lobbyDataMongodbDatabase = lobbyDataMongodbDatabase;
+    }
+
+    public String getServerDataStorageType() {
+        return serverDataStorageType;
+    }
+
+    public void setServerDataStorageType(String serverDataStorageType) {
+        this.serverDataStorageType = serverDataStorageType;
+    }
+
+    public String getServerDataMongodbConnection() {
+        return serverDataMongodbConnection;
+    }
+
+    public void setServerDataMongodbConnection(String serverDataMongodbConnection) {
+        this.serverDataMongodbConnection = serverDataMongodbConnection;
+    }
+
+    public String getServerDataMongodbDatabase() {
+        return serverDataMongodbDatabase;
+    }
+
+    public void setServerDataMongodbDatabase(String serverDataMongodbDatabase) {
+        this.serverDataMongodbDatabase = serverDataMongodbDatabase;
     }
 }
