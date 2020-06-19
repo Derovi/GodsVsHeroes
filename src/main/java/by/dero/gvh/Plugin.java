@@ -3,6 +3,7 @@ package by.dero.gvh;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Data;
+import by.dero.gvh.model.ServerData;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.PlayerData;
 import by.dero.gvh.model.StorageInterface;
@@ -27,6 +28,7 @@ public class Plugin extends JavaPlugin {
     private static Plugin instance;
     private Data data;
     private PlayerData playerData;
+    private ServerData serverData;
     private PluginMode pluginMode;
     private Settings settings;
 
@@ -68,12 +70,22 @@ public class Plugin extends JavaPlugin {
             world.setDifficulty(Difficulty.PEACEFUL);
         }
         pluginMode.onEnable();
+        StorageInterface serverDataStorage = new LocalStorage();
+        if (settings.getServerDataStorageType().equals("mongodb")) {
+            serverDataStorage = new MongoDBStorage(
+                    settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase());
+        }
+        serverData = new ServerData(serverDataStorage);
         world.setGameRule(GameRule.DO_MOB_LOOT, false);
     }
 
     @Override
     public void onDisable() {
         pluginMode.onDisable();
+    }
+
+    public ServerData getServerData() {
+        return serverData;
     }
 
     public Settings getSettings() {

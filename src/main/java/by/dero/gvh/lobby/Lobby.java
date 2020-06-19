@@ -5,6 +5,7 @@ import by.dero.gvh.PluginMode;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.lobby.utils.VoidGenerator;
+import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
@@ -79,6 +80,8 @@ public class Lobby implements PluginMode, Listener {
         Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
         System.out.println("Loading schematic");
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(Plugin.getInstance(), "BungeeCord");
+        Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
+                ServerType.LOBBY);
         loadSchematic();
     }
 

@@ -10,6 +10,7 @@ import by.dero.gvh.minigame.commands.FinishCommand;
 import by.dero.gvh.minigame.commands.SelectCommand;
 import by.dero.gvh.minigame.commands.StartCommand;
 import by.dero.gvh.model.AreaManager;
+import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;
 import org.bukkit.Bukkit;
 
@@ -31,6 +32,8 @@ public class Minigame implements PluginMode {
         Bukkit.getPluginManager().registerEvents(game, Plugin.getInstance());
         registerEvents();
         registerCommands();
+        Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
+                ServerType.GAME);
     }
 
     @Override

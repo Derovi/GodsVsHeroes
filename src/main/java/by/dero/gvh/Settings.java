@@ -2,6 +2,7 @@ package by.dero.gvh;
 
 public class Settings {
     private String mode;
+    private String serverName;
     private String dataStorageType;
     private String dataMongodbConnection;
     private String dataMongodbDatabase;
@@ -21,6 +22,14 @@ public class Settings {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public String getServerName() {
+        return serverName;
+    }
+
+    public void setServerName(String serverName) {
+        this.serverName = serverName;
     }
 
     public String getDataStorageType() {
