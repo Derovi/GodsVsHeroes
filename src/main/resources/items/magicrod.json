@@ -4,7 +4,8 @@
   "levels": [
     {
       "cooldown": 20,
-      "damage": 5,
+      "damage": 6,
+      "cost": 80,
       "material": "BLAZE_ROD",
       "displayName": "§cMagic Rod",
       "lore": [
@@ -15,7 +16,8 @@
     },
     {
       "cooldown": 20,
-      "damage": 6,
+      "damage": 7,
+      "cost": 100,
       "material": "BLAZE_ROD",
       "displayName": "§cMagic Rod",
       "lore": [
@@ -26,7 +28,8 @@
     },
     {
       "cooldown": 20,
-      "damage": 7,
+      "damage": 8,
+      "cost": 120,
       "material": "BLAZE_ROD",
       "displayName": "§cMagic Rod",
       "lore": [

@@ -6,7 +6,8 @@
       "radius": 20.0,
       "arrowCycles": 3,
       "cycleDelay": 20,
-      "cooldown": 0,
+      "cooldown": 600,
+      "cost": 80,
       "material": "END_CRYSTAL",
       "displayName": "§cArrow Rain",
       "lore": [
@@ -19,7 +20,8 @@
       "radius": 20.0,
       "arrowCycles": 3,
       "cycleDelay": 20,
-      "cooldown": 0,
+      "cooldown": 600,
+      "cost": 100,
       "material": "END_CRYSTAL",
       "displayName": "§cArrow Rain",
       "lore": [
@@ -32,7 +34,8 @@
       "radius": 20.0,
       "arrowCycles": 3,
       "cycleDelay": 20,
-      "cooldown": 0,
+      "cooldown": 600,
+      "cost": 120,
       "material": "END_CRYSTAL",
       "displayName": "§cArrow Rain",
       "lore": [

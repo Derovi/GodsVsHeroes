@@ -3,11 +3,12 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 0,
+      "cooldown": 600,
       "radius": 11,
       "strikes": 3,
       "signRadius": [7, 11],
       "delayStrikes": 20,
+      "cost": 80,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
       "displayName": "§cLightning Storm",
@@ -18,11 +19,12 @@
       "amount": 3
     },
     {
-      "cooldown": 0,
+      "cooldown": 600,
       "radius": 11,
       "strikes": 3,
       "signRadius": [7, 11],
       "delayStrikes": 20,
+      "cost": 100,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
       "displayName": "§cLightning Storm",
@@ -33,11 +35,12 @@
       "amount": 4
     },
     {
-      "cooldown": 0,
+      "cooldown": 600,
       "radius": 11,
       "strikes": 3,
       "signRadius": [7, 11],
       "delayStrikes": 20,
+      "cost": 120,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
       "displayName": "§cLightning Storm",

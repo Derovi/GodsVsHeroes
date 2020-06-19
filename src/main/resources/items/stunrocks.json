@@ -5,6 +5,7 @@
     {
       "cooldown": 60,
       "duration": 20,
+      "cost": 80,
       "material": "SNOWBALL",
       "displayName": "§cStun Rocks",
       "lore": [
@@ -16,6 +17,7 @@
     {
       "cooldown": 50,
       "duration": 30,
+      "cost": 100,
       "material": "SNOWBALL",
       "displayName": "§cStun Rocks",
       "lore": [
@@ -27,6 +29,7 @@
     {
       "cooldown": 40,
       "duration": 40,
+      "cost": 120,
       "material": "SNOWBALL",
       "displayName": "§cStun Rocks",
       "lore": [

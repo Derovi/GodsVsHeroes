@@ -3,9 +3,10 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 200,
+      "cooldown": 600,
       "radius": 4.0,
       "latency": 40,
+      "cost": 80,
       "material": "NETHER_STAR",
       "displayName": "§cStun!!!",
       "lore": [
@@ -15,9 +16,10 @@
       "amount": 3
     },
     {
-      "cooldown": 200,
+      "cooldown": 600,
       "radius": 4.0,
       "latency": 40,
+      "cost": 100,
       "material": "NETHER_STAR",
       "displayName": "§cStun!!!",
       "lore": [
@@ -27,9 +29,10 @@
       "amount": 4
     },
     {
-      "cooldown": 200,
+      "cooldown": 600,
       "radius": 4.0,
       "latency": 40,
+      "cost": 120,
       "material": "NETHER_STAR",
       "displayName": "§cStun!!!",
       "lore": [

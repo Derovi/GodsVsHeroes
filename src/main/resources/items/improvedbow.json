@@ -5,6 +5,7 @@
     {
       "cooldown": 0,
       "damage": 0,
+      "cost": 80,
       "material": "BOW",
       "displayName": "§cЛук",
       "lore": [
@@ -15,6 +16,7 @@
     {
       "cooldown": 0,
       "damage": 2,
+      "cost": 100,
       "material": "BOW",
       "displayName": "§cЛук",
       "lore": [
@@ -25,6 +27,7 @@
     {
       "cooldown": 0,
       "damage": 4,
+      "cost": 120,
       "material": "BOW",
       "displayName": "§cЛук",
       "lore": [

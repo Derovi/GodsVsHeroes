@@ -5,6 +5,7 @@
     {
       "cooldown": 60,
       "radius": 7,
+      "cost": 80,
       "material": "SNOWBALL",
       "displayName": "§cMagnetize orb",
       "lore": [
@@ -16,6 +17,7 @@
     {
       "cooldown": 40,
       "radius": 7,
+      "cost": 100,
       "material": "SNOWBALL",
       "displayName": "§cMagnetize orb",
       "lore": [
@@ -27,6 +29,7 @@
     {
       "cooldown": 20,
       "radius": 7,
+      "cost": 120,
       "material": "SNOWBALL",
       "displayName": "§cMagnetize orb",
       "lore": [
