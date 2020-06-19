@@ -2,15 +2,16 @@ package by.dero.gvh.lobby.monuments;
 
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.interfaces.SelectorInterface;
+import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 import org.bukkit.entity.Player;
 
 public abstract class Monument {
-    private final Position position;
+    private final DirectedPosition position;
     private final String className;
     private final Player owner;
 
-    public Monument(Position position, String className, Player owner) {
+    public Monument(DirectedPosition position, String className, Player owner) {
         this.position = position;
         this.className = className;
         this.owner = owner;

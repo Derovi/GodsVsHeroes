@@ -4,6 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.UnitClassDescription;
+import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
@@ -21,7 +22,7 @@ public class ArmorStandMonument extends Monument {
     private ArmorStand armorStand;
     private final List<BukkitRunnable> runnables = new ArrayList<>();
 
-    public ArmorStandMonument(Position position, String className, Player owner) {
+    public ArmorStandMonument(DirectedPosition position, String className, Player owner) {
         super(position, className, owner);
     }
 

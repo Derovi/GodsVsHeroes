@@ -55,7 +55,7 @@ public class PlayerLobby {
             try {
                 String monumentName = entry.getKey();
                 Monument monument = Lobby.getInstance().getMonumentManager().getClassNameToMonument().
-                        get(monumentName).getConstructor(Position.class, String.class, Player.class).
+                        get(monumentName).getConstructor(DirectedPosition.class, String.class, Player.class).
                         newInstance(transformFromLobbyCord(entry.getValue()), monumentName, player);
                 monument.load();
                 monuments.put(monumentName, monument);
@@ -145,10 +145,18 @@ public class PlayerLobby {
                 position.getZ() - record.getPosition().getZ());
     }
 
-    public Position transformFromLobbyCord(Position position) {
-        return new Position(position.getX() + record.getPosition().getX(),
+    public DirectedPosition transformToLobbyCord(DirectedPosition position) {
+        return new DirectedPosition(position.getX() - record.getPosition().getX(),
+                position.getY() - record.getPosition().getY(),
+                position.getZ() - record.getPosition().getZ(),
+                   position.getDirection());
+    }
+
+    public DirectedPosition transformFromLobbyCord(DirectedPosition position) {
+        return new DirectedPosition(position.getX() + record.getPosition().getX(),
                 position.getY() + record.getPosition().getY(),
-                position.getZ() + record.getPosition().getZ());
+                position.getZ() + record.getPosition().getZ(),
+                   position.getDirection());
     }
 
     public HashMap<String, Monument> getMonuments() {
