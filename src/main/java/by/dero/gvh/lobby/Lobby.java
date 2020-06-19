@@ -103,6 +103,8 @@ public class Lobby implements PluginMode, Listener {
 
     public void updateDisplays(Player player) {
         activeLobbies.get(player.getName()).getScoreboardUpdater().run();
+        activeLobbies.get(player.getName()).getSelectedClass().setText("§aSelected class: " +
+                Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().getSelectedClass());
     }
 
     public void playerJoined(Player player) {

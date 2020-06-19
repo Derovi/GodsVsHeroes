@@ -71,15 +71,6 @@ public class PlayerLobby {
         selectedClass = new FlyingText(
                 new Position(recPos.getX() + 15.5, recPos.getY()+1, recPos.getZ()+26.5),
                 "", player);
-        BukkitRunnable runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                selectedClass.setText("§aSelected class: " +
-                        Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().getSelectedClass());
-            }
-        };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
-        runnables.add(runnable);
     }
 
     private void loadBoard() {
@@ -160,6 +151,10 @@ public class PlayerLobby {
 
     public Runnable getScoreboardUpdater() {
         return scoreboardUpdater;
+    }
+
+    public FlyingText getSelectedClass() {
+        return selectedClass;
     }
 
     public HashMap<String, Monument> getMonuments() {
