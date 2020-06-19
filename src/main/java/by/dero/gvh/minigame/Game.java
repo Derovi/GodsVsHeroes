@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -29,6 +30,7 @@ public abstract class Game implements Listener {
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
+    private RewardManager rewardManager;
     protected Board board;
 
     public void start() {
@@ -56,7 +58,12 @@ public abstract class Game implements Listener {
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
-        player.sendMessage("§aВы были убиты " + killer.getName());
+        try {
+            Reward reward = rewardManager.get("killEnemy");
+            reward.give((Player) killer, reward.getMessage().replace("%enemy%", player.getName()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void chooseTeams() {
@@ -72,22 +79,40 @@ public abstract class Game implements Listener {
             System.err.println("Can't finish game, not in game! Current status: " + state);
             return;
         }
-        for (String playerName : players.keySet()) {
-            Player player = players.get(playerName).getPlayer();
-            removePlayer(playerName);
-            player.kickPlayer("§cИгра окончена!");
+
+        for (GamePlayer player : players.values()) {
+            Reward reward;
+            if (player.getTeam() == winnerTeam) {
+                reward = rewardManager.get("winGame");
+            } else {
+                reward = rewardManager.get("loseGame");
+            }
+            reward.give(player.getPlayer());
         }
-        state = State.PREPARING;
-        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
-                state.toString());
-        prepare();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Set<String> playerNames = new HashSet<>(players.keySet());
+                for (String playerName : playerNames) {
+                    Player player = players.get(playerName).getPlayer();
+                    removePlayer(playerName);
+                    player.kickPlayer("§cИгра окончена!");
+                }
+                state = State.PREPARING;
+                Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                        state.toString());
+                prepare();
+            }
+        }.runTaskLater(Plugin.getInstance(), 40);
     }
 
     public void prepare() {
         load();
         lobby = new GameLobby(this);
         state = State.WAITING;
-        System.out.println("update status " + state.toString());
+        rewardManager = new RewardManager();
+        Plugin.getInstance().getData().loadRewards(rewardManager);
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
     }
@@ -150,6 +175,10 @@ public abstract class Game implements Listener {
         Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
         player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
                 spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
+    }
+
+    public RewardManager getRewardManager() {
+        return rewardManager;
     }
 
     public GameLobby getLobby() {
