@@ -55,6 +55,13 @@ public class Plugin extends JavaPlugin {
                     settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase());
         }
         playerData = new PlayerData(playerDataStorage);
+        StorageInterface serverDataStorage = new LocalStorage();
+        if (settings.getServerDataStorageType().equals("mongodb")) {
+            serverDataStorage = new MongoDBStorage(
+                    settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase());
+        }
+        serverData = new ServerData(serverDataStorage);
+        serverData.load();
         World world = Bukkit.getWorld("world");
         if (settings.getMode().equals("minigame")) {
             pluginMode = new Minigame();
@@ -70,12 +77,6 @@ public class Plugin extends JavaPlugin {
             world.setDifficulty(Difficulty.PEACEFUL);
         }
         pluginMode.onEnable();
-        StorageInterface serverDataStorage = new LocalStorage();
-        if (settings.getServerDataStorageType().equals("mongodb")) {
-            serverDataStorage = new MongoDBStorage(
-                    settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase());
-        }
-        serverData = new ServerData(serverDataStorage);
         world.setGameRule(GameRule.DO_MOB_LOOT, false);
     }
 

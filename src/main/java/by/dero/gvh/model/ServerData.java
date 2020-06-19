@@ -10,6 +10,18 @@ public class ServerData {
         this.storage = storage;
     }
 
+    public void load() {
+        try {
+            if (!storage.exists("servers", "info")) {
+                storage.save("servers", "info", new GsonBuilder().setPrettyPrinting().create().toJson(
+                        new ServersInfo()
+                ));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public ServersInfo getServersInfo() {
         return new Gson().fromJson(storage.load("servers", "info"), ServersInfo.class);
     }
