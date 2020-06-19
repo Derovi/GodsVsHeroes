@@ -13,12 +13,7 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
-
-import static by.dero.gvh.utils.DataUtils.getPlayer;
-import static by.dero.gvh.utils.MessagingUtils.getNormal;
 
 public class ArmorStandMonument extends Monument {
     private final double turnPerSec = 0.3;
@@ -65,7 +60,7 @@ public class ArmorStandMonument extends Monument {
         final World at = Lobby.getInstance().getWorld();
         armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
         armorStand.setCustomNameVisible(true);
-        armorStand.setCustomName(getNormal(ChatColor.AQUA + "RMB to select: " + getClassName()));
+        armorStand.setCustomName(ChatColor.AQUA + "RMB to select: " + getClassName());
 
         final UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(getClassName());
         for (final String name : classDescription.getItemNames()) {
