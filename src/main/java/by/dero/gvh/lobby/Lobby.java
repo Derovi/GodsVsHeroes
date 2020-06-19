@@ -38,6 +38,7 @@ public class Lobby implements PluginMode, Listener {
     private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
     private MonumentManager monumentManager;
     private InterfaceManager interfaceManager;
+    private PortalManager portalManager;
     private final HashMap<String, LobbyPlayer> players = new HashMap<>();
 
     @Override
@@ -71,6 +72,8 @@ public class Lobby implements PluginMode, Listener {
         data.load();
         monumentManager = new MonumentManager();
         interfaceManager = new InterfaceManager();
+        portalManager = new PortalManager();
+        Bukkit.getPluginManager().registerEvents(portalManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(interfaceManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(monumentManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
@@ -157,10 +160,6 @@ public class Lobby implements PluginMode, Listener {
             ++yIdx;
         }
         return new Position(xIdx * 96, 68 + Math.abs(new Random().nextInt()) % 20, yIdx * 96);
-    }
-
-    public void playerEnteredPortal(LobbyPlayer player) {
-        BungeeUtils.redirectPlayer(player.getPlayer(), "minigame");
     }
 
     public static Lobby getInstance() {

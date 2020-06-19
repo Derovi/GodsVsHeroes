@@ -26,7 +26,6 @@ public class DirectedPosition extends Position {
     public Location toLocation(World world) {
         Location result = new Location(world, getX(), getY(), getZ());
         result.setDirection(getDirection());
-        System.out.println("To location " + result.getDirection().getX());
         return result;
     }
 

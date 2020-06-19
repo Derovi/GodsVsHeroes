@@ -31,12 +31,4 @@ public class LobbyEvents implements Listener {
         Player player = event.getPlayer();
         Lobby.getInstance().playerLeft(player);
     }
-
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        LobbyPlayer player = Lobby.getInstance().getPlayers().get(event.getPlayer().getName());
-        if (Lobby.getInstance().getActiveLobbies().get(player.getPlayer().getName()).isInPortal()) {
-            Lobby.getInstance().playerEnteredPortal(player);
-        }
-    }
 }
