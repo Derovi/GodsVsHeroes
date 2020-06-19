@@ -5,6 +5,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.WorldEditUtils;
 import org.bukkit.Bukkit;
@@ -49,7 +50,7 @@ public class PlayerLobby {
         loadBoard();
         loadSelectedClass();
 
-        for (Map.Entry<String, Position> entry :
+        for (Map.Entry<String, DirectedPosition> entry :
                 Lobby.getInstance().getInfo().getClassNameToMonumentPosition().entrySet()) {
             try {
                 String monumentName = entry.getKey();
