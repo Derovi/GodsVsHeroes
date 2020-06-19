@@ -46,6 +46,8 @@ public abstract class Game implements Listener {
         }
         System.out.println("spawned");
         state = State.GAME;
+        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                state.toString());
         lobby = null;
     }
 
@@ -72,6 +74,8 @@ public abstract class Game implements Listener {
             player.kickPlayer("§cGame finished!");
         }
         state = State.PREPARING;
+        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                state.toString());
         prepare();
     }
 
@@ -79,6 +83,9 @@ public abstract class Game implements Listener {
         load();
         lobby = new GameLobby(this);
         state = State.WAITING;
+        System.out.println("update status " + state.toString());
+        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                state.toString());
     }
 
     abstract void load();

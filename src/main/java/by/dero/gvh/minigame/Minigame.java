@@ -24,6 +24,8 @@ public class Minigame implements PluginMode {
     @Override
     public void onEnable() {
         instance = this;
+        Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
+                ServerType.GAME);
         areaManager = new AreaManager();
         gameData = new GameData(new LocalStorage());
         gameData.load();
@@ -32,8 +34,6 @@ public class Minigame implements PluginMode {
         Bukkit.getPluginManager().registerEvents(game, Plugin.getInstance());
         registerEvents();
         registerCommands();
-        Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
-                ServerType.GAME);
     }
 
     @Override

@@ -18,13 +18,16 @@ import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 
-public class Plugin extends JavaPlugin {
+public class Plugin extends JavaPlugin implements Listener {
     private static Plugin instance;
     private Data data;
     private PlayerData playerData;
@@ -77,6 +80,7 @@ public class Plugin extends JavaPlugin {
             world.setDifficulty(Difficulty.PEACEFUL);
         }
         pluginMode.onEnable();
+        Bukkit.getPluginManager().registerEvents(this, this);
         world.setGameRule(GameRule.DO_MOB_LOOT, false);
     }
 
@@ -103,5 +107,17 @@ public class Plugin extends JavaPlugin {
 
     public Data getData() {
         return data;
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        serverData.updateOnline(settings.getServerName(),
+                Bukkit.getServer().getOnlinePlayers().size());
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        serverData.updateOnline(settings.getServerName(),
+                Bukkit.getServer().getOnlinePlayers().size() - 1);
     }
 }
