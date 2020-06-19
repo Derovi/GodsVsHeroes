@@ -221,10 +221,8 @@ public class Lobby implements PluginMode, Listener {
     }
 
     @EventHandler
-    public void removeFallDamage(EntityDamageEvent event) {
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
-            event.setCancelled(true);
-        }
+    public void removeDamage(EntityDamageEvent event) {
+        event.setCancelled(true);
     }
 
     @EventHandler

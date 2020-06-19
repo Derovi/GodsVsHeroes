@@ -53,21 +53,26 @@ public class Plugin extends JavaPlugin {
                     settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase());
         }
         playerData = new PlayerData(playerDataStorage);
-        World world = Bukkit.getWorld("world");
+
+        World world;
         if (settings.getMode().equals("minigame")) {
             pluginMode = new Minigame();
+
+            world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getWorld());
             for (final Entity ent : world.getLivingEntities()) {
                 ent.remove();
             }
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "difficulty normal");
+            world.setDifficulty(Difficulty.NORMAL);
         } else {
             pluginMode = new Lobby();
 
+            world = Lobby.getInstance().getWorld();
             Bukkit.getPluginManager().registerEvents((Listener) pluginMode, this);
             world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
             world.setDifficulty(Difficulty.PEACEFUL);
         }
         pluginMode.onEnable();
+        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         world.setGameRule(GameRule.DO_MOB_LOOT, false);
     }
 
