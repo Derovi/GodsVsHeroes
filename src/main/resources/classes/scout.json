@@ -1,12 +1,14 @@
 {
   "name": "scout",
   "itemNames": [
+    "defaultsword",
     "damagepotion",
     "poisonpotion",
+    "invisibilitypotion",
+    "grenade",
+    "defaulthelmet",
     "speedbuf",
     "jumpingbuf",
-    "doublejump",
-    "grenade",
-    "defaultsword"
+    "doublejump"
   ]
 }

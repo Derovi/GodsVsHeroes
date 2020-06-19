@@ -1,6 +1,9 @@
 {
   "name": "ull",
   "itemNames": [
+    "defaultsword",
+    "defaultchestplate",
+    "healpotion",
     "explosivebow",
     "magicrod",
     "improvedbow",
