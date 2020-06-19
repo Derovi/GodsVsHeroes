@@ -1,0 +1,6 @@
+{
+  "killEnemy": {
+    "message": "§aВы получили §6$count$§a опыта за убийство §c%enemy%§a!",
+    "count": 4
+  }
+}

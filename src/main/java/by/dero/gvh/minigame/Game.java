@@ -29,6 +29,7 @@ public abstract class Game implements Listener {
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
+    private RewardManager rewardManager;
     protected Board board;
 
     public void start() {
@@ -87,7 +88,8 @@ public abstract class Game implements Listener {
         load();
         lobby = new GameLobby(this);
         state = State.WAITING;
-        System.out.println("update status " + state.toString());
+        rewardManager = new RewardManager();
+        Plugin.getInstance().getData().loadRewards(rewardManager);
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
     }
@@ -150,6 +152,10 @@ public abstract class Game implements Listener {
         Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
         player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
                 spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
+    }
+
+    public RewardManager getRewardManager() {
+        return rewardManager;
     }
 
     public GameLobby getLobby() {
