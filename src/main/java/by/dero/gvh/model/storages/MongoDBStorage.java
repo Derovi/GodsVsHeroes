@@ -43,6 +43,7 @@ public class MongoDBStorage implements StorageInterface {
         if (document == null) {
             return null;
         }
+        document.remove("_id");
         return document.toJson();
     }
 
