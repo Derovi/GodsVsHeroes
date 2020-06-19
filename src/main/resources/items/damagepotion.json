@@ -5,38 +5,38 @@
     {
       "cooldown": 40,
       "radius": 5.0,
-      "damage": 4,
+      "damage": 6,
       "material": "SPLASH_POTION",
       "displayName": "§cDamage Potion",
       "lore": [
         "§aРаньте своих врагов!",
         "&6Уровень 1"
       ],
-      "amount": 1
+      "amount": 3
     },
     {
       "cooldown": 30,
       "radius": 5.0,
-      "damage": 4,
+      "damage": 6,
       "material": "SPLASH_POTION",
       "displayName": "§cDamage Potion",
       "lore": [
         "§aРаньте своих врагов!",
         "&6Уровень 2"
       ],
-      "amount": 1
+      "amount": 3
     },
     {
       "cooldown": 20,
       "radius": 5.0,
-      "damage": 4,
+      "damage": 6,
       "material": "SPLASH_POTION",
       "displayName": "§cDamage Potion",
       "lore": [
         "§aРаньте своих врагов!",
         "&6Уровень 3"
       ],
-      "amount": 1
+      "amount": 3
     }
   ]
 }

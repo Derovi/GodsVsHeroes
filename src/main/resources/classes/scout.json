@@ -1,12 +1,17 @@
 {
   "name": "scout",
   "itemNames": [
+    "defaultaxe",
     "damagepotion",
     "poisonpotion",
-    "speedbuf",
-    "jumpingbuf",
-    "doublejump",
     "grenade",
-    "defaultsword"
+    "magicrod",
+    "magnetizeorb",
+    "invisibilitypotion",
+    "speedbuf",
+
+    "defaulthelmet",
+    "defaultboots",
+    "doublejump"
   ]
 }

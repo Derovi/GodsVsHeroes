@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 200,
-      "multiplier": 0.5,
+      "multiplier": 0.6,
       "reclining": 0.7,
       "radiusMultiplier": 0.8,
       "material": "BOW",
@@ -17,7 +17,7 @@
     },
     {
       "cooldown": 200,
-      "multiplier": 0.55,
+      "multiplier": 0.65,
       "reclining": 0.7,
       "radius": 4,
       "material": "BOW",
@@ -30,7 +30,7 @@
     },
     {
       "cooldown": 200,
-      "multiplier": 0.6,
+      "multiplier": 0.75,
       "reclining": 0.7,
       "radius": 4,
       "material": "BOW",

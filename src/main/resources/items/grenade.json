@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 20,
-      "damage" : 4,
+      "damage" : 5,
       "radius" : 5,
       "material": "SNOWBALL",
       "displayName": "§cGrenade",
@@ -12,19 +12,7 @@
         "§aИскусство это взрыв!",
         "&6Уровень 1"
       ],
-      "amount": 1
-    },
-    {
-      "cooldown": 20,
-      "damage" : 5,
-      "radius" : 5,
-      "material": "SNOWBALL",
-      "displayName": "§cGrenade",
-      "lore": [
-        "§aИскусство это взрыв!",
-        "&6Уровень 2"
-      ],
-      "amount": 1
+      "amount": 3
     },
     {
       "cooldown": 20,
@@ -34,9 +22,21 @@
       "displayName": "§cGrenade",
       "lore": [
         "§aИскусство это взрыв!",
+        "&6Уровень 2"
+      ],
+      "amount": 3
+    },
+    {
+      "cooldown": 20,
+      "damage" : 7,
+      "radius" : 5,
+      "material": "SNOWBALL",
+      "displayName": "§cGrenade",
+      "lore": [
+        "§aИскусство это взрыв!",
         "&6Уровень 3"
       ],
-      "amount": 1
+      "amount": 3
     }
   ]
 }

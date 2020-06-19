@@ -65,7 +65,7 @@ public class DoubleJump extends Item implements Listener {
         if (owners.contains(p.getUniqueId()) &&
                 p.getGameMode () == GameMode.SURVIVAL) {
             p.setAllowFlight (false);
-            p.setVelocity (p.getLocation().getDirection().multiply (1.3d).setY (1.0d));
+            p.setVelocity (p.getLocation().getDirection().multiply (1.1d).setY (1.0d));
             event.setCancelled (true);
         }
     }

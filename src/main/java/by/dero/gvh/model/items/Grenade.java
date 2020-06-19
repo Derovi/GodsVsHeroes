@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.Objects;
 
 import static by.dero.gvh.utils.DataUtils.getNearby;
+import static by.dero.gvh.utils.DataUtils.isEnemy;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class Grenade extends Item implements InfiniteReplenishInterface,
@@ -37,7 +38,9 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
         final Location loc = event.getEntity().getLocation();
         loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
         for (LivingEntity ent : getNearby(loc, radius)) {
-            ent.damage(damage, getOwner());
+            if (isEnemy(ent, getTeam())) {
+                ent.damage(damage, getOwner());
+            }
         }
     }
 

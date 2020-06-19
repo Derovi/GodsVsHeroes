@@ -1,9 +1,36 @@
 {
-  "itemReloading": "§6Перезагрузка. Подождите §6%time%§c секунд, чтобы использовать §6%itemname%§c!",
-  "selectHero": "§6Нажмите, чтобы выбрать героя §c%className%§6.",
+  "game": {
+    "livesLeft": "§cЖизней осталось",
+    "itemReloading": "§6Перезагрузка. Подождите §6%time%§c секунд, чтобы использовать §6%itemname%§c!",
+    "gameAlreadyStarted": "§4Игра началась!",
+    "gamePrepairing": "§2Загружаемся",
+    "gameFinished": "§4Игра окончена",
+    "deathMessage": "Вы были убиты игроком %name%"
+  },
   "classes": {
+    "alchemist": "Алхимик",
     "archer": "Лучник",
+    "eyre": "Эйр",
+    "heimdall": "Хеймдалль",
+    "loki": "Локи",
     "mercenary": "Наемник",
-    "alchemist": "Алхимик"
+    "odin": "Один",
+    "paladin": "Паладин",
+    "scout": "Разведчик",
+    "ull": "Улль"
+  },
+  "gameLobby": {
+    "boardReady": "§aГотово к игре: §4%cur%/%max%",
+    "boardRequired": "§aНужно как минимум: %min%",
+    "boardTimeLeft": "§bОсталось времени: %time%",
+    "gameStarted": "§aИгра началась",
+    "playerJoined": "§aИгрок %name% присоединился! §f%cur%/%max%",
+    "playerLeft": "§aИгрок %name% вышел! §f%cur%/%max%"
+  },
+  "lobby": {
+    "selectHero": "§6Нажмите, чтобы выбрать §c%className%§6.",
+    "selectedClass": "§aВыбран класс: %class%",
+    "standTitle": "§bПКМ, чтобы выбрать: %class%",
+    "moneyBalance": "§6Ваш баланс: %money%"
   }
 }

@@ -4,13 +4,6 @@
   "levels": [
     {
       "cooldown": 0,
-      "material": "WOODEN_SWORD",
-      "displayName": "§cМеч",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 0,
       "material": "STONE_SWORD",
       "displayName": "§cМеч",
       "lore": [],
@@ -19,6 +12,13 @@
     {
       "cooldown": 0,
       "material": "IRON_SWORD",
+      "displayName": "§cМеч",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "cooldown": 0,
+      "material": "DIAMOND_SWORD",
       "displayName": "§cМеч",
       "lore": [],
       "amount": 1

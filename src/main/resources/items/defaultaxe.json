@@ -4,13 +4,6 @@
   "levels": [
     {
       "cooldown": 0,
-      "material": "WOODEN_AXE",
-      "displayName": "§cТопор",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 0,
       "material": "GOLDEN_AXE",
       "displayName": "§cТопор",
       "lore": [],
@@ -19,6 +12,13 @@
     {
       "cooldown": 0,
       "material": "IRON_AXE",
+      "displayName": "§cТопор",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "cooldown": 0,
+      "material": "DIAMOND_AXE",
       "displayName": "§cТопор",
       "lore": [],
       "amount": 1

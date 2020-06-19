@@ -6,15 +6,20 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import org.bukkit.Bukkit;
 import by.dero.gvh.model.interfaces.*;
+import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import java.util.HashMap;
 
@@ -40,15 +45,52 @@ public class GameEvents implements Listener {
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
         Projectile proj = event.getEntity();
         if (proj.getShooter() instanceof Player) {
-            String shooterName = ((Player) proj.getShooter()).getName();
-            GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
-            Item itemInHand = gamePlayer.getSelectedItem();
+            final Player player = (Player) proj.getShooter();
+            final String shooterName = player.getName();
+            final GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
+            final Item itemInHand = gamePlayer.getSelectedItem();
             if (itemInHand == null) {
                 return;
             }
             if (itemInHand instanceof ProjectileLaunchInterface) {
                 ((ProjectileLaunchInterface)itemInHand).onProjectileLaunch(event);
             }
+
+            if (itemInHand instanceof InfiniteReplenishInterface) {
+                final ItemStack curItem = player.getInventory().getItemInMainHand();
+                final String itemName = itemInHand.getInfo().getDisplayName();
+
+                if (curItem.getAmount() == 1) {
+                    final ItemStack pane = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
+                    pane.setAmount(1);
+                    final ItemMeta meta = pane.getItemMeta();
+                    meta.setDisplayName(itemName);
+                    pane.setItemMeta(meta);
+                    Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(),
+                            ()-> player.getInventory().setItem(player.getInventory().getHeldItemSlot(), pane), 1);
+                }
+                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+                    for (int slot = 0; slot < 36; slot++) {
+                        final ItemStack cur = player.getInventory().getItem(slot);
+                        if (cur == null) {
+                            continue;
+                        }
+                        if (cur.getItemMeta().getDisplayName().equals(itemName)) {
+                            if (cur.getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
+                                player.getInventory().setItem(slot, itemInHand.getItemStack());
+                                player.getInventory().getItem(slot).setAmount(1);
+                                break;
+                            } else {
+                                if (cur.getAmount() < itemInHand.getInfo().getAmount()){
+                                    cur.setAmount(cur.getAmount()+1);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }, itemInHand.getCooldown().getDuration());
+            }
+
             itemInHand.getSummonedEntityIds().add(event.getEntity().getUniqueId());
         }
     }
@@ -63,12 +105,6 @@ public class GameEvents implements Listener {
             return;
         }
         if (itemInHand instanceof PlayerInteractInterface) {
-            if (itemInHand instanceof InfiniteReplenishInterface) {
-                final int slot = player.getInventory().getHeldItemSlot();
-                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()->{
-                    player.getInventory().setItem(slot, itemInHand.getItemStack());
-                }, 1);
-            }
             if (itemInHand instanceof UltimateInterface && itemInHand.getCooldown().isReady()) {
                 ItemStack item = player.getInventory().getItemInMainHand();
                 item.setAmount(item.getAmount()-1);
@@ -143,7 +179,11 @@ public class GameEvents implements Listener {
         final ItemStack[] inv = player.getInventory().getContents();
         event.setDeathMessage(null);
         final Game game = Minigame.getInstance().getGame();
-        game.onPlayerKilled(player, damageCause.getOrDefault(player, player));
+        LivingEntity kil = player.getKiller();
+        if (kil == null) {
+            kil = damageCause.getOrDefault(player, player);
+        }
+        game.onPlayerKilled(player, kil);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
             game.respawnPlayer(game.getPlayers().get(player.getName()));
@@ -183,6 +223,21 @@ public class GameEvents implements Listener {
     }
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockPlaceEvent(BlockPlaceEvent event) {
         event.setCancelled(true);
     }
 }
