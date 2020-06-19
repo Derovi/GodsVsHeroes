@@ -15,6 +15,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -54,6 +56,9 @@ public class Plugin extends JavaPlugin {
         World world = Bukkit.getWorld("world");
         if (settings.getMode().equals("minigame")) {
             pluginMode = new Minigame();
+            for (final Entity ent : world.getLivingEntities()) {
+                ent.remove();
+            }
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "difficulty normal");
         } else {
             pluginMode = new Lobby();

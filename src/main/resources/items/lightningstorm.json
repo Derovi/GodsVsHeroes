@@ -4,10 +4,10 @@
   "levels": [
     {
       "cooldown": 0,
-      "radius": 10,
-      "strikes": 10,
+      "radius": 11,
+      "strikes": 3,
       "signRadius": [7, 11],
-      "delayStrikes": 10,
+      "delayStrikes": 20,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
       "displayName": "§cLightning Storm",
@@ -15,14 +15,14 @@
         "§aУльтимативная. Нажмите, чтобы обрушить шторм на ваших врагов.",
         "&6Уровень 1"
       ],
-      "amount": 64
+      "amount": 3
     },
     {
       "cooldown": 0,
-      "radius": 10,
-      "strikes": 10,
+      "radius": 11,
+      "strikes": 3,
       "signRadius": [7, 11],
-      "delayStrikes": 10,
+      "delayStrikes": 20,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
       "displayName": "§cLightning Storm",
@@ -30,14 +30,14 @@
         "§aУльтимативная. Нажмите, чтобы обрушить шторм на ваших врагов.",
         "&6Уровень 2"
       ],
-      "amount": 64
+      "amount": 4
     },
     {
       "cooldown": 0,
-      "radius": 10,
-      "strikes": 10,
+      "radius": 11,
+      "strikes": 3,
       "signRadius": [7, 11],
-      "delayStrikes": 10,
+      "delayStrikes": 20,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
       "displayName": "§cLightning Storm",
@@ -45,7 +45,7 @@
         "§aУльтимативная. Нажмите, чтобы обрушить шторм на ваших врагов.",
         "&6Уровень 3"
       ],
-      "amount": 64
+      "amount": 4
     }
   ]
 }

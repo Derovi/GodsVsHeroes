@@ -11,14 +11,14 @@
     },
     {
       "cooldown": 0,
-      "material": "WOODEN_SWORD",
+      "material": "STONE_SWORD",
       "displayName": "§cМеч",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
-      "material": "WOODEN_SWORD",
+      "material": "IRON_SWORD",
       "displayName": "§cМеч",
       "lore": [],
       "amount": 1

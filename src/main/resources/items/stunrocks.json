@@ -3,8 +3,8 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 20,
-      "duration": 40,
+      "cooldown": 60,
+      "duration": 20,
       "material": "SNOWBALL",
       "displayName": "§cStun Rocks",
       "lore": [
@@ -14,8 +14,8 @@
       "amount": 1
     },
     {
-      "cooldown": 20,
-      "duration": 40,
+      "cooldown": 50,
+      "duration": 30,
       "material": "SNOWBALL",
       "displayName": "§cStun Rocks",
       "lore": [
@@ -25,7 +25,7 @@
       "amount": 1
     },
     {
-      "cooldown": 20,
+      "cooldown": 40,
       "duration": 40,
       "material": "SNOWBALL",
       "displayName": "§cStun Rocks",

@@ -13,7 +13,12 @@ public class LobbyEvents implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!Plugin.getInstance().getPlayerData().isPlayerRegistered(event.getPlayer().getName())) {
             Plugin.getInstance().getPlayerData().registerPlayer(event.getPlayer().getName());
-            Plugin.getInstance().getPlayerData().unlockClass(event.getPlayer().getName(), "default");
+            //Plugin.getInstance().getPlayerData().unlockClass(event.getPlayer().getName(), "default");
+
+            // TODO remove debug
+            for (String className : Plugin.getInstance().getData().getClassNameToDescription().keySet()) {
+                Plugin.getInstance().getPlayerData().unlockClass(event.getPlayer().getName(), className);
+            }
         }
         Player player = event.getPlayer();
         Lobby.getInstance().playerJoined(player);

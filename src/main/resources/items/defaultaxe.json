@@ -11,14 +11,14 @@
     },
     {
       "cooldown": 0,
-      "material": "WOODEN_AXE",
+      "material": "GOLDEN_AXE",
       "displayName": "§cТопор",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
-      "material": "WOODEN_AXE",
+      "material": "IRON_AXE",
       "displayName": "§cТопор",
       "lore": [],
       "amount": 1

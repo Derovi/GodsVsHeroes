@@ -13,19 +13,16 @@ import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
-import net.minecraft.server.v1_15_R1.PacketPlayOutWorldParticles;
-import net.minecraft.server.v1_15_R1.ParticleParam;
-import net.minecraft.server.v1_15_R1.ParticleType;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -78,6 +75,7 @@ public class Lobby implements PluginMode, Listener {
         Bukkit.getPluginManager().registerEvents(monumentManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
         System.out.println("Loading schematic");
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(Plugin.getInstance(), "BungeeCord");
         loadSchematic();
     }
 
@@ -101,7 +99,8 @@ public class Lobby implements PluginMode, Listener {
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
         lobbyPlayer.loadInfo();
         players.put(player.getName(), lobbyPlayer);
-        new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0).apply(player);
+        new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1).apply(player);
+        new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 0).apply(player);
         LobbyRecord record;
         PlayerLobby playerLobby;
         if (!data.recordExists(player.getName())) {
@@ -219,6 +218,18 @@ public class Lobby implements PluginMode, Listener {
                 p.teleport(onGround.get(p.getUniqueId()));
             }
         }
-
     }
+
+    @EventHandler
+    public void removeFallDamage(EntityDamageEvent event) {
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void infiniteFood(FoodLevelChangeEvent event) {
+        event.setCancelled(true);
+    }
+
 }
