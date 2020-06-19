@@ -5,9 +5,9 @@ import org.bukkit.World;
 import org.bukkit.util.Vector;
 
 public class DirectedPosition extends Position {
-    private double dx;
-    private double dy;
-    private double dz;
+    private double dx = 0;
+    private double dy = 0;
+    private double dz = 0;
 
     public DirectedPosition() {
     }
