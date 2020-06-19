@@ -16,6 +16,14 @@ public class Reward {
         player.sendMessage(message.replace("%count%", String.valueOf(count)));
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public String getMessage() {
         return message;
     }

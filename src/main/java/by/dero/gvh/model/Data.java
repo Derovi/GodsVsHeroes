@@ -1,5 +1,6 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.minigame.Reward;
 import by.dero.gvh.minigame.RewardManager;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
@@ -110,7 +111,7 @@ public class Data {
         try {
             String rewardsJson = DataUtils.loadOrDefault(storageInterface, "game", "rewards",
                     ResourceUtils.readResourceFile("/game/rewards.json"));
-            manager.setRewards();
+            manager.setRewards(new Gson().fromJson(rewardsJson, new TypeToken<HashMap<String, Reward>>() {}.getType()));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
