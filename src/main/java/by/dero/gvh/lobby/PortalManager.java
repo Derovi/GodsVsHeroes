@@ -1,7 +1,11 @@
 package by.dero.gvh.lobby;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.ServerInfo;
+import by.dero.gvh.model.ServerType;
 import by.dero.gvh.utils.BungeeUtils;
+import org.bukkit.Server;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -40,6 +44,16 @@ public class PortalManager implements Listener {
     }
 
     private void playerEnteredPortal(LobbyPlayer player) {
-        BungeeUtils.redirectPlayer(player.getPlayer(), "minigame");
+        String serverName = null;
+        for (ServerInfo info : Plugin.getInstance().getServerData().getGameServers()) {
+            if (info.getType() == ServerType.GAME && info.getStatus().equals(Game.State.WAITING.toString())) {
+                serverName = info.getName();
+                break;
+            }
+        }
+        if (serverName == null) {
+            System.out.println("There is no available game server!");
+        }
+        BungeeUtils.redirectPlayer(player.getPlayer(), serverName);
     }
 }

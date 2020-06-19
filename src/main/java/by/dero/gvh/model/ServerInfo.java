@@ -3,7 +3,7 @@ package by.dero.gvh.model;
 public class ServerInfo {
     private String name;
     private ServerType type;
-    private String status;
+    private String status = "NO_STATUS";
     private int online;
 
     public ServerInfo() {
