@@ -101,6 +101,10 @@ public class Lobby implements PluginMode, Listener {
         }
     }
 
+    public void updateDisplays(Player player) {
+        activeLobbies.get(player.getName()).getScoreboardUpdater().run();
+    }
+
     public void playerJoined(Player player) {
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
         lobbyPlayer.loadInfo();

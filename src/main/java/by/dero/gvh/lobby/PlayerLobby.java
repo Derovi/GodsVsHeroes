@@ -22,6 +22,7 @@ public class PlayerLobby {
     private final Player player;
     private final HashMap<String, Monument> monuments = new HashMap<>();
     private FlyingText selectedClass;
+    private Runnable scoreboardUpdater;
 
     private final List<BukkitRunnable> runnables = new ArrayList<>();
 
@@ -84,7 +85,7 @@ public class PlayerLobby {
     private void loadBoard() {
         Board board = new Board("Lobby", 2);
         player.setScoreboard(board.getScoreboard());
-        BukkitRunnable runnable = new BukkitRunnable() {
+        scoreboardUpdater = new BukkitRunnable() {
             @Override
             public void run() {
                 PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
@@ -95,8 +96,6 @@ public class PlayerLobby {
                 board.update(ar);
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
-        runnables.add(runnable);
     }
 
     private void loadPortal() {
@@ -157,6 +156,10 @@ public class PlayerLobby {
                 position.getY() + record.getPosition().getY(),
                 position.getZ() + record.getPosition().getZ(),
                    position.getDirection());
+    }
+
+    public Runnable getScoreboardUpdater() {
+        return scoreboardUpdater;
     }
 
     public HashMap<String, Monument> getMonuments() {
