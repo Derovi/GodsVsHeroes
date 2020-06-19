@@ -5,7 +5,7 @@
     {
       "cooldown": 200,
       "radius": 4.0,
-      "latency": 40,
+      "latency": 400,
       "material": "NETHER_STAR",
       "displayName": "§cStun!!!",
       "lore": [

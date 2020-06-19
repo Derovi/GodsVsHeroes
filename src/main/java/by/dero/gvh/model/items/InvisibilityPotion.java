@@ -27,6 +27,7 @@ public class InvisibilityPotion extends Item implements PlayerInteractInterface 
         }
         cooldown.reload();
         new PotionEffect(PotionEffectType.INVISIBILITY, duration, 0).apply(event.getPlayer());
-        event.setCancelled(true);
     }
+
+
 }

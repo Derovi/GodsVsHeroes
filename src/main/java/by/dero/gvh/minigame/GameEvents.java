@@ -59,17 +59,17 @@ public class GameEvents implements Listener {
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
         Item itemInHand = gamePlayer.getSelectedItem();
         Player player = event.getPlayer();
-        if (itemInHand == null ||
-                !itemInHand.getCooldown().isReady()) {
+        if (itemInHand == null) {
             return;
         }
         if (itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof InfiniteReplenishInterface) {
-                ItemStack item = player.getInventory().getItemInMainHand();
-                item.setAmount(2);
-                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()->item.setAmount(1), 1);
+                final int slot = player.getInventory().getHeldItemSlot();
+                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()->{
+                    player.getInventory().setItem(slot, itemInHand.getItemStack());
+                }, 1);
             }
-            if (itemInHand instanceof UltimateInterface) {
+            if (itemInHand instanceof UltimateInterface && itemInHand.getCooldown().isReady()) {
                 ItemStack item = player.getInventory().getItemInMainHand();
                 item.setAmount(item.getAmount()-1);
             }
@@ -140,6 +140,7 @@ public class GameEvents implements Listener {
         final Player player = event.getEntity();
         final float exp = player.getExp();
 
+        final ItemStack[] inv = player.getInventory().getContents();
         event.setDeathMessage(null);
         final Game game = Minigame.getInstance().getGame();
         game.onPlayerKilled(player, damageCause.getOrDefault(player, player));
@@ -158,6 +159,7 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
+        event.getPlayer().setHealth(20);
         Minigame.getInstance().getGame().addPlayer(event.getPlayer());
     }
 

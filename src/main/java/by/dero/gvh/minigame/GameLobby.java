@@ -84,6 +84,7 @@ public class GameLobby {
         Bukkit.getServer().broadcastMessage("§aPlayer " +
                 gamePlayer.getPlayer().getName() + " joined! " + players + '/' + needed);
         gamePlayer.getPlayer().setScoreboard(board.getScoreboard());
+        gamePlayer.getPlayer().getInventory().clear();
         if (players >= needed && !ready) {
             ready = true;
             startPrepairing();

@@ -2,7 +2,10 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
+import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -52,9 +55,9 @@ public class Item {
         lore.add(Plugin.getInstance().getData().getItemNameToTag().get(name));
         itemMeta.setLore(lore);
         itemMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
-        itemMeta.addEnchant(Enchantment.DURABILITY, 10, true);
+        itemMeta.addEnchant(Enchantment.DURABILITY, Integer.MAX_VALUE, true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+        itemMeta.setUnbreakable(true);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }

@@ -61,7 +61,9 @@ public class Lobby implements PluginMode, Listener {
             world = creator.createWorld();
         }
         world = Plugin.getInstance().getServer().getWorld(worldName);
-
+        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+        world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+        world.setDifficulty(Difficulty.PEACEFUL);
         for (Entity obj : world.getEntities()) {
             obj.remove();
         }

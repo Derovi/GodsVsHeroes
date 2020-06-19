@@ -68,24 +68,20 @@ public class Plugin extends JavaPlugin implements Listener {
         World world;
         if (settings.getMode().equals("minigame")) {
             pluginMode = new Minigame();
+            pluginMode.onEnable();
 
             world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getWorld());
             for (final Entity ent : world.getLivingEntities()) {
                 ent.remove();
             }
-            world.setDifficulty(Difficulty.NORMAL);
         } else {
             pluginMode = new Lobby();
+            pluginMode.onEnable();
 
             world = Lobby.getInstance().getWorld();
             Bukkit.getPluginManager().registerEvents((Listener) pluginMode, this);
-            world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
-            world.setDifficulty(Difficulty.PEACEFUL);
         }
-        pluginMode.onEnable();
-        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         Bukkit.getPluginManager().registerEvents(this, this);
-        world.setGameRule(GameRule.DO_MOB_LOOT, false);
     }
 
     @Override
