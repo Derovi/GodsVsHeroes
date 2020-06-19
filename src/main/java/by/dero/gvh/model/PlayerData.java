@@ -53,6 +53,12 @@ public class PlayerData {
         // TODO for database
     }
 
+    public void increaseBalance(String playerName, int count) {
+        PlayerInfo playerInfo = getPlayerInfo(playerName);
+        playerInfo.setBalance(playerInfo.getBalance() + count);
+        savePlayerInfo(playerName, playerInfo);
+    }
+
     public void unlockClass(String playerName, String className) {
         PlayerInfo playerInfo = getPlayerInfo(playerName);
         playerInfo.unlockClass(className);
