@@ -20,9 +20,6 @@ public class InvisibilityPotion extends Item implements PlayerInteractInterface 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         if (!cooldown.isReady()) {
-            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
-                sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
-            }
             return;
         }
         cooldown.reload();

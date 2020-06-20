@@ -1,8 +1,12 @@
 {
   "interfaces": {
+    "empty": "§8Пусто",
+    "back": "§dНазад",
     "select": "§aВыбрать",
     "upgradeSelect": "§9Улучшить",
+    "notAvailable": "§cНе доступно",
     "upgrade": "§aУлучшить",
+    "upgraded": "§9Улучшено",
     "upgradeNE": "§cУлучшить",
     "unlock": "§aРазблокировать",
     "unlockNE": "§cРазблокировать",
@@ -11,9 +15,16 @@
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
   },
+  "time": {
+    "sec0": "секунд",
+    "sec1": "секунды",
+    "sec2": "секунду"
+  },
   "game": {
     "livesLeft": "§cЖизней осталось",
+    "itemReady": "§aГотово",
     "itemReloading": "§6Перезагрузка. Подождите §6%time%§c секунд, чтобы использовать §6%itemname%§c!",
+    "itemReloadingActionBar": "§6Перезагрузка. Подождите §c%time%§6!",
     "gameAlreadyStarted": "§4Игра началась!",
     "gamePrepairing": "§2Загружаемся",
     "gameFinished": "§4Игра окончена",

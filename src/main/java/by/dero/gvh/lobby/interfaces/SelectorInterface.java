@@ -7,6 +7,7 @@ import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Team;
 
 public class SelectorInterface extends Interface {
     public SelectorInterface(InterfaceManager manager, Player player, String className) {
@@ -16,6 +17,7 @@ public class SelectorInterface extends Interface {
             lobbyPlayer.getPlayerInfo().selectClass(className);
             lobbyPlayer.saveInfo();
             Lobby.getInstance().updateDisplays(getPlayer());
+            close();
         };
 
         Runnable upgrade = () -> {

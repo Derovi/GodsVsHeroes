@@ -10,6 +10,7 @@ import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedList;
@@ -17,9 +18,11 @@ import java.util.List;
 
 public class UpgradeInterface extends Interface {
     private final String className;
+    private final InterfaceManager manager;
 
     public UpgradeInterface(InterfaceManager manager, Player player, String className) {
         super(manager, player, 6, className);
+        this.manager = manager;
         this.className = className;
         PlayerInfo playerInfo = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
         updateAll(playerInfo);
@@ -32,7 +35,7 @@ public class UpgradeInterface extends Interface {
                         Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(currentLevel)));
         for (int index = 1; index <= currentLevel; ++index) {
             ItemStack itemStack = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
-            InterfaceUtils.changeName(itemStack, null);
+            InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgraded"));
             addItem(position, index, itemStack);
         }
         int maxLevel = Plugin.getInstance().getData().getItems().get(itemName).getLevels().size() - 1;
@@ -41,7 +44,6 @@ public class UpgradeInterface extends Interface {
                 ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade"));
                 addButton(position, currentLevel + 1, itemStack, () -> {
-                    System.out.println("On click!");
                     LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(getPlayer().getName());
                     lobbyPlayer.getPlayerInfo().upgradeItem(className, itemName);
                     lobbyPlayer.saveInfo();
@@ -56,14 +58,18 @@ public class UpgradeInterface extends Interface {
             }
             for (int index = currentLevel + 2; index <= maxLevel; ++index) {
                 ItemStack itemStack = new ItemStack(Material.RED_STAINED_GLASS_PANE);
-                InterfaceUtils.changeName(itemStack, null);
+                InterfaceUtils.changeName(itemStack, Lang.get("interfaces.notAvailable"));
                 addItem(position, index, itemStack);
             }
         }
         for (int index = maxLevel + 1; index < 6; ++index) {
             ItemStack itemStack = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
-            InterfaceUtils.changeName(itemStack, null);
-            addItem(position, index, itemStack);
+            InterfaceUtils.changeName(itemStack, Lang.get("interfaces.back"));
+            addButton(position, index, itemStack, () -> {
+                close();
+                SelectorInterface selectorInterface = new SelectorInterface(manager, getPlayer(), className);
+                selectorInterface.open();
+            });
         }
     }
 
@@ -93,9 +99,13 @@ public class UpgradeInterface extends Interface {
 
     public void fillEmptyLine(int position) {
         ItemStack itemStack = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
-        InterfaceUtils.changeName(itemStack, null);
+        InterfaceUtils.changeName(itemStack, Lang.get("interfaces.back"));
         for (int idx = 0; idx < 6; ++idx) {
-            addItem(position, idx, itemStack);
+            addButton(position, idx, itemStack, () -> {
+                close();
+                SelectorInterface selectorInterface = new SelectorInterface(manager, getPlayer(), className);
+                selectorInterface.open();
+            });
         }
     }
 }

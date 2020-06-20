@@ -38,9 +38,7 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface,
     }
 
     @Override
-    public void onProjectileLaunch(ProjectileLaunchEvent event) {
-
-    }
+    public void onProjectileLaunch(ProjectileLaunchEvent event) { }
 
     @Override
     public void onProjectileHitEnemy(final ProjectileHitEvent event) {
