@@ -14,6 +14,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -134,6 +135,11 @@ public abstract class Game implements Listener {
         players.put(player.getName(), gamePlayer);
         teleportToLobby(player);
         lobby.onPlayerJoined(players.get(player.getName()));
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
+        player.setHealth(10);
+        for (PotionEffect pt : player.getActivePotionEffects()) {
+            player.removePotionEffect(pt.getType());
+        }
     }
 
     public void removePlayer(String playerName) {

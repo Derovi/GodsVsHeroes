@@ -167,9 +167,6 @@ public class GameEvents implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         event.setQuitMessage(null);
         Player p = event.getPlayer();
-        for (PotionEffect pt : p.getActivePotionEffects()) {
-            p.removePotionEffect(pt.getType());
-        }
         Minigame.getInstance().getGame().removePlayer(p.getName());
     }
 
