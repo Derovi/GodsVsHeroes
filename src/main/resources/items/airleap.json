@@ -5,6 +5,7 @@
     {
       "force": 3.0,
       "cooldown": 60,
+      "cost": 80,
       "material": "FEATHER",
       "displayName": "§cAir leap",
       "lore": [
@@ -16,6 +17,7 @@
     {
       "force": 3.0,
       "cooldown": 50,
+      "cost": 100,
       "material": "FEATHER",
       "displayName": "§cAir leap",
       "lore": [
@@ -27,6 +29,7 @@
     {
       "force": 3.0,
       "cooldown": 40,
+      "cost": 120,
       "material": "FEATHER",
       "displayName": "§cAir leap",
       "lore": [

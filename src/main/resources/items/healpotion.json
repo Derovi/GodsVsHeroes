@@ -6,37 +6,40 @@
       "cooldown": 40,
       "radius": 5.0,
       "heal": 4,
+      "cost": 80,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
       "lore": [
         "§aЛечите своих сопартийцев!",
         "§6Уровень 1"
       ],
-      "amount": 1
+      "amount": 3
     },
     {
       "cooldown": 40,
       "radius": 5.0,
       "heal": 5,
+      "cost": 100,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
       "lore": [
         "§aЛечите своих сопартийцев!",
         "§6Уровень 2"
       ],
-      "amount": 1
+      "amount": 3
     },
     {
       "cooldown": 40,
       "radius": 5.0,
       "heal": 6,
+      "cost": 120,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
       "lore": [
         "§aЛечите своих сопартийцев!",
         "§6Уровень 3"
       ],
-      "amount": 1
+      "amount": 3
     }
   ]
 }

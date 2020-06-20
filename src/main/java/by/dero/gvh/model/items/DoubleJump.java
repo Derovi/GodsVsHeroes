@@ -4,7 +4,6 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -15,9 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 import static by.dero.gvh.utils.DataUtils.getPlayer;
 
@@ -32,10 +29,8 @@ public class DoubleJump extends Item implements Listener {
         if (!getPlayer(player.getName()).getItems().containsKey(getName())) {
             return;
         }
-        Location location = player.getLocation().clone();
-        location = location.subtract (0, 1, 0);
 
-        final Block block = location.getBlock ();
+        final Block block = player.getLocation().clone().subtract(0,1,0).getBlock();;
         if (block.getType ().isSolid ()) {
             player.setAllowFlight (true);
         }
@@ -60,7 +55,7 @@ public class DoubleJump extends Item implements Listener {
     }
 
     @EventHandler (priority = EventPriority.HIGH)
-    public void onPlayerToggleFlight (PlayerToggleFlightEvent event) {
+    public void onPlayerToggleFlight (final PlayerToggleFlightEvent event) {
         final Player p = event.getPlayer();
         if (getPlayer(p.getName()).getItems().containsKey(getName()) &&
                 p.getGameMode () == GameMode.SURVIVAL) {

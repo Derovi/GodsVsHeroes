@@ -4,7 +4,6 @@ import by.dero.gvh.minigame.Game;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 

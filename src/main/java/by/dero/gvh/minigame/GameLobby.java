@@ -5,7 +5,6 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.Board;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;

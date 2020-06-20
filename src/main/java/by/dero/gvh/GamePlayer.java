@@ -2,10 +2,8 @@ package by.dero.gvh;
 
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.model.UnitClassDescription;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scoreboard.DisplaySlot;
 
 import java.util.HashMap;
 public class GamePlayer {

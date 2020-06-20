@@ -1,7 +1,6 @@
 package by.dero.gvh.utils;
 
 import java.io.*;
-import java.net.URL;
 
 public class ResourceUtils {
     public static String readResourceFile(String path) throws IOException {

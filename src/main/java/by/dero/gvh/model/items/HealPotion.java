@@ -6,7 +6,6 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.HealPotionInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

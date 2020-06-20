@@ -7,13 +7,11 @@ import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.LightningStormInfo;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Objects;
 
 import static by.dero.gvh.model.Drawings.drawLine;
 import static by.dero.gvh.model.Drawings.getInCircle;

@@ -5,6 +5,7 @@
     {
       "cooldown": 400,
       "duration": 60,
+      "cost": 80,
       "material": "GLASS_BOTTLE",
       "displayName": "§cInvisibility Potion",
       "lore": [
@@ -16,6 +17,7 @@
     {
       "cooldown": 400,
       "duration": 80,
+      "cost": 100,
       "material": "GLASS_BOTTLE",
       "displayName": "§cInvisibility Potion",
       "lore": [
@@ -27,6 +29,7 @@
     {
       "cooldown": 400,
       "duration": 100,
+      "cost": 120,
       "material": "GLASS_BOTTLE",
       "displayName": "§cInvisibility Potion",
       "lore": [

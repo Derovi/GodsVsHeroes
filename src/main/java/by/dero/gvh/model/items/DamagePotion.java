@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class DamagePotion extends Item implements ProjectileHitInterface, InfiniteReplenishInterface, PlayerInteractInterface, ProjectileLaunchInterface {
     private final double radius;

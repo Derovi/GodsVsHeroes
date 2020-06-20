@@ -7,7 +7,6 @@ import by.dero.gvh.model.itemsinfo.StunAllInfo;
 import by.dero.gvh.utils.Stun;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
