@@ -61,8 +61,10 @@ public abstract class Game implements Listener {
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
         try {
-            Reward reward = rewardManager.get("killEnemy");
-            reward.give((Player) killer, reward.getMessage().replace("%enemy%", player.getName()));
+            if (!player.equals(killer)) {
+                Reward reward = rewardManager.get("killEnemy");
+                reward.give((Player) killer, reward.getMessage().replace("%enemy%", player.getName()));
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

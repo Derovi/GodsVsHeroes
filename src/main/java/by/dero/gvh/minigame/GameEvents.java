@@ -7,6 +7,7 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import org.bukkit.Bukkit;
 import by.dero.gvh.model.interfaces.*;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +25,7 @@ import org.bukkit.potion.PotionEffect;
 import java.util.HashMap;
 
 
+import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class GameEvents implements Listener {
@@ -171,18 +173,22 @@ public class GameEvents implements Listener {
     public void onEntityDie(EntityDeathEvent event) {
         event.getDrops().clear();
     }
+
+
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
         final Player player = event.getEntity();
         final float exp = player.getExp();
 
-        final ItemStack[] inv = player.getInventory().getContents();
+        spawnFirework(player.getLocation().clone().add(0,1,0), 1);
+
         event.setDeathMessage(null);
         final Game game = Minigame.getInstance().getGame();
         LivingEntity kil = player.getKiller();
         if (kil == null) {
             kil = damageCause.getOrDefault(player, player);
         }
+
         game.onPlayerKilled(player, kil);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
@@ -199,7 +205,6 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
-        event.getPlayer().setHealth(20);
         Minigame.getInstance().getGame().addPlayer(event.getPlayer());
     }
 
