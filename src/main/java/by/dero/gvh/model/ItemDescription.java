@@ -2,7 +2,6 @@ package by.dero.gvh.model;
 
 import com.google.gson.*;
 
-import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
 

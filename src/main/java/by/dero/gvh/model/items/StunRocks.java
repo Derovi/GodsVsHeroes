@@ -14,7 +14,6 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import static by.dero.gvh.utils.DataUtils.isEnemy;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class StunRocks extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, PlayerInteractInterface, ProjectileLaunchInterface {
@@ -43,14 +42,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
-        if (!cooldown.isReady()) {
-            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
-                sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
-            }
-            event.setCancelled(true);
-            return;
-        }
-        cooldown.reload();
+
     }
 }
 

@@ -17,7 +17,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class PoisonPotion extends Item implements PlayerInteractInterface,
         InfiniteReplenishInterface, ProjectileHitInterface, ProjectileLaunchInterface {

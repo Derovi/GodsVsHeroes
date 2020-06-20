@@ -4,6 +4,7 @@
   "levels": [
     {
       "cooldown": 0,
+      "cost": 80,
       "material": "LEATHER_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],
@@ -11,6 +12,7 @@
     },
     {
       "cooldown": 0,
+      "cost": 100,
       "material": "GOLDEN_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],
@@ -18,6 +20,7 @@
     },
     {
       "cooldown": 0,
+      "cost": 120,
       "material": "IRON_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],

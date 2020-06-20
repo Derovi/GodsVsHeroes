@@ -1,16 +1,11 @@
 package by.dero.gvh.utils;
 
 import by.dero.gvh.Plugin;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class Stun {
     public static void stunEntity(LivingEntity p, int latency) {

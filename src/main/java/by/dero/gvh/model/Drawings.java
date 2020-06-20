@@ -9,8 +9,6 @@ import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.util.Vector;
 
-import java.util.Random;
-
 public class Drawings {
     private static final double dense = 2;
 

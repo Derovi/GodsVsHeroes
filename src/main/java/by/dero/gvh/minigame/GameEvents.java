@@ -59,6 +59,7 @@ public class GameEvents implements Listener {
             final String shooterName = player.getName();
             final GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
             final Item itemInHand = gamePlayer.getSelectedItem();
+            final int heldSlot = player.getInventory().getHeldItemSlot();
             if (itemInHand == null) {
                 return;
             }
@@ -77,7 +78,7 @@ public class GameEvents implements Listener {
                     meta.setDisplayName(itemName);
                     pane.setItemMeta(meta);
                     Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(),
-                            ()-> player.getInventory().setItem(player.getInventory().getHeldItemSlot(), pane), 1);
+                            ()-> player.getInventory().setItem(heldSlot, pane), 1);
                 }
                 if (curItem.getAmount() == itemInHand.getInfo().getAmount()) {
                     final BukkitRunnable runnable = new BukkitRunnable() {
@@ -183,7 +184,6 @@ public class GameEvents implements Listener {
         event.getDrops().clear();
     }
 
-
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
         event.setDeathMessage(null);
@@ -194,11 +194,11 @@ public class GameEvents implements Listener {
 
         event.setDeathMessage(null);
         final Game game = Minigame.getInstance().getGame();
+
         LivingEntity kil = player.getKiller();
         if (kil == null) {
             kil = damageCause.getOrDefault(player, player);
         }
-
         game.onPlayerKilled(player, kil);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
