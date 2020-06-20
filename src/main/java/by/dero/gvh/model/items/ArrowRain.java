@@ -1,26 +1,21 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.ArrowRainInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-import static by.dero.gvh.model.Drawings.getInCircle;
 import static by.dero.gvh.model.Drawings.randomCylinder;
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;

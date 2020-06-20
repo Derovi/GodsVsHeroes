@@ -3,7 +3,6 @@ package by.dero.gvh.model;
 import by.dero.gvh.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;

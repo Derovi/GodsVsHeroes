@@ -8,18 +8,15 @@ import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.GrenadeInfo;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.util.Objects;
 
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class Grenade extends Item implements InfiniteReplenishInterface,
         PlayerInteractInterface, ProjectileHitInterface, ProjectileLaunchInterface {

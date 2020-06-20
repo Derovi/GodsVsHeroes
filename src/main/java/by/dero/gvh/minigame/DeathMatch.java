@@ -10,6 +10,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class DeathMatch extends Game {
     private final DeathMatchInfo deathMatchInfo;
 
@@ -37,7 +40,7 @@ public class DeathMatch extends Game {
         for (final GamePlayer gp : getPlayers().values()) {
             final Player player = gp.getPlayer();
             player.setScoreboard(board.getScoreboard());
-            player.setDisplayName("§" + ((char)('a' + gp.getTeam())) + player.getDisplayName());
+            player.setDisplayName("§" + (char)('a' + gp.getTeam()) + player.getName());
         }
     }
 
@@ -46,12 +49,17 @@ public class DeathMatch extends Game {
     }
 
     private void checkForGameEnd() {
+        int winner = -1;
         for (int index = 0; index < getInfo().getTeamCount(); ++index) {
-            if (currentLivesCount[index] == 0) {
-                finish(index);
-                return;
+            if (currentLivesCount[index] != 0) {
+                if (winner != -1) {
+                    return;
+                } else {
+                    winner = index;
+                }
             }
         }
+        finish(winner);
     }
 
     @EventHandler

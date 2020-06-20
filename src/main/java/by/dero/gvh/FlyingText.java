@@ -1,6 +1,5 @@
 package by.dero.gvh;
 
-import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.utils.Position;
 import org.bukkit.Location;
 import org.bukkit.World;

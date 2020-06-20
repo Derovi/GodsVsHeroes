@@ -49,6 +49,7 @@ public class GameEvents implements Listener {
             final String shooterName = player.getName();
             final GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
             final Item itemInHand = gamePlayer.getSelectedItem();
+            final int heldSlot = player.getInventory().getHeldItemSlot();
             if (itemInHand == null) {
                 return;
             }
@@ -67,7 +68,7 @@ public class GameEvents implements Listener {
                     meta.setDisplayName(itemName);
                     pane.setItemMeta(meta);
                     Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(),
-                            ()-> player.getInventory().setItem(player.getInventory().getHeldItemSlot(), pane), 1);
+                            ()-> player.getInventory().setItem(heldSlot, pane), 1);
                 }
                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     for (int slot = 0; slot < 36; slot++) {

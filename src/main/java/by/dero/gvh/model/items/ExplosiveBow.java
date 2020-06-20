@@ -5,7 +5,6 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;

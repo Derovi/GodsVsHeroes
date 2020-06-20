@@ -6,8 +6,6 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.MagicRodInfo;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.Damageable;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;

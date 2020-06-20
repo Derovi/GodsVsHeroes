@@ -14,7 +14,6 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import static by.dero.gvh.utils.DataUtils.isEnemy;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class StunRocks extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, PlayerInteractInterface, ProjectileLaunchInterface {

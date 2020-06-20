@@ -4,7 +4,6 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -15,27 +14,21 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 public class DoubleJump extends Item implements Listener {
-    public static final Set<UUID> owners = new HashSet<>();
     public DoubleJump(final String name, final int level, final Player owner) {
         super(name, level, owner);
         Bukkit.getPluginManager().registerEvents(this, Plugin.getInstance());
-        owners.add(owner.getUniqueId());
         groundUpdate(owner);
     }
 
     private void groundUpdate (final Player player) {
-        if (!owners.contains(player.getUniqueId())) {
+        if (!getPlayer(player.getName()).getItems().containsKey("doublejump")) {
             return;
         }
-        Location location = player.getLocation().clone();
-        location = location.subtract (0, 1, 0);
 
-        final Block block = location.getBlock ();
+        final Block block = player.getLocation().clone().subtract(0,1,0).getBlock();;
         if (block.getType ().isSolid ()) {
             player.setAllowFlight (true);
         }
@@ -44,8 +37,8 @@ public class DoubleJump extends Item implements Listener {
     @EventHandler (priority = EventPriority.HIGH)
     public void onPlayerDamage (final EntityDamageEvent event) {
         if (event.getEntityType () == EntityType.PLAYER &&
-                owners.contains(event.getEntity().getUniqueId()) &&
-                event.getCause () == EntityDamageEvent.DamageCause.FALL) {
+                event.getCause () == EntityDamageEvent.DamageCause.FALL &&
+                !getPlayer(event.getEntity().getName()).getItems().containsKey("doublejump")) {
             event.setCancelled (true);
         }
     }
@@ -53,17 +46,17 @@ public class DoubleJump extends Item implements Listener {
     @EventHandler (priority = EventPriority.HIGH)
     public void onPlayerMove (final PlayerMoveEvent event) {
         final Player p = event.getPlayer();
-        if (owners.contains(p.getUniqueId()) &&
+        if (!getPlayer(p.getName()).getItems().containsKey("doublejump") &&
                 !p.getAllowFlight()) {
             groundUpdate(p);
         }
     }
 
     @EventHandler (priority = EventPriority.HIGH)
-    public void onPlayerToggleFlight (PlayerToggleFlightEvent event) {
+    public void onPlayerToggleFlight (final PlayerToggleFlightEvent event) {
         final Player p = event.getPlayer();
-        if (owners.contains(p.getUniqueId()) &&
-                p.getGameMode () == GameMode.SURVIVAL) {
+        if (p.getGameMode () == GameMode.SURVIVAL &&
+                !getPlayer(p.getName()).getItems().containsKey("doublejump")) {
             p.setAllowFlight (false);
             p.setVelocity (p.getLocation().getDirection().multiply (1.1d).setY (1.0d));
             event.setCancelled (true);

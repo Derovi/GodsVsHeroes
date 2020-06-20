@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
 import static by.dero.gvh.utils.DataUtils.isEnemy;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class MagnetizeOrb extends Item implements ProjectileHitInterface,
         InfiniteReplenishInterface, PlayerInteractInterface, ProjectileLaunchInterface {

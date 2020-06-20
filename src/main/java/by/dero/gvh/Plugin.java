@@ -8,16 +8,13 @@ import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
-import net.minecraft.server.v1_15_R1.GameRules;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 

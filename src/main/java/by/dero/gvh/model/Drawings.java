@@ -4,8 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
 
-import java.util.Random;
-
 public class Drawings {
     private static final double dense = 2;
 
