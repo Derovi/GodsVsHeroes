@@ -21,13 +21,13 @@ public class MonumentManager implements Listener {
     }
 
     private void registerMonuments() {
-        registerMonument("alchemist", ArmorStandMonument.class);
-        registerMonument("archer", ArmorStandMonument.class);
-        registerMonument("default", ArmorStandMonument.class);
-        registerMonument("eyre", ArmorStandMonument.class);
-        registerMonument("heimdall", ArmorStandMonument.class);
-        registerMonument("loki", ArmorStandMonument.class);
-        registerMonument("mercenary", ArmorStandMonument.class);
+//        registerMonument("alchemist", ArmorStandMonument.class);
+//        registerMonument("archer", ArmorStandMonument.class);
+//        registerMonument("default", ArmorStandMonument.class);
+//        registerMonument("eyre", ArmorStandMonument.class);
+//        registerMonument("heimdall", ArmorStandMonument.class);
+//        registerMonument("loki", ArmorStandMonument.class);
+//        registerMonument("mercenary", ArmorStandMonument.class);
         registerMonument("odin", ArmorStandMonument.class);
         registerMonument("paladin", ArmorStandMonument.class);
         registerMonument("scout", ArmorStandMonument.class);
