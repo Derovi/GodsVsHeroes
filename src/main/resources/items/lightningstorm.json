@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 0,
+      "cooldown": 600,
       "radius": 11,
       "strikes": 3,
       "signRadius": [7, 11],
@@ -18,7 +18,7 @@
       "amount": 3
     },
     {
-      "cooldown": 0,
+      "cooldown": 600,
       "radius": 11,
       "strikes": 3,
       "signRadius": [7, 11],
@@ -33,7 +33,7 @@
       "amount": 4
     },
     {
-      "cooldown": 0,
+      "cooldown": 600,
       "radius": 11,
       "strikes": 3,
       "signRadius": [7, 11],
