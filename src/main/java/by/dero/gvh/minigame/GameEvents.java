@@ -177,6 +177,7 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
+        event.setDeathMessage(null);
         final Player player = event.getEntity();
         final float exp = player.getExp();
 
