@@ -6,6 +6,7 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.HealthBar;
 import by.dero.gvh.utils.Position;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
@@ -50,7 +51,6 @@ public abstract class Game implements Listener {
         System.out.println("starting");
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
-            player.getPlayer().setScoreboard(board.getScoreboard());
         }
         System.out.println("spawned");
         state = State.GAME;

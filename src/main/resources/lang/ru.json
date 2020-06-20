@@ -23,12 +23,13 @@
     "boardReady": "§aГотово к игре: §4%cur%/%max%",
     "boardRequired": "§aНужно как минимум: %min%",
     "boardTimeLeft": "§bОсталось времени: %time%",
-    "gameStarted": "§aИгра началась",
+    "gameStarted": "§aИгра началась!",
     "playerJoined": "§aИгрок %name% присоединился! §f%cur%/%max%",
     "playerLeft": "§aИгрок %name% вышел! §f%cur%/%max%"
   },
   "lobby": {
-    "selectHero": "§6Нажмите, чтобы выбрать §c%className%§6.",
+    "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",
+    "heroLocked": "§cКласс §f%class%§c заблокирован",
     "selectedClass": "§aВыбран класс: %class%",
     "standTitle": "§bПКМ, чтобы выбрать: %class%",
     "moneyBalance": "§6Ваш баланс: %money%"

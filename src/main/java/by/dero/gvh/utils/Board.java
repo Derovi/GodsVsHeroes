@@ -14,17 +14,22 @@ import org.bukkit.scoreboard.Team;
 import java.util.Collection;
 
 public class Board {
-    private final Scoreboard scoreboard;
     private final Team[] teams;
 
+    private static Scoreboard scoreboard = null;
+    private static int counter = 123;
     public Board(final String name, final int size) {
-        scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        scoreboard = getScoreboard();
+        for (final Objective obj : scoreboard.getObjectives()) {
+            obj.unregister();
+        }
+
         final Objective obj = scoreboard.registerNewObjective("ServerName", "dummy", name);
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         teams = new Team[size];
         for (int i = 0; i < size; i++) {
-            teams[i] = scoreboard.registerNewTeam("" + i);
+            teams[i] = scoreboard.registerNewTeam("" + counter++);
             final String x = "§" + (char)('a' + i);
             teams[i].addEntry(x);
             obj.getScore(x).setScore(size-i);
@@ -47,7 +52,16 @@ public class Board {
         }
     }
 
-    public Scoreboard getScoreboard() {
+    public static Scoreboard getScoreboard() {
+        if (scoreboard == null) {
+            scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        }
         return scoreboard;
+    }
+
+    public void clear() {
+        for (final Objective obj : getScoreboard().getObjectives()) {
+            obj.unregister();
+        }
     }
 }

@@ -6,7 +6,6 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.DirectedPosition;
-import by.dero.gvh.utils.Position;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -16,6 +15,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 public class ArmorStandMonument extends Monument {
     private final double turnPerSec = 0.3;
@@ -27,7 +28,7 @@ public class ArmorStandMonument extends Monument {
         super(position, className, owner);
     }
 
-    private void drawParticles() {
+    private void updates() {
         final BukkitRunnable runnable = new BukkitRunnable() {
             final Location loc = armorStand.getLocation();
             final Location st = loc.clone();
@@ -54,6 +55,21 @@ public class ArmorStandMonument extends Monument {
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
         runnables.add(runnable);
+        final BukkitRunnable updateLabels = new BukkitRunnable() {
+            @Override
+            public void run() {
+                final String clname = Lang.get("classes." + getClassName());
+                if (getPlayer(getOwner().getName()).getPlayerInfo().isClassUnlocked(getClassName())) {
+                    armorStand.setCustomName(Lang.get("lobby.standTitle").
+                            replace("%class%", clname));
+                } else {
+                    armorStand.setCustomName(Lang.get("lobby.heroLocked").
+                            replace("%class%", clname));
+                }
+            }
+        };
+        updateLabels.runTaskTimer(Plugin.getInstance(), 0, 100);
+        runnables.add(updateLabels);
     }
 
 
@@ -62,8 +78,7 @@ public class ArmorStandMonument extends Monument {
         final World at = Lobby.getInstance().getWorld();
         armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
         armorStand.setCustomNameVisible(true);
-        armorStand.setCustomName(Lang.get("lobby.standTitle").
-                replace("%class%", Lang.get("classes." + getClassName())));
+
 
         final UnitClassDescription classDescription =
                 Plugin.getInstance().getData().getClassNameToDescription().get(getClassName());
@@ -92,7 +107,7 @@ public class ArmorStandMonument extends Monument {
                 case -4: eq.setBoots(item.getItemStack()); break;
             }
         }
-        drawParticles();
+        updates();
     }
 
     @Override
