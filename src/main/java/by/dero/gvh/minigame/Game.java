@@ -62,8 +62,8 @@ public abstract class Game implements Listener {
     public void onPlayerKilled(Player player, LivingEntity killer) {
         try {
             if (!player.equals(killer)) {
-                Reward reward = rewardManager.get("killEnemy");
-                reward.give((Player) killer, reward.getMessage().replace("%enemy%", player.getName()));
+                rewardManager.give("killEnemy", (Player) killer,
+                        rewardManager.getMessage("killEnemy").replace("%enemy%", player.getName()));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -85,13 +85,11 @@ public abstract class Game implements Listener {
         }
 
         for (GamePlayer player : players.values()) {
-            Reward reward;
             if (player.getTeam() == winnerTeam) {
-                reward = rewardManager.get("winGame");
+                rewardManager.give("winGame", player.getPlayer());
             } else {
-                reward = rewardManager.get("loseGame");
+                rewardManager.give("loseGame", player.getPlayer());
             }
-            reward.give(player.getPlayer());
         }
 
         new BukkitRunnable() {
