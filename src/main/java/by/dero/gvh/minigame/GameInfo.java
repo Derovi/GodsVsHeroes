@@ -1,5 +1,6 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 
 public class GameInfo {
@@ -8,14 +9,14 @@ public class GameInfo {
     private int respawnTime = 10;
     private int minPlayerCount = 2;
     private int maxPlayerCount = 24;
-    private Position lobbyPosition;
-    private Position[][] spawnPoints;
+    private DirectedPosition lobbyPosition;
+    private DirectedPosition[][] spawnPoints;
 
-    public Position getLobbyPosition() {
+    public DirectedPosition getLobbyPosition() {
         return lobbyPosition;
     }
 
-    public void setLobbyPosition(Position lobbyPosition) {
+    public void setLobbyPosition(DirectedPosition lobbyPosition) {
         this.lobbyPosition = lobbyPosition;
     }
 
@@ -59,11 +60,11 @@ public class GameInfo {
         this.maxPlayerCount = maxPlayerCount;
     }
 
-    public Position[][] getSpawnPoints() {
+    public DirectedPosition[][] getSpawnPoints() {
         return spawnPoints;
     }
 
-    public void setSpawnPoints(Position[][] spawnPoints) {
+    public void setSpawnPoints(DirectedPosition[][] spawnPoints) {
         this.spawnPoints = spawnPoints;
     }
 }

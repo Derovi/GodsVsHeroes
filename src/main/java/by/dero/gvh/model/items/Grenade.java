@@ -53,6 +53,6 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
-
+        
     }
 }

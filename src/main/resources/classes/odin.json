@@ -1,5 +1,7 @@
 {
   "name": "odin",
+  "maxHP": 40,
+  "cost": 1000,
   "itemNames": [
     "defaultaxe",
     "improvedbow",
@@ -12,6 +14,7 @@
     "defaultleggings",
 
     "defaulthelmet",
-    "defaultboots"
+    "defaultboots",
+    "defaultarrow"
   ]
 }

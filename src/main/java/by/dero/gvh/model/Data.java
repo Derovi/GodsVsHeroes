@@ -61,13 +61,13 @@ public class Data {
     }
 
     private void registerClasses() {
-        registerClass("alchemist");
-        registerClass("archer");
-        registerClass("default");
-        registerClass("eyre");
-        registerClass("heimdall");
-        registerClass("loki");
-        registerClass("mercenary");
+//        registerClass("alchemist");
+//        registerClass("archer");
+//        registerClass("default");
+//        registerClass("eyre");
+//        registerClass("heimdall");
+//        registerClass("loki");
+//        registerClass("mercenary");
         registerClass("odin");
         registerClass("paladin");
         registerClass("scout");

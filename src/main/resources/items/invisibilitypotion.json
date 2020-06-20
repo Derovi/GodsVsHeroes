@@ -10,7 +10,7 @@
       "displayName": "§cInvisibility Potion",
       "lore": [
         "§aСтаньте невидимым для окружающих",
-        "&6Уровень 1"
+        "§6Уровень 1"
       ],
       "amount": 1
     },
@@ -22,7 +22,7 @@
       "displayName": "§cInvisibility Potion",
       "lore": [
         "§aСтаньте невидимым для окружающих",
-        "&6Уровень 2"
+        "§6Уровень 2"
       ],
       "amount": 1
     },
@@ -34,7 +34,7 @@
       "displayName": "§cInvisibility Potion",
       "lore": [
         "§aСтаньте невидимым для окружающих",
-        "&6Уровень 3"
+        "§6Уровень 3"
       ],
       "amount": 1
     }

@@ -3,19 +3,22 @@ package by.dero.gvh.lobby;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
+import by.dero.gvh.lobby.monuments.ArmorStandMonument;
+import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
-import by.dero.gvh.lobby.utils.VoidGenerator;
+import by.dero.gvh.minigame.Game;
+import by.dero.gvh.utils.VoidGenerator;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
-import by.dero.gvh.utils.BungeeUtils;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.*;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,11 +28,13 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.io.File;
-import java.nio.file.LinkOption;
 import java.util.*;
+
+import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 public class Lobby implements PluginMode, Listener {
     private static Lobby instance;
@@ -42,6 +47,7 @@ public class Lobby implements PluginMode, Listener {
     private MonumentManager monumentManager;
     private InterfaceManager interfaceManager;
     private PortalManager portalManager;
+    private final List<BukkitRunnable> runnables = new ArrayList<>();
     private final HashMap<String, LobbyPlayer> players = new HashMap<>();
 
     @Override
@@ -65,6 +71,9 @@ public class Lobby implements PluginMode, Listener {
         world = Plugin.getInstance().getServer().getWorld(worldName);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+        world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+        world.setStorm(false);
+        world.setThundering(false);
         world.setDifficulty(Difficulty.PEACEFUL);
         for (Entity obj : world.getEntities()) {
             obj.remove();
@@ -91,7 +100,11 @@ public class Lobby implements PluginMode, Listener {
 
     @Override
     public void onDisable() {
-        for (PlayerLobby playerLobby : activeLobbies.values()) {
+        for (final BukkitRunnable runnable : runnables) {
+            runnable.cancel();
+        }
+        runnables.clear();
+        for (final PlayerLobby playerLobby : activeLobbies.values()) {
             playerLobby.unload();
         }
     }
@@ -110,6 +123,20 @@ public class Lobby implements PluginMode, Listener {
         lobby.getScoreboardUpdater().run();
         lobby.getSelectedClass().setText(Lang.get("lobby.selectedClass")
                 .replace("%class%", Lang.get("classes." + players.get(player.getName()).getPlayerInfo().getSelectedClass())));
+        for (final Monument monument : lobby.getMonuments().values()) {
+            if (monument instanceof ArmorStandMonument) {
+                final ArmorStand armorStand = ((ArmorStandMonument) monument).getArmorStand();
+                final String clname = Lang.get("classes." + monument.getClassName());
+                if (Lobby.getInstance().getPlayers().get(player.getName()).
+                        getPlayerInfo().isClassUnlocked(monument.getClassName())) {
+                    armorStand.setCustomName(Lang.get("lobby.standTitle").
+                            replace("%class%", clname));
+                } else {
+                    armorStand.setCustomName(Lang.get("lobby.heroLocked").
+                            replace("%class%", clname));
+                }
+            }
+        }
     }
 
     public void playerJoined(Player player) {

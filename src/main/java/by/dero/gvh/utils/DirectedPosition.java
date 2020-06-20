@@ -1,5 +1,6 @@
 package by.dero.gvh.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
@@ -20,6 +21,11 @@ public class DirectedPosition extends Position {
     public DirectedPosition(double x, double y, double z, Vector direction) {
         super(x, y, z);
         setDirection(direction);
+    }
+
+    @Override
+    public Location toLocation(String worldName) {
+        return toLocation(Bukkit.getWorld(worldName));
     }
 
     @Override

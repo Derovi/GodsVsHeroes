@@ -1,4 +1,4 @@
-package by.dero.gvh.lobby.utils;
+package by.dero.gvh.utils;
 
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -1,14 +1,16 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.lobby.Lobby;
+import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerInfo {
     private String name;
-    private String selectedClass = "default";
-    private int balance = 60;
+    private String selectedClass = "paladin";
+    private int balance = 3300;
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
     public PlayerInfo(String name) {
@@ -16,7 +18,7 @@ public class PlayerInfo {
     }
 
     public void unlockClass(String className) {
-        if (classes.containsKey(className)) {
+        if (classes.containsKey(className) || !canUnlock(className)) {
             return;
         }
         Map<String, Integer> items = new HashMap<>();
@@ -24,7 +26,12 @@ public class PlayerInfo {
         for (String itemName : unitClassDescription.getItemNames()) {
             items.put(itemName, 0);
         }
+        balance -= unitClassDescription.getCost();
         classes.put(className, items);
+    }
+
+    public boolean canUnlock(String className) {
+        return balance >= Plugin.getInstance().getData().getClassNameToDescription().get(className).getCost();
     }
 
     public Map<String, Integer> getItems(String className) {
@@ -36,7 +43,6 @@ public class PlayerInfo {
     }
 
     public int getItemLevel(String className, String item) {
-        System.out.println("" + className + " " + item);
         return classes.get(className).get(item);
     }
 

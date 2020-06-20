@@ -2,15 +2,22 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.Position;
 import org.bukkit.Location;
+import by.dero.gvh.utils.MessagingUtils;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -22,6 +29,21 @@ public abstract class Game implements Listener {
 
     public Game(GameInfo info) {
         this.info = info;
+        cooldownMessageUpdater = new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (GamePlayer player : getPlayers().values()) {
+                    Item item = player.getSelectedItem();
+                    if (item == null || item.getCooldown().getDuration() == 0) {
+                        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
+                    } else if (item.getCooldown().isReady()) {
+                        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.itemReady")));
+                    } else {
+                        MessagingUtils.sendCooldownMessage(player.getPlayer(), item.getName(), item.getCooldown().getSecondsRemaining());
+                    }
+                }
+            }
+        };
     }
 
     private GameLobby lobby;
@@ -29,9 +51,17 @@ public abstract class Game implements Listener {
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
     private RewardManager rewardManager;
+    private BukkitRunnable cooldownMessageUpdater;
     protected Board board;
 
+    public LinkedList<BukkitRunnable> getRunnables() {
+        return runnables;
+    }
+
+    private final LinkedList<BukkitRunnable> runnables = new LinkedList<>();
+
     public void start() {
+        GameEvents.setGame(this);
         System.out.println("start game");
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
@@ -45,19 +75,21 @@ public abstract class Game implements Listener {
         System.out.println("starting");
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
-            player.getPlayer().setScoreboard(board.getScoreboard());
         }
         System.out.println("spawned");
         state = State.GAME;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
         lobby = null;
+        cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
         try {
-            Reward reward = rewardManager.get("killEnemy");
-            reward.give((Player) killer, reward.getMessage().replace("%enemy%", player.getName()));
+            if (!player.equals(killer)) {
+                rewardManager.give("killEnemy", (Player) killer,
+                        rewardManager.getMessage("killEnemy").replace("%enemy%", player.getName()));
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -77,14 +109,17 @@ public abstract class Game implements Listener {
             return;
         }
 
+        for (final BukkitRunnable runnable : runnables) {
+            runnable.cancel();
+        }
+        runnables.clear();
+
         for (GamePlayer player : players.values()) {
-            Reward reward;
             if (player.getTeam() == winnerTeam) {
-                reward = rewardManager.get("winGame");
+                rewardManager.give("winGame", player.getPlayer());
             } else {
-                reward = rewardManager.get("loseGame");
+                rewardManager.give("loseGame", player.getPlayer());
             }
-            reward.give(player.getPlayer());
         }
 
         new BukkitRunnable() {
@@ -102,6 +137,7 @@ public abstract class Game implements Listener {
                 prepare();
             }
         }.runTaskLater(Plugin.getInstance(), 40);
+        cooldownMessageUpdater.cancel();
     }
 
     public void prepare() {
@@ -131,6 +167,11 @@ public abstract class Game implements Listener {
         players.put(player.getName(), gamePlayer);
         teleportToLobby(player);
         lobby.onPlayerJoined(players.get(player.getName()));
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
+        player.setHealth(10);
+        for (PotionEffect pt : player.getActivePotionEffects()) {
+            player.removePotionEffect(pt.getType());
+        }
     }
 
     public void removePlayer(String playerName) {
@@ -167,11 +208,14 @@ public abstract class Game implements Listener {
         }
     }
 
-    public void spawnPlayer(GamePlayer player, int rebirthTime) {
+    public void spawnPlayer(GamePlayer player, int respawnTime) {
         int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
         Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
         player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
                 spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
+        int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName()).getMaxHP();
+        player.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
+        player.getPlayer().setHealth(maxHealth);
         addItems(player);
     }
 

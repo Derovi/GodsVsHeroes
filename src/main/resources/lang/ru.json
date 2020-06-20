@@ -1,7 +1,30 @@
 {
+  "interfaces": {
+    "empty": "§8Пусто",
+    "back": "§dНазад",
+    "select": "§aВыбрать",
+    "upgradeSelect": "§9Улучшить",
+    "notAvailable": "§cНе доступно",
+    "upgrade": "§aУлучшить",
+    "upgraded": "§9Улучшено",
+    "upgradeNE": "§cУлучшить",
+    "unlock": "§aРазблокировать",
+    "unlockNE": "§cРазблокировать",
+    "unlockTitle": "§aНажмите, чтобы открыть",
+    "unlockNETitle": "§cНедостаточно опыта",
+    "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
+    "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
+  },
+  "time": {
+    "sec0": "секунд",
+    "sec1": "секунды",
+    "sec2": "секунду"
+  },
   "game": {
     "livesLeft": "§cЖизней осталось",
+    "itemReady": "§aГотово",
     "itemReloading": "§6Перезагрузка. Подождите §6%time%§c секунд, чтобы использовать §6%itemname%§c!",
+    "itemReloadingActionBar": "§6Перезагрузка. Подождите §c%time%§6!",
     "gameAlreadyStarted": "§4Игра началась!",
     "gamePrepairing": "§2Загружаемся",
     "gameFinished": "§4Игра окончена",
@@ -19,18 +42,30 @@
     "scout": "Разведчик",
     "ull": "Улль"
   },
+  "commands": {
+    "stat": "§%col%Команда %com%§8: §9%pts%",
+    "1": "§1Синие",
+    "2": "§2Зеленые",
+    "3": "§3Толерантные",
+    "4": "§4Красные",
+    "5": "§5Фиолетовые",
+    "6": "§6Желтые",
+    "7": "§7Серые",
+    "8": "§8Незеленые"
+  },
   "gameLobby": {
     "boardReady": "§aГотово к игре: §4%cur%/%max%",
     "boardRequired": "§aНужно как минимум: %min%",
     "boardTimeLeft": "§bОсталось времени: %time%",
-    "gameStarted": "§aИгра началась",
+    "gameStarted": "§aИгра началась!",
     "playerJoined": "§aИгрок %name% присоединился! §f%cur%/%max%",
     "playerLeft": "§aИгрок %name% вышел! §f%cur%/%max%"
   },
   "lobby": {
-    "selectHero": "§6Нажмите, чтобы выбрать §c%className%§6.",
+    "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",
+    "heroLocked": "§cКласс §9%class%§8:§c заблокирован",
     "selectedClass": "§aВыбран класс: %class%",
     "standTitle": "§bПКМ, чтобы выбрать: %class%",
-    "moneyBalance": "§6Ваш баланс: %money%"
+    "moneyBalance": "§6Ваш баланс§8: §9%money%"
   }
 }

@@ -12,7 +12,7 @@
       "displayName": "§cExplosive Bow",
       "lore": [
         "§aИскусство это взрыв!",
-        "&6Уровень 1"
+        "§6Уровень 1"
       ],
       "amount": 1
     },
@@ -26,7 +26,7 @@
       "displayName": "§cExplosive Bow",
       "lore": [
         "§aИскусство это взрыв!",
-        "&6Уровень 2"
+        "§6Уровень 2"
       ],
       "amount": 1
     },
@@ -40,7 +40,7 @@
       "displayName": "§cExplosive Bow",
       "lore": [
         "§aИскусство это взрыв!",
-        "&6Уровень 3"
+        "§6Уровень 3"
       ],
       "amount": 1
     }
