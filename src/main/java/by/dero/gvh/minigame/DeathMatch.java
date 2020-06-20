@@ -47,7 +47,7 @@ public class DeathMatch extends Game {
             String[] str = new String[currentLivesCount.length];
             for (int i = 0; i < currentLivesCount.length; i++) {
                 final String col = String.valueOf('1' + i);
-                str[i] = Lang.get("commands.name")
+                str[i] = Lang.get("commands." + col)
                         .replace("%col%", col)
                         .replace("%com%", Lang.get("commands." + col))
                         .replace("%pts%", String.valueOf(currentLivesCount[i]));
@@ -57,7 +57,7 @@ public class DeathMatch extends Game {
         healthBar = new HealthBar(currentLivesCount.length);
 
         for (final GamePlayer gp : getPlayers().values()) {
-            final Player player = gp.getPlayer();
+            healthBar.addPlayer(gp.getPlayer());
         }
     }
 

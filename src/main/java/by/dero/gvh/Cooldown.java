@@ -28,7 +28,7 @@ public class Cooldown {
     }
 
     public boolean isReady() {
-        long currentTime = System.currentTimeMillis();
+        final long currentTime = System.currentTimeMillis();
         return startTime + duration * 50 < currentTime;
     }
 
