@@ -1,6 +1,7 @@
 {
   "name": "archer",
   "maxHP": 40,
+  "cost": 1000,
   "itemNames": [
     "invisibilitypotion",
     "escape",

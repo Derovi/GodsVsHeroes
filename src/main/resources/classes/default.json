@@ -1,6 +1,7 @@
 {
   "name": "default",
   "maxHP": 40,
+  "cost": 1000,
   "itemNames": [
     "airleap",
     "chainlightning",
