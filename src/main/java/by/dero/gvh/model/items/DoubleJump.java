@@ -38,7 +38,7 @@ public class DoubleJump extends Item implements Listener {
     public void onPlayerDamage (final EntityDamageEvent event) {
         if (event.getEntityType () == EntityType.PLAYER &&
                 event.getCause () == EntityDamageEvent.DamageCause.FALL &&
-                !getPlayer(event.getEntity().getName()).getItems().containsKey("doublejump")) {
+                getPlayer(event.getEntity().getName()).getItems().containsKey("doublejump")) {
             event.setCancelled (true);
         }
     }

@@ -40,7 +40,8 @@ public class DeathMatch extends Game {
         for (final GamePlayer gp : getPlayers().values()) {
             final Player player = gp.getPlayer();
             player.setScoreboard(board.getScoreboard());
-            player.setDisplayName("§" + (char)('a' + gp.getTeam()) + player.getName());
+            player.setCustomName("§" + (char)('a' + gp.getTeam()) + player.getName());
+            player.setCustomNameVisible(true);
         }
     }
 
@@ -58,6 +59,9 @@ public class DeathMatch extends Game {
                     winner = index;
                 }
             }
+        }
+        for (final Player player : Bukkit.getServer().getOnlinePlayers()) {
+            player.setCustomNameVisible(false);
         }
         finish(winner);
     }
