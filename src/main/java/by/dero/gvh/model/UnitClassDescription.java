@@ -5,7 +5,16 @@ import java.util.List;
 
 public class UnitClassDescription {
     private String name;
+    private int cost;
     private int maxHP;
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 
     public int getMaxHP() {
         return maxHP;

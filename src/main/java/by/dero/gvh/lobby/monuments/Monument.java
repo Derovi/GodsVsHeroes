@@ -1,7 +1,9 @@
 package by.dero.gvh.lobby.monuments;
 
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.lobby.interfaces.SelectorInterface;
+import by.dero.gvh.lobby.interfaces.UnlockInterface;
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 import org.bukkit.entity.Player;
@@ -25,9 +27,16 @@ public abstract class Monument {
         if (!owner.getName().equals(player.getName())) {
             return;
         }
-        SelectorInterface selectorInterface = new SelectorInterface(
-                Lobby.getInstance().getInterfaceManager(), player, className);
-        selectorInterface.open();
+        LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
+        if (lobbyPlayer.getPlayerInfo().isClassUnlocked(className)) {
+            SelectorInterface selectorInterface = new SelectorInterface(
+                    Lobby.getInstance().getInterfaceManager(), player, className);
+            selectorInterface.open();
+        }else {
+            UnlockInterface unlockInterface = new UnlockInterface(
+                    Lobby.getInstance().getInterfaceManager(), player, className);
+            unlockInterface.open();
+        }
     }
 
     public void onUpdateSelected(Player player) {

@@ -177,6 +177,7 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
+        event.setDeathMessage(null);
         final Player player = event.getEntity();
         final float exp = player.getExp();
 
@@ -192,7 +193,7 @@ public class GameEvents implements Listener {
         game.onPlayerKilled(player, kil);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
-            game.respawnPlayer(game.getPlayers().get(player.getName()));
+            game.spawnPlayer(game.getPlayers().get(player.getName()), game.getInfo().getRespawnTime());
             player.setExp(exp);
         }, 1L);
     }

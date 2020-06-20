@@ -1,6 +1,7 @@
 {
   "name": "scout",
   "maxHP": 40,
+  "cost": 1000,
   "itemNames": [
     "defaultaxe",
     "damagepotion",

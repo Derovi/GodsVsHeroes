@@ -1,6 +1,7 @@
 {
   "name": "odin",
   "maxHP": 40,
+  "cost": 1000,
   "itemNames": [
     "defaultaxe",
     "improvedbow",

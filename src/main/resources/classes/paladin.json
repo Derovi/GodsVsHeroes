@@ -1,6 +1,7 @@
 {
   "name": "paladin",
   "maxHP": 40,
+  "cost": 0,
   "itemNames": [
     "defaultsword",
     "improvedbow",
