@@ -1,5 +1,6 @@
 {
   "name": "loki",
+  "maxHP": 40,
   "itemNames": [
     "defaultsword",
     "grenade",

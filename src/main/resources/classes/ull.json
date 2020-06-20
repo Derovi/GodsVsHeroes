@@ -1,5 +1,6 @@
 {
   "name": "ull",
+  "maxHP": 40,
   "itemNames": [
     "explosivebow",
     "magicrod",

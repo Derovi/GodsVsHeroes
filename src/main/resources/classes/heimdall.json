@@ -1,5 +1,6 @@
 {
   "name": "heimdall",
+  "maxHP": 40,
   "itemNames": [
     "magicrod",
     "eaglevision",

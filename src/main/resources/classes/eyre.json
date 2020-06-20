@@ -1,5 +1,6 @@
 {
   "name": "eyre",
+  "maxHP": 40,
   "itemNames": [
     "defaultsword",
     "resistancebuf",

@@ -1,5 +1,6 @@
 {
   "name": "scout",
+  "maxHP": 40,
   "itemNames": [
     "damagepotion",
     "poisonpotion",

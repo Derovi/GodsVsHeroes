@@ -1,5 +1,6 @@
 {
   "name": "alchemist",
+  "maxHP": 40,
   "itemNames": [
     "invisibilitypotion",
     "magicrod",

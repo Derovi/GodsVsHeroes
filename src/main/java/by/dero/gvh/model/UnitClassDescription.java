@@ -5,6 +5,16 @@ import java.util.List;
 
 public class UnitClassDescription {
     private String name;
+    private int maxHP;
+
+    public int getMaxHP() {
+        return maxHP;
+    }
+
+    public void setMaxHP(int maxHP) {
+        this.maxHP = maxHP;
+    }
+
     private List<String> itemNames = new LinkedList<>();
 
     public String getName() {

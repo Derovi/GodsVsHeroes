@@ -1,5 +1,6 @@
 {
   "name": "paladin",
+  "maxHP": 40,
   "itemNames": [
     "defaultsword",
     "defaulthelmet",

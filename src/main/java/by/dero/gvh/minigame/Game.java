@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -47,7 +48,6 @@ public abstract class Game implements Listener {
         System.out.println("starting");
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
-            addItems(player);
             player.getPlayer().setScoreboard(board.getScoreboard());
         }
         System.out.println("spawned");
@@ -175,6 +175,10 @@ public abstract class Game implements Listener {
         Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
         player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
                 spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
+        int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName()).getMaxHP();
+        player.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
+        player.getPlayer().setHealth(maxHealth);
+        addItems(player);
     }
 
     public RewardManager getRewardManager() {
