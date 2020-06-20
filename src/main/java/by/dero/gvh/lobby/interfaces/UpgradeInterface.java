@@ -62,10 +62,6 @@ public class UpgradeInterface extends Interface {
 
     public void updateAll(PlayerInfo info) {
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
-        int index = 0;
-        for (; index < Math.max(0, (9 - classDescription.getItemNames().size()) / 2); ++index) {
-            fillEmptyLine(index);
-        }
         List<String> itemNames = new LinkedList<>();
         for (String itemName : classDescription.getItemNames()) {
             if (itemNames.size() == 9) {
@@ -75,6 +71,10 @@ public class UpgradeInterface extends Interface {
                 continue;
             }
             itemNames.add(itemName);
+        }
+        int index = 0;
+        for (; index < Math.max(0, (9 - itemNames.size()) / 2); ++index) {
+            fillEmptyLine(index);
         }
         for (String itemName : itemNames) {
             updateItemLine(index++, itemName, info);

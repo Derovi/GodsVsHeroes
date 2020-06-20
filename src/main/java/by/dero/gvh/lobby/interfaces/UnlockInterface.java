@@ -21,10 +21,6 @@ public class UnlockInterface extends Interface {
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
 
         ItemStack emptySlot = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
-        int index = 0;
-        for (; index < Math.max(0, (9 - classDescription.getItemNames().size()) / 2); ++index) {
-            addItem(index, 0, emptySlot);
-        }
         List<String> itemNames = new LinkedList<>();
         for (String itemName : classDescription.getItemNames()) {
             if (itemNames.size() == 9) {
@@ -34,6 +30,10 @@ public class UnlockInterface extends Interface {
                 continue;
             }
             itemNames.add(itemName);
+        }
+        int index = 0;
+        for (; index < Math.max(0, (9 - itemNames.size()) / 2); ++index) {
+            addItem(index, 0, emptySlot);
         }
         for (String itemName : itemNames) {
             addItem(index++, 0,
