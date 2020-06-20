@@ -3,7 +3,10 @@ package by.dero.gvh.lobby;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
+import by.dero.gvh.lobby.monuments.ArmorStandMonument;
+import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.utils.VoidGenerator;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.ServerType;
@@ -15,6 +18,7 @@ import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.*;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,6 +32,8 @@ import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.util.*;
+
+import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 public class Lobby implements PluginMode, Listener {
     private static Lobby instance;
@@ -63,6 +69,9 @@ public class Lobby implements PluginMode, Listener {
         world = Plugin.getInstance().getServer().getWorld(worldName);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+        world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+        world.setStorm(false);
+        world.setThundering(false);
         world.setDifficulty(Difficulty.PEACEFUL);
         for (Entity obj : world.getEntities()) {
             obj.remove();
@@ -108,6 +117,21 @@ public class Lobby implements PluginMode, Listener {
         lobby.getScoreboardUpdater().run();
         lobby.getSelectedClass().setText(Lang.get("lobby.selectedClass")
                 .replace("%class%", Lang.get("classes." + players.get(player.getName()).getPlayerInfo().getSelectedClass())));
+        for (final Monument monument : lobby.getMonuments().values()) {
+            if (monument instanceof ArmorStandMonument) {
+                final ArmorStand armorStand = ((ArmorStandMonument) monument).getArmorStand();
+                final String clname = Lang.get("classes." + monument.getClassName());
+                Bukkit.getServer().broadcastMessage(monument.getOwner().getName());
+                if (Lobby.getInstance().getPlayers().get(player.getName()).
+                        getPlayerInfo().isClassUnlocked(monument.getClassName())) {
+                    armorStand.setCustomName(Lang.get("lobby.standTitle").
+                            replace("%class%", clname));
+                } else {
+                    armorStand.setCustomName(Lang.get("lobby.heroLocked").
+                            replace("%class%", clname));
+                }
+            }
+        }
     }
 
     public void playerJoined(Player player) {
