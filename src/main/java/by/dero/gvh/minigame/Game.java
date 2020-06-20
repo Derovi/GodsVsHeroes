@@ -179,7 +179,7 @@ public abstract class Game implements Listener {
         }
     }
 
-    public void spawnPlayer(GamePlayer player, int rebirthTime) {
+    public void spawnPlayer(GamePlayer player, int respawnTime) {
         int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
         Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
         player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),

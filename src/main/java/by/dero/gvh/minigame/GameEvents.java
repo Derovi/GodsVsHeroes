@@ -192,7 +192,7 @@ public class GameEvents implements Listener {
         game.onPlayerKilled(player, kil);
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
-            game.respawnPlayer(game.getPlayers().get(player.getName()));
+            game.spawnPlayer(game.getPlayers().get(player.getName()), game.getInfo().getRespawnTime());
             player.setExp(exp);
         }, 1L);
     }
