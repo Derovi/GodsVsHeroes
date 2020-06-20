@@ -56,9 +56,5 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
-        if (!cooldown.isReady()) {
-            return;
-        }
-        cooldown.reload();
     }
 }

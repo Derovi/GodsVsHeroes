@@ -76,7 +76,7 @@ public class PlayerLobby {
 
     private void loadBoard() {
         Board board = new Board("Lobby", 2);
-        player.setScoreboard(board.getScoreboard());
+        player.setScoreboard(Board.getScoreboard());
         scoreboardUpdater = new BukkitRunnable() {
             @Override
             public void run() {

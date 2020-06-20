@@ -38,13 +38,7 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface,
     }
 
     @Override
-    public void onProjectileLaunch(ProjectileLaunchEvent event) {
-        if (!cooldown.isReady()) {
-            event.setCancelled(true);
-            return;
-        }
-        cooldown.reload();
-    }
+    public void onProjectileLaunch(ProjectileLaunchEvent event) { }
 
     @Override
     public void onProjectileHitEnemy(final ProjectileHitEvent event) {

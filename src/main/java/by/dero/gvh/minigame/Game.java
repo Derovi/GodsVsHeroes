@@ -11,10 +11,7 @@ import by.dero.gvh.utils.MessagingUtils;
 import by.dero.gvh.utils.Position;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.GameRule;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -70,13 +67,12 @@ public abstract class Game implements Listener {
         System.out.println("starting");
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
-            player.getPlayer().setScoreboard(board.getScoreboard());
+        }
         System.out.println("spawned");
         state = State.GAME;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
         lobby = null;
-        }
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
     }
 

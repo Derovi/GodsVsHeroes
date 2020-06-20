@@ -45,11 +45,6 @@ public class HealPotion extends Item implements ProjectileHitInterface,
 
     @Override
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
-        if (!cooldown.isReady()) {
-            event.getEntity().remove();
-            return;
-        }
-        cooldown.reload();
     }
 
     @Override
