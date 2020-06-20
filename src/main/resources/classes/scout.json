@@ -2,12 +2,17 @@
   "name": "scout",
   "maxHP": 40,
   "itemNames": [
+    "defaultaxe",
     "damagepotion",
     "poisonpotion",
-    "speedbuf",
-    "jumpingbuf",
-    "doublejump",
     "grenade",
-    "defaultsword"
+    "magicrod",
+    "magnetizeorb",
+    "invisibilitypotion",
+    "speedbuf",
+
+    "defaulthelmet",
+    "defaultboots",
+    "doublejump"
   ]
 }

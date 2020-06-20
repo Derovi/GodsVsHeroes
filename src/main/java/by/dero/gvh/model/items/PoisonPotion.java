@@ -43,14 +43,6 @@ public class PoisonPotion extends Item implements PlayerInteractInterface,
 
     @Override
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
-        if (!cooldown.isReady()) {
-            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
-                sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
-            }
-            event.getEntity().remove();
-            return;
-        }
-        cooldown.reload();
     }
 
     @Override

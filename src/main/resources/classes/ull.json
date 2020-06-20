@@ -2,10 +2,15 @@
   "name": "ull",
   "maxHP": 40,
   "itemNames": [
+    "defaultsword",
     "explosivebow",
-    "magicrod",
     "improvedbow",
+    "magicrod",
+    "healpotion",
+    "arrowrain",
+    "defaultchestplate",
+    "defaulthelmet",
     "defaultarrow",
-    "arrowrain"
+    "doublejump"
   ]
 }

@@ -2,6 +2,7 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.Board;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,7 +26,7 @@ public class DeathMatch extends Game {
         for (int index = 0; index < getInfo().getTeamCount(); ++index) {
             currentLivesCount[index] = this.deathMatchInfo.getLivesCount();
         }
-        board = new Board("Lives Left", currentLivesCount.length);
+        board = new Board(Lang.get("game.livesLeft"), currentLivesCount.length);
         Bukkit.getServer().getScheduler().runTaskTimer(Plugin.getInstance(), ()->{
             String[] str = new String[currentLivesCount.length];
             for (int i = 0; i < currentLivesCount.length; i++) {

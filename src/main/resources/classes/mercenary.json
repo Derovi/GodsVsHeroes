@@ -5,6 +5,11 @@
     "defaultaxe",
     "stunrocks",
     "healpotion",
-    "grenade"
+    "speedbuf",
+    "grenade",
+    "defaultleggings",
+    "defaultchestplate",
+    "defaulthelmet",
+    "defaultboots"
   ]
 }

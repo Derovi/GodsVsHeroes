@@ -3,12 +3,15 @@
   "maxHP": 40,
   "itemNames": [
     "defaultsword",
-    "defaulthelmet",
+    "improvedbow",
     "defaultchestplate",
-    "defaultleggins",
-    "defaultboots",
+    "defaultleggings",
     "healpotion",
-    "slowbuf",
-    "resistancebuf"
+    "airleap",
+
+    "defaultarrow",
+    "resistancebuf",
+    "defaulthelmet",
+    "defaultboots"
   ]
 }

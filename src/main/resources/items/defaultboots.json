@@ -4,21 +4,7 @@
   "levels": [
     {
       "cooldown": 0,
-      "material": "LEATHER_BOOTS",
-      "displayName": "§cСандали",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 0,
       "material": "GOLDEN_BOOTS",
-      "displayName": "§cСандали",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 0,
-      "material": "IRON_BOOTS",
       "displayName": "§cСандали",
       "lore": [],
       "amount": 1

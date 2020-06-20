@@ -2,6 +2,7 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
@@ -98,7 +99,7 @@ public abstract class Game implements Listener {
                 for (String playerName : playerNames) {
                     Player player = players.get(playerName).getPlayer();
                     removePlayer(playerName);
-                    player.kickPlayer("§cИгра окончена!");
+                    player.kickPlayer(Lang.get("game.gameFinished"));
                 }
                 state = State.PREPARING;
                 Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
@@ -122,11 +123,11 @@ public abstract class Game implements Listener {
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {
-            player.kickPlayer("§cИгра уже началась");
+            player.kickPlayer(Lang.get("game.gameAlreadyStarted"));
             return;
         }
         if (state == State.PREPARING) {
-            player.kickPlayer("§cИгра готовится");
+            player.kickPlayer(Lang.get("game.gamePrepairing"));
             return;
         }
         GamePlayer gamePlayer = new GamePlayer(player);
@@ -166,7 +167,7 @@ public abstract class Game implements Listener {
         player.teleport(getInfo().getLobbyPosition().toLocation(getInfo().getWorld()));
     }
 
-    public void addItems(GamePlayer player) {
+    private void addItems(GamePlayer player) {
         player.getItems().clear();
         player.getPlayer().getInventory().clear();
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName());

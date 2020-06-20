@@ -4,21 +4,7 @@
   "levels": [
     {
       "cooldown": 0,
-      "material": "LEATHER_HELMET",
-      "displayName": "§cШлем",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 0,
       "material": "GOLDEN_HELMET",
-      "displayName": "§cШлем",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 0,
-      "material": "IRON_HELMET",
       "displayName": "§cШлем",
       "lore": [],
       "amount": 1
