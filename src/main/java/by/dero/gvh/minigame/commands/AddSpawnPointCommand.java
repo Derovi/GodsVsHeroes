@@ -2,6 +2,7 @@ package by.dero.gvh.minigame.commands;
 
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.PluginCommand;
+import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.model.storages.LocalStorage;
 import com.google.gson.GsonBuilder;
@@ -26,10 +27,10 @@ public class AddSpawnPointCommand implements PluginCommand {
             return;
         }
         Player player = (Player) sender;
-        Position[] newPositions = Arrays.copyOf(Minigame.getInstance().getGame().getInfo().getSpawnPoints()[team],
+        DirectedPosition[] newPositions = Arrays.copyOf(Minigame.getInstance().getGame().getInfo().getSpawnPoints()[team],
                 Minigame.getInstance().getGame().getInfo().getSpawnPoints()[team].length + 1);
-        newPositions[newPositions.length - 1] = new Position(player.getLocation().getX(),
-                player.getLocation().getY(), player.getLocation().getZ());
+        newPositions[newPositions.length - 1] = new DirectedPosition(player.getLocation().getX(),
+                player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getDirection());
         Minigame.getInstance().getGame().getInfo().getSpawnPoints()[team] = newPositions;
         try {
             new LocalStorage().save("game", "game",

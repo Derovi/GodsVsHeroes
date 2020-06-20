@@ -3,10 +3,8 @@ package by.dero.gvh.lobby.monuments;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.DirectedPosition;
-import by.dero.gvh.utils.Position;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -62,8 +60,7 @@ public class ArmorStandMonument extends Monument {
         final World at = Lobby.getInstance().getWorld();
         armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
         armorStand.setCustomNameVisible(true);
-        armorStand.setCustomName(Lang.get("lobby.standTitle").
-                replace("%class%", Lang.get("classes." + getClassName())));
+
 
         final UnitClassDescription classDescription =
                 Plugin.getInstance().getData().getClassNameToDescription().get(getClassName());

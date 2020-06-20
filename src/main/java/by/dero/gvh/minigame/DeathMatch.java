@@ -4,11 +4,17 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.HealthBar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeathMatch extends Game {
     private final DeathMatchInfo deathMatchInfo;
@@ -26,23 +32,42 @@ public class DeathMatch extends Game {
         for (int index = 0; index < getInfo().getTeamCount(); ++index) {
             currentLivesCount[index] = this.deathMatchInfo.getLivesCount();
         }
+    }
+
+
+    private HealthBar healthBar;
+    @Override
+    public void start() {
+        super.start();
         board = new Board(Lang.get("game.livesLeft"), currentLivesCount.length);
         Bukkit.getServer().getScheduler().runTaskTimer(Plugin.getInstance(), ()->{
             String[] str = new String[currentLivesCount.length];
             for (int i = 0; i < currentLivesCount.length; i++) {
-                str[i] = "§" + (char)('a' + i) + "Command " + (i + 1) + " : §f" + currentLivesCount[i];
+                final String col = String.valueOf('1' + i);
+                str[i] = Lang.get("commands.name")
+                        .replace("%col%", col)
+                        .replace("%com%", Lang.get("commands." + col))
+                        .replace("%pts%", String.valueOf(currentLivesCount[i]));
             }
             board.update(str);
         }, 0, 10);
+        healthBar = new HealthBar(currentLivesCount.length);
+
         for (final GamePlayer gp : getPlayers().values()) {
             final Player player = gp.getPlayer();
-            player.setScoreboard(board.getScoreboard());
-            player.setDisplayName("§" + ((char)('a' + gp.getTeam())) + player.getDisplayName());
+            player.setScoreboard(Board.getScoreboard());
+            healthBar.addPlayer(player);
         }
     }
 
     public DeathMatchInfo getDeathMatchInfo() {
         return deathMatchInfo;
+    }
+
+    @Override
+    public void finish(int winnerTeam) {
+        board.clear();
+        super.finish(winnerTeam);
     }
 
     private void checkForGameEnd() {

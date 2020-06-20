@@ -14,6 +14,11 @@ public class Cooldown {
         return (long) (Math.ceil((double) duration / 20) - (System.currentTimeMillis() - startTime) / 1000);
     }
 
+    // true if finished at last second
+    public boolean isJustFinished() {
+        return getSecondsRemaining() == 0 || getSecondsRemaining() == -1;
+    }
+
     public void makeReady() {
         startTime = 0;
     }

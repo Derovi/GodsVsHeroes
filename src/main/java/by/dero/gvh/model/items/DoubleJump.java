@@ -19,17 +19,17 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static by.dero.gvh.utils.DataUtils.getPlayer;
+
 public class DoubleJump extends Item implements Listener {
-    public static final Set<UUID> owners = new HashSet<>();
     public DoubleJump(final String name, final int level, final Player owner) {
         super(name, level, owner);
         Bukkit.getPluginManager().registerEvents(this, Plugin.getInstance());
-        owners.add(owner.getUniqueId());
         groundUpdate(owner);
     }
 
     private void groundUpdate (final Player player) {
-        if (!owners.contains(player.getUniqueId())) {
+        if (!getPlayer(player.getName()).getItems().containsKey(getName())) {
             return;
         }
         Location location = player.getLocation().clone();
@@ -44,7 +44,7 @@ public class DoubleJump extends Item implements Listener {
     @EventHandler (priority = EventPriority.HIGH)
     public void onPlayerDamage (final EntityDamageEvent event) {
         if (event.getEntityType () == EntityType.PLAYER &&
-                owners.contains(event.getEntity().getUniqueId()) &&
+                getPlayer(event.getEntity().getName()).getItems().containsKey(getName()) &&
                 event.getCause () == EntityDamageEvent.DamageCause.FALL) {
             event.setCancelled (true);
         }
@@ -53,7 +53,7 @@ public class DoubleJump extends Item implements Listener {
     @EventHandler (priority = EventPriority.HIGH)
     public void onPlayerMove (final PlayerMoveEvent event) {
         final Player p = event.getPlayer();
-        if (owners.contains(p.getUniqueId()) &&
+        if (getPlayer(p.getName()).getItems().containsKey(getName()) &&
                 !p.getAllowFlight()) {
             groundUpdate(p);
         }
@@ -62,7 +62,7 @@ public class DoubleJump extends Item implements Listener {
     @EventHandler (priority = EventPriority.HIGH)
     public void onPlayerToggleFlight (PlayerToggleFlightEvent event) {
         final Player p = event.getPlayer();
-        if (owners.contains(p.getUniqueId()) &&
+        if (getPlayer(p.getName()).getItems().containsKey(getName()) &&
                 p.getGameMode () == GameMode.SURVIVAL) {
             p.setAllowFlight (false);
             p.setVelocity (p.getLocation().getDirection().multiply (1.1d).setY (1.0d));

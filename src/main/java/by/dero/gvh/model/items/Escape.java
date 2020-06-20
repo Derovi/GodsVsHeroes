@@ -19,9 +19,6 @@ public class Escape extends Item implements PlayerInteractInterface {
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
         if (!cooldown.isReady()) {
-            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
-                sendCooldownMessage(player, getInfo().getDisplayName(), cooldown.getSecondsRemaining());
-            }
             event.setCancelled(true);
             return;
         }
