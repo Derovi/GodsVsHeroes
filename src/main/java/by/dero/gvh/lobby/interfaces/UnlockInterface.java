@@ -22,7 +22,7 @@ public class UnlockInterface extends Interface {
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
 
         ItemStack emptySlot = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
-        InterfaceUtils.changeName(emptySlot, null);
+        InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
         List<String> itemNames = new LinkedList<>();
         for (String itemName : classDescription.getItemNames()) {
             if (itemNames.size() == 9) {

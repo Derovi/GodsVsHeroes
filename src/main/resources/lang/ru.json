@@ -1,8 +1,12 @@
 {
   "interfaces": {
+    "empty": "§8Пусто",
+    "back": "§dНазад",
     "select": "§aВыбрать",
     "upgradeSelect": "§9Улучшить",
+    "notAvailable": "§cНе доступно",
     "upgrade": "§aУлучшить",
+    "upgraded": "§9Улучшено",
     "upgradeNE": "§cУлучшить",
     "unlock": "§aРазблокировать",
     "unlockNE": "§cРазблокировать",
