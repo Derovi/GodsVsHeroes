@@ -26,7 +26,6 @@ public class Item {
     }
 
     protected Cooldown cooldown;
-    protected int lastUsed;
 
     private final Set<UUID> summonedEntityIds = new HashSet<>();
 
@@ -50,8 +49,7 @@ public class Item {
             itemMeta.addEnchant(Enchantment.getByKey(enchantInfo.getKey()), enchantInfo.getLevel(), enchantInfo.isVisible());
         }
         itemMeta.setDisplayName(info.getDisplayName());
-        List<String> lore = info.getLore();
-        // add tag as last line of lore
+        List<String> lore = new LinkedList<>(info.getLore());
         lore.add(Plugin.getInstance().getData().getItemNameToTag().get(name));
         itemMeta.setLore(lore);
         itemMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
@@ -66,7 +64,7 @@ public class Item {
         StringBuilder tag = new StringBuilder();
         int hashcode = Math.abs(name.hashCode());
         while (hashcode > 0) {
-            tag.append(hashcode % 10);
+            tag.append('§').append(hashcode % 10);
             hashcode /= 10;
         }
         return tag.toString();

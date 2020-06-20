@@ -41,7 +41,6 @@ public class UpgradeInterface extends Interface {
                 ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade"));
                 addButton(position, currentLevel + 1, itemStack, () -> {
-                    System.out.println("On click!");
                     LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(getPlayer().getName());
                     lobbyPlayer.getPlayerInfo().upgradeItem(className, itemName);
                     lobbyPlayer.saveInfo();

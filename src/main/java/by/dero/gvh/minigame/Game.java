@@ -2,11 +2,15 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.MessagingUtils;
 import by.dero.gvh.utils.Position;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
@@ -27,6 +31,21 @@ public abstract class Game implements Listener {
 
     public Game(GameInfo info) {
         this.info = info;
+        cooldownMessageUpdater = new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (GamePlayer player : getPlayers().values()) {
+                    Item item = player.getSelectedItem();
+                    if (item == null || item.getCooldown().getDuration() == 0) {
+                        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
+                    } else if (item.getCooldown().isReady()) {
+                        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.itemReady")));
+                    } else {
+                        MessagingUtils.sendCooldownMessage(player.getPlayer(), item.getName(), item.getCooldown().getSecondsRemaining());
+                    }
+                }
+            }
+        };
     }
 
     private GameLobby lobby;
@@ -34,6 +53,7 @@ public abstract class Game implements Listener {
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
     private RewardManager rewardManager;
+    private BukkitRunnable cooldownMessageUpdater;
     protected Board board;
 
     public void start() {
@@ -51,12 +71,13 @@ public abstract class Game implements Listener {
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
             player.getPlayer().setScoreboard(board.getScoreboard());
-        }
         System.out.println("spawned");
         state = State.GAME;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
         lobby = null;
+        }
+        cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
@@ -107,6 +128,7 @@ public abstract class Game implements Listener {
                 prepare();
             }
         }.runTaskLater(Plugin.getInstance(), 40);
+        cooldownMessageUpdater.cancel();
     }
 
     public void prepare() {
