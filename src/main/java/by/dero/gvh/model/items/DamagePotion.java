@@ -49,14 +49,6 @@ public class DamagePotion extends Item implements ProjectileHitInterface, Infini
 
     @Override
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
-        if (!cooldown.isReady()) {
-            if (System.currentTimeMillis() - cooldown.getStartTime() > 100) {
-                sendCooldownMessage(getOwner(), getInfo().getDisplayName(), cooldown.getSecondsRemaining());
-            }
-            event.getEntity().remove();
-            return;
-        }
-        cooldown.reload();
     }
 }
 

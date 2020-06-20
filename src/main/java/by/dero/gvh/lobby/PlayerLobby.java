@@ -3,6 +3,7 @@ package by.dero.gvh.lobby;
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.monuments.Monument;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.DirectedPosition;
@@ -81,8 +82,10 @@ public class PlayerLobby {
             public void run() {
                 PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
                 String[] ar = new String[] {
-                        ChatColor.AQUA + "Выбранный класс: " + info.getSelectedClass(),
-                        ChatColor.GOLD + "Деняк: " + info.getBalance()
+                        Lang.get("lobby.selectedClass")
+                                .replace("%class%", Lang.get("classes." + info.getSelectedClass())),
+                        Lang.get("lobby.moneyBalance")
+                                .replace("%money%", String.valueOf(info.getBalance()))
                 };
                 board.update(ar);
             }

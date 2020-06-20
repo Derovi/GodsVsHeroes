@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 60,
-      "force": 3.0,
+      "force": 1.5,
       "material": "FEATHER",
       "displayName": "§cEscape",
       "lore": [
@@ -15,7 +15,7 @@
     },
     {
       "cooldown": 50,
-      "force": 3.0,
+      "force": 1.5,
       "material": "FEATHER",
       "displayName": "§cEscape",
       "lore": [
@@ -26,7 +26,7 @@
     },
     {
       "cooldown": 40,
-      "force": 3.0,
+      "force": 1.5,
       "material": "FEATHER",
       "displayName": "§cEscape",
       "lore": [

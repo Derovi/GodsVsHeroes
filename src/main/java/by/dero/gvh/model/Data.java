@@ -47,7 +47,7 @@ public class Data {
         registerItem("defaultaxe", ItemInfo.class, Item.class);
         registerItem("defaulthelmet", ItemInfo.class, Item.class);
         registerItem("defaultchestplate", ItemInfo.class, Item.class);
-        registerItem("defaultleggins", ItemInfo.class, Item.class);
+        registerItem("defaultleggings", ItemInfo.class, Item.class);
         registerItem("defaultboots", ItemInfo.class, Item.class);
         registerItem("defaultbow", ItemInfo.class, Item.class);
         registerItem("defaultarrow", ItemInfo.class, Item.class);

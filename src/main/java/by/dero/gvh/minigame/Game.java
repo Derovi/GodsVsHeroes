@@ -2,6 +2,7 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
@@ -14,6 +15,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -97,7 +99,7 @@ public abstract class Game implements Listener {
                 for (String playerName : playerNames) {
                     Player player = players.get(playerName).getPlayer();
                     removePlayer(playerName);
-                    player.kickPlayer("§cИгра окончена!");
+                    player.kickPlayer(Lang.get("game.gameFinished"));
                 }
                 state = State.PREPARING;
                 Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
@@ -121,11 +123,11 @@ public abstract class Game implements Listener {
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {
-            player.kickPlayer("§cИгра уже началась");
+            player.kickPlayer(Lang.get("game.gameAlreadyStarted"));
             return;
         }
         if (state == State.PREPARING) {
-            player.kickPlayer("§cИгра готовится");
+            player.kickPlayer(Lang.get("game.gamePrepairing"));
             return;
         }
         GamePlayer gamePlayer = new GamePlayer(player);
@@ -134,6 +136,11 @@ public abstract class Game implements Listener {
         players.put(player.getName(), gamePlayer);
         teleportToLobby(player);
         lobby.onPlayerJoined(players.get(player.getName()));
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
+        player.setHealth(10);
+        for (PotionEffect pt : player.getActivePotionEffects()) {
+            player.removePotionEffect(pt.getType());
+        }
     }
 
     public void removePlayer(String playerName) {
@@ -160,7 +167,7 @@ public abstract class Game implements Listener {
         player.teleport(getInfo().getLobbyPosition().toLocation(getInfo().getWorld()));
     }
 
-    public void addItems(GamePlayer player) {
+    private void addItems(GamePlayer player) {
         player.getItems().clear();
         player.getPlayer().getInventory().clear();
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName());

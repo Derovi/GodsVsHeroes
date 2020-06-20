@@ -3,11 +3,16 @@
   "maxHP": 40,
   "itemNames": [
     "defaultaxe",
-    "defaulthelmet",
-    "defaultchestplate",
-    "defaultleggins",
-    "defaultboots",
+    "improvedbow",
     "chainlightning",
-    "lightningstorm"
+    "healpotion",
+    "airleap",
+    "magnetizeorb",
+    "lightningstorm",
+    "defaultchestplate",
+    "defaultleggings",
+
+    "defaulthelmet",
+    "defaultboots"
   ]
 }
