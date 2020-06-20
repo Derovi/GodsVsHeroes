@@ -121,7 +121,6 @@ public class Lobby implements PluginMode, Listener {
             if (monument instanceof ArmorStandMonument) {
                 final ArmorStand armorStand = ((ArmorStandMonument) monument).getArmorStand();
                 final String clname = Lang.get("classes." + monument.getClassName());
-                Bukkit.getServer().broadcastMessage(monument.getOwner().getName());
                 if (Lobby.getInstance().getPlayers().get(player.getName()).
                         getPlayerInfo().isClassUnlocked(monument.getClassName())) {
                     armorStand.setCustomName(Lang.get("lobby.standTitle").

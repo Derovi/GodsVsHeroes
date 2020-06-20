@@ -10,7 +10,7 @@
       "displayName": "§cDamage Potion",
       "lore": [
         "§aРаньте своих врагов!",
-        "&6Уровень 1"
+        "§6Уровень 1"
       ],
       "amount": 3
     },
@@ -22,7 +22,7 @@
       "displayName": "§cDamage Potion",
       "lore": [
         "§aРаньте своих врагов!",
-        "&6Уровень 2"
+        "§6Уровень 2"
       ],
       "amount": 3
     },
@@ -34,7 +34,7 @@
       "displayName": "§cDamage Potion",
       "lore": [
         "§aРаньте своих врагов!",
-        "&6Уровень 3"
+        "§6Уровень 3"
       ],
       "amount": 3
     }
