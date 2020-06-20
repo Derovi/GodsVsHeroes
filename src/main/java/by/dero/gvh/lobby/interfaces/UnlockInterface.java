@@ -6,6 +6,7 @@ import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.UnitClassDescription;
+import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,10 +18,11 @@ public class UnlockInterface extends Interface {
     public UnlockInterface(InterfaceManager manager, Player player, String className) {
         super(manager, player, 6,
                 (Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().canUnlock(className)
-                ? Lang.get("interfaces.unlock") : Lang.get("interfaces.unlockNotEnough")));
+                ? Lang.get("interfaces.unlockTitle") : Lang.get("interfaces.unlockNETitle")));
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
 
         ItemStack emptySlot = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
+        InterfaceUtils.changeName(emptySlot, null);
         List<String> itemNames = new LinkedList<>();
         for (String itemName : classDescription.getItemNames()) {
             if (itemNames.size() == 9) {
@@ -55,6 +57,8 @@ public class UnlockInterface extends Interface {
                 close();
             };
             ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+            System.out.println("Lang: " + Lang.get("interfaces.unlock"));
+            InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlock"));
             for (int x = 0; x < 9; ++x) {
                 for (int y = 1; y < 6; ++y) {
                     addButton(x, y, itemStack, action);
@@ -69,6 +73,7 @@ public class UnlockInterface extends Interface {
                 close();
             };
             ItemStack itemStack = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+            InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlockNE"));
             for (int x = 0; x < 9; ++x) {
                 for (int y = 1; y < 6; ++y) {
                     addButton(x, y, itemStack, action);

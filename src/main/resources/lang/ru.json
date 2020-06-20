@@ -1,7 +1,13 @@
 {
   "interfaces": {
-    "unlock": "§aНажмите, чтобы открыть",
-    "unlockNotEnough": "§cНедостаточно опыта",
+    "select": "§aВыбрать",
+    "upgradeSelect": "§9Улучшить",
+    "upgrade": "§aУлучшить",
+    "upgradeNE": "§cУлучшить",
+    "unlock": "§aРазблокировать",
+    "unlockNE": "§cРазблокировать",
+    "unlockTitle": "§aНажмите, чтобы открыть",
+    "unlockNETitle": "§cНедостаточно опыта",
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
   },

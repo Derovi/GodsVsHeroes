@@ -9,7 +9,7 @@ import java.util.Map;
 public class PlayerInfo {
     private String name;
     private String selectedClass = "paladin";
-    private int balance = 4300;
+    private int balance = 3300;
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
     public PlayerInfo(String name) {
