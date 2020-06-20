@@ -1,4 +1,10 @@
 {
+  "interfaces": {
+    "unlock": "§aНажмите, чтобы открыть",
+    "unlockNotEnough": "§cНедостаточно опыта",
+    "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
+    "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
+  },
   "game": {
     "livesLeft": "§cЖизней осталось",
     "itemReloading": "§6Перезагрузка. Подождите §6%time%§c секунд, чтобы использовать §6%itemname%§c!",
