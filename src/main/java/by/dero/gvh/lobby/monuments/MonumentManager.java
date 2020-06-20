@@ -49,6 +49,7 @@ public class MonumentManager implements Listener {
             if (armorStand.getUniqueId().equals(entityId)) {
                 standMonument.onSelect(player);
                 active.put(player.getUniqueId(), entityId);
+                Lobby.getInstance().updateDisplays(player);
             }
         }
     }

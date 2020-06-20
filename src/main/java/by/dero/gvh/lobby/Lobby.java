@@ -28,6 +28,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -46,6 +47,7 @@ public class Lobby implements PluginMode, Listener {
     private MonumentManager monumentManager;
     private InterfaceManager interfaceManager;
     private PortalManager portalManager;
+    private final List<BukkitRunnable> runnables = new ArrayList<>();
     private final HashMap<String, LobbyPlayer> players = new HashMap<>();
 
     @Override
@@ -98,7 +100,11 @@ public class Lobby implements PluginMode, Listener {
 
     @Override
     public void onDisable() {
-        for (PlayerLobby playerLobby : activeLobbies.values()) {
+        for (final BukkitRunnable runnable : runnables) {
+            runnable.cancel();
+        }
+        runnables.clear();
+        for (final PlayerLobby playerLobby : activeLobbies.values()) {
             playerLobby.unload();
         }
     }

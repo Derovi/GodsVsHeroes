@@ -6,12 +6,8 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
-import by.dero.gvh.utils.HealthBar;
 import by.dero.gvh.utils.Position;
-import org.bukkit.Bukkit;
-import org.bukkit.GameRule;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -37,7 +33,14 @@ public abstract class Game implements Listener {
     private RewardManager rewardManager;
     protected Board board;
 
+    public LinkedList<BukkitRunnable> getRunnables() {
+        return runnables;
+    }
+
+    private final LinkedList<BukkitRunnable> runnables = new LinkedList<>();
+
     public void start() {
+        GameEvents.setGame(this);
         System.out.println("start game");
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
@@ -83,6 +86,11 @@ public abstract class Game implements Listener {
             System.err.println("Can't finish game, not in game! Current status: " + state);
             return;
         }
+
+        for (final BukkitRunnable runnable : runnables) {
+            runnable.cancel();
+        }
+        runnables.clear();
 
         for (GamePlayer player : players.values()) {
             if (player.getTeam() == winnerTeam) {
