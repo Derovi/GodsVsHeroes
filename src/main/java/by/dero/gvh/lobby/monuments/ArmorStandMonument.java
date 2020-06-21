@@ -22,7 +22,7 @@ import static by.dero.gvh.model.Drawings.spawnMovingCircle;
 public class ArmorStandMonument extends Monument {
     private final double turnPerSec = 0.3;
     private final double radius = 0.8;
-    private int unlocktime = 240;
+    private int unlocktime = 0;
     private ArmorStand armorStand;
     private final List<BukkitRunnable> runnables = new ArrayList<>();
 
@@ -47,6 +47,7 @@ public class ArmorStandMonument extends Monument {
 
                     spawnMovingCircle(st.clone().add(0, -1.85,0),
                             1, zxc, 0, Particle.FLAME, getOwner());
+                    unlocktime = 240;
                 } else
                 if (unlocktime > 0) {
                     unlocktime -= 2;

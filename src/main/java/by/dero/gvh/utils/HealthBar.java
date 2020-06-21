@@ -1,5 +1,6 @@
 package by.dero.gvh.utils;
 
+import by.dero.gvh.model.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -18,7 +19,8 @@ public class HealthBar {
             if (board.getTeam(t) != null) {
                 board.getTeam(t).unregister();
             }
-            board.registerNewTeam(t).setColor(ChatColor.getByChar((char)('1' + team)));
+            board.registerNewTeam(t).setColor(
+                    ChatColor.getByChar(Lang.get("commands." + (char)('1' + team)).charAt(1)));
         }
         if (board.getObjective("health") != null) {
             board.getObjective("health").unregister();

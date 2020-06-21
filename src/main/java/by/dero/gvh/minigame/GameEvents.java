@@ -178,8 +178,8 @@ public class GameEvents implements Listener {
                 }
             }
         }
-        if (event.getHitEntity() instanceof Arrow) {
-            event.getHitEntity().remove();
+        if (event.getEntity() instanceof Arrow) {
+            event.getEntity().remove();
         }
     }
 

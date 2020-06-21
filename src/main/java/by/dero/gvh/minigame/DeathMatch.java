@@ -49,9 +49,9 @@ public class DeathMatch extends Game {
             @Override
             public void run() {
                 for (int i = 0; i < currentLivesCount.length; i++) {
-                    final String col = String.valueOf((char)('1' + i));
-                    str[i] = Lang.get("commands.stat").replace("%col%", col)
-                            .replace("%com%", Lang.get("commands." + col))
+                    final String com = Lang.get("commands." + (char)('1' + i));
+                    str[i] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
+                            .replace("%com%", com)
                             .replace("%pts%", String.valueOf(currentLivesCount[i]));
                 }
                 board.update(str);
