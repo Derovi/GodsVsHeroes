@@ -77,6 +77,7 @@ public class Drawings {
         for(int i = 0;i < amount; i++){
             Firework fw2 = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
             fw2.setFireworkMeta(fwm);
+            fw2.detonate();
         }
     }
 
@@ -155,33 +156,33 @@ public class Drawings {
         }.runTaskTimer(Plugin.getInstance(), 0, dT);
     }
 
-    public static void spawnUnlockParticles(final Player player,
+    public static void spawnUnlockParticles(final Location loc,
+                                     final Player player,
                                      final int duration,
                                      final double radius,
                                      final double startAngle,
                                      final double endAngle) {
 
-        spawnMovingSphere(player.getLocation().clone().add(0,1,0),
+        spawnMovingSphere(loc.clone().add(0,1,0),
                 duration / 2, radius, Math.PI / 80,
                 startAngle, endAngle, Particle.FLAME, player);
 
+        spawnMovingCircle(loc.clone().add(0, 0.15,0),
+                duration, Math.cos(endAngle) * radius, 0, Particle.FLAME, player);
 
-        spawnMovingCircle(player.getLocation().clone().add(0, 0.15,0),
-                duration, Math.cos(endAngle) * radius, Math.PI / 80, Particle.FLAME, player);
+        spawnMovingCircle(loc.clone().add(0, 1,0),
+                duration, Math.cos(endAngle) * radius, 0, Particle.FLAME, player);
 
-        spawnMovingCircle(player.getLocation().clone().add(0, 1,0),
-                duration, Math.cos(endAngle) * radius, Math.PI / 80, Particle.FLAME, player);
-
-        spawnMovingCircle(player.getLocation().clone().add(0, 1.85,0),
-                duration, Math.cos(endAngle) * radius, Math.PI / 80, Particle.FLAME, player);
+        spawnMovingCircle(loc.clone().add(0, 1.85,0),
+                duration, Math.cos(endAngle) * radius, 0, Particle.FLAME, player);
 
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
-                spawnMovingSphere(player.getLocation().clone().add(0,1,0),
+                spawnMovingSphere(loc.clone().add(0,1,0),
                         duration / 2, radius, Math.PI / 80,
                         endAngle, startAngle, Particle.FLAME, player), duration / 2);
 
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()->
-                spawnFirework(player.getLocation().clone().add(0,1,0), 2), duration);
+                spawnFirework(loc.clone().add(0,1,0), 2), duration);
     }
 
 }
