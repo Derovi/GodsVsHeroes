@@ -18,14 +18,18 @@ import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -247,8 +251,12 @@ public class Lobby implements PluginMode, Listener {
 
     private final HashMap<UUID, Location> onGround = new HashMap<>();
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player p = event.getPlayer();
+    public void onPlayerMove(final PlayerMoveEvent event) {
+        final Player p = event.getPlayer();
+        if (!p.getAllowFlight()) {
+            groundUpdate(p);
+        }
+
         if (p.isOnGround()) {
             onGround.put(p.getUniqueId(), p.getLocation());
             if (p.getLocation().clone().subtract(0,1,0).getBlock().getType() == Material.GOLD_BLOCK) {
@@ -271,4 +279,28 @@ public class Lobby implements PluginMode, Listener {
         event.setCancelled(true);
     }
 
+    private void groundUpdate (final Player player) {
+        final Block block = player.getLocation().clone().subtract(0,1,0).getBlock();;
+        if (block.getType ().isSolid ()) {
+            player.setAllowFlight (true);
+        }
+    }
+
+    @EventHandler (priority = EventPriority.HIGH)
+    public void onPlayerDamage (final EntityDamageEvent event) {
+        if (event.getEntityType () == EntityType.PLAYER &&
+                event.getCause () == EntityDamageEvent.DamageCause.FALL) {
+            event.setCancelled (true);
+        }
+    }
+
+    @EventHandler (priority = EventPriority.HIGH)
+    public void onPlayerToggleFlight (final PlayerToggleFlightEvent event) {
+        final Player p = event.getPlayer();
+        if (p.getGameMode () == GameMode.SURVIVAL) {
+            p.setAllowFlight (false);
+            p.setVelocity(p.getVelocity().add(new Vector(0,1,0)));
+            event.setCancelled (true);
+        }
+    }
 }
