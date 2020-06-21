@@ -2,6 +2,7 @@ package by.dero.gvh.lobby;
 
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.commands.TestCommand;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
@@ -15,6 +16,10 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
@@ -75,19 +80,28 @@ public class PlayerLobby {
     }
 
     private void loadBoard() {
-        Board board = new Board("Lobby", 2);
-        player.setScoreboard(Board.getScoreboard());
+        final Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+
+        final Objective obj = scoreboard.registerNewObjective("ServerName", "dummy", "Lobby");
+        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+        final Team[] teams = new Team[2];
+        for (int i = 0; i < 2; i++) {
+            teams[i] = scoreboard.registerNewTeam("" + i);
+            final String x = "§" + (char)('a' + i);
+            teams[i].addEntry(x);
+            obj.getScore(x).setScore(2-i);
+        }
+
+        player.setScoreboard(scoreboard);
         scoreboardUpdater = new BukkitRunnable() {
+            final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
             @Override
             public void run() {
-                PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
-                String[] ar = new String[] {
-                        Lang.get("lobby.selectedClass")
-                                .replace("%class%", Lang.get("classes." + info.getSelectedClass())),
-                        Lang.get("lobby.moneyBalance")
-                                .replace("%money%", String.valueOf(info.getBalance()))
-                };
-                board.update(ar);
+                teams[0].setPrefix(Lang.get("lobby.selectedClass")
+                        .replace("%class%", Lang.get("classes." + info.getSelectedClass())));
+                teams[1].setPrefix(Lang.get("lobby.moneyBalance")
+                        .replace("%money%", String.valueOf(info.getBalance())));
             }
         };
     }

@@ -69,7 +69,7 @@
     "heroLocked": "§cКласс §9%class%§8:§c заблокирован",
     "selectedClass": "§aВыбран класс: %class%",
     "heroSelected": "§aКласс §9%class%§8:§a выбран",
-    "standTitle": "§bПКМ§8, чтобы выбрать: §9%class%",
+    "standTitle": "§bПКМ, чтобы выбрать§8: §9%class%",
     "moneyBalance": "§6Ваш баланс§8: §9%money%"
   }
 }

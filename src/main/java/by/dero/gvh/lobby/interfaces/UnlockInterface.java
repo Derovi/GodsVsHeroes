@@ -3,15 +3,19 @@ package by.dero.gvh.lobby.interfaces;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
+import by.dero.gvh.lobby.PlayerLobby;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.InterfaceUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -58,12 +62,25 @@ public class UnlockInterface extends Interface {
                 LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
                 lobbyPlayer.getPlayerInfo().unlockClass(className);
                 lobbyPlayer.saveInfo();
-                Lobby.getInstance().updateDisplays(player);
-                final Location loc = ((ArmorStandMonument) Lobby.getInstance().getActiveLobbies().get(player.getName()).
-                        getMonuments().get(className)).getArmorStand().getLocation().clone();
-                close();
+                final PlayerLobby lobby = Lobby.getInstance().getActiveLobbies().get(player.getName());
+                final ArmorStand stand = ((ArmorStandMonument) lobby.
+                        getMonuments().get(className)).getArmorStand();
+                stand.setCustomNameVisible(false);
+                final BukkitRunnable zxc = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        stand.setCustomNameVisible(true);
+                    }
+                };
+                zxc.runTaskLater(Plugin.getInstance(), 240);
+                lobby.getRunnables().add(zxc);
+
+                final Location loc = stand.getLocation().clone();
                 spawnUnlockParticles(loc, player, 240,
                         1.5, Math.toRadians(-70), Math.toRadians(70));
+
+                Lobby.getInstance().updateDisplays(player);
+                close();
             };
             ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
             System.out.println("Lang: " + Lang.get("interfaces.unlock"));
