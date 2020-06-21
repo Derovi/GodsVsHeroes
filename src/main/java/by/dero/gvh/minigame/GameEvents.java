@@ -21,16 +21,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.fusesource.jansi.Ansi;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.*;
+import static java.lang.Math.random;
 
 public class GameEvents implements Listener {
     public HashMap<LivingEntity, LivingEntity> getDamageCause() {
@@ -155,6 +154,35 @@ public class GameEvents implements Listener {
                     ((UltimateInterface)itemInHand).onPlayerInteract(event);
                 }
             } else {
+                if (itemInHand.getCooldown().isReady()) {
+                    double radius = 0.7;
+                    final int parts = 5;
+                    final Vector st = new Vector(random(), random(), random()).normalize();
+                    final Vector dir = player.getLocation().getDirection();
+                    final Location center = player.getEyeLocation().clone().add(dir.clone().multiply(2));
+                    for (int ticks = 0; ticks < 5; ticks++) {
+                        for (int i = 0; i < parts; i++) {
+                            final double angle = Math.PI * 2 / parts * i;
+                            final Vector at = st.clone().crossProduct(dir).normalize().
+                                    rotateAroundAxis(dir, angle).multiply(radius);
+                            at.add(center.toVector());
+                            player.spawnParticle(Particle.FLAME,
+                                    new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
+                                    1,0,0,0,0);
+                        }
+                        radius += 0.3;
+                    }
+
+                    for (int i = 0; i < 20; i++) {
+                        final double angle = Math.PI / 10 * i;
+                        final Vector at = st.clone().crossProduct(dir).normalize().
+                                rotateAroundAxis(dir, angle).multiply(radius);
+                        at.add(center.toVector());
+                        player.spawnParticle(Particle.FLAME,
+                                new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
+                                1,0,0,0,0);
+                    }
+                }
                 ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
             }
         }

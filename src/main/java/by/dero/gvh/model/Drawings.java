@@ -134,7 +134,7 @@ public class Drawings {
                                          final double speed,
                                          final Particle particle,
                                          final Player player) {
-        final int dT = 1;
+        final int dT = 2;
         final int parts = 8;
         new BukkitRunnable() {
             double horAngle = 0;
@@ -168,13 +168,13 @@ public class Drawings {
                 startAngle, endAngle, Particle.FLAME, player);
 
         spawnMovingCircle(loc.clone().add(0, 0.15,0),
-                duration, Math.cos(endAngle) * radius, 0, Particle.FLAME, player);
+                duration, Math.cos(endAngle) * radius, Math.PI / 160, Particle.FLAME, player);
 
         spawnMovingCircle(loc.clone().add(0, 1,0),
-                duration, Math.cos(endAngle) * radius, 0, Particle.FLAME, player);
+                duration, Math.cos(endAngle) * radius, Math.PI / 160, Particle.FLAME, player);
 
         spawnMovingCircle(loc.clone().add(0, 1.85,0),
-                duration, Math.cos(endAngle) * radius, 0, Particle.FLAME, player);
+                duration, Math.cos(endAngle) * radius, Math.PI / 160, Particle.FLAME, player);
 
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
                 spawnMovingSphere(loc.clone().add(0,1,0),
