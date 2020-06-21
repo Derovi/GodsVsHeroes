@@ -57,6 +57,7 @@ public class UnlockInterface extends Interface {
                 lobbyPlayer.saveInfo();
                 Lobby.getInstance().updateDisplays(player);
                 close();
+                spawnUnlockParticles(player, 240, 1.5, Math.toRadians(-70), Math.toRadians(70));
             };
             ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
             System.out.println("Lang: " + Lang.get("interfaces.unlock"));
@@ -73,7 +74,6 @@ public class UnlockInterface extends Interface {
                         replace("%cost%", String.valueOf(classDescription.getCost())).
                         replace("%remains%", String.valueOf(classDescription.getCost() - lobbyPlayer.getPlayerInfo().getBalance())));
                 close();
-                spawnUnlockParticles(player, 240, 1.5, Math.toRadians(-70), Math.toRadians(70));
             };
             ItemStack itemStack = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlockNE"));
