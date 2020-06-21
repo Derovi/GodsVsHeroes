@@ -23,7 +23,7 @@ import java.util.*;
 
 public abstract class Game implements Listener {
     public enum State {
-        GAME, WAITING, PREPARING
+        GAME, FINISHING, WAITING, PREPARING
     }
 
     public Game(GameInfo info) {
@@ -31,6 +31,7 @@ public abstract class Game implements Listener {
     }
 
     private GameLobby lobby;
+    private AfterParty afterParty;
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
@@ -112,6 +113,10 @@ public abstract class Game implements Listener {
             return;
         }
 
+        state = State.FINISHING;
+        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                state.toString());
+
         for (final BukkitRunnable runnable : runnables) {
             runnable.cancel();
         }
@@ -125,9 +130,12 @@ public abstract class Game implements Listener {
             }
         }
 
+        afterParty = new AfterParty(this);
+        afterParty.start();
         new BukkitRunnable() {
             @Override
             public void run() {
+                afterParty.stop();
                 ServerInfo lobbyServer = Plugin.getInstance().getServerData().getLobbyServer();
                 Set<String> playerNames = new HashSet<>(players.keySet());
                 for (String playerName : playerNames) {
