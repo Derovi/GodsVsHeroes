@@ -3,16 +3,19 @@ package by.dero.gvh.lobby.interfaces;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
+import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.InterfaceUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import static by.dero.gvh.model.Drawings.spawnUnlockParticles;
 
@@ -56,6 +59,10 @@ public class UnlockInterface extends Interface {
                 lobbyPlayer.getPlayerInfo().unlockClass(className);
                 lobbyPlayer.saveInfo();
                 Lobby.getInstance().updateDisplays(player);
+                final Location loc = ((ArmorStandMonument) Lobby.getInstance().getActiveLobbies().get(player.getName()).
+                        getMonuments().get(className)).getArmorStand().getLocation().clone();
+                spawnUnlockParticles(loc, player, 240,
+                        1.5, Math.toRadians(-70), Math.toRadians(70));
                 close();
             };
             ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
@@ -73,7 +80,6 @@ public class UnlockInterface extends Interface {
                         replace("%cost%", String.valueOf(classDescription.getCost())).
                         replace("%remains%", String.valueOf(classDescription.getCost() - lobbyPlayer.getPlayerInfo().getBalance())));
                 close();
-                spawnUnlockParticles(player, 240, 1.5, Math.toRadians(-70), Math.toRadians(70));
             };
             ItemStack itemStack = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlockNE"));
