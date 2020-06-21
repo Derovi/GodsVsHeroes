@@ -57,16 +57,16 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                 Vector dir = obj.getLocation().getDirection();
                 Vector at = st.clone().crossProduct(dir).rotateAroundAxis(dir, ticks * Math.PI / 8).multiply(2);
                 at.add(obj.getLocation().toVector());
-                player.spawnParticle(Particle.FIREWORKS_SPARK,
+                player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK,
                         new Location(obj.getWorld(), at.getX(), at.getY(), at.getZ()),
                         1,0,0,0,0);
                 at.subtract(obj.getLocation().toVector());
                 at.rotateAroundAxis(dir, Math.PI);
                 at.add(obj.getLocation().toVector());
-                player.spawnParticle(Particle.FIREWORKS_SPARK,
+                player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK,
                         new Location(obj.getWorld(), at.getX(), at.getY(), at.getZ()),
                         1,0,0,0,0);
-                player.spawnParticle(Particle.LAVA, obj.getLocation(), 3);
+                player.getWorld().spawnParticle(Particle.LAVA, obj.getLocation(), 3);
                 if (!arrows.contains(obj.getUniqueId()) || ticks > 300) {
                     final float force = (float)(power*power*multiplier);
                     Location loc = obj.getLocation();

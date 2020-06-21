@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Stun {
     public static void stunEntity(LivingEntity p, int latency) {
-        new PotionEffect(PotionEffectType.BLINDNESS, latency, 1).apply(p);
+        new PotionEffect(PotionEffectType.BLINDNESS, latency, 0).apply(p);
         new BukkitRunnable() {
             final Location loc = p.getLocation().clone();
             int ticks = 0;
