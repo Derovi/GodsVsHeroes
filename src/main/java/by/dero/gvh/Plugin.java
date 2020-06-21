@@ -74,7 +74,6 @@ public class Plugin extends JavaPlugin implements Listener {
             pluginMode = new Lobby();
             pluginMode.onEnable();
 
-            world = Lobby.getInstance().getWorld();
             Bukkit.getPluginManager().registerEvents((Listener) pluginMode, this);
         }
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(Plugin.getInstance(), "BungeeCord");

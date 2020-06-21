@@ -1,6 +1,7 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
@@ -70,27 +71,26 @@ public class LightningStorm extends Item implements UltimateInterface {
         cooldown.reload();
         drawSign(player.getLocation().clone());
 
-        new BukkitRunnable() {
+        final BukkitRunnable runnable = new BukkitRunnable() {
             int times = 0;
             final Location center = player.getLocation().clone();
             @Override
             public void run() {
                 final List<LivingEntity> near = getNearby(center, radius);
-                setLastUsedLightning(getOwner());
+
                 for (final LivingEntity obj : near) {
                     if (isEnemy(obj, getTeam())) {
+                        setLastUsedLightning(getOwner());
                         center.getWorld().strikeLightning(obj.getLocation());
                     }
                 }
-                for (int i = 0; i < 3 - near.size(); i++) {
-                    center.getWorld().strikeLightning(randomCylinder(center, radius, 0));
-                }
 
-                times++;
-                if (times == strikes) {
+                if (++times == strikes) {
                     this.cancel();
                 }
             }
-        }.runTaskTimer(Plugin.getInstance(), 0, delayStrikes);
+        };
+        runnable.runTaskTimer(Plugin.getInstance(), 0, delayStrikes);
+        Minigame.getInstance().getGame().getRunnables().add(runnable);
     }
 }

@@ -227,10 +227,14 @@ public class GameEvents implements Listener {
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);
 
-        if ((event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) ||
-                event.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) &&
-                getLastLightningTime() + 200 > System.currentTimeMillis()) {
-            damageCause.put(entity, getLastUsedLightning());
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
+                getLastLightningTime() + 100 > System.currentTimeMillis()) {
+            final Player player = getLastUsedLightning();
+            if (isEnemy(entity, getPlayer(player.getName()).getTeam())) {
+                damageCause.put(entity, player);
+            } else {
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -243,7 +247,12 @@ public class GameEvents implements Listener {
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);
         if (event.getDamager() instanceof LivingEntity) {
-            damageCause.put(entity, (LivingEntity) event.getDamager());
+            if (event.getDamager() instanceof Player &&
+                    isEnemy(entity, getPlayer(event.getDamager().getName()).getTeam())) {
+                damageCause.put(entity, (LivingEntity) event.getDamager());
+            } else {
+                event.setCancelled(true);
+            }
         }
     }
 

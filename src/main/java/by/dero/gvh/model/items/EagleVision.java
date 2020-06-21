@@ -7,6 +7,7 @@ import by.dero.gvh.model.itemsinfo.EagleVisionInfo;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
@@ -47,7 +48,7 @@ public class EagleVision extends Item implements UltimateInterface {
             final Location cur = obj.getLocation().clone();
             final double dst = loc.distance(new Location(cur.getWorld(), cur.getX(), loc.getY(), cur.getZ()));
             if (isEnemy(obj, team) && dst <= radius) {
-                new PotionEffect(PotionEffectType.GLOWING, Math.toIntExact(glowTime), 1).apply(event.getPlayer());
+                new PotionEffect(PotionEffectType.GLOWING, Math.toIntExact(glowTime), 1).apply((LivingEntity) obj);
             }
         }
         drawSign(player.getLocation().clone());

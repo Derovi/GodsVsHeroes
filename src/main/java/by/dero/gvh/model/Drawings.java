@@ -104,7 +104,7 @@ public class Drawings {
                                           final Particle particle,
                                           final Player player) {
         final int dT = 1;
-        final int parts = 16;
+        final int parts = 8;
         final double vertAngleSpeed = (vertEndAngle - vertStartAngle) / duration;
         new BukkitRunnable() {
             double horAngle = 0;

@@ -6,12 +6,14 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.StunRocksInfo;
 import by.dero.gvh.utils.Stun;
-import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 
+import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 
 public class StunRocks extends Item implements InfiniteReplenishInterface,
@@ -24,14 +26,18 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onProjectileHitEnemy(ProjectileHitEvent event) {
-        if (isEnemy(event.getHitEntity(), getTeam())) {
-            Stun.stunEntity((LivingEntity) event.getHitEntity(), duration);
-        }
+
     }
 
     @Override
     public void onProjectileHit(ProjectileHitEvent event) {
-
+        final Location loc = event.getEntity().getLocation();
+        loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 1);
+        for (final LivingEntity entity : getNearby(event.getEntity().getLocation(), 1.5)) {
+            if (isEnemy(entity, getTeam())) {
+                Stun.stunEntity(entity, duration);
+            }
+        }
     }
 
     @Override
