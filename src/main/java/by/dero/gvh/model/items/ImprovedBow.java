@@ -17,7 +17,9 @@ public class ImprovedBow extends Item implements ProjectileHitInterface {
     }
 
     @Override
-    public void onProjectileHit(final ProjectileHitEvent event) { }
+    public void onProjectileHit(final ProjectileHitEvent event) {
+
+    }
 
     @Override
     public void onProjectileHitEnemy(final ProjectileHitEvent event) {

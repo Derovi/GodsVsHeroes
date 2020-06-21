@@ -2,7 +2,6 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
-import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.HealPotionInfo;
@@ -12,14 +11,12 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isAlly;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class HealPotion extends Item implements ProjectileHitInterface,
-        InfiniteReplenishInterface, PlayerInteractInterface, ProjectileLaunchInterface {
+        InfiniteReplenishInterface, ProjectileLaunchInterface {
     private final double radius;
     private final int heal;
 
@@ -43,16 +40,12 @@ public class HealPotion extends Item implements ProjectileHitInterface,
     }
 
     @Override
-    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+    public void onProjectileLaunch(final ProjectileLaunchEvent event) {
+
     }
 
     @Override
     public void onProjectileHitEnemy(final ProjectileHitEvent event) {
-
-    }
-
-    @Override
-    public void onPlayerInteract(final PlayerInteractEvent event) {
 
     }
 }

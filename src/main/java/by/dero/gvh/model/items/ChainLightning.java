@@ -17,7 +17,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static by.dero.gvh.utils.DataUtils.*;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class ChainLightning extends Item implements PlayerInteractInterface {
     private final double radius;

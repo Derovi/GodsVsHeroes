@@ -21,7 +21,6 @@ import java.util.UUID;
 
 import static by.dero.gvh.utils.DataUtils.damage;
 import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 import static java.lang.Math.random;
 
 public class ExplosiveBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {

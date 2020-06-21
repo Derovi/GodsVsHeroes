@@ -6,8 +6,6 @@ import by.dero.gvh.model.itemsinfo.EscapeInfo;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
-
 public class Escape extends Item implements PlayerInteractInterface {
     private final double force;
     public Escape(final String name, final int level, final Player owner) {
