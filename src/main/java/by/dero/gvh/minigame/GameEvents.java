@@ -191,15 +191,18 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
-    public void onPlayerTakeUnregisteredDamage(EntityDamageEvent event) {
-        if (!(event.getEntity() instanceof Player)) {
+    public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity)) {
             return;
         }
-        Player player = (Player) event.getEntity();
+        final LivingEntity entity = (LivingEntity) event.getEntity();
+        entity.setNoDamageTicks(0);
+        entity.setMaximumNoDamageTicks(0);
+
         if ((event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) ||
                 event.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) &&
                 getLastLightningTime() + 200 > System.currentTimeMillis()) {
-            damageCause.put(player, getLastUsedLightning());
+            damageCause.put(entity, getLastUsedLightning());
         }
     }
 
@@ -208,9 +211,11 @@ public class GameEvents implements Listener {
         if (!(event.getEntity() instanceof LivingEntity) || event.getFinalDamage() == 0) {
             return;
         }
-        LivingEntity player = (LivingEntity) event.getEntity();
+        final LivingEntity entity = (LivingEntity) event.getEntity();
+        entity.setNoDamageTicks(0);
+        entity.setMaximumNoDamageTicks(0);
         if (event.getDamager() instanceof LivingEntity) {
-            damageCause.put(player, (LivingEntity) event.getDamager());
+            damageCause.put(entity, (LivingEntity) event.getDamager());
         }
     }
 
@@ -229,8 +234,10 @@ public class GameEvents implements Listener {
         spawnFirework(player.getLocation().clone().add(0,1,0), 1);
 
         final Game game = Minigame.getInstance().getGame();
-
         LivingEntity kil = damageCause.getOrDefault(player, player);
+        if (player.getKiller() != null) {
+            kil = player.getKiller();
+        }
 
         game.onPlayerKilled(player, kil);
         game.getPlayerDeathLocations().put(player.getName(), player.getLocation());

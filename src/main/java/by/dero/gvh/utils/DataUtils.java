@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.GameEvents;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
+import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -21,15 +22,9 @@ public class DataUtils {
 
     public static void damage(double damage, LivingEntity target, LivingEntity killer) {
         Minigame.getInstance().getGameEvents().getDamageCause().put(target, killer);
-        double start = target.getHealth();
-        target.damage(damage);
-        if (start == target.getHealth()) {
-            if (damage >= target.getHealth()) {
-                target.setHealth(0);
-            } else {
-                target.setHealth(target.getHealth() - damage);
-            }
-        }
+        target.setMaximumNoDamageTicks(0);
+        target.setNoDamageTicks(0);
+        target.damage(damage, killer);
     }
 
     public static boolean isEnemy(final Entity ent, final int team) {

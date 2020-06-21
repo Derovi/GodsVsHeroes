@@ -7,8 +7,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
-import java.util.Objects;
-
 import static by.dero.gvh.utils.DataUtils.damage;
 
 public class ImprovedBow extends Item implements ProjectileHitInterface {
