@@ -5,11 +5,8 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
-import org.bukkit.Bukkit;
+import org.bukkit.*;
 import by.dero.gvh.model.interfaces.*;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,9 +22,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.fusesource.jansi.Ansi;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -38,6 +37,10 @@ public class GameEvents implements Listener {
     private final HashMap<Player, LivingEntity> damageCause = new HashMap<>();
     private final HashSet<UUID> projectiles = new HashSet<>();
     private static Game game;
+    private static final Color[] colors = new Color[] {
+            Color.AQUA, Color.BLUE, Color.FUCHSIA, Color.GREEN, Color.LIME, Color.MAROON,
+            Color.NAVY, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.YELLOW, Color.WHITE
+    };
 
     public static void setGame(Game game) {
         GameEvents.game = game;
@@ -90,6 +93,10 @@ public class GameEvents implements Listener {
                         final int slot = inv.getHeldItemSlot();
                         @Override
                         public void run() {
+                            if (!player.isOnline()) {
+                                this.cancel();
+                                return;
+                            }
                             if (inv.getItem(slot).getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
                                 inv.setItem(slot, itemInHand.getItemStack());
                                 inv.getItem(slot).setAmount(1);
@@ -109,14 +116,16 @@ public class GameEvents implements Listener {
 
             projectiles.add(proj.getUniqueId());
             new BukkitRunnable() {
+                final Particle.DustOptions dust = new Particle.DustOptions(
+                        colors[new Random().nextInt(colors.length)], 2);
                 @Override
                 public void run() {
                     if (!projectiles.contains(proj.getUniqueId())) {
                         this.cancel();
                     }
-                    Bukkit.getWorld(game.getInfo().getWorld()).spawnParticle(
-                            Particle.LAVA, proj.getLocation(), 1
-                    );
+                    final Location loc = proj.getLocation();
+                    loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(),
+                            0, 0, 0, 0, dust);
                 }
             }.runTaskTimer(Plugin.getInstance(), 0, 1);
             itemInHand.getSummonedEntityIds().add(event.getEntity().getUniqueId());
