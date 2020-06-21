@@ -15,7 +15,7 @@ import java.util.*;
 
 public class DataUtils {
     private static Player lastUsedLightning;
-    private static Long lastLightningTime;
+    private static Long lastLightningTime = 0L;
     public static GamePlayer getPlayer(String name) {
         return Minigame.getInstance().getGame().getPlayers().get(name);
     }

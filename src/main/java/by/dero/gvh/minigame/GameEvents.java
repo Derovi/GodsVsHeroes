@@ -159,14 +159,14 @@ public class GameEvents implements Listener {
                     final int parts = 5;
                     final Vector st = new Vector(random(), random(), random()).normalize();
                     final Vector dir = player.getLocation().getDirection();
-                    final Location center = player.getEyeLocation().clone().add(dir.clone().multiply(2));
+                    final Location center = player.getEyeLocation().clone().add(dir.clone().multiply(3));
                     for (int ticks = 0; ticks < 5; ticks++) {
                         for (int i = 0; i < parts; i++) {
                             final double angle = Math.PI * 2 / parts * i;
                             final Vector at = st.clone().crossProduct(dir).normalize().
                                     rotateAroundAxis(dir, angle).multiply(radius);
                             at.add(center.toVector());
-                            player.spawnParticle(Particle.FLAME,
+                            player.getWorld().spawnParticle(Particle.FLAME,
                                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
                                     1,0,0,0,0);
                         }
@@ -178,7 +178,7 @@ public class GameEvents implements Listener {
                         final Vector at = st.clone().crossProduct(dir).normalize().
                                 rotateAroundAxis(dir, angle).multiply(radius);
                         at.add(center.toVector());
-                        player.spawnParticle(Particle.FLAME,
+                        player.getWorld().spawnParticle(Particle.FLAME,
                                 new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
                                 1,0,0,0,0);
                     }
@@ -196,23 +196,16 @@ public class GameEvents implements Listener {
             String shooterName = ((Player) proj.getShooter()).getName();
             GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
             for (Item item : gamePlayer.getItems().values()) {
-                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId())) {
-                    if (item instanceof ProjectileHitInterface) {
-                        ((ProjectileHitInterface) item).onProjectileHit(event);
+                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId()) &&
+                        item instanceof ProjectileHitInterface) {
+                    ((ProjectileHitInterface) item).onProjectileHit(event);
+                    if (event.getHitEntity() != null && event.getHitEntity() instanceof LivingEntity) {
+                        ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
                     }
-                    item.getSummonedEntityIds().remove(proj.getUniqueId());
                 }
             }
         }
-        if (event.getHitEntity() != null && event.getHitEntity() instanceof Player) {
-            String playerName = event.getHitEntity().getName();
-            GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(playerName);
-            for (Item item : gamePlayer.getItems().values()) {
-                if (item instanceof ProjectileHitInterface) {
-                    ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
-                }
-            }
-        }
+
         if (event.getEntity() instanceof Arrow) {
             event.getEntity().remove();
         }
@@ -246,7 +239,6 @@ public class GameEvents implements Listener {
             damageCause.put(entity, (LivingEntity) event.getDamager());
         }
     }
-
 
     @EventHandler
     public void onEntityDie(EntityDeathEvent event) {

@@ -7,7 +7,6 @@
       "multiplier": 0.5,
       "reclining": 0.7,
       "cost": 80,
-      "radiusMultiplier": 0.8,
       "material": "BOW",
       "displayName": "§cExplosive Bow",
       "lore": [
@@ -20,7 +19,6 @@
       "cooldown": 200,
       "multiplier": 0.6,
       "reclining": 0.7,
-      "radius": 4,
       "cost": 100,
       "material": "BOW",
       "displayName": "§cExplosive Bow",
@@ -34,7 +32,6 @@
       "cooldown": 200,
       "multiplier": 0.7,
       "reclining": 0.7,
-      "radius": 4,
       "cost": 120,
       "material": "BOW",
       "displayName": "§cExplosive Bow",
