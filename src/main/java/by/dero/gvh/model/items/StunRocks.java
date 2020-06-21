@@ -24,9 +24,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onProjectileHitEnemy(ProjectileHitEvent event) {
-        Bukkit.getServer().broadcastMessage("1");
         if (isEnemy(event.getHitEntity(), getTeam())) {
-            Bukkit.getServer().broadcastMessage("2");
             Stun.stunEntity((LivingEntity) event.getHitEntity(), duration);
         }
     }

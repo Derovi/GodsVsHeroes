@@ -196,23 +196,16 @@ public class GameEvents implements Listener {
             String shooterName = ((Player) proj.getShooter()).getName();
             GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
             for (Item item : gamePlayer.getItems().values()) {
-                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId())) {
-                    if (item instanceof ProjectileHitInterface) {
-                        ((ProjectileHitInterface) item).onProjectileHit(event);
+                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId()) &&
+                        item instanceof ProjectileHitInterface) {
+                    ((ProjectileHitInterface) item).onProjectileHit(event);
+                    if (event.getHitEntity() != null && event.getHitEntity() instanceof LivingEntity) {
+                        ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
                     }
-                    item.getSummonedEntityIds().remove(proj.getUniqueId());
                 }
             }
         }
-        if (event.getHitEntity() != null && event.getHitEntity() instanceof Player) {
-            String playerName = event.getHitEntity().getName();
-            GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(playerName);
-            for (Item item : gamePlayer.getItems().values()) {
-                if (item instanceof ProjectileHitInterface) {
-                    ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
-                }
-            }
-        }
+
         if (event.getEntity() instanceof Arrow) {
             event.getEntity().remove();
         }
