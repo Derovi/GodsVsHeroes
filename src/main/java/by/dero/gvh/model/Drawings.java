@@ -1,12 +1,12 @@
 package by.dero.gvh.model;
 
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import by.dero.gvh.Plugin;
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class Drawings {
@@ -79,4 +79,109 @@ public class Drawings {
             fw2.setFireworkMeta(fwm);
         }
     }
+
+    public static Vector getInCphere(final Vector center,
+                                        final double radius,
+                                        final double horAngle,
+                                        final double vertAngle) {
+
+        Vector locCenter = new Vector(center.getX(), center.getY() + Math.sin(vertAngle) * radius, center.getZ());
+        final double locRadius = Math.cos(vertAngle) * radius;
+        return locCenter.add(new Vector(
+                Math.cos(horAngle) * locRadius,
+                0,
+                Math.sin(horAngle) * locRadius)
+        );
+    }
+
+    public static void spawnMovingSphere(final Location center,
+                                          final int duration,
+                                          final double radius,
+                                          final double horAngleSpeed,
+                                          final double vertStartAngle,
+                                          final double vertEndAngle,
+                                          final Particle particle,
+                                          final Player player) {
+        final int dT = 1;
+        final int parts = 8;
+        final double vertAngleSpeed = (vertEndAngle - vertStartAngle) / duration;
+        new BukkitRunnable() {
+            double horAngle = 0;
+            double vertAngle = vertStartAngle;
+            int timePassed = 0;
+            @Override
+            public void run() {
+                for (double partAngle = 0; partAngle < Math.PI * 2; partAngle += Math.PI * 2 / parts) {
+                    double resHor = horAngle + partAngle;
+                    final Location at = getInCphere(center.toVector(), radius, resHor, vertAngle).toLocation(center.getWorld());
+                    player.getWorld().spawnParticle(particle, at, 0,0,0, 0);
+                }
+
+                horAngle += horAngleSpeed * dT;
+                vertAngle += vertAngleSpeed * dT;
+                timePassed += dT;
+                if (timePassed >= duration) {
+                    this.cancel();
+                }
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, dT);
+    }
+
+    public static void spawnMovingCircle(final Location loc,
+                                         final int duration,
+                                         final double radius,
+                                         final double speed,
+                                         final Particle particle,
+                                         final Player player) {
+        final int dT = 1;
+        final int parts = 8;
+        new BukkitRunnable() {
+            double horAngle = 0;
+            int timePassed = 0;
+            @Override
+            public void run() {
+                for (double partAngle = 0; partAngle < Math.PI * 2; partAngle += Math.PI * 2 / parts) {
+                    final double angle = horAngle + partAngle;
+                    final Location at = getInCircle(loc, radius, angle);
+                    player.getWorld().spawnParticle(particle, at, 0,0,0,0);
+                }
+
+                horAngle += speed * dT;
+                timePassed += dT;
+                if (timePassed >= duration) {
+                    this.cancel();
+                }
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, dT);
+    }
+
+    public static void spawnUnlockParticles(final Player player,
+                                     final int duration,
+                                     final double radius,
+                                     final double startAngle,
+                                     final double endAngle) {
+
+        spawnMovingSphere(player.getLocation().clone().add(0,1,0),
+                duration / 2, radius, Math.PI / 80,
+                startAngle, endAngle, Particle.FLAME, player);
+
+
+        spawnMovingCircle(player.getLocation().clone().add(0, 0.15,0),
+                duration, Math.cos(endAngle) * radius, Math.PI / 80, Particle.FLAME, player);
+
+        spawnMovingCircle(player.getLocation().clone().add(0, 1,0),
+                duration, Math.cos(endAngle) * radius, Math.PI / 80, Particle.FLAME, player);
+
+        spawnMovingCircle(player.getLocation().clone().add(0, 1.85,0),
+                duration, Math.cos(endAngle) * radius, Math.PI / 80, Particle.FLAME, player);
+
+        Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
+                spawnMovingSphere(player.getLocation().clone().add(0,1,0),
+                        duration / 2, radius, Math.PI / 80,
+                        endAngle, startAngle, Particle.FLAME, player), duration / 2);
+
+        Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()->
+                spawnFirework(player.getLocation().clone().add(0,1,0), 2), duration);
+    }
+
 }

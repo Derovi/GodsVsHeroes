@@ -209,11 +209,11 @@ public abstract class Game implements Listener {
     }
 
     public void spawnPlayer(GamePlayer player, int respawnTime) {
-        int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
-        Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
+        final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
+        final Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
         player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
                 spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
-        int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName()).getMaxHP();
+        final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName()).getMaxHP();
         player.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
         player.getPlayer().setHealth(maxHealth);
         addItems(player);

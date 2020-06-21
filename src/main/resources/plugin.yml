@@ -8,3 +8,4 @@ commands:
   # Main plugin command
   game:
     aliases: [gvh]
+  test:
