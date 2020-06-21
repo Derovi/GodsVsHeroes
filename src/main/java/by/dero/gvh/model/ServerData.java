@@ -1,5 +1,6 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Game;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,6 +37,15 @@ public class ServerData {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public ServerInfo getLobbyServer() {
+        for (ServerInfo info : getServersInfo().getServers().values()) {
+            if (info.getType() == ServerType.LOBBY) {
+                return info;
+            }
+        }
+        return null;
     }
 
     public List<ServerInfo> getGameServers() {

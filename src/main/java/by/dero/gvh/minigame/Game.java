@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.BungeeUtils;
 import by.dero.gvh.utils.DirectedPosition;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -127,11 +128,16 @@ public abstract class Game implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
+                ServerInfo lobbyServer = Plugin.getInstance().getServerData().getLobbyServer();
                 Set<String> playerNames = new HashSet<>(players.keySet());
                 for (String playerName : playerNames) {
                     Player player = players.get(playerName).getPlayer();
                     removePlayer(playerName);
-                    player.kickPlayer(Lang.get("game.gameFinished"));
+                    if (lobbyServer != null) {
+                        BungeeUtils.redirectPlayer(player, lobbyServer.getName());
+                    } else {
+                        player.kickPlayer(Lang.get("game.gameFinished"));
+                    }
                 }
                 state = State.PREPARING;
                 Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
