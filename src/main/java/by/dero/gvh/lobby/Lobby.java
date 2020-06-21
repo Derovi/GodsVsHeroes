@@ -7,6 +7,7 @@ import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.VoidGenerator;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.ServerType;
@@ -73,6 +74,7 @@ public class Lobby implements PluginMode, Listener {
             world = creator.createWorld();
         }
         world = Plugin.getInstance().getServer().getWorld(worldName);
+        world.setTime(1000);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
@@ -127,12 +129,17 @@ public class Lobby implements PluginMode, Listener {
         lobby.getScoreboardUpdater().run();
         lobby.getSelectedClass().setText(Lang.get("lobby.selectedClass")
                 .replace("%class%", Lang.get("classes." + players.get(player.getName()).getPlayerInfo().getSelectedClass())));
+        final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
         for (final Monument monument : lobby.getMonuments().values()) {
             if (monument instanceof ArmorStandMonument) {
                 final ArmorStand armorStand = ((ArmorStandMonument) monument).getArmorStand();
                 final String clname = Lang.get("classes." + monument.getClassName());
-                if (Lobby.getInstance().getPlayers().get(player.getName()).
-                        getPlayerInfo().isClassUnlocked(monument.getClassName())) {
+
+                if (info.getSelectedClass().equals(monument.getClassName())) {
+                    armorStand.setCustomName(Lang.get("lobby.heroSelected").
+                            replace("%class%", clname));
+                } else
+                if (info.isClassUnlocked(monument.getClassName())) {
                     armorStand.setCustomName(Lang.get("lobby.standTitle").
                             replace("%class%", clname));
                 } else {

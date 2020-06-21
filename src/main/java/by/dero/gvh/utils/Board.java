@@ -59,6 +59,9 @@ public class Board {
     }
 
     public void clear() {
+        for (final Team team : getScoreboard().getTeams()) {
+            team.unregister();
+        }
         for (final Objective obj : getScoreboard().getObjectives()) {
             obj.unregister();
         }

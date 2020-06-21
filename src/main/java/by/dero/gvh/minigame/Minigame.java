@@ -37,6 +37,7 @@ public class Minigame implements PluginMode {
         game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
 
         final World world = Bukkit.getWorld(game.getInfo().getWorld());
+        world.setTime(1000);
         world.setGameRule(GameRule.KEEP_INVENTORY, true);
         world.setDifficulty(Difficulty.NORMAL);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);

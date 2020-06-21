@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -43,16 +44,21 @@ public class DeathMatch extends Game {
     public void start() {
         super.start();
         board = new Board(Lang.get("game.livesLeft"), currentLivesCount.length);
-        Bukkit.getServer().getScheduler().runTaskTimer(Plugin.getInstance(), ()->{
+        final BukkitRunnable runnable = new BukkitRunnable() {
             String[] str = new String[currentLivesCount.length];
-            for (int i = 0; i < currentLivesCount.length; i++) {
-                final String col = String.valueOf((char)('1' + i));
-                str[i] = Lang.get("commands.stat").replace("%col%", col)
-                        .replace("%com%", Lang.get("commands." + col))
-                        .replace("%pts%", String.valueOf(currentLivesCount[i]));
+            @Override
+            public void run() {
+                for (int i = 0; i < currentLivesCount.length; i++) {
+                    final String col = String.valueOf((char)('1' + i));
+                    str[i] = Lang.get("commands.stat").replace("%col%", col)
+                            .replace("%com%", Lang.get("commands." + col))
+                            .replace("%pts%", String.valueOf(currentLivesCount[i]));
+                }
+                board.update(str);
             }
-            board.update(str);
-        }, 0, 10);
+        };
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 10);
+        getRunnables().add(runnable);
         healthBar = new HealthBar(currentLivesCount.length);
 
         for (final GamePlayer gp : getPlayers().values()) {

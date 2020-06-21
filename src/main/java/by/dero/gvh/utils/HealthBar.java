@@ -18,7 +18,7 @@ public class HealthBar {
             if (board.getTeam(t) != null) {
                 board.getTeam(t).unregister();
             }
-            board.registerNewTeam(t).setColor(ChatColor.getByChar((char)('a' + team)));
+            board.registerNewTeam(t).setColor(ChatColor.getByChar((char)('1' + team)));
         }
         if (board.getObjective("health") != null) {
             board.getObjective("health").unregister();

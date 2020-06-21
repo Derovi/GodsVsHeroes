@@ -114,20 +114,23 @@ public class GameEvents implements Listener {
                 }
             }
 
-            projectiles.add(proj.getUniqueId());
-            new BukkitRunnable() {
-                final Particle.DustOptions dust = new Particle.DustOptions(
-                        colors[new Random().nextInt(colors.length)], 2);
-                @Override
-                public void run() {
-                    if (!projectiles.contains(proj.getUniqueId())) {
-                        this.cancel();
+            if (!proj.getType().equals(EntityType.SPLASH_POTION)) {
+                projectiles.add(proj.getUniqueId());
+                new BukkitRunnable() {
+                    final Particle.DustOptions dust = new Particle.DustOptions(
+                            colors[new Random().nextInt(colors.length)], 2);
+                    @Override
+                    public void run() {
+                        if (!projectiles.contains(proj.getUniqueId())) {
+                            this.cancel();
+                        }
+                        final Location loc = proj.getLocation();
+                        loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(),
+                                0, 0, 0, 0, dust);
                     }
-                    final Location loc = proj.getLocation();
-                    loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(),
-                            0, 0, 0, 0, dust);
-                }
-            }.runTaskTimer(Plugin.getInstance(), 0, 1);
+                }.runTaskTimer(Plugin.getInstance(), 0, 1);
+            }
+
             itemInHand.getSummonedEntityIds().add(event.getEntity().getUniqueId());
         }
     }
