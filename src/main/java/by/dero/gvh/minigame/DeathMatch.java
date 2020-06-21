@@ -46,9 +46,8 @@ public class DeathMatch extends Game {
         Bukkit.getServer().getScheduler().runTaskTimer(Plugin.getInstance(), ()->{
             String[] str = new String[currentLivesCount.length];
             for (int i = 0; i < currentLivesCount.length; i++) {
-                final String col = String.valueOf('1' + i);
-                str[i] = Lang.get("commands." + col)
-                        .replace("%col%", col)
+                final String col = String.valueOf((char)('1' + i));
+                str[i] = Lang.get("commands.stat").replace("%col%", col)
                         .replace("%com%", Lang.get("commands." + col))
                         .replace("%pts%", String.valueOf(currentLivesCount[i]));
             }

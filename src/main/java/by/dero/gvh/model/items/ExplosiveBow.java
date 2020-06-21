@@ -66,7 +66,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                 player.spawnParticle(Particle.FIREWORKS_SPARK,
                         new Location(obj.getWorld(), at.getX(), at.getY(), at.getZ()),
                         1,0,0,0,0);
-                player.spawnParticle(Particle.LAVA, obj.getLocation(), 10);
+                player.spawnParticle(Particle.LAVA, obj.getLocation(), 3);
                 if (!arrows.contains(obj.getUniqueId()) || ticks > 300) {
                     final float force = (float)(power*power*multiplier);
                     Location loc = obj.getLocation();

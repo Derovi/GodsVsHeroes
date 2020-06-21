@@ -8,6 +8,7 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import org.bukkit.Bukkit;
 import by.dero.gvh.model.interfaces.*;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -26,6 +27,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.UUID;
 
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
@@ -33,6 +36,7 @@ import static by.dero.gvh.utils.DataUtils.*;
 
 public class GameEvents implements Listener {
     private final HashMap<Player, LivingEntity> damageCause = new HashMap<>();
+    private final HashSet<UUID> projectiles = new HashSet<>();
     private static Game game;
 
     public static void setGame(Game game) {
@@ -103,6 +107,18 @@ public class GameEvents implements Listener {
                 }
             }
 
+            projectiles.add(proj.getUniqueId());
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (!projectiles.contains(proj.getUniqueId())) {
+                        this.cancel();
+                    }
+                    Bukkit.getWorld(game.getInfo().getWorld()).spawnParticle(
+                            Particle.LAVA, proj.getLocation(), 1
+                    );
+                }
+            }.runTaskTimer(Plugin.getInstance(), 0, 1);
             itemInHand.getSummonedEntityIds().add(event.getEntity().getUniqueId());
         }
     }
@@ -127,15 +143,17 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
-        if (event.getEntity().getShooter() instanceof Player) {
-            String shooterName = ((Player) event.getEntity().getShooter()).getName();
+        final Projectile proj = event.getEntity();
+        projectiles.remove(proj.getUniqueId());
+        if (proj.getShooter() instanceof Player) {
+            String shooterName = ((Player) proj.getShooter()).getName();
             GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
             for (Item item : gamePlayer.getItems().values()) {
                 if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId())) {
                     if (item instanceof ProjectileHitInterface) {
                         ((ProjectileHitInterface) item).onProjectileHit(event);
                     }
-                    item.getSummonedEntityIds().remove(event.getEntity().getUniqueId());
+                    item.getSummonedEntityIds().remove(proj.getUniqueId());
                 }
             }
         }
