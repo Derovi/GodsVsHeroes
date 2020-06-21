@@ -89,7 +89,9 @@ public class GameEvents implements Listener {
                     Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(),
                             ()-> player.getInventory().setItem(heldSlot, pane), 1);
                 }
-                if (curItem.getAmount() == itemInHand.getInfo().getAmount()) {
+
+                final int need = itemInHand.getInfo().getAmount();
+                if (curItem.getAmount() == need) {
                     final BukkitRunnable runnable = new BukkitRunnable() {
                         final PlayerInventory inv = player.getInventory();
                         final int slot = inv.getHeldItemSlot();
@@ -99,14 +101,14 @@ public class GameEvents implements Listener {
                                 this.cancel();
                                 return;
                             }
+                            if (inv.getItem(slot).getAmount() == need) {
+                                this.cancel();
+                            } else
                             if (inv.getItem(slot).getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
                                 inv.setItem(slot, itemInHand.getItemStack());
                                 inv.getItem(slot).setAmount(1);
                             } else {
                                 inv.getItem(slot).setAmount(inv.getItem(slot).getAmount()+1);
-                            }
-                            if (inv.getItem(slot).getAmount() == itemInHand.getInfo().getAmount()) {
-                                this.cancel();
                             }
                         }
                     };
@@ -137,6 +139,36 @@ public class GameEvents implements Listener {
         }
     }
 
+    public void interactParticles(final Player player) {
+        double radius = 0.7;
+        final int parts = 5;
+        final Vector st = new Vector(random(), random(), random()).normalize();
+        final Vector dir = player.getLocation().getDirection();
+        final Location center = player.getEyeLocation().clone().add(dir.clone().multiply(3));
+        for (int ticks = 0; ticks < 5; ticks++) {
+            for (int i = 0; i < parts; i++) {
+                final double angle = Math.PI * 2 / parts * i;
+                final Vector at = st.clone().crossProduct(dir).normalize().
+                        rotateAroundAxis(dir, angle).multiply(radius);
+                at.add(center.toVector());
+                player.getWorld().spawnParticle(Particle.FLAME,
+                        new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
+                        1,0,0,0,0);
+            }
+            radius += 0.3;
+        }
+
+        for (int i = 0; i < 20; i++) {
+            final double angle = Math.PI / 10 * i;
+            final Vector at = st.clone().crossProduct(dir).normalize().
+                    rotateAroundAxis(dir, angle).multiply(radius);
+            at.add(center.toVector());
+            player.getWorld().spawnParticle(Particle.FLAME,
+                    new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
+                    1,0,0,0,0);
+        }
+    }
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         String shooterName = event.getPlayer().getName();
@@ -155,33 +187,8 @@ public class GameEvents implements Listener {
                 }
             } else {
                 if (itemInHand.getCooldown().isReady()) {
-                    double radius = 0.7;
-                    final int parts = 5;
-                    final Vector st = new Vector(random(), random(), random()).normalize();
-                    final Vector dir = player.getLocation().getDirection();
-                    final Location center = player.getEyeLocation().clone().add(dir.clone().multiply(3));
-                    for (int ticks = 0; ticks < 5; ticks++) {
-                        for (int i = 0; i < parts; i++) {
-                            final double angle = Math.PI * 2 / parts * i;
-                            final Vector at = st.clone().crossProduct(dir).normalize().
-                                    rotateAroundAxis(dir, angle).multiply(radius);
-                            at.add(center.toVector());
-                            player.getWorld().spawnParticle(Particle.FLAME,
-                                    new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                                    1,0,0,0,0);
-                        }
-                        radius += 0.3;
-                    }
-
-                    for (int i = 0; i < 20; i++) {
-                        final double angle = Math.PI / 10 * i;
-                        final Vector at = st.clone().crossProduct(dir).normalize().
-                                rotateAroundAxis(dir, angle).multiply(radius);
-                        at.add(center.toVector());
-                        player.getWorld().spawnParticle(Particle.FLAME,
-                                new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                                1,0,0,0,0);
-                    }
+                    Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
+                            interactParticles(player), 0);
                 }
                 ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
             }
