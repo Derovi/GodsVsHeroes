@@ -9,6 +9,8 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 
 import java.util.Objects;
 
+import static by.dero.gvh.utils.DataUtils.damage;
+
 public class ImprovedBow extends Item implements ProjectileHitInterface {
     private final int damage;
     public ImprovedBow(final String name, final int level, final Player owner) {
@@ -21,6 +23,8 @@ public class ImprovedBow extends Item implements ProjectileHitInterface {
 
     @Override
     public void onProjectileHitEnemy(final ProjectileHitEvent event) {
-        ((LivingEntity) Objects.requireNonNull(event.getHitEntity())).damage(damage, getOwner());
+        if (event.getHitEntity() instanceof LivingEntity) {
+            damage(damage, (LivingEntity) event.getHitEntity(), getOwner());
+        }
     }
 }

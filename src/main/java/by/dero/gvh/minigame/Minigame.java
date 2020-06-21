@@ -23,6 +23,12 @@ public class Minigame implements PluginMode {
     private static AreaManager areaManager;
     private GameData gameData;
     private Game game;
+
+    public GameEvents getGameEvents() {
+        return gameEvents;
+    }
+
+    private GameEvents gameEvents;
     private CommandManager commandManager;
 
     @Override
@@ -54,7 +60,8 @@ public class Minigame implements PluginMode {
     public void onDisable() {}
 
     private void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new GameEvents(), Plugin.getInstance());
+        gameEvents = new GameEvents();
+        Bukkit.getPluginManager().registerEvents(gameEvents, Plugin.getInstance());
     }
 
     private void registerCommands() {

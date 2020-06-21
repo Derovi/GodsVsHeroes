@@ -2,7 +2,6 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import org.bukkit.*;
@@ -34,7 +33,11 @@ import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class GameEvents implements Listener {
-    private final HashMap<Player, LivingEntity> damageCause = new HashMap<>();
+    public HashMap<LivingEntity, LivingEntity> getDamageCause() {
+        return damageCause;
+    }
+
+    private final HashMap<LivingEntity, LivingEntity> damageCause = new HashMap<>();
     private final HashSet<UUID> projectiles = new HashSet<>();
     private static Game game;
     private static final Color[] colors = new Color[] {
@@ -131,7 +134,7 @@ public class GameEvents implements Listener {
                 }.runTaskTimer(Plugin.getInstance(), 0, 1);
             }
 
-            itemInHand.getSummonedEntityIds().add(event.getEntity().getUniqueId());
+            itemInHand.getSummonedEntityIds().add(proj.getUniqueId());
         }
     }
 
@@ -145,11 +148,15 @@ public class GameEvents implements Listener {
             return;
         }
         if (itemInHand instanceof PlayerInteractInterface) {
-            if (itemInHand instanceof UltimateInterface && itemInHand.getCooldown().isReady()) {
-                ItemStack item = player.getInventory().getItemInMainHand();
-                item.setAmount(item.getAmount()-1);
+            if (itemInHand instanceof UltimateInterface) {
+                if (itemInHand.getCooldown().isReady()) {
+                    ItemStack item = player.getInventory().getItemInMainHand();
+                    item.setAmount(item.getAmount()-1);
+                    ((UltimateInterface)itemInHand).onPlayerInteract(event);
+                }
+            } else {
+                ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
             }
-            ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
         }
     }
 
@@ -189,20 +196,19 @@ public class GameEvents implements Listener {
             return;
         }
         Player player = (Player) event.getEntity();
-        if (event.getCause() == EntityDamageEvent.DamageCause.LIGHTNING &&
+        if ((event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) &&
                 getLastLightningTime() + 200 > System.currentTimeMillis()) {
             damageCause.put(player, getLastUsedLightning());
-        } else {
-            damageCause.put(player, player);
         }
     }
 
     @EventHandler
     public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player) || event.getFinalDamage() == 0) {
+        if (!(event.getEntity() instanceof LivingEntity) || event.getFinalDamage() == 0) {
             return;
         }
-        Player player = (Player) event.getEntity();
+        LivingEntity player = (LivingEntity) event.getEntity();
         if (event.getDamager() instanceof LivingEntity) {
             damageCause.put(player, (LivingEntity) event.getDamager());
         }
@@ -224,10 +230,8 @@ public class GameEvents implements Listener {
 
         final Game game = Minigame.getInstance().getGame();
 
-        LivingEntity kil = player.getKiller();
-        if (kil == null) {
-            kil = damageCause.getOrDefault(player, player);
-        }
+        LivingEntity kil = damageCause.getOrDefault(player, player);
+
         game.onPlayerKilled(player, kil);
         game.getPlayerDeathLocations().put(player.getName(), player.getLocation());
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
@@ -235,6 +239,7 @@ public class GameEvents implements Listener {
             game.spawnPlayer(game.getPlayers().get(player.getName()), game.getInfo().getRespawnTime());
             player.setExp(exp);
         }, 1L);
+        damageCause.remove(player);
     }
 
     @EventHandler

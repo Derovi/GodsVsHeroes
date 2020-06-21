@@ -16,9 +16,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
-import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
+import static by.dero.gvh.utils.DataUtils.*;
 
 public class MagicRod extends Item implements PlayerInteractInterface {
     private final double damage;
@@ -50,7 +48,7 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                 Objects.requireNonNull(start.getWorld()).spawnParticle(Particle.LAVA, start, 1);
                 for (final LivingEntity obj : getNearby(start, 2)) {
                     if (isEnemy(obj, getTeam()) && !stroke.contains(obj.getUniqueId())) {
-                        obj.damage(damage, getOwner());
+                        damage(damage, obj, getOwner());
                         stroke.add(obj.getUniqueId());
                     }
                 }

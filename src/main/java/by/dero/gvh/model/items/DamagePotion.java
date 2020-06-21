@@ -13,8 +13,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.DataUtils.*;
 
 public class DamagePotion extends Item implements ProjectileHitInterface, InfiniteReplenishInterface, PlayerInteractInterface, ProjectileLaunchInterface {
     private final double radius;
@@ -31,7 +30,7 @@ public class DamagePotion extends Item implements ProjectileHitInterface, Infini
         final Entity at = event.getEntity();
         for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
             if (isEnemy(ent, getTeam())) {
-                ent.damage(damage, getOwner());
+                damage(damage, ent, getOwner());
             }
         }
     }

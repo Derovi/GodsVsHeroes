@@ -36,6 +36,10 @@ public class HealAll extends Item implements UltimateInterface {
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player p = event.getPlayer();
+        if (!cooldown.isReady()) {
+            return;
+        }
+        cooldown.reload();
         drawSign(p.getLocation());
         for (final LivingEntity ent : getNearby(p.getLocation(), radius)) {
             if (isAlly(ent, getTeam())) {

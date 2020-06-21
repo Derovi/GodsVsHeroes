@@ -39,6 +39,10 @@ public class StunAll extends Item implements UltimateInterface {
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player p = event.getPlayer();
+        if (!cooldown.isReady()) {
+            return;
+        }
+        cooldown.reload();
         drawSign(p.getLocation());
         for (final LivingEntity ot : getNearby(p.getLocation(), radius)) {
             if (isEnemy(ot, getTeam())) {

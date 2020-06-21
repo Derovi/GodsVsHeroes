@@ -122,6 +122,7 @@ public abstract class Game implements Listener {
         }
         runnables.clear();
 
+        Minigame.getInstance().getGameEvents().getDamageCause().clear();
         for (GamePlayer player : players.values()) {
             if (player.getTeam() == winnerTeam) {
                 rewardManager.give("winGame", player.getPlayer());

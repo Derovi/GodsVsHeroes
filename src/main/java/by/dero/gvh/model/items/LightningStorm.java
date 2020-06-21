@@ -63,6 +63,10 @@ public class LightningStorm extends Item implements UltimateInterface {
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
+        if (!cooldown.isReady()) {
+            return;
+        }
+        cooldown.reload();
         drawSign(player.getLocation().clone());
 
         new BukkitRunnable() {

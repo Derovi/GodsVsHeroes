@@ -16,8 +16,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
-import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.DataUtils.*;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class ChainLightning extends Item implements PlayerInteractInterface {
@@ -58,7 +57,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
                 Drawings.drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.FIREWORKS_SPARK);
                 Objects.requireNonNull(next.getEyeLocation().getWorld()).spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
                 hit.add(next.getUniqueId());
-                next.damage(damage, getOwner());
+                damage(damage, next, getOwner());
                 cur = next;
                 next = null;
                 for (LivingEntity obj : getNearby(cur.getLocation(), radius)) {

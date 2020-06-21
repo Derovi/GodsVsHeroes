@@ -46,7 +46,6 @@ public class AreaManager implements Listener {
 
     public boolean isTerritoryDamage(final Location loc) {
         for (final Area area : buffer) {
-            Bukkit.getServer().broadcastMessage(area.inside(loc) + " " + area.isTerritoryDamage());
             if (area.inside(loc) && area.isTerritoryDamage()) {
                 return true;
             }

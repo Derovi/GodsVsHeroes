@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static by.dero.gvh.utils.DataUtils.damage;
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 import static java.lang.Math.random;
@@ -72,7 +73,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                     Location loc = obj.getLocation();
                     loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 3);
                     for (LivingEntity ent : getNearby(loc, power*power*radiusMultiplier)) {
-                        ent.damage(force, getOwner());
+                        damage(force, ent, getOwner());
                     }
                     this.cancel();
                     return;
