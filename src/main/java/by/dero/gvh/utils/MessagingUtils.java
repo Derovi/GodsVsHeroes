@@ -1,14 +1,43 @@
 package by.dero.gvh.utils;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Lang;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_15_R1.IChatBaseComponent;
+import net.minecraft.server.v1_15_R1.PacketPlayOutTitle;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+
+import java.util.Collection;
 
 public class MessagingUtils {
     public static void sendCooldownMessage(final Player player, final String itemName, final long time) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.itemReloadingActionBar").
                         replace("%itemname%", itemName).replace("%time%", getTimeString((int) time))));
+    }
+
+    public static void sendTitle(final String text, final Player player, int c, int d, int e) {
+        final PacketPlayOutTitle title = new PacketPlayOutTitle(
+                PacketPlayOutTitle.EnumTitleAction.TITLE,
+                IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + text + "\"}"),
+                c, d, e);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(title);
+    }
+
+    public static void sendActionBar(final String text, final Player player) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(text));
+    }
+
+    public static void sendTitle(final String text, final Collection<GamePlayer> players) {
+        final PacketPlayOutTitle title = new PacketPlayOutTitle(
+                PacketPlayOutTitle.EnumTitleAction.TITLE,
+                IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + text + "\"}"),
+                0, 20, 0);
+        for (final GamePlayer player : players) {
+            ((CraftPlayer) player.getPlayer()).getHandle().playerConnection.sendPacket(title);
+        }
     }
 
     public static String getTimeString(int sec) {

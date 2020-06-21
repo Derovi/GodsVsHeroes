@@ -2,13 +2,11 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.model.Item;
-import by.dero.gvh.model.Lang;
-import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.model.UnitClassDescription;
+import by.dero.gvh.model.*;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import by.dero.gvh.utils.MessagingUtils;
 import net.md_5.bungee.api.ChatMessageType;
@@ -30,21 +28,6 @@ public abstract class Game implements Listener {
 
     public Game(GameInfo info) {
         this.info = info;
-        cooldownMessageUpdater = new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (GamePlayer player : getPlayers().values()) {
-                    Item item = player.getSelectedItem();
-                    if (item == null || item.getCooldown().getDuration() == 0) {
-                        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
-                    } else if (item.getCooldown().isReady()) {
-                        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.itemReady")));
-                    } else {
-                        MessagingUtils.sendCooldownMessage(player.getPlayer(), item.getName(), item.getCooldown().getSecondsRemaining());
-                    }
-                }
-            }
-        };
     }
 
     private GameLobby lobby;
@@ -82,6 +65,24 @@ public abstract class Game implements Listener {
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
         lobby = null;
+        cooldownMessageUpdater = new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (GamePlayer player : getPlayers().values()) {
+                    if (player.getPlayer().getGameMode() == GameMode.SPECTATOR) {
+                        continue;
+                    }
+                    Item item = player.getSelectedItem();
+                    if (item == null || item.getCooldown().getDuration() == 0) {
+                        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
+                    } else if (item.getCooldown().isReady()) {
+                        player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.itemReady")));
+                    } else {
+                        MessagingUtils.sendCooldownMessage(player.getPlayer(), item.getName(), item.getCooldown().getSecondsRemaining());
+                    }
+                }
+            }
+        };
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
     }
 
@@ -209,13 +210,35 @@ public abstract class Game implements Listener {
     }
 
     public void spawnPlayer(GamePlayer player, int respawnTime) {
-        final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
-        final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
-        player.getPlayer().teleport(spawnPosition.toLocation(getInfo().getWorld()));
-        final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName()).getMaxHP();
-        player.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
-        player.getPlayer().setHealth(maxHealth);
-        addItems(player);
+        new BukkitRunnable() {
+            int counter = respawnTime;
+
+            @Override
+            public void run() {
+                if (counter == 0) {
+                    player.getPlayer().setGameMode(GameMode.SURVIVAL);
+                    final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
+                    final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
+                    player.getPlayer().teleport(spawnPosition.toLocation(getInfo().getWorld()));
+                    final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName()).getMaxHP();
+                    player.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
+                    player.getPlayer().setHealth(maxHealth);
+                    MessagingUtils.sendTitle("", player.getPlayer(), 0, 1, 0);
+                    MessagingUtils.sendActionBar("", player.getPlayer());
+                    addItems(player);
+                    this.cancel();
+                    return;
+                }
+                if (counter == respawnTime) {
+                    player.getPlayer().setGameMode(GameMode.SPECTATOR);
+                    MessagingUtils.sendTitle(Lang.get("game.dead"), player.getPlayer(), 0, 20 * respawnTime, 0);
+                }
+                MessagingUtils.sendActionBar(Lang.get("game.deathTime").
+                        replace("%time%", MessagingUtils.getTimeString(counter)), player.getPlayer());
+                --counter;
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, 20);
+
     }
 
     public RewardManager getRewardManager() {

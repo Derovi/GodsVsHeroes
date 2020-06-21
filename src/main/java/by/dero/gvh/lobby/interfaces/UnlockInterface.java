@@ -61,10 +61,9 @@ public class UnlockInterface extends Interface {
                 Lobby.getInstance().updateDisplays(player);
                 final Location loc = ((ArmorStandMonument) Lobby.getInstance().getActiveLobbies().get(player.getName()).
                         getMonuments().get(className)).getArmorStand().getLocation().clone();
+                close();
                 spawnUnlockParticles(loc, player, 240,
                         1.5, Math.toRadians(-70), Math.toRadians(70));
-                close();
-                spawnUnlockParticles(player, 240, 1.5, Math.toRadians(-70), Math.toRadians(70));
             };
             ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
             System.out.println("Lang: " + Lang.get("interfaces.unlock"));
