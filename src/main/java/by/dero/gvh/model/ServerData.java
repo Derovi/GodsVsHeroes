@@ -1,5 +1,6 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Game;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,6 +39,15 @@ public class ServerData {
         }
     }
 
+    public ServerInfo getLobbyServer() {
+        for (ServerInfo info : getServersInfo().getServers().values()) {
+            if (info.getType() == ServerType.LOBBY) {
+                return info;
+            }
+        }
+        return null;
+    }
+
     public List<ServerInfo> getGameServers() {
         List<ServerInfo> servers = new LinkedList<>();
         for (ServerInfo info : getServersInfo().getServers().values()) {
@@ -49,16 +59,18 @@ public class ServerData {
             int status1 = 0;
             if (info1.getStatus().equals(Game.State.PREPARING.toString())) {
                 status1 = 1;
-            } else
-            if (info1.getStatus().equals(Game.State.GAME.toString())) {
+            } else if (info1.getStatus().equals(Game.State.FINISHING.toString())) {
                 status1 = 2;
+            } else if (info1.getStatus().equals(Game.State.GAME.toString())) {
+                status1 = 3;
             }
             int status2 = 0;
             if (info2.getStatus().equals(Game.State.PREPARING.toString())) {
                 status2 = 1;
-            } else
-            if (info2.getStatus().equals(Game.State.GAME.toString())) {
+            } else if (info2.getStatus().equals(Game.State.FINISHING.toString())) {
                 status2 = 2;
+            } else if (info1.getStatus().equals(Game.State.GAME.toString())) {
+                status2 = 3;
             }
             if (status1 == status2) {
                 return info2.getOnline() - info1.getOnline();

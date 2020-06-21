@@ -11,6 +11,33 @@ public class GameInfo {
     private int maxPlayerCount = 24;
     private DirectedPosition lobbyPosition;
     private DirectedPosition[][] spawnPoints;
+    private int finishTime;
+    private DirectedPosition[] winnerPositions;
+    private DirectedPosition[] looserPositions;
+
+    public int getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(int finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public DirectedPosition[] getWinnerPositions() {
+        return winnerPositions;
+    }
+
+    public void setWinnerPositions(DirectedPosition[] winnerPositions) {
+        this.winnerPositions = winnerPositions;
+    }
+
+    public DirectedPosition[] getLooserPositions() {
+        return looserPositions;
+    }
+
+    public void setLooserPositions(DirectedPosition[] looserPositions) {
+        this.looserPositions = looserPositions;
+    }
 
     public DirectedPosition getLobbyPosition() {
         return lobbyPosition;
