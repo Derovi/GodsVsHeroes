@@ -5,9 +5,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.DirectedPosition;
-import by.dero.gvh.utils.Position;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import by.dero.gvh.utils.MessagingUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -18,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.*;
 
@@ -34,6 +33,7 @@ public abstract class Game implements Listener {
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
+    private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private BukkitRunnable cooldownMessageUpdater;
     protected Board board;
@@ -231,14 +231,20 @@ public abstract class Game implements Listener {
                 }
                 if (counter == respawnTime) {
                     player.getPlayer().setGameMode(GameMode.SPECTATOR);
+                    player.getPlayer().teleport(playerDeathLocations.get(player.getPlayer().getName()));
+                    player.getPlayer().setVelocity(new Vector(0,4,0));
                     MessagingUtils.sendTitle(Lang.get("game.dead"), player.getPlayer(), 0, 20 * respawnTime, 0);
                 }
                 MessagingUtils.sendActionBar(Lang.get("game.deathTime").
-                        replace("%time%", MessagingUtils.getTimeString(counter)), player.getPlayer());
+                        replace("%time%", MessagingUtils.getTimeString(counter, false)), player.getPlayer());
                 --counter;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
 
+    }
+
+    public HashMap<String, Location> getPlayerDeathLocations() {
+        return playerDeathLocations;
     }
 
     public RewardManager getRewardManager() {

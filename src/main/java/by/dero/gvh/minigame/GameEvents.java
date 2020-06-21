@@ -219,7 +219,6 @@ public class GameEvents implements Listener {
 
         spawnFirework(player.getLocation().clone().add(0,1,0), 1);
 
-        event.setDeathMessage(null);
         final Game game = Minigame.getInstance().getGame();
 
         LivingEntity kil = player.getKiller();
@@ -227,6 +226,7 @@ public class GameEvents implements Listener {
             kil = damageCause.getOrDefault(player, player);
         }
         game.onPlayerKilled(player, kil);
+        game.getPlayerDeathLocations().put(player.getName(), player.getLocation());
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
             player.spigot().respawn();
             game.spawnPlayer(game.getPlayers().get(player.getName()), game.getInfo().getRespawnTime());

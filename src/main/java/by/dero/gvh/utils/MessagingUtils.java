@@ -15,7 +15,7 @@ import java.util.Collection;
 public class MessagingUtils {
     public static void sendCooldownMessage(final Player player, final String itemName, final long time) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.itemReloadingActionBar").
-                        replace("%itemname%", itemName).replace("%time%", getTimeString((int) time))));
+                        replace("%itemname%", itemName).replace("%time%", getTimeString((int) time, true))));
     }
 
     public static void sendTitle(final String text, final Player player, int c, int d, int e) {
@@ -40,7 +40,7 @@ public class MessagingUtils {
         }
     }
 
-    public static String getTimeString(int sec) {
+    public static String getTimeString(int sec, boolean mode) {
         if (sec > 10 && sec < 20) {
             return String.valueOf(sec) + ' ' + Lang.get("time.sec0");
         }
@@ -48,7 +48,11 @@ public class MessagingUtils {
             return String.valueOf(sec) + ' ' + Lang.get("time.sec1");
         }
         if (sec % 10 == 1) {
-            return String.valueOf(sec) + ' ' + Lang.get("time.sec2");
+            if (mode) {
+                return String.valueOf(sec) + ' ' + Lang.get("time.sec2");
+            } else {
+                return String.valueOf(sec) + ' ' + Lang.get("time.sec3");
+            }
         }
         return String.valueOf(sec) + ' ' + Lang.get("time.sec0");
     }
