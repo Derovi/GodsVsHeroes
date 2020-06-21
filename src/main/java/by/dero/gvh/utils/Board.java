@@ -41,16 +41,6 @@ public class Board {
         }
     }
 
-    public static void sendTitle(final String text, final Collection<GamePlayer> players) {
-        final PacketPlayOutTitle title = new PacketPlayOutTitle(
-                PacketPlayOutTitle.EnumTitleAction.TITLE,
-                IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + text + "\"}"),
-                0, 20, 0);
-        for (final GamePlayer player : players) {
-            ((CraftPlayer) player.getPlayer()).getHandle().playerConnection.sendPacket(title);
-        }
-    }
-
     public static Scoreboard getScoreboard() {
         if (scoreboard == null) {
             scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -59,6 +49,9 @@ public class Board {
     }
 
     public void clear() {
+        for (final Team team : getScoreboard().getTeams()) {
+            team.unregister();
+        }
         for (final Objective obj : getScoreboard().getObjectives()) {
             obj.unregister();
         }

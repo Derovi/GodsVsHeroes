@@ -12,7 +12,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import static by.dero.gvh.utils.Board.sendTitle;
+import static by.dero.gvh.utils.MessagingUtils.sendTitle;
 
 public class GameLobby {
     private final Game game;

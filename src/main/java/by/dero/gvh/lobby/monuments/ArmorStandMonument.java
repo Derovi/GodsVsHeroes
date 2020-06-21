@@ -3,6 +3,7 @@ package by.dero.gvh.lobby.monuments;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.DirectedPosition;
 import org.bukkit.*;
@@ -15,9 +16,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.dero.gvh.model.Drawings.drawCircle;
+import static by.dero.gvh.model.Drawings.spawnMovingCircle;
+
 public class ArmorStandMonument extends Monument {
     private final double turnPerSec = 0.3;
     private final double radius = 0.8;
+    private int unlocktime = 240;
     private ArmorStand armorStand;
     private final List<BukkitRunnable> runnables = new ArrayList<>();
 
@@ -27,12 +32,26 @@ public class ArmorStandMonument extends Monument {
 
     private void drawParticles() {
         final BukkitRunnable runnable = new BukkitRunnable() {
-            final Location loc = armorStand.getLocation();
-            final Location st = loc.clone();
+            final Location st = armorStand.getLocation().clone();
             double angle = 0;
             @Override
             public void run() {
-                if (Lobby.getInstance().getPlayers().get(getOwner().getName()).getPlayerInfo().getSelectedClass().equals(getClassName())) {
+                final PlayerInfo info = Lobby.getInstance().getPlayers().get(getOwner().getName()).getPlayerInfo();
+                if (!info.isClassUnlocked(getClassName())) {
+                    final double zxc = Math.cos(Math.toRadians(70)) * 1.5;
+                    spawnMovingCircle(st.clone().add(0, -0.15,0),
+                            1, zxc, 0, Particle.FLAME, getOwner());
+
+                    spawnMovingCircle(st.clone().add(0, -1,0),
+                            1, zxc, 0, Particle.FLAME, getOwner());
+
+                    spawnMovingCircle(st.clone().add(0, -1.85,0),
+                            1, zxc, 0, Particle.FLAME, getOwner());
+                } else
+                if (unlocktime > 0) {
+                    unlocktime -= 2;
+                } else
+                if (info.getSelectedClass().equals(getClassName())) {
                     getOwner().spawnParticle(Particle.DRAGON_BREATH,
                             st.clone().add(Math.cos(angle)*radius, 0, Math.sin(angle)*radius),
                             0,0,-0.05,0);

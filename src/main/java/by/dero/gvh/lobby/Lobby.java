@@ -7,6 +7,7 @@ import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.VoidGenerator;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.ServerType;
@@ -18,14 +19,18 @@ import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -69,6 +74,7 @@ public class Lobby implements PluginMode, Listener {
             world = creator.createWorld();
         }
         world = Plugin.getInstance().getServer().getWorld(worldName);
+        world.setTime(1000);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
@@ -94,7 +100,6 @@ public class Lobby implements PluginMode, Listener {
         Bukkit.getPluginManager().registerEvents(monumentManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
         System.out.println("Loading schematic");
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(Plugin.getInstance(), "BungeeCord");
         loadSchematic();
     }
 
@@ -123,12 +128,17 @@ public class Lobby implements PluginMode, Listener {
         lobby.getScoreboardUpdater().run();
         lobby.getSelectedClass().setText(Lang.get("lobby.selectedClass")
                 .replace("%class%", Lang.get("classes." + players.get(player.getName()).getPlayerInfo().getSelectedClass())));
+        final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
         for (final Monument monument : lobby.getMonuments().values()) {
             if (monument instanceof ArmorStandMonument) {
                 final ArmorStand armorStand = ((ArmorStandMonument) monument).getArmorStand();
                 final String clname = Lang.get("classes." + monument.getClassName());
-                if (Lobby.getInstance().getPlayers().get(player.getName()).
-                        getPlayerInfo().isClassUnlocked(monument.getClassName())) {
+
+                if (info.getSelectedClass().equals(monument.getClassName())) {
+                    armorStand.setCustomName(Lang.get("lobby.heroSelected").
+                            replace("%class%", clname));
+                } else
+                if (info.isClassUnlocked(monument.getClassName())) {
                     armorStand.setCustomName(Lang.get("lobby.standTitle").
                             replace("%class%", clname));
                 } else {
@@ -247,8 +257,12 @@ public class Lobby implements PluginMode, Listener {
 
     private final HashMap<UUID, Location> onGround = new HashMap<>();
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player p = event.getPlayer();
+    public void onPlayerMove(final PlayerMoveEvent event) {
+        final Player p = event.getPlayer();
+        if (!p.getAllowFlight()) {
+            groundUpdate(p);
+        }
+
         if (p.isOnGround()) {
             onGround.put(p.getUniqueId(), p.getLocation());
             if (p.getLocation().clone().subtract(0,1,0).getBlock().getType() == Material.GOLD_BLOCK) {
@@ -271,4 +285,28 @@ public class Lobby implements PluginMode, Listener {
         event.setCancelled(true);
     }
 
+    private void groundUpdate (final Player player) {
+        final Block block = player.getLocation().clone().subtract(0,1,0).getBlock();;
+        if (block.getType ().isSolid ()) {
+            player.setAllowFlight (true);
+        }
+    }
+
+    @EventHandler (priority = EventPriority.HIGH)
+    public void onPlayerDamage (final EntityDamageEvent event) {
+        if (event.getEntityType () == EntityType.PLAYER &&
+                event.getCause () == EntityDamageEvent.DamageCause.FALL) {
+            event.setCancelled (true);
+        }
+    }
+
+    @EventHandler (priority = EventPriority.HIGH)
+    public void onPlayerToggleFlight (final PlayerToggleFlightEvent event) {
+        final Player p = event.getPlayer();
+        if (p.getGameMode () == GameMode.SURVIVAL) {
+            p.setAllowFlight (false);
+            p.setVelocity(p.getVelocity().add(new Vector(0,1,0)));
+            event.setCancelled (true);
+        }
+    }
 }

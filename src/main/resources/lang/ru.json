@@ -18,7 +18,8 @@
   "time": {
     "sec0": "секунд",
     "sec1": "секунды",
-    "sec2": "секунду"
+    "sec2": "секунду",
+    "sec3": "секунда"
   },
   "game": {
     "livesLeft": "§cЖизней осталось",
@@ -28,7 +29,9 @@
     "gameAlreadyStarted": "§4Игра началась!",
     "gamePrepairing": "§2Загружаемся",
     "gameFinished": "§4Игра окончена",
-    "deathMessage": "Вы были убиты игроком %name%"
+    "deathMessage": "Вы были убиты игроком %name%",
+    "deathTime": "§aДо возрождения осталось§8: §9%time%",
+    "dead": "§4Вы мертвы"
   },
   "classes": {
     "alchemist": "Алхимик",
@@ -43,20 +46,20 @@
     "ull": "Улль"
   },
   "commands": {
-    "stat": "§%col%Команда %com%§8: §9%pts%",
-    "1": "§1Синие",
-    "2": "§2Зеленые",
+    "stat": "%com%§8: §9%pts%",
+    "1": "§2Зеленые",
+    "2": "§4Красные",
     "3": "§3Толерантные",
-    "4": "§4Красные",
+    "4": "§1Синие",
     "5": "§5Фиолетовые",
     "6": "§6Желтые",
     "7": "§7Серые",
     "8": "§8Незеленые"
   },
   "gameLobby": {
-    "boardReady": "§aГотово к игре: §4%cur%/%max%",
-    "boardRequired": "§aНужно как минимум: %min%",
-    "boardTimeLeft": "§bОсталось времени: %time%",
+    "boardReady": "§aГотово к игре§8: §9%cur%/%max%",
+    "boardRequired": "§aНужно как минимум§8: §9%min%",
+    "boardTimeLeft": "§bОсталось времени§8: §9%time%",
     "gameStarted": "§aИгра началась!",
     "playerJoined": "§aИгрок %name% присоединился! §f%cur%/%max%",
     "playerLeft": "§aИгрок %name% вышел! §f%cur%/%max%"
@@ -65,7 +68,8 @@
     "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",
     "heroLocked": "§cКласс §9%class%§8:§c заблокирован",
     "selectedClass": "§aВыбран класс: %class%",
-    "standTitle": "§bПКМ, чтобы выбрать: %class%",
+    "heroSelected": "§aКласс §9%class%§8:§a выбран",
+    "standTitle": "§bПКМ, чтобы выбрать§8: §9%class%",
     "moneyBalance": "§6Ваш баланс§8: §9%money%"
   }
 }

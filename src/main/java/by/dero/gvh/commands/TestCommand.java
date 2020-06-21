@@ -1,6 +1,7 @@
 package by.dero.gvh.commands;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.PlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.command.Command;
@@ -16,7 +17,9 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender,
                              @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        spawnUnlockParticles((Player)commandSender, 240, 1.5, Math.toRadians(-70), Math.toRadians(70));
+        final Player player = (Player) commandSender;
+        spawnUnlockParticles(player.getLocation().clone(), player, 240,
+                1.5, Math.toRadians(-70), Math.toRadians(70));
         return true;
     }
 }
