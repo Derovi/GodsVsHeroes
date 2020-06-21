@@ -14,6 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.LinkedList;
 import java.util.List;
 
+import static by.dero.gvh.model.Drawings.spawnUnlockParticles;
+
 public class UnlockInterface extends Interface {
     public UnlockInterface(InterfaceManager manager, Player player, String className) {
         super(manager, player, 6,
@@ -71,6 +73,7 @@ public class UnlockInterface extends Interface {
                         replace("%cost%", String.valueOf(classDescription.getCost())).
                         replace("%remains%", String.valueOf(classDescription.getCost() - lobbyPlayer.getPlayerInfo().getBalance())));
                 close();
+                spawnUnlockParticles(player, 240, 1.5, Math.toRadians(-70), Math.toRadians(70));
             };
             ItemStack itemStack = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlockNE"));

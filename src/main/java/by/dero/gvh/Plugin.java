@@ -1,5 +1,6 @@
 package by.dero.gvh;
 
+import by.dero.gvh.commands.TestCommand;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.*;
@@ -38,6 +39,7 @@ public class Plugin extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
         lang = new Lang(new LocalStorage());
         lang.load(settings.getLocale());
         StorageInterface dataStorage = new LocalStorage();

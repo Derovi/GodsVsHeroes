@@ -1,6 +1,5 @@
 package by.dero.gvh.utils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -10,10 +9,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 public class HealthBar {
-    public Scoreboard getBoard() {
-        return board;
-    }
-
     private final Scoreboard board;
 
     public HealthBar(final int teams) {
@@ -35,6 +30,7 @@ public class HealthBar {
 
     public void addPlayer(Player player) {
         final String name = player.getName();
+        player.setScoreboard(board);
         board.getTeam(getPlayer(name).getTeam() + "hp").addEntry(name);
     }
 }

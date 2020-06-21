@@ -29,7 +29,7 @@
       "amount": 3
     },
     {
-      "cooldown": 100,
+      "cooldown": 60,
       "damage" : 7,
       "radius" : 5,
       "cost": 120,
