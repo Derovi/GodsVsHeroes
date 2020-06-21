@@ -54,9 +54,9 @@
     "8": "§8Незеленые"
   },
   "gameLobby": {
-    "boardReady": "§aГотово к игре: §4%cur%/%max%",
-    "boardRequired": "§aНужно как минимум: %min%",
-    "boardTimeLeft": "§bОсталось времени: %time%",
+    "boardReady": "§aГотово к игре§8: §9%cur%/%max%",
+    "boardRequired": "§aНужно как минимум§8: §9%min%",
+    "boardTimeLeft": "§bОсталось времени§8: §9%time%",
     "gameStarted": "§aИгра началась!",
     "playerJoined": "§aИгрок %name% присоединился! §f%cur%/%max%",
     "playerLeft": "§aИгрок %name% вышел! §f%cur%/%max%"

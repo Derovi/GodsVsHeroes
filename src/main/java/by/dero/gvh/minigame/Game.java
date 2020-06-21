@@ -7,6 +7,7 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 import org.bukkit.Location;
 import by.dero.gvh.utils.MessagingUtils;
@@ -203,16 +204,14 @@ public abstract class Game implements Listener {
         player.getPlayer().getInventory().clear();
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName());
         for (String itemName : classDescription.getItemNames()) {
-            System.out.println("add item: " + itemName);
             player.addItem(itemName, player.getPlayerInfo().getItemLevel(player.getClassName(), itemName));
         }
     }
 
     public void spawnPlayer(GamePlayer player, int respawnTime) {
         final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
-        final Position spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
-        player.getPlayer().teleport(new Location(Plugin.getInstance().getServer().getWorld(getInfo().getWorld()),
-                spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getY()));
+        final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
+        player.getPlayer().teleport(spawnPosition.toLocation(getInfo().getWorld()));
         final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName()).getMaxHP();
         player.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
         player.getPlayer().setHealth(maxHealth);
