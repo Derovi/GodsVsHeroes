@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "force": 3.0,
+      "force": 2.0,
       "cooldown": 60,
       "cost": 80,
       "material": "FEATHER",
@@ -15,7 +15,7 @@
       "amount": 1
     },
     {
-      "force": 3.0,
+      "force": 2.0,
       "cooldown": 50,
       "cost": 100,
       "material": "FEATHER",
@@ -27,7 +27,7 @@
       "amount": 1
     },
     {
-      "force": 3.0,
+      "force": 2.0,
       "cooldown": 40,
       "cost": 120,
       "material": "FEATHER",

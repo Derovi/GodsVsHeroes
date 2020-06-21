@@ -16,8 +16,6 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 
 import static by.dero.gvh.utils.DataUtils.getPlayer;
 
-import static by.dero.gvh.utils.DataUtils.getPlayer;
-
 public class DoubleJump extends Item implements Listener {
     public DoubleJump(final String name, final int level, final Player owner) {
         super(name, level, owner);

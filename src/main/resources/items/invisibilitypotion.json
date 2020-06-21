@@ -3,8 +3,8 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 400,
-      "duration": 60,
+      "cooldown": 1200,
+      "duration": 80,
       "cost": 80,
       "material": "GLASS_BOTTLE",
       "displayName": "§cInvisibility Potion",
@@ -15,7 +15,7 @@
       "amount": 1
     },
     {
-      "cooldown": 400,
+      "cooldown": 1000,
       "duration": 80,
       "cost": 100,
       "material": "GLASS_BOTTLE",
@@ -27,8 +27,8 @@
       "amount": 1
     },
     {
-      "cooldown": 400,
-      "duration": 100,
+      "cooldown": 800,
+      "duration": 80,
       "cost": 120,
       "material": "GLASS_BOTTLE",
       "displayName": "§cInvisibility Potion",

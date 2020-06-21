@@ -1,8 +1,10 @@
 package by.dero.gvh.utils;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.minigame.GameEvents;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
+import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -13,9 +15,16 @@ import java.util.*;
 
 public class DataUtils {
     private static Player lastUsedLightning;
-    private static Long lastLightningTime;
+    private static Long lastLightningTime = 0L;
     public static GamePlayer getPlayer(String name) {
         return Minigame.getInstance().getGame().getPlayers().get(name);
+    }
+
+    public static void damage(double damage, LivingEntity target, LivingEntity killer) {
+        Minigame.getInstance().getGameEvents().getDamageCause().put(target, killer);
+        target.setMaximumNoDamageTicks(0);
+        target.setNoDamageTicks(0);
+        target.damage(damage, killer);
     }
 
     public static boolean isEnemy(final Entity ent, final int team) {

@@ -1,6 +1,7 @@
 package by.dero.gvh.utils;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Lang;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
@@ -9,7 +10,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Stun {
     public static void stunEntity(LivingEntity p, int latency) {
-        new PotionEffect(PotionEffectType.BLINDNESS, latency, 1).apply(p);
+        new PotionEffect(PotionEffectType.BLINDNESS, latency, 0).apply(p);
+        p.sendMessage(Lang.get("game.stunMessage"));
         new BukkitRunnable() {
             final Location loc = p.getLocation().clone();
             int ticks = 0;

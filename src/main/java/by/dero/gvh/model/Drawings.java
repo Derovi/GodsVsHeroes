@@ -104,7 +104,7 @@ public class Drawings {
                                           final Particle particle,
                                           final Player player) {
         final int dT = 1;
-        final int parts = 8;
+        final int parts = 16;
         final double vertAngleSpeed = (vertEndAngle - vertStartAngle) / duration;
         new BukkitRunnable() {
             double horAngle = 0;
@@ -131,11 +131,12 @@ public class Drawings {
     public static void spawnMovingCircle(final Location loc,
                                          final int duration,
                                          final double radius,
+                                         final double dense,
                                          final double speed,
                                          final Particle particle,
                                          final Player player) {
-        final int dT = 1;
-        final int parts = 8;
+        final int dT = 2;
+        final int parts = (int) Math.round(Math.PI * 2 * radius * dense);
         new BukkitRunnable() {
             double horAngle = 0;
             int timePassed = 0;
@@ -168,13 +169,13 @@ public class Drawings {
                 startAngle, endAngle, Particle.FLAME, player);
 
         spawnMovingCircle(loc.clone().add(0, 0.15,0),
-                duration, Math.cos(endAngle) * radius, 0, Particle.FLAME, player);
+                duration, Math.cos(endAngle) * radius, 3,Math.PI / 160, Particle.FLAME, player);
 
         spawnMovingCircle(loc.clone().add(0, 1,0),
-                duration, Math.cos(endAngle) * radius, 0, Particle.FLAME, player);
+                duration, Math.cos(endAngle) * radius, 3, Math.PI / 160, Particle.FLAME, player);
 
         spawnMovingCircle(loc.clone().add(0, 1.85,0),
-                duration, Math.cos(endAngle) * radius, 0, Particle.FLAME, player);
+                duration, Math.cos(endAngle) * radius, 3, Math.PI / 160, Particle.FLAME, player);
 
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
                 spawnMovingSphere(loc.clone().add(0,1,0),

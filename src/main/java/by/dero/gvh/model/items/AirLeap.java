@@ -7,8 +7,6 @@ import by.dero.gvh.model.itemsinfo.AirLeapInfo;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
-
 public class AirLeap extends Item implements PlayerInteractInterface {
     private final double force;
     public AirLeap(String name, int level, Player owner) {

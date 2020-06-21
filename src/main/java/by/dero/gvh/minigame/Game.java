@@ -23,7 +23,7 @@ import java.util.*;
 
 public abstract class Game implements Listener {
     public enum State {
-        GAME, WAITING, PREPARING
+        GAME, FINISHING, WAITING, PREPARING
     }
 
     public Game(GameInfo info) {
@@ -31,6 +31,7 @@ public abstract class Game implements Listener {
     }
 
     private GameLobby lobby;
+    private AfterParty afterParty;
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
@@ -112,11 +113,16 @@ public abstract class Game implements Listener {
             return;
         }
 
+        state = State.FINISHING;
+        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                state.toString());
+
         for (final BukkitRunnable runnable : runnables) {
             runnable.cancel();
         }
         runnables.clear();
 
+        Minigame.getInstance().getGameEvents().getDamageCause().clear();
         for (GamePlayer player : players.values()) {
             if (player.getTeam() == winnerTeam) {
                 rewardManager.give("winGame", player.getPlayer());
@@ -125,9 +131,13 @@ public abstract class Game implements Listener {
             }
         }
 
+        afterParty = new AfterParty(this, winnerTeam);
+        afterParty.start();
         new BukkitRunnable() {
             @Override
             public void run() {
+                afterParty.stop();
+                afterParty = null;
                 ServerInfo lobbyServer = Plugin.getInstance().getServerData().getLobbyServer();
                 Set<String> playerNames = new HashSet<>(players.keySet());
                 for (String playerName : playerNames) {
@@ -144,7 +154,7 @@ public abstract class Game implements Listener {
                         state.toString());
                 prepare();
             }
-        }.runTaskLater(Plugin.getInstance(), 40);
+        }.runTaskLater(Plugin.getInstance(), 20 * getInfo().getFinishTime());
         cooldownMessageUpdater.cancel();
     }
 
@@ -152,10 +162,10 @@ public abstract class Game implements Listener {
         load();
         lobby = new GameLobby(this);
         state = State.WAITING;
-        rewardManager = new RewardManager();
-        Plugin.getInstance().getData().loadRewards(rewardManager);
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
+        rewardManager = new RewardManager();
+        Plugin.getInstance().getData().loadRewards(rewardManager);
     }
 
     abstract void load();
@@ -221,6 +231,10 @@ public abstract class Game implements Listener {
 
             @Override
             public void run() {
+                if (state == State.FINISHING) {
+                    this.cancel();
+                    return;
+                }
                 if (counter == 0) {
                     player.getPlayer().setGameMode(GameMode.SURVIVAL);
                     final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);

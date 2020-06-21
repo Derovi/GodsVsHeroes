@@ -37,6 +37,10 @@ public class EagleVision extends Item implements UltimateInterface {
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
+        if (!cooldown.isReady()) {
+            return;
+        }
+        cooldown.reload();
         final Location loc = player.getLocation().clone();
         final int team = getPlayer(player.getName()).getTeam();
         for (final Entity obj : Objects.requireNonNull(loc.getWorld()).getNearbyEntities(loc, radius, 200, radius)) {

@@ -9,8 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
-
 public class Exchange extends Item implements PlayerInteractInterface {
     private final double maxRange;
     public Exchange(String name, int level, Player owner) {

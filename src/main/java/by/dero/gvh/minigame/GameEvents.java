@@ -2,7 +2,6 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import org.bukkit.*;
@@ -22,19 +21,22 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.fusesource.jansi.Ansi;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.*;
+import static java.lang.Math.random;
 
 public class GameEvents implements Listener {
-    private final HashMap<Player, LivingEntity> damageCause = new HashMap<>();
+    public HashMap<LivingEntity, LivingEntity> getDamageCause() {
+        return damageCause;
+    }
+
+    private final HashMap<LivingEntity, LivingEntity> damageCause = new HashMap<>();
     private final HashSet<UUID> projectiles = new HashSet<>();
     private static Game game;
     private static final Color[] colors = new Color[] {
@@ -87,7 +89,9 @@ public class GameEvents implements Listener {
                     Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(),
                             ()-> player.getInventory().setItem(heldSlot, pane), 1);
                 }
-                if (curItem.getAmount() == itemInHand.getInfo().getAmount()) {
+
+                final int need = itemInHand.getInfo().getAmount();
+                if (curItem.getAmount() == need) {
                     final BukkitRunnable runnable = new BukkitRunnable() {
                         final PlayerInventory inv = player.getInventory();
                         final int slot = inv.getHeldItemSlot();
@@ -97,14 +101,14 @@ public class GameEvents implements Listener {
                                 this.cancel();
                                 return;
                             }
+                            if (inv.getItem(slot).getAmount() == need) {
+                                this.cancel();
+                            } else
                             if (inv.getItem(slot).getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
                                 inv.setItem(slot, itemInHand.getItemStack());
                                 inv.getItem(slot).setAmount(1);
                             } else {
                                 inv.getItem(slot).setAmount(inv.getItem(slot).getAmount()+1);
-                            }
-                            if (inv.getItem(slot).getAmount() == itemInHand.getInfo().getAmount()) {
-                                this.cancel();
                             }
                         }
                     };
@@ -131,7 +135,37 @@ public class GameEvents implements Listener {
                 }.runTaskTimer(Plugin.getInstance(), 0, 1);
             }
 
-            itemInHand.getSummonedEntityIds().add(event.getEntity().getUniqueId());
+            itemInHand.getSummonedEntityIds().add(proj.getUniqueId());
+        }
+    }
+
+    public void interactParticles(final Player player) {
+        double radius = 0.7;
+        final int parts = 5;
+        final Vector st = new Vector(random(), random(), random()).normalize();
+        final Vector dir = player.getLocation().getDirection();
+        final Location center = player.getEyeLocation().clone().add(dir.clone().multiply(3));
+        for (int ticks = 0; ticks < 5; ticks++) {
+            for (int i = 0; i < parts; i++) {
+                final double angle = Math.PI * 2 / parts * i;
+                final Vector at = st.clone().crossProduct(dir).normalize().
+                        rotateAroundAxis(dir, angle).multiply(radius);
+                at.add(center.toVector());
+                player.getWorld().spawnParticle(Particle.FLAME,
+                        new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
+                        1,0,0,0,0);
+            }
+            radius += 0.3;
+        }
+
+        for (int i = 0; i < 20; i++) {
+            final double angle = Math.PI / 10 * i;
+            final Vector at = st.clone().crossProduct(dir).normalize().
+                    rotateAroundAxis(dir, angle).multiply(radius);
+            at.add(center.toVector());
+            player.getWorld().spawnParticle(Particle.FLAME,
+                    new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
+                    1,0,0,0,0);
         }
     }
 
@@ -145,11 +179,19 @@ public class GameEvents implements Listener {
             return;
         }
         if (itemInHand instanceof PlayerInteractInterface) {
-            if (itemInHand instanceof UltimateInterface && itemInHand.getCooldown().isReady()) {
-                ItemStack item = player.getInventory().getItemInMainHand();
-                item.setAmount(item.getAmount()-1);
+            if (itemInHand instanceof UltimateInterface) {
+                if (itemInHand.getCooldown().isReady()) {
+                    ItemStack item = player.getInventory().getItemInMainHand();
+                    item.setAmount(item.getAmount()-1);
+                    ((UltimateInterface)itemInHand).onPlayerInteract(event);
+                }
+            } else {
+                if (itemInHand.getCooldown().isReady()) {
+                    Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
+                            interactParticles(player), 0);
+                }
+                ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
             }
-            ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
         }
     }
 
@@ -161,53 +203,49 @@ public class GameEvents implements Listener {
             String shooterName = ((Player) proj.getShooter()).getName();
             GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
             for (Item item : gamePlayer.getItems().values()) {
-                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId())) {
-                    if (item instanceof ProjectileHitInterface) {
-                        ((ProjectileHitInterface) item).onProjectileHit(event);
+                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId()) &&
+                        item instanceof ProjectileHitInterface) {
+                    ((ProjectileHitInterface) item).onProjectileHit(event);
+                    if (event.getHitEntity() != null && event.getHitEntity() instanceof LivingEntity) {
+                        ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
                     }
-                    item.getSummonedEntityIds().remove(proj.getUniqueId());
                 }
             }
         }
-        if (event.getHitEntity() != null && event.getHitEntity() instanceof Player) {
-            String playerName = event.getHitEntity().getName();
-            GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(playerName);
-            for (Item item : gamePlayer.getItems().values()) {
-                if (item instanceof ProjectileHitInterface) {
-                    ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
-                }
-            }
-        }
-        if (event.getHitEntity() instanceof Arrow) {
-            event.getHitEntity().remove();
+
+        if (event.getEntity() instanceof Arrow) {
+            event.getEntity().remove();
         }
     }
 
     @EventHandler
-    public void onPlayerTakeUnregisteredDamage(EntityDamageEvent event) {
-        if (!(event.getEntity() instanceof Player)) {
+    public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity)) {
             return;
         }
-        Player player = (Player) event.getEntity();
-        if (event.getCause() == EntityDamageEvent.DamageCause.LIGHTNING &&
+        final LivingEntity entity = (LivingEntity) event.getEntity();
+        entity.setNoDamageTicks(0);
+        entity.setMaximumNoDamageTicks(0);
+
+        if ((event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) &&
                 getLastLightningTime() + 200 > System.currentTimeMillis()) {
-            damageCause.put(player, getLastUsedLightning());
-        } else {
-            damageCause.put(player, player);
+            damageCause.put(entity, getLastUsedLightning());
         }
     }
 
     @EventHandler
     public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player) || event.getFinalDamage() == 0) {
+        if (!(event.getEntity() instanceof LivingEntity) || event.getFinalDamage() == 0) {
             return;
         }
-        Player player = (Player) event.getEntity();
+        final LivingEntity entity = (LivingEntity) event.getEntity();
+        entity.setNoDamageTicks(0);
+        entity.setMaximumNoDamageTicks(0);
         if (event.getDamager() instanceof LivingEntity) {
-            damageCause.put(player, (LivingEntity) event.getDamager());
+            damageCause.put(entity, (LivingEntity) event.getDamager());
         }
     }
-
 
     @EventHandler
     public void onEntityDie(EntityDeathEvent event) {
@@ -223,11 +261,11 @@ public class GameEvents implements Listener {
         spawnFirework(player.getLocation().clone().add(0,1,0), 1);
 
         final Game game = Minigame.getInstance().getGame();
-
-        LivingEntity kil = player.getKiller();
-        if (kil == null) {
-            kil = damageCause.getOrDefault(player, player);
+        LivingEntity kil = damageCause.getOrDefault(player, player);
+        if (player.getKiller() != null) {
+            kil = player.getKiller();
         }
+
         game.onPlayerKilled(player, kil);
         game.getPlayerDeathLocations().put(player.getName(), player.getLocation());
         Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
@@ -235,6 +273,7 @@ public class GameEvents implements Listener {
             game.spawnPlayer(game.getPlayers().get(player.getName()), game.getInfo().getRespawnTime());
             player.setExp(exp);
         }, 1L);
+        damageCause.remove(player);
     }
 
     @EventHandler

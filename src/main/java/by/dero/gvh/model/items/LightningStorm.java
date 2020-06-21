@@ -13,8 +13,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 
-import static by.dero.gvh.model.Drawings.drawLine;
-import static by.dero.gvh.model.Drawings.getInCircle;
+import java.util.List;
+
+import static by.dero.gvh.model.Drawings.*;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class LightningStorm extends Item implements UltimateInterface {
@@ -63,6 +64,10 @@ public class LightningStorm extends Item implements UltimateInterface {
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
+        if (!cooldown.isReady()) {
+            return;
+        }
+        cooldown.reload();
         drawSign(player.getLocation().clone());
 
         new BukkitRunnable() {
@@ -70,12 +75,17 @@ public class LightningStorm extends Item implements UltimateInterface {
             final Location center = player.getLocation().clone();
             @Override
             public void run() {
-                for (final LivingEntity obj : getNearby(center, radius)) {
+                final List<LivingEntity> near = getNearby(center, radius);
+                setLastUsedLightning(getOwner());
+                for (final LivingEntity obj : near) {
                     if (isEnemy(obj, getTeam())) {
-                        setLastUsedLightning(getOwner());
                         center.getWorld().strikeLightning(obj.getLocation());
                     }
                 }
+                for (int i = 0; i < 3 - near.size(); i++) {
+                    center.getWorld().strikeLightning(randomCylinder(center, radius, 0));
+                }
+
                 times++;
                 if (times == strikes) {
                     this.cancel();

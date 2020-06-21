@@ -19,7 +19,6 @@ import java.util.*;
 import static by.dero.gvh.model.Drawings.randomCylinder;
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
 
 public class ArrowRain extends Item implements UltimateInterface, Listener {
     private final double radius;
@@ -64,7 +63,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
                 for (Location obj : targets) {
                     Arrow arrow = center.getWorld().spawnArrow(shooter,
                             obj.toVector().subtract(shooter.toVector()).normalize(),
-                            3.5F, 1);
+                            4F, 1);
                     arrow.setShooter(getOwner());
                     new BukkitRunnable() {
                         @Override

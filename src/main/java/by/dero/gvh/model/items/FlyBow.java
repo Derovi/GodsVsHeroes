@@ -9,8 +9,6 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
 
-import static by.dero.gvh.utils.MessagingUtils.sendCooldownMessage;
-
 public class FlyBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
     public FlyBow(String name, int level, Player owner) {
         super(name, level, owner);
