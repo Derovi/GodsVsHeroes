@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.StunAllInfo;
@@ -11,6 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static by.dero.gvh.model.Drawings.spawnMovingCircle;
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 
@@ -26,14 +26,12 @@ public class StunAll extends Item implements UltimateInterface {
     }
 
     @Override
-    public void drawSign(final Location loc) {
-        final int lines = 8;
-        final Particle part = Particle.FLAME;
-        Drawings.drawCircle(loc.clone().add(0,radius,0), radius, part);
-        for (double angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / lines) {
-            final Location at = Drawings.getInCircle(loc, radius, angle);
-            Drawings.drawLine(at, at.add(0, radius,0), part);
+    public void drawSign(Location loc) {
+        for (double hei = 0; hei < radius; hei += 0.3) {
+            spawnMovingCircle(loc.clone(), latency, radius, 2,0, Particle.FLAME, getOwner());
+            loc = loc.add(0, 0.3, 0);
         }
+        spawnMovingCircle(loc.clone(), latency, radius, 4,0, Particle.FLAME, getOwner());
     }
 
     @Override
@@ -43,7 +41,7 @@ public class StunAll extends Item implements UltimateInterface {
             return;
         }
         cooldown.reload();
-        drawSign(p.getLocation());
+        drawSign(p.getLocation().clone());
         for (final LivingEntity ot : getNearby(p.getLocation(), radius)) {
             if (isEnemy(ot, getTeam())) {
                 Stun.stunEntity(ot, latency);

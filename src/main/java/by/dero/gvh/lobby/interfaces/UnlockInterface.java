@@ -77,7 +77,7 @@ public class UnlockInterface extends Interface {
 
                 final Location loc = stand.getLocation().clone();
                 spawnUnlockParticles(loc, player, 240,
-                        1.5, Math.toRadians(-70), Math.toRadians(70));
+                        1.7, Math.toRadians(-70), Math.toRadians(70));
 
                 Lobby.getInstance().updateDisplays(player);
                 close();
