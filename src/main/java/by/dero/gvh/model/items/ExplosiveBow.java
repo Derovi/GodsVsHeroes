@@ -26,7 +26,6 @@ import static java.lang.Math.random;
 public class ExplosiveBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
     private final double reclining;
     private final double multiplier;
-    private final double radiusMultiplier;
 
     private final Set<UUID> arrows = new HashSet<>();
 
@@ -35,7 +34,6 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
         final ExplosiveBowInfo info = (ExplosiveBowInfo) getInfo();
         reclining = info.getReclining();
         multiplier = info.getMultiplier();
-        radiusMultiplier = info.getRadiusMultiplier();
     }
 
     @Override
@@ -71,7 +69,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                     final float force = (float)(power*power*multiplier);
                     Location loc = obj.getLocation();
                     loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 3);
-                    for (LivingEntity ent : getNearby(loc, power*power*radiusMultiplier)) {
+                    for (LivingEntity ent : getNearby(loc, 5)) {
                         damage(force, ent, getOwner());
                     }
                     this.cancel();
