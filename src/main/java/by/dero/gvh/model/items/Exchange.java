@@ -31,8 +31,7 @@ public class Exchange extends Item implements PlayerInteractInterface {
                 continue;
             }
             final Vector n = other.getLocation().toVector().subtract(entity.getLocation().toVector());
-            if (entity.getLocation().getDirection().normalize().crossProduct(n)
-                    .lengthSquared() < threshold &&
+            if (entity.getLocation().getDirection().normalize().crossProduct(n).lengthSquared() < threshold &&
                     n.normalize().dot(entity.getLocation().getDirection().normalize()) >= 0) {
                 if (target == null || target.getLocation().distanceSquared(
                         entity.getLocation()) > other.getLocation()
