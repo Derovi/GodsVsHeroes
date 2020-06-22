@@ -16,6 +16,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -237,6 +238,7 @@ public abstract class Game implements Listener {
                 }
                 if (counter == 0) {
                     player.getPlayer().setGameMode(GameMode.SURVIVAL);
+                    new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0).apply(player.getPlayer());
                     final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
                     final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
                     player.getPlayer().teleport(spawnPosition.toLocation(getInfo().getWorld()));
