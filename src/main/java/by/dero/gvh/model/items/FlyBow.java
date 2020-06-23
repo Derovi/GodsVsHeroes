@@ -31,11 +31,11 @@ public class FlyBow extends Item implements PlayerShootBowInterface, ProjectileH
 
     @Override
     public void onProjectileHit(ProjectileHitEvent event) {
-        System.out.println("Projectile hit me");
+
     }
 
     @Override
     public void onProjectileHitEnemy(ProjectileHitEvent event) {
-        System.out.println("My projectile hit");
+
     }
 }

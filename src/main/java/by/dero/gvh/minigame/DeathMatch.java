@@ -127,7 +127,6 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
         updateDisplays();
-        System.out.println("Player die!");
         if (getState() != State.GAME) {
             return;
         }

@@ -62,7 +62,6 @@ public class Stats {
                 Lang.get("stats.bestDamageTaken").replace("%pl%", getBestDamageTaken().getName()),
         }) {
             final FlyingText text = new FlyingText(loc.clone(), message);
-            Bukkit.getServer().broadcastMessage(message + " " + loc.clone().toVector());
             loc.subtract(0, 0.3, 0);
             texts.add(text);
         }

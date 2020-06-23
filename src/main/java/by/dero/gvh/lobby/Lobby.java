@@ -99,7 +99,6 @@ public class Lobby implements PluginMode, Listener {
         Bukkit.getPluginManager().registerEvents(interfaceManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(monumentManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
-        System.out.println("Loading schematic");
         loadSchematic();
     }
 

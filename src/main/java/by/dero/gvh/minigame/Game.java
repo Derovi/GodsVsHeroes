@@ -55,7 +55,6 @@ public abstract class Game implements Listener {
 
     public void start() {
         GameEvents.setGame(this);
-        System.out.println("start game");
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
             return;
@@ -65,11 +64,9 @@ public abstract class Game implements Listener {
             return;
         }
         chooseTeams();
-        System.out.println("starting");
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
         }
-        System.out.println("spawned");
         state = State.GAME;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
