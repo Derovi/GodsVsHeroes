@@ -1,29 +1,31 @@
 package by.dero.gvh.utils;
 
-import by.dero.gvh.GamePlayer;
-import net.minecraft.server.v1_15_R1.IChatBaseComponent;
-import net.minecraft.server.v1_15_R1.PacketPlayOutTitle;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.Collection;
-
 public class Board {
     private final Team[] teams;
 
-    private static Scoreboard scoreboard = null;
+    public Scoreboard getScoreboard() {
+        return scoreboard;
+    }
+
     private static int counter = 123;
+    public static int getCounter() {
+        return counter++;
+    }
+    private final Scoreboard scoreboard;
+
     public Board(final String name, final int size) {
-        scoreboard = getScoreboard();
+        scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         for (final Objective obj : scoreboard.getObjectives()) {
             obj.unregister();
         }
 
-        final Objective obj = scoreboard.registerNewObjective("ServerName", "dummy", name);
+        final Objective obj = scoreboard.registerNewObjective(name, "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         teams = new Team[size];
@@ -41,18 +43,11 @@ public class Board {
         }
     }
 
-    public static Scoreboard getScoreboard() {
-        if (scoreboard == null) {
-            scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        }
-        return scoreboard;
-    }
-
     public void clear() {
-        for (final Team team : getScoreboard().getTeams()) {
+        for (final Team team : scoreboard.getTeams()) {
             team.unregister();
         }
-        for (final Objective obj : getScoreboard().getObjectives()) {
+        for (final Objective obj : scoreboard.getObjectives()) {
             obj.unregister();
         }
     }

@@ -3,6 +3,7 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.EscapeInfo;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -21,6 +22,7 @@ public class Escape extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
+        player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1);
         player.setVelocity(player.getLocation().getDirection().multiply(-force));
     }
 }

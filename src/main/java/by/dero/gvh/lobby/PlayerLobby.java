@@ -75,14 +75,13 @@ public class PlayerLobby {
     private void loadSelectedClass() {
         final Position recPos = record.getPosition();
         selectedClass = new FlyingText(
-                new Position(recPos.getX() + 15.5, recPos.getY()+1, recPos.getZ()+26.5),
-                "", player);
+                new Location(getPlayer().getWorld(),recPos.getX() + 15.5, recPos.getY()+1, recPos.getZ()+26.5), "");
     }
 
     private void loadBoard() {
         final Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
-        final Objective obj = scoreboard.registerNewObjective("ServerName", "dummy", "Lobby");
+        final Objective obj = scoreboard.registerNewObjective("Lobby", "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         final Team[] teams = new Team[2];

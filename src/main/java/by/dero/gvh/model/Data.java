@@ -103,7 +103,6 @@ public class Data {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        System.out.println("Data loaded!");
     }
 
     public void loadRewards(RewardManager manager) {

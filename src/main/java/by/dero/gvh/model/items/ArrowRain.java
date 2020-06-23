@@ -5,6 +5,7 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.ArrowRainInfo;
+import net.minecraft.server.v1_12_R1.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
@@ -88,7 +89,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
             @Override
             public void run() {
                 for (int i = 0; i < particleNumber; i++) {
-                    center.getWorld().spawnParticle(Particle.FLASH, randomCylinder(center, radius, height), 1);
+                    center.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, randomCylinder(center, radius, height), 1);
                     center.getWorld().spawnParticle(Particle.LAVA, randomCylinder(center, radius, height), 1);
                 }
                 if (++ticks >= cycleDelay * arrowCycles) {

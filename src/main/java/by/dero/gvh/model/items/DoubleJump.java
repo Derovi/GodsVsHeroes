@@ -4,6 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
+import static by.dero.gvh.model.Drawings.drawCircleInFront;
 import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 public class DoubleJump extends Item implements Listener {
@@ -58,6 +60,7 @@ public class DoubleJump extends Item implements Listener {
         if (getPlayer(p.getName()).getItems().containsKey(getName()) &&
                 p.getGameMode () == GameMode.SURVIVAL) {
             p.setAllowFlight (false);
+            drawCircleInFront(p, 3, 0.5, 5, Particle.EXPLOSION_LARGE);
             p.setVelocity (p.getLocation().getDirection().multiply (1.1d).setY (1.0d));
             event.setCancelled (true);
         }

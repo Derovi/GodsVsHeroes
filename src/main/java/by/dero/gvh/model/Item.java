@@ -42,8 +42,8 @@ public class Item {
         ItemStack itemStack = new ItemStack(info.getMaterial(), info.getAmount());
         ItemMeta itemMeta = itemStack.getItemMeta();
         for (ItemInfo.EnchantInfo enchantInfo : info.getEnchantments()) {
-            System.out.println(enchantInfo.getKey().getKey());
-            itemMeta.addEnchant(Enchantment.getByKey(enchantInfo.getKey()), enchantInfo.getLevel(), enchantInfo.isVisible());
+            System.out.println(enchantInfo.getName());
+            itemMeta.addEnchant(Enchantment.getByName(enchantInfo.getName()), enchantInfo.getLevel(), enchantInfo.isVisible());
         }
         itemMeta.setDisplayName(info.getDisplayName());
         List<String> lore = new LinkedList<>(info.getLore());

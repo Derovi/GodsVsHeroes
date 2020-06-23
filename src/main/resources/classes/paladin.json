@@ -4,16 +4,14 @@
   "cost": 0,
   "itemNames": [
     "defaultsword",
-    "improvedbow",
-    "defaultchestplate",
-    "defaultleggings",
     "healpotion",
     "airleap",
-    "chainlightning",
+    "improvedbow",
     "eaglevision",
     "stunall",
-
-    "slowbuf",
+    "defaultchestplate",
+    "defaultleggings",
+    
     "defaultarrow",
     "resistancebuf",
     "defaulthelmet",

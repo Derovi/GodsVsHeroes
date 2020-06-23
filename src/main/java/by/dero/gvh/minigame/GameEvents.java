@@ -22,11 +22,11 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.fusesource.jansi.Ansi;
 
 import java.util.*;
 
 
+import static by.dero.gvh.model.Drawings.drawCircleInFront;
 import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.*;
 import static java.lang.Math.random;
@@ -81,7 +81,7 @@ public class GameEvents implements Listener {
                 final String itemName = itemInHand.getInfo().getDisplayName();
 
                 if (curItem.getAmount() == 1) {
-                    final ItemStack pane = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
+                    final ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
                     pane.setAmount(1);
                     final ItemMeta meta = pane.getItemMeta();
                     meta.setDisplayName(itemName);
@@ -104,7 +104,7 @@ public class GameEvents implements Listener {
                             if (inv.getItem(slot).getAmount() == need) {
                                 this.cancel();
                             } else
-                            if (inv.getItem(slot).getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
+                            if (inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
                                 inv.setItem(slot, itemInHand.getItemStack());
                                 inv.getItem(slot).setAmount(1);
                             } else {
@@ -121,8 +121,10 @@ public class GameEvents implements Listener {
             if (!proj.getType().equals(EntityType.SPLASH_POTION)) {
                 projectiles.add(proj.getUniqueId());
                 new BukkitRunnable() {
-                    final Particle.DustOptions dust = new Particle.DustOptions(
-                            colors[new Random().nextInt(colors.length)], 2);
+                    final Random rnd = new Random();
+                    final int red = rnd.nextInt(256);
+                    final int green = rnd.nextInt(256);
+                    final int blue = rnd.nextInt(256);
                     @Override
                     public void run() {
                         if (!projectiles.contains(proj.getUniqueId())) {
@@ -130,42 +132,12 @@ public class GameEvents implements Listener {
                         }
                         final Location loc = proj.getLocation();
                         loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(),
-                                0, 0, 0, 0, dust);
+                                0, red, green, blue, 1);
                     }
                 }.runTaskTimer(Plugin.getInstance(), 0, 1);
             }
 
             itemInHand.getSummonedEntityIds().add(proj.getUniqueId());
-        }
-    }
-
-    public void interactParticles(final Player player) {
-        double radius = 0.7;
-        final int parts = 5;
-        final Vector st = new Vector(random(), random(), random()).normalize();
-        final Vector dir = player.getLocation().getDirection();
-        final Location center = player.getEyeLocation().clone().add(dir.clone().multiply(3));
-        for (int ticks = 0; ticks < 5; ticks++) {
-            for (int i = 0; i < parts; i++) {
-                final double angle = Math.PI * 2 / parts * i;
-                final Vector at = st.clone().crossProduct(dir).normalize().
-                        rotateAroundAxis(dir, angle).multiply(radius);
-                at.add(center.toVector());
-                player.getWorld().spawnParticle(Particle.FLAME,
-                        new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                        1,0,0,0,0);
-            }
-            radius += 0.3;
-        }
-
-        for (int i = 0; i < 20; i++) {
-            final double angle = Math.PI / 10 * i;
-            final Vector at = st.clone().crossProduct(dir).normalize().
-                    rotateAroundAxis(dir, angle).multiply(radius);
-            at.add(center.toVector());
-            player.getWorld().spawnParticle(Particle.FLAME,
-                    new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                    1,0,0,0,0);
         }
     }
 
@@ -186,10 +158,6 @@ public class GameEvents implements Listener {
                     ((UltimateInterface)itemInHand).onPlayerInteract(event);
                 }
             } else {
-                if (itemInHand.getCooldown().isReady()) {
-                    Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
-                            interactParticles(player), 0);
-                }
                 ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
             }
         }
@@ -227,10 +195,14 @@ public class GameEvents implements Listener {
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);
 
-        if ((event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) ||
-                event.getCause().equals(EntityDamageEvent.DamageCause.FIRE)) &&
-                getLastLightningTime() + 200 > System.currentTimeMillis()) {
-            damageCause.put(entity, getLastUsedLightning());
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
+                getLastLightningTime() + 100 > System.currentTimeMillis()) {
+            final Player player = getLastUsedLightning();
+            if (isEnemy(entity, getPlayer(player.getName()).getTeam())) {
+                damageCause.put(entity, player);
+            } else {
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -243,7 +215,12 @@ public class GameEvents implements Listener {
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);
         if (event.getDamager() instanceof LivingEntity) {
-            damageCause.put(entity, (LivingEntity) event.getDamager());
+            if (event.getDamager() instanceof Player &&
+                    isEnemy(entity, getPlayer(event.getDamager().getName()).getTeam())) {
+                damageCause.put(entity, (LivingEntity) event.getDamager());
+            } else {
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -298,7 +275,8 @@ public class GameEvents implements Listener {
     public void removeEntities(EntitySpawnEvent event) {
         final Entity ent = event.getEntity();
         if (ent instanceof LivingEntity &&
-                !(ent instanceof Player)) {
+                !(ent instanceof Player) &&
+                !(ent instanceof ArmorStand)) {
             ent.remove();
         }
     }

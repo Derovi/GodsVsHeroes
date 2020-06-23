@@ -4,10 +4,13 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ExchangeInfo;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
+import org.bukkit.Particle;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.util.Vector;
+
+import static by.dero.gvh.model.Drawings.drawCircleInFront;
+import static by.dero.gvh.utils.DataUtils.*;
 
 public class Exchange extends Item implements PlayerInteractInterface {
     private final double maxRange;
@@ -16,38 +19,20 @@ public class Exchange extends Item implements PlayerInteractInterface {
         maxRange = ((ExchangeInfo) getInfo()).getMaxRange();
     }
 
-    public Entity getTargetEntity(final Entity entity) {
-        return getTarget(entity, entity.getWorld().getLivingEntities());
-    }
-
-    public <T extends Entity> T getTarget(final Entity entity,
-                                                 final Iterable<T> entities) {
-        if (entity == null)
-            return null;
-        T target = null;
-        final double threshold = 1;
-        for (final T other : entities) {
-            if (other.getLocation().distance(entity.getLocation()) > maxRange) {
-                continue;
-            }
-            final Vector n = other.getLocation().toVector().subtract(entity.getLocation().toVector());
-            if (entity.getLocation().getDirection().normalize().crossProduct(n)
-                    .lengthSquared() < threshold &&
-                    n.normalize().dot(entity.getLocation().getDirection().normalize()) >= 0) {
-                if (target == null || target.getLocation().distanceSquared(
-                        entity.getLocation()) > other.getLocation()
-                        .distanceSquared(entity.getLocation())) {
-                    target = other;
-                }
-            }
+    public void drawSign(final Player player) {
+        double radius = 0.7;
+        for (int ticks = 0; ticks < 5; ticks++) {
+            drawCircleInFront(player, radius, 3, 5, Particle.PORTAL);
+            radius += 0.3;
         }
-        return target;
+
+        drawCircleInFront(player, radius, 3, 20, Particle.PORTAL);
     }
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
-        final Entity target = getTargetEntity(player);
+        final LivingEntity target = getTargetEntity(player, maxRange);
 
         final Location zxc = player.getLocation().clone();
         if (target != null) {
@@ -55,6 +40,7 @@ public class Exchange extends Item implements PlayerInteractInterface {
                 return;
             }
             cooldown.reload();
+            drawSign(player);
             player.teleport(target);
             target.teleport(zxc);
         }

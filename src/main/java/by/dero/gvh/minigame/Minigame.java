@@ -15,7 +15,6 @@ import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
-import org.bukkit.GameRule;
 import org.bukkit.World;
 
 public class Minigame implements PluginMode {
@@ -44,12 +43,10 @@ public class Minigame implements PluginMode {
 
         final World world = Bukkit.getWorld(game.getInfo().getWorld());
         world.setTime(1000);
-        world.setGameRule(GameRule.KEEP_INVENTORY, true);
         world.setDifficulty(Difficulty.NORMAL);
-        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-        world.setGameRule(GameRule.DO_MOB_LOOT, false);
-        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-        world.setGameRule(GameRule.DO_MOB_LOOT, false);
+        world.setGameRuleValue("keepInventory", "true");
+        world.setGameRuleValue("doDaylightCycle", "false");
+        world.setGameRuleValue("doMobLoot", "false");
         game.prepare();
         Bukkit.getPluginManager().registerEvents(game, Plugin.getInstance());
         registerEvents();

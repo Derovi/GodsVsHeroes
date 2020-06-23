@@ -3,7 +3,6 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
-import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.BungeeUtils;
 import by.dero.gvh.utils.DirectedPosition;
 import org.bukkit.GameMode;
@@ -16,10 +15,13 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.*;
+
+import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 public abstract class Game implements Listener {
     public enum State {
@@ -38,7 +40,12 @@ public abstract class Game implements Listener {
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private BukkitRunnable cooldownMessageUpdater;
-    protected Board board;
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    private Stats stats;
 
     public LinkedList<BukkitRunnable> getRunnables() {
         return runnables;
@@ -48,7 +55,6 @@ public abstract class Game implements Listener {
 
     public void start() {
         GameEvents.setGame(this);
-        System.out.println("start game");
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
             return;
@@ -58,11 +64,9 @@ public abstract class Game implements Listener {
             return;
         }
         chooseTeams();
-        System.out.println("starting");
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
         }
-        System.out.println("spawned");
         state = State.GAME;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
@@ -86,6 +90,7 @@ public abstract class Game implements Listener {
             }
         };
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
+        stats = new Stats();
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
@@ -93,6 +98,7 @@ public abstract class Game implements Listener {
             if (!player.equals(killer)) {
                 rewardManager.give("killEnemy", (Player) killer,
                         rewardManager.getMessage("killEnemy").replace("%enemy%", player.getName()));
+                stats.addKill(player, killer);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -149,6 +155,7 @@ public abstract class Game implements Listener {
                         player.kickPlayer(Lang.get("game.gameFinished"));
                     }
                 }
+                stats.unload();
                 state = State.PREPARING;
                 Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                         state.toString());
@@ -237,6 +244,7 @@ public abstract class Game implements Listener {
                 }
                 if (counter == 0) {
                     player.getPlayer().setGameMode(GameMode.SURVIVAL);
+                    new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1).apply(player.getPlayer());
                     final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
                     final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
                     player.getPlayer().teleport(spawnPosition.toLocation(getInfo().getWorld()));
