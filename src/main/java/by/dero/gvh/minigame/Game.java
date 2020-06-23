@@ -3,7 +3,6 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
-import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.BungeeUtils;
 import by.dero.gvh.utils.DirectedPosition;
 import org.bukkit.GameMode;
@@ -39,7 +38,6 @@ public abstract class Game implements Listener {
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private BukkitRunnable cooldownMessageUpdater;
-    protected Board board;
 
     public LinkedList<BukkitRunnable> getRunnables() {
         return runnables;

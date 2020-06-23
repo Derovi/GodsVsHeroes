@@ -1,26 +1,25 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
-import by.dero.gvh.utils.HealthBar;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import static by.dero.gvh.utils.DataUtils.getPlayer;
 
-public class DeathMatch extends Game {
+public class DeathMatch extends Game implements DisplayInteractInterface {
     private final DeathMatchInfo deathMatchInfo;
 
     int[] currentLivesCount;
@@ -38,32 +37,62 @@ public class DeathMatch extends Game {
         }
     }
 
+    @Override
+    public void setDisplays() {
+        for (final GamePlayer gp : getPlayers().values()) {
+            final Board board = new Board(Lang.get("game.livesLeft"),currentLivesCount.length + 1);
+            gp.setBoard(board);
+            final Scoreboard sb = board.getScoreboard();
+            for (int team = 0; team < currentLivesCount.length; team++) {
+                final String t = team + "hp";
+                if (sb.getTeam(t) != null) {
+                    sb.getTeam(t).unregister();
+                }
+                sb.registerNewTeam(t).setColor(
+                        ChatColor.getByChar(Lang.get("commands." + (char)('1' + team)).charAt(1)));
+            }
+            if (sb.getObjective("health") != null) {
+                sb.getObjective("health").unregister();
+            }
+            final Objective obj = sb.registerNewObjective("health", "health", "health");
+            obj.setDisplayName("§c❤");
+            obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
 
-    private HealthBar healthBar;
+            for (final GamePlayer othergp : getPlayers().values()) {
+                final String name = othergp.getPlayer().getName();
+                sb.getTeam(othergp.getTeam() + "hp").addEntry(name);
+            }
+        }
+    }
+
+    @Override
+    public void updateDisplays() {
+        ArrayList<Integer> idxs = new ArrayList<>();
+        for (int i = 0; i < currentLivesCount.length; i++) {
+            idxs.add(i);
+        }
+        idxs.sort((a, b) -> currentLivesCount[b] - currentLivesCount[a]);
+        String[] str = new String[currentLivesCount.length + 1];
+        for (int zxc = 0; zxc < currentLivesCount.length; zxc++) {
+            final int i = idxs.get(zxc);
+            final String com = Lang.get("commands." + (char)('1' + i));
+            str[i] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
+                    .replace("%com%", com)
+                    .replace("%pts%", String.valueOf(currentLivesCount[i]));
+        }
+        for (final GamePlayer gp : getPlayers().values()) {
+            str[currentLivesCount.length] = Lang.get("commands.playingFor").
+                    replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
+            gp.getBoard().update(str);
+        }
+    }
+
     @Override
     public void start() {
         super.start();
-        board = new Board(Lang.get("game.livesLeft"), currentLivesCount.length);
-        final BukkitRunnable runnable = new BukkitRunnable() {
-            String[] str = new String[currentLivesCount.length];
-            @Override
-            public void run() {
-                for (int i = 0; i < currentLivesCount.length; i++) {
-                    final String com = Lang.get("commands." + (char)('1' + i));
-                    str[i] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
-                            .replace("%com%", com)
-                            .replace("%pts%", String.valueOf(currentLivesCount[i]));
-                }
-                board.update(str);
-            }
-        };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 10);
-        getRunnables().add(runnable);
-        healthBar = new HealthBar(currentLivesCount.length);
 
-        for (final GamePlayer gp : getPlayers().values()) {
-            healthBar.addPlayer(gp.getPlayer());
-        }
+        setDisplays();
+        updateDisplays();
     }
 
     public DeathMatchInfo getDeathMatchInfo() {
@@ -72,7 +101,9 @@ public class DeathMatch extends Game {
 
     @Override
     public void finish(int winnerTeam) {
-        board.clear();
+        for (final GamePlayer gp : getPlayers().values()) {
+            gp.getBoard().clear();
+        }
         super.finish(winnerTeam);
     }
 
@@ -95,6 +126,7 @@ public class DeathMatch extends Game {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
+        updateDisplays();
         System.out.println("Player die!");
         if (getState() != State.GAME) {
             return;
@@ -102,6 +134,7 @@ public class DeathMatch extends Game {
         --currentLivesCount[getPlayers().get(event.getEntity().getName()).getTeam()];
         checkForGameEnd();
     }
+
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
         if (getState() != State.GAME) {

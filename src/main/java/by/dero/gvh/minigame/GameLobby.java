@@ -16,58 +16,55 @@ import static by.dero.gvh.utils.MessagingUtils.sendTitle;
 
 public class GameLobby {
     private final Game game;
-    private final Board board;
     private int timeLeft = 60;
     private int showIndex = 0;
+    private BukkitRunnable prepairing;
 
     public GameLobby(Game game) {
         this.game = game;
-        board = new Board("Lobby", 3);
     }
 
     private boolean ready = false;
     private final int[] showTime = {60, 45, 30, 15, 10, 5, 4, 3, 2, 1};
 
-    public void updateDisplays() {
-        board.update(new String[] {
-                Lang.get("gameLobby.boardReady").
-                        replace("%cur%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size())).
-                        replace("%max%", String.valueOf(game.getInfo().getMaxPlayerCount())),
-                Lang.get("gameLobby.boardRequired").
-                        replace("%min%", String.valueOf(game.getInfo().getMinPlayerCount())),
-                Lang.get("gameLobby.boardTimeLeft").
-                        replace("%time%", String.valueOf(timeLeft))
-        });
+    private void updateDisplays() {
+        for (final GamePlayer gp : game.getPlayers().values()) {
+            gp.getBoard().update(
+                    new String[] {
+                            Lang.get("gameLobby.boardReady").
+                                    replace("%cur%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size())).
+                                    replace("%max%", String.valueOf(game.getInfo().getMaxPlayerCount())),
+                            Lang.get("gameLobby.boardRequired").
+                                    replace("%min%", String.valueOf(game.getInfo().getMinPlayerCount())),
+                            Lang.get("gameLobby.boardTimeLeft").
+                                    replace("%time%", String.valueOf(timeLeft))
+                    }
+            );
+        }
     }
 
     public void startGame() {
         timeLeft = 60;
         showIndex = 0;
+        prepairing.cancel();
         ready = false;
         sendTitle(Lang.get("game.gameAlreadyStarted"), game.getPlayers().values());
-        ScoreboardManager manager = Bukkit.getScoreboardManager();
-        Scoreboard board = manager.getNewScoreboard();
-
-        Objective objective = board.registerNewObjective("showhealth", "health", "");
-        objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        objective.setDisplayName("/ 20");
 
         for(Player online : Bukkit.getOnlinePlayers()){
-            online.setScoreboard(board);
             online.setHealth(online.getHealth());
         }
         game.start();
     }
 
     public void startPrepairing() {
-        new BukkitRunnable() {
+        prepairing = new BukkitRunnable() {
             @Override
             public void run() {
                 if (!ready) {
+                    this.cancel();
                     showIndex = 0;
                     timeLeft = 60;
                     updateDisplays();
-                    this.cancel();
                     return;
                 }
                 updateDisplays();
@@ -78,14 +75,17 @@ public class GameLobby {
                 timeLeft--;
 
                 if (timeLeft == 0) {
-                    startGame();
                     this.cancel();
+                    startGame();
                 }
             }
-        }.runTaskTimer(Plugin.getInstance(), 0, 20);
+        };
+        prepairing.runTaskTimer(Plugin.getInstance(), 0, 20);
     }
 
     public void onPlayerJoined(GamePlayer gamePlayer) {
+        gamePlayer.setBoard(new Board("Lobby", 3));
+
         final int players = game.getPlayers().size();
         final int needed = game.getInfo().getMaxPlayerCount();
         Bukkit.getServer().broadcastMessage(Lang.get("gameLobby.playerJoined")
@@ -93,7 +93,6 @@ public class GameLobby {
                 .replace("%cur%", String.valueOf(players))
                 .replace("%max%", String.valueOf(needed))
         );
-        gamePlayer.getPlayer().setScoreboard(board.getScoreboard());
         updateDisplays();
         gamePlayer.getPlayer().getInventory().clear();
         if (players >= game.getInfo().getMinPlayerCount() && !ready) {
