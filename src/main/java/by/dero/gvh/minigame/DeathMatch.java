@@ -126,11 +126,11 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
-        updateDisplays();
         if (getState() != State.GAME) {
             return;
         }
         --currentLivesCount[getPlayers().get(event.getEntity().getName()).getTeam()];
+        updateDisplays();
         checkForGameEnd();
     }
 

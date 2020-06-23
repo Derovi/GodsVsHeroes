@@ -12,12 +12,14 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import java.util.Arrays;
+
 import static by.dero.gvh.utils.MessagingUtils.sendTitle;
+import static org.apache.commons.lang.ArrayUtils.indexOf;
 
 public class GameLobby {
     private final Game game;
     private int timeLeft = 60;
-    private int showIndex = 0;
     private BukkitRunnable prepairing;
 
     public GameLobby(Game game) {
@@ -45,7 +47,6 @@ public class GameLobby {
 
     public void startGame() {
         timeLeft = 60;
-        showIndex = 0;
         prepairing.cancel();
         ready = false;
         sendTitle(Lang.get("game.gameAlreadyStarted"), game.getPlayers().values());
@@ -62,15 +63,13 @@ public class GameLobby {
             public void run() {
                 if (!ready) {
                     this.cancel();
-                    showIndex = 0;
                     timeLeft = 60;
                     updateDisplays();
                     return;
                 }
                 updateDisplays();
-                if (showTime[showIndex] == timeLeft) {
+                if (indexOf(showTime, timeLeft) != -1) {
                     sendTitle("§a" + timeLeft, game.getPlayers().values());
-                    showIndex++;
                 }
                 timeLeft--;
 
