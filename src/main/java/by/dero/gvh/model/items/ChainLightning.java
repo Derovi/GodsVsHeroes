@@ -24,6 +24,7 @@ import static by.dero.gvh.utils.DataUtils.*;
 public class ChainLightning extends Item implements PlayerInteractInterface {
     private final double radius;
     private final double damage;
+    private final Particle.DustOptions options = new Particle.DustOptions(Color.YELLOW, 2);
 
     public ChainLightning(final String name, final int level, final Player owner) {
         super(name, level, owner);
@@ -46,7 +47,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
         if (entity == null || !isEnemy(entity, getTeam())) {
             drawLine(player.getEyeLocation(),
                     player.getEyeLocation().clone().add(player.getLocation().getDirection().multiply(100)),
-                    Particle.FIREWORKS_SPARK);
+                    Particle.END_ROD);
             return;
         }
         new BukkitRunnable() {
@@ -55,7 +56,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
             LivingEntity next = entity;
             @Override
             public void run() {
-                drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.FIREWORKS_SPARK);
+                drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.END_ROD);
                 Objects.requireNonNull(next.getEyeLocation().getWorld()).spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
                 hit.add(next.getUniqueId());
                 damage(damage, next, getOwner());

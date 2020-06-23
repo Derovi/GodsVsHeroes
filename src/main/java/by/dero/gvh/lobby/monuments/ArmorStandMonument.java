@@ -1,5 +1,6 @@
 package by.dero.gvh.lobby.monuments;
 
+import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Item;

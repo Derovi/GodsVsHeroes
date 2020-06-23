@@ -13,7 +13,7 @@ import org.bukkit.util.Vector;
 import static java.lang.Math.random;
 
 public class Drawings {
-    private static final double dense = 2;
+    private static final double dense = 3;
     private static final Vector randomVector = new Vector(random(), random(), random()).normalize();
 
     public static Location randomCylinder(final Location center, final double radius, final double depth) {
@@ -33,6 +33,25 @@ public class Drawings {
             a.getWorld().spawnParticle(obj,
                     new Location(a.getWorld(), cur.getX(), cur.getY(), cur.getZ()),
                     1, 0,0,0,0);
+
+            if (cur.equals(to)) {
+                break;
+            }
+            if (cur.distance(to) < 1 / dense) {
+                cur = to;
+                continue;
+            }
+            cur.add(to.clone().subtract(cur).normalize().multiply(1/dense));
+        }
+    }
+
+    public static void drawLine(Location a, Location b, Particle obj, Particle.DustOptions options) {
+        Vector cur = a.toVector();
+        Vector to = b.toVector();
+        while (true) {
+            a.getWorld().spawnParticle(obj,
+                    new Location(a.getWorld(), cur.getX(), cur.getY(), cur.getZ()),
+                    0, 0,0,0,options);
 
             if (cur.equals(to)) {
                 break;
