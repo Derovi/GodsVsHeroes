@@ -2,6 +2,7 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;

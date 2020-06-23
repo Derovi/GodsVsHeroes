@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 0,
-      "material": "GOLDEN_HELMET",
+      "material": "GOLD_HELMET",
       "displayName": "§cШлем",
       "lore": [],
       "amount": 1

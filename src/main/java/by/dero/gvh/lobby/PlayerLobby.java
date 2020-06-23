@@ -10,10 +10,7 @@ import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.WorldEditUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -22,6 +19,8 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;
+
+import static by.dero.gvh.utils.Board.setText;
 
 public class PlayerLobby {
     private final LobbyRecord record;
@@ -97,9 +96,9 @@ public class PlayerLobby {
             final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
             @Override
             public void run() {
-                teams[0].setPrefix(Lang.get("lobby.selectedClass")
+                setText(teams[0], Lang.get("lobby.selectedClass")
                         .replace("%class%", Lang.get("classes." + info.getSelectedClass())));
-                teams[1].setPrefix(Lang.get("lobby.moneyBalance")
+                setText(teams[1], Lang.get("lobby.moneyBalance")
                         .replace("%money%", String.valueOf(info.getBalance())));
             }
         };

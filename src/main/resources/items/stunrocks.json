@@ -6,7 +6,7 @@
       "cooldown": 140,
       "duration": 40,
       "cost": 80,
-      "material": "SNOWBALL",
+      "material": "SNOW_BALL",
       "displayName": "§cStun Rocks",
       "lore": [
         "§aОтомсти буржуям",
@@ -18,7 +18,7 @@
       "cooldown": 120,
       "duration": 50,
       "cost": 100,
-      "material": "SNOWBALL",
+      "material": "SNOW_BALL",
       "displayName": "§cStun Rocks",
       "lore": [
         "§aОтомсти буржуям",
@@ -30,7 +30,7 @@
       "cooldown": 100,
       "duration": 60,
       "cost": 120,
-      "material": "SNOWBALL",
+      "material": "SNOW_BALL",
       "displayName": "§cStun Rocks",
       "lore": [
         "§aОтомсти буржуям",

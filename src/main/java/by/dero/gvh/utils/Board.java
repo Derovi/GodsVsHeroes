@@ -37,9 +37,18 @@ public class Board {
         }
     }
 
+    public static void setText(final Team team, final String str) {
+        if (str.length() > 16) {
+            team.setPrefix(str.substring(0, 16));
+            team.setSuffix(str.substring(16));
+        } else {
+            team.setPrefix(str);
+        }
+    }
+
     public void update(final String[] strings) {
         for (int i = 0; i < strings.length; i++) {
-            teams[i].setPrefix(strings[i]);
+            setText(teams[i], strings[i]);
         }
     }
 
