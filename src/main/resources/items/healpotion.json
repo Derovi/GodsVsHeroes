@@ -3,9 +3,9 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 60,
+      "cooldown": 80,
       "radius": 5.0,
-      "heal": 4,
+      "heal": 3,
       "cost": 80,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
@@ -16,9 +16,9 @@
       "amount": 3
     },
     {
-      "cooldown": 60,
+      "cooldown": 75,
       "radius": 5.0,
-      "heal": 5,
+      "heal": 3,
       "cost": 100,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
@@ -29,9 +29,9 @@
       "amount": 3
     },
     {
-      "cooldown": 60,
+      "cooldown": 70,
       "radius": 5.0,
-      "heal": 6,
+      "heal": 3,
       "cost": 120,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
@@ -40,6 +40,32 @@
         "§6Уровень 3"
       ],
       "amount": 3
+    },
+    {
+      "cooldown": 65,
+      "radius": 5.0,
+      "heal": 3,
+      "cost": 120,
+      "material": "SPLASH_POTION",
+      "displayName": "§cHeal Potion",
+      "lore": [
+        "§aЛечите своих сопартийцев!",
+        "§6Уровень 4"
+      ],
+      "amount": 3
+    },
+    {
+      "cooldown": 80,
+      "radius": 5.0,
+      "heal": 3,
+      "cost": 120,
+      "material": "SPLASH_POTION",
+      "displayName": "§cHeal Potion",
+      "lore": [
+        "§aЛечите своих сопартийцев!",
+        "§6Уровень 5"
+      ],
+      "amount": 4
     }
   ]
 }
