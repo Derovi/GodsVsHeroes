@@ -1,9 +1,5 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.Plugin;
-import by.dero.gvh.model.PlayerInfo;
-import org.bukkit.Bukkit;
-import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
