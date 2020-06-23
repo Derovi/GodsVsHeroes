@@ -1,6 +1,7 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -9,12 +10,39 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import static java.lang.Math.random;
 
 public class Drawings {
     private static final double dense = 3;
     private static final Vector randomVector = new Vector(random(), random(), random()).normalize();
+
+    public static Vector rotateAroundAxis(final Vector point, final Vector axis, double angle) throws IllegalArgumentException {
+        return rotateAroundNonUnitAxis(point, axis.length() == 1 ? axis : axis.clone().normalize(), angle);
+    }
+
+    public static Vector rotateAroundNonUnitAxis(final Vector point, final Vector axis, final double angle) {
+        double x = point.getX(), y = point.getY(), z = point.getZ();
+        double x2 = axis.getX(), y2 = axis.getY(), z2 = axis.getZ();
+
+        double cosTheta = Math.cos(angle);
+        double sinTheta = Math.sin(angle);
+        double dotProduct = point.dot(axis);
+
+        double xPrime = x2 * dotProduct * (1d - cosTheta)
+                + x * cosTheta
+                + (-z2 * y + y2 * z) * sinTheta;
+        double yPrime = y2 * dotProduct * (1d - cosTheta)
+                + y * cosTheta
+                + (z2 * x - x2 * z) * sinTheta;
+        double zPrime = z2 * dotProduct * (1d - cosTheta)
+                + z * cosTheta
+                + (-y2 * x + x2 * y) * sinTheta;
+
+        return point.setX(xPrime).setY(yPrime).setZ(zPrime);
+    }
+
 
     public static Location randomCylinder(final Location center, final double radius, final double depth) {
         final double dst = Math.random() * radius;
@@ -45,13 +73,14 @@ public class Drawings {
         }
     }
 
-    public static void drawLine(Location a, Location b, Particle obj, Particle.DustOptions options) {
+    public static void drawLineColor(final Location a, final Location b,
+                                     final int red, final int green, final int blue) {
         Vector cur = a.toVector();
-        Vector to = b.toVector();
+        final Vector to = b.toVector();
         while (true) {
-            a.getWorld().spawnParticle(obj,
+            a.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(a.getWorld(), cur.getX(), cur.getY(), cur.getZ()),
-                    0, 0,0,0,options);
+                    0, red, green, blue, 2);
 
             if (cur.equals(to)) {
                 break;
@@ -216,8 +245,7 @@ public class Drawings {
 
         for (int i = 0; i < parts; i++) {
             final double angle = Math.PI * 2 * i / parts;
-            final Vector at = randomVector.clone().crossProduct(dir).normalize().
-                    rotateAroundAxis(dir, angle).multiply(radius);
+            final Vector at = rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);
             at.add(center.toVector());
             entity.getWorld().spawnParticle(par,
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
@@ -225,20 +253,19 @@ public class Drawings {
         }
     }
 
-    public static void drawCircleInFront(final LivingEntity entity, final double radius,
-                                         final double dst, final int parts, final Particle par,
-                                         final Particle.DustOptions options) {
+    public static void drawCircleInFrontColor(final LivingEntity entity, final double radius,
+                                         final double dst, final int parts,
+                                         final int red, final int green, final int blue) {
         final Vector dir = entity.getLocation().getDirection();
         final Location center = entity.getEyeLocation().clone().add(dir.clone().multiply(dst));
 
         for (int i = 0; i < parts; i++) {
             final double angle = Math.PI * 2 * i / parts;
-            final Vector at = randomVector.clone().crossProduct(dir).normalize().
-                    rotateAroundAxis(dir, angle).multiply(radius);
+            final Vector at = rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);
             at.add(center.toVector());
-            entity.getWorld().spawnParticle(par,
+            entity.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                    0,0,0,0, options);
+                    0, red, green, blue, 2);
         }
     }
 }

@@ -74,10 +74,11 @@ public class Lobby implements PluginMode, Listener {
             world = creator.createWorld();
         }
         world = Plugin.getInstance().getServer().getWorld(worldName);
+        world.setGameRuleValue("doDaylightCycle", "false");
+        world.setGameRuleValue("doMobSpawning", "false");
+        world.setGameRuleValue("doWeatherCycle", "false");
+
         world.setTime(1000);
-        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-        world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
-        world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
         world.setStorm(false);
         world.setThundering(false);
         world.setDifficulty(Difficulty.PEACEFUL);

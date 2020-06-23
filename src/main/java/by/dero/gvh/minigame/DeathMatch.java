@@ -54,7 +54,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             if (sb.getObjective("health") != null) {
                 sb.getObjective("health").unregister();
             }
-            final Objective obj = sb.registerNewObjective("health", "health", "health");
+            final Objective obj = sb.registerNewObjective("health", "health");
             obj.setDisplayName("§c❤");
             obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
 

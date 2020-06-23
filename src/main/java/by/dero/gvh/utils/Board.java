@@ -25,7 +25,7 @@ public class Board {
             obj.unregister();
         }
 
-        final Objective obj = scoreboard.registerNewObjective("ServerName", "dummy", name);
+        final Objective obj = scoreboard.registerNewObjective(name, "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         teams = new Team[size];

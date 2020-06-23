@@ -1,10 +1,8 @@
 package by.dero.gvh.utils;
 
 import by.dero.gvh.GamePlayer;
-import by.dero.gvh.minigame.GameEvents;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
-import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

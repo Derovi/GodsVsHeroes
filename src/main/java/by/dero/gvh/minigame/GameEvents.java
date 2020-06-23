@@ -81,7 +81,7 @@ public class GameEvents implements Listener {
                 final String itemName = itemInHand.getInfo().getDisplayName();
 
                 if (curItem.getAmount() == 1) {
-                    final ItemStack pane = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
+                    final ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
                     pane.setAmount(1);
                     final ItemMeta meta = pane.getItemMeta();
                     meta.setDisplayName(itemName);
@@ -104,7 +104,7 @@ public class GameEvents implements Listener {
                             if (inv.getItem(slot).getAmount() == need) {
                                 this.cancel();
                             } else
-                            if (inv.getItem(slot).getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
+                            if (inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
                                 inv.setItem(slot, itemInHand.getItemStack());
                                 inv.getItem(slot).setAmount(1);
                             } else {
@@ -121,8 +121,10 @@ public class GameEvents implements Listener {
             if (!proj.getType().equals(EntityType.SPLASH_POTION)) {
                 projectiles.add(proj.getUniqueId());
                 new BukkitRunnable() {
-                    final Particle.DustOptions dust = new Particle.DustOptions(
-                            colors[new Random().nextInt(colors.length)], 2);
+                    final Random rnd = new Random();
+                    final int red = rnd.nextInt(256);
+                    final int green = rnd.nextInt(256);
+                    final int blue = rnd.nextInt(256);
                     @Override
                     public void run() {
                         if (!projectiles.contains(proj.getUniqueId())) {
@@ -130,7 +132,7 @@ public class GameEvents implements Listener {
                         }
                         final Location loc = proj.getLocation();
                         loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(),
-                                0, 0, 0, 0, dust);
+                                0, red, green, blue, 1);
                     }
                 }.runTaskTimer(Plugin.getInstance(), 0, 1);
             }

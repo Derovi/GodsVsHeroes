@@ -81,7 +81,7 @@ public class PlayerLobby {
     private void loadBoard() {
         final Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
-        final Objective obj = scoreboard.registerNewObjective("ServerName", "dummy", "Lobby");
+        final Objective obj = scoreboard.registerNewObjective("Lobby", "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         final Team[] teams = new Team[2];

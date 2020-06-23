@@ -17,14 +17,12 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
-import static by.dero.gvh.model.Drawings.drawCircleInFront;
-import static by.dero.gvh.model.Drawings.drawLine;
+import static by.dero.gvh.model.Drawings.*;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class ChainLightning extends Item implements PlayerInteractInterface {
     private final double radius;
     private final double damage;
-    private final Particle.DustOptions options = new Particle.DustOptions(Color.YELLOW, 2);
 
     public ChainLightning(final String name, final int level, final Player owner) {
         super(name, level, owner);
@@ -41,8 +39,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
 
-        drawCircleInFront(player, 2, 3, 20, Particle.REDSTONE,
-                new Particle.DustOptions(Color.YELLOW, 2));
+        drawCircleInFrontColor(player, 2, 3, 20, 255, 255, 0);
         final LivingEntity entity = getTargetEntity(player, 100);
         if (entity == null || !isEnemy(entity, getTeam())) {
             drawLine(player.getEyeLocation(),
