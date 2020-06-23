@@ -4,13 +4,17 @@ import by.dero.gvh.Plugin;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import static java.lang.Math.random;
+
 public class Drawings {
     private static final double dense = 2;
+    private static final Vector randomVector = new Vector(random(), random(), random()).normalize();
 
     public static Location randomCylinder(final Location center, final double radius, final double depth) {
         final double dst = Math.random() * radius;
@@ -186,4 +190,36 @@ public class Drawings {
                 spawnFirework(loc.clone().add(0,1,0), 2), duration);
     }
 
+    public static void drawCircleInFront(final LivingEntity entity, final double radius,
+                                         final double dst, final int parts, final Particle par) {
+        final Vector dir = entity.getLocation().getDirection();
+        final Location center = entity.getEyeLocation().clone().add(dir.clone().multiply(dst));
+
+        for (int i = 0; i < parts; i++) {
+            final double angle = Math.PI * 2 * i / parts;
+            final Vector at = randomVector.clone().crossProduct(dir).normalize().
+                    rotateAroundAxis(dir, angle).multiply(radius);
+            at.add(center.toVector());
+            entity.getWorld().spawnParticle(par,
+                    new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
+                    0,0,0,0);
+        }
+    }
+
+    public static void drawCircleInFront(final LivingEntity entity, final double radius,
+                                         final double dst, final int parts, final Particle par,
+                                         final Particle.DustOptions options) {
+        final Vector dir = entity.getLocation().getDirection();
+        final Location center = entity.getEyeLocation().clone().add(dir.clone().multiply(dst));
+
+        for (int i = 0; i < parts; i++) {
+            final double angle = Math.PI * 2 * i / parts;
+            final Vector at = randomVector.clone().crossProduct(dir).normalize().
+                    rotateAroundAxis(dir, angle).multiply(radius);
+            at.add(center.toVector());
+            entity.getWorld().spawnParticle(par,
+                    new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
+                    0,0,0,0, options);
+        }
+    }
 }

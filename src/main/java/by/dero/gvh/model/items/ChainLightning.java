@@ -5,17 +5,20 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChainLightningInfo;
+import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.RayTraceResult;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
+import static by.dero.gvh.model.Drawings.drawCircleInFront;
+import static by.dero.gvh.model.Drawings.drawLine;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class ChainLightning extends Item implements PlayerInteractInterface {
@@ -36,13 +39,12 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
-        RayTraceResult ray = player.getWorld().rayTraceEntities(
-                player.getEyeLocation(),
-                player.getLocation().getDirection(),
-                100, (p) -> isEnemy(p, getTeam())
-        );
-        if (ray == null || !isEnemy(ray.getHitEntity(), getTeam())) {
-            Drawings.drawLine(player.getEyeLocation(),
+
+        drawCircleInFront(player, 2, 3, 20, Particle.REDSTONE,
+                new Particle.DustOptions(Color.YELLOW, 2));
+        final LivingEntity entity = getTargetEntity(player, 100);
+        if (entity == null || !isEnemy(entity, getTeam())) {
+            drawLine(player.getEyeLocation(),
                     player.getEyeLocation().clone().add(player.getLocation().getDirection().multiply(100)),
                     Particle.FIREWORKS_SPARK);
             return;
@@ -50,10 +52,10 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
         new BukkitRunnable() {
             final HashSet<UUID> hit = new HashSet<>();
             LivingEntity cur = player;
-            LivingEntity next = (LivingEntity) ray.getHitEntity();
+            LivingEntity next = entity;
             @Override
             public void run() {
-                Drawings.drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.FIREWORKS_SPARK);
+                drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.FIREWORKS_SPARK);
                 Objects.requireNonNull(next.getEyeLocation().getWorld()).spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
                 hit.add(next.getUniqueId());
                 damage(damage, next, getOwner());

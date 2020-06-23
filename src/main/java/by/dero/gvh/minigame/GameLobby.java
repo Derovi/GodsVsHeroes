@@ -47,7 +47,9 @@ public class GameLobby {
 
     public void startGame() {
         timeLeft = 60;
-        prepairing.cancel();
+        if (prepairing != null) {
+            prepairing.cancel();
+        }
         ready = false;
         sendTitle(Lang.get("game.gameAlreadyStarted"), game.getPlayers().values());
 

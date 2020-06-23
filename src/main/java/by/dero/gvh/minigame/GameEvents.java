@@ -26,6 +26,7 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 
+import static by.dero.gvh.model.Drawings.drawCircleInFront;
 import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.*;
 import static java.lang.Math.random;
@@ -138,36 +139,6 @@ public class GameEvents implements Listener {
         }
     }
 
-    public void interactParticles(final Player player) {
-        double radius = 0.7;
-        final int parts = 5;
-        final Vector st = new Vector(random(), random(), random()).normalize();
-        final Vector dir = player.getLocation().getDirection();
-        final Location center = player.getEyeLocation().clone().add(dir.clone().multiply(3));
-        for (int ticks = 0; ticks < 5; ticks++) {
-            for (int i = 0; i < parts; i++) {
-                final double angle = Math.PI * 2 / parts * i;
-                final Vector at = st.clone().crossProduct(dir).normalize().
-                        rotateAroundAxis(dir, angle).multiply(radius);
-                at.add(center.toVector());
-                player.getWorld().spawnParticle(Particle.FLAME,
-                        new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                        1,0,0,0,0);
-            }
-            radius += 0.3;
-        }
-
-        for (int i = 0; i < 20; i++) {
-            final double angle = Math.PI / 10 * i;
-            final Vector at = st.clone().crossProduct(dir).normalize().
-                    rotateAroundAxis(dir, angle).multiply(radius);
-            at.add(center.toVector());
-            player.getWorld().spawnParticle(Particle.FLAME,
-                    new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                    1,0,0,0,0);
-        }
-    }
-
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         String shooterName = event.getPlayer().getName();
@@ -185,10 +156,6 @@ public class GameEvents implements Listener {
                     ((UltimateInterface)itemInHand).onPlayerInteract(event);
                 }
             } else {
-                if (itemInHand.getCooldown().isReady()) {
-                    Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
-                            interactParticles(player), 0);
-                }
                 ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
             }
         }

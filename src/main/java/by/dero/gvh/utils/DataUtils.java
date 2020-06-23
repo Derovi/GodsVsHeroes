@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.io.IOException;
 import java.util.*;
@@ -79,5 +80,35 @@ public class DataUtils {
 
     public static Long getLastLightningTime() {
         return lastLightningTime;
+    }
+
+
+    public static LivingEntity getTargetEntity(final Player entity, final double maxRange) {
+        return getTarget(entity, entity.getWorld().getLivingEntities(), maxRange);
+    }
+
+    public static <T extends LivingEntity> T getTarget(final Player entity,
+                                                final Iterable<T> entities,
+                                                final double maxRange) {
+        if (entity == null)
+            return null;
+        T target = null;
+        final double threshold = 1;
+        for (final T other : entities) {
+            if (other.getLocation().distance(entity.getLocation()) > maxRange) {
+                continue;
+            }
+            final Vector n = other.getLocation().toVector().subtract(entity.getLocation().toVector());
+            if (entity.getLocation().getDirection().normalize().crossProduct(n).lengthSquared() < threshold &&
+                    n.normalize().dot(entity.getLocation().getDirection().normalize()) >= 0) {
+                if (target == null || (target.getLocation().distanceSquared(
+                        entity.getLocation()) > other.getLocation()
+                        .distanceSquared(entity.getLocation())) &&
+                        isEnemy(target, getPlayer(entity.getName()).getTeam())) {
+                    target = other;
+                }
+            }
+        }
+        return target;
     }
 }
