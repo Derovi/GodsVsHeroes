@@ -37,6 +37,13 @@
     "dead": "§4Вы мертвы",
     "stunMessage": "§cВы в стане!"
   },
+  "stats": {
+    "label": "§aСтатистика по игре§8:",
+    "bestKills": "§aБольше всего убийств§8: §9%pl%",
+    "bestDamageDealt": "§aБольше всего нанесено урона§8: §9%pl%",
+    "bestDeaths": "§aМеньше всего смертей§8: §9%pl%",
+    "bestDamageTaken": "§aМеньше всего получил урона§8: §9%pl%"
+  },
   "classes": {
     "alchemist": "Алхимик",
     "archer": "Лучник",

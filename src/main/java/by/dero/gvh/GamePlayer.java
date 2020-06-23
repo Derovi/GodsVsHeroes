@@ -3,10 +3,8 @@ package by.dero.gvh;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.Board;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.HashMap;
 public class GamePlayer {

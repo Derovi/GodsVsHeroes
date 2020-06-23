@@ -306,7 +306,8 @@ public class GameEvents implements Listener {
     public void removeEntities(EntitySpawnEvent event) {
         final Entity ent = event.getEntity();
         if (ent instanceof LivingEntity &&
-                !(ent instanceof Player)) {
+                !(ent instanceof Player) &&
+                !(ent instanceof ArmorStand)) {
             ent.remove();
         }
     }

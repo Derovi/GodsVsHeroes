@@ -17,7 +17,7 @@ public class DataUtils {
     private static Player lastUsedLightning;
     private static Long lastLightningTime = 0L;
     public static GamePlayer getPlayer(String name) {
-        return Minigame.getInstance().getGame().getPlayers().get(name);
+        return Minigame.getInstance().getGame().getPlayers().getOrDefault(name, null);
     }
 
     public static void damage(double damage, LivingEntity target, LivingEntity killer) {
@@ -25,6 +25,9 @@ public class DataUtils {
         target.setMaximumNoDamageTicks(0);
         target.setNoDamageTicks(0);
         target.damage(damage, killer);
+        Minigame.getInstance().getGame().getStats().
+                addDamage(target, killer, damage);
+
     }
 
     public static boolean isEnemy(final Entity ent, final int team) {

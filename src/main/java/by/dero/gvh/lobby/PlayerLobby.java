@@ -75,8 +75,7 @@ public class PlayerLobby {
     private void loadSelectedClass() {
         final Position recPos = record.getPosition();
         selectedClass = new FlyingText(
-                new Position(recPos.getX() + 15.5, recPos.getY()+1, recPos.getZ()+26.5),
-                "", player);
+                new Location(getPlayer().getWorld(),recPos.getX() + 15.5, recPos.getY()+1, recPos.getZ()+26.5), "");
     }
 
     private void loadBoard() {
