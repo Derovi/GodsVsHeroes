@@ -103,14 +103,6 @@ public class Stats {
 
     final LinkedList<FlyingText> texts = new LinkedList<>();
     public void spawnStats(final Location loc) {
-        Bukkit.getServer().broadcastMessage("0");
-        kills.forEach((a, b) -> Bukkit.getServer().broadcastMessage(a + " " + b));
-        Bukkit.getServer().broadcastMessage("1");
-        deaths.forEach((a, b) -> Bukkit.getServer().broadcastMessage(a + " " + b));
-        Bukkit.getServer().broadcastMessage("2");
-        damageTaken.forEach((a, b) -> Bukkit.getServer().broadcastMessage(a + " " + b));
-        Bukkit.getServer().broadcastMessage("3");
-        damageDealt.forEach((a, b) -> Bukkit.getServer().broadcastMessage(a + " " + b));
         for (final String message : new String[]{
                 Lang.get("stats.label"),
                 Lang.get("stats.bestKills").replace("%pl%", getBestKills()),

@@ -11,6 +11,7 @@ import by.dero.gvh.model.interfaces.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -53,7 +54,7 @@ public class GameEvents implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
         Projectile proj = event.getEntity();
         if (proj.getShooter() instanceof Player) {
@@ -73,7 +74,9 @@ public class GameEvents implements Listener {
                 final ItemStack curItem = player.getInventory().getItemInMainHand();
                 final String itemName = itemInHand.getInfo().getDisplayName();
 
-                if (curItem.getAmount() == 0) {
+                final int flag = (curItem.getType().equals(Material.SNOW_BALL) ? 1 : 0);
+                final int need = itemInHand.getInfo().getAmount();
+                if (curItem.getAmount() == flag) {
                     final ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
                     pane.setAmount(1);
                     final ItemMeta meta = pane.getItemMeta();
@@ -82,9 +85,8 @@ public class GameEvents implements Listener {
                     Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(),
                             ()-> player.getInventory().setItem(heldSlot, pane), 1);
                 }
-                final int need = itemInHand.getInfo().getAmount();
 
-                if (curItem.getAmount() == need - 1) {
+                if (curItem.getAmount() == need - 1 + flag) {
                     final BukkitRunnable runnable = new BukkitRunnable() {
                         final PlayerInventory inv = player.getInventory();
                         final int slot = inv.getHeldItemSlot();
@@ -92,6 +94,9 @@ public class GameEvents implements Listener {
                         public void run() {
                             if (!player.isOnline()) {
                                 this.cancel();
+                                return;
+                            }
+                            if (inv.getItem(slot) == null) {
                                 return;
                             }
                             if (inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
@@ -134,7 +139,7 @@ public class GameEvents implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);

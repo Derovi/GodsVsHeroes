@@ -129,7 +129,6 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     private void checkForGameEnd() {
         boolean alive = false;
         int teamAlive = -1;
-        Bukkit.getServer().broadcastMessage("kek");
         for (final int i : currentLivesCount) {
             if (i > 0) {
                 if (alive) {
@@ -144,10 +143,8 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
                 return;
             }
         }
-        Bukkit.getServer().broadcastMessage("0");
         for (final GamePlayer gp : getPlayers().values()) {
             if (gp.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
-                Bukkit.getServer().broadcastMessage(teamAlive + " " + gp.getTeam());
                 if (teamAlive == -1) {
                     teamAlive = gp.getTeam();
                 } else {
@@ -158,7 +155,6 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             }
         }
 
-        Bukkit.getServer().broadcastMessage("1");
         finish(teamAlive);
     }
 
