@@ -5,7 +5,7 @@
     {
       "cooldown": 0,
       "cost": 80,
-      "material": "GOLDEN_AXE",
+      "material": "GOLD_AXE",
       "displayName": "§cТопор",
       "lore": [],
       "amount": 1

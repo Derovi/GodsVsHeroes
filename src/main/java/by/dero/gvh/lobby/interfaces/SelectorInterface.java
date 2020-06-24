@@ -26,9 +26,9 @@ public class SelectorInterface extends Interface {
             upgradeInterface.open();
         };
 
-        ItemStack selectItemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+        ItemStack selectItemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
         InterfaceUtils.changeName(selectItemStack, Lang.get("interfaces.select"));
-        ItemStack upgradeItemStack = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
+        ItemStack upgradeItemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 11);
         InterfaceUtils.changeName(upgradeItemStack, Lang.get("interfaces.upgradeSelect"));
 
         for (int x = 0; x < 4; ++ x) {

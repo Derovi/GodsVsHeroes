@@ -34,14 +34,14 @@ public class UpgradeInterface extends Interface {
                 Item.getItemStack(itemName,
                         Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(currentLevel)));
         for (int index = 1; index <= currentLevel; ++index) {
-            ItemStack itemStack = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
+            ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgraded"));
             addItem(position, index, itemStack);
         }
         int maxLevel = Plugin.getInstance().getData().getItems().get(itemName).getLevels().size() - 1;
         if (currentLevel != maxLevel) {
             if (info.canUpgradeItem(className, itemName)) {
-                ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade"));
                 addButton(position, currentLevel + 1, itemStack, () -> {
                     LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(getPlayer().getName());
@@ -52,18 +52,18 @@ public class UpgradeInterface extends Interface {
                     update();
                 });
             } else {
-                ItemStack itemStack = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgradeNE"));
                 addItem(position, currentLevel + 1, itemStack);
             }
             for (int index = currentLevel + 2; index <= maxLevel; ++index) {
-                ItemStack itemStack = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.notAvailable"));
                 addItem(position, index, itemStack);
             }
         }
         for (int index = maxLevel + 1; index < 6; ++index) {
-            ItemStack itemStack = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
+            ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.back"));
             addButton(position, index, itemStack, () -> {
                 close();
@@ -98,7 +98,7 @@ public class UpgradeInterface extends Interface {
     }
 
     public void fillEmptyLine(int position) {
-        ItemStack itemStack = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
+        ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
         InterfaceUtils.changeName(itemStack, Lang.get("interfaces.back"));
         for (int idx = 0; idx < 6; ++idx) {
             addButton(position, idx, itemStack, () -> {

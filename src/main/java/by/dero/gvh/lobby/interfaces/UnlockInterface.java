@@ -30,7 +30,7 @@ public class UnlockInterface extends Interface {
                 ? Lang.get("interfaces.unlockTitle") : Lang.get("interfaces.unlockNETitle")));
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
 
-        ItemStack emptySlot = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
+        ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
         InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
         List<String> itemNames = new LinkedList<>();
         for (String itemName : classDescription.getItemNames()) {
@@ -82,7 +82,7 @@ public class UnlockInterface extends Interface {
                 Lobby.getInstance().updateDisplays(player);
                 close();
             };
-            ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+            ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
             System.out.println("Lang: " + Lang.get("interfaces.unlock"));
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlock"));
             for (int x = 0; x < 9; ++x) {
@@ -98,7 +98,7 @@ public class UnlockInterface extends Interface {
                         replace("%remains%", String.valueOf(classDescription.getCost() - lobbyPlayer.getPlayerInfo().getBalance())));
                 close();
             };
-            ItemStack itemStack = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+            ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlockNE"));
             for (int x = 0; x < 9; ++x) {
                 for (int y = 1; y < 6; ++y) {

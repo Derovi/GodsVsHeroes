@@ -3,50 +3,44 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
+import by.dero.gvh.utils.DirectedPosition;
 import org.bukkit.*;
 import by.dero.gvh.model.interfaces.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.fusesource.jansi.Ansi;
 
 import java.util.*;
 
-
-import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.*;
-import static java.lang.Math.random;
 
 public class GameEvents implements Listener {
+    public static void setGame(DeathMatch game) {
+        GameEvents.game = game;
+    }
+
     public HashMap<LivingEntity, LivingEntity> getDamageCause() {
         return damageCause;
     }
 
     private final HashMap<LivingEntity, LivingEntity> damageCause = new HashMap<>();
     private final HashSet<UUID> projectiles = new HashSet<>();
-    private static Game game;
-    private static final Color[] colors = new Color[] {
-            Color.AQUA, Color.BLUE, Color.FUCHSIA, Color.GREEN, Color.LIME, Color.MAROON,
-            Color.NAVY, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.YELLOW, Color.WHITE
-    };
-
-    public static void setGame(Game game) {
-        GameEvents.game = game;
-    }
+    private static DeathMatch game;
 
     @EventHandler
     public void onEntityShootBow(org.bukkit.event.entity.EntityShootBowEvent event) {
@@ -60,14 +54,14 @@ public class GameEvents implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
         Projectile proj = event.getEntity();
         if (proj.getShooter() instanceof Player) {
             final Player player = (Player) proj.getShooter();
             final String shooterName = player.getName();
-            final GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
-            final Item itemInHand = gamePlayer.getSelectedItem();
+            final GamePlayer gamePlayer = getPlayer(shooterName);
+            final Item itemInHand = gamePlayer.getLastUsed();
             final int heldSlot = player.getInventory().getHeldItemSlot();
             if (itemInHand == null) {
                 return;
@@ -80,8 +74,10 @@ public class GameEvents implements Listener {
                 final ItemStack curItem = player.getInventory().getItemInMainHand();
                 final String itemName = itemInHand.getInfo().getDisplayName();
 
-                if (curItem.getAmount() == 1) {
-                    final ItemStack pane = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
+                final int flag = (curItem.getType().equals(Material.SNOW_BALL) ? 1 : 0);
+                final int need = itemInHand.getInfo().getAmount();
+                if (curItem.getAmount() == flag) {
+                    final ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
                     pane.setAmount(1);
                     final ItemMeta meta = pane.getItemMeta();
                     meta.setDisplayName(itemName);
@@ -90,8 +86,7 @@ public class GameEvents implements Listener {
                             ()-> player.getInventory().setItem(heldSlot, pane), 1);
                 }
 
-                final int need = itemInHand.getInfo().getAmount();
-                if (curItem.getAmount() == need) {
+                if (curItem.getAmount() == need - 1 + flag) {
                     final BukkitRunnable runnable = new BukkitRunnable() {
                         final PlayerInventory inv = player.getInventory();
                         final int slot = inv.getHeldItemSlot();
@@ -101,14 +96,17 @@ public class GameEvents implements Listener {
                                 this.cancel();
                                 return;
                             }
-                            if (inv.getItem(slot).getAmount() == need) {
-                                this.cancel();
-                            } else
-                            if (inv.getItem(slot).getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
+                            if (inv.getItem(slot) == null) {
+                                return;
+                            }
+                            if (inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
                                 inv.setItem(slot, itemInHand.getItemStack());
                                 inv.getItem(slot).setAmount(1);
                             } else {
                                 inv.getItem(slot).setAmount(inv.getItem(slot).getAmount()+1);
+                            }
+                            if (inv.getItem(slot).getAmount() == need) {
+                                this.cancel();
                             }
                         }
                     };
@@ -121,8 +119,10 @@ public class GameEvents implements Listener {
             if (!proj.getType().equals(EntityType.SPLASH_POTION)) {
                 projectiles.add(proj.getUniqueId());
                 new BukkitRunnable() {
-                    final Particle.DustOptions dust = new Particle.DustOptions(
-                            colors[new Random().nextInt(colors.length)], 2);
+                    final Random rnd = new Random();
+                    final int red = rnd.nextInt(256);
+                    final int green = rnd.nextInt(256);
+                    final int blue = rnd.nextInt(256);
                     @Override
                     public void run() {
                         if (!projectiles.contains(proj.getUniqueId())) {
@@ -130,7 +130,7 @@ public class GameEvents implements Listener {
                         }
                         final Location loc = proj.getLocation();
                         loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(),
-                                0, 0, 0, 0, dust);
+                                0, red, green, blue, 1);
                     }
                 }.runTaskTimer(Plugin.getInstance(), 0, 1);
             }
@@ -139,37 +139,7 @@ public class GameEvents implements Listener {
         }
     }
 
-    public void interactParticles(final Player player) {
-        double radius = 0.7;
-        final int parts = 5;
-        final Vector st = new Vector(random(), random(), random()).normalize();
-        final Vector dir = player.getLocation().getDirection();
-        final Location center = player.getEyeLocation().clone().add(dir.clone().multiply(3));
-        for (int ticks = 0; ticks < 5; ticks++) {
-            for (int i = 0; i < parts; i++) {
-                final double angle = Math.PI * 2 / parts * i;
-                final Vector at = st.clone().crossProduct(dir).normalize().
-                        rotateAroundAxis(dir, angle).multiply(radius);
-                at.add(center.toVector());
-                player.getWorld().spawnParticle(Particle.FLAME,
-                        new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                        1,0,0,0,0);
-            }
-            radius += 0.3;
-        }
-
-        for (int i = 0; i < 20; i++) {
-            final double angle = Math.PI / 10 * i;
-            final Vector at = st.clone().crossProduct(dir).normalize().
-                    rotateAroundAxis(dir, angle).multiply(radius);
-            at.add(center.toVector());
-            player.getWorld().spawnParticle(Particle.FLAME,
-                    new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                    1,0,0,0,0);
-        }
-    }
-
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
@@ -178,6 +148,7 @@ public class GameEvents implements Listener {
         if (itemInHand == null) {
             return;
         }
+        gamePlayer.setLastUsed(itemInHand);
         if (itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof UltimateInterface) {
                 if (itemInHand.getCooldown().isReady()) {
@@ -186,10 +157,6 @@ public class GameEvents implements Listener {
                     ((UltimateInterface)itemInHand).onPlayerInteract(event);
                 }
             } else {
-                if (itemInHand.getCooldown().isReady()) {
-                    Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
-                            interactParticles(player), 0);
-                }
                 ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
             }
         }
@@ -227,10 +194,11 @@ public class GameEvents implements Listener {
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);
 
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING)  &&
                 getLastLightningTime() + 100 > System.currentTimeMillis()) {
             final Player player = getLastUsedLightning();
             if (isEnemy(entity, getPlayer(player.getName()).getTeam())) {
+                game.getStats().addDamage(entity, player, event.getDamage());
                 damageCause.put(entity, player);
             } else {
                 event.setCancelled(true);
@@ -249,10 +217,19 @@ public class GameEvents implements Listener {
         if (event.getDamager() instanceof LivingEntity) {
             if (event.getDamager() instanceof Player &&
                     isEnemy(entity, getPlayer(event.getDamager().getName()).getTeam())) {
+                game.getStats().addDamage(entity, (LivingEntity) event.getDamager(), event.getDamage());
                 damageCause.put(entity, (LivingEntity) event.getDamager());
             } else {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler
+    public void onBlockExplode(BlockExplodeEvent event) {
+        Game game = Minigame.getInstance().getGame();
+        for (Block block : event.blocks) {
+            game.getMapManager().blockDestroyed(block.getX(), block.getY(), block.getZ(), 10000, block.getType());
         }
     }
 
@@ -263,26 +240,7 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
-        event.setDeathMessage(null);
-        final Player player = event.getEntity();
-        final float exp = player.getExp();
 
-        spawnFirework(player.getLocation().clone().add(0,1,0), 1);
-
-        final Game game = Minigame.getInstance().getGame();
-        LivingEntity kil = damageCause.getOrDefault(player, player);
-        if (player.getKiller() != null) {
-            kil = player.getKiller();
-        }
-
-        game.onPlayerKilled(player, kil);
-        game.getPlayerDeathLocations().put(player.getName(), player.getLocation());
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
-            player.spigot().respawn();
-            game.spawnPlayer(game.getPlayers().get(player.getName()), game.getInfo().getRespawnTime());
-            player.setExp(exp);
-        }, 1L);
-        damageCause.remove(player);
     }
 
     @EventHandler
@@ -307,10 +265,45 @@ public class GameEvents implements Listener {
     public void removeEntities(EntitySpawnEvent event) {
         final Entity ent = event.getEntity();
         if (ent instanceof LivingEntity &&
-                !(ent instanceof Player)) {
+                !(ent instanceof Player) &&
+                !(ent instanceof ArmorStand)) {
             ent.remove();
         }
     }
+
+    private static DirectedPosition[] borders = null;
+    private static String desMsg;
+    @EventHandler
+    public void checkBorders(PlayerMoveEvent event) {
+        if (borders == null) {
+            borders = game.getInfo().getMapBorders();
+            desMsg = Lang.get("game.desertionMessage");
+        }
+        final Player player = event.getPlayer();
+        final Location loc = player.getLocation();
+        if (loc.getX() < borders[0].getX()) {
+            player.setVelocity(new Vector(2, 0, 0));
+            player.sendMessage(desMsg);
+        }
+        if (loc.getX() > borders[1].getX()) {
+            player.setVelocity(new Vector(-2, 0, 0));
+            player.sendMessage(desMsg);
+        }
+        if (loc.getZ() < borders[0].getZ()) {
+            player.setVelocity(new Vector(0, 0, 2));
+            player.sendMessage(desMsg);
+        }
+        if (loc.getZ() > borders[1].getZ()) {
+            player.setVelocity(new Vector(0, 0, -2));
+            player.sendMessage(desMsg);
+        }
+    }
+
+    @EventHandler
+    public void onPortal(EntityPortalEvent event) {
+        event.setCancelled(true);
+    }
+
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
         event.setCancelled(true);

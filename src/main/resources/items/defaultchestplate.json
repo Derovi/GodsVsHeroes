@@ -13,7 +13,7 @@
     {
       "cooldown": 0,
       "cost": 100,
-      "material": "GOLDEN_CHESTPLATE",
+      "material": "GOLD_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],
       "amount": 1

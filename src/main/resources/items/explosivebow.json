@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 200,
-      "multiplier": 0.8,
+      "multiplier": 1,
       "reclining": 0.7,
       "cost": 80,
       "material": "BOW",
@@ -17,7 +17,7 @@
     },
     {
       "cooldown": 200,
-      "multiplier": 0.9,
+      "multiplier": 1.2,
       "reclining": 0.7,
       "cost": 100,
       "material": "BOW",
@@ -30,7 +30,7 @@
     },
     {
       "cooldown": 200,
-      "multiplier": 1,
+      "multiplier": 1.3,
       "reclining": 0.7,
       "cost": 120,
       "material": "BOW",

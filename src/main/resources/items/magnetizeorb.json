@@ -6,7 +6,7 @@
       "cooldown": 60,
       "radius": 7,
       "cost": 80,
-      "material": "SNOWBALL",
+      "material": "SNOW_BALL",
       "displayName": "§cMagnetize orb",
       "lore": [
         "§aВ точку падения этой сферы притянутся окружающие существа",
@@ -18,7 +18,7 @@
       "cooldown": 40,
       "radius": 7,
       "cost": 100,
-      "material": "SNOWBALL",
+      "material": "SNOW_BALL",
       "displayName": "§cMagnetize orb",
       "lore": [
         "§aВ точку падения этой сферы притянутся окружающие существа",
@@ -30,7 +30,7 @@
       "cooldown": 20,
       "radius": 7,
       "cost": 120,
-      "material": "SNOWBALL",
+      "material": "SNOW_BALL",
       "displayName": "§cMagnetize orb",
       "lore": [
         "§aВ точку падения этой сферы притянутся окружающие существа",

@@ -7,7 +7,7 @@
       "damage" : 6,
       "radius" : 5,
       "cost": 80,
-      "material": "SNOWBALL",
+      "material": "SNOW_BALL",
       "displayName": "§cGrenade",
       "lore": [
         "§aИскусство это взрыв!",
@@ -20,7 +20,7 @@
       "damage" : 8,
       "radius" : 5,
       "cost": 100,
-      "material": "SNOWBALL",
+      "material": "SNOW_BALL",
       "displayName": "§cGrenade",
       "lore": [
         "§aИскусство это взрыв!",
@@ -33,7 +33,7 @@
       "damage" : 10,
       "radius" : 5,
       "cost": 120,
-      "material": "SNOWBALL",
+      "material": "SNOW_BALL",
       "displayName": "§cGrenade",
       "lore": [
         "§aИскусство это взрыв!",

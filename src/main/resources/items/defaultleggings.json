@@ -13,7 +13,7 @@
     {
       "cooldown": 0,
       "cost": 100,
-      "material": "GOLDEN_LEGGINGS",
+      "material": "GOLD_LEGGINGS",
       "displayName": "§cПонтолоны",
       "lore": [],
       "amount": 1

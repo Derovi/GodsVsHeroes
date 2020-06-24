@@ -11,14 +11,14 @@ import java.util.*;
 
 public class ItemInfo {
     static class EnchantInfo {
-        public EnchantInfo(NamespacedKey key, int level, boolean visible) {
-            this.key = key;
+        public EnchantInfo(final String name, final int level, final boolean visible) {
+            this.name = name;
             this.level = level;
             this.visible = visible;
         }
 
-        public NamespacedKey getKey() {
-            return key;
+        public String getName() {
+            return name;
         }
 
         public int getLevel() {
@@ -29,7 +29,7 @@ public class ItemInfo {
             return visible;
         }
 
-        private final NamespacedKey key;
+        private final String name;
         private final int level;
         private final boolean visible;
     }
@@ -44,8 +44,8 @@ public class ItemInfo {
 
     public static void main(String[] args) throws IOException {
         ItemInfo info = new ItemInfo();
-        info.getEnchantments().add(new EnchantInfo(Enchantment.LUCK.getKey(), 7, true));
-        info.getEnchantments().add(new EnchantInfo(Enchantment.ARROW_FIRE.getKey(), 4, false));
+        info.getEnchantments().add(new EnchantInfo(Enchantment.LUCK.getName(), 7, true));
+        info.getEnchantments().add(new EnchantInfo(Enchantment.ARROW_FIRE.getName(), 4, false));
         String json = ResourceUtils.readResourceFile("/items/arrowrain.json");
         ItemInfo info2 = new Gson().fromJson(json, ItemInfo.class);
         System.out.println(info2.getEnchantments().size());

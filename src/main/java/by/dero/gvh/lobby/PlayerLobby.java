@@ -10,10 +10,7 @@ import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.WorldEditUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -22,6 +19,8 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;
+
+import static by.dero.gvh.utils.Board.setText;
 
 public class PlayerLobby {
     private final LobbyRecord record;
@@ -75,14 +74,13 @@ public class PlayerLobby {
     private void loadSelectedClass() {
         final Position recPos = record.getPosition();
         selectedClass = new FlyingText(
-                new Position(recPos.getX() + 15.5, recPos.getY()+1, recPos.getZ()+26.5),
-                "", player);
+                new Location(getPlayer().getWorld(),recPos.getX() + 15.5, recPos.getY()+1, recPos.getZ()+26.5), "");
     }
 
     private void loadBoard() {
         final Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
-        final Objective obj = scoreboard.registerNewObjective("ServerName", "dummy", "Lobby");
+        final Objective obj = scoreboard.registerNewObjective("Lobby", "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         final Team[] teams = new Team[2];
@@ -98,9 +96,9 @@ public class PlayerLobby {
             final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
             @Override
             public void run() {
-                teams[0].setPrefix(Lang.get("lobby.selectedClass")
+                setText(teams[0], Lang.get("lobby.selectedClass")
                         .replace("%class%", Lang.get("classes." + info.getSelectedClass())));
-                teams[1].setPrefix(Lang.get("lobby.moneyBalance")
+                setText(teams[1], Lang.get("lobby.moneyBalance")
                         .replace("%money%", String.valueOf(info.getBalance())));
             }
         };

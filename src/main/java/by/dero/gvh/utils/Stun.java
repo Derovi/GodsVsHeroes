@@ -3,10 +3,13 @@ package by.dero.gvh.utils;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import static by.dero.gvh.model.Drawings.drawCircle;
 
 public class Stun {
     public static void stunEntity(LivingEntity p, int latency) {
@@ -18,6 +21,14 @@ public class Stun {
             @Override
             public void run() {
                 p.teleport(loc);
+                if (ticks % 5 == 0) {
+                    for (int i = 0; i <= 2; i++) {
+                        drawCircle(p.getLocation().clone().add(0, i,0), 1, Particle.VILLAGER_ANGRY);
+                    }
+                }
+                p.getWorld().spawnParticle(Particle.VILLAGER_HAPPY,
+                        p.getEyeLocation().clone().add(p.getLocation().getDirection()),
+                        1);
                 if (++ticks >= latency) {
                     this.cancel();
                 }

@@ -3,9 +3,9 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
-import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.BungeeUtils;
 import by.dero.gvh.utils.DirectedPosition;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import by.dero.gvh.utils.MessagingUtils;
@@ -15,6 +15,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,15 +23,25 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
+import static by.dero.gvh.utils.DataUtils.getPlayer;
+import static by.dero.gvh.utils.MessagingUtils.sendActionBar;
+import static by.dero.gvh.utils.MessagingUtils.sendTitle;
+
 public abstract class Game implements Listener {
+    public static Game getInstance() {
+        return instance;
+    }
+
     public enum State {
         GAME, FINISHING, WAITING, PREPARING
     }
 
     public Game(GameInfo info) {
         this.info = info;
+        instance = this;
     }
 
+    private static Game instance;
     private GameLobby lobby;
     private AfterParty afterParty;
     private final GameInfo info;
@@ -39,7 +50,13 @@ public abstract class Game implements Listener {
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private BukkitRunnable cooldownMessageUpdater;
-    protected Board board;
+    private MapManager mapManager;
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    protected Stats stats;
 
     public LinkedList<BukkitRunnable> getRunnables() {
         return runnables;
@@ -47,9 +64,10 @@ public abstract class Game implements Listener {
 
     private final LinkedList<BukkitRunnable> runnables = new LinkedList<>();
 
+    protected abstract void onPlayerRespawned(final GamePlayer gp);
+
     public void start() {
-        GameEvents.setGame(this);
-        System.out.println("start game");
+        mapManager = new MapManager(Bukkit.getWorld(getInfo().getWorld()));
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
             return;
@@ -59,11 +77,9 @@ public abstract class Game implements Listener {
             return;
         }
         chooseTeams();
-        System.out.println("starting");
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
         }
-        System.out.println("spawned");
         state = State.GAME;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
@@ -87,6 +103,7 @@ public abstract class Game implements Listener {
             }
         };
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
+        stats = new Stats();
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
@@ -94,6 +111,7 @@ public abstract class Game implements Listener {
             if (!player.equals(killer)) {
                 rewardManager.give("killEnemy", (Player) killer,
                         rewardManager.getMessage("killEnemy").replace("%enemy%", player.getName()));
+                stats.addKill(player, killer);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -121,6 +139,7 @@ public abstract class Game implements Listener {
         for (final BukkitRunnable runnable : runnables) {
             runnable.cancel();
         }
+        mapManager.finish();
         runnables.clear();
 
         Minigame.getInstance().getGameEvents().getDamageCause().clear();
@@ -150,6 +169,7 @@ public abstract class Game implements Listener {
                         player.kickPlayer(Lang.get("game.gameFinished"));
                     }
                 }
+                stats.unload();
                 state = State.PREPARING;
                 Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                         state.toString());
@@ -226,10 +246,42 @@ public abstract class Game implements Listener {
         }
     }
 
-    public void spawnPlayer(GamePlayer player, int respawnTime) {
+    private void toSpawn(final GamePlayer gp) {
+        final Player player = gp.getPlayer();
+
+        player.setGameMode(GameMode.SURVIVAL);
+        new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0).apply(player);
+
+        final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[gp.getTeam()].length);
+        final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[gp.getTeam()][locationIndex];
+        player.teleport(spawnPosition.toLocation(getInfo().getWorld()));
+        final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(gp.getClassName()).getMaxHP();
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
+        player.setHealth(maxHealth);
+
+        sendTitle("", player, 0, 1, 0);
+        sendActionBar("", player);
+        addItems(gp);
+    }
+
+    public void spawnPlayer(GamePlayer gp, int respawnTime) {
+        final Player player = gp.getPlayer();
+        if (respawnTime == 0) {
+            toSpawn(gp);
+            return;
+        }
+
+        player.setGameMode(GameMode.SPECTATOR);
+        player.teleport(playerDeathLocations.get(player.getName()));
+        player.setVelocity(new Vector(0,4,0));
+        if (respawnTime == -1) {
+            sendTitle(Lang.get("game.livesNotLeft"), player, 0, 20, 0);
+            return;
+        }
+        sendTitle(Lang.get("game.dead"), player, 0, 20, 0);
+
         new BukkitRunnable() {
             int counter = respawnTime;
-
             @Override
             public void run() {
                 if (state == State.FINISHING) {
@@ -237,32 +289,21 @@ public abstract class Game implements Listener {
                     return;
                 }
                 if (counter == 0) {
-                    player.getPlayer().setGameMode(GameMode.SURVIVAL);
-                    new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0).apply(player.getPlayer());
-                    final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
-                    final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
-                    player.getPlayer().teleport(spawnPosition.toLocation(getInfo().getWorld()));
-                    final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName()).getMaxHP();
-                    player.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
-                    player.getPlayer().setHealth(maxHealth);
-                    MessagingUtils.sendTitle("", player.getPlayer(), 0, 1, 0);
-                    MessagingUtils.sendActionBar("", player.getPlayer());
-                    addItems(player);
+                    toSpawn(gp);
+                    onPlayerRespawned(gp);
                     this.cancel();
                     return;
                 }
-                if (counter == respawnTime) {
-                    player.getPlayer().setGameMode(GameMode.SPECTATOR);
-                    player.getPlayer().teleport(playerDeathLocations.get(player.getPlayer().getName()));
-                    player.getPlayer().setVelocity(new Vector(0,4,0));
-                    MessagingUtils.sendTitle(Lang.get("game.dead"), player.getPlayer(), 0, 20 * respawnTime, 0);
-                }
-                MessagingUtils.sendActionBar(Lang.get("game.deathTime").
+                sendActionBar(Lang.get("game.deathTime").
                         replace("%time%", MessagingUtils.getTimeString(counter, false)), player.getPlayer());
                 --counter;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
 
+    }
+
+    public MapManager getMapManager() {
+        return mapManager;
     }
 
     public HashMap<String, Location> getPlayerDeathLocations() {

@@ -1,21 +1,16 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.Plugin;
-import by.dero.gvh.model.PlayerInfo;
-import org.bukkit.Bukkit;
-import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import static by.dero.gvh.model.Drawings.*;
 
 public class TestCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender,
-                             @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+    public boolean onCommand(CommandSender commandSender,
+                             Command command, String s, String[] strings) {
 
         final Player player = (Player) commandSender;
         spawnUnlockParticles(player.getLocation().clone(), player, 240,

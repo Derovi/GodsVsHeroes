@@ -2,6 +2,7 @@ package by.dero.gvh;
 
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.utils.Board;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -12,10 +13,21 @@ public class GamePlayer {
     private PlayerInfo playerInfo;
     private final HashMap<String, Item> items = new HashMap<>();
     private int team;
+    private Item lastUsed;
+
+    private Board board;
 
     public GamePlayer(Player player) {
         this.player = player;
         this.playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
+    }
+
+    public Item getLastUsed() {
+        return lastUsed;
+    }
+
+    public void setLastUsed(Item lastUsed) {
+        this.lastUsed = lastUsed;
     }
 
     public Item getSelectedItem() {
@@ -97,5 +109,17 @@ public class GamePlayer {
 
     public void setTeam(int team) {
         this.team = team;
+    }
+
+    public void setBoard(final Board board) {
+        if (this.board != null) {
+            this.board.clear();
+        }
+        getPlayer().setScoreboard(board.getScoreboard());
+        this.board = board;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }
