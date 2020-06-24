@@ -8,9 +8,11 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.utils.DirectedPosition;
 import org.bukkit.*;
 import by.dero.gvh.model.interfaces.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -216,6 +218,14 @@ public class GameEvents implements Listener {
             } else {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler
+    public void onBlockExplode(BlockExplodeEvent event) {
+        Game game = Minigame.getInstance().getGame();
+        for (Block block : event.blocks) {
+            game.getMapManager().blockDestroyed(block.getX(), block.getY(), block.getZ(), 10000, block.getType());
         }
     }
 
