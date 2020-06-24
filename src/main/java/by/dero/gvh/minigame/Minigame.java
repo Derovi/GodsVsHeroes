@@ -28,6 +28,7 @@ public class Minigame implements PluginMode {
 
     private GameEvents gameEvents;
     private CommandManager commandManager;
+    private World world;
 
     @Override
     public void onEnable() {
@@ -40,7 +41,7 @@ public class Minigame implements PluginMode {
         gameData.load();
         game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
 
-        final World world = Bukkit.getWorld(game.getInfo().getWorld());
+        world = Bukkit.getWorld(game.getInfo().getWorld());
         world.setTime(1000);
         world.setDifficulty(Difficulty.NORMAL);
         world.setGameRuleValue("keepInventory", "true");
@@ -68,6 +69,10 @@ public class Minigame implements PluginMode {
         commandManager.getCommands().put("addspawnpoint", new AddSpawnPointCommand());
         commandManager.getCommands().put("addarea", new AddAreaCommand());
         commandManager.getCommands().put("unlock", new UnlockClassCommand());
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     public static Minigame getInstance() {

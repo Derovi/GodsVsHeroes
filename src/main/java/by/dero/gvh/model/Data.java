@@ -58,6 +58,7 @@ public class Data {
         registerItem("doublejump", ItemInfo.class, DoubleJump.class);
         registerItem("healall", HealAllInfo.class, HealAll.class);
         registerItem("grenade", GrenadeInfo.class, Grenade.class);
+        registerItem("webthrow", WebThrowInfo.class, WebThrow.class);
     }
 
     private void registerClasses() {
@@ -115,7 +116,7 @@ public class Data {
         }
     }
 
-    public void registerItem(String name, Class infoClass, Class<?> itemClass) {
+    public void registerItem(String name, Class<? extends ItemInfo> infoClass, Class<? extends Item> itemClass) {
         itemNameToInfo.put(name, infoClass);
         itemNameToClass.put(name, itemClass);
         String tag = Item.getTag(name);
@@ -132,8 +133,8 @@ public class Data {
     private final HashMap<String, UnitClassDescription> classNameToDescription = new HashMap<>();
 
     private HashMap<String, ItemDescription> items = new HashMap<>();
-    private final HashMap<String, Class<?>> itemNameToInfo = new HashMap<>();
-    private final HashMap<String, Class<?>> itemNameToClass = new HashMap<>();
+    private final HashMap<String, Class<? extends ItemInfo>> itemNameToInfo = new HashMap<>();
+    private final HashMap<String, Class<? extends Item>> itemNameToClass = new HashMap<>();
     private final HashMap<String, String> itemNameToTag = new HashMap<>();
     private final HashMap<String, String> tagToItemName = new HashMap<>();
 
@@ -149,11 +150,11 @@ public class Data {
         return tagToItemName;
     }
 
-    public HashMap<String, Class<?>> getItemNameToInfo() {
+    public HashMap<String, Class<? extends ItemInfo>> getItemNameToInfo() {
         return itemNameToInfo;
     }
 
-    public HashMap<String, Class<?>> getItemNameToClass() {
+    public HashMap<String, Class<? extends Item>> getItemNameToClass() {
         return itemNameToClass;
     }
 
