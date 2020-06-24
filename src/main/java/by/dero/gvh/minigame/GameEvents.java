@@ -11,6 +11,7 @@ import by.dero.gvh.model.interfaces.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -26,24 +27,20 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-
-import static by.dero.gvh.model.Drawings.drawCircleInFront;
-import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.*;
-import static java.lang.Math.random;
 
 public class GameEvents implements Listener {
+    public static void setGame(DeathMatch game) {
+        GameEvents.game = game;
+    }
+
     public HashMap<LivingEntity, LivingEntity> getDamageCause() {
         return damageCause;
     }
 
     private final HashMap<LivingEntity, LivingEntity> damageCause = new HashMap<>();
     private final HashSet<UUID> projectiles = new HashSet<>();
-    private static Game game;
-
-    public static void setGame(Game game) {
-        GameEvents.game = game;
-    }
+    private static DeathMatch game;
 
     @EventHandler
     public void onEntityShootBow(org.bukkit.event.entity.EntityShootBowEvent event) {
@@ -57,7 +54,7 @@ public class GameEvents implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
         Projectile proj = event.getEntity();
         if (proj.getShooter() instanceof Player) {
@@ -77,7 +74,9 @@ public class GameEvents implements Listener {
                 final ItemStack curItem = player.getInventory().getItemInMainHand();
                 final String itemName = itemInHand.getInfo().getDisplayName();
 
-                if (curItem.getAmount() == 0) {
+                final int flag = (curItem.getType().equals(Material.SNOW_BALL) ? 1 : 0);
+                final int need = itemInHand.getInfo().getAmount();
+                if (curItem.getAmount() == flag) {
                     final ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
                     pane.setAmount(1);
                     final ItemMeta meta = pane.getItemMeta();
@@ -87,9 +86,7 @@ public class GameEvents implements Listener {
                             ()-> player.getInventory().setItem(heldSlot, pane), 1);
                 }
 
-                final int need = itemInHand.getInfo().getAmount();
-
-                if (curItem.getAmount() == need - 1) {
+                if (curItem.getAmount() == need - 1 + flag) {
                     final BukkitRunnable runnable = new BukkitRunnable() {
                         final PlayerInventory inv = player.getInventory();
                         final int slot = inv.getHeldItemSlot();
@@ -97,6 +94,9 @@ public class GameEvents implements Listener {
                         public void run() {
                             if (!player.isOnline()) {
                                 this.cancel();
+                                return;
+                            }
+                            if (inv.getItem(slot) == null) {
                                 return;
                             }
                             if (inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
@@ -139,7 +139,7 @@ public class GameEvents implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
@@ -194,10 +194,11 @@ public class GameEvents implements Listener {
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);
 
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING)  &&
                 getLastLightningTime() + 100 > System.currentTimeMillis()) {
             final Player player = getLastUsedLightning();
             if (isEnemy(entity, getPlayer(player.getName()).getTeam())) {
+                game.getStats().addDamage(entity, player, event.getDamage());
                 damageCause.put(entity, player);
             } else {
                 event.setCancelled(true);
@@ -216,6 +217,7 @@ public class GameEvents implements Listener {
         if (event.getDamager() instanceof LivingEntity) {
             if (event.getDamager() instanceof Player &&
                     isEnemy(entity, getPlayer(event.getDamager().getName()).getTeam())) {
+                game.getStats().addDamage(entity, (LivingEntity) event.getDamager(), event.getDamage());
                 damageCause.put(entity, (LivingEntity) event.getDamager());
             } else {
                 event.setCancelled(true);
@@ -255,26 +257,7 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
-        event.setDeathMessage(null);
-        final Player player = event.getEntity();
-        final float exp = player.getExp();
 
-        spawnFirework(player.getLocation().clone().add(0,1,0), 1);
-
-        final Game game = Minigame.getInstance().getGame();
-        LivingEntity kil = damageCause.getOrDefault(player, player);
-        if (player.getKiller() != null) {
-            kil = player.getKiller();
-        }
-
-        game.onPlayerKilled(player, kil);
-        game.getPlayerDeathLocations().put(player.getName(), player.getLocation());
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
-            player.spigot().respawn();
-            game.spawnPlayer(game.getPlayers().get(player.getName()), game.getInfo().getRespawnTime());
-            player.setExp(exp);
-        }, 1L);
-        damageCause.remove(player);
     }
 
     @EventHandler

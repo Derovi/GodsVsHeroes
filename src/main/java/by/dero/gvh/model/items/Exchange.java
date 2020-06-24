@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import static by.dero.gvh.model.Drawings.drawCircleInFront;
+import static by.dero.gvh.model.Drawings.randomCylinder;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class Exchange extends Item implements PlayerInteractInterface {
@@ -19,7 +20,8 @@ public class Exchange extends Item implements PlayerInteractInterface {
         maxRange = ((ExchangeInfo) getInfo()).getMaxRange();
     }
 
-    public void drawSign(final Player player) {
+    final int parts = 300;
+    public void drawSign(final LivingEntity player) {
         double radius = 0.7;
         for (int ticks = 0; ticks < 5; ticks++) {
             drawCircleInFront(player, radius, 3, 5, Particle.PORTAL);
@@ -27,6 +29,10 @@ public class Exchange extends Item implements PlayerInteractInterface {
         }
 
         drawCircleInFront(player, radius, 3, 20, Particle.PORTAL);
+        for (int i = 0; i < parts; i++) {
+            player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,
+                    randomCylinder(player.getLocation(), 1.3, -2), 0);
+        }
     }
 
     @Override
@@ -41,6 +47,7 @@ public class Exchange extends Item implements PlayerInteractInterface {
             }
             cooldown.reload();
             drawSign(player);
+            drawSign(target);
             player.teleport(target);
             target.teleport(zxc);
         }

@@ -121,7 +121,6 @@ public class Drawings {
 
         fwm.setPower(2);
         fwm.addEffect(FireworkEffect.builder().withColor(Color.LIME).flicker(true).build());
-
         fw.setFireworkMeta(fwm);
         fw.detonate();
 
