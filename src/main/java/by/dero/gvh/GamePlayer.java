@@ -13,12 +13,21 @@ public class GamePlayer {
     private PlayerInfo playerInfo;
     private final HashMap<String, Item> items = new HashMap<>();
     private int team;
+    private Item lastUsed;
 
     private Board board;
 
     public GamePlayer(Player player) {
         this.player = player;
         this.playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
+    }
+
+    public Item getLastUsed() {
+        return lastUsed;
+    }
+
+    public void setLastUsed(Item lastUsed) {
+        this.lastUsed = lastUsed;
     }
 
     public Item getSelectedItem() {

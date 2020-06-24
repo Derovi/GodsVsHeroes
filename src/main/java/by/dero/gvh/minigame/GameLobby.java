@@ -85,16 +85,20 @@ public class GameLobby {
     }
 
     public void onPlayerJoined(GamePlayer gamePlayer) {
+
+        System.out.println("1");
         gamePlayer.setBoard(new Board("Lobby", 3));
 
         final int players = game.getPlayers().size();
         final int needed = game.getInfo().getMaxPlayerCount();
+
         Bukkit.getServer().broadcastMessage(Lang.get("gameLobby.playerJoined")
                 .replace("%name%", gamePlayer.getPlayer().getName())
                 .replace("%cur%", String.valueOf(players))
                 .replace("%max%", String.valueOf(needed))
         );
         updateDisplays();
+
         gamePlayer.getPlayer().getInventory().clear();
         if (players >= game.getInfo().getMinPlayerCount() && !ready) {
             ready = true;

@@ -29,6 +29,7 @@ public abstract class Game implements Listener {
 
     public Game(GameInfo info) {
         this.info = info;
+        GameEvents.setGame(this);
     }
 
     private GameLobby lobby;
@@ -55,7 +56,6 @@ public abstract class Game implements Listener {
 
     public void start() {
         mapManager = new MapManager(Bukkit.getWorld(getInfo().getWorld()));
-        GameEvents.setGame(this);
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
             return;
@@ -246,7 +246,7 @@ public abstract class Game implements Listener {
                 }
                 if (counter == 0) {
                     player.getPlayer().setGameMode(GameMode.SURVIVAL);
-                    new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1).apply(player.getPlayer());
+                    new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0).apply(player.getPlayer());
                     final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
                     final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
                     player.getPlayer().teleport(spawnPosition.toLocation(getInfo().getWorld()));
