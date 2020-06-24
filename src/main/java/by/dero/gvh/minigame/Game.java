@@ -5,6 +5,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.BungeeUtils;
 import by.dero.gvh.utils.DirectedPosition;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import by.dero.gvh.utils.MessagingUtils;
@@ -14,6 +15,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -40,6 +42,7 @@ public abstract class Game implements Listener {
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private BukkitRunnable cooldownMessageUpdater;
+    private MapManager mapManager;
 
     public Stats getStats() {
         return stats;
@@ -54,6 +57,7 @@ public abstract class Game implements Listener {
     private final LinkedList<BukkitRunnable> runnables = new LinkedList<>();
 
     public void start() {
+        mapManager = new MapManager(Bukkit.getWorld(getInfo().getWorld()));
         GameEvents.setGame(this);
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
@@ -126,6 +130,7 @@ public abstract class Game implements Listener {
         for (final BukkitRunnable runnable : runnables) {
             runnable.cancel();
         }
+        mapManager.finish();
         runnables.clear();
 
         Minigame.getInstance().getGameEvents().getDamageCause().clear();
@@ -269,6 +274,10 @@ public abstract class Game implements Listener {
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
 
+    }
+
+    public MapManager getMapManager() {
+        return mapManager;
     }
 
     public HashMap<String, Location> getPlayerDeathLocations() {

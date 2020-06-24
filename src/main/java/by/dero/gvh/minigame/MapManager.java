@@ -110,8 +110,20 @@ public class MapManager {
         runnable.runTaskTimer(Plugin.getInstance(), 20, 20);
     }
 
-    public void stop() {
+    public void finish() {
         runnable.cancel();
+        while (!placedBlocksQueue.isEmpty()) {
+            BlockEntry entry = placedBlocksQueue.element();
+            world.getBlockAt(new Location(world, entry.x, entry.y, entry.z)).setType(Material.AIR);
+            placedBlocks.remove(entry.getId());
+            placedBlocksQueue.remove();
+        }
+        while (!destroyedBlocksQueue.isEmpty()) {
+            DestroyedBlockEntry entry = destroyedBlocksQueue.element();
+            world.getBlockAt(new Location(world, entry.getX(), entry.getY(), entry.getZ())).setType(entry.getMaterial());
+            destroyedBlocks.remove(entry.getId());
+            destroyedBlocksQueue.remove();
+        }
     }
 
     HashSet<Integer> placedBlocks = new HashSet<>();
