@@ -73,6 +73,8 @@ public class Data {
         registerClass("paladin");
         registerClass("scout");
         registerClass("ull");
+
+        registerClass("warrior");
     }
 
     public void load() {

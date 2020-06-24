@@ -11,13 +11,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.MaterialData;
 
 public class WebThrow extends Item implements PlayerInteractInterface {
-    private int force;
-    private int duration;
+    private final int force;
+    private final int duration;
 
     public WebThrow(String name, int level, Player owner) {
         super(name, level, owner);
         WebThrowInfo info = ((WebThrowInfo) getInfo());
-        force = info.getDuration();
+        force = info.getForce();
+        duration = info.getDuration();
     }
 
     @Override

@@ -54,7 +54,9 @@
     "odin": "Один",
     "paladin": "Паладин",
     "scout": "Разведчик",
-    "ull": "Улль"
+    "ull": "Улль",
+    "warrior": "Воин",
+    "lucifer": "Люцифер"
   },
   "commands": {
     "stat": "§%col%Команда %com%§8: §9%pts%",

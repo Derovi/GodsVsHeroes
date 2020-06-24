@@ -2,6 +2,7 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -46,9 +47,7 @@ public class ItemInfo {
         ItemInfo info = new ItemInfo();
         info.getEnchantments().add(new EnchantInfo(Enchantment.LUCK.getName(), 7, true));
         info.getEnchantments().add(new EnchantInfo(Enchantment.ARROW_FIRE.getName(), 4, false));
-        String json = ResourceUtils.readResourceFile("/items/arrowrain.json");
-        ItemInfo info2 = new Gson().fromJson(json, ItemInfo.class);
-        System.out.println(info2.getEnchantments().size());
+        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(info));
     }
 
     public List<EnchantInfo> getEnchantments() {
