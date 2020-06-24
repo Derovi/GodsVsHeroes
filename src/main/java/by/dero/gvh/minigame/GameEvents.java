@@ -63,8 +63,8 @@ public class GameEvents implements Listener {
         if (proj.getShooter() instanceof Player) {
             final Player player = (Player) proj.getShooter();
             final String shooterName = player.getName();
-            final GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
-            final Item itemInHand = gamePlayer.getSelectedItem();
+            final GamePlayer gamePlayer = getPlayer(shooterName);
+            final Item itemInHand = gamePlayer.getLastUsed();
             final int heldSlot = player.getInventory().getHeldItemSlot();
             if (itemInHand == null) {
                 return;
@@ -77,7 +77,7 @@ public class GameEvents implements Listener {
                 final ItemStack curItem = player.getInventory().getItemInMainHand();
                 final String itemName = itemInHand.getInfo().getDisplayName();
 
-                if (curItem.getAmount() == 1) {
+                if (curItem.getAmount() == 0) {
                     final ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
                     pane.setAmount(1);
                     final ItemMeta meta = pane.getItemMeta();
@@ -88,7 +88,8 @@ public class GameEvents implements Listener {
                 }
 
                 final int need = itemInHand.getInfo().getAmount();
-                if (curItem.getAmount() == need) {
+
+                if (curItem.getAmount() == need - 1) {
                     final BukkitRunnable runnable = new BukkitRunnable() {
                         final PlayerInventory inv = player.getInventory();
                         final int slot = inv.getHeldItemSlot();
@@ -98,14 +99,14 @@ public class GameEvents implements Listener {
                                 this.cancel();
                                 return;
                             }
-                            if (inv.getItem(slot).getAmount() == need) {
-                                this.cancel();
-                            } else
                             if (inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
                                 inv.setItem(slot, itemInHand.getItemStack());
                                 inv.getItem(slot).setAmount(1);
                             } else {
                                 inv.getItem(slot).setAmount(inv.getItem(slot).getAmount()+1);
+                            }
+                            if (inv.getItem(slot).getAmount() == need) {
+                                this.cancel();
                             }
                         }
                     };
@@ -147,6 +148,7 @@ public class GameEvents implements Listener {
         if (itemInHand == null) {
             return;
         }
+        gamePlayer.setLastUsed(itemInHand);
         if (itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof UltimateInterface) {
                 if (itemInHand.getCooldown().isReady()) {

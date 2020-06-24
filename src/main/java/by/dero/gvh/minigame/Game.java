@@ -249,7 +249,7 @@ public abstract class Game implements Listener {
                 }
                 if (counter == 0) {
                     player.getPlayer().setGameMode(GameMode.SURVIVAL);
-                    new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1).apply(player.getPlayer());
+                    new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0).apply(player.getPlayer());
                     final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
                     final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
                     player.getPlayer().teleport(spawnPosition.toLocation(getInfo().getWorld()));
