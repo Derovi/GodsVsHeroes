@@ -34,6 +34,7 @@
     "gameFinished": "§4Игра окончена",
     "deathMessage": "Вы были убиты игроком %name%",
     "deathTime": "§aДо возрождения осталось§8: §9%time%",
+    "livesNotLeft": "§cУ вашей команды не осталось жизней",
     "dead": "§4Вы мертвы",
     "stunMessage": "§cВы в стане!",
     "desertionMessage": "§cНа фронте дезертирству нет места!"

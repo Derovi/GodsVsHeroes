@@ -26,24 +26,20 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-
-import static by.dero.gvh.model.Drawings.drawCircleInFront;
-import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.*;
-import static java.lang.Math.random;
 
 public class GameEvents implements Listener {
+    public static void setGame(DeathMatch game) {
+        GameEvents.game = game;
+    }
+
     public HashMap<LivingEntity, LivingEntity> getDamageCause() {
         return damageCause;
     }
 
     private final HashMap<LivingEntity, LivingEntity> damageCause = new HashMap<>();
     private final HashSet<UUID> projectiles = new HashSet<>();
-    private static Game game;
-
-    public static void setGame(Game game) {
-        GameEvents.game = game;
-    }
+    private static DeathMatch game;
 
     @EventHandler
     public void onEntityShootBow(org.bukkit.event.entity.EntityShootBowEvent event) {
@@ -86,7 +82,6 @@ public class GameEvents implements Listener {
                     Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(),
                             ()-> player.getInventory().setItem(heldSlot, pane), 1);
                 }
-
                 final int need = itemInHand.getInfo().getAmount();
 
                 if (curItem.getAmount() == need - 1) {
@@ -194,10 +189,11 @@ public class GameEvents implements Listener {
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);
 
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING)  &&
                 getLastLightningTime() + 100 > System.currentTimeMillis()) {
             final Player player = getLastUsedLightning();
             if (isEnemy(entity, getPlayer(player.getName()).getTeam())) {
+                game.getStats().addDamage(entity, player, event.getDamage());
                 damageCause.put(entity, player);
             } else {
                 event.setCancelled(true);
@@ -216,6 +212,7 @@ public class GameEvents implements Listener {
         if (event.getDamager() instanceof LivingEntity) {
             if (event.getDamager() instanceof Player &&
                     isEnemy(entity, getPlayer(event.getDamager().getName()).getTeam())) {
+                game.getStats().addDamage(entity, (LivingEntity) event.getDamager(), event.getDamage());
                 damageCause.put(entity, (LivingEntity) event.getDamager());
             } else {
                 event.setCancelled(true);
@@ -238,26 +235,7 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
-        event.setDeathMessage(null);
-        final Player player = event.getEntity();
-        final float exp = player.getExp();
 
-        spawnFirework(player.getLocation().clone().add(0,1,0), 1);
-
-        final Game game = Minigame.getInstance().getGame();
-        LivingEntity kil = damageCause.getOrDefault(player, player);
-        if (player.getKiller() != null) {
-            kil = player.getKiller();
-        }
-
-        game.onPlayerKilled(player, kil);
-        game.getPlayerDeathLocations().put(player.getName(), player.getLocation());
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getInstance(), () -> {
-            player.spigot().respawn();
-            game.spawnPlayer(game.getPlayers().get(player.getName()), game.getInfo().getRespawnTime());
-            player.setExp(exp);
-        }, 1L);
-        damageCause.remove(player);
     }
 
     @EventHandler

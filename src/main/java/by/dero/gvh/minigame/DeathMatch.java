@@ -1,11 +1,14 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -15,26 +18,37 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.util.ArrayList;
+import java.util.*;
 
+import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.getPlayer;
+import static by.dero.gvh.utils.DataUtils.getTargetEntity;
 
 public class DeathMatch extends Game implements DisplayInteractInterface {
     private final DeathMatchInfo deathMatchInfo;
 
-    int[] currentLivesCount;
+    private int[] currentLivesCount;
+
+    public int[] getRespawning() {
+        return respawning;
+    }
+
+    private int[] respawning;
 
     public DeathMatch(GameInfo info, DeathMatchInfo deathMatchInfo) {
         super(info);
         this.deathMatchInfo = deathMatchInfo;
+        GameEvents.setGame(this);
     }
 
     @Override
     void load() {
-        currentLivesCount = new int[getInfo().getTeamCount()];
-        for (int index = 0; index < getInfo().getTeamCount(); ++index) {
+        final int teams = getInfo().getTeamCount();
+        currentLivesCount = new int[teams];
+        for (int index = 0; index < teams; ++index) {
             currentLivesCount[index] = this.deathMatchInfo.getLivesCount();
         }
+        respawning = new int[teams];
     }
 
     @Override
@@ -88,6 +102,11 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     }
 
     @Override
+    protected void onPlayerRespawned(final GamePlayer gp) {
+        respawning[gp.getTeam()]--;
+    }
+
+    @Override
     public void start() {
         super.start();
 
@@ -108,20 +127,39 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     }
 
     private void checkForGameEnd() {
-        int winner = -1;
-        for (int index = 0; index < getInfo().getTeamCount(); ++index) {
-            if (currentLivesCount[index] != 0) {
-                if (winner != -1) {
+        boolean alive = false;
+        int teamAlive = -1;
+        Bukkit.getServer().broadcastMessage("kek");
+        for (final int i : currentLivesCount) {
+            if (i > 0) {
+                if (alive) {
                     return;
+                }
+                alive = true;
+
+            }
+        }
+        for (final int i : respawning) {
+            if (i > 0) {
+                return;
+            }
+        }
+        Bukkit.getServer().broadcastMessage("0");
+        for (final GamePlayer gp : getPlayers().values()) {
+            if (gp.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
+                Bukkit.getServer().broadcastMessage(teamAlive + " " + gp.getTeam());
+                if (teamAlive == -1) {
+                    teamAlive = gp.getTeam();
                 } else {
-                    winner = index;
+                    if (teamAlive != gp.getTeam()) {
+                        return;
+                    }
                 }
             }
         }
-        for (final Player player : Bukkit.getServer().getOnlinePlayers()) {
-            player.setCustomNameVisible(false);
-        }
-        finish(winner);
+
+        Bukkit.getServer().broadcastMessage("1");
+        finish(teamAlive);
     }
 
     @EventHandler
@@ -129,7 +167,34 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         if (getState() != State.GAME) {
             return;
         }
-        --currentLivesCount[getPlayers().get(event.getEntity().getName()).getTeam()];
+        event.setDeathMessage(null);
+        final Player player = event.getEntity();
+        final float exp = player.getExp();
+
+        spawnFirework(player.getLocation().clone().add(0,1,0), 1);
+
+        final HashMap<LivingEntity, LivingEntity> damageCause = Minigame.getInstance().getGameEvents().getDamageCause();
+        LivingEntity kil = damageCause.getOrDefault(player, player);
+        if (player.getKiller() != null) {
+            kil = player.getKiller();
+        }
+
+        onPlayerKilled(player, kil);
+        getPlayerDeathLocations().put(player.getName(), player.getLocation());
+
+        final int team = getPlayers().get(event.getEntity().getName()).getTeam();
+        int respTime = -1;
+
+        if (currentLivesCount[team] > 0) {
+            --currentLivesCount[team];
+            respawning[team]++;
+            respTime = getInfo().getRespawnTime();
+        }
+        player.spigot().respawn();
+        spawnPlayer(getPlayers().get(player.getName()), respTime);
+        player.setExp(exp);
+
+        damageCause.remove(player);
         updateDisplays();
         checkForGameEnd();
     }

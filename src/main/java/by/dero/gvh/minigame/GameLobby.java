@@ -5,6 +5,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.Board;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -68,6 +69,12 @@ public class GameLobby {
                     timeLeft = 60;
                     updateDisplays();
                     return;
+                }
+                if (timeLeft <= 10) {
+                    for (final Player player : Bukkit.getOnlinePlayers()) {
+                        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(timeLeft);
+                        player.setHealth(timeLeft);
+                    }
                 }
                 updateDisplays();
                 if (indexOf(showTime, timeLeft) != -1) {

@@ -24,8 +24,6 @@ public class DataUtils {
         target.setMaximumNoDamageTicks(0);
         target.setNoDamageTicks(0);
         target.damage(damage, killer);
-        Minigame.getInstance().getGame().getStats().
-                addDamage(target, killer, damage);
 
     }
 

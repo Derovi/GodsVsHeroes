@@ -1,6 +1,9 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.FlyingText;
+import by.dero.gvh.GamePlayer;
+import by.dero.gvh.minigame.Minigame;
+import it.unimi.dsi.fastutil.Hash;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -8,58 +11,112 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
+import static by.dero.gvh.utils.DataUtils.getPlayer;
+
 public class Stats {
-    private final HashMap<Player, Integer> kills = new HashMap<>();
-    private final HashMap<Player, Integer> deaths = new HashMap<>();
-    private final HashMap<Player, Double> damageDealt = new HashMap<>();
-    private final HashMap<Player, Double> damageTaken = new HashMap<>();
+    private final HashMap<String, Integer> kills = new HashMap<>();
+    private final HashMap<String, Integer> deaths = new HashMap<>();
+    private final HashMap<String, Double> damageDealt = new HashMap<>();
+    private final HashMap<String, Double> damageTaken = new HashMap<>();
 
     public void addKill(final LivingEntity target, final LivingEntity killer) {
         if (target instanceof Player) {
             if (killer instanceof Player && !target.equals(killer)) {
-                kills.put((Player) killer, kills.getOrDefault(killer, 0) + 1);
+                kills.put(killer.getName(), kills.getOrDefault(killer.getName(), 0) + 1);
             }
-            deaths.put((Player) target, deaths.getOrDefault(target, 0) + 1);
+            deaths.put(target.getName(), deaths.getOrDefault(target.getName(), 0) + 1);
         }
     }
 
     public void addDamage(final LivingEntity target, final LivingEntity killer, final double damage) {
         if (target instanceof Player) {
             if (killer instanceof Player && !target.equals(killer)) {
-                damageDealt.put((Player) killer, damageDealt.getOrDefault(killer, 0.0) + damage);
+                damageDealt.put(killer.getName(), damageDealt.getOrDefault(killer.getName(), 0.0) + damage);
             }
-            damageTaken.put((Player) target, damageTaken.getOrDefault(target, 0.0) + damage);
+            damageTaken.put(target.getName(), damageTaken.getOrDefault(target.getName(), 0.0) + damage);
         }
     }
 
-    private Player getBestDamageDealt() {
-        return damageDealt.entrySet().parallelStream().
-                max(Comparator.comparingDouble(Map.Entry::getValue)).get().getKey();
+    private String getBestDamageDealt() {
+        String best = "";
+        double val = -1;
+        for (Map.Entry<String, Double> entry : damageDealt.entrySet()) {
+            final String a = entry.getKey();
+            final Double b = entry.getValue();
+            if (val < b) {
+                best = a;
+                val = b;
+            }
+        }
+        return best;
     }
 
-    private Player getBestDamageTaken() {
-        return damageTaken.entrySet().parallelStream().
-                min(Comparator.comparingDouble(Map.Entry::getValue)).get().getKey();
+    private String getBestDamageTaken() {
+        String best = "";
+        double val = Double.MAX_VALUE;
+        final HashMap<String, GamePlayer> hm = Minigame.getInstance().getGame().getPlayers();
+        for (Map.Entry<String, Double> entry : damageTaken.entrySet()) {
+            final String a = entry.getKey();
+            final Double b = entry.getValue();
+            if (!hm.containsValue(getPlayer(a))) {
+                return a;
+            }
+            if (val > b) {
+                best = a;
+                val = b;
+            }
+        }
+        return best;
     }
 
-    private Player getBestKills() {
-        return kills.entrySet().parallelStream().
-                max(Comparator.comparingInt(Map.Entry::getValue)).get().getKey();
+    private String getBestKills() {
+        String best = "";
+        int val = -1;
+        for (Map.Entry<String, Integer> entry : kills.entrySet()) {
+            final String a = entry.getKey();
+            final int b = entry.getValue();
+            if (val < b) {
+                best = a;
+                val = b;
+            }
+        }
+        return best;
     }
 
-    private Player getBestDeaths() {
-        return deaths.entrySet().parallelStream().
-                min(Comparator.comparingInt(Map.Entry::getValue)).get().getKey();
+    private String getBestDeaths() {
+        String best = "";
+        int val = Integer.MAX_VALUE;
+        final HashMap<String, GamePlayer> hm = Minigame.getInstance().getGame().getPlayers();
+        for (Map.Entry<String, Integer> entry : deaths.entrySet()) {
+            final String a = entry.getKey();
+            final int b = entry.getValue();
+            if (!hm.containsValue(getPlayer(a))) {
+                return a;
+            }
+            if (val > b) {
+                best = a;
+                val = b;
+            }
+        }
+        return best;
     }
 
     final LinkedList<FlyingText> texts = new LinkedList<>();
     public void spawnStats(final Location loc) {
+        Bukkit.getServer().broadcastMessage("0");
+        kills.forEach((a, b) -> Bukkit.getServer().broadcastMessage(a + " " + b));
+        Bukkit.getServer().broadcastMessage("1");
+        deaths.forEach((a, b) -> Bukkit.getServer().broadcastMessage(a + " " + b));
+        Bukkit.getServer().broadcastMessage("2");
+        damageTaken.forEach((a, b) -> Bukkit.getServer().broadcastMessage(a + " " + b));
+        Bukkit.getServer().broadcastMessage("3");
+        damageDealt.forEach((a, b) -> Bukkit.getServer().broadcastMessage(a + " " + b));
         for (final String message : new String[]{
                 Lang.get("stats.label"),
-                Lang.get("stats.bestKills").replace("%pl%", getBestKills().getName()),
-                Lang.get("stats.bestDamageDealt").replace("%pl%", getBestDamageDealt().getName()),
-                Lang.get("stats.bestDeaths").replace("%pl%", getBestDeaths().getName()),
-                Lang.get("stats.bestDamageTaken").replace("%pl%", getBestDamageTaken().getName()),
+                Lang.get("stats.bestKills").replace("%pl%", getBestKills()),
+                Lang.get("stats.bestDamageDealt").replace("%pl%", getBestDamageDealt()),
+                Lang.get("stats.bestDeaths").replace("%pl%", getBestDeaths()),
+                Lang.get("stats.bestDamageTaken").replace("%pl%", getBestDamageTaken()),
         }) {
             final FlyingText text = new FlyingText(loc.clone(), message);
             loc.subtract(0, 0.3, 0);

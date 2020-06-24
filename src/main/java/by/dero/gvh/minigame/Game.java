@@ -24,17 +24,24 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 import static by.dero.gvh.utils.DataUtils.getPlayer;
+import static by.dero.gvh.utils.MessagingUtils.sendActionBar;
+import static by.dero.gvh.utils.MessagingUtils.sendTitle;
 
 public abstract class Game implements Listener {
+    public static Game getInstance() {
+        return instance;
+    }
+
     public enum State {
         GAME, FINISHING, WAITING, PREPARING
     }
 
     public Game(GameInfo info) {
         this.info = info;
-        GameEvents.setGame(this);
+        instance = this;
     }
 
+    private static Game instance;
     private GameLobby lobby;
     private AfterParty afterParty;
     private final GameInfo info;
@@ -49,13 +56,15 @@ public abstract class Game implements Listener {
         return stats;
     }
 
-    private Stats stats;
+    protected Stats stats;
 
     public LinkedList<BukkitRunnable> getRunnables() {
         return runnables;
     }
 
     private final LinkedList<BukkitRunnable> runnables = new LinkedList<>();
+
+    protected abstract void onPlayerRespawned(final GamePlayer gp);
 
     public void start() {
         mapManager = new MapManager(Bukkit.getWorld(getInfo().getWorld()));
@@ -237,10 +246,42 @@ public abstract class Game implements Listener {
         }
     }
 
-    public void spawnPlayer(GamePlayer player, int respawnTime) {
+    private void toSpawn(final GamePlayer gp) {
+        final Player player = gp.getPlayer();
+
+        player.setGameMode(GameMode.SURVIVAL);
+        new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0).apply(player);
+
+        final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[gp.getTeam()].length);
+        final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[gp.getTeam()][locationIndex];
+        player.teleport(spawnPosition.toLocation(getInfo().getWorld()));
+        final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(gp.getClassName()).getMaxHP();
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
+        player.setHealth(maxHealth);
+
+        sendTitle("", player, 0, 1, 0);
+        sendActionBar("", player);
+        addItems(gp);
+    }
+
+    public void spawnPlayer(GamePlayer gp, int respawnTime) {
+        final Player player = gp.getPlayer();
+        if (respawnTime == 0) {
+            toSpawn(gp);
+            return;
+        }
+
+        player.setGameMode(GameMode.SPECTATOR);
+        player.teleport(playerDeathLocations.get(player.getName()));
+        player.setVelocity(new Vector(0,4,0));
+        if (respawnTime == -1) {
+            sendTitle(Lang.get("game.livesNotLeft"), player, 0, 20, 0);
+            return;
+        }
+        sendTitle(Lang.get("game.dead"), player, 0, 20, 0);
+
         new BukkitRunnable() {
             int counter = respawnTime;
-
             @Override
             public void run() {
                 if (state == State.FINISHING) {
@@ -248,27 +289,12 @@ public abstract class Game implements Listener {
                     return;
                 }
                 if (counter == 0) {
-                    player.getPlayer().setGameMode(GameMode.SURVIVAL);
-                    new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0).apply(player.getPlayer());
-                    final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[player.getTeam()].length);
-                    final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[player.getTeam()][locationIndex];
-                    player.getPlayer().teleport(spawnPosition.toLocation(getInfo().getWorld()));
-                    final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName()).getMaxHP();
-                    player.getPlayer().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
-                    player.getPlayer().setHealth(maxHealth);
-                    MessagingUtils.sendTitle("", player.getPlayer(), 0, 1, 0);
-                    MessagingUtils.sendActionBar("", player.getPlayer());
-                    addItems(player);
+                    toSpawn(gp);
+                    onPlayerRespawned(gp);
                     this.cancel();
                     return;
                 }
-                if (counter == respawnTime) {
-                    player.getPlayer().setGameMode(GameMode.SPECTATOR);
-                    player.getPlayer().teleport(playerDeathLocations.get(player.getPlayer().getName()));
-                    player.getPlayer().setVelocity(new Vector(0,4,0));
-                    MessagingUtils.sendTitle(Lang.get("game.dead"), player.getPlayer(), 0, 20 * respawnTime, 0);
-                }
-                MessagingUtils.sendActionBar(Lang.get("game.deathTime").
+                sendActionBar(Lang.get("game.deathTime").
                         replace("%time%", MessagingUtils.getTimeString(counter, false)), player.getPlayer());
                 --counter;
             }
