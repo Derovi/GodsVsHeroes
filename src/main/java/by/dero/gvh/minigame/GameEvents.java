@@ -3,7 +3,9 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
+import by.dero.gvh.utils.DirectedPosition;
 import org.bukkit.*;
 import by.dero.gvh.model.interfaces.*;
 import org.bukkit.entity.*;
@@ -13,10 +15,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -39,10 +38,6 @@ public class GameEvents implements Listener {
     private final HashMap<LivingEntity, LivingEntity> damageCause = new HashMap<>();
     private final HashSet<UUID> projectiles = new HashSet<>();
     private static Game game;
-    private static final Color[] colors = new Color[] {
-            Color.AQUA, Color.BLUE, Color.FUCHSIA, Color.GREEN, Color.LIME, Color.MAROON,
-            Color.NAVY, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.YELLOW, Color.WHITE
-    };
 
     public static void setGame(Game game) {
         GameEvents.game = game;
@@ -280,6 +275,40 @@ public class GameEvents implements Listener {
             ent.remove();
         }
     }
+
+    private static DirectedPosition[] borders = null;
+    private static String desMsg;
+    @EventHandler
+    public void checkBorders(PlayerMoveEvent event) {
+        if (borders == null) {
+            borders = game.getInfo().getMapBorders();
+            desMsg = Lang.get("game.desertionMessage");
+        }
+        final Player player = event.getPlayer();
+        final Location loc = player.getLocation();
+        if (loc.getX() < borders[0].getX()) {
+            player.setVelocity(new Vector(2, 0, 0));
+            player.sendMessage(desMsg);
+        }
+        if (loc.getX() > borders[1].getX()) {
+            player.setVelocity(new Vector(-2, 0, 0));
+            player.sendMessage(desMsg);
+        }
+        if (loc.getZ() < borders[0].getZ()) {
+            player.setVelocity(new Vector(0, 0, 2));
+            player.sendMessage(desMsg);
+        }
+        if (loc.getZ() > borders[1].getZ()) {
+            player.setVelocity(new Vector(0, 0, -2));
+            player.sendMessage(desMsg);
+        }
+    }
+
+    @EventHandler
+    public void onPortal(EntityPortalEvent event) {
+        event.setCancelled(true);
+    }
+
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
         event.setCancelled(true);

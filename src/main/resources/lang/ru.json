@@ -25,7 +25,7 @@
     "boardTitle": "§aСтатистика",
     "won": "§aВы победили!",
     "lost": "§4Вы проиграли!",
-    "livesLeft": "§cЖизней осталось",
+    "livesLeft": "§cЖизней",
     "itemReady": "§aГотово",
     "itemReloading": "§6Перезагрузка. Подождите §6%time%§c секунд, чтобы использовать §6%itemname%§c!",
     "itemReloadingActionBar": "§6Перезагрузка. Подождите §c%time%§6!",
@@ -35,10 +35,11 @@
     "deathMessage": "Вы были убиты игроком %name%",
     "deathTime": "§aДо возрождения осталось§8: §9%time%",
     "dead": "§4Вы мертвы",
-    "stunMessage": "§cВы в стане!"
+    "stunMessage": "§cВы в стане!",
+    "desertionMessage": "§cНа фронте дезертирству нет места!"
   },
   "stats": {
-    "label": "§aСтатистика по игре§8:",
+    "label": "§aСтатистика",
     "bestKills": "§aБольше всего убийств§8: §9%pl%",
     "bestDamageDealt": "§aБольше всего нанесено урона§8: §9%pl%",
     "bestDeaths": "§aМеньше всего смертей§8: §9%pl%",

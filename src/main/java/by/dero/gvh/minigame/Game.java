@@ -30,6 +30,7 @@ public abstract class Game implements Listener {
 
     public Game(GameInfo info) {
         this.info = info;
+        GameEvents.setGame(this);
     }
 
     private GameLobby lobby;
@@ -54,7 +55,6 @@ public abstract class Game implements Listener {
     private final LinkedList<BukkitRunnable> runnables = new LinkedList<>();
 
     public void start() {
-        GameEvents.setGame(this);
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
             return;

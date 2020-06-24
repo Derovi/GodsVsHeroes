@@ -39,8 +39,23 @@ public class Board {
 
     public static void setText(final Team team, final String str) {
         if (str.length() > 16) {
-            team.setPrefix(str.substring(0, 16));
-            team.setSuffix(str.substring(16));
+            int idx = -1;
+            for (int i = 0; i < 16; i++) {
+                if (str.charAt(i) == '§') {
+                    idx = i;
+                }
+            }
+            if (idx == -1) {
+                team.setPrefix(str.substring(0, 16));
+                team.setSuffix(str.substring(16));
+            } else
+            if (idx < 15) {
+                team.setPrefix(str.substring(0, 16));
+                team.setSuffix("§" + str.charAt(idx+1) + str.substring(16));
+            } else {
+                team.setPrefix(str.substring(0, idx));
+                team.setSuffix(str.substring(idx));
+            }
         } else {
             team.setPrefix(str);
         }

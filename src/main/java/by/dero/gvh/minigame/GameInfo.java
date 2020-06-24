@@ -14,6 +14,7 @@ public class GameInfo {
     private int finishTime;
     private DirectedPosition[] winnerPositions;
     private DirectedPosition[] looserPositions;
+    private DirectedPosition[] mapBorders;
 
     public int getFinishTime() {
         return finishTime;
@@ -93,5 +94,13 @@ public class GameInfo {
 
     public void setSpawnPoints(DirectedPosition[][] spawnPoints) {
         this.spawnPoints = spawnPoints;
+    }
+
+    public DirectedPosition[] getMapBorders() {
+        return mapBorders;
+    }
+
+    public void setMapBorders(DirectedPosition[] mapBorders) {
+        this.mapBorders = mapBorders;
     }
 }
