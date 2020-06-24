@@ -232,6 +232,23 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
+    public void onFallingBlockLand(final EntityChangeBlockEvent e) {
+        if (e.getEntity() == null) {
+            return;
+        }
+        if (e.getEntity().getCustomName() == null) {
+            return;
+        }
+        if (e.getEntity().getCustomName().equals("#falling_block")) {
+            e.getEntity().remove();
+            if (e.getBlock() != null) {
+                e.getBlock().setType(Material.AIR);
+            }
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     public void onEntityDie(EntityDeathEvent event) {
         event.getDrops().clear();
     }

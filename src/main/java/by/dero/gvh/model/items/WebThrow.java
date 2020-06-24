@@ -30,5 +30,10 @@ public class WebThrow extends Item implements PlayerInteractInterface {
         FallingBlock fallingBlock = Minigame.getInstance().getWorld().spawnFallingBlock(getOwner().getLocation(),
                 new MaterialData(Material.WEB));
         fallingBlock.setVelocity(getOwner().getLocation().getDirection().normalize().multiply(force));
+        fallingBlock.setDropItem(false);
+        fallingBlock.setHurtEntities(false);
+        fallingBlock.setInvulnerable(true);
+        fallingBlock.setCustomNameVisible(false);
+        fallingBlock.setCustomName("#falling_block");
     }
 }
