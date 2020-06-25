@@ -34,7 +34,7 @@ public class ThrowingItem extends EntityArmorStand {
     private double lenDir;
     private double itemLength;
     private double spinning = 0;
-    private double step = 0.33;
+    private double step = 0.40;
     private Runnable onHitEntity = null;
     private Runnable onHitBlock = null;
     private Runnable onDisappear = null;
@@ -74,11 +74,22 @@ public class ThrowingItem extends EntityArmorStand {
     }
 
     public Position getItemPosition() {
-        double vecLen = armorStand.getVelocity();
+        if (spinning != 0 || physicsSpin) {
+            double rotX = armorStand.getLocation().getPitch();
+            double rotY = rightArmPose.x;
+            Vector vector = new Vector();
+            vector.setY(-Math.sin(Math.toRadians(rotY)));
+            double xz = Math.cos(Math.toRadians(rotY));
+            vector.setX(-xz * Math.sin(Math.toRadians(rotX)));
+            vector.setZ(xz * Math.cos(Math.toRadians(rotX)));
+            vector.normalize();
+            return new Position(locX - zDir / 2 + vector.getX() * itemLength,
+                    locY + 1 + vector.getY() * itemLength,
+                    locZ + xDir / 2 + vector.getZ() * itemLength);
+        }
         return new Position(locX - zDir / 2 + xDir / lenDir * itemLength,
                 locY + 1 + yDir / lenDir * itemLength,
                 locZ + xDir / 2 + zDir / lenDir * itemLength);
-        //return new Position(locX - zDir / 2 + xDir / lenDir * itemLength, locY + 1 + yDir / lenDir * itemLength, locZ + xDir / 2 + zDir / lenDir * itemLength);
     }
 
     private void stop() {
@@ -146,9 +157,7 @@ public class ThrowingItem extends EntityArmorStand {
         } else {
             setRightArmPose(new Vector3f(360f - (float) Math.toDegrees(Math.asin(y / length)), (float) y, (float) z));
         }
-        System.out.println("Start steps");
         for (int step = 0; step < stepCount; ++ step) {
-            System.out.println("step " + step);
             locX += x / stepCount;
             locY += y / stepCount;
             locZ += z / stepCount;
