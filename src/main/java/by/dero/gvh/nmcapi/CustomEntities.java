@@ -8,7 +8,7 @@ import org.bukkit.entity.EntityType;
 
 public enum CustomEntities {
 
-    SMART_ARMOR_STAND("SmartArmorStand", 54, EntityType.ARMOR_STAND, EntityArmorStand.class, SmartArmorStand.class);
+    SMART_ARMOR_STAND("ThrowingItem", 54, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingItem.class);
 
     private final String name;
     private final int id;
