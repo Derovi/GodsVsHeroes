@@ -14,7 +14,7 @@ import org.bukkit.util.Vector;
 import static java.lang.Math.random;
 
 public class Drawings {
-    private static final double dense = 3;
+    private static final double dense = 4;
     private static final Vector randomVector = new Vector(random(), random(), random()).normalize();
 
     public static Vector rotateAroundAxis(final Vector point, final Vector axis, double angle) throws IllegalArgumentException {
@@ -151,9 +151,9 @@ public class Drawings {
                                           final double horAngleSpeed,
                                           final double vertStartAngle,
                                           final double vertEndAngle,
+                                          final int dT,
                                           final Particle particle,
                                           final Player player) {
-        final int dT = 1;
         final int parts = 16;
         final double vertAngleSpeed = (vertEndAngle - vertStartAngle) / duration;
         new BukkitRunnable() {
@@ -216,7 +216,7 @@ public class Drawings {
 
         spawnMovingSphere(loc.clone().add(0,1,0),
                 duration / 2, radius, Math.PI / 80,
-                startAngle, endAngle, Particle.FLAME, player);
+                startAngle, endAngle, 1, Particle.FLAME, player);
 
         spawnMovingCircle(loc.clone().add(0, 0.15,0),
                 duration, Math.cos(endAngle) * radius, 3,Math.PI / 160, Particle.FLAME, player);
@@ -230,7 +230,7 @@ public class Drawings {
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
                 spawnMovingSphere(loc.clone().add(0,1,0),
                         duration / 2, radius, Math.PI / 80,
-                        endAngle, startAngle, Particle.FLAME, player), duration / 2);
+                        endAngle, startAngle, 1, Particle.FLAME, player), duration / 2);
 
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()->
                 spawnFirework(loc.clone().add(0,1,0), 2), duration);
@@ -265,5 +265,21 @@ public class Drawings {
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
                     0, red, green, blue, 2);
         }
+    }
+
+    public static void drawCphere(final Location loc, final double radius,
+                                  final Particle particle) {
+        final int parts = 8;
+        final double vertAngleSpeed = Math.PI / parts;
+        double vertAngle = -Math.PI / 2;
+        for (int i = 0; i < parts; i++) {
+            for (double partAngle = 0; partAngle < Math.PI * 2; partAngle += Math.PI * 2 / parts) {
+                final Location at = getInCphere(loc.toVector(), radius, partAngle, vertAngle).toLocation(loc.getWorld());
+                loc.getWorld().spawnParticle(particle, at, 0,0,0, 0);
+            }
+
+            vertAngle += vertAngleSpeed;
+        }
+
     }
 }

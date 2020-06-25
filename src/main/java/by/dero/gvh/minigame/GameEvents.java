@@ -187,9 +187,13 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Firework) {
+            event.setCancelled(true);
+        }
         if (!(event.getEntity() instanceof LivingEntity)) {
             return;
         }
+
         final LivingEntity entity = (LivingEntity) event.getEntity();
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);

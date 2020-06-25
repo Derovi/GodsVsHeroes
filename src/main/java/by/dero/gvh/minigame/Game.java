@@ -121,8 +121,9 @@ public abstract class Game implements Listener {
     private void chooseTeams() {
         List<String> playerNames = new ArrayList<>(players.keySet());
         Collections.shuffle(playerNames);
+        final int cnt = getInfo().getTeamCount();
         for (int index = 0; index < playerNames.size(); ++index) {
-            players.get(playerNames.get(index)).setTeam(index % getInfo().getTeamCount());
+            players.get(playerNames.get(index)).setTeam(cnt - index % cnt - 1);
         }
     }
 

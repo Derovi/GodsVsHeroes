@@ -58,6 +58,7 @@ public class Data {
         registerItem("doublejump", ItemInfo.class, DoubleJump.class);
         registerItem("healall", HealAllInfo.class, HealAll.class);
         registerItem("grenade", GrenadeInfo.class, Grenade.class);
+        registerItem("escapeteleport", EscapeTeleportInfo.class, EscapeTeleport.class);
     }
 
     private void registerClasses() {
