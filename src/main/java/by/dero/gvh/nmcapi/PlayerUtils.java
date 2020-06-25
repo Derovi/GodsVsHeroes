@@ -14,13 +14,13 @@ import org.bukkit.util.Vector;
 public class PlayerUtils {
     public static void jumpDown(Player player, int duration) {
         ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
-        armorStand.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
+//        armorStand.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
         prepareArmorStand(player, duration, armorStand);
     }
 
     public static void jumpUp(Player player, int duration) {
         ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
-        armorStand.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
+//        armorStand.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
         armorStand.setVelocity(new Vector(0,1,0));
         prepareArmorStand(player, duration, armorStand);
     }
