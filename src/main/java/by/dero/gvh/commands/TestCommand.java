@@ -39,11 +39,12 @@ public class TestCommand implements CommandExecutor {
         //((CraftWorld) player.getWorld()).getHandle().addEntity(smartArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM);
         //smartArmorStand.boundingBox = new AxisAlignedBB(3,3,3,4,4,4);
         ThrowingItem throwingItem = new ThrowingItem(player.getLocation(), Material.DIAMOND_SWORD);
-        //throwingItem.setOwner(player);
-        throwingItem.setItemLength(0.5);
+        throwingItem.setOwner(player);
+        throwingItem.setItemLength(0.7);
         //throwingItem.setSpinning(45);
+        throwingItem.setPhysicsSpin(true);
         throwingItem.setLiveTimeAfterStop(120);
-        throwingItem.setVelocity(player.getLocation().getDirection().add(new Vector(0,0.1,0)).normalize());
+        throwingItem.setVelocity(player.getLocation().getDirection().add(new Vector(0,0.1,0)).normalize().multiply(2));
         throwingItem.spawn();
         return true;
     }

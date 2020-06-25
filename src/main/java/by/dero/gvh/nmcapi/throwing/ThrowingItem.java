@@ -23,18 +23,23 @@ public class ThrowingItem extends EntityArmorStand {
     private Entity owner = null;
     private Entity holdEntity = null;
     private boolean stopped = false;
+    private boolean removed = false;
     private int liveTimeAfterStop = 0;
     private double xDelta;
     private double yDelta;
     private double zDelta;
-    private final double xDir;
-    private final double yDir;
-    private final double zDir;
-    private final double lenDir;
+    private double xDir;
+    private double yDir;
+    private double zDir;
+    private double lenDir;
     private double itemLength;
     private double spinning = 0;
+    private double step = 0.33;
     private Runnable onHitEntity = null;
     private Runnable onHitBlock = null;
+    private Runnable onDisappear = null;
+    private Runnable onOwnerPickUp = null;
+    private boolean physicsSpin = false;
 
     public ThrowingItem(Location loc, Material material) {
         super(((CraftWorld) loc.getWorld()).getHandle());
@@ -69,7 +74,11 @@ public class ThrowingItem extends EntityArmorStand {
     }
 
     public Position getItemPosition() {
-        return new Position(locX - zDir / 2 + xDir / lenDir * itemLength, locY + 1 + yDir / lenDir * itemLength, locZ + xDir / 2 + zDir / lenDir * itemLength);
+        double vecLen = armorStand.getVelocity();
+        return new Position(locX - zDir / 2 + xDir / lenDir * itemLength,
+                locY + 1 + yDir / lenDir * itemLength,
+                locZ + xDir / 2 + zDir / lenDir * itemLength);
+        //return new Position(locX - zDir / 2 + xDir / lenDir * itemLength, locY + 1 + yDir / lenDir * itemLength, locZ + xDir / 2 + zDir / lenDir * itemLength);
     }
 
     private void stop() {
@@ -80,9 +89,24 @@ public class ThrowingItem extends EntityArmorStand {
         new BukkitRunnable() {
             @Override
             public void run() {
-                armorStand.remove();
+                if (removed) {
+                    return;
+                }
+                remove();
+                if (onDisappear != null) {
+                    onDisappear.run();
+                }
             }
         }.runTaskLater(Plugin.getInstance(), liveTimeAfterStop);
+    }
+
+    public void remove() {
+        removed = true;
+        armorStand.remove();
+    }
+
+    public boolean isRemoved() {
+        return removed;
     }
 
     public double getItemLength() {
@@ -101,45 +125,85 @@ public class ThrowingItem extends EntityArmorStand {
                 locY = holdEntity.getLocation().getY() + yDelta;
                 locZ = holdEntity.getLocation().getZ() + zDelta;
             }
+            if (onOwnerPickUp != null) {
+                Collection<Entity> entities = armorStand.getLocation().getWorld().getNearbyEntities(
+                        armorStand.getLocation(), 1.25, 1.25, 1.25);
+                for (Entity entity : entities) {
+                    if (entity.getUniqueId().equals(owner.getUniqueId())) {
+                        onOwnerPickUp.run();
+                        break;
+                    }
+                }
+            }
             return;
         }
         Vector vector = new Vector(x, y, z);
         double length = vector.length();
-        //System.out.println("lel"  + x + ' ' + y + ' ' + z);
-        setRightArmPose(new Vector3f((float)(rightArmPose.x + spinning * length),(float) y, (float) z));
-        super.move(moveType, x, y, z);
-        Location itemLocation = getItemPosition().toLocation(armorStand.getWorld());
-        if (itemLocation.getY() < 0) {
-            stop();
+
+        int stepCount = (int) (length / step) + 1;
+        if (!physicsSpin) {
+            setRightArmPose(new Vector3f((float) (rightArmPose.x + spinning * length), (float) y, (float) z));
+        } else {
+            setRightArmPose(new Vector3f(360f - (float) Math.toDegrees(Math.asin(y / length)), (float) y, (float) z));
         }
-        if (armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType() != Material.AIR) {
-            stop();
-            if (onHitBlock != null) {
-                onHitBlock.run();
+        System.out.println("Start steps");
+        for (int step = 0; step < stepCount; ++ step) {
+            System.out.println("step " + step);
+            locX += x / stepCount;
+            locY += y / stepCount;
+            locZ += z / stepCount;
+            //super.move(moveType, x, y, z);
+            Location itemLocation = getItemPosition().toLocation(armorStand.getWorld());
+            if (itemLocation.getY() < 0) {
+                stop();
+                return;
             }
-            return;
-        }
-        Collection<Entity> entities = armorStand.getLocation().getWorld().getNearbyEntities(itemLocation, 0.25,0.25,0.25);
-        for (Entity entity : entities) {
-            if (entity.getUniqueId().equals(getUniqueID())) {
-                continue;
+            if (armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType() != Material.AIR) {
+                stop();
+                if (onHitBlock != null) {
+                    onHitBlock.run();
+                }
+                return;
             }
-            if (owner != null && entity.getUniqueId().equals(owner.getUniqueId())) {
-                continue;
-            }
-            holdEntity = entity;
-            xDelta = locX - entity.getLocation().getX();
-            yDelta = locY - entity.getLocation().getY();
-            zDelta = locZ - entity.getLocation().getZ();
-            stop();
-            if (onHitEntity != null) {
-                onHitEntity.run();
+            Collection<Entity> entities = armorStand.getLocation().getWorld().getNearbyEntities(itemLocation, 0.05, 0.25, 0.05);
+            for (Entity entity : entities) {
+                if (entity.getUniqueId().equals(getUniqueID())) {
+                    continue;
+                }
+                if (owner != null && entity.getUniqueId().equals(owner.getUniqueId())) {
+                    continue;
+                }
+                holdEntity = entity;
+                xDelta = locX - entity.getLocation().getX();
+                yDelta = locY - entity.getLocation().getY();
+                zDelta = locZ - entity.getLocation().getZ();
+                stop();
+                if (onHitEntity != null) {
+                    onHitEntity.run();
+                }
+                return;
             }
         }
     }
 
+    public double getStep() {
+        return step;
+    }
+
+    public void setStep(double step) {
+        this.step = step;
+    }
+
     public void spawn() {
         ((CraftWorld) armorStand.getWorld()).getHandle().addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
+    }
+
+    public boolean isPhysicsSpin() {
+        return physicsSpin;
+    }
+
+    public void setPhysicsSpin(boolean physicsSpin) {
+        this.physicsSpin = physicsSpin;
     }
 
     public Entity getHoldEntity() {
@@ -188,5 +252,21 @@ public class ThrowingItem extends EntityArmorStand {
 
     public void setSpinning(double spinning) {
         this.spinning = spinning;
+    }
+
+    public Runnable getOnDisappear() {
+        return onDisappear;
+    }
+
+    public void setOnDisappear(Runnable onDisappear) {
+        this.onDisappear = onDisappear;
+    }
+
+    public Runnable getOnOwnerPickUp() {
+        return onOwnerPickUp;
+    }
+
+    public void setOnOwnerPickUp(Runnable onOwnerPickUp) {
+        this.onOwnerPickUp = onOwnerPickUp;
     }
 }
