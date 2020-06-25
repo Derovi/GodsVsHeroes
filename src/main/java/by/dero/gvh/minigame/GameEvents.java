@@ -187,14 +187,19 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)) {
+            event.setCancelled(true);
+            return;
+        }
         if (!(event.getEntity() instanceof LivingEntity)) {
             return;
         }
+
         final LivingEntity entity = (LivingEntity) event.getEntity();
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);
 
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING)  &&
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
                 getLastLightningTime() + 100 > System.currentTimeMillis()) {
             final Player player = getLastUsedLightning();
             if (isEnemy(entity, getPlayer(player.getName()).getTeam())) {
@@ -230,6 +235,23 @@ public class GameEvents implements Listener {
         Game game = Minigame.getInstance().getGame();
         for (Block block : event.blocks) {
             game.getMapManager().blockDestroyed(block.getX(), block.getY(), block.getZ(), 10000, block.getType());
+        }
+    }
+
+    @EventHandler
+    public void onFallingBlockLand(final EntityChangeBlockEvent e) {
+        if (e.getEntity() == null) {
+            return;
+        }
+        if (e.getEntity().getCustomName() == null) {
+            return;
+        }
+        if (e.getEntity().getCustomName().equals("#falling_block")) {
+            e.getEntity().remove();
+            if (e.getBlock() != null) {
+                e.getBlock().setType(Material.AIR);
+            }
+            e.setCancelled(true);
         }
     }
 

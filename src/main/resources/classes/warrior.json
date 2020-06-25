@@ -1,0 +1,18 @@
+{
+  "name": "warrior",
+  "maxHP": 40,
+  "cost": 0,
+  "itemNames": [
+    "defaultsword",
+    "webthrow",
+    "grenade",
+    "healpotion",
+    "stunall",
+    "defaultchestplate",
+    "defaultleggings",
+
+    "resistancebuf",
+    "defaulthelmet",
+    "defaultboots"
+  ]
+}

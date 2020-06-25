@@ -1,0 +1,71 @@
+{
+  "name": "webthrow",
+  "slot": 0,
+  "levels": [
+    {
+      "force": 2.0,
+      "duration": 2,
+      "cooldown": 14,
+      "cost": 80,
+      "material": "WEB",
+      "displayName": "§Web throw",
+      "lore": [
+        "§aНажмите, что кинуть паутину.",
+        "§6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "force": 2.0,
+      "duration": 2,
+      "cooldown": 13,
+      "cost": 100,
+      "material": "WEB",
+      "displayName": "§cWeb throw",
+      "lore": [
+        "§aНажмите, чтобы кинуть паутину.",
+        "§6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "force": 2.0,
+      "duration": 2,
+      "cooldown": 12,
+      "cost": 120,
+      "material": "WEB",
+      "displayName": "§cWeb throw",
+      "lore": [
+        "§aНажмите, чтобы кинуть паутину.",
+        "§6Уровень 3"
+      ],
+      "amount": 1
+    },
+    {
+      "force": 2.0,
+      "duration": 2,
+      "cooldown": 11,
+      "cost": 140,
+      "material": "WEB",
+      "displayName": "§cWeb throw",
+      "lore": [
+        "§aНажмите, чтобы кинуть паутину.",
+        "§6Уровень 4"
+      ],
+      "amount": 1
+    },
+    {
+      "force": 2.0,
+      "duration": 2,
+      "cooldown": 10,
+      "cost": 160,
+      "material": "WEB",
+      "displayName": "§cWeb throw",
+      "lore": [
+        "§aНажмите, чтобы кинуть паутину.",
+        "§6Уровень 5"
+      ],
+      "amount": 1
+    }
+  ]
+}

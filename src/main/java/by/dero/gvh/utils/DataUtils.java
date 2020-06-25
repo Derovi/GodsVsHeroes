@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
 import org.bukkit.Location;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import java.util.*;
 public class DataUtils {
     private static Player lastUsedLightning;
     private static Long lastLightningTime = 0L;
+    public static final double eyeHeight = 1.7775;
     public static GamePlayer getPlayer(String name) {
         return Minigame.getInstance().getGame().getPlayers().getOrDefault(name, null);
     }
@@ -28,6 +30,9 @@ public class DataUtils {
     }
 
     public static boolean isEnemy(final Entity ent, final int team) {
+        if (ent instanceof ArmorStand) {
+            return false;
+        }
         if (!(ent instanceof LivingEntity) || ent.isDead()) {
             return false;
         }
@@ -49,6 +54,9 @@ public class DataUtils {
     }
 
     public static boolean isAlly(final Entity ent, final int team) {
+        if (ent instanceof ArmorStand) {
+            return false;
+        }
         if (!(ent instanceof LivingEntity) || ent.isDead()) {
             return false;
         }

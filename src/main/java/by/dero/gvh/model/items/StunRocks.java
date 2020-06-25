@@ -13,8 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 
-import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.DataUtils.*;
 
 public class StunRocks extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, ProjectileLaunchInterface {
@@ -26,7 +25,9 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onProjectileHitEnemy(ProjectileHitEvent event) {
-
+        if (isEnemy(event.getHitEntity(), getTeam())) {
+            Stun.stunEntity((LivingEntity) event.getHitEntity(), duration);
+        }
     }
 
     @Override

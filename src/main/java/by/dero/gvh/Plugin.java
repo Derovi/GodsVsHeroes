@@ -6,6 +6,7 @@ import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
+import by.dero.gvh.nmcapi.CustomEntities;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
@@ -31,6 +32,7 @@ public class Plugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         super.onEnable();
+        CustomEntities.registerEntities();
         instance = this;
         try {
             settings = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(),
@@ -83,6 +85,7 @@ public class Plugin extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         pluginMode.onDisable();
+        CustomEntities.unregisterEntities();
     }
 
     public ServerData getServerData() {

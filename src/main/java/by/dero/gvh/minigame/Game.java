@@ -15,7 +15,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,7 +22,6 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-import static by.dero.gvh.utils.DataUtils.getPlayer;
 import static by.dero.gvh.utils.MessagingUtils.sendActionBar;
 import static by.dero.gvh.utils.MessagingUtils.sendTitle;
 
@@ -39,6 +37,7 @@ public abstract class Game implements Listener {
     public Game(GameInfo info) {
         this.info = info;
         instance = this;
+        lootsManager = new LootsManager();
     }
 
     private static Game instance;
@@ -51,6 +50,7 @@ public abstract class Game implements Listener {
     private RewardManager rewardManager;
     private BukkitRunnable cooldownMessageUpdater;
     private MapManager mapManager;
+    private final LootsManager lootsManager;
 
     public Stats getStats() {
         return stats;
@@ -104,6 +104,9 @@ public abstract class Game implements Listener {
         };
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
         stats = new Stats();
+        for (final DirectedPosition pos : getInfo().getAidPoints()) {
+            lootsManager.spawn(pos.toLocation(getInfo().getWorld()), "aid");
+        }
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
@@ -121,8 +124,9 @@ public abstract class Game implements Listener {
     private void chooseTeams() {
         List<String> playerNames = new ArrayList<>(players.keySet());
         Collections.shuffle(playerNames);
+        final int cnt = getInfo().getTeamCount();
         for (int index = 0; index < playerNames.size(); ++index) {
-            players.get(playerNames.get(index)).setTeam(index % getInfo().getTeamCount());
+            players.get(playerNames.get(index)).setTeam(cnt - index % cnt - 1);
         }
     }
 
@@ -140,6 +144,7 @@ public abstract class Game implements Listener {
             runnable.cancel();
         }
         mapManager.finish();
+        lootsManager.unload();
         runnables.clear();
 
         Minigame.getInstance().getGameEvents().getDamageCause().clear();
