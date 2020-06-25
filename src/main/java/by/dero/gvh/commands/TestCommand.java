@@ -1,16 +1,11 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.nmcapi.ThrowingItem;
+import by.dero.gvh.nmcapi.throwing.ThrowingItem;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 public class TestCommand implements CommandExecutor {
@@ -46,6 +41,7 @@ public class TestCommand implements CommandExecutor {
         ThrowingItem throwingItem = new ThrowingItem(player.getLocation(), Material.DIAMOND_SWORD);
         //throwingItem.setOwner(player);
         throwingItem.setItemLength(0.5);
+        //throwingItem.setSpinning(45);
         throwingItem.setLiveTimeAfterStop(120);
         throwingItem.setVelocity(player.getLocation().getDirection().add(new Vector(0,0.1,0)).normalize());
         throwingItem.spawn();

@@ -1,4 +1,4 @@
-package by.dero.gvh.nmcapi;
+package by.dero.gvh.nmcapi.throwing;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.Position;
@@ -17,7 +17,6 @@ import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 public class ThrowingItem extends EntityArmorStand {
     private final ArmorStand armorStand;
@@ -33,6 +32,7 @@ public class ThrowingItem extends EntityArmorStand {
     private final double zDir;
     private final double lenDir;
     private double itemLength;
+    private double spinning = 0;
     private Runnable onHitEntity = null;
     private Runnable onHitBlock = null;
 
@@ -103,7 +103,10 @@ public class ThrowingItem extends EntityArmorStand {
             }
             return;
         }
-        System.out.println("lel"  + x + ' ' + y + ' ' + z);
+        Vector vector = new Vector(x, y, z);
+        double length = vector.length();
+        //System.out.println("lel"  + x + ' ' + y + ' ' + z);
+        setRightArmPose(new Vector3f((float)(rightArmPose.x + spinning * length),(float) y, (float) z));
         super.move(moveType, x, y, z);
         Location itemLocation = getItemPosition().toLocation(armorStand.getWorld());
         if (itemLocation.getY() < 0) {
@@ -177,5 +180,13 @@ public class ThrowingItem extends EntityArmorStand {
 
     public void setOnHitBlock(Runnable onHitBlock) {
         this.onHitBlock = onHitBlock;
+    }
+
+    public double getSpinning() {
+        return spinning;
+    }
+
+    public void setSpinning(double spinning) {
+        this.spinning = spinning;
     }
 }

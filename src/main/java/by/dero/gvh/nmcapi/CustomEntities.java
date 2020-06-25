@@ -1,5 +1,6 @@
 package by.dero.gvh.nmcapi;
 
+import by.dero.gvh.nmcapi.throwing.ThrowingItem;
 import net.minecraft.server.v1_12_R1.Entity;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EntityTypes;
