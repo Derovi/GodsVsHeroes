@@ -37,7 +37,9 @@
     "livesNotLeft": "§cУ вашей команды не осталось жизней",
     "dead": "§4Вы мертвы",
     "stunMessage": "§cВы в стане!",
-    "desertionMessage": "§cНа фронте дезертирству нет места!"
+    "desertionMessage": "§cНа фронте дезертирству нет места!",
+    "lootsLabelCooldown": "§cПерезаряжается! Осталось %time%",
+    "lootsLabelReady": "§aГотово!"
   },
   "stats": {
     "label": "§aСтатистика",

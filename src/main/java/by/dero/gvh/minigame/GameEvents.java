@@ -187,8 +187,9 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Firework) {
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)) {
             event.setCancelled(true);
+            return;
         }
         if (!(event.getEntity() instanceof LivingEntity)) {
             return;
@@ -198,7 +199,7 @@ public class GameEvents implements Listener {
         entity.setNoDamageTicks(0);
         entity.setMaximumNoDamageTicks(0);
 
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING)  &&
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
                 getLastLightningTime() + 100 > System.currentTimeMillis()) {
             final Player player = getLastUsedLightning();
             if (isEnemy(entity, getPlayer(player.getName()).getTeam())) {

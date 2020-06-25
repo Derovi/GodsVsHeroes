@@ -1,10 +1,12 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.EscapeTeleportInfo;
+import by.dero.gvh.utils.DirectedPosition;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -17,12 +19,23 @@ import static by.dero.gvh.nmcapi.PlayerUtils.jumpUp;
 
 public class EscapeTeleport extends Item implements DoubleSpaceInterface {
     private final double radius;
+    private final double minRadius;
     public EscapeTeleport(String name, int level, Player owner) {
         super(name, level, owner);
-        radius = ((EscapeTeleportInfo) getInfo()).getRadius();
+        final EscapeTeleportInfo info = (EscapeTeleportInfo) getInfo();
+        radius = info.getRadius();
+        minRadius = info.getMinRadius();
     }
 
-    private Location getNormal(final Location loc) {
+    private Location getNormal(Location loc) {
+        final Location startLoc = loc.clone();
+        final DirectedPosition[] poses = Game.getInstance().getInfo().getMapBorders();
+        do {
+            loc = randomCylinder(loc.clone(), radius, 0);
+        } while (poses[0].getX() > loc.getX() || poses[0].getZ() > loc.getZ() ||
+                poses[1].getX() < loc.getX() || poses[1].getZ() < loc.getZ() ||
+                startLoc.distance(loc) < minRadius);
+
         while (loc.getBlock().getType().equals(Material.AIR) &&
                 loc.clone().add(0, 1,0 ).getBlock().getType().equals(Material.AIR) &&
                 loc.clone().add(0, 2,0 ).getBlock().getType().equals(Material.AIR)) {
@@ -38,7 +51,7 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
 
     @Override
     public void onDoubleSpace(Player player) {
-        final Location loc = getNormal(randomCylinder(player.getLocation(), radius, -6));
+        final Location loc = getNormal(player.getLocation());
 
         drawCphere(player.getLocation().clone(), 1.5, Particle.SMOKE_LARGE);
         jumpDown(player, 10);

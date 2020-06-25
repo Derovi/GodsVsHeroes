@@ -3,8 +3,6 @@ package by.dero.gvh.model;
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Minigame;
-import it.unimi.dsi.fastutil.Hash;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
