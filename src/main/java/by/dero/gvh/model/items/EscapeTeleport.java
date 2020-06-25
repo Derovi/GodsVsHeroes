@@ -1,5 +1,7 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.EscapeTeleportInfo;
@@ -7,8 +9,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import static by.dero.gvh.model.Drawings.*;
+import static by.dero.gvh.nmcapi.PlayerUtils.jumpDown;
+import static by.dero.gvh.nmcapi.PlayerUtils.jumpUp;
 
 public class EscapeTeleport extends Item implements DoubleSpaceInterface {
     private final double radius;
@@ -34,9 +39,26 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
     @Override
     public void onDoubleSpace(Player player) {
         final Location loc = getNormal(randomCylinder(player.getLocation(), radius, -6));
-        drawCphere(loc, 1.5, Particle.SMOKE_LARGE);
+
         drawCphere(player.getLocation().clone(), 1.5, Particle.SMOKE_LARGE);
-        drawLineColor(loc.clone(), player.getLocation().clone(), 255, 0, 0);
-        player.teleport(loc);
+        jumpDown(player, 10);
+        player.setInvulnerable(true);
+        final BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                drawLineColor(loc.clone(), player.getLocation().clone(), 255, 0, 0);
+                player.teleport(loc.clone().add(0,-2,0));
+                jumpUp(player, 10);
+                drawCphere(loc.clone(), 1.5, Particle.SMOKE_LARGE);
+            }
+        };
+        runnable.runTaskLater(Plugin.getInstance(), 10);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.setInvulnerable(false);
+            }
+        }.runTaskLater(Plugin.getInstance(), 20);
+        Minigame.getInstance().getGame().getRunnables().add(runnable);
     }
 }

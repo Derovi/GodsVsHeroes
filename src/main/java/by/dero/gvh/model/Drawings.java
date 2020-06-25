@@ -1,7 +1,6 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;

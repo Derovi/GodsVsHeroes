@@ -1,6 +1,7 @@
 {
   "name": "escapeteleport",
   "slot": 0,
+  "invisible": true,
   "levels": [
     {
       "radius": 30.0,
