@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.EulerAngle;
+import org.bukkit.util.Vector;
 
 public class TestCommand implements CommandExecutor {
     @Override
@@ -43,7 +44,10 @@ public class TestCommand implements CommandExecutor {
         //((CraftWorld) player.getWorld()).getHandle().addEntity(smartArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM);
         //smartArmorStand.boundingBox = new AxisAlignedBB(3,3,3,4,4,4);
         ThrowingItem throwingItem = new ThrowingItem(player.getLocation(), Material.DIAMOND_SWORD);
-        throwingItem.setVelocity(player.getLocation().getDirection().normalize());
+        //throwingItem.setOwner(player);
+        throwingItem.setItemLength(0.5);
+        throwingItem.setLiveTimeAfterStop(120);
+        throwingItem.setVelocity(player.getLocation().getDirection().add(new Vector(0,0.1,0)).normalize());
         throwingItem.spawn();
         return true;
     }
