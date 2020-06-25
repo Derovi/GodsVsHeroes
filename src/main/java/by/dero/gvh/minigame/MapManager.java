@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
-import sun.security.krb5.internal.crypto.Des;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -64,7 +63,7 @@ public class MapManager {
     }
 
     private class DestroyedBlockEntry extends BlockEntry {
-        private Material material;
+        private final Material material;
 
         public DestroyedBlockEntry(int x, int y, int z, Material material) {
             super(x, y, z);
