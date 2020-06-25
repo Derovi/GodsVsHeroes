@@ -1,5 +1,6 @@
 package by.dero.gvh.nmcapi;
 
+import by.dero.gvh.nmcapi.throwing.ThrowingItem;
 import net.minecraft.server.v1_12_R1.Entity;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EntityTypes;
@@ -8,7 +9,7 @@ import org.bukkit.entity.EntityType;
 
 public enum CustomEntities {
 
-    SMART_ARMOR_STAND("SmartArmorStand", 54, EntityType.ARMOR_STAND, EntityArmorStand.class, SmartArmorStand.class);
+    SMART_ARMOR_STAND("ThrowingItem", 54, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingItem.class);
 
     private final String name;
     private final int id;
