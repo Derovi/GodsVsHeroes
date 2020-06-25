@@ -38,7 +38,7 @@ public class Stun {
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 1);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
         Minigame.getInstance().getGame().getRunnables().add(runnable);
     }
 }

@@ -1,6 +1,8 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import net.minecraft.server.v1_12_R1.EnumParticle;
+import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -183,6 +185,35 @@ public class Drawings {
                                          final double dense,
                                          final double speed,
                                          final Particle particle,
+                                         final World world) {
+        final int dT = 2;
+        final int parts = (int) Math.round(Math.PI * 2 * radius * dense);
+        new BukkitRunnable() {
+            double horAngle = 0;
+            int timePassed = 0;
+            @Override
+            public void run() {
+                for (double partAngle = 0; partAngle < Math.PI * 2; partAngle += Math.PI * 2 / parts) {
+                    final double angle = horAngle + partAngle;
+                    final Location at = getInCircle(loc, radius, angle);
+                    world.spawnParticle(particle, at, 0,0,0,0);
+                }
+
+                horAngle += speed * dT;
+                timePassed += dT;
+                if (timePassed >= duration) {
+                    this.cancel();
+                }
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, dT);
+    }
+
+    public static void spawnMovingCircle(final Location loc,
+                                         final int duration,
+                                         final double radius,
+                                         final double dense,
+                                         final double speed,
+                                         final Particle particle,
                                          final Player player) {
         final int dT = 2;
         final int parts = (int) Math.round(Math.PI * 2 * radius * dense);
@@ -194,7 +225,7 @@ public class Drawings {
                 for (double partAngle = 0; partAngle < Math.PI * 2; partAngle += Math.PI * 2 / parts) {
                     final double angle = horAngle + partAngle;
                     final Location at = getInCircle(loc, radius, angle);
-                    player.getWorld().spawnParticle(particle, at, 0,0,0,0);
+                    player.spawnParticle(particle, at, 0,0,0,0);
                 }
 
                 horAngle += speed * dT;
@@ -279,6 +310,12 @@ public class Drawings {
 
             vertAngle += vertAngleSpeed;
         }
+    }
+
+    public static void spawnPlayerParticle(final EnumParticle particle, final Location loc) {
+//        final PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+//            particle, true, loc.getX(), loc.getY(), loc.getZ(),
+//        );
 
     }
 }

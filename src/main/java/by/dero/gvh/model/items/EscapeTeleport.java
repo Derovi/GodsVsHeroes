@@ -19,12 +19,12 @@ import static by.dero.gvh.nmcapi.PlayerUtils.jumpUp;
 
 public class EscapeTeleport extends Item implements DoubleSpaceInterface {
     private final double radius;
-    private final double minRadius;
+    private final double minradius;
     public EscapeTeleport(String name, int level, Player owner) {
         super(name, level, owner);
         final EscapeTeleportInfo info = (EscapeTeleportInfo) getInfo();
         radius = info.getRadius();
-        minRadius = info.getMinRadius();
+        minradius = info.getMinRadius();
     }
 
     private Location getNormal(Location loc) {
@@ -34,7 +34,7 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
             loc = randomCylinder(loc.clone(), radius, 0);
         } while (poses[0].getX() > loc.getX() || poses[0].getZ() > loc.getZ() ||
                 poses[1].getX() < loc.getX() || poses[1].getZ() < loc.getZ() ||
-                startLoc.distance(loc) < minRadius);
+                startLoc.distance(loc) < minradius);
 
         while (loc.getBlock().getType().equals(Material.AIR) &&
                 loc.clone().add(0, 1,0 ).getBlock().getType().equals(Material.AIR) &&
