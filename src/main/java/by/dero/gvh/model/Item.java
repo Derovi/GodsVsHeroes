@@ -14,10 +14,10 @@ import java.util.*;
 import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 public class Item {
-    private Player owner;
+    protected Player owner;
     private String name;
     private int level;
-    private int team = -1;
+    protected int team = -1;
 
     public Cooldown getCooldown() {
         return cooldown;
@@ -25,9 +25,9 @@ public class Item {
 
     protected Cooldown cooldown;
 
-    private final Set<UUID> summonedEntityIds = new HashSet<>();
+    protected final Set<UUID> summonedEntityIds = new HashSet<>();
 
-    public Item(String name, int level, Player owner) {
+    public Item(final String name, final int level, final Player owner) {
         this.name = name;
         this.level = level;
         this.owner = owner;

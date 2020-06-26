@@ -39,7 +39,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
 
-        drawCircleInFrontColor(player, 2, 3, 20, 255, 255, 0);
+        drawCircleInFront(player.getEyeLocation(), 2, 3, 20, Particle.END_ROD);
         final LivingEntity entity = getTargetEntity(player, 100);
         if (entity == null || !isEnemy(entity, getTeam())) {
             drawLine(player.getEyeLocation(),

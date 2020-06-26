@@ -1,13 +1,12 @@
 package by.dero.gvh.utils;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
 import org.bukkit.Location;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 import java.io.IOException;
@@ -27,6 +26,19 @@ public class DataUtils {
         target.setNoDamageTicks(0);
         target.damage(damage, killer);
 
+    }
+
+    public static Projectile spawnProjectile(final Location at, final double speed,
+                                             final EntityType type, final Player player) {
+        final Vector dir = at.getDirection().clone();
+
+        final Location loc = at.clone().add(dir.clone().multiply(1.8));
+        Projectile obj = (Projectile) loc.getWorld().spawnEntity(loc, type);
+        obj.setVelocity(dir.multiply(speed));
+        obj.setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
+        obj.setShooter(player);
+
+        return obj;
     }
 
     public static boolean isEnemy(final Entity ent, final int team) {

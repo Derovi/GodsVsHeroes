@@ -2,19 +2,19 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
-import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.DamagePotionInfo;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.Location;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.util.Vector;
 
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class DamagePotion extends Item implements ProjectileHitInterface,
-        InfiniteReplenishInterface, ProjectileLaunchInterface {
+        InfiniteReplenishInterface, PlayerInteractInterface {
     private final double radius;
     private final double damage;
     public DamagePotion(final String name, final int level, final Player owner) {
@@ -40,7 +40,10 @@ public class DamagePotion extends Item implements ProjectileHitInterface,
     }
 
     @Override
-    public void onProjectileLaunch(ProjectileLaunchEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+                1, EntityType.SPLASH_POTION, event.getPlayer());
+        summonedEntityIds.add(proj.getUniqueId());
     }
 }
 

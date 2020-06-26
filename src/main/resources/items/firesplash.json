@@ -1,0 +1,45 @@
+{
+  "name": "firesplash",
+  "slot": 0,
+  "levels": [
+    {
+      "cooldown": 160,
+      "radius": 5.0,
+      "damage": 15,
+      "cost": 80,
+      "material": "BLAZE_ROD",
+      "displayName": "§cFire splash",
+      "lore": [
+        "§aРаньте своих врагов!",
+        "§6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "cooldown": 140,
+      "radius": 5.0,
+      "damage": 15,
+      "cost": 100,
+      "material": "BLAZE_ROD",
+      "displayName": "§cFire splash",
+      "lore": [
+        "§aРаньте своих врагов!",
+        "§6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "cooldown": 120,
+      "radius": 5.0,
+      "damage": 15,
+      "cost": 120,
+      "material": "BLAZE_ROD",
+      "displayName": "§cFire splash",
+      "lore": [
+        "§aРаньте своих врагов!",
+        "§6Уровень 3"
+      ],
+      "amount": 1
+    }
+  ]
+}

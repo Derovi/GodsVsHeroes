@@ -3,6 +3,7 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -62,7 +63,6 @@ public class DoubleSpaceListener implements Listener {
         final Player p = event.getPlayer();
         final ArrayList<DoubleSpaceInterface> items = getItems(getPlayer(p.getName()));
         if (!items.isEmpty() && p.getGameMode () == GameMode.SURVIVAL) {
-
             p.setAllowFlight (false);
             event.setCancelled (true);
             for (final DoubleSpaceInterface item : items) {

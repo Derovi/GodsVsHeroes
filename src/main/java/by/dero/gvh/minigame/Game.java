@@ -1,5 +1,6 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.ChargesManager;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
@@ -41,6 +42,7 @@ public abstract class Game implements Listener {
     }
 
     private static Game instance;
+    private ChargesManager chargesManager;
     private GameLobby lobby;
     private AfterParty afterParty;
     private final GameInfo info;
@@ -107,6 +109,8 @@ public abstract class Game implements Listener {
         for (final DirectedPosition pos : getInfo().getAidPoints()) {
             lootsManager.spawn(pos.toLocation(getInfo().getWorld()), "aid");
         }
+
+        chargesManager = new ChargesManager();
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {

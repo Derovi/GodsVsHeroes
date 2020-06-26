@@ -28,10 +28,10 @@ public class StunAll extends Item implements UltimateInterface {
     @Override
     public void drawSign(Location loc) {
         for (double hei = 0; hei < radius; hei += 0.3) {
-            spawnMovingCircle(loc.clone(), latency, radius, 2,0, Particle.FLAME, getOwner());
+            spawnMovingCircle(loc.clone(), latency, radius, 2,0, Particle.FLAME, getOwner().getWorld());
             loc = loc.add(0, 0.3, 0);
         }
-        spawnMovingCircle(loc.clone(), latency, radius, 4,0, Particle.FLAME, getOwner());
+        spawnMovingCircle(loc.clone(), latency, radius, 4,0, Particle.FLAME, getOwner().getWorld());
     }
 
     @Override
