@@ -24,7 +24,7 @@ public class AirLeap extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
-        drawCircleInFront(player, 3, 0.5, 5, Particle.EXPLOSION_LARGE);
+        drawCircleInFront(player.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
         player.setVelocity(player.getLocation().getDirection().multiply(force));
     }
 }

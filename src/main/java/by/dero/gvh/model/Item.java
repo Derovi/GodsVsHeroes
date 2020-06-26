@@ -27,7 +27,7 @@ public class Item {
 
     protected final Set<UUID> summonedEntityIds = new HashSet<>();
 
-    public Item(String name, int level, Player owner) {
+    public Item(final String name, final int level, final Player owner) {
         this.name = name;
         this.level = level;
         this.owner = owner;

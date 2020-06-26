@@ -63,6 +63,7 @@ public class Data {
         registerItem("firesplash", FireSplashInfo.class, FireSplash.class);
         registerItem("suicidejump", SuicideJumpInfo.class, SuicideJump.class);
         registerItem("dragonbreath", DragonBreathInfo.class, DragonBreath.class);
+        registerItem("firespear", FireSpearInfo.class, FireSpear.class);
     }
 
     private void registerClasses() {

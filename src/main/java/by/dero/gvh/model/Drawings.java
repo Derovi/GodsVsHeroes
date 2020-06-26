@@ -1,11 +1,7 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.minigame.Game;
-import by.dero.gvh.minigame.GameEvents;
 import by.dero.gvh.minigame.Minigame;
-import net.minecraft.server.v1_12_R1.EnumParticle;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -19,7 +15,7 @@ import java.util.UUID;
 import static java.lang.Math.random;
 
 public class Drawings {
-    private static final double dense = 4;
+    private static final double dense = 3;
     private static final Vector randomVector = new Vector(random(), random(), random()).normalize();
 
     public static Vector rotateAroundAxis(final Vector point, final Vector axis, double angle) throws IllegalArgumentException {
@@ -76,6 +72,7 @@ public class Drawings {
             cur.add(to.clone().subtract(cur).normalize().multiply(1/dense));
         }
     }
+
 
     public static void drawLineColor(final Location a, final Location b,
                                      final int red, final int green, final int blue) {
@@ -270,32 +267,32 @@ public class Drawings {
                 spawnFirework(loc.clone().add(0,1,0), 2), duration);
     }
 
-    public static void drawCircleInFront(final LivingEntity entity, final double radius,
+    public static void drawCircleInFront(final Location loc, final double radius,
                                          final double dst, final int parts, final Particle par) {
-        final Vector dir = entity.getLocation().getDirection();
-        final Location center = entity.getEyeLocation().clone().add(dir.clone().multiply(dst));
+        final Vector dir = loc.getDirection();
+        final Location center = loc.clone().add(dir.clone().multiply(dst));
 
         for (int i = 0; i < parts; i++) {
             final double angle = Math.PI * 2 * i / parts;
             final Vector at = rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);
             at.add(center.toVector());
-            entity.getWorld().spawnParticle(par,
+            loc.getWorld().spawnParticle(par,
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
                     0,0,0,0);
         }
     }
 
-    public static void drawCircleInFrontColor(final LivingEntity entity, final double radius,
+    public static void drawCircleInFrontColor(final Location loc, final double radius,
                                          final double dst, final int parts,
                                          final int red, final int green, final int blue) {
-        final Vector dir = entity.getLocation().getDirection();
-        final Location center = entity.getEyeLocation().clone().add(dir.clone().multiply(dst));
+        final Vector dir = loc.getDirection();
+        final Location center = loc.clone().add(dir.clone().multiply(dst));
 
         for (int i = 0; i < parts; i++) {
             final double angle = Math.PI * 2 * i / parts;
             final Vector at = rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);
             at.add(center.toVector());
-            entity.getWorld().spawnParticle(Particle.REDSTONE,
+            loc.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
                     0, red, green, blue, 2);
         }
