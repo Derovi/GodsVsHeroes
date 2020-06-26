@@ -3,8 +3,8 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 20,
-      "radius": 5.0,
+      "cooldown": 25,
+      "radius": 8.0,
       "damage": 1,
       "cost": 80,
       "material": "BLAZE_ROD",
@@ -16,8 +16,8 @@
       "amount": 40
     },
     {
-      "cooldown": 20,
-      "radius": 6.0,
+      "cooldown": 21,
+      "radius": 9.0,
       "damage": 1,
       "cost": 100,
       "material": "BLAZE_ROD",
@@ -29,8 +29,8 @@
       "amount": 40
     },
     {
-      "cooldown": 20,
-      "radius": 7.0,
+      "cooldown": 17,
+      "radius": 10.0,
       "damage": 1,
       "cost": 120,
       "material": "BLAZE_ROD",

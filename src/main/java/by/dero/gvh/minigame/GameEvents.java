@@ -37,6 +37,12 @@ public class GameEvents implements Listener {
         return damageCause;
     }
 
+    public HashMap<UUID, Vector> getLastPos() {
+        return lastPos;
+    }
+
+    public final HashMap<UUID, Vector> lastPos = new HashMap<>();
+
     private final HashMap<LivingEntity, LivingEntity> damageCause = new HashMap<>();
 
     public HashSet<UUID> getProjectiles() {
@@ -265,6 +271,7 @@ public class GameEvents implements Listener {
             player.setVelocity(new Vector(0, 0, -2));
             player.sendMessage(desMsg);
         }
+        lastPos.put(player.getUniqueId(), player.getLocation().toVector());
     }
 
     @EventHandler
