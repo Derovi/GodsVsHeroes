@@ -32,7 +32,7 @@ public class DataUtils {
                                              final EntityType type, final Player player) {
         final Vector dir = at.getDirection().clone();
 
-        final Location loc = at.clone().add(dir.clone().multiply(2));
+        final Location loc = at.clone().add(dir.clone().multiply(1.8));
         Projectile obj = (Projectile) loc.getWorld().spawnEntity(loc, type);
         obj.setVelocity(dir.multiply(speed));
         obj.setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));

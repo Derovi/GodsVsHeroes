@@ -14,10 +14,10 @@ import java.util.*;
 import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 public class Item {
-    private Player owner;
+    protected Player owner;
     private String name;
     private int level;
-    private int team = -1;
+    protected int team = -1;
 
     public Cooldown getCooldown() {
         return cooldown;

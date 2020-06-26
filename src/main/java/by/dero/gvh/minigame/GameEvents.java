@@ -13,6 +13,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
@@ -71,6 +72,11 @@ public class GameEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (!(event.getAction().equals(Action.RIGHT_CLICK_AIR)) &&
+                !(event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+            event.setCancelled(true);
+            return;
+        }
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
         Item itemInHand = gamePlayer.getSelectedItem();
@@ -111,7 +117,8 @@ public class GameEvents implements Listener {
                 if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId()) &&
                         item instanceof ProjectileHitInterface) {
                     ((ProjectileHitInterface) item).onProjectileHit(event);
-                    if (event.getHitEntity() != null && event.getHitEntity() instanceof LivingEntity) {
+                    if (event.getHitEntity() != null &&
+                            event.getHitEntity() instanceof LivingEntity) {
                         ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
                     }
                     item.getSummonedEntityIds().remove(event.getEntity().getUniqueId());

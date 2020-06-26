@@ -3,6 +3,7 @@
   "maxHP": 40,
   "cost": 0,
   "itemNames": [
+    "suicidejump",
     "defaultsword",
     "webthrow",
     "grenade",

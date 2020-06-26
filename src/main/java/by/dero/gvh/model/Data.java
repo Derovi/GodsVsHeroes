@@ -61,6 +61,8 @@ public class Data {
         registerItem("webthrow", WebThrowInfo.class, WebThrow.class);
         registerItem("escapeteleport", EscapeTeleportInfo.class, EscapeTeleport.class);
         registerItem("firesplash", FireSplashInfo.class, FireSplash.class);
+        registerItem("suicidejump", SuicideJumpInfo.class, SuicideJump.class);
+        registerItem("dragonbreath", DragonBreathInfo.class, DragonBreath.class);
     }
 
     private void registerClasses() {

@@ -1,0 +1,45 @@
+{
+  "name": "dragonbreath",
+  "slot": 0,
+  "levels": [
+    {
+      "cooldown": 20,
+      "radius": 5.0,
+      "damage": 1,
+      "cost": 80,
+      "material": "BLAZE_ROD",
+      "displayName": "§cDragon breath",
+      "lore": [
+        "§aСожгите всех своим дыханием!",
+        "§6Уровень 1"
+      ],
+      "amount": 40
+    },
+    {
+      "cooldown": 20,
+      "radius": 6.0,
+      "damage": 1,
+      "cost": 100,
+      "material": "BLAZE_ROD",
+      "displayName": "§cDragon breath",
+      "lore": [
+        "§aСожгите всех своим дыханием!",
+        "§6Уровень 2"
+      ],
+      "amount": 40
+    },
+    {
+      "cooldown": 20,
+      "radius": 7.0,
+      "damage": 1,
+      "cost": 120,
+      "material": "BLAZE_ROD",
+      "displayName": "§cDragon breath",
+      "lore": [
+        "§aСожгите всех своим дыханием!",
+        "§6Уровень 3"
+      ],
+      "amount": 40
+    }
+  ]
+}
