@@ -81,7 +81,7 @@ public class Drawings {
         while (true) {
             a.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(a.getWorld(), cur.getX(), cur.getY(), cur.getZ()),
-                    0, red, green, blue, 2);
+                    0, red, green, blue);
 
             if (cur.equals(to)) {
                 break;
@@ -294,7 +294,7 @@ public class Drawings {
             at.add(center.toVector());
             loc.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                    0, red, green, blue, 2);
+                    0, red, green, blue);
         }
     }
 
