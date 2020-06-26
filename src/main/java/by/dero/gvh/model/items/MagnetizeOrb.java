@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
 import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.DataUtils.spawnProjectile;
 
 public class MagnetizeOrb extends Item implements ProjectileHitInterface,
         InfiniteReplenishInterface, PlayerInteractInterface {
@@ -43,13 +44,8 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
-        final Vector dir = player.getLocation().getDirection().clone();
-
-        final Location loc = player.getEyeLocation().clone().add(dir.clone().multiply(2));
-        Snowball snowball = (Snowball) loc.getWorld().spawnEntity(loc,
-                EntityType.SNOWBALL);
-        snowball.setVelocity(dir.multiply(1.2));
-        summonedEntityIds.add(snowball.getUniqueId());
+        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+                1.2, EntityType.SNOWBALL, event.getPlayer());
+        summonedEntityIds.add(proj.getUniqueId());
     }
 }

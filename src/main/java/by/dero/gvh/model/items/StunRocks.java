@@ -45,14 +45,9 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
-        final Vector dir = player.getLocation().getDirection().clone();
-
-        final Location loc = player.getEyeLocation().clone().add(dir.clone().multiply(2));
-        Snowball snowball = (Snowball) loc.getWorld().spawnEntity(loc,
-                EntityType.SNOWBALL);
-        snowball.setVelocity(dir.multiply(1.2));
-        summonedEntityIds.add(snowball.getUniqueId());
+        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+                1.2, EntityType.SNOWBALL, event.getPlayer());
+        summonedEntityIds.add(proj.getUniqueId());
     }
 }
 

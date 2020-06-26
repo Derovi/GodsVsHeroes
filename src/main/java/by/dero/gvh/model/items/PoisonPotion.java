@@ -4,19 +4,14 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
-import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.PoisonPotionInfo;
-import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
-import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.DataUtils.*;
 
 public class PoisonPotion extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, PlayerInteractInterface {
@@ -47,13 +42,8 @@ public class PoisonPotion extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
-        final Vector dir = player.getLocation().getDirection().clone();
-
-        final Location loc = player.getEyeLocation().clone().add(dir.clone().multiply(2));
-        ThrownPotion potion = (ThrownPotion)loc.getWorld().spawnEntity(loc,
-                EntityType.SPLASH_POTION);
-        potion.setVelocity(dir);
-        summonedEntityIds.add(potion.getUniqueId());
+        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+                1, EntityType.SPLASH_POTION, event.getPlayer());
+        summonedEntityIds.add(proj.getUniqueId());
     }
 }

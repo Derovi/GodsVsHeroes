@@ -60,7 +60,8 @@ public class GameEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
         Projectile proj = event.getEntity();
-        if (!(proj instanceof Arrow) && (proj.getShooter() instanceof Player)) {
+        if (!(proj instanceof Arrow) && (proj.getShooter() instanceof Player) &&
+                !(proj.hasMetadata("custom"))) {
             event.setCancelled(true);
         } else {
             projectiles.add(proj.getUniqueId());
@@ -113,6 +114,7 @@ public class GameEvents implements Listener {
                     if (event.getHitEntity() != null && event.getHitEntity() instanceof LivingEntity) {
                         ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
                     }
+                    item.getSummonedEntityIds().remove(event.getEntity().getUniqueId());
                 }
             }
         }

@@ -14,8 +14,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.DataUtils.isAlly;
+import static by.dero.gvh.utils.DataUtils.*;
 
 public class HealPotion extends Item implements ProjectileHitInterface,
         InfiniteReplenishInterface, PlayerInteractInterface {
@@ -48,13 +47,8 @@ public class HealPotion extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
-        final Vector dir = player.getLocation().getDirection().clone();
-
-        final Location loc = player.getEyeLocation().clone().add(dir.clone().multiply(2));
-        ThrownPotion potion = (ThrownPotion)loc.getWorld().spawnEntity(loc,
-                EntityType.SPLASH_POTION);
-        potion.setVelocity(dir);
-        summonedEntityIds.add(potion.getUniqueId());
+        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+                1, EntityType.SPLASH_POTION, event.getPlayer());
+        summonedEntityIds.add(proj.getUniqueId());
     }
 }

@@ -41,14 +41,9 @@ public class DamagePotion extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
-        final Vector dir = player.getLocation().getDirection().clone();
-
-        final Location loc = player.getEyeLocation().clone().add(dir.clone().multiply(2));
-        ThrownPotion potion = (ThrownPotion)loc.getWorld().spawnEntity(loc,
-                EntityType.SPLASH_POTION);
-        potion.setVelocity(dir);
-        summonedEntityIds.add(potion.getUniqueId());
+        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+                1, EntityType.SPLASH_POTION, event.getPlayer());
+        summonedEntityIds.add(proj.getUniqueId());
     }
 }
 
