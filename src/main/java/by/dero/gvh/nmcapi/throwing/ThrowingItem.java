@@ -54,7 +54,6 @@ public class ThrowingItem extends EntityArmorStand {
         lenDir = Math.sqrt(xDir * xDir + yDir * yDir + zDir * zDir);
         this.setPosition(loc.getX(), loc.getY(), loc.getZ());
         this.setYawPitch(loc.getYaw(), loc.getPitch());
-        this.setRightArmPose(new Vector3f(loc.getPitch(),11, 0));
         this.setInvisible(true);
         this.setInvulnerable(true);
         this.noclip = true;
@@ -219,11 +218,10 @@ public class ThrowingItem extends EntityArmorStand {
             }
         }
 
-        length = length / stepCount * step;
         if (!physicsSpin) {
-            setRightArmPose(new Vector3f((float) (rightArmPose.x + spinning * length), 11, 0));
+            setRightArmPose(new Vector3f((float) (rightArmPose.x + spinning * length / stepCount * step), rightArmPose.y, rightArmPose.z));
         } else {
-            setRightArmPose(new Vector3f(360f - (float) Math.toDegrees(Math.asin(y / length)),0,0));
+            setRightArmPose(new Vector3f(360f - (float) Math.toDegrees(Math.asin(y / length)),rightArmPose.y,rightArmPose.z));
         }
     }
 
