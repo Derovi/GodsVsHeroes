@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 25,
-      "radius": 8.0,
+      "radius": 5.0,
       "damage": 1,
       "cost": 80,
       "material": "BLAZE_ROD",
@@ -17,7 +17,7 @@
     },
     {
       "cooldown": 21,
-      "radius": 9.0,
+      "radius": 5.0,
       "damage": 1,
       "cost": 100,
       "material": "BLAZE_ROD",
@@ -30,7 +30,7 @@
     },
     {
       "cooldown": 17,
-      "radius": 10.0,
+      "radius": 5.0,
       "damage": 1,
       "cost": 120,
       "material": "BLAZE_ROD",
