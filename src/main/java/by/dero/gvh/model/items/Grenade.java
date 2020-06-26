@@ -2,20 +2,22 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.GrenadeInfo;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.util.Vector;
 
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class Grenade extends Item implements InfiniteReplenishInterface,
-        ProjectileHitInterface, ProjectileLaunchInterface {
+        ProjectileHitInterface, PlayerInteractInterface {
     private final double radius;
     private final double damage;
 
@@ -43,7 +45,14 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
     }
 
     @Override
-    public void onProjectileLaunch(final ProjectileLaunchEvent event) {
-        
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        final Player player = event.getPlayer();
+        final Vector dir = player.getLocation().getDirection().clone();
+
+        final Location loc = player.getEyeLocation().clone().add(dir.clone().multiply(2));
+        Snowball snowball = (Snowball) loc.getWorld().spawnEntity(loc,
+                EntityType.SNOWBALL);
+        snowball.setVelocity(dir.multiply(1.2));
+        summonedEntityIds.add(snowball.getUniqueId());
     }
 }

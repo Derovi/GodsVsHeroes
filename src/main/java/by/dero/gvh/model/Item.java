@@ -25,7 +25,7 @@ public class Item {
 
     protected Cooldown cooldown;
 
-    private final Set<UUID> summonedEntityIds = new HashSet<>();
+    protected final Set<UUID> summonedEntityIds = new HashSet<>();
 
     public Item(String name, int level, Player owner) {
         this.name = name;

@@ -1,16 +1,20 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Game;
+import by.dero.gvh.minigame.GameEvents;
+import by.dero.gvh.minigame.Minigame;
 import net.minecraft.server.v1_12_R1.EnumParticle;
 import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
 import org.bukkit.*;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import java.util.HashSet;
+import java.util.Random;
+import java.util.UUID;
 
 import static java.lang.Math.random;
 
@@ -345,5 +349,25 @@ public class Drawings {
             }
         }
         return ret;
+    }
+
+    public static void addTrail(final Projectile proj) {
+        final HashSet<UUID> projectiles = Minigame.getInstance().getGameEvents().getProjectiles();
+        projectiles.add(proj.getUniqueId());
+        new BukkitRunnable() {
+            final Random rnd = new Random();
+            final int red = rnd.nextInt(256);
+            final int green = rnd.nextInt(256);
+            final int blue = rnd.nextInt(256);
+            @Override
+            public void run() {
+                if (!projectiles.contains(proj.getUniqueId())) {
+                    this.cancel();
+                }
+                final Location loc = proj.getLocation();
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(),
+                        0, red, green, blue, 1);
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, 1);
     }
 }
