@@ -60,6 +60,7 @@ public class Data {
         registerItem("grenade", GrenadeInfo.class, Grenade.class);
         registerItem("webthrow", WebThrowInfo.class, WebThrow.class);
         registerItem("escapeteleport", EscapeTeleportInfo.class, EscapeTeleport.class);
+        registerItem("sword", SwordInfo.class, Sword.class);
     }
 
     private void registerClasses() {
