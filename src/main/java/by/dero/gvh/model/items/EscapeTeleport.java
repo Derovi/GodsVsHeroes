@@ -52,7 +52,10 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
     @Override
     public void onDoubleSpace(Player player) {
         final Location loc = getNormal(player.getLocation());
-
+        if (!cooldown.isReady()) {
+            return;
+        }
+        cooldown.reload();
         drawCphere(player.getLocation().clone(), 1.5, Particle.SMOKE_LARGE);
         jumpDown(player, 10);
         player.setInvulnerable(true);

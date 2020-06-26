@@ -312,10 +312,38 @@ public class Drawings {
         }
     }
 
-    public static void spawnPlayerParticle(final EnumParticle particle, final Location loc) {
-//        final PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-//            particle, true, loc.getX(), loc.getY(), loc.getZ(),
-//        );
+    public static Vector getRightVector(final Vector vector) {
+        return new Vector(
+            vector.getZ(),
+            0,
+            -vector.getX()
+        ).normalize();
+    }
 
+    public static Vector getUpVector(final Vector vector) {
+        return vector.clone().getCrossProduct(getRightVector(vector)).normalize();
+    }
+
+    public static Location[] drawSector(final Location loc,
+                                  final double innerRadius, final double outerRadius,
+                                  final double sumAngle,
+                                  final Particle particle) {
+
+        final int parts = 8;
+        final double angleSpeed = sumAngle / (parts - 1);
+        final double radSpeed = (outerRadius - innerRadius) / (parts - 1);
+        final Vector upVector = getUpVector(loc.getDirection());
+        final Location[] ret = new Location[parts*parts];
+        int idx = 0;
+        for (double angle = -sumAngle/2; angle <= sumAngle/2; angle += angleSpeed) {
+            final Vector atVector = rotateAroundAxis(loc.getDirection().clone(), upVector, angle);
+            for (double radius = innerRadius; radius <= outerRadius; radius += radSpeed) {
+                final Location pos = loc.clone().add(atVector.clone().multiply(radius));
+                loc.getWorld().spawnParticle(particle, pos, 0, 0,0,0);
+                ret[idx] = pos;
+                idx++;
+            }
+        }
+        return ret;
     }
 }
