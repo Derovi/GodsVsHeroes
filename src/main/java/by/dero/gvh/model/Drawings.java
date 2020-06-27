@@ -1,19 +1,21 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Minigame;
 import org.bukkit.*;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.UUID;
+
 import static java.lang.Math.random;
 
 public class Drawings {
-    private static final double dense = 4;
+    private static final double dense = 3;
     private static final Vector randomVector = new Vector(random(), random(), random()).normalize();
 
     public static Vector rotateAroundAxis(final Vector point, final Vector axis, double angle) throws IllegalArgumentException {
@@ -71,6 +73,7 @@ public class Drawings {
         }
     }
 
+
     public static void drawLineColor(final Location a, final Location b,
                                      final int red, final int green, final int blue) {
         Vector cur = a.toVector();
@@ -78,7 +81,7 @@ public class Drawings {
         while (true) {
             a.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(a.getWorld(), cur.getX(), cur.getY(), cur.getZ()),
-                    0, red, green, blue, 2);
+                    0, red, green, blue);
 
             if (cur.equals(to)) {
                 break;
@@ -183,6 +186,35 @@ public class Drawings {
                                          final double dense,
                                          final double speed,
                                          final Particle particle,
+                                         final World world) {
+        final int dT = 2;
+        final int parts = (int) Math.round(Math.PI * 2 * radius * dense);
+        new BukkitRunnable() {
+            double horAngle = 0;
+            int timePassed = 0;
+            @Override
+            public void run() {
+                for (double partAngle = 0; partAngle < Math.PI * 2; partAngle += Math.PI * 2 / parts) {
+                    final double angle = horAngle + partAngle;
+                    final Location at = getInCircle(loc, radius, angle);
+                    world.spawnParticle(particle, at, 0,0,0,0);
+                }
+
+                horAngle += speed * dT;
+                timePassed += dT;
+                if (timePassed >= duration) {
+                    this.cancel();
+                }
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, dT);
+    }
+
+    public static void spawnMovingCircle(final Location loc,
+                                         final int duration,
+                                         final double radius,
+                                         final double dense,
+                                         final double speed,
+                                         final Particle particle,
                                          final Player player) {
         final int dT = 2;
         final int parts = (int) Math.round(Math.PI * 2 * radius * dense);
@@ -194,7 +226,7 @@ public class Drawings {
                 for (double partAngle = 0; partAngle < Math.PI * 2; partAngle += Math.PI * 2 / parts) {
                     final double angle = horAngle + partAngle;
                     final Location at = getInCircle(loc, radius, angle);
-                    player.getWorld().spawnParticle(particle, at, 0,0,0,0);
+                    player.spawnParticle(particle, at, 0,0,0,0);
                 }
 
                 horAngle += speed * dT;
@@ -235,34 +267,34 @@ public class Drawings {
                 spawnFirework(loc.clone().add(0,1,0), 2), duration);
     }
 
-    public static void drawCircleInFront(final LivingEntity entity, final double radius,
+    public static void drawCircleInFront(final Location loc, final double radius,
                                          final double dst, final int parts, final Particle par) {
-        final Vector dir = entity.getLocation().getDirection();
-        final Location center = entity.getEyeLocation().clone().add(dir.clone().multiply(dst));
+        final Vector dir = loc.getDirection();
+        final Location center = loc.clone().add(dir.clone().multiply(dst));
 
         for (int i = 0; i < parts; i++) {
             final double angle = Math.PI * 2 * i / parts;
             final Vector at = rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);
             at.add(center.toVector());
-            entity.getWorld().spawnParticle(par,
+            loc.getWorld().spawnParticle(par,
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
                     0,0,0,0);
         }
     }
 
-    public static void drawCircleInFrontColor(final LivingEntity entity, final double radius,
+    public static void drawCircleInFrontColor(final Location loc, final double radius,
                                          final double dst, final int parts,
                                          final int red, final int green, final int blue) {
-        final Vector dir = entity.getLocation().getDirection();
-        final Location center = entity.getEyeLocation().clone().add(dir.clone().multiply(dst));
+        final Vector dir = loc.getDirection();
+        final Location center = loc.clone().add(dir.clone().multiply(dst));
 
         for (int i = 0; i < parts; i++) {
             final double angle = Math.PI * 2 * i / parts;
             final Vector at = rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);
             at.add(center.toVector());
-            entity.getWorld().spawnParticle(Particle.REDSTONE,
+            loc.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                    0, red, green, blue, 2);
+                    0, red, green, blue);
         }
     }
 
@@ -279,6 +311,60 @@ public class Drawings {
 
             vertAngle += vertAngleSpeed;
         }
+    }
 
+    public static Vector getRightVector(final Vector vector) {
+        return new Vector(
+            vector.getZ(),
+            0,
+            -vector.getX()
+        ).normalize();
+    }
+
+    public static Vector getUpVector(final Vector vector) {
+        return vector.clone().getCrossProduct(getRightVector(vector)).normalize();
+    }
+
+    public static Location[] drawSector(final Location loc,
+                                  final double innerRadius, final double outerRadius,
+                                  final double sumAngle,
+                                  final Particle particle) {
+
+        final int parts = 8;
+        final double angleSpeed = sumAngle / (parts - 1);
+        final double radSpeed = (outerRadius - innerRadius) / (parts - 1);
+        final Vector upVector = getUpVector(loc.getDirection());
+        final Location[] ret = new Location[parts*parts];
+        int idx = 0;
+        for (double angle = -sumAngle/2; angle <= sumAngle/2; angle += angleSpeed) {
+            final Vector atVector = rotateAroundAxis(loc.getDirection().clone(), upVector, angle);
+            for (double radius = innerRadius; radius <= outerRadius; radius += radSpeed) {
+                final Location pos = loc.clone().add(atVector.clone().multiply(radius));
+                loc.getWorld().spawnParticle(particle, pos, 0, 0,0,0);
+                ret[idx] = pos;
+                idx++;
+            }
+        }
+        return ret;
+    }
+
+    public static void addTrail(final Projectile proj) {
+        final HashSet<UUID> projectiles = Minigame.getInstance().getGameEvents().getProjectiles();
+        projectiles.add(proj.getUniqueId());
+        new BukkitRunnable() {
+            final Random rnd = new Random();
+            final int red = rnd.nextInt(256);
+            final int green = rnd.nextInt(256);
+            final int blue = rnd.nextInt(256);
+            @Override
+            public void run() {
+                if (!projectiles.contains(proj.getUniqueId())) {
+                    this.cancel();
+                }
+                final Location loc = proj.getLocation();
+                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(),
+                        0, red, green, blue, 1);
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, 1);
     }
 }

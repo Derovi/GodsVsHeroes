@@ -1,5 +1,6 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.ChargesManager;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
@@ -37,9 +38,11 @@ public abstract class Game implements Listener {
     public Game(GameInfo info) {
         this.info = info;
         instance = this;
+        lootsManager = new LootsManager();
     }
 
     private static Game instance;
+    private ChargesManager chargesManager;
     private GameLobby lobby;
     private AfterParty afterParty;
     private final GameInfo info;
@@ -49,6 +52,7 @@ public abstract class Game implements Listener {
     private RewardManager rewardManager;
     private BukkitRunnable cooldownMessageUpdater;
     private MapManager mapManager;
+    private final LootsManager lootsManager;
 
     public Stats getStats() {
         return stats;
@@ -102,6 +106,11 @@ public abstract class Game implements Listener {
         };
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
         stats = new Stats();
+        for (final DirectedPosition pos : getInfo().getAidPoints()) {
+            lootsManager.spawn(pos.toLocation(getInfo().getWorld()), "aid");
+        }
+
+        chargesManager = new ChargesManager();
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
@@ -139,6 +148,7 @@ public abstract class Game implements Listener {
             runnable.cancel();
         }
         mapManager.finish();
+        lootsManager.unload();
         runnables.clear();
 
         Minigame.getInstance().getGameEvents().getDamageCause().clear();

@@ -24,11 +24,11 @@ public class Exchange extends Item implements PlayerInteractInterface {
     public void drawSign(final LivingEntity player) {
         double radius = 0.7;
         for (int ticks = 0; ticks < 5; ticks++) {
-            drawCircleInFront(player, radius, 3, 5, Particle.PORTAL);
+            drawCircleInFront(player.getEyeLocation(), radius, 3, 5, Particle.PORTAL);
             radius += 0.3;
         }
 
-        drawCircleInFront(player, radius, 3, 20, Particle.PORTAL);
+        drawCircleInFront(player.getEyeLocation(), radius, 3, 20, Particle.PORTAL);
         for (int i = 0; i < parts; i++) {
             player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,
                     randomCylinder(player.getLocation(), 1.3, -2), 0);

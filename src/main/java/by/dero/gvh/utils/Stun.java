@@ -29,16 +29,13 @@ public class Stun {
                         drawCircle(p.getLocation().clone().add(0, i,0), 1, Particle.VILLAGER_ANGRY);
                     }
                 }
-                p.getWorld().spawnParticle(Particle.VILLAGER_HAPPY,
-                        p.getEyeLocation().clone().add(p.getLocation().getDirection()),
-                        1);
                 if (++ticks >= latency ||
                         (p instanceof Player && ((Player) p).getGameMode().equals(GameMode.SPECTATOR))) {
                     this.cancel();
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 1);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
         Minigame.getInstance().getGame().getRunnables().add(runnable);
     }
 }

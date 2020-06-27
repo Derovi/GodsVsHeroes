@@ -47,8 +47,10 @@ public class PlayerLobby {
     }
 
     public boolean isInPortal() {
-        return transformToLobbyCord(new Position(player.getLocation())).
-                distance(Lobby.getInstance().getInfo().getPortalPosition()) < 2;
+        final Position pos = transformToLobbyCord(new Position(player.getLocation()));
+        final Position portal = Lobby.getInstance().getInfo().getPortalPosition();
+        return pos.distance(portal) < 2 &&
+                Math.abs(pos.getZ() - portal.getZ()) < 1;
     }
 
     public void load() {

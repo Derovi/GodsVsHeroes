@@ -2,9 +2,9 @@ package by.dero.gvh.model.itemsinfo;
 
 import by.dero.gvh.model.ItemInfo;
 
-public class EscapeTeleportInfo extends ItemInfo {
+public class FireSplashInfo extends ItemInfo {
     private double radius;
-    private double minRadius;
+    private double damage;
 
     public double getRadius() {
         return radius;
@@ -14,11 +14,11 @@ public class EscapeTeleportInfo extends ItemInfo {
         this.radius = radius;
     }
 
-    public double getMinRadius() {
-        return minRadius;
+    public double getDamage() {
+        return damage;
     }
 
-    public void setMinRadius(double minRadius) {
-        this.minRadius = minRadius;
+    public void setDamage(double damage) {
+        this.damage = damage;
     }
 }

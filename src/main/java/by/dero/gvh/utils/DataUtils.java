@@ -1,12 +1,12 @@
 package by.dero.gvh.utils;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 import java.io.IOException;
@@ -15,6 +15,7 @@ import java.util.*;
 public class DataUtils {
     private static Player lastUsedLightning;
     private static Long lastLightningTime = 0L;
+    public static final double eyeHeight = 1.7775;
     public static GamePlayer getPlayer(String name) {
         return Minigame.getInstance().getGame().getPlayers().getOrDefault(name, null);
     }
@@ -27,7 +28,23 @@ public class DataUtils {
 
     }
 
+    public static Projectile spawnProjectile(final Location at, final double speed,
+                                             final EntityType type, final Player player) {
+        final Vector dir = at.getDirection().clone();
+
+        final Location loc = at.clone().add(dir.clone().multiply(1.8));
+        Projectile obj = (Projectile) loc.getWorld().spawnEntity(loc, type);
+        obj.setVelocity(dir.multiply(speed));
+        obj.setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
+        obj.setShooter(player);
+
+        return obj;
+    }
+
     public static boolean isEnemy(final Entity ent, final int team) {
+        if (ent instanceof ArmorStand) {
+            return false;
+        }
         if (!(ent instanceof LivingEntity) || ent.isDead()) {
             return false;
         }
@@ -49,6 +66,9 @@ public class DataUtils {
     }
 
     public static boolean isAlly(final Entity ent, final int team) {
+        if (ent instanceof ArmorStand) {
+            return false;
+        }
         if (!(ent instanceof LivingEntity) || ent.isDead()) {
             return false;
         }

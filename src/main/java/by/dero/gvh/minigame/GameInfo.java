@@ -15,6 +15,7 @@ public class GameInfo {
     private DirectedPosition[] winnerPositions;
     private DirectedPosition[] looserPositions;
     private DirectedPosition[] mapBorders;
+    private DirectedPosition[] aidPoints;
 
     public int getFinishTime() {
         return finishTime;
@@ -102,5 +103,13 @@ public class GameInfo {
 
     public void setMapBorders(DirectedPosition[] mapBorders) {
         this.mapBorders = mapBorders;
+    }
+
+    public DirectedPosition[] getAidPoints() {
+        return aidPoints;
+    }
+
+    public void setAidPoints(DirectedPosition[] aidPoints) {
+        this.aidPoints = aidPoints;
     }
 }
