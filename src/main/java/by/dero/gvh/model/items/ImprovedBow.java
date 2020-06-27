@@ -24,7 +24,7 @@ public class ImprovedBow extends Item implements ProjectileHitInterface {
     @Override
     public void onProjectileHitEnemy(final ProjectileHitEvent event) {
         if (event.getHitEntity() instanceof LivingEntity) {
-            damage(damage, (LivingEntity) event.getHitEntity(), getOwner());
+            damage(damage, (LivingEntity) event.getHitEntity(), owner);
         }
     }
 }

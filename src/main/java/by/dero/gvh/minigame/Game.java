@@ -6,6 +6,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.BungeeUtils;
 import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -23,6 +24,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
+import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.MessagingUtils.sendActionBar;
 import static by.dero.gvh.utils.MessagingUtils.sendTitle;
 
@@ -42,7 +44,6 @@ public abstract class Game implements Listener {
     }
 
     private static Game instance;
-    private ChargesManager chargesManager;
     private GameLobby lobby;
     private AfterParty afterParty;
     private final GameInfo info;
@@ -110,7 +111,7 @@ public abstract class Game implements Listener {
             lootsManager.spawn(pos.toLocation(getInfo().getWorld()), "aid");
         }
 
-        chargesManager = new ChargesManager();
+        new ChargesManager();
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
@@ -162,11 +163,22 @@ public abstract class Game implements Listener {
 
         afterParty = new AfterParty(this, winnerTeam);
         afterParty.start();
+        final BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                spawnFirework(MathUtils.randomCylinder(
+                        getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
+                        25, -10
+                ), 3);
+            }
+        };
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
         new BukkitRunnable() {
             @Override
             public void run() {
                 afterParty.stop();
                 afterParty = null;
+                runnable.cancel();
                 ServerInfo lobbyServer = Plugin.getInstance().getServerData().getLobbyServer();
                 Set<String> playerNames = new HashSet<>(players.keySet());
                 for (String playerName : playerNames) {
@@ -317,10 +329,6 @@ public abstract class Game implements Listener {
 
     public HashMap<String, Location> getPlayerDeathLocations() {
         return playerDeathLocations;
-    }
-
-    public RewardManager getRewardManager() {
-        return rewardManager;
     }
 
     public GameLobby getLobby() {

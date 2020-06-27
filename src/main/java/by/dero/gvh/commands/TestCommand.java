@@ -1,51 +1,35 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.nmcapi.throwing.ThrowingItem;
-import org.bukkit.Material;
+import by.dero.gvh.nmcapi.InstantFirework;
+import by.dero.gvh.nmcapi.throwing.GravityFireball;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
+import org.bukkit.entity.*;
+import org.bukkit.inventory.meta.FireworkMeta;
+
+import static by.dero.gvh.model.Drawings.spawnFirework;
 
 public class TestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] strings) {
+
         Player player = (Player) commandSender;
-        /*ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
-        armorStand.setVelocity(player.getLocation().getDirection().normalize());
-        armorStand.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
-        armorStand.setRightArmPose(new EulerAngle(270, 0, 0));
-        armorStand.setVisible(false);
-        armorStand.setInvulnerable(true);
-        armorStand.setCustomNameVisible(false);
-        armorStand.setMarker(true);
-        armorStand.setCustomName("#falling_block");
 
-        ((CraftEntity) armorStand).getHandle().noclip = true;*/
+        InstantFirework correctFirework = new InstantFirework(player.getLocation().clone().add(0,3,0));
+        FireworkMeta fwm = correctFirework.getMeta();
+        fwm.setPower(2);
+        fwm.addEffect(FireworkEffect.builder().withColor(Color.LIME).flicker(true).build());
+        correctFirework.setMeta(fwm);
+        correctFirework.spawn();
 
-        /*ThrowingItem smartArmorStand = new ThrowingItem(player.getLocation());
-        smartArmorStand.noclip = true;
-
-        armorStand.setVelocity(player.getLocation().getDirection().normalize());
-        armorStand.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
-        armorStand.setRightArmPose(new EulerAngle(270, 0, 0));
-        armorStand.setVisible(false);
-        armorStand.setInvulnerable(true);
-        armorStand.setCustomNameVisible(false);
-        armorStand.setMarker(true);*/
-
-        //((CraftWorld) player.getWorld()).getHandle().addEntity(smartArmorStand, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        //smartArmorStand.boundingBox = new AxisAlignedBB(3,3,3,4,4,4);
-        ThrowingItem throwingItem = new ThrowingItem(player.getLocation(), Material.DIAMOND_SWORD);
-        throwingItem.setOwner(player);
-        throwingItem.setItemLength(0.7);
-        //throwingItem.setSpinning(45);
-        throwingItem.setPhysicsSpin(true);
-        throwingItem.setLiveTimeAfterStop(120);
-        throwingItem.setVelocity(player.getLocation().getDirection().add(new Vector(0,0.1,0)).normalize().multiply(2));
-        throwingItem.spawn();
+        spawnFirework(player.getLocation().clone().add(-3, 3, 0), 1);
+//        GravityFireball gravityFireball = new GravityFireball(player.getLocation().clone().add(0, -1,0));
+//        gravityFireball.addPassenger(player);
+//        gravityFireball.setVelocity(player.getLocation().getDirection().normalize().multiply(1.3));
+//        gravityFireball.spawn();
         return true;
     }
 }

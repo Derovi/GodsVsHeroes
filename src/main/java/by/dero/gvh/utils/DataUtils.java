@@ -28,14 +28,19 @@ public class DataUtils {
 
     }
 
+    public static Entity spawnEntity(final Location loc, final EntityType type) {
+        final Entity obj = loc.getWorld().spawnEntity(loc, type);
+        obj.setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
+        return obj;
+    }
+
     public static Projectile spawnProjectile(final Location at, final double speed,
                                              final EntityType type, final Player player) {
         final Vector dir = at.getDirection().clone();
 
         final Location loc = at.clone().add(dir.clone().multiply(1.8));
-        Projectile obj = (Projectile) loc.getWorld().spawnEntity(loc, type);
+        Projectile obj = (Projectile) spawnEntity(loc, type);
         obj.setVelocity(dir.multiply(speed));
-        obj.setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         obj.setShooter(player);
 
         return obj;

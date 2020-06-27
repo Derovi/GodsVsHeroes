@@ -50,7 +50,7 @@ public class FireSplash extends Item implements PlayerInteractInterface {
                     final double dst = sqrt((other.getX() - at.getX()) * (other.getX() - at.getX()) +
                                         (other.getZ() - at.getZ()) * (other.getZ() - at.getZ()));
                     if (dst < 1) {
-                        damage(damage, otherPlayer, getOwner());
+                        damage(damage, otherPlayer, owner);
                         stroke.add(otherPlayer.getUniqueId());
                     }
                 }

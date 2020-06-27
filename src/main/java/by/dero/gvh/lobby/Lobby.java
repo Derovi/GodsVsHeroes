@@ -6,7 +6,6 @@ import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
-import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.VoidGenerator;
 import by.dero.gvh.model.Lang;
@@ -38,8 +37,6 @@ import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.util.*;
-
-import static by.dero.gvh.utils.DataUtils.getPlayer;
 
 public class Lobby implements PluginMode, Listener {
     private static Lobby instance;
@@ -289,14 +286,6 @@ public class Lobby implements PluginMode, Listener {
         final Block block = player.getLocation().clone().subtract(0,1,0).getBlock();;
         if (block.getType ().isSolid ()) {
             player.setAllowFlight (true);
-        }
-    }
-
-    @EventHandler (priority = EventPriority.HIGH)
-    public void onPlayerDamage (final EntityDamageEvent event) {
-        if (event.getEntityType () == EntityType.PLAYER &&
-                event.getCause () == EntityDamageEvent.DamageCause.FALL) {
-            event.setCancelled (true);
         }
     }
 

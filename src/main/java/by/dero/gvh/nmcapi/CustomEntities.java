@@ -1,15 +1,15 @@
 package by.dero.gvh.nmcapi;
 
+import by.dero.gvh.nmcapi.throwing.GravityFireball;
 import by.dero.gvh.nmcapi.throwing.ThrowingItem;
-import net.minecraft.server.v1_12_R1.Entity;
-import net.minecraft.server.v1_12_R1.EntityArmorStand;
-import net.minecraft.server.v1_12_R1.EntityTypes;
-import net.minecraft.server.v1_12_R1.MinecraftKey;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.entity.EntityType;
 
 public enum CustomEntities {
 
-    SMART_ARMOR_STAND("ThrowingItem", 54, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingItem.class);
+    SMART_ARMOR_STAND("ThrowingItem", 54, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingItem.class),
+    GRAVITY_FIRE_BALL("GravityFireBall", 55, EntityType.ARMOR_STAND, EntityArmorStand.class, GravityFireball.class),
+    CORRECT_FIREWORK("CorrectFirework", 56, EntityType.FIREWORK, EntityFireworks.class, InstantFirework.class);
 
     private final String name;
     private final int id;

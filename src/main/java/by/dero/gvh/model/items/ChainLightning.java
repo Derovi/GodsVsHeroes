@@ -41,7 +41,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
 
         drawCircleInFront(player.getEyeLocation(), 2, 3, 20, Particle.END_ROD);
         final LivingEntity entity = getTargetEntity(player, 100);
-        if (entity == null || !isEnemy(entity, getTeam())) {
+        if (!isEnemy(entity, getTeam())) {
             drawLine(player.getEyeLocation(),
                     player.getEyeLocation().clone().add(player.getLocation().getDirection().multiply(100)),
                     Particle.END_ROD);
@@ -56,7 +56,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
                 drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.END_ROD);
                 Objects.requireNonNull(next.getEyeLocation().getWorld()).spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
                 hit.add(next.getUniqueId());
-                damage(damage, next, getOwner());
+                damage(damage, next, owner);
                 cur = next;
                 next = null;
                 for (LivingEntity obj : getNearby(cur.getLocation(), radius)) {

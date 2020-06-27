@@ -1,6 +1,7 @@
 package by.dero.gvh.nmcapi.throwing;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
@@ -28,18 +29,22 @@ public class ThrowingItem extends EntityArmorStand {
     private double xDelta;
     private double yDelta;
     private double zDelta;
-    private double xDir;
-    private double yDir;
-    private double zDir;
-    private double lenDir;
+    private final double xDir;
+    private final double yDir;
+    private final double zDir;
+    private final double lenDir;
     private double itemLength;
     private double spinning = 0;
     private double step = 0.40;
+    private double center = 0;
     private Runnable onHitEntity = null;
     private Runnable onHitBlock = null;
     private Runnable onDisappear = null;
     private Runnable onOwnerPickUp = null;
     private boolean physicsSpin = false;
+    private double expX;
+    private double expY;
+    private double expZ;
 
     public ThrowingItem(Location loc, Material material) {
         super(((CraftWorld) loc.getWorld()).getHandle());
@@ -50,11 +55,13 @@ public class ThrowingItem extends EntityArmorStand {
         lenDir = Math.sqrt(xDir * xDir + yDir * yDir + zDir * zDir);
         this.setPosition(loc.getX(), loc.getY(), loc.getZ());
         this.setYawPitch(loc.getYaw(), loc.getPitch());
-        this.setRightArmPose(new Vector3f(loc.getPitch(),0, 0));
         this.setInvisible(true);
         this.setInvulnerable(true);
         this.noclip = true;
         setItem(new ItemStack(material));
+        expX = locX;
+        expY = locY;
+        expZ = locZ;
     }
 
     public void setRotation(EulerAngle eulerAngle) {
@@ -78,10 +85,10 @@ public class ThrowingItem extends EntityArmorStand {
             double rotX = armorStand.getLocation().getPitch();
             double rotY = rightArmPose.x;
             Vector vector = new Vector();
-            vector.setY(-Math.sin(Math.toRadians(rotY)));
-            double xz = Math.cos(Math.toRadians(rotY));
-            vector.setX(-xz * Math.sin(Math.toRadians(rotX)));
-            vector.setZ(xz * Math.cos(Math.toRadians(rotX)));
+            vector.setY(-MathUtils.sin(Math.toRadians(rotY)));
+            double xz = MathUtils.cos(Math.toRadians(rotY));
+            vector.setX(-xz * MathUtils.sin(Math.toRadians(rotX)));
+            vector.setZ(xz * MathUtils.cos(Math.toRadians(rotX)));
             vector.normalize();
             return new Position(locX - zDir / 2 + vector.getX() * itemLength,
                     locY + 1 + vector.getY() * itemLength,
@@ -148,16 +155,34 @@ public class ThrowingItem extends EntityArmorStand {
             }
             return;
         }
+        if (center != 0) {
+            expX += x;
+            expY += y;
+            expZ += z;
+
+            double rotX = armorStand.getLocation().getPitch();
+            double rotY = rightArmPose.x;
+            Vector vector = new Vector();
+            vector.setY(-MathUtils.sin(Math.toRadians(rotY)));
+            double xz = MathUtils.cos(Math.toRadians(rotY));
+            vector.setX(-xz * MathUtils.sin(Math.toRadians(rotX)));
+            vector.setZ(xz * MathUtils.cos(Math.toRadians(rotX)));
+            vector.normalize();
+            vector.multiply(itemLength * center);
+            System.out.println("Vec " + vector.getX() + ' ' + vector.getY() + ' ' + vector.getZ());
+
+            x = expX + vector.getX() - locX;
+            y = expY + vector.getY() - locY;
+            z = expZ + vector.getZ() - locZ;
+        }
+
         Vector vector = new Vector(x, y, z);
         double length = vector.length();
 
         int stepCount = (int) (length / step) + 1;
-        if (!physicsSpin) {
-            setRightArmPose(new Vector3f((float) (rightArmPose.x + spinning * length), (float) y, (float) z));
-        } else {
-            setRightArmPose(new Vector3f(360f - (float) Math.toDegrees(Math.asin(y / length)), (float) y, (float) z));
-        }
-        for (int step = 0; step < stepCount; ++ step) {
+
+        int step;
+        for (step = 0; step < stepCount; ++ step) {
             locX += x / stepCount;
             locY += y / stepCount;
             locZ += z / stepCount;
@@ -165,14 +190,14 @@ public class ThrowingItem extends EntityArmorStand {
             Location itemLocation = getItemPosition().toLocation(armorStand.getWorld());
             if (itemLocation.getY() < 0) {
                 stop();
-                return;
+                break;
             }
             if (armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType() != Material.AIR) {
                 stop();
                 if (onHitBlock != null) {
                     onHitBlock.run();
                 }
-                return;
+                break;
             }
             Collection<Entity> entities = armorStand.getLocation().getWorld().getNearbyEntities(itemLocation, 0.05, 0.25, 0.05);
             for (Entity entity : entities) {
@@ -190,8 +215,14 @@ public class ThrowingItem extends EntityArmorStand {
                 if (onHitEntity != null) {
                     onHitEntity.run();
                 }
-                return;
+                break;
             }
+        }
+
+        if (!physicsSpin) {
+            setRightArmPose(new Vector3f((float) (rightArmPose.x + spinning * length / stepCount * step), rightArmPose.y, rightArmPose.z));
+        } else {
+            setRightArmPose(new Vector3f(360f - (float) Math.toDegrees(Math.asin(y / length)),rightArmPose.y,rightArmPose.z));
         }
     }
 
@@ -277,5 +308,13 @@ public class ThrowingItem extends EntityArmorStand {
 
     public void setOnOwnerPickUp(Runnable onOwnerPickUp) {
         this.onOwnerPickUp = onOwnerPickUp;
+    }
+
+    public double getCenter() {
+        return center;
+    }
+
+    public void setCenter(double center) {
+        this.center = center;
     }
 }

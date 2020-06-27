@@ -1,19 +1,15 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -21,17 +17,11 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.util.*;
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
-import static by.dero.gvh.utils.DataUtils.getPlayer;
-import static by.dero.gvh.utils.DataUtils.getTargetEntity;
 
 public class DeathMatch extends Game implements DisplayInteractInterface {
     private final DeathMatchInfo deathMatchInfo;
 
     private int[] currentLivesCount;
-
-    public int[] getRespawning() {
-        return respawning;
-    }
 
     private int[] respawning;
 
@@ -55,18 +45,10 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     public void setDisplays() {
         for (final GamePlayer gp : getPlayers().values()) {
             final Board board = new Board(Lang.get("game.livesLeft"),currentLivesCount.length + 1);
-            gp.setBoard(board);
             final Scoreboard sb = board.getScoreboard();
             for (int team = 0; team < currentLivesCount.length; team++) {
                 final String t = team + "hp";
-                if (sb.getTeam(t) != null) {
-                    sb.getTeam(t).unregister();
-                }
-                sb.registerNewTeam(t).setColor(
-                        ChatColor.getByChar(Lang.get("commands." + (char)('1' + team)).charAt(1)));
-            }
-            if (sb.getObjective("health") != null) {
-                sb.getObjective("health").unregister();
+                sb.registerNewTeam(t).setPrefix(Lang.get("commands." + (char)('1' + team)).substring(0, 2));
             }
             final Objective obj = sb.registerNewObjective("health", "health");
             obj.setDisplayName("§c❤");
@@ -76,6 +58,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
                 final String name = othergp.getPlayer().getName();
                 sb.getTeam(othergp.getTeam() + "hp").addEntry(name);
             }
+            gp.setBoard(board);
         }
     }
 
@@ -112,10 +95,6 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
         setDisplays();
         updateDisplays();
-    }
-
-    public DeathMatchInfo getDeathMatchInfo() {
-        return deathMatchInfo;
     }
 
     @Override

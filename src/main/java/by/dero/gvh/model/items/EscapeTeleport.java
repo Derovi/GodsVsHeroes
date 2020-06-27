@@ -7,6 +7,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.EscapeTeleportInfo;
 import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -31,7 +32,7 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
         final Location startLoc = loc.clone();
         final DirectedPosition[] poses = Game.getInstance().getInfo().getMapBorders();
         do {
-            loc = randomCylinder(loc.clone(), radius, 0);
+            loc = MathUtils.randomCylinder(loc.clone(), radius, 0);
         } while (poses[0].getX() > loc.getX() || poses[0].getZ() > loc.getZ() ||
                 poses[1].getX() < loc.getX() || poses[1].getZ() < loc.getZ() ||
                 startLoc.distance(loc) < minradius);

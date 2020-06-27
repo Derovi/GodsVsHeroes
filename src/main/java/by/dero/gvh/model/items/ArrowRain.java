@@ -5,6 +5,7 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.ArrowRainInfo;
+import by.dero.gvh.utils.MathUtils;
 import net.minecraft.server.v1_12_R1.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -17,11 +18,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-import static by.dero.gvh.model.Drawings.randomCylinder;
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 
-public class ArrowRain extends Item implements UltimateInterface, Listener {
+public class ArrowRain extends Item implements UltimateInterface {
     private final double radius;
     private final int arrowCycles;
     private final int cycleDelay;
@@ -54,7 +54,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
             int times = 0;
             @Override
             public void run() {
-                final Location shooter = randomCylinder(center, radius, 0);
+                final Location shooter = MathUtils.randomCylinder(center, radius, 0);
                 final List<Location> targets = new ArrayList<>();
                 for (LivingEntity obj : getNearby(center, radius)) {
                     if (isEnemy(obj, getTeam())) {
@@ -65,7 +65,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
                     Arrow arrow = center.getWorld().spawnArrow(shooter,
                             obj.toVector().subtract(shooter.toVector()).normalize(),
                             4F, 1);
-                    arrow.setShooter(getOwner());
+                    arrow.setShooter(owner);
                     new BukkitRunnable() {
                         @Override
                         public void run() {
@@ -89,8 +89,8 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
             @Override
             public void run() {
                 for (int i = 0; i < particleNumber; i++) {
-                    center.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, randomCylinder(center, radius, height), 1);
-                    center.getWorld().spawnParticle(Particle.LAVA, randomCylinder(center, radius, height), 1);
+                    center.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, MathUtils.randomCylinder(center, radius, height), 1);
+                    center.getWorld().spawnParticle(Particle.LAVA, MathUtils.randomCylinder(center, radius, height), 1);
                 }
                 if (++ticks >= cycleDelay * arrowCycles) {
                     this.cancel();

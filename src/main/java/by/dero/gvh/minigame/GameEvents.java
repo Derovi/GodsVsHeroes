@@ -69,6 +69,7 @@ public class GameEvents implements Listener {
         Projectile proj = event.getEntity();
         if (!(proj instanceof Arrow) && (proj.getShooter() instanceof Player) &&
                 !(proj.hasMetadata("custom"))) {
+            Bukkit.getServer().broadcastMessage("kek");
             event.setCancelled(true);
         } else {
             projectiles.add(proj.getUniqueId());
@@ -240,7 +241,10 @@ public class GameEvents implements Listener {
         final Entity ent = event.getEntity();
         if (ent instanceof LivingEntity &&
                 !(ent instanceof Player) &&
-                !(ent instanceof ArmorStand)) {
+                !(ent instanceof ArmorStand) &&
+                !ent.hasMetadata("custom")) {
+
+            Bukkit.getServer().broadcastMessage("removesEnt");
             ent.remove();
         }
     }
@@ -296,6 +300,8 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
-        event.setCancelled(true);
+        if (event.getPlayer() != null) {
+            event.setCancelled(true);
+        }
     }
 }

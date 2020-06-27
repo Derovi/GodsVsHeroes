@@ -6,10 +6,7 @@ import by.dero.gvh.commands.TestCommand;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.utils.Board;
-import by.dero.gvh.utils.DirectedPosition;
-import by.dero.gvh.utils.Position;
-import by.dero.gvh.utils.WorldEditUtils;
+import by.dero.gvh.utils.*;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -117,11 +114,11 @@ public class PlayerLobby {
             @Override
             public void run() {
                 for (int i = 0; i < parts; i++) {
-                    final double cur = angle + Math.PI * 2 * i / parts;
-                    final Location at = center.clone().add(Math.cos(cur) * radius, Math.sin(cur) * radius,0);
+                    final double cur = angle + MathUtils.PI2 * i / parts;
+                    final Location at = center.clone().add(MathUtils.cos(cur) * radius, MathUtils.sin(cur) * radius,0);
                     player.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
                 }
-                angle += Math.PI * turnsPerSec / 20 * 2;
+                angle += MathUtils.PI2 * turnsPerSec / 20;
             }
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 2);

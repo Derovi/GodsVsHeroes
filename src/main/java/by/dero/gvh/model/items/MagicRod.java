@@ -4,6 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.MagicRodInfo;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
@@ -16,7 +17,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
-import static by.dero.gvh.model.Drawings.rotateAroundAxis;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class MagicRod extends Item implements PlayerInteractInterface {
@@ -45,17 +45,17 @@ public class MagicRod extends Item implements PlayerInteractInterface {
             @Override
             public void run() {
                 start.add(start.getDirection().multiply(1));
-                final Vector kek = st.clone().crossProduct(start.getDirection()).multiply(Math.sin(ticks) * 3);
+                final Vector kek = st.clone().crossProduct(start.getDirection()).multiply(MathUtils.sin(ticks) * 3);
                 Objects.requireNonNull(start.getWorld()).spawnParticle(Particle.LAVA, start, 1);
                 for (final LivingEntity obj : getNearby(start, 2)) {
                     if (isEnemy(obj, getTeam()) && !stroke.contains(obj.getUniqueId())) {
-                        damage(damage, obj, getOwner());
+                        damage(damage, obj, owner);
                         stroke.add(obj.getUniqueId());
                     }
                 }
                 final int steps = 16;
                 for (int i = 0; i < steps; i ++) {
-                    rotateAroundAxis(kek, start.getDirection(), Math.PI * 2 / steps);
+                    MathUtils.rotateAroundAxis(kek, start.getDirection(), MathUtils.PI2 / steps);
                     start.getWorld().spawnParticle(Particle.SPELL_WITCH, new Location(
                             start.getWorld(),
                             start.getX() + kek.getX(),

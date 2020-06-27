@@ -4,6 +4,7 @@
   "levels": [
     {
       "cooldown": 60,
+      "damage": 6,
       "force": 1.5,
       "cost": 80,
       "material": "FEATHER",
@@ -16,6 +17,7 @@
     },
     {
       "cooldown": 50,
+      "damage": 7,
       "force": 1.5,
       "cost": 100,
       "material": "FEATHER",
@@ -28,6 +30,7 @@
     },
     {
       "cooldown": 40,
+      "damage": 8,
       "force": 1.5,
       "cost": 120,
       "material": "FEATHER",

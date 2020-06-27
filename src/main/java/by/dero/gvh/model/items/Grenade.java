@@ -34,7 +34,7 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
         loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
         for (final LivingEntity ent : getNearby(loc, radius)) {
             if (isEnemy(ent, getTeam())) {
-                damage(damage, ent, getOwner());
+                damage(damage, ent, owner);
             }
         }
     }
