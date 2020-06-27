@@ -35,7 +35,7 @@ public class GravityFireball extends EntityArmorStand {
         Vector vector = new Vector(x, y, z);
         double length = vector.length();
 
-        int stepCount = (int) (length / 0.5) + 1;
+        int stepCount = (int) (length / 0.25) + 1;
 
         int step;
         for (step = 0; step < stepCount; ++ step) {
@@ -47,6 +47,9 @@ public class GravityFireball extends EntityArmorStand {
             if (itemLocation.getY() < 0 || armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType() != Material.AIR) {
                 if (onHit != null) {
                     onHit.run();
+                }
+                for (Entity entity : fireball.getPassengers()) {
+                    entity.setVelocity(new Vector(0, 0.2, 0));
                 }
                 fireball.remove();
                 this.die();
