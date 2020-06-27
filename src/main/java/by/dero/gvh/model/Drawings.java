@@ -2,6 +2,7 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -17,42 +18,6 @@ import static java.lang.Math.random;
 public class Drawings {
     private static final double dense = 3;
     private static final Vector randomVector = new Vector(random(), random(), random()).normalize();
-
-    public static Vector rotateAroundAxis(final Vector point, final Vector axis, double angle) throws IllegalArgumentException {
-        return rotateAroundNonUnitAxis(point, axis.length() == 1 ? axis : axis.clone().normalize(), angle);
-    }
-
-    public static Vector rotateAroundNonUnitAxis(final Vector point, final Vector axis, final double angle) {
-        double x = point.getX(), y = point.getY(), z = point.getZ();
-        double x2 = axis.getX(), y2 = axis.getY(), z2 = axis.getZ();
-
-        double cosTheta = Math.cos(angle);
-        double sinTheta = Math.sin(angle);
-        double dotProduct = point.dot(axis);
-
-        double xPrime = x2 * dotProduct * (1d - cosTheta)
-                + x * cosTheta
-                + (-z2 * y + y2 * z) * sinTheta;
-        double yPrime = y2 * dotProduct * (1d - cosTheta)
-                + y * cosTheta
-                + (z2 * x - x2 * z) * sinTheta;
-        double zPrime = z2 * dotProduct * (1d - cosTheta)
-                + z * cosTheta
-                + (-y2 * x + x2 * y) * sinTheta;
-
-        return point.setX(xPrime).setY(yPrime).setZ(zPrime);
-    }
-
-
-    public static Location randomCylinder(final Location center, final double radius, final double depth) {
-        final double dst = Math.random() * radius;
-        final double angle = Math.random() * Math.PI * 2;
-        return center.clone().add(
-                dst*Math.cos(angle),
-                -Math.random() * depth,
-                dst*Math.sin(angle)
-        );
-    }
 
     public static void drawLine(Location a, Location b, Particle obj) {
         Vector cur = a.toVector();
@@ -106,15 +71,6 @@ public class Drawings {
                             loc.getZ() + Math.sin(angle) * radius
                     ), 1, 0, 0, 0, 0);
         }
-    }
-
-    public static Location getInCircle(Location loc, double radius, double angle) {
-        return new Location(
-                loc.getWorld(),
-                loc.getX() + Math.cos(angle) * radius,
-                loc.getY(),
-                loc.getZ() + Math.sin(angle) * radius
-        );
     }
 
     public static void spawnFirework(final Location loc, final int amount) {
@@ -196,7 +152,7 @@ public class Drawings {
             public void run() {
                 for (double partAngle = 0; partAngle < Math.PI * 2; partAngle += Math.PI * 2 / parts) {
                     final double angle = horAngle + partAngle;
-                    final Location at = getInCircle(loc, radius, angle);
+                    final Location at = MathUtils.getInCircle(loc, radius, angle);
                     world.spawnParticle(particle, at, 0,0,0,0);
                 }
 
@@ -225,7 +181,7 @@ public class Drawings {
             public void run() {
                 for (double partAngle = 0; partAngle < Math.PI * 2; partAngle += Math.PI * 2 / parts) {
                     final double angle = horAngle + partAngle;
-                    final Location at = getInCircle(loc, radius, angle);
+                    final Location at = MathUtils.getInCircle(loc, radius, angle);
                     player.spawnParticle(particle, at, 0,0,0,0);
                 }
 
@@ -274,7 +230,7 @@ public class Drawings {
 
         for (int i = 0; i < parts; i++) {
             final double angle = Math.PI * 2 * i / parts;
-            final Vector at = rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);
+            final Vector at = MathUtils.rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);
             at.add(center.toVector());
             loc.getWorld().spawnParticle(par,
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
@@ -290,7 +246,7 @@ public class Drawings {
 
         for (int i = 0; i < parts; i++) {
             final double angle = Math.PI * 2 * i / parts;
-            final Vector at = rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);
+            final Vector at = MathUtils.rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);
             at.add(center.toVector());
             loc.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
@@ -313,18 +269,6 @@ public class Drawings {
         }
     }
 
-    public static Vector getRightVector(final Vector vector) {
-        return new Vector(
-            vector.getZ(),
-            0,
-            -vector.getX()
-        ).normalize();
-    }
-
-    public static Vector getUpVector(final Vector vector) {
-        return vector.clone().getCrossProduct(getRightVector(vector)).normalize();
-    }
-
     public static Location[] drawSector(final Location loc,
                                   final double innerRadius, final double outerRadius,
                                   final double sumAngle,
@@ -333,11 +277,11 @@ public class Drawings {
         final int parts = 8;
         final double angleSpeed = sumAngle / (parts - 1);
         final double radSpeed = (outerRadius - innerRadius) / (parts - 1);
-        final Vector upVector = getUpVector(loc.getDirection());
+        final Vector upVector = MathUtils.getUpVector(loc.getDirection());
         final Location[] ret = new Location[parts*parts];
         int idx = 0;
         for (double angle = -sumAngle/2; angle <= sumAngle/2; angle += angleSpeed) {
-            final Vector atVector = rotateAroundAxis(loc.getDirection().clone(), upVector, angle);
+            final Vector atVector = MathUtils.rotateAroundAxis(loc.getDirection().clone(), upVector, angle);
             for (double radius = innerRadius; radius <= outerRadius; radius += radSpeed) {
                 final Location pos = loc.clone().add(atVector.clone().multiply(radius));
                 loc.getWorld().spawnParticle(particle, pos, 0, 0,0,0);

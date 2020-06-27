@@ -4,6 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.MagicRodInfo;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
@@ -16,7 +17,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
-import static by.dero.gvh.model.Drawings.rotateAroundAxis;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class MagicRod extends Item implements PlayerInteractInterface {
@@ -55,7 +55,7 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                 }
                 final int steps = 16;
                 for (int i = 0; i < steps; i ++) {
-                    rotateAroundAxis(kek, start.getDirection(), Math.PI * 2 / steps);
+                    MathUtils.rotateAroundAxis(kek, start.getDirection(), Math.PI * 2 / steps);
                     start.getWorld().spawnParticle(Particle.SPELL_WITCH, new Location(
                             start.getWorld(),
                             start.getX() + kek.getX(),

@@ -6,6 +6,7 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.LightningStormInfo;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -49,8 +50,8 @@ public class LightningStorm extends Item implements UltimateInterface {
                     cur.add(0,4,0);
                     Drawings.drawCircle(cur, signRadius[st], drawParticle);
                     for (double angle = startAngle; angle < Math.PI * 2; angle += Math.PI / 2.5) {
-                        drawLine(getInCircle(cur, signRadius[st], angle),
-                                getInCircle(cur, signRadius[st], angle + Math.PI * 0.8),
+                        drawLine(MathUtils.getInCircle(cur, signRadius[st], angle),
+                                MathUtils.getInCircle(cur, signRadius[st], angle + Math.PI * 0.8),
                                 drawParticle);
                     }
                     startAngle += Math.PI / 5;

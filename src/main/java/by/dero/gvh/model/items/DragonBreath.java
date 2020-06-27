@@ -6,7 +6,7 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.DragonBreathInfo;
 import by.dero.gvh.utils.DataUtils;
-import org.bukkit.Bukkit;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
@@ -14,8 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import static by.dero.gvh.model.Drawings.getRightVector;
-import static by.dero.gvh.model.Drawings.rotateAroundAxis;
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 
@@ -41,8 +39,8 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
             Vector at = loc.getDirection().clone();
             double x = Math.random() * spread * 2 - spread;
             double y = Math.random() * spread * 2 - spread;
-            at = rotateAroundAxis(at, getRightVector(at), x);
-            at = rotateAroundAxis(at, new Vector(0,1,0), y);
+            at = MathUtils.rotateAroundAxis(at, MathUtils.getRightVector(at), x);
+            at = MathUtils.rotateAroundAxis(at, new Vector(0,1,0), y);
             loc.getWorld().spawnParticle(Particle.FLAME, loc.clone().add(dlt), 0,
                     at.getX() / 20, at.getY() / 20, at.getZ() / 20, 7);
         }
