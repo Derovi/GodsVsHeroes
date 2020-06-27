@@ -25,15 +25,9 @@ public class TestCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
         GravityFireball gravityFireball = new GravityFireball(player.getEyeLocation().add(new Vector(0,0.5,0)));
-        Vector direction = player.getLocation().getDirection().normalize();
-        //gravityFireball.setDirection(direction.getX(), direction.getY(), direction.getZ());
         gravityFireball.spawn();
         gravityFireball.setVelocity(player.getLocation().getDirection());
-        gravityFireball.getFireball().addPassenger(player);
-        System.out.println("spawned");
-        //Fireball fireball = ((Fireball) gravityFireball.bukkitEntity);
-        //fireball.setVelocity(player.getLocation().getDirection().normalize());
-        //fireball.addPassenger(player);
+        gravityFireball.addPassenger(player);
         return true;
     }
 }

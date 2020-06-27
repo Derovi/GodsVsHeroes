@@ -55,6 +55,10 @@ public class GravityFireball extends EntityArmorStand {
         }
     }
 
+    public void addPassenger(Entity entity) {
+        fireball.addPassenger(entity);
+    }
+
     public void setVelocity(Vector vector) {
         armorStand.setVelocity(vector);
     }
