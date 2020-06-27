@@ -14,8 +14,6 @@ import java.util.UUID;
 public class MonumentManager implements Listener {
     private final HashMap<String, Class<? extends Monument>> classNameToMonument = new HashMap<>();
 
-    private final HashMap<UUID, UUID> active = new HashMap<>();
-
     public MonumentManager() {
         registerMonuments();
     }
@@ -50,14 +48,9 @@ public class MonumentManager implements Listener {
             ArmorStand armorStand = standMonument.getArmorStand();
             if (armorStand.getUniqueId().equals(entityId)) {
                 standMonument.onSelect(player);
-                active.put(player.getUniqueId(), entityId);
                 Lobby.getInstance().updateDisplays(player);
             }
         }
-    }
-
-    public HashMap<UUID, UUID> getActive() {
-        return active;
     }
 
     private void registerMonument(String className, Class<? extends Monument> monument) {

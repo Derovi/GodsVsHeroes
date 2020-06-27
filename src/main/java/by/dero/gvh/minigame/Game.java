@@ -23,6 +23,8 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
+import static by.dero.gvh.model.Drawings.randomCylinder;
+import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.MessagingUtils.sendActionBar;
 import static by.dero.gvh.utils.MessagingUtils.sendTitle;
 
@@ -161,11 +163,22 @@ public abstract class Game implements Listener {
 
         afterParty = new AfterParty(this, winnerTeam);
         afterParty.start();
+        final BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                spawnFirework(randomCylinder(
+                        getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
+                        25, -10
+                ), 3);
+            }
+        };
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
         new BukkitRunnable() {
             @Override
             public void run() {
                 afterParty.stop();
                 afterParty = null;
+                runnable.cancel();
                 ServerInfo lobbyServer = Plugin.getInstance().getServerData().getLobbyServer();
                 Set<String> playerNames = new HashSet<>(players.keySet());
                 for (String playerName : playerNames) {

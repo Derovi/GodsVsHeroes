@@ -12,6 +12,7 @@ import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -69,7 +70,7 @@ public class Plugin extends JavaPlugin implements Listener {
             pluginMode.onEnable();
 
             world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getWorld());
-            for (final Entity ent : world.getLivingEntities()) {
+            for (final LivingEntity ent : world.getLivingEntities()) {
                 ent.remove();
             }
         } else {

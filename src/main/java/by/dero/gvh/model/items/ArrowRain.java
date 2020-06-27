@@ -21,7 +21,7 @@ import static by.dero.gvh.model.Drawings.randomCylinder;
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static by.dero.gvh.utils.DataUtils.isEnemy;
 
-public class ArrowRain extends Item implements UltimateInterface, Listener {
+public class ArrowRain extends Item implements UltimateInterface {
     private final double radius;
     private final int arrowCycles;
     private final int cycleDelay;
@@ -57,7 +57,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
                 final Location shooter = randomCylinder(center, radius, 0);
                 final List<Location> targets = new ArrayList<>();
                 for (LivingEntity obj : getNearby(center, radius)) {
-                    if (isEnemy(obj, team)) {
+                    if (isEnemy(obj, getTeam())) {
                         targets.add(obj.getLocation().clone());
                     }
                 }

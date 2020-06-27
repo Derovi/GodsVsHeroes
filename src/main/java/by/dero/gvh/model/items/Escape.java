@@ -24,13 +24,12 @@ public class Escape extends Item implements PlayerInteractInterface {
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
         if (!cooldown.isReady()) {
-            event.setCancelled(true);
             return;
         }
         cooldown.reload();
         player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1);
         for (final LivingEntity entity : getNearby(player.getLocation(), 3)) {
-            if (isEnemy(entity, team)) {
+            if (isEnemy(entity, getTeam())) {
                 damage(damage, entity, player);
             }
         }

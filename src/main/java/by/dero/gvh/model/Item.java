@@ -17,7 +17,7 @@ public class Item {
     protected final Player owner;
     protected final String name;
     private final int level;
-    protected final int team;
+    private int team = -1;
 
     public Cooldown getCooldown() {
         return cooldown;
@@ -32,7 +32,6 @@ public class Item {
         this.level = level;
         this.owner = owner;
 
-        team = getPlayer(owner.getName()).getTeam();
         cooldown = new Cooldown(getInfo().getCooldown());
         cooldown.makeReady();
     }
@@ -84,5 +83,12 @@ public class Item {
 
     public String getName() {
         return name;
+    }
+
+    public int getTeam() {
+        if (team == -1) {
+            team = getPlayer(owner.getName()).getTeam();
+        }
+        return team;
     }
 }

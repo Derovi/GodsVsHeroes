@@ -43,7 +43,7 @@ public class SuicideJump extends Item implements PlayerInteractInterface, Projec
         proj.removePassenger(player);
         damage(selfDamage, player, player);
         for (final LivingEntity entity : getNearby(proj.getLocation(), radius)) {
-            if (isEnemy(entity, team)) {
+            if (isEnemy(entity, getTeam())) {
                 damage(damage, entity, player);
             }
         }

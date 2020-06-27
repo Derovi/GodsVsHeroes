@@ -28,7 +28,7 @@ public class DamagePotion extends Item implements ProjectileHitInterface,
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();
         for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
-            if (isEnemy(ent, team)) {
+            if (isEnemy(ent, getTeam())) {
                 damage(damage, ent, owner);
             }
         }

@@ -1,19 +1,15 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -21,8 +17,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.util.*;
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
-import static by.dero.gvh.utils.DataUtils.getPlayer;
-import static by.dero.gvh.utils.DataUtils.getTargetEntity;
 
 public class DeathMatch extends Game implements DisplayInteractInterface {
     private final DeathMatchInfo deathMatchInfo;

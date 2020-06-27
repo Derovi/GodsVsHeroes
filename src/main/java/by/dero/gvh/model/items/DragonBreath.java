@@ -51,7 +51,7 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
             final Vector b = loc.getDirection().clone();
             b.setY(0);
             a.setY(0);
-            if (a.dot(b) / a.length() / b.length() >= cosSpread && isEnemy(entity, team)) {
+            if (a.dot(b) / a.length() / b.length() >= cosSpread && isEnemy(entity, getTeam())) {
                 entity.setFireTicks(100);
                 DataUtils.damage(damage, entity, owner);
             }

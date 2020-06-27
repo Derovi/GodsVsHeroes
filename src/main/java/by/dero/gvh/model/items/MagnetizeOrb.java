@@ -28,7 +28,7 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface,
         final Entity proj = event.getEntity();
         final Location loc = proj.getLocation();
         for (final Entity obj : getNearby(proj.getLocation(), radius)) {
-            if (isEnemy(obj, team)) {
+            if (isEnemy(obj, getTeam())) {
                 final Vector add = loc.toVector().subtract(obj.getLocation().toVector());
                 final double force = Math.log(add.length()) / Math.log(2);
                 obj.setVelocity(obj.getVelocity().add(add.normalize().multiply(force)));

@@ -2,7 +2,10 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
+import net.minecraft.server.v1_12_R1.EntityFireworks;
 import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftFirework;
+import org.bukkit.craftbukkit.v1_12_R1.event.CraftEventFactory;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,11 +15,13 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.UUID;
 
+import static by.dero.gvh.utils.DataUtils.spawnEntity;
 import static java.lang.Math.random;
 
 public class Drawings {
     private static final double dense = 3;
     private static final Vector randomVector = new Vector(random(), random(), random()).normalize();
+    private static final Random rnd = new Random();
 
     public static Vector rotateAroundAxis(final Vector point, final Vector axis, double angle) throws IllegalArgumentException {
         return rotateAroundNonUnitAxis(point, axis.length() == 1 ? axis : axis.clone().normalize(), angle);
@@ -81,7 +86,7 @@ public class Drawings {
         while (true) {
             a.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(a.getWorld(), cur.getX(), cur.getY(), cur.getZ()),
-                    0, red, green, blue, 0);
+                    1, red, green, blue);
 
             if (cur.equals(to)) {
                 break;
@@ -117,20 +122,22 @@ public class Drawings {
         );
     }
 
-    public static void spawnFirework(final Location loc, final int amount) {
-        Firework fw = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
-        FireworkMeta fwm = fw.getFireworkMeta();
+    private static final Color[] colors = new Color[] {
+        Color.AQUA, Color.BLUE, Color.FUCHSIA, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY,
+        Color.OLIVE, Color.ORANGE, Color.WHITE, Color.YELLOW, Color.SILVER, Color.RED, Color.PURPLE
+    };
 
+    public static void spawnFirework(final Location loc, final int amount) {
+        CraftFirework fw = (CraftFirework) spawnEntity(loc, EntityType.FIREWORK);
+        loc.getWorld().playEffect(loc, Effect.FIREWORK_SHOOT, 2);
+        FireworkMeta fwm = fw.getFireworkMeta();
         fwm.setPower(2);
         fwm.addEffect(FireworkEffect.builder().withColor(Color.LIME).flicker(true).build());
-        fw.setFireworkMeta(fwm);
-        fw.detonate();
+        fw.item.setItemMeta(fwm);
+        EntityFireworks handle = (EntityFireworks) fw.entity;
+        handle
 
-        for(int i = 0;i < amount; i++){
-            Firework fw2 = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
-            fw2.setFireworkMeta(fwm);
-            fw2.detonate();
-        }
+        fw.detonate();
     }
 
     public static Vector getInCphere(final Vector center,

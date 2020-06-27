@@ -81,7 +81,7 @@ public class ArmorStandMonument extends Monument {
         final World at = Lobby.getInstance().getWorld();
         armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
         armorStand.setCustomNameVisible(true);
-
+        armorStand.setInvulnerable(true);
 
         final UnitClassDescription classDescription =
                 Plugin.getInstance().getData().getClassNameToDescription().get(getClassName());
@@ -91,7 +91,7 @@ public class ArmorStandMonument extends Monument {
             }
             final Item item;
             try {
-                item = (Item) Plugin.getInstance().getData().getItemNameToClass().
+                item = Plugin.getInstance().getData().getItemNameToClass().
                         get(name).getConstructor(String.class, int.class, Player.class).
                         newInstance(name, 0, getOwner());
             } catch (Exception e) {

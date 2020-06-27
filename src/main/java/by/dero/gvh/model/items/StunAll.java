@@ -43,7 +43,7 @@ public class StunAll extends Item implements UltimateInterface {
         cooldown.reload();
         drawSign(p.getLocation().clone());
         for (final LivingEntity ot : getNearby(p.getLocation(), radius)) {
-            if (isEnemy(ot, team)) {
+            if (isEnemy(ot, getTeam())) {
                 Stun.stunEntity(ot, latency);
             }
         }

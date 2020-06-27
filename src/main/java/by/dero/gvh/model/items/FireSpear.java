@@ -44,7 +44,7 @@ public class FireSpear extends Item implements PlayerInteractInterface {
         final Vector dlt = loc.getDirection().multiply(0.05 * speed);
         final HashSet<Player> left = new HashSet<>();
         for (final GamePlayer gp : Game.getInstance().getPlayers().values()) {
-            if (isEnemy(gp.getPlayer(), team)) {
+            if (isEnemy(gp.getPlayer(), getTeam())) {
                 left.add(gp.getPlayer());
             }
         }

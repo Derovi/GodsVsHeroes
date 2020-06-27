@@ -43,30 +43,36 @@ public class DoubleSpaceListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDamage (final EntityDamageEvent event) {
-        if (event.getEntityType () == EntityType.PLAYER &&
-                !getItems(getPlayer(event.getEntity().getName())).isEmpty() &&
-                event.getCause () == EntityDamageEvent.DamageCause.FALL) {
-            event.setCancelled (true);
+        if (Game.getInstance().getState().equals(Game.State.GAME)) {
+            if (event.getEntityType () == EntityType.PLAYER &&
+                    !getItems(getPlayer(event.getEntity().getName())).isEmpty() &&
+                    event.getCause () == EntityDamageEvent.DamageCause.FALL) {
+                event.setCancelled (true);
+            }
         }
     }
 
     @EventHandler (priority = EventPriority.HIGH)
     public void onPlayerMove (final PlayerMoveEvent event) {
-        final Player p = event.getPlayer();
-        if (!getItems(getPlayer(p.getName())).isEmpty() && !p.getAllowFlight()) {
-            groundUpdate(p);
+        if (Game.getInstance().getState().equals(Game.State.GAME)) {
+            final Player p = event.getPlayer();
+            if (!getItems(getPlayer(p.getName())).isEmpty() && !p.getAllowFlight()) {
+                groundUpdate(p);
+            }
         }
     }
 
     @EventHandler (priority = EventPriority.HIGH)
     public void onPlayerToggleFlight (final PlayerToggleFlightEvent event) {
-        final Player p = event.getPlayer();
-        final ArrayList<DoubleSpaceInterface> items = getItems(getPlayer(p.getName()));
-        if (!items.isEmpty() && p.getGameMode () == GameMode.SURVIVAL) {
-            p.setAllowFlight (false);
-            event.setCancelled (true);
-            for (final DoubleSpaceInterface item : items) {
-                item.onDoubleSpace(p);
+        if (Game.getInstance().getState().equals(Game.State.GAME)) {
+            final Player p = event.getPlayer();
+            final ArrayList<DoubleSpaceInterface> items = getItems(getPlayer(p.getName()));
+            if (!items.isEmpty() && p.getGameMode() == GameMode.SURVIVAL) {
+                p.setAllowFlight(false);
+                event.setCancelled(true);
+                for (final DoubleSpaceInterface item : items) {
+                    item.onDoubleSpace(p);
+                }
             }
         }
     }
