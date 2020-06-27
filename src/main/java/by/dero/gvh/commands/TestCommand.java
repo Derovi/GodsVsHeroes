@@ -24,7 +24,7 @@ public class TestCommand implements CommandExecutor {
         fwm.addEffect(FireworkEffect.builder().withColor(Color.LIME).flicker(true).build());
         correctFirework.setMeta(fwm);
         correctFirework.spawn();*/
-        GravityFireball gravityFireball = new GravityFireball(player.getLocation());
+        GravityFireball gravityFireball = new GravityFireball(player.getLocation().clone().add(0, -1,0));
         gravityFireball.addPassenger(player);
         gravityFireball.setVelocity(player.getLocation().getDirection().normalize().multiply(1.3));
         gravityFireball.spawn();

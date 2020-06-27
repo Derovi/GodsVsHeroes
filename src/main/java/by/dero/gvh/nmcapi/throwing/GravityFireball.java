@@ -44,7 +44,11 @@ public class GravityFireball extends EntityArmorStand {
                     onHit.run();
                 }
                 for (Entity entity : fireball.getPassengers()) {
-                    entity.teleport(entity.getLocation().clone().add(0,1.3,0));
+                    Location location = entity.getLocation().clone();
+                    while (location.getBlock().getType() != Material.AIR) {
+                        location.add(0,0.15,0);
+                    }
+                    entity.teleport(location);
                 }
                 fireball.remove();
                 this.die();
