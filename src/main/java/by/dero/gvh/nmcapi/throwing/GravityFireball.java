@@ -1,18 +1,13 @@
 package by.dero.gvh.nmcapi.throwing;
 
-import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.event.CraftEventFactory;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-
-import java.util.Collection;
 
 public class GravityFireball extends EntityArmorStand {
     private Runnable onHit = null;
@@ -49,7 +44,11 @@ public class GravityFireball extends EntityArmorStand {
                     onHit.run();
                 }
                 for (Entity entity : fireball.getPassengers()) {
-                    entity.setVelocity(new Vector(0, 0.2, 0));
+                    Location location = entity.getLocation().clone();
+                    while (location.getBlock().getType() != Material.AIR) {
+                        location.add(0,0.15,0);
+                    }
+                    entity.teleport(location);
                 }
                 fireball.remove();
                 this.die();

@@ -2,12 +2,13 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
-import by.dero.gvh.nmcapi.CorrectFirework;
 import net.minecraft.server.v1_12_R1.EntityFireworks;
 import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftFirework;
-import org.bukkit.craftbukkit.v1_12_R1.event.CraftEventFactory;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -16,13 +17,22 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.UUID;
 
-import static by.dero.gvh.utils.DataUtils.spawnEntity;
 import static java.lang.Math.random;
 
 public class Drawings {
     private static final double dense = 3;
     private static final Vector randomVector = new Vector(random(), random(), random()).normalize();
-    private static final Random rnd = new Random();
+    
+    private static double[] COS = new double[10000];
+    private static double[] SIN = new double[10000];
+
+    public static double cos(final double angle) {
+        return COS[(int) Math.round(angle*1591.54943092)];
+    }
+
+    public static double sin(final double angle) {
+        return SIN[(int) Math.round(angle*1591.54943092)];
+    }
 
     public static Vector rotateAroundAxis(final Vector point, final Vector axis, double angle) throws IllegalArgumentException {
         return rotateAroundNonUnitAxis(point, axis.length() == 1 ? axis : axis.clone().normalize(), angle);
@@ -129,12 +139,21 @@ public class Drawings {
     };
 
     public static void spawnFirework(final Location loc, final int amount) {
+        for (int i = 0; i < amount; i++) {
+            CraftWorld world = (CraftWorld) loc.getWorld();
+            EntityFireworks fw = new EntityFireworks(world.world);
+            fw.setPosition(loc.getX(), loc.getY(), loc.getZ());
+            fw.expectedLifespan = 2;
+            fw.noclip = true;
 
-        CorrectFirework correctFirework = new CorrectFirework(loc);
-        ((CraftFirework)correctFirework.getBukkitEntity()).get
-        correctFirework.spawn();
+            CraftItemStack item = ((CraftFirework) fw.getBukkitEntity()).item;
+            FireworkMeta meta = (FireworkMeta) item.getItemMeta();
+            meta.setPower(2);
+            meta.addEffect(FireworkEffect.builder().withColor(Color.LIME).flicker(true).build());
+            item.setItemMeta(meta);
 
-        fw.detonate();
+            world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        }
     }
 
     public static Vector getInCphere(final Vector center,
