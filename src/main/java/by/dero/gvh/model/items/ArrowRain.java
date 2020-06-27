@@ -57,7 +57,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
                 final Location shooter = randomCylinder(center, radius, 0);
                 final List<Location> targets = new ArrayList<>();
                 for (LivingEntity obj : getNearby(center, radius)) {
-                    if (isEnemy(obj, getTeam())) {
+                    if (isEnemy(obj, team)) {
                         targets.add(obj.getLocation().clone());
                     }
                 }
@@ -65,7 +65,7 @@ public class ArrowRain extends Item implements UltimateInterface, Listener {
                     Arrow arrow = center.getWorld().spawnArrow(shooter,
                             obj.toVector().subtract(shooter.toVector()).normalize(),
                             4F, 1);
-                    arrow.setShooter(getOwner());
+                    arrow.setShooter(owner);
                     new BukkitRunnable() {
                         @Override
                         public void run() {

@@ -13,8 +13,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import static by.dero.gvh.utils.DataUtils.isEnemy;
-import static by.dero.gvh.utils.DataUtils.spawnProjectile;
+import static by.dero.gvh.utils.DataUtils.*;
 
 public class MagnetizeOrb extends Item implements ProjectileHitInterface,
         InfiniteReplenishInterface, PlayerInteractInterface {
@@ -28,8 +27,8 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface,
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity proj = event.getEntity();
         final Location loc = proj.getLocation();
-        for (final Entity obj : proj.getNearbyEntities(radius, radius, radius)) {
-            if (isEnemy(obj, getTeam()) && loc.distance(obj.getLocation()) <= radius) {
+        for (final Entity obj : getNearby(proj.getLocation(), radius)) {
+            if (isEnemy(obj, team)) {
                 final Vector add = loc.toVector().subtract(obj.getLocation().toVector());
                 final double force = Math.log(add.length()) / Math.log(2);
                 obj.setVelocity(obj.getVelocity().add(add.normalize().multiply(force)));

@@ -43,14 +43,14 @@ public class FireSplash extends Item implements PlayerInteractInterface {
         for (final Player otherPlayer : Bukkit.getOnlinePlayers()) {
             final Location other = otherPlayer.getLocation();
             for (final Location at : locs) {
-                if (stroke.contains(otherPlayer.getUniqueId()) || !isEnemy(otherPlayer, getTeam())) {
+                if (stroke.contains(otherPlayer.getUniqueId()) || !isEnemy(otherPlayer, team)) {
                     break;
                 }
                 if (other.getY() <= at.getY() && at.getY() <= other.getY() + 2) {
                     final double dst = sqrt((other.getX() - at.getX()) * (other.getX() - at.getX()) +
                                         (other.getZ() - at.getZ()) * (other.getZ() - at.getZ()));
                     if (dst < 1) {
-                        damage(damage, otherPlayer, getOwner());
+                        damage(damage, otherPlayer, owner);
                         stroke.add(otherPlayer.getUniqueId());
                     }
                 }

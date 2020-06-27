@@ -71,7 +71,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                     Location loc = obj.getLocation();
                     loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 3);
                     for (LivingEntity ent : getNearby(loc, 5)) {
-                        damage(force, ent, getOwner());
+                        damage(force, ent, owner);
                     }
                     this.cancel();
                     return;

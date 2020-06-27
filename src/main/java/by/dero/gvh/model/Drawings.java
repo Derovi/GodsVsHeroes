@@ -81,7 +81,7 @@ public class Drawings {
         while (true) {
             a.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(a.getWorld(), cur.getX(), cur.getY(), cur.getZ()),
-                    0, red, green, blue);
+                    0, red, green, blue, 0);
 
             if (cur.equals(to)) {
                 break;
@@ -294,7 +294,7 @@ public class Drawings {
             at.add(center.toVector());
             loc.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(center.getWorld(), at.getX(), at.getY(), at.getZ()),
-                    0, red, green, blue);
+                    0, red, green, blue, 0);
         }
     }
 
@@ -351,11 +351,11 @@ public class Drawings {
     public static void addTrail(final Projectile proj) {
         final HashSet<UUID> projectiles = Minigame.getInstance().getGameEvents().getProjectiles();
         projectiles.add(proj.getUniqueId());
+        final Random rnd = new Random();
+        final int red = rnd.nextInt(256);
+        final int green = rnd.nextInt(256);
+        final int blue = rnd.nextInt(256);
         new BukkitRunnable() {
-            final Random rnd = new Random();
-            final int red = rnd.nextInt(256);
-            final int green = rnd.nextInt(256);
-            final int blue = rnd.nextInt(256);
             @Override
             public void run() {
                 if (!projectiles.contains(proj.getUniqueId())) {
@@ -363,7 +363,7 @@ public class Drawings {
                 }
                 final Location loc = proj.getLocation();
                 loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(),
-                        0, red, green, blue, 1);
+                        0, red, green, blue, 0);
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 1);
     }

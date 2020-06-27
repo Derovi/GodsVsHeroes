@@ -42,7 +42,6 @@ public abstract class Game implements Listener {
     }
 
     private static Game instance;
-    private ChargesManager chargesManager;
     private GameLobby lobby;
     private AfterParty afterParty;
     private final GameInfo info;
@@ -110,7 +109,7 @@ public abstract class Game implements Listener {
             lootsManager.spawn(pos.toLocation(getInfo().getWorld()), "aid");
         }
 
-        chargesManager = new ChargesManager();
+        new ChargesManager();
     }
 
     public void onPlayerKilled(Player player, LivingEntity killer) {
@@ -317,10 +316,6 @@ public abstract class Game implements Listener {
 
     public HashMap<String, Location> getPlayerDeathLocations() {
         return playerDeathLocations;
-    }
-
-    public RewardManager getRewardManager() {
-        return rewardManager;
     }
 
     public GameLobby getLobby() {

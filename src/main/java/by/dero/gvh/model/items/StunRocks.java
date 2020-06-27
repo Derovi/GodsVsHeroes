@@ -27,7 +27,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onProjectileHitEnemy(ProjectileHitEvent event) {
-        if (isEnemy(event.getHitEntity(), getTeam())) {
+        if (isEnemy(event.getHitEntity(), team)) {
             Stun.stunEntity((LivingEntity) event.getHitEntity(), duration);
         }
     }
@@ -37,7 +37,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
         final Location loc = event.getEntity().getLocation();
         loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 1);
         for (final LivingEntity entity : getNearby(event.getEntity().getLocation(), 1.5)) {
-            if (isEnemy(entity, getTeam())) {
+            if (isEnemy(entity, team)) {
                 Stun.stunEntity(entity, duration);
             }
         }

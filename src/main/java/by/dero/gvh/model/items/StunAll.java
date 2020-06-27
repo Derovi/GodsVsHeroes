@@ -28,10 +28,10 @@ public class StunAll extends Item implements UltimateInterface {
     @Override
     public void drawSign(Location loc) {
         for (double hei = 0; hei < radius; hei += 0.3) {
-            spawnMovingCircle(loc.clone(), latency, radius, 2,0, Particle.FLAME, getOwner().getWorld());
+            spawnMovingCircle(loc.clone(), latency, radius, 2,0, Particle.FLAME, owner.getWorld());
             loc = loc.add(0, 0.3, 0);
         }
-        spawnMovingCircle(loc.clone(), latency, radius, 4,0, Particle.FLAME, getOwner().getWorld());
+        spawnMovingCircle(loc.clone(), latency, radius, 4,0, Particle.FLAME, owner.getWorld());
     }
 
     @Override
@@ -43,7 +43,7 @@ public class StunAll extends Item implements UltimateInterface {
         cooldown.reload();
         drawSign(p.getLocation().clone());
         for (final LivingEntity ot : getNearby(p.getLocation(), radius)) {
-            if (isEnemy(ot, getTeam())) {
+            if (isEnemy(ot, team)) {
                 Stun.stunEntity(ot, latency);
             }
         }

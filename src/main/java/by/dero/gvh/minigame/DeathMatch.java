@@ -29,10 +29,6 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
     private int[] currentLivesCount;
 
-    public int[] getRespawning() {
-        return respawning;
-    }
-
     private int[] respawning;
 
     public DeathMatch(GameInfo info, DeathMatchInfo deathMatchInfo) {
@@ -55,18 +51,10 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     public void setDisplays() {
         for (final GamePlayer gp : getPlayers().values()) {
             final Board board = new Board(Lang.get("game.livesLeft"),currentLivesCount.length + 1);
-            gp.setBoard(board);
             final Scoreboard sb = board.getScoreboard();
             for (int team = 0; team < currentLivesCount.length; team++) {
                 final String t = team + "hp";
-                if (sb.getTeam(t) != null) {
-                    sb.getTeam(t).unregister();
-                }
-                sb.registerNewTeam(t).setColor(
-                        ChatColor.getByChar(Lang.get("commands." + (char)('1' + team)).charAt(1)));
-            }
-            if (sb.getObjective("health") != null) {
-                sb.getObjective("health").unregister();
+                sb.registerNewTeam(t).setPrefix(Lang.get("commands." + (char)('1' + team)).substring(0, 2));
             }
             final Objective obj = sb.registerNewObjective("health", "health");
             obj.setDisplayName("§c❤");
@@ -76,6 +64,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
                 final String name = othergp.getPlayer().getName();
                 sb.getTeam(othergp.getTeam() + "hp").addEntry(name);
             }
+            gp.setBoard(board);
         }
     }
 
@@ -112,10 +101,6 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
         setDisplays();
         updateDisplays();
-    }
-
-    public DeathMatchInfo getDeathMatchInfo() {
-        return deathMatchInfo;
     }
 
     @Override

@@ -32,7 +32,7 @@ public class HealPotion extends Item implements ProjectileHitInterface,
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();
         for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
-            if (isAlly(ent, getTeam())) {
+            if (isAlly(ent, team)) {
                 final double hp = Math.min(ent.getHealth() + heal,
                         ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 ent.setHealth(hp);

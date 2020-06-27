@@ -29,7 +29,7 @@ public class PoisonPotion extends Item implements InfiniteReplenishInterface,
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();
         for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
-            if (isEnemy(ent, getTeam())) {
+            if (isEnemy(ent, team)) {
                 new PotionEffect(PotionEffectType.POISON, latency, 1).apply(ent);
             }
         }

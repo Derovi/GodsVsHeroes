@@ -32,7 +32,6 @@ public class SuicideJump extends Item implements PlayerInteractInterface, Projec
         }
         cooldown.reload();
         final Projectile proj = spawnProjectile(player.getEyeLocation(), 0.8, EntityType.SNOWBALL, player);
-        ((CraftProjectile) proj).getHandle().noclip = true;
         summonedEntityIds.add(proj.getUniqueId());
         proj.addPassenger(player);
     }

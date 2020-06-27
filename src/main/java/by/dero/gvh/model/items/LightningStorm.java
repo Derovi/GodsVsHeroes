@@ -6,6 +6,7 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.LightningStormInfo;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
@@ -76,11 +77,9 @@ public class LightningStorm extends Item implements UltimateInterface {
             final Location center = player.getLocation().clone();
             @Override
             public void run() {
-                final List<LivingEntity> near = getNearby(center, radius);
-
-                for (final LivingEntity obj : near) {
-                    if (isEnemy(obj, getTeam())) {
-                        setLastUsedLightning(getOwner());
+                for (final LivingEntity obj : getNearby(center, radius)) {
+                    if (isEnemy(obj, team)) {
+                        setLastUsedLightning(owner);
                         center.getWorld().strikeLightning(obj.getLocation());
                     }
                 }
