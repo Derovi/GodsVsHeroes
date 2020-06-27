@@ -1,23 +1,13 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.nmcapi.CorrectFirework;
+import by.dero.gvh.nmcapi.InstantFirework;
 import by.dero.gvh.nmcapi.throwing.GravityFireball;
-import by.dero.gvh.nmcapi.throwing.ThrowingAxe;
-import by.dero.gvh.nmcapi.throwing.ThrowingItem;
-import by.dero.gvh.nmcapi.throwing.ThrowingSword;
-import net.minecraft.server.v1_12_R1.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_12_R1.Vector3f;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftSnowball;
 import org.bukkit.entity.*;
-import org.bukkit.util.Vector;
+import org.bukkit.inventory.meta.FireworkMeta;
 
 public class TestCommand implements CommandExecutor {
     @Override
@@ -25,14 +15,19 @@ public class TestCommand implements CommandExecutor {
                              Command command, String s, String[] strings) {
 
         Player player = (Player) commandSender;
-        //ThrowingSword sword = new ThrowingSword(player, Material.DIAMOND_SWORD);
-        //sword.spawn();
-        /*GravityFireball gravityFireball = new GravityFireball(player.getEyeLocation().add(new Vector(0,0.5,0)));
+
+
+
+        /*InstantFirework correctFirework = new InstantFirework(player.getLocation().clone().add(0,5,0));
+        FireworkMeta fwm = correctFirework.getMeta();
+        fwm.setPower(2);
+        fwm.addEffect(FireworkEffect.builder().withColor(Color.LIME).flicker(true).build());
+        correctFirework.setMeta(fwm);
+        correctFirework.spawn();*/
+        GravityFireball gravityFireball = new GravityFireball(player.getLocation());
+        gravityFireball.addPassenger(player);
+        gravityFireball.setVelocity(player.getLocation().getDirection().normalize().multiply(1.3));
         gravityFireball.spawn();
-        gravityFireball.setVelocity(player.getLocation().getDirection());
-        gravityFireball.addPassenger(player);*/
-        CorrectFirework correctFirework = new CorrectFirework(player.getLocation());
-        correctFirework.spawn();
         return true;
     }
 }
