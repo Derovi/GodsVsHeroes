@@ -4,6 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.EagleVisionInfo;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -66,12 +67,12 @@ public class EagleVision extends Item implements UltimateInterface {
             double r = 1, addAngle = 0;
             @Override
             public void run() {
-                for (double angle = addAngle; angle < Math.PI * 2 + addAngle; angle += Math.PI * 2 / particleDense) {
+                for (double angle = addAngle; angle < MathUtils.PI2 + addAngle; angle += Math.PI * 2 / particleDense) {
                     Objects.requireNonNull(loc.getWorld()).spawnParticle(searchParticle, new Location(
                             loc.getWorld(),
-                            loc.getX() + r * Math.cos(angle),
+                            loc.getX() + r * MathUtils.cos(angle),
                             loc.getY(),
-                            loc.getZ() + r * Math.sin(angle)
+                            loc.getZ() + r * MathUtils.sin(angle)
                     ), 1,0,0,0,0);
                 }
 

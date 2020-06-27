@@ -1,6 +1,7 @@
 package by.dero.gvh.nmcapi.throwing;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
@@ -84,10 +85,10 @@ public class ThrowingItem extends EntityArmorStand {
             double rotX = armorStand.getLocation().getPitch();
             double rotY = rightArmPose.x;
             Vector vector = new Vector();
-            vector.setY(-Math.sin(Math.toRadians(rotY)));
-            double xz = Math.cos(Math.toRadians(rotY));
-            vector.setX(-xz * Math.sin(Math.toRadians(rotX)));
-            vector.setZ(xz * Math.cos(Math.toRadians(rotX)));
+            vector.setY(-MathUtils.sin(Math.toRadians(rotY)));
+            double xz = MathUtils.cos(Math.toRadians(rotY));
+            vector.setX(-xz * MathUtils.sin(Math.toRadians(rotX)));
+            vector.setZ(xz * MathUtils.cos(Math.toRadians(rotX)));
             vector.normalize();
             return new Position(locX - zDir / 2 + vector.getX() * itemLength,
                     locY + 1 + vector.getY() * itemLength,
@@ -162,10 +163,10 @@ public class ThrowingItem extends EntityArmorStand {
             double rotX = armorStand.getLocation().getPitch();
             double rotY = rightArmPose.x;
             Vector vector = new Vector();
-            vector.setY(-Math.sin(Math.toRadians(rotY)));
-            double xz = Math.cos(Math.toRadians(rotY));
-            vector.setX(-xz * Math.sin(Math.toRadians(rotX)));
-            vector.setZ(xz * Math.cos(Math.toRadians(rotX)));
+            vector.setY(-MathUtils.sin(Math.toRadians(rotY)));
+            double xz = MathUtils.cos(Math.toRadians(rotY));
+            vector.setX(-xz * MathUtils.sin(Math.toRadians(rotX)));
+            vector.setZ(xz * MathUtils.cos(Math.toRadians(rotX)));
             vector.normalize();
             vector.multiply(itemLength * center);
             System.out.println("Vec " + vector.getX() + ' ' + vector.getY() + ' ' + vector.getZ());

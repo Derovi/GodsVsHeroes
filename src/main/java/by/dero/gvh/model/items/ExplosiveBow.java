@@ -5,6 +5,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -19,7 +20,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static by.dero.gvh.model.Drawings.rotateAroundAxis;
 import static by.dero.gvh.utils.DataUtils.damage;
 import static by.dero.gvh.utils.DataUtils.getNearby;
 import static java.lang.Math.random;
@@ -54,13 +54,13 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
             @Override
             public void run() {
                 Vector dir = obj.getLocation().getDirection();
-                Vector at = rotateAroundAxis(st.clone().crossProduct(dir), dir, ticks * Math.PI / 8).multiply(2);
+                Vector at = MathUtils.rotateAroundAxis(st.clone().crossProduct(dir), dir, ticks * Math.PI / 8).multiply(2);
                 at.add(obj.getLocation().toVector());
                 player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK,
                         new Location(obj.getWorld(), at.getX(), at.getY(), at.getZ()),
                         1,0,0,0,0);
                 at.subtract(obj.getLocation().toVector());
-                rotateAroundAxis(at, dir, Math.PI);
+                MathUtils.rotateAroundAxis(at, dir, Math.PI);
                 at.add(obj.getLocation().toVector());
                 player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK,
                         new Location(obj.getWorld(), at.getX(), at.getY(), at.getZ()),

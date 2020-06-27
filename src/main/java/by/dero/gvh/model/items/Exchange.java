@@ -1,16 +1,16 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ExchangeInfo;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static by.dero.gvh.model.Drawings.drawCircleInFront;
-import static by.dero.gvh.model.Drawings.randomCylinder;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class Exchange extends Item implements PlayerInteractInterface {
@@ -24,14 +24,14 @@ public class Exchange extends Item implements PlayerInteractInterface {
     public void drawSign(final LivingEntity player) {
         double radius = 0.7;
         for (int ticks = 0; ticks < 5; ticks++) {
-            drawCircleInFront(player.getEyeLocation(), radius, 3, 5, Particle.PORTAL);
+            Drawings.drawCircleInFront(player.getEyeLocation(), radius, 3, 5, Particle.PORTAL);
             radius += 0.3;
         }
 
-        drawCircleInFront(player.getEyeLocation(), radius, 3, 20, Particle.PORTAL);
+        Drawings.drawCircleInFront(player.getEyeLocation(), radius, 3, 20, Particle.PORTAL);
         for (int i = 0; i < parts; i++) {
             player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,
-                    randomCylinder(player.getLocation(), 1.3, -2), 0);
+                    MathUtils.randomCylinder(player.getLocation(), 1.3, -2), 0);
         }
     }
 

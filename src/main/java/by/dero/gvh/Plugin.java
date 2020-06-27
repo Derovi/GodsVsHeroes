@@ -8,6 +8,7 @@ import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
 import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import org.bukkit.*;
@@ -81,6 +82,7 @@ public class Plugin extends JavaPlugin implements Listener {
         }
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(Plugin.getInstance(), "BungeeCord");
         Bukkit.getPluginManager().registerEvents(this, this);
+        new MathUtils();
     }
 
     @Override

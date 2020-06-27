@@ -6,7 +6,7 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.LightningStormInfo;
-import org.bukkit.Bukkit;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
@@ -14,10 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-
-import java.util.List;
-
-import static by.dero.gvh.model.Drawings.*;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class LightningStorm extends Item implements UltimateInterface {
@@ -48,9 +44,9 @@ public class LightningStorm extends Item implements UltimateInterface {
                 for (int st = 0; st < 2; st ++) {
                     cur.add(0,4,0);
                     Drawings.drawCircle(cur, signRadius[st], drawParticle);
-                    for (double angle = startAngle; angle < Math.PI * 2; angle += Math.PI / 2.5) {
-                        drawLine(getInCircle(cur, signRadius[st], angle),
-                                getInCircle(cur, signRadius[st], angle + Math.PI * 0.8),
+                    for (double angle = startAngle; angle < MathUtils.PI2; angle += Math.PI / 2.5) {
+                        Drawings.drawLine(MathUtils.getInCircle(cur, signRadius[st], angle),
+                                MathUtils.getInCircle(cur, signRadius[st], angle + Math.PI * 0.8),
                                 drawParticle);
                     }
                     startAngle += Math.PI / 5;

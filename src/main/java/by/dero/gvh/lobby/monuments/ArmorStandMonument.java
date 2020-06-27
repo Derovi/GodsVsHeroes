@@ -1,12 +1,12 @@
 package by.dero.gvh.lobby.monuments;
 
-import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -17,7 +17,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.dero.gvh.model.Drawings.drawCircle;
 import static by.dero.gvh.model.Drawings.spawnMovingCircle;
 
 public class ArmorStandMonument extends Monument {
@@ -39,14 +38,14 @@ public class ArmorStandMonument extends Monument {
             public void run() {
                 final PlayerInfo info = Lobby.getInstance().getPlayers().get(getOwner().getName()).getPlayerInfo();
                 if (!info.isClassUnlocked(getClassName())) {
-                    final double zxc = Math.cos(Math.toRadians(70)) * 1.5;
-                    spawnMovingCircle(st.clone().add(0, -0.15,0),
+                    final double zxc = MathUtils.cos(Math.toRadians(70)) * 1.5;
+                    spawnMovingCircle(st.clone().add(0, -0.15, 0),
                             1, zxc, 3, 0, Particle.FLAME, getOwner());
 
-                    spawnMovingCircle(st.clone().add(0, -1,0),
+                    spawnMovingCircle(st.clone().add(0, -1, 0),
                             1, zxc, 3, 0, Particle.FLAME, getOwner());
 
-                    spawnMovingCircle(st.clone().add(0, -1.85,0),
+                    spawnMovingCircle(st.clone().add(0, -1.85, 0),
                             1, zxc, 3, 0, Particle.FLAME, getOwner());
                     unlocktime = 240;
                 } else
@@ -55,18 +54,26 @@ public class ArmorStandMonument extends Monument {
                 } else
                 if (info.getSelectedClass().equals(getClassName())) {
                     getOwner().spawnParticle(Particle.DRAGON_BREATH,
-                            st.clone().add(Math.cos(angle)*radius, 0, Math.sin(angle)*radius),
-                            0,0,-0.05,0);
+                            st.clone().add(MathUtils.cos(angle) * radius,
+                                    0,
+                                    MathUtils.sin(angle) * radius),
+                            0, 0, -0.04, 0);
                     getOwner().spawnParticle(Particle.DRAGON_BREATH,
-                            st.clone().add(Math.cos(angle + Math.PI)*radius, 0, Math.sin(angle + Math.PI)*radius),
-                            0,0, -0.05,0);
+                            st.clone().add(MathUtils.cos(angle + Math.PI) * radius,
+                                    0,
+                                    MathUtils.sin(angle + Math.PI) * radius),
+                            0, 0, -0.04, 0);
                 } else {
                     getOwner().spawnParticle(Particle.FIREWORKS_SPARK,
-                            st.clone().add(Math.cos(angle)*radius, 0, Math.sin(angle)*radius),
-                            0,0,0,0);
+                            st.clone().add(MathUtils.cos(angle) * radius,
+                                    0,
+                                    MathUtils.sin(angle) * radius),
+                            0, 0, 0, 0);
                     getOwner().spawnParticle(Particle.FIREWORKS_SPARK,
-                            st.clone().add(Math.cos(angle + Math.PI)*radius, 0, Math.sin(angle + Math.PI)*radius),
-                            0,0, 0,0);
+                            st.clone().add(MathUtils.cos(angle + Math.PI) * radius,
+                                    0,
+                                    MathUtils.sin(angle + Math.PI) * radius),
+                            0, 0, 0, 0);
                 }
                 angle += Math.PI * turnPerSec / 5;
             }

@@ -6,6 +6,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.BungeeUtils;
 import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -23,7 +24,6 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-import static by.dero.gvh.model.Drawings.randomCylinder;
 import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.MessagingUtils.sendActionBar;
 import static by.dero.gvh.utils.MessagingUtils.sendTitle;
@@ -166,7 +166,7 @@ public abstract class Game implements Listener {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                spawnFirework(randomCylinder(
+                spawnFirework(MathUtils.randomCylinder(
                         getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
                         25, -10
                 ), 3);
