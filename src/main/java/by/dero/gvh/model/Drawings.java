@@ -2,6 +2,7 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.nmcapi.CorrectFirework;
 import net.minecraft.server.v1_12_R1.EntityFireworks;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftFirework;
@@ -128,14 +129,10 @@ public class Drawings {
     };
 
     public static void spawnFirework(final Location loc, final int amount) {
-        CraftFirework fw = (CraftFirework) spawnEntity(loc, EntityType.FIREWORK);
-        loc.getWorld().playEffect(loc, Effect.FIREWORK_SHOOT, 2);
-        FireworkMeta fwm = fw.getFireworkMeta();
-        fwm.setPower(2);
-        fwm.addEffect(FireworkEffect.builder().withColor(Color.LIME).flicker(true).build());
-        fw.item.setItemMeta(fwm);
-        EntityFireworks handle = (EntityFireworks) fw.entity;
-        handle
+
+        CorrectFirework correctFirework = new CorrectFirework(loc);
+        ((CraftFirework)correctFirework.getBukkitEntity()).get
+        correctFirework.spawn();
 
         fw.detonate();
     }

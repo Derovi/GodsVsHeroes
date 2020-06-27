@@ -24,7 +24,7 @@ public class CorrectFirework extends EntityFireworks {
         super.B_();
         if (this.j()) {
             if (this.e == null) {
-                Entity entity = this.world.getEntity((Integer)this.datawatcher.get(b));
+                Entity entity = this.world.getEntity(this.datawatcher.get(b));
                 if (entity instanceof EntityLiving) {
                     this.e = (EntityLiving)entity;
                 }
@@ -56,7 +56,7 @@ public class CorrectFirework extends EntityFireworks {
         float f = MathHelper.sqrt(this.motX * this.motX + this.motZ * this.motZ);
         this.yaw = (float)(MathHelper.c(this.motX, this.motZ) * 57.2957763671875D);
 
-        for(this.pitch = (float)(MathHelper.c(this.motY, (double)f) * 57.2957763671875D); this.pitch - this.lastPitch < -180.0F; this.lastPitch -= 360.0F) {
+        for(this.pitch = (float)(MathHelper.c(this.motY, f) * 57.2957763671875D); this.pitch - this.lastPitch < -180.0F; this.lastPitch -= 360.0F) {
         }
 
         while(this.pitch - this.lastPitch >= 180.0F) {
@@ -74,20 +74,22 @@ public class CorrectFirework extends EntityFireworks {
         this.pitch = this.lastPitch + (this.pitch - this.lastPitch) * 0.2F;
         this.yaw = this.lastYaw + (this.yaw - this.lastYaw) * 0.2F;
         if (this.ticksFlown == 0 && !this.isSilent()) {
-            this.world.a((EntityHuman)null, this.locX, this.locY, this.locZ, SoundEffects.bI, SoundCategory.AMBIENT, 3.0F, 1.0F);
+            this.world.a(null, this.locX, this.locY, this.locZ, SoundEffects.bI, SoundCategory.AMBIENT, 3.0F, 1.0F);
         }
 
         ++this.ticksFlown;
         if (this.world.isClientSide) {
-            this.world.addParticle(EnumParticle.FIREWORKS_SPARK, this.locX, this.locY - 0.3D, this.locZ, this.random.nextGaussian() * 0.05D, -this.motY * 0.5D, this.random.nextGaussian() * 0.05D, new int[0]);
+            this.world.addParticle(EnumParticle.FIREWORKS_SPARK,
+                    this.locX, this.locY - 0.3D, this.locZ,
+                    this.random.nextGaussian() * 0.05D,
+                    -this.motY * 0.5D,
+                    this.random.nextGaussian() * 0.05D);
         }
 
-        if (!this.world.isClientSide && this.ticksFlown > this.expectedLifespan) {
-            if (!CraftEventFactory.callFireworkExplodeEvent(this).isCancelled()) {
-                this.world.broadcastEntityEffect(this, (byte)17);
-                this.k();
-            }
-            this.die();
+        if (!CraftEventFactory.callFireworkExplodeEvent(this).isCancelled()) {
+            this.world.broadcastEntityEffect(this, (byte)17);
+            this.k();
         }
+        this.die();
     }
 }
