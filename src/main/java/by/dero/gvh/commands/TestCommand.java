@@ -1,5 +1,6 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.nmcapi.CorrectFirework;
 import by.dero.gvh.nmcapi.throwing.GravityFireball;
 import by.dero.gvh.nmcapi.throwing.ThrowingAxe;
 import by.dero.gvh.nmcapi.throwing.ThrowingItem;
@@ -24,10 +25,14 @@ public class TestCommand implements CommandExecutor {
                              Command command, String s, String[] strings) {
 
         Player player = (Player) commandSender;
-        GravityFireball gravityFireball = new GravityFireball(player.getEyeLocation().add(new Vector(0,0.5,0)));
+        //ThrowingSword sword = new ThrowingSword(player, Material.DIAMOND_SWORD);
+        //sword.spawn();
+        /*GravityFireball gravityFireball = new GravityFireball(player.getEyeLocation().add(new Vector(0,0.5,0)));
         gravityFireball.spawn();
         gravityFireball.setVelocity(player.getLocation().getDirection());
-        gravityFireball.addPassenger(player);
+        gravityFireball.addPassenger(player);*/
+        CorrectFirework correctFirework = new CorrectFirework(player.getLocation());
+        correctFirework.spawn();
         return true;
     }
 }
