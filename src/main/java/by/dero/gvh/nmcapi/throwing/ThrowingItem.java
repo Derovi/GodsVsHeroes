@@ -201,7 +201,7 @@ public class ThrowingItem extends EntityArmorStand {
                 }
                 break;
             }
-            Collection<Entity> entities = armorStand.getLocation().getWorld().getNearbyEntities(itemLocation, 0.05, 0.25, 0.05);
+            Collection<Entity> entities = itemLocation.getWorld().getNearbyEntities(itemLocation, 0.05, 2, 0.05);
             for (Entity entity : entities) {
                 if (entity.getUniqueId().equals(getUniqueID())) {
                     continue;

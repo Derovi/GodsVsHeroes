@@ -25,7 +25,6 @@ public class AfterParty {
         final Location loc = game.getInfo().getLobbyPosition().toLocation(game.getInfo().getWorld());
 
         game.getStats().spawnStats(loc.clone().add(0, 2, 4));
-        Bukkit.getServer().broadcastMessage(loc.clone().add(0, 2, 4).toVector().toString());
         for (GamePlayer gp : game.getPlayers().values()) {
             final Player player = gp.getPlayer();
             player.teleport(loc);
