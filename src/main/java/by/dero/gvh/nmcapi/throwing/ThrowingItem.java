@@ -120,7 +120,9 @@ public class ThrowingItem extends EntityArmorStand {
 
     public void remove() {
         removed = true;
-        armorStand.remove();
+        if (!armorStand.isDead()) {
+            armorStand.remove();
+        }
     }
 
     public boolean isRemoved() {
