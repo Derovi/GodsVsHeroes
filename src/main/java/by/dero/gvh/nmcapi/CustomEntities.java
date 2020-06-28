@@ -7,9 +7,10 @@ import org.bukkit.entity.EntityType;
 
 public enum CustomEntities {
 
-    SMART_ARMOR_STAND("ThrowingItem", 54, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingItem.class),
-    GRAVITY_FIRE_BALL("GravityFireBall", 55, EntityType.ARMOR_STAND, EntityArmorStand.class, GravityFireball.class),
-    CORRECT_FIREWORK("CorrectFirework", 56, EntityType.FIREWORK, EntityFireworks.class, InstantFirework.class);
+    SMART_ARMOR_STAND("ThrowingItem", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingItem.class),
+    GRAVITY_FIRE_BALL("GravityFireBall", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, GravityFireball.class),
+    CORRECT_FIREWORK("CorrectFirework", 22, EntityType.FIREWORK, EntityFireworks.class, InstantFirework.class),
+    PASSIVE_CHICKEN("PassiveChicken", 93, EntityType.CHICKEN, EntityChicken.class, PassiveChicken.class);
 
     private final String name;
     private final int id;
