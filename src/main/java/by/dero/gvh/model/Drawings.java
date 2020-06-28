@@ -79,7 +79,7 @@ public class Drawings {
     }
 
     private static final Color[] colors = new Color[] {
-        Color.AQUA, Color.BLUE, Color.FUCHSIA, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY,
+        Color.AQUA, Color.BLUE, Color.FUCHSIA, Color.LIME, Color.MAROON, Color.NAVY,
         Color.OLIVE, Color.ORANGE, Color.WHITE, Color.YELLOW, Color.SILVER, Color.RED, Color.PURPLE
     };
 
@@ -94,7 +94,8 @@ public class Drawings {
             CraftItemStack item = ((CraftFirework) fw.getBukkitEntity()).item;
             FireworkMeta meta = (FireworkMeta) item.getItemMeta();
             meta.setPower(2);
-            meta.addEffect(FireworkEffect.builder().withColor(Color.LIME).flicker(true).build());
+            meta.addEffect(FireworkEffect.builder().withColor(
+                    colors[(int)(Math.random()*colors.length)]).flicker(true).build());
             item.setItemMeta(meta);
 
             world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
