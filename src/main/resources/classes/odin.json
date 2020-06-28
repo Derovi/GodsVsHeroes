@@ -3,13 +3,13 @@
   "maxHP": 40,
   "cost": 1000,
   "itemNames": [
-    "defaultaxe",
     "chainlightning",
     "healpotion",
     "airleap",
     "swordthrow",
     "firespear",
     "dragonbreath",
+    "axethrow",
 
     "defaulthelmet",
     "defaultboots",
