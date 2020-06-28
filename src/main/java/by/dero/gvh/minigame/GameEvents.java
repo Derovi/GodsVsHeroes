@@ -104,7 +104,7 @@ public class GameEvents implements Listener {
                 }
             } else {
                 if (itemInHand instanceof InfiniteReplenishInterface) {
-                    if (!ChargesManager.getInstance().consume(player, itemInHand)) {
+                    if (!itemInHand.getCooldown().isReady() || !ChargesManager.getInstance().consume(player, itemInHand)) {
                         return;
                     }
                 }
