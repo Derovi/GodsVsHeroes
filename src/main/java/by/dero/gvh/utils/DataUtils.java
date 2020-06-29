@@ -4,7 +4,9 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
+import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.*;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
@@ -131,5 +133,16 @@ public class DataUtils {
             }
         }
         return target;
+    }
+
+    public static void setInvisibleFlags(ArmorStand stand) {
+        EntityArmorStand handle = ((CraftArmorStand) stand).getHandle();
+        handle.setCustomNameVisible(false);
+        handle.setNoGravity(true);
+        handle.setInvisible(true);
+        handle.canPickUpLoot = false;
+        handle.noclip = true;
+        handle.collides = false;
+        handle.invulnerable = true;
     }
 }

@@ -3,6 +3,7 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.utils.DataUtils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
@@ -61,10 +62,7 @@ public class LootsManager implements Listener {
         ArmorStand stand = (ArmorStand) at.getWorld().spawnEntity(
                 at.subtract(0, eyeHeight - 0.4, 0), EntityType.ARMOR_STAND);
 
-        stand.setGravity(false);
-        stand.setCanPickupItems(false);
-        stand.setCustomNameVisible(false);
-        stand.setVisible(false);
+        DataUtils.setInvisibleFlags(stand);
         stand.getEquipment().setHelmet(getHead(name));
         if (!loots.containsKey(name)) {
             loots.put(name, new ArrayList<>());
