@@ -15,7 +15,9 @@ public class GameInfo {
     private DirectedPosition[] winnerPositions;
     private DirectedPosition[] looserPositions;
     private DirectedPosition[] mapBorders;
-    private DirectedPosition[] aidPoints;
+    private DirectedPosition[] healPoints;
+    private DirectedPosition[] speedPoints;
+    private DirectedPosition[] resistancePoints;
 
     public int getFinishTime() {
         return finishTime;
@@ -105,11 +107,27 @@ public class GameInfo {
         this.mapBorders = mapBorders;
     }
 
-    public DirectedPosition[] getAidPoints() {
-        return aidPoints;
+    public DirectedPosition[] getHealPoints() {
+        return healPoints;
     }
 
-    public void setAidPoints(DirectedPosition[] aidPoints) {
-        this.aidPoints = aidPoints;
+    public void setHealPoints(DirectedPosition[] healPoints) {
+        this.healPoints = healPoints;
+    }
+
+    public DirectedPosition[] getSpeedPoints() {
+        return speedPoints;
+    }
+
+    public void setSpeedPoints(DirectedPosition[] speedPoints) {
+        this.speedPoints = speedPoints;
+    }
+
+    public DirectedPosition[] getResistancePoints() {
+        return resistancePoints;
+    }
+
+    public void setResistancePoints(DirectedPosition[] resistancePoints) {
+        this.resistancePoints = resistancePoints;
     }
 }

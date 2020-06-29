@@ -5,7 +5,9 @@ import org.bukkit.inventory.ItemStack;
 public enum Heads {
     YOUTUBE("ZDJmNmMwN2EzMjZkZWY5ODRlNzJmNzcyZWQ2NDU0NDlmNWVjOTZjNmNhMjU2NDk5YjVkMmI4NGE4ZGNlIn19fQ==","youtube"),
     CAT("Njk3NDljYTk1MjM4YjVhZjkzOTA3ZjkyNGYxZDU5MTVkZjc3MzFlZTgzYzE1YWM3NzZjYTgzMmM0M2U0MDYyIn19fQ==","cat"),
-    AID("ZjdjN2RmNTJiNWU1MGJhZGI2MWZlZDcyMTJkOTc5ZTYzZmU5NGYxYmRlMDJiMjk2OGM2YjE1NmE3NzAxMjZjIn19fQ==", "aid");
+    HEAL("ZjdjN2RmNTJiNWU1MGJhZGI2MWZlZDcyMTJkOTc5ZTYzZmU5NGYxYmRlMDJiMjk2OGM2YjE1NmE3NzAxMjZjIn19fQ==", "heal"),
+    RESISTANCE("MjUyNTU5ZjJiY2VhZDk4M2Y0YjY1NjFjMmI1ZjJiNTg4ZjBkNjExNmQ0NDY2NmNlZmYxMjAyMDc5ZDI3Y2E3NCJ9fX0=", "resistance"),
+    SPEED("M2Q2MWMzOGE1MmVjYjAxMjk5ZTFkNmZmMjM0NTFkYmMzMjE0NjdhZDJiZGM3YzZiMjU2ZGVkNzE1ZTVjMWQifX19", "speed");
 
     private ItemStack item;
     private String idTag;

@@ -78,8 +78,8 @@ public class GameEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (!(event.getAction().equals(Action.RIGHT_CLICK_AIR)) &&
-                !(event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+        if (event.getAction().equals(Action.LEFT_CLICK_AIR) ||
+            event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             event.setCancelled(true);
             return;
         }
