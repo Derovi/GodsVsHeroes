@@ -9,6 +9,7 @@ public class MathUtils {
     public static final double ANGTOIDX = 1.0 * CALCSIZE / PI2;
     public static final double IDXTOANG = 1 / ANGTOIDX;
     public static final Vector UPVECTOR  = new Vector(0, 1, 0);
+    public static final Vector DOWNVECTOR  = new Vector(0, -1, 0);
     public static final Vector ZEROVECTOR  = new Vector(0, 0, 0);
     private static final double[] COS = new double[CALCSIZE+1];
     private static final double[] SIN = new double[CALCSIZE+1];

@@ -63,10 +63,10 @@ public class FireSpear extends Item implements PlayerInteractInterface {
                 left.removeAll(rem);
                 rem.clear();
 
-                for (int i = 0; i < 6; i++) {
-                    drawCircleInFront(loc, i * 0.5, -i * 1.5, parts, Particle.FLAME);
+                for (int i = 0; i < 4; i++) {
+                    drawCircleInFront(loc, i * 0.2, -i * 0.6, parts, Particle.FLAME);
                 }
-                drawLine(loc, loc.clone().subtract(dlt.clone().multiply(Math.min(30, ticks))), Particle.END_ROD);
+                drawLine(loc, loc.clone().subtract(dlt.clone().multiply(Math.min(10, ticks))), Particle.END_ROD);
                 loc.add(dlt);
                 if (++ticks >= time) {
                     this.cancel();

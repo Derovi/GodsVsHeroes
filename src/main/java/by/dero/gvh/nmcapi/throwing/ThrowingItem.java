@@ -171,7 +171,6 @@ public class ThrowingItem extends EntityArmorStand {
             vector.setZ(xz * MathUtils.cos(Math.toRadians(rotX)));
             vector.normalize();
             vector.multiply(itemLength * center);
-            System.out.println("Vec " + vector.getX() + ' ' + vector.getY() + ' ' + vector.getZ());
 
             x = expX + vector.getX() - locX;
             y = expY + vector.getY() - locY;

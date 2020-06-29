@@ -67,6 +67,7 @@ public class Data {
         registerItem("firespear", FireSpearInfo.class, FireSpear.class);
         registerItem("swordthrow", SwordThrowInfo.class, SwordThrow.class);
         registerItem("axethrow", AxeThrowInfo.class, AxeThrow.class);
+        registerItem("meteor", MeteorInfo.class, Meteor.class);
     }
 
     private void registerClasses() {
