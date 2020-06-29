@@ -1,18 +1,15 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.PlayerInteractInterface;
-import by.dero.gvh.model.itemsinfo.AirLeapInfo;
+import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.ForceLeapInfo;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import static by.dero.gvh.model.Drawings.drawCircleInFront;
-
-public class ForceLeap extends Item implements PlayerInteractInterface {
+public class ForceLeap extends Item implements DoubleSpaceInterface {
     private final double force;
     private final int duration;
     public ForceLeap(String name, int level, Player owner) {
@@ -23,14 +20,13 @@ public class ForceLeap extends Item implements PlayerInteractInterface {
     }
 
     @Override
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
+    public void onDoubleSpace() {
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
-        drawCircleInFront(player.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
-        player.setVelocity(player.getLocation().getDirection().multiply(force));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration, 1));
+        Drawings.drawCircleInFront(owner.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
+        owner.setVelocity(owner.getLocation().getDirection().multiply(force));
+        owner.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration, 1));
     }
 }

@@ -71,7 +71,7 @@ public class DoubleSpaceListener implements Listener {
                 p.setAllowFlight(false);
                 event.setCancelled(true);
                 for (final DoubleSpaceInterface item : items) {
-                    item.onDoubleSpace(p);
+                    item.onDoubleSpace();
                 }
             }
         }
