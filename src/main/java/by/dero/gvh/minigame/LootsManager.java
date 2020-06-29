@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -37,7 +38,7 @@ public class LootsManager implements Listener {
 
     public LootsManager() {
         Bukkit.getPluginManager().registerEvents(this, Plugin.getInstance());
-        effects.put("heal", new PotionEffect(PotionEffectType.HEAL, Integer.MAX_VALUE, 10));
+        effects.put("heal", new PotionEffect(PotionEffectType.HEAL, 1, 10));
         effects.put("speed", new PotionEffect(PotionEffectType.SPEED, 400, 1));
         effects.put("resistance", new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 400, 2));
         final BukkitRunnable runnable = new BukkitRunnable() {
@@ -59,10 +60,11 @@ public class LootsManager implements Listener {
     }
 
     public void spawn(final Location at, final String name) {
-        ArmorStand stand = (ArmorStand) at.getWorld().spawnEntity(
+        CraftArmorStand stand = (CraftArmorStand) at.getWorld().spawnEntity(
                 at.subtract(0, eyeHeight - 0.4, 0), EntityType.ARMOR_STAND);
 
         DataUtils.setInvisibleFlags(stand);
+        stand.getHandle().setCustomNameVisible(false);
         stand.getEquipment().setHelmet(getHead(name));
         if (!loots.containsKey(name)) {
             loots.put(name, new ArrayList<>());
