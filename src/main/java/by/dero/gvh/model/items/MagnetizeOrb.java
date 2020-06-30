@@ -4,16 +4,14 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
-import by.dero.gvh.model.interfaces.ProjectileLaunchInterface;
 import by.dero.gvh.model.itemsinfo.MagnetizeOrbInfo;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import static by.dero.gvh.utils.DataUtils.*;
+import static by.dero.gvh.utils.GameUtils.*;
 
 public class MagnetizeOrb extends Item implements ProjectileHitInterface,
         InfiniteReplenishInterface, PlayerInteractInterface {

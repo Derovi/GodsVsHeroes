@@ -6,6 +6,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChaseEnemyInfo;
 import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.GameUtils;
 import com.google.common.base.Predicate;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
@@ -47,7 +48,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
         zombie.setPosition(loc.x, loc.y, loc.z);
 
         zombie.targetSelector.b.clear();
-        Predicate<EntityPlayer> pred = (pl) -> DataUtils.isEnemy(pl.getBukkitEntity(), getTeam());
+        Predicate<EntityPlayer> pred = (pl) -> GameUtils.isEnemy(pl.getBukkitEntity(), getTeam());
         zombie.targetSelector.a(0, new PathfinderGoalNearestAttackableTarget<EntityPlayer>(
                 zombie, EntityPlayer.class, 1, true, false, pred));
         setAttributes(zombie);
@@ -63,7 +64,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
                 ticks -= 5;
                 if (!owner.isOnline() || !owner.getGameMode().equals(GameMode.SURVIVAL) ||
                         ticks < 0 || zombie.passengers.isEmpty() ||
-                        DataUtils.getNearestEnemyPlayer(DataUtils.getPlayer(owner.getName())).
+                        GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).
                                 getPlayer().getLocation().distance(owner.getLocation()) < 2) {
                     zombie.die();
                     this.cancel();

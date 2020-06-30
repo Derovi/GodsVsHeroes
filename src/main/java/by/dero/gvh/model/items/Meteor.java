@@ -6,7 +6,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.MeteorInfo;
-import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.GameUtils;
 import net.minecraft.server.v1_12_R1.EntityLargeFireball;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -75,9 +75,9 @@ public class Meteor extends Item implements PlayerInteractInterface, ProjectileH
     public void onProjectileHit(ProjectileHitEvent event) {
         Location loc = event.getEntity().getLocation();
         owner.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 0, 0, 0, 0);
-        for (LivingEntity entity : DataUtils.getNearby(loc, radius)) {
-            if (DataUtils.isEnemy(entity, getTeam())) {
-                DataUtils.damage(damage, entity, owner);
+        for (LivingEntity entity : GameUtils.getNearby(loc, radius)) {
+            if (GameUtils.isEnemy(entity, getTeam())) {
+                GameUtils.damage(damage, entity, owner);
             }
         }
     }

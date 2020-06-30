@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import static by.dero.gvh.utils.DataUtils.*;
+import static by.dero.gvh.utils.GameUtils.*;
 
 public class PoisonPotion extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, PlayerInteractInterface {

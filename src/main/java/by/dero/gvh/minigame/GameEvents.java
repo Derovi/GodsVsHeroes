@@ -27,7 +27,7 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 import static by.dero.gvh.model.Drawings.addTrail;
-import static by.dero.gvh.utils.DataUtils.*;
+import static by.dero.gvh.utils.GameUtils.*;
 
 public class GameEvents implements Listener {
     public static void setGame(DeathMatch game) {

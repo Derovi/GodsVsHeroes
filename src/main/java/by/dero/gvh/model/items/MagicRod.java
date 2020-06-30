@@ -16,7 +16,7 @@ import org.bukkit.util.Vector;
 import java.util.HashSet;
 import java.util.UUID;
 
-import static by.dero.gvh.utils.DataUtils.*;
+import static by.dero.gvh.utils.GameUtils.*;
 
 public class MagicRod extends Item implements PlayerInteractInterface {
     private final double damage;

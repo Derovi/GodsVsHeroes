@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-import static by.dero.gvh.utils.DataUtils.getPlayer;
+import static by.dero.gvh.utils.GameUtils.getPlayer;
 
 public class Stats {
     private final HashMap<String, Integer> kills = new HashMap<>();

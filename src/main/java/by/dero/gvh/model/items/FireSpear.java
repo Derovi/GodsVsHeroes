@@ -6,7 +6,6 @@ import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.FireSpearInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -19,8 +18,8 @@ import java.util.HashSet;
 
 import static by.dero.gvh.model.Drawings.drawCircleInFront;
 import static by.dero.gvh.model.Drawings.drawLine;
-import static by.dero.gvh.utils.DataUtils.damage;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.GameUtils.damage;
+import static by.dero.gvh.utils.GameUtils.isEnemy;
 
 public class FireSpear extends Item implements PlayerInteractInterface {
     private final int parts = 6;
