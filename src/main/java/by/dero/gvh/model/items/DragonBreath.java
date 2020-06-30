@@ -5,7 +5,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.DragonBreathInfo;
-import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -14,8 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.GameUtils.getNearby;
+import static by.dero.gvh.utils.GameUtils.isEnemy;
 
 public class DragonBreath extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
@@ -53,7 +53,7 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
             a.setY(0);
             if (a.dot(b) / a.length() / b.length() >= cosSpread && isEnemy(entity, getTeam())) {
                 entity.setFireTicks(100);
-                DataUtils.damage(damage, entity, owner);
+                GameUtils.damage(damage, entity, owner);
             }
         }
     }

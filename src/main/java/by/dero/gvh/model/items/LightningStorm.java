@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import static by.dero.gvh.utils.DataUtils.*;
+import static by.dero.gvh.utils.GameUtils.*;
 
 public class LightningStorm extends Item implements UltimateInterface {
     private final double radius;

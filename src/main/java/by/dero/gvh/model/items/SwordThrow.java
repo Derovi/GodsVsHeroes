@@ -8,8 +8,7 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.SwordThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingSword;
-import by.dero.gvh.utils.DataUtils;
-import org.bukkit.Bukkit;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -37,8 +36,8 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
         final int slot = owner.getInventory().getHeldItemSlot();
         sword.spawn();
         sword.setOnHitEntity(() -> {
-            if (DataUtils.isEnemy(sword.getHoldEntity(), getTeam())) {
-                DataUtils.damage(damage, (LivingEntity) sword.getHoldEntity(), owner);
+            if (GameUtils.isEnemy(sword.getHoldEntity(), getTeam())) {
+                GameUtils.damage(damage, (LivingEntity) sword.getHoldEntity(), owner);
             }
         });
         sword.setOnOwnerPickUp(() -> {

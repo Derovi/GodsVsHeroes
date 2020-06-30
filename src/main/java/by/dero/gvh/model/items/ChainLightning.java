@@ -1,11 +1,9 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChainLightningInfo;
-import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -14,11 +12,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Random;
 import java.util.UUID;
 
 import static by.dero.gvh.model.Drawings.*;
-import static by.dero.gvh.utils.DataUtils.*;
+import static by.dero.gvh.utils.GameUtils.*;
 
 public class ChainLightning extends Item implements PlayerInteractInterface {
     private final double radius;

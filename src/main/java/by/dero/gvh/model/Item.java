@@ -2,7 +2,6 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -11,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-import static by.dero.gvh.utils.DataUtils.getPlayer;
+import static by.dero.gvh.utils.GameUtils.getPlayer;
 
 public class Item {
     protected final Player owner;

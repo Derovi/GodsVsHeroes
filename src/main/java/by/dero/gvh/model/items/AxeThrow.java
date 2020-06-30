@@ -8,7 +8,7 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.AxeThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingAxe;
-import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -36,8 +36,8 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
         final int slot = owner.getInventory().getHeldItemSlot();
         axe.spawn();
         axe.setOnHitEntity(() -> {
-            if (DataUtils.isEnemy(axe.getHoldEntity(), getTeam())) {
-                DataUtils.damage(damage, (LivingEntity) axe.getHoldEntity(), owner);
+            if (GameUtils.isEnemy(axe.getHoldEntity(), getTeam())) {
+                GameUtils.damage(damage, (LivingEntity) axe.getHoldEntity(), owner);
             }
         });
         axe.setOnOwnerPickUp(() -> {

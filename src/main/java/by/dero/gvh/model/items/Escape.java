@@ -8,7 +8,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static by.dero.gvh.utils.DataUtils.*;
+import static by.dero.gvh.utils.GameUtils.*;
 
 public class Escape extends Item implements PlayerInteractInterface {
     private final double force;

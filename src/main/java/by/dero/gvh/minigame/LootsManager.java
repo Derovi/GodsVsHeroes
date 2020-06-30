@@ -3,18 +3,16 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
-import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.GameUtils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -27,7 +25,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import static by.dero.gvh.utils.DataUtils.eyeHeight;
+import static by.dero.gvh.utils.GameUtils.eyeHeight;
 
 public class LootsManager implements Listener {
     private final long cooldown = 1200;
@@ -63,7 +61,7 @@ public class LootsManager implements Listener {
         CraftArmorStand stand = (CraftArmorStand) at.getWorld().spawnEntity(
                 at.subtract(0, eyeHeight - 0.4, 0), EntityType.ARMOR_STAND);
 
-        DataUtils.setInvisibleFlags(stand);
+        GameUtils.setInvisibleFlags(stand);
         stand.getHandle().setCustomNameVisible(false);
         stand.getEquipment().setHelmet(getHead(name));
         if (!loots.containsKey(name)) {
