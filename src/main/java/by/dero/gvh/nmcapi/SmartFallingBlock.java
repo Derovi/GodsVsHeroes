@@ -20,16 +20,14 @@ import java.util.Collection;
 public class SmartFallingBlock extends EntityFallingBlock {
     private boolean stopped = false;
     private net.minecraft.server.v1_12_R1.Entity holdEntity = null;
+    private Entity owner = null;
 
     private EntityHitEvent onHitEntity = null;
     public interface EntityHitEvent {
         void run(Entity entity);
     }
 
-    private BlockHitEvent onHitBlock = null;
-    public interface BlockHitEvent {
-        void run(Block block);
-    }
+    private Runnable onHitGround = null;
 
     public SmartFallingBlock(Location loc, Material material) {
         super(((CraftWorld) loc.getWorld()).getHandle(), loc.getX(), loc.getY(), loc.getZ(),
@@ -91,12 +89,6 @@ public class SmartFallingBlock extends EntityFallingBlock {
             this.lastX = this.locX;
             this.lastY = this.locY;
             this.lastZ = this.locZ;
-            this.motY -= 0.03999999910593033D;
-            this.move(EnumMoveType.SELF, this.motX, this.motY, this.motZ);
-
-            this.motX *= 0.9800000190734863D;
-            this.motY *= 0.9800000190734863D;
-            this.motZ *= 0.9800000190734863D;
 
             if (holdEntity != null) {
                 this.locX += holdEntity.lastX - holdEntity.locX;
@@ -117,41 +109,16 @@ public class SmartFallingBlock extends EntityFallingBlock {
                     if (entity.getUniqueId().equals(getUniqueID())) {
                         continue;
                     }
+
+                    if (owner != null && owner.getUniqueId().equals(entity.getUniqueId())) {
+                        continue;
+                    }
                     onHitEntity.run(entity);
                     break;
                 }
 
-                Block block = new Location(bukkitWorld, locX - 0.5, locY - 0.5, locZ).getBlock();
-                if (isNotVoid(block.getType())) {
-                    onHitBlock.run(block);
-                }
-                block = new Location(bukkitWorld, locX + 0.5, locY - 0.5, locZ).getBlock();
-                if (isNotVoid(block.getType())) {
-                    onHitBlock.run(block);
-                }
-                block = new Location(bukkitWorld, locX - 0.5, locY + 0.5, locZ).getBlock();
-                if (isNotVoid(block.getType())) {
-                    onHitBlock.run(block);
-                }
-                block = new Location(bukkitWorld, locX + 0.5, locY + 0.5, locZ).getBlock();
-                if (isNotVoid(block.getType())) {
-                    onHitBlock.run(block);
-                }
-                block = new Location(bukkitWorld, locX, locY - 0.5, locZ - 0.5).getBlock();
-                if (isNotVoid(block.getType())) {
-                    onHitBlock.run(block);
-                }
-                block = new Location(bukkitWorld, locX, locY - 0.5, locZ + 0.5).getBlock();
-                if (isNotVoid(block.getType())) {
-                    onHitBlock.run(block);
-                }
-                block = new Location(bukkitWorld, locX, locY + 0.5, locZ - 0.5).getBlock();
-                if (isNotVoid(block.getType())) {
-                    onHitBlock.run(block);
-                }
-                block = new Location(bukkitWorld, locX, locY + 0.5, locZ + 0.5).getBlock();
-                if (isNotVoid(block.getType())) {
-                    onHitBlock.run(block);
+                if (isOnGround()) {
+                    onHitGround.run();
                 }
 
                 this.motX *= 0.9800000190734863D;
@@ -178,10 +145,19 @@ public class SmartFallingBlock extends EntityFallingBlock {
         motX = velocity.getX();
         motY = velocity.getY();
         motZ = velocity.getZ();
+        velocityChanged = true;
     }
 
     public void spawn() {
         getWorld().addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
+    }
+
+    public Entity getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Entity owner) {
+        this.owner = owner;
     }
 
     public boolean isStopped() {
@@ -200,19 +176,19 @@ public class SmartFallingBlock extends EntityFallingBlock {
         this.onHitEntity = onHitEntity;
     }
 
-    public BlockHitEvent getOnHitBlock() {
-        return onHitBlock;
-    }
-
-    public void setOnHitBlock(BlockHitEvent onHitBlock) {
-        this.onHitBlock = onHitBlock;
-    }
-
     public Entity getHoldEntity() {
         return holdEntity.bukkitEntity;
     }
 
     public void setHoldEntity(Entity holdEntity) {
         this.holdEntity = ((CraftEntity) holdEntity).getHandle();
+    }
+
+    public Runnable getOnHitGround() {
+        return onHitGround;
+    }
+
+    public void setOnHitGround(Runnable onHitGround) {
+        this.onHitGround = onHitGround;
     }
 }
