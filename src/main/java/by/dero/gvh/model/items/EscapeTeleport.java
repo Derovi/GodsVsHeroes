@@ -11,6 +11,7 @@ import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.craftbukkit.v1_12_R1.CraftSound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -51,21 +52,21 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
     }
 
     @Override
-    public void onDoubleSpace(Player player) {
-        final Location loc = getNormal(player.getLocation());
+    public void onDoubleSpace() {
+        final Location loc = getNormal(owner.getLocation());
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
-        drawCphere(player.getLocation().clone(), 1.5, Particle.SMOKE_LARGE);
-        jumpDown(player, 10);
-        player.setInvulnerable(true);
+        drawCphere(owner.getLocation().clone(), 1.5, Particle.SMOKE_LARGE);
+        jumpDown(owner, 10);
+        owner.setInvulnerable(true);
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                drawLineColor(loc.clone(), player.getLocation().clone(), 255, 0, 0);
-                player.teleport(loc.clone().add(0,-2,0));
-                jumpUp(player, 10);
+                drawLineColor(loc.clone(), owner.getLocation().clone(), 255, 0, 0);
+                owner.teleport(loc.clone().add(0,-2,0));
+                jumpUp(owner, 10);
                 drawCphere(loc.clone(), 1.5, Particle.SMOKE_LARGE);
             }
         };
@@ -73,7 +74,7 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
         new BukkitRunnable() {
             @Override
             public void run() {
-                player.setInvulnerable(false);
+                owner.setInvulnerable(false);
             }
         }.runTaskLater(Plugin.getInstance(), 20);
         Minigame.getInstance().getGame().getRunnables().add(runnable);

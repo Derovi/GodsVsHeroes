@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class ChargesManager {
-    final HashMap<UUID, HashMap<String, Integer> > charges = new HashMap<>();
+    final private HashMap<UUID, HashMap<String, Integer> > charges = new HashMap<>();
     private static ChargesManager instance;
     public ChargesManager() {
         instance = this;
@@ -72,10 +72,11 @@ public class ChargesManager {
                     return;
                 }
                 final int cur = charges.get(uuid).get(item.getName());
-                charges.get(uuid).put(item.getName(), cur + 1);
-                if (cur + 1 == need) {
+                if (cur == need) {
                     this.cancel();
+                    return;
                 }
+                charges.get(uuid).put(item.getName(), cur + 1);
             }
         };
 
@@ -84,30 +85,34 @@ public class ChargesManager {
         Game.getInstance().getRunnables().add(runnable);
     }
 
+    public boolean addItem(final Player player, final Item item, final int slot) {
+        final UUID uuid = player.getUniqueId();
+        final PlayerInventory inv = player.getInventory();
+        final int cur = charges.get(uuid).get(item.getName());
+
+        if (!player.isOnline() || cur == item.getInfo().getAmount()) {
+            return false;
+        }
+
+        if (inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+            inv.setItem(slot, item.getItemStack());
+        }
+        inv.getItem(slot).setAmount(cur + 1);
+
+        charges.get(uuid).put(item.getName(), cur + 1);
+        return true;
+    }
+
     private void replenishVisible(final Player player, final Item item) {
         final UUID uuid = player.getUniqueId();
         if (item.getInfo().getAmount() != charges.get(uuid).get(item.getName())) {
             return;
         }
-
+        final int slot = player.getInventory().getHeldItemSlot();
         final BukkitRunnable runnable = new BukkitRunnable() {
-            final PlayerInventory inv = player.getInventory();
-            final int slot = inv.getHeldItemSlot();
-            final int need = item.getInfo().getAmount();
             @Override
             public void run() {
-                if (!player.isOnline()) {
-                    this.cancel();
-                    return;
-                }
-                final int cur = charges.get(uuid).get(item.getName());
-                if (inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
-                    inv.setItem(slot, item.getItemStack());
-                }
-                inv.getItem(slot).setAmount(cur + 1);
-
-                charges.get(uuid).put(item.getName(), cur + 1);
-                if (cur + 1 == need) {
+                if (!player.isOnline() || !addItem(player, item, slot)) {
                     this.cancel();
                 }
             }
@@ -115,5 +120,12 @@ public class ChargesManager {
         final long cd = item.getCooldown().getDuration();
         runnable.runTaskTimer(Plugin.getInstance(), cd, cd);
         Game.getInstance().getRunnables().add(runnable);
+    }
+
+    public int getCharges(final Player player, final Item item) {
+        if (!charges.containsKey(player.getUniqueId())) {
+            return 0;
+        }
+        return charges.get(player.getUniqueId()).getOrDefault(item.getName(), item.getInfo().getAmount());
     }
 }

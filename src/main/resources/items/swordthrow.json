@@ -1,0 +1,42 @@
+{
+  "name": "swordthrow",
+  "slot": 0,
+  "levels": [
+    {
+      "cooldown": 100,
+      "damage": 15,
+      "cost": 80,
+      "material": "IRON_SWORD",
+      "displayName": "§cSword throw",
+      "lore": [
+        "§aРаньте своих врагов!",
+        "§6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "cooldown": 100,
+      "damage": 17,
+      "cost": 100,
+      "material": "IRON_SWORD",
+      "displayName": "§cSword throw",
+      "lore": [
+        "§aРаньте своих врагов!",
+        "§6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "cooldown": 100,
+      "damage": 20,
+      "cost": 120,
+      "material": "IRON_SWORD",
+      "displayName": "§cSword throw",
+      "lore": [
+        "§aРаньте своих врагов!",
+        "§6Уровень 3"
+      ],
+      "amount": 1
+    }
+  ]
+}

@@ -43,7 +43,6 @@ public abstract class Monument {
         if (!owner.getName().equals(player.getName())) {
             return;
         }
-        System.out.println("Update selected " + className + " by " + owner.getName());
     }
 
     public Position getPosition() {

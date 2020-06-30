@@ -3,13 +3,12 @@
   "maxHP": 40,
   "cost": 0,
   "itemNames": [
-    "suicidejump",
-    "defaultsword",
+    "swordthrow",
     "webthrow",
     "grenade",
     "healpotion",
     "stunall",
-    "firesplash",
+    "spurt",
     "defaultchestplate",
     "defaultleggings",
 

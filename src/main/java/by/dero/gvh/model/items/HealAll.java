@@ -11,8 +11,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.DataUtils.isAlly;
+import static by.dero.gvh.utils.GameUtils.getNearby;
+import static by.dero.gvh.utils.GameUtils.isAlly;
 
 public class HealAll extends Item implements UltimateInterface {
     private final double radius;

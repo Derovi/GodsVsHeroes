@@ -17,6 +17,6 @@ public class ThrowingSword extends ThrowingItem {
         setPhysicsSpin(true);
         setRightArmPose(new Vector3f(player.getLocation().getPitch(),11, 0));
         setLiveTimeAfterStop(120);
-        setVelocity(player.getLocation().getDirection().add(new Vector(0,0.1,0)).normalize().multiply(1.5));
+        setVelocity(player.getLocation().getDirection().add(new Vector(0,0.2,0)).normalize().multiply(2));
     }
 }

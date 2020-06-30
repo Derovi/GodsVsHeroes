@@ -1,17 +1,19 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
-import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.SuicideJumpInfo;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftProjectile;
+import by.dero.gvh.nmcapi.throwing.GravityFireball;
+import by.dero.gvh.utils.MathUtils;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.*;
-import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static by.dero.gvh.utils.DataUtils.*;
+import static by.dero.gvh.utils.GameUtils.*;
 
-public class SuicideJump extends Item implements PlayerInteractInterface, ProjectileHitInterface {
+public class SuicideJump extends Item implements PlayerInteractInterface {
     private final double radius;
     private final double selfDamage;
     private final double damage;
@@ -31,26 +33,27 @@ public class SuicideJump extends Item implements PlayerInteractInterface, Projec
             return;
         }
         cooldown.reload();
-        final Projectile proj = spawnProjectile(player.getEyeLocation(), 0.8, EntityType.SNOWBALL, player);
-        summonedEntityIds.add(proj.getUniqueId());
-        proj.addPassenger(player);
-    }
+        GravityFireball gravityFireball = new GravityFireball(player.getLocation().clone().add(0, -1,0));
+        gravityFireball.addPassenger(player);
+        gravityFireball.setVelocity(player.getLocation().getDirection().normalize().multiply(1.3));
+        gravityFireball.spawn();
 
-    @Override
-    public void onProjectileHit(final ProjectileHitEvent event) {
-        final Projectile proj = event.getEntity();
-        final Player player = (Player) proj.getShooter();
-        proj.removePassenger(player);
-        damage(selfDamage, player, player);
-        for (final LivingEntity entity : getNearby(proj.getLocation(), radius)) {
-            if (isEnemy(entity, getTeam())) {
-                damage(damage, entity, player);
+        gravityFireball.setOnHit(() -> {
+            final Location loc = player.getLocation();
+            damage(selfDamage, player, player);
+            for (final LivingEntity entity : getNearby(loc, radius)) {
+                if (isEnemy(entity, getTeam())) {
+                    damage(damage, entity, player);
+                }
             }
-        }
-    }
-
-    @Override
-    public void onProjectileHitEnemy(ProjectileHitEvent event) {
-
+            for (int i = 0; i < 5; i++) {
+                final Location at = MathUtils.randomCylinder(loc,radius - 1, -2);
+                loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, at, 0, 0, 0, 0);
+            }
+            for (int i = 0; i < 20; i++) {
+                final Location at = MathUtils.randomCylinder(loc, radius, -2);
+                Drawings.drawLine(at, at.clone().add(0, 3, 0), Particle.SMOKE_LARGE);
+            }
+        });
     }
 }

@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
@@ -26,7 +27,7 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 import static by.dero.gvh.model.Drawings.addTrail;
-import static by.dero.gvh.utils.DataUtils.*;
+import static by.dero.gvh.utils.GameUtils.*;
 
 public class GameEvents implements Listener {
     public static void setGame(DeathMatch game) {
@@ -69,7 +70,6 @@ public class GameEvents implements Listener {
         Projectile proj = event.getEntity();
         if (!(proj instanceof Arrow) && (proj.getShooter() instanceof Player) &&
                 !(proj.hasMetadata("custom"))) {
-            Bukkit.getServer().broadcastMessage("kek");
             event.setCancelled(true);
         } else {
             projectiles.add(proj.getUniqueId());
@@ -79,8 +79,8 @@ public class GameEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (!(event.getAction().equals(Action.RIGHT_CLICK_AIR)) &&
-                !(event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+        if (event.getAction().equals(Action.LEFT_CLICK_AIR) ||
+            event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             event.setCancelled(true);
             return;
         }
@@ -104,7 +104,7 @@ public class GameEvents implements Listener {
                 }
             } else {
                 if (itemInHand instanceof InfiniteReplenishInterface) {
-                    if (!ChargesManager.getInstance().consume(player, itemInHand)) {
+                    if (!itemInHand.getCooldown().isReady() || !ChargesManager.getInstance().consume(player, itemInHand)) {
                         return;
                     }
                 }
@@ -244,7 +244,6 @@ public class GameEvents implements Listener {
                 !(ent instanceof ArmorStand) &&
                 !ent.hasMetadata("custom")) {
 
-            Bukkit.getServer().broadcastMessage("removesEnt");
             ent.remove();
         }
     }
@@ -299,9 +298,14 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
-    public void onBlockPlaceEvent(BlockPlaceEvent event) {
+    public void onBlockPlace(BlockPlaceEvent event) {
         if (event.getPlayer() != null) {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        event.setCancelled(true);
     }
 }

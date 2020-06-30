@@ -92,8 +92,6 @@ public class GameLobby {
     }
 
     public void onPlayerJoined(GamePlayer gamePlayer) {
-
-        System.out.println("1");
         gamePlayer.setBoard(new Board("Lobby", 3));
 
         final int players = game.getPlayers().size();

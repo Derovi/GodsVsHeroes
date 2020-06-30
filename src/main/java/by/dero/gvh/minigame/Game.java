@@ -107,8 +107,14 @@ public abstract class Game implements Listener {
         };
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
         stats = new Stats();
-        for (final DirectedPosition pos : getInfo().getAidPoints()) {
-            lootsManager.spawn(pos.toLocation(getInfo().getWorld()), "aid");
+        for (final DirectedPosition pos : getInfo().getHealPoints()) {
+            lootsManager.spawn(pos.toLocation(getInfo().getWorld()), "heal");
+        }
+        for (final DirectedPosition pos : getInfo().getSpeedPoints()) {
+            lootsManager.spawn(pos.toLocation(getInfo().getWorld()), "speed");
+        }
+        for (final DirectedPosition pos : getInfo().getResistancePoints()) {
+            lootsManager.spawn(pos.toLocation(getInfo().getWorld()), "resistance");
         }
 
         new ChargesManager();

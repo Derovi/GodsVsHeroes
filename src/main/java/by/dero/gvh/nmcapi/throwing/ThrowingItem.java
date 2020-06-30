@@ -3,7 +3,9 @@ package by.dero.gvh.nmcapi.throwing;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
+import com.google.common.collect.Lists;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
 import net.minecraft.server.v1_12_R1.Vector3f;
 import org.bukkit.Location;
@@ -17,7 +19,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public class ThrowingItem extends EntityArmorStand {
     private final ArmorStand armorStand;
@@ -120,7 +124,9 @@ public class ThrowingItem extends EntityArmorStand {
 
     public void remove() {
         removed = true;
-        armorStand.remove();
+        if (!armorStand.isDead()) {
+            armorStand.remove();
+        }
     }
 
     public boolean isRemoved() {
@@ -135,13 +141,66 @@ public class ThrowingItem extends EntityArmorStand {
         this.itemLength = itemLength;
     }
 
+    public boolean isVoid(Material material) {
+        switch (material) {
+            case AIR:
+            case SAPLING:
+            case POWERED_RAIL:
+            case DETECTOR_RAIL:
+            case LONG_GRASS:
+            case DEAD_BUSH:
+            case YELLOW_FLOWER:
+            case RED_ROSE:
+            case BROWN_MUSHROOM:
+            case RED_MUSHROOM:
+            case TORCH:
+            case FIRE:
+            case REDSTONE_WIRE:
+            case CROPS:
+            case LADDER:
+            case RAILS:
+            case LEVER:
+            case REDSTONE_TORCH_OFF:
+            case REDSTONE_TORCH_ON:
+            case STONE_BUTTON:
+            case SNOW:
+            case SUGAR_CANE_BLOCK:
+            case WATER_LILY:
+            case TRIPWIRE:
+            case FLOWER_POT:
+            case CARROT:
+            case POTATO:
+            case WOOD_BUTTON:
+            case ACTIVATOR_RAIL:
+            case CARPET:
+            case DOUBLE_PLANT:
+            case END_ROD:
+            case CHORUS_PLANT:
+            case CHORUS_FLOWER:
+            case BEETROOT_BLOCK:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     @Override
     public void move(EnumMoveType moveType, double x, double y, double z) {
         if (isStopped()) {
             if (holdEntity != null) {
-                locX = holdEntity.getLocation().getX() + xDelta;
-                locY = holdEntity.getLocation().getY() + yDelta;
-                locZ = holdEntity.getLocation().getZ() + zDelta;
+                if (holdEntity.isDead()) {
+                    holdEntity = null;
+                } else {
+                    locX = holdEntity.getLocation().getX() + xDelta;
+                    locY = holdEntity.getLocation().getY() + yDelta;
+                    locZ = holdEntity.getLocation().getZ() + zDelta;
+                }
+            }
+            if (holdEntity == null) {
+                Location itemLocation = getItemPosition().toLocation(armorStand.getWorld());
+                if (isVoid(armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType())) {
+                    locY -= 0.1;
+                }
             }
             if (onOwnerPickUp != null) {
                 Collection<Entity> entities = armorStand.getLocation().getWorld().getNearbyEntities(
@@ -169,7 +228,6 @@ public class ThrowingItem extends EntityArmorStand {
             vector.setZ(xz * MathUtils.cos(Math.toRadians(rotX)));
             vector.normalize();
             vector.multiply(itemLength * center);
-            System.out.println("Vec " + vector.getX() + ' ' + vector.getY() + ' ' + vector.getZ());
 
             x = expX + vector.getX() - locX;
             y = expY + vector.getY() - locY;
@@ -192,14 +250,14 @@ public class ThrowingItem extends EntityArmorStand {
                 stop();
                 break;
             }
-            if (armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType() != Material.AIR) {
+            if (!isVoid(armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType())) {
                 stop();
                 if (onHitBlock != null) {
                     onHitBlock.run();
                 }
                 break;
             }
-            Collection<Entity> entities = armorStand.getLocation().getWorld().getNearbyEntities(itemLocation, 0.05, 0.25, 0.05);
+            Collection<Entity> entities = itemLocation.getWorld().getNearbyEntities(itemLocation, 0.05, 2, 0.05);
             for (Entity entity : entities) {
                 if (entity.getUniqueId().equals(getUniqueID())) {
                     continue;
@@ -224,6 +282,10 @@ public class ThrowingItem extends EntityArmorStand {
         } else {
             setRightArmPose(new Vector3f(360f - (float) Math.toDegrees(Math.asin(y / length)),rightArmPose.y,rightArmPose.z));
         }
+    }
+
+    public void setHoldEntity(Entity holdEntity) {
+        this.holdEntity = holdEntity;
     }
 
     public double getStep() {

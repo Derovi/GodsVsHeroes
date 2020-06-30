@@ -18,8 +18,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 
-import static by.dero.gvh.utils.DataUtils.getPlayer;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.GameUtils.getPlayer;
+import static by.dero.gvh.utils.GameUtils.isEnemy;
 
 public class EagleVision extends Item implements UltimateInterface {
     private final double particleDense = 32;
