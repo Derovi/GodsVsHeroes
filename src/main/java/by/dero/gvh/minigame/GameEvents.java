@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
@@ -297,9 +298,14 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
-    public void onBlockPlaceEvent(BlockPlaceEvent event) {
+    public void onBlockPlace(BlockPlaceEvent event) {
         if (event.getPlayer() != null) {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        event.setCancelled(true);
     }
 }

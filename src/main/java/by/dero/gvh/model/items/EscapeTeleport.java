@@ -11,6 +11,7 @@ import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.craftbukkit.v1_12_R1.CraftSound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 

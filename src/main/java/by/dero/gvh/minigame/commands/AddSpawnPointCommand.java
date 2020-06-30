@@ -7,6 +7,7 @@ import by.dero.gvh.utils.Position;
 import by.dero.gvh.model.storages.LocalStorage;
 import com.google.gson.GsonBuilder;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;

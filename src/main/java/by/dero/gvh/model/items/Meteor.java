@@ -62,7 +62,7 @@ public class Meteor extends Item implements PlayerInteractInterface, ProjectileH
 
         fireball.isIncendiary = false;
         fireball.projectileSource = owner;
-        fireball.setPosition(at.x, at.y, at.z);
+        fireball.setPosition(at.getX(), at.getY(), at.getZ());
         fireball.dirX = 0;
         fireball.dirY = -0.2;
         fireball.dirZ = 0;
