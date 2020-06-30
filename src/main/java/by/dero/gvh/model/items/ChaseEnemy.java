@@ -50,13 +50,12 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
         zombie.targetSelector.b.clear();
         Predicate<EntityPlayer> pred = (pl) -> GameUtils.isEnemy(pl.getBukkitEntity(), getTeam());
         zombie.targetSelector.a(0, new PathfinderGoalNearestAttackableTarget<EntityPlayer>(
-                zombie, EntityPlayer.class, 1, true, false, pred));
+                zombie, EntityPlayer.class, 0, true, false, pred));
         setAttributes(zombie);
         cooldown.reload();
         zombie.getBukkitEntity().addPassenger(owner);
         zombie.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         zombie.world.addEntity(zombie, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        Bukkit.getServer().broadcastMessage("1");
         BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = duration;
             @Override
@@ -68,7 +67,6 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
                                 getPlayer().getLocation().distance(owner.getLocation()) < 2) {
                     zombie.die();
                     this.cancel();
-                    Bukkit.getServer().broadcastMessage("4");
                 }
             }
         };

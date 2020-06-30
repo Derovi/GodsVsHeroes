@@ -71,6 +71,7 @@ public class Data {
         registerItem("meteor", MeteorInfo.class, Meteor.class);
         registerItem("chaseenemy", ChaseEnemyInfo.class, ChaseEnemy.class);
         registerItem("spurt", SpurtInfo.class, Spurt.class);
+        registerItem("explosivepig", ExplosivePigInfo.class, ExplosivePig.class);
     }
 
     private void registerClasses() {
