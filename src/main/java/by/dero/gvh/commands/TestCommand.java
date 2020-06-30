@@ -1,8 +1,10 @@
 package by.dero.gvh.commands;
 
 import by.dero.gvh.nmcapi.InstantFirework;
+import by.dero.gvh.nmcapi.SmartFallingBlock;
 import by.dero.gvh.nmcapi.throwing.GravityFireball;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,14 +20,19 @@ public class TestCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        InstantFirework correctFirework = new InstantFirework(player.getLocation().clone().add(0,3,0));
-        FireworkMeta fwm = correctFirework.getMeta();
-        fwm.setPower(2);
-        fwm.addEffect(FireworkEffect.builder().withColor(Color.LIME).flicker(true).build());
-        correctFirework.setMeta(fwm);
-        correctFirework.spawn();
-
-        spawnFirework(player.getLocation().clone().add(-3, 3, 0), 1);
+        SmartFallingBlock smartFallingBlock = new SmartFallingBlock(player.getLocation(), Material.WEB);
+        smartFallingBlock.setVelocity(player.getLocation().getDirection());
+        smartFallingBlock.spawn();
+        smartFallingBlock.setOnHitBlock((Block block) -> {
+            System.out.println("Hit block!");
+            smartFallingBlock.setStopped(true);
+            smartFallingBlock.dieLater(40);
+        });
+        smartFallingBlock.setOnHitEntity((Entity entity) -> {
+            System.out.println("Hit entity!");
+            smartFallingBlock.setHoldEntity(entity);
+            smartFallingBlock.dieLater(100);
+        });
         return true;
     }
 }
