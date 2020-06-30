@@ -63,7 +63,7 @@ public class LootsManager implements Listener {
         CraftArmorStand stand = (CraftArmorStand) at.getWorld().spawnEntity(
                 at.subtract(0, eyeHeight - 0.4, 0), EntityType.ARMOR_STAND);
 
-        DataUtils.setInvisibleFlags(stand);
+        DataUtils.setInvisibleStand(stand);
         stand.getHandle().setCustomNameVisible(false);
         stand.getEquipment().setHelmet(getHead(name));
         if (!loots.containsKey(name)) {

@@ -2,10 +2,13 @@ package by.dero.gvh.utils;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.*;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -63,7 +66,10 @@ public class DataUtils {
 
     public static List<LivingEntity> getNearby(final Location wh, final double radius) {
         final List<LivingEntity> buf = new ArrayList<>();
-        for (Entity ent : Objects.requireNonNull(wh.getWorld()).getNearbyEntities(wh, radius, radius, radius)) {
+        for (Entity ent : wh.getWorld().getNearbyEntities(wh, radius, radius, radius)) {
+            if (ent instanceof Player && ((Player) ent).getGameMode().equals(GameMode.SURVIVAL)) {
+                buf.add((LivingEntity) ent);
+            } else
             if (ent instanceof LivingEntity &&
                     ent.getLocation().distance(wh) <= radius) {
                 buf.add((LivingEntity) ent);
@@ -135,14 +141,48 @@ public class DataUtils {
         return target;
     }
 
-    public static void setInvisibleFlags(ArmorStand stand) {
-        EntityArmorStand handle = ((CraftArmorStand) stand).getHandle();
+    public static void setInvisibleEntity(net.minecraft.server.v1_12_R1.Entity handle) {
         handle.setCustomNameVisible(false);
         handle.setNoGravity(true);
         handle.setInvisible(true);
-        handle.canPickUpLoot = false;
         handle.noclip = true;
-        handle.collides = false;
         handle.invulnerable = true;
+    }
+
+    public static void setInvisibleStand(ArmorStand stand) {
+        EntityArmorStand handle = ((CraftArmorStand) stand).getHandle();
+
+        setInvisibleEntity(handle);
+        handle.canPickUpLoot = false;
+        handle.collides = false;
+    }
+
+    public static boolean isInBlock(Entity entity) {
+        Location loc = entity.getLocation();
+        for (double i = 0; i < Math.ceil(entity.getHeight()); i++) {
+            if (!loc.getBlock().getType().equals(Material.AIR)) {
+                return false;
+            }
+            loc.add(0, 1, 0);
+        }
+        return false;
+    }
+
+    public static GamePlayer getNearestEnemyPlayer(GamePlayer gp) {
+        Location wh = gp.getPlayer().getLocation();
+        GamePlayer ret = null;
+        double dst = 100000;
+        for (GamePlayer ot : Game.getInstance().getPlayers().values()) {
+            if (ot.getTeam() == gp.getTeam()) {
+                continue;
+            }
+            double cur = wh.distance(ot.getPlayer().getLocation());
+            if (cur < dst) {
+                dst = cur;
+                ret = ot;
+            }
+        }
+        assert ret != null;
+        return ret;
     }
 }

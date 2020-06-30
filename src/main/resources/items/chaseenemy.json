@@ -1,0 +1,18 @@
+{
+  "name": "chaseenemy",
+  "slot": 0,
+  "levels": [
+    {
+      "duration": 100,
+      "cooldown": 60,
+      "cost": 80,
+      "material": "EYE_OF_ENDER",
+      "displayName": "§cChase enemy",
+      "lore": [
+        "§aНажмите, чтобы преследовать врага.",
+        "§6Уровень 1"
+      ],
+      "amount": 1
+    }
+  ]
+}

@@ -69,6 +69,7 @@ public class Data {
         registerItem("axethrow", AxeThrowInfo.class, AxeThrow.class);
         registerItem("meteor", MeteorInfo.class, Meteor.class);
         registerItem("forceleap", ForceLeapInfo.class, ForceLeap.class);
+        registerItem("chaseenemy", ChaseEnemyInfo.class, ChaseEnemy.class);
     }
 
     private void registerClasses() {

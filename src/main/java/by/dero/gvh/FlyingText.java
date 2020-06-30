@@ -13,7 +13,7 @@ public class FlyingText {
     public FlyingText(final Location pos, final String text) {
         armorStand = (CraftArmorStand) pos.getWorld().spawnEntity(pos, EntityType.ARMOR_STAND);
 
-        DataUtils.setInvisibleFlags(armorStand);
+        DataUtils.setInvisibleStand(armorStand);
         armorStand.getHandle().setCustomNameVisible(true);
         armorStand.getHandle().setMarker(true);
         setText(text);
