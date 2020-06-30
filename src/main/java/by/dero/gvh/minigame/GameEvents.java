@@ -26,6 +26,7 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 import static by.dero.gvh.model.Drawings.addTrail;
+import static by.dero.gvh.model.Drawings.spawnFirework;
 import static by.dero.gvh.utils.DataUtils.*;
 
 public class GameEvents implements Listener {

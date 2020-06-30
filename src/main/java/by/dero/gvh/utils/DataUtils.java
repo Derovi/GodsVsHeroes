@@ -27,7 +27,6 @@ public class DataUtils {
         target.setMaximumNoDamageTicks(0);
         target.setNoDamageTicks(0);
         target.damage(damage, killer);
-
     }
 
     public static Entity spawnEntity(final Location loc, final EntityType type) {
