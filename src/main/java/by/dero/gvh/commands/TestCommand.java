@@ -21,24 +21,7 @@ public class TestCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        SmartFallingBlock smartFallingBlock = new SmartFallingBlock(player.getLocation().add(0,1,0), Material.WEB);
-        smartFallingBlock.setVelocity(player.getLocation().getDirection());
-        smartFallingBlock.spawn();
-        smartFallingBlock.setOwner(player);
-        smartFallingBlock.setOnHitGround(() -> {
-            System.out.println("Hit block!");
-            smartFallingBlock.setStopped(true);
-            smartFallingBlock.dieLater(100);
-            smartFallingBlock.setNoGravity(true);
-            smartFallingBlock.setVelocity(new Vector(0,0,0));
-        });
-        smartFallingBlock.setOnHitEntity((Entity entity) -> {
-            System.out.println("Hit entity!");
-            smartFallingBlock.setHoldEntity(entity);
-            smartFallingBlock.dieLater(100);
-            smartFallingBlock.setNoGravity(true);
-            smartFallingBlock.setVelocity(new Vector(0,0,0));
-        });
+
         return true;
     }
 }
