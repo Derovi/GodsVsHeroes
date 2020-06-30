@@ -1,0 +1,57 @@
+{
+  "name": "spurt",
+  "invisible": true,
+  "slot": 0,
+  "levels": [
+    {
+      "cooldown": 400,
+      "power": 1,
+      "cost": 80,
+      "speedTime": 40,
+      "material": "FEATHER",
+      "displayName": "",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "cooldown": 400,
+      "power": 1.1,
+      "speedTime": 45,
+      "cost": 100,
+      "material": "FEATHER",
+      "displayName": "",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "cooldown": 400,
+      "power": 1.2,
+      "speedTime": 50,
+      "cost": 120,
+      "material": "FEATHER",
+      "displayName": "",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "cooldown": 400,
+      "power": 1.3,
+      "speedTime": 55,
+      "cost": 140,
+      "material": "FEATHER",
+      "displayName": "",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "cooldown": 400,
+      "power": 1.4,
+      "speedTime": 60,
+      "cost": 160,
+      "material": "FEATHER",
+      "displayName": "",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}
