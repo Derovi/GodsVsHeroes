@@ -17,7 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class WebThrow extends Item implements PlayerInteractInterface {
-    private final int force;
+    private final float force;
     private final int duration;
     private final float multiplier;
 
