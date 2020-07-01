@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 60,
-      "radius": 5,
+      "radius": 3.5,
       "damage": 15,
       "duration": 300,
       "cost": 80,

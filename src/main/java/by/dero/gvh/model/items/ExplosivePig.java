@@ -7,6 +7,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
 import by.dero.gvh.model.itemsinfo.ExplosivePigInfo;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.PathfinderFollow;
 import com.google.common.base.Predicate;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.*;
@@ -54,12 +55,12 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         pig.setPosition(pLoc.getX(), pLoc.getY(), pLoc.getZ());
         setAttributes(pig);
 
-        pig.targetSelector.b.clear();
-        pig.goalSelector.b.clear();
         CraftPlayer target = (CraftPlayer) GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).getPlayer();
-        Predicate<EntityPlayer> pred = (pl) -> GameUtils.isEnemy(pl.getBukkitEntity(), getTeam());
-        pig.targetSelector.a(0, new PathfinderGoalMoveTowardsTarget(pig, 1, 100));
-        pig.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CLOSEST_PLAYER, true);
+//        Predicate<EntityPlayer> pred = (pl) -> GameUtils.isEnemy(pl.getBukkitEntity(), getTeam());
+        pig.goalSelector = new PathfinderGoalSelector(pig.world.methodProfiler);
+        pig.targetSelector = new PathfinderGoalSelector(pig.world.methodProfiler);
+        pig.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
+        pig.goalSelector.a(0, new PathfinderFollow(pig, 1, 50));
 
         pig.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         pig.world.addEntity(pig, CreatureSpawnEvent.SpawnReason.CUSTOM);
@@ -72,7 +73,6 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
                 if (ticks < 0 || GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).getPlayer().
                         getLocation().distance(loc) < radius) {
                     pig.die();
-                    Bukkit.getServer().broadcastMessage(pig.getGoalTarget().getName());
                     pig.world.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
                     for (LivingEntity entity : GameUtils.getNearby(loc, radius)) {
                         if (GameUtils.isEnemy(entity, getTeam())) {
