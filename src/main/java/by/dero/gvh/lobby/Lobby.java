@@ -6,6 +6,7 @@ import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
+import by.dero.gvh.minigame.SneakListener;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.*;
 import by.dero.gvh.model.Lang;
@@ -89,11 +90,16 @@ public class Lobby implements PluginMode, Listener {
         monumentManager = new MonumentManager();
         interfaceManager = new InterfaceManager();
         portalManager = new PortalManager();
-        Bukkit.getPluginManager().registerEvents(portalManager, Plugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(interfaceManager, Plugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(monumentManager, Plugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(new LobbyEvents(), Plugin.getInstance());
         loadSchematic();
+        registerEvents();
+    }
+
+    private void registerEvents() {
+        Plugin p = Plugin.getInstance();
+        Bukkit.getPluginManager().registerEvents(portalManager, p);
+        Bukkit.getPluginManager().registerEvents(interfaceManager, p);
+        Bukkit.getPluginManager().registerEvents(monumentManager, p);
+        Bukkit.getPluginManager().registerEvents(new LobbyEvents(), p);
     }
 
     @Override

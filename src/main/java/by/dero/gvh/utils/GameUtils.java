@@ -6,10 +6,13 @@ import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
@@ -37,9 +40,11 @@ public class GameUtils {
     }
 
     public static Entity spawnEntity(final Location loc, final EntityType type) {
-        final Entity obj = loc.getWorld().spawnEntity(loc, type);
-        obj.setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
-        return obj;
+        CraftWorld wrld = ((CraftWorld) loc.getWorld());
+        net.minecraft.server.v1_12_R1.Entity entity = wrld.createEntity(loc, type.getEntityClass());
+        entity.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
+        wrld.addEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        return entity.getBukkitEntity();
     }
 
     public static Projectile spawnProjectile(final Location at, final double speed,

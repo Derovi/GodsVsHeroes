@@ -9,6 +9,7 @@ import by.dero.gvh.utils.DirectedPosition;
 import org.bukkit.*;
 import by.dero.gvh.model.interfaces.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -239,11 +240,8 @@ public class GameEvents implements Listener {
     @EventHandler
     public void removeEntities(EntitySpawnEvent event) {
         final Entity ent = event.getEntity();
-        if (ent instanceof LivingEntity &&
-                !(ent instanceof Player) &&
-                !(ent instanceof ArmorStand) &&
-                !ent.hasMetadata("custom")) {
-
+        if (ent instanceof LivingEntity && !(ent instanceof Player) &&
+                !(ent instanceof ArmorStand) && !ent.hasMetadata("custom")) {
             ent.remove();
         }
     }

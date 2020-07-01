@@ -73,16 +73,10 @@ public class Data {
         registerItem("explosivepig", ExplosivePigInfo.class, ExplosivePig.class);
         registerItem("poisonousbow", PoisonousBowInfo.class, PoisonousBow.class);
         registerItem("ninjarope", NinjaRopeInfo.class, NinjaRope.class);
+        registerItem("spawnhorse", SpawnHorseInfo.class, SpawnHorse.class);
     }
 
     private void registerClasses() {
-//        registerClass("alchemist");
-//        registerClass("archer");
-//        registerClass("default");
-//        registerClass("eyre");
-//        registerClass("heimdall");
-//        registerClass("loki");
-//        registerClass("mercenary");
         registerClass("odin");
         registerClass("paladin");
         registerClass("scout");
