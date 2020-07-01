@@ -1,11 +1,13 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.WebThrowInfo;
 import by.dero.gvh.nmcapi.SmartFallingBlock;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
@@ -41,19 +43,16 @@ public class WebThrow extends Item implements PlayerInteractInterface {
         smartFallingBlock.spawn();
         smartFallingBlock.setOwner(player);
         smartFallingBlock.setOnHitGround(() -> {
-            System.out.println("Hit ground");
             smartFallingBlock.setStopped(true);
             smartFallingBlock.dieLater(100);
             smartFallingBlock.setNoGravity(true);
             smartFallingBlock.setVelocity(new Vector(0,0,0));
         });
         smartFallingBlock.setOnHitEntity((Entity entity) -> {
-            System.out.println("Hit entity");
             if (!(entity instanceof Player)) {
                 return;
             }
-            System.out.println("Hit player");
-            smartFallingBlock.setHoldEntity(entity);
+            //smartFallingBlock.setHoldEntity(entity);
             smartFallingBlock.setNoGravity(true);
             smartFallingBlock.setVelocity(new Vector(0,0,0));
             Player target = (Player) entity;
@@ -66,6 +65,20 @@ public class WebThrow extends Item implements PlayerInteractInterface {
                     smartFallingBlock.die();
                 }
             }.runTaskLater(Plugin.getInstance(), duration);
+        });
+        int playerTeam = Minigame.getInstance().getGame().getPlayers().get(player.getName()).getTeam();
+        smartFallingBlock.setOnEnter((Entity entity) -> {
+            if (entity instanceof Player && GameUtils.isEnemy(entity, playerTeam)) {
+                Player enemy = (Player) entity;
+                float walkSpeed = enemy.getWalkSpeed();
+                enemy.setWalkSpeed(walkSpeed * multiplier);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        enemy.setWalkSpeed(multiplier);
+                    }
+                }.runTaskLater(Plugin.getInstance(), 1);
+            }
         });
     }
 }

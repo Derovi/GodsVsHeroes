@@ -6,7 +6,6 @@ import net.minecraft.server.v1_12_R1.EnumMoveType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_12_R1.util.CraftMagicNumbers;
@@ -21,9 +20,13 @@ public class SmartFallingBlock extends EntityFallingBlock {
     private boolean stopped = false;
     private net.minecraft.server.v1_12_R1.Entity holdEntity = null;
     private Entity owner = null;
+    private double hx;
+    private double hy;
+    private double hz;
 
-    private EntityHitEvent onHitEntity = null;
-    public interface EntityHitEvent {
+    private EntityEvent onHitEntity = null;
+    private EntityEvent onEnter = null;
+    public interface EntityEvent {
         void run(Entity entity);
     }
 
@@ -35,53 +38,28 @@ public class SmartFallingBlock extends EntityFallingBlock {
         noclip = true;
     }
 
-    public boolean isNotVoid(Material material) {
-        switch (material) {
-            case AIR:
-            case SAPLING:
-            case POWERED_RAIL:
-            case DETECTOR_RAIL:
-            case LONG_GRASS:
-            case DEAD_BUSH:
-            case YELLOW_FLOWER:
-            case RED_ROSE:
-            case BROWN_MUSHROOM:
-            case RED_MUSHROOM:
-            case TORCH:
-            case FIRE:
-            case REDSTONE_WIRE:
-            case CROPS:
-            case LADDER:
-            case RAILS:
-            case LEVER:
-            case REDSTONE_TORCH_OFF:
-            case REDSTONE_TORCH_ON:
-            case STONE_BUTTON:
-            case SNOW:
-            case SUGAR_CANE_BLOCK:
-            case WATER_LILY:
-            case TRIPWIRE:
-            case FLOWER_POT:
-            case CARROT:
-            case POTATO:
-            case WOOD_BUTTON:
-            case ACTIVATOR_RAIL:
-            case CARPET:
-            case DOUBLE_PLANT:
-            case END_ROD:
-            case CHORUS_PLANT:
-            case CHORUS_FLOWER:
-            case BEETROOT_BLOCK:
-                return false;
-            default:
-                return true;
-        }
-    }
-
     public void B_() {
         if (this.block.getMaterial() == net.minecraft.server.v1_12_R1.Material.AIR) {
             this.die();
         } else {
+            World bukkitWorld = world.world;
+            Location location = new Location(bukkitWorld, locX, locY, locZ);
+            Collection<Entity> entities = bukkitWorld.getNearbyEntities(location, 0.5, 0.5, 0.5);
+
+            for (Entity entity : entities) {
+                if (entity.getUniqueId().equals(getUniqueID())) {
+                    continue;
+                }
+                if (owner != null && owner.getUniqueId().equals(entity.getUniqueId())) {
+                    continue;
+                }
+                if (holdEntity != null && holdEntity.getUniqueID().equals(entity.getUniqueId())) {
+                    continue;
+                }
+                onEnter.run(entity);
+                break;
+            }
+
             if (stopped) {
                 return;
             }
@@ -91,20 +69,19 @@ public class SmartFallingBlock extends EntityFallingBlock {
             this.lastZ = this.locZ;
 
             if (holdEntity != null) {
-                this.locX += holdEntity.lastX - holdEntity.locX;
-                this.locY += holdEntity.lastY - holdEntity.locY;
-                this.locZ += holdEntity.lastZ - holdEntity.locZ;
+                System.out.println("change " + hx + ' ' + hy + ' ' + hz);
+                this.locX += holdEntity.locX - hx;
+                this.locY += holdEntity.locY - hy;
+                this.locZ += holdEntity.locZ - hz;
+                hx = holdEntity.locX;
+                hy = holdEntity.locY;
+                hz = holdEntity.locZ;
+                positionChanged = true;
             } else {
                 this.motY -= 0.03999999910593033D;
 
-                locX += motX;
-                locY += motY;
-                locZ += motZ;
+                super.move(EnumMoveType.SELF, motX, motY, motZ);
 
-                World bukkitWorld = world.world;
-                Location location = new Location(bukkitWorld, locX, locY, locZ);
-
-                Collection<Entity> entities = bukkitWorld.getNearbyEntities(location, 0.5, 0.5, 0.5);
                 for (Entity entity : entities) {
                     if (entity.getUniqueId().equals(getUniqueID())) {
                         continue;
@@ -168,11 +145,11 @@ public class SmartFallingBlock extends EntityFallingBlock {
         this.stopped = stopped;
     }
 
-    public EntityHitEvent getOnHitEntity() {
+    public EntityEvent getOnHitEntity() {
         return onHitEntity;
     }
 
-    public void setOnHitEntity(EntityHitEvent onHitEntity) {
+    public void setOnHitEntity(EntityEvent onHitEntity) {
         this.onHitEntity = onHitEntity;
     }
 
@@ -182,6 +159,9 @@ public class SmartFallingBlock extends EntityFallingBlock {
 
     public void setHoldEntity(Entity holdEntity) {
         this.holdEntity = ((CraftEntity) holdEntity).getHandle();
+        hx = this.holdEntity.locX;
+        hy = this.holdEntity.locY;
+        hz = this.holdEntity.locZ;
     }
 
     public Runnable getOnHitGround() {
@@ -190,5 +170,13 @@ public class SmartFallingBlock extends EntityFallingBlock {
 
     public void setOnHitGround(Runnable onHitGround) {
         this.onHitGround = onHitGround;
+    }
+
+    public EntityEvent getOnEnter() {
+        return onEnter;
+    }
+
+    public void setOnEnter(EntityEvent onEnter) {
+        this.onEnter = onEnter;
     }
 }
