@@ -11,6 +11,7 @@ import net.minecraft.server.v1_12_R1.Vector3f;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -21,6 +22,7 @@ import org.bukkit.util.Vector;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ThrowingItem extends EntityArmorStand {
@@ -257,7 +259,7 @@ public class ThrowingItem extends EntityArmorStand {
                 }
                 break;
             }
-            Collection<Entity> entities = itemLocation.getWorld().getNearbyEntities(itemLocation, 0.05, 2, 0.05);
+            Collection<Entity> entities = getPierced(itemLocation);
             for (Entity entity : entities) {
                 if (entity.getUniqueId().equals(getUniqueID())) {
                     continue;
@@ -282,6 +284,27 @@ public class ThrowingItem extends EntityArmorStand {
         } else {
             setRightArmPose(new Vector3f(360f - (float) Math.toDegrees(Math.asin(y / length)),rightArmPose.y,rightArmPose.z));
         }
+    }
+
+    public Collection<Entity> getPierced(Location location) {
+        /*double consider = 1.5;
+        List<Entity> pierced = new LinkedList<>();
+        for (Entity entity : location.getChunk().getEntities()) {
+            double ex = entity.getLocation().getX();
+            double ey = entity.getLocation().getY();
+            double ez = entity.getLocation().getZ();
+            if (ex + consider < location.getX() ||
+                ex - consider > location.getX() ||
+                ey + consider < location.getY() ||
+                ey - consider > location.getY() ||
+                ez + consider < location.getZ() ||
+                ez - consider > location.getZ()) {
+                continue;
+            }
+            ((CraftEntity) entity).getHandle().getBoundingBox().get
+        }
+        itemLocation.getWorld().getNearbyEntities(itemLocation, 0.05, 2, 0.05);*/
+        return location.getNearbyEntities(0.15, 0.15, 0.15);
     }
 
     public void setHoldEntity(Entity holdEntity) {
