@@ -3,7 +3,7 @@ package by.dero.gvh.model.itemsinfo;
 import by.dero.gvh.model.ItemInfo;
 
 public class WebThrowInfo extends ItemInfo {
-    private float multiplier;
+    private int level;
     private int duration;
     private float force;
 
@@ -23,11 +23,11 @@ public class WebThrowInfo extends ItemInfo {
         this.force = force;
     }
 
-    public float getMultiplier() {
-        return multiplier;
+    public int getLevel() {
+        return level;
     }
 
-    public void setMultiplier(float multiplier) {
-        this.multiplier = multiplier;
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

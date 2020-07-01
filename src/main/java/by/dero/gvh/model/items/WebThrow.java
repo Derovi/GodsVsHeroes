@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
@@ -10,25 +9,25 @@ import by.dero.gvh.nmcapi.SmartFallingBlock;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.material.MaterialData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class WebThrow extends Item implements PlayerInteractInterface {
     private final float force;
     private final int duration;
-    private final float multiplier;
+    private final int level;
 
     public WebThrow(String name, int level, Player owner) {
         super(name, level, owner);
         WebThrowInfo info = ((WebThrowInfo) getInfo());
         force = info.getForce();
         duration = info.getDuration();
-        multiplier = info.getMultiplier();
+        this.level = info.getLevel();
     }
 
     @Override
@@ -49,35 +48,24 @@ public class WebThrow extends Item implements PlayerInteractInterface {
             smartFallingBlock.setVelocity(new Vector(0,0,0));
         });
         smartFallingBlock.setOnHitEntity((Entity entity) -> {
-            if (!(entity instanceof Player)) {
+            if (!(entity instanceof LivingEntity)) {
                 return;
             }
             //smartFallingBlock.setHoldEntity(entity);
             smartFallingBlock.setNoGravity(true);
             smartFallingBlock.setVelocity(new Vector(0,0,0));
-            Player target = (Player) entity;
-            float speed = target.getWalkSpeed();
-            target.setWalkSpeed(speed * multiplier);
+            ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, level), true);
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    target.setWalkSpeed(speed);
                     smartFallingBlock.die();
                 }
             }.runTaskLater(Plugin.getInstance(), duration);
         });
         int playerTeam = Minigame.getInstance().getGame().getPlayers().get(player.getName()).getTeam();
         smartFallingBlock.setOnEnter((Entity entity) -> {
-            if (entity instanceof Player && GameUtils.isEnemy(entity, playerTeam)) {
-                Player enemy = (Player) entity;
-                float walkSpeed = enemy.getWalkSpeed();
-                enemy.setWalkSpeed(walkSpeed * multiplier);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        enemy.setWalkSpeed(multiplier);
-                    }
-                }.runTaskLater(Plugin.getInstance(), 1);
+            if (entity instanceof LivingEntity && GameUtils.isEnemy(entity, playerTeam)) {
+                ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, level), true);
             }
         });
     }
