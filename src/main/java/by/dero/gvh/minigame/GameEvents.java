@@ -58,10 +58,11 @@ public class GameEvents implements Listener {
         if ((event.getEntity() instanceof Player)) {
             String playerName = event.getEntity().getName();
             GamePlayer gp = Minigame.getInstance().getGame().getPlayers().get(playerName);
-            Item selectedItem = gp.getSelectedItem();
+            Item selectedItem = gp.getLastUsed();
             if (selectedItem instanceof PlayerShootBowInterface) {
                 ((PlayerShootBowInterface) selectedItem).onPlayerShootBow(event);
             }
+            selectedItem.getSummonedEntityIds().add(event.getProjectile().getUniqueId());
         }
     }
 
@@ -100,7 +101,7 @@ public class GameEvents implements Listener {
                 if (itemInHand.getCooldown().isReady()) {
                     ItemStack item = player.getInventory().getItemInMainHand();
                     item.setAmount(item.getAmount()-1);
-                    ((UltimateInterface)itemInHand).onPlayerInteract(event);
+                    ((UltimateInterface) itemInHand).onPlayerInteract(event);
                 }
             } else {
                 if (itemInHand instanceof InfiniteReplenishInterface) {
@@ -108,7 +109,7 @@ public class GameEvents implements Listener {
                         return;
                     }
                 }
-                ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
+                ((PlayerInteractInterface) itemInHand).onPlayerInteract(event);
             }
         }
     }
@@ -125,7 +126,7 @@ public class GameEvents implements Listener {
                         item instanceof ProjectileHitInterface) {
                     ((ProjectileHitInterface) item).onProjectileHit(event);
                     if (event.getHitEntity() != null &&
-                            event.getHitEntity() instanceof LivingEntity) {
+                            isEnemy(event.getHitEntity(), gamePlayer.getTeam())) {
                         ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
                     }
                     item.getSummonedEntityIds().remove(event.getEntity().getUniqueId());

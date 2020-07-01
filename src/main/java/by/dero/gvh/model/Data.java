@@ -72,6 +72,7 @@ public class Data {
         registerItem("chaseenemy", ChaseEnemyInfo.class, ChaseEnemy.class);
         registerItem("spurt", SpurtInfo.class, Spurt.class);
         registerItem("explosivepig", ExplosivePigInfo.class, ExplosivePig.class);
+        registerItem("poisonousbow", PoisonousBowInfo.class, PoisonousBow.class);
     }
 
     private void registerClasses() {
