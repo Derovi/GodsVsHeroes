@@ -1,5 +1,6 @@
 package by.dero.gvh.utils;
 
+import net.minecraft.server.v1_12_R1.MathHelper;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -11,28 +12,6 @@ public class MathUtils {
     public static final Vector UPVECTOR  = new Vector(0, 1, 0);
     public static final Vector DOWNVECTOR  = new Vector(0, -1, 0);
     public static final Vector ZEROVECTOR  = new Vector(0, 0, 0);
-    private static final double[] COS = new double[CALCSIZE+1];
-    private static final double[] SIN = new double[CALCSIZE+1];
-    private static final double[] TG = new double[CALCSIZE+1];
-    private static final double[] CTG = new double[CALCSIZE+1];
-
-    public MathUtils() {
-        double ang = 0;
-        final int halfedsize = CALCSIZE / 2;
-        for (short i = 0; i < CALCSIZE; i++, ang += IDXTOANG) {
-            COS[i] = Math.cos(ang);
-            SIN[i] = Math.sqrt(1.0 - COS[i] * COS[i]);
-            if (i > halfedsize) {
-                SIN[i] = -SIN[i];
-            }
-            if (COS[i] != 0) {
-                TG[i] = SIN[i] / COS[i];
-            }
-            if (SIN[i] != 0) {
-                CTG[i] = COS[i] / SIN[i];
-            }
-        }
-    }
 
     public static double getRightAngle(double angle) {
         if (angle < 0) {
@@ -44,20 +23,12 @@ public class MathUtils {
         return angle;
     }
 
-    public static double cos(final double angle) {
-        return COS[(int) Math.floor(getRightAngle(angle)*ANGTOIDX)];
+    public static double cos(double angle) {
+        return MathHelper.cos((float) angle);
     }
 
     public static double sin(double angle) {
-        return SIN[(int) Math.floor(getRightAngle(angle)*ANGTOIDX)];
-    }
-
-    public static double tg(double angle) {
-        return TG[(int) Math.floor(getRightAngle(angle)*ANGTOIDX)];
-    }
-
-    public static double ctg(double angle) {
-        return CTG[(int) Math.floor(getRightAngle(angle)*ANGTOIDX)];
+        return MathHelper.sin((float) angle);
     }
 
     public static Vector getRightVector(final Vector vector) {

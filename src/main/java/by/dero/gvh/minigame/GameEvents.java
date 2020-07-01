@@ -142,7 +142,8 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
         if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) ||
-            event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK)) {
+            event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK) ||
+            event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
             event.setCancelled(true);
             return;
         }

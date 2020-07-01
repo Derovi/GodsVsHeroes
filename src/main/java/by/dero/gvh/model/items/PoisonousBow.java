@@ -1,9 +1,7 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
-import by.dero.gvh.model.itemsinfo.PoisonPotionInfo;
 import by.dero.gvh.model.itemsinfo.PoisonousBowInfo;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -27,6 +25,5 @@ public class PoisonousBow extends Item implements ProjectileHitInterface {
 
     @Override
     public void onProjectileHit(ProjectileHitEvent event) {
-
     }
 }
