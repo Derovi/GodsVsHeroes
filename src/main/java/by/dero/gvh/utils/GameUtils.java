@@ -25,9 +25,14 @@ public class GameUtils {
     }
 
     public static void damage(double damage, LivingEntity target, LivingEntity killer) {
+        damage(damage, target, killer, false);
+    }
+
+    public static void damage(double damage, LivingEntity target, LivingEntity killer, boolean hasDelay) {
         Minigame.getInstance().getGameEvents().getDamageCause().put(target, killer);
-        target.setMaximumNoDamageTicks(0);
-        target.setNoDamageTicks(0);
+        if (!hasDelay) {
+            target.setNoDamageTicks(0);
+        }
         target.damage(damage, killer);
     }
 

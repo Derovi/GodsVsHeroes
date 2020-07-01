@@ -140,7 +140,8 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)) {
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) ||
+            event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK)) {
             event.setCancelled(true);
             return;
         }
@@ -149,8 +150,6 @@ public class GameEvents implements Listener {
         }
 
         final LivingEntity entity = (LivingEntity) event.getEntity();
-        entity.setNoDamageTicks(0);
-        entity.setMaximumNoDamageTicks(0);
 
         if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
                 getLastLightningTime() + 100 > System.currentTimeMillis()) {
@@ -162,6 +161,7 @@ public class GameEvents implements Listener {
                 event.setCancelled(true);
             }
         }
+        ((LivingEntity) event.getEntity()).setNoDamageTicks(5);
     }
 
     @EventHandler
@@ -170,8 +170,6 @@ public class GameEvents implements Listener {
             return;
         }
         final LivingEntity entity = (LivingEntity) event.getEntity();
-        entity.setNoDamageTicks(0);
-        entity.setMaximumNoDamageTicks(0);
         if (event.getDamager() instanceof LivingEntity) {
             if (event.getDamager() instanceof Player &&
                     isEnemy(entity, getPlayer(event.getDamager().getName()).getTeam())) {
