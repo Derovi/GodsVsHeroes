@@ -6,7 +6,6 @@ import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.FireSpearInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -19,8 +18,8 @@ import java.util.HashSet;
 
 import static by.dero.gvh.model.Drawings.drawCircleInFront;
 import static by.dero.gvh.model.Drawings.drawLine;
-import static by.dero.gvh.utils.DataUtils.damage;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.GameUtils.damage;
+import static by.dero.gvh.utils.GameUtils.isEnemy;
 
 public class FireSpear extends Item implements PlayerInteractInterface {
     private final int parts = 6;
@@ -63,17 +62,17 @@ public class FireSpear extends Item implements PlayerInteractInterface {
                 left.removeAll(rem);
                 rem.clear();
 
-                for (int i = 0; i < 6; i++) {
-                    drawCircleInFront(loc, i * 0.5, -i * 1.5, parts, Particle.FLAME);
+                for (int i = 0; i < 3; i++) {
+                    drawCircleInFront(loc, i * 0.33, -i, parts, Particle.FLAME);
                 }
-                drawLine(loc, loc.clone().subtract(dlt.clone().multiply(Math.min(30, ticks))), Particle.END_ROD);
-                loc.add(dlt);
+                drawLine(loc, loc.clone().subtract(dlt.clone().multiply(Math.min(10, ticks))), Particle.END_ROD);
+                loc.add(dlt.clone().multiply(2));
                 if (++ticks >= time) {
                     this.cancel();
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 1);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
 
     }
 }

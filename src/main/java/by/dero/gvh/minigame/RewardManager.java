@@ -1,7 +1,6 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.Plugin;
-import com.google.gson.GsonBuilder;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

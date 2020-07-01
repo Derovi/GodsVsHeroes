@@ -3,7 +3,6 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -17,7 +16,7 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 
 import java.util.ArrayList;
 
-import static by.dero.gvh.utils.DataUtils.getPlayer;
+import static by.dero.gvh.utils.GameUtils.getPlayer;
 
 public class DoubleSpaceListener implements Listener {
     private ArrayList<DoubleSpaceInterface> getItems(final GamePlayer gp) {
@@ -71,7 +70,7 @@ public class DoubleSpaceListener implements Listener {
                 p.setAllowFlight(false);
                 event.setCancelled(true);
                 for (final DoubleSpaceInterface item : items) {
-                    item.onDoubleSpace(p);
+                    item.onDoubleSpace();
                 }
             }
         }

@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class ChargesManager {
-    final HashMap<UUID, HashMap<String, Integer> > charges = new HashMap<>();
+    final private HashMap<UUID, HashMap<String, Integer> > charges = new HashMap<>();
     private static ChargesManager instance;
     public ChargesManager() {
         instance = this;
@@ -120,5 +120,12 @@ public class ChargesManager {
         final long cd = item.getCooldown().getDuration();
         runnable.runTaskTimer(Plugin.getInstance(), cd, cd);
         Game.getInstance().getRunnables().add(runnable);
+    }
+
+    public int getCharges(final Player player, final Item item) {
+        if (!charges.containsKey(player.getUniqueId())) {
+            return 0;
+        }
+        return charges.get(player.getUniqueId()).getOrDefault(item.getName(), item.getInfo().getAmount());
     }
 }

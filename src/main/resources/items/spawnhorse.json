@@ -1,0 +1,15 @@
+{
+  "name": "spawnhorse",
+  "slot": 0,
+  "invisible": true,
+  "levels": [
+    {
+      "cooldown": 0,
+      "duration": 300,
+      "material": "FEATHER",
+      "displayName": "",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

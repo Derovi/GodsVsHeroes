@@ -8,12 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-
-import java.util.Arrays;
 
 import static by.dero.gvh.utils.MessagingUtils.sendTitle;
 import static org.apache.commons.lang.ArrayUtils.indexOf;
@@ -92,8 +86,6 @@ public class GameLobby {
     }
 
     public void onPlayerJoined(GamePlayer gamePlayer) {
-
-        System.out.println("1");
         gamePlayer.setBoard(new Board("Lobby", 3));
 
         final int players = game.getPlayers().size();

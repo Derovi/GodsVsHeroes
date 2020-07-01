@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.FireSplashInfo;
@@ -14,8 +13,8 @@ import java.util.HashSet;
 import java.util.UUID;
 
 import static by.dero.gvh.model.Drawings.drawSector;
-import static by.dero.gvh.utils.DataUtils.damage;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.GameUtils.damage;
+import static by.dero.gvh.utils.GameUtils.isEnemy;
 import static java.lang.Math.sqrt;
 
 public class FireSplash extends Item implements PlayerInteractInterface {

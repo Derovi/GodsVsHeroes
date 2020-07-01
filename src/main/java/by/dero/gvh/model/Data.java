@@ -67,16 +67,16 @@ public class Data {
         registerItem("firespear", FireSpearInfo.class, FireSpear.class);
         registerItem("swordthrow", SwordThrowInfo.class, SwordThrow.class);
         registerItem("axethrow", AxeThrowInfo.class, AxeThrow.class);
+        registerItem("meteor", MeteorInfo.class, Meteor.class);
+        registerItem("chaseenemy", ChaseEnemyInfo.class, ChaseEnemy.class);
+        registerItem("spurt", SpurtInfo.class, Spurt.class);
+        registerItem("explosivepig", ExplosivePigInfo.class, ExplosivePig.class);
+        registerItem("poisonousbow", PoisonousBowInfo.class, PoisonousBow.class);
+        registerItem("ninjarope", NinjaRopeInfo.class, NinjaRope.class);
+        registerItem("spawnhorse", SpawnHorseInfo.class, SpawnHorse.class);
     }
 
     private void registerClasses() {
-//        registerClass("alchemist");
-//        registerClass("archer");
-//        registerClass("default");
-//        registerClass("eyre");
-//        registerClass("heimdall");
-//        registerClass("loki");
-//        registerClass("mercenary");
         registerClass("odin");
         registerClass("paladin");
         registerClass("scout");

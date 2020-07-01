@@ -4,7 +4,6 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.MessagingUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -25,7 +24,6 @@ public class AfterParty {
         final Location loc = game.getInfo().getLobbyPosition().toLocation(game.getInfo().getWorld());
 
         game.getStats().spawnStats(loc.clone().add(0, 2, 4));
-        Bukkit.getServer().broadcastMessage(loc.clone().add(0, 2, 4).toVector().toString());
         for (GamePlayer gp : game.getPlayers().values()) {
             final Player player = gp.getPlayer();
             player.teleport(loc);

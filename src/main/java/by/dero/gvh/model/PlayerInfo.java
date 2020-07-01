@@ -43,7 +43,7 @@ public class PlayerInfo {
     }
 
     public int getItemLevel(String className, String item) {
-        return classes.get(className).get(item);
+        return classes.get(className).getOrDefault(item, 0);
     }
 
     public boolean canUpgradeItem(String className, String item) {

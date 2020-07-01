@@ -1,0 +1,19 @@
+{
+  "name": "ninjarope",
+  "slot": 0,
+  "levels": [
+    {
+      "range": 30,
+      "forceMultiplier": 0.2,
+      "cooldown": 60,
+      "cost": 80,
+      "material": "STICK",
+      "displayName": "§cNinja rope",
+      "lore": [
+        "§aНажмите, чтобы совершить рывок.",
+        "§6Уровень 1"
+      ],
+      "amount": 1
+    }
+  ]
+}

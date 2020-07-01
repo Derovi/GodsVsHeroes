@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import static by.dero.gvh.model.Drawings.spawnMovingCircle;
-import static by.dero.gvh.utils.DataUtils.getNearby;
-import static by.dero.gvh.utils.DataUtils.isEnemy;
+import static by.dero.gvh.utils.GameUtils.getNearby;
+import static by.dero.gvh.utils.GameUtils.isEnemy;
 
 public class StunAll extends Item implements UltimateInterface {
     private final double radius;

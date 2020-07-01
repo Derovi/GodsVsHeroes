@@ -3,35 +3,45 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.GameUtils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Field;
 import java.util.*;
 
-import static by.dero.gvh.utils.DataUtils.eyeHeight;
+import static by.dero.gvh.utils.GameUtils.eyeHeight;
 
 public class LootsManager implements Listener {
     private final long cooldown = 1200;
     private final HashMap<String, ArrayList<ArmorStand> > loots = new HashMap<>();
     private final HashMap<UUID, Long> cooldowns = new HashMap<>();
     private final HashMap<UUID, FlyingText> texts = new HashMap<>();
+    private final HashMap<String, PotionEffect> effects = new HashMap<>();
 
     public LootsManager() {
-        Bukkit.getPluginManager().registerEvents(this, Plugin.getInstance());
+        effects.put("heal", new PotionEffect(PotionEffectType.HEAL, 1, 10));
+        effects.put("speed", new PotionEffect(PotionEffectType.SPEED, 400, 1));
+        effects.put("resistance", new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 400, 2));
+    }
+
+    public void load() {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
@@ -48,16 +58,24 @@ public class LootsManager implements Listener {
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 10);
         Game.getInstance().getRunnables().add(runnable);
+
+        GameInfo info = Game.getInstance().getInfo();
+        for (final DirectedPosition pos : info.getHealPoints()) {
+            spawn(pos.toLocation(info.getWorld()), "heal");
+        }
+        for (final DirectedPosition pos : info.getSpeedPoints()) {
+            spawn(pos.toLocation(info.getWorld()), "speed");
+        }
+        for (final DirectedPosition pos : info.getResistancePoints()) {
+            spawn(pos.toLocation(info.getWorld()), "resistance");
+        }
     }
 
     public void spawn(final Location at, final String name) {
-        ArmorStand stand = (ArmorStand) at.getWorld().spawnEntity(
-                at.subtract(0, eyeHeight - 0.15, 0), EntityType.ARMOR_STAND);
-
-        stand.setGravity(false);
-        stand.setCanPickupItems(false);
-        stand.setCustomNameVisible(false);
-        stand.setVisible(false);
+        CraftArmorStand stand = (CraftArmorStand) at.getWorld().spawnEntity(
+                at.subtract(0, eyeHeight - 0.4, 0), EntityType.ARMOR_STAND);
+        GameUtils.setInvisibleFlags(stand);
+        stand.getHandle().setCustomNameVisible(false);
         stand.getEquipment().setHelmet(getHead(name));
         if (!loots.containsKey(name)) {
             loots.put(name, new ArrayList<>());
@@ -78,11 +96,12 @@ public class LootsManager implements Listener {
         return null;
     }
 
-    private static boolean useByName(final String name, final Object... ar) {
-        switch (name) {
-            case "aid" : return aidFunc((Player) ar[0]);
-            default: return false;
+    private boolean useByName(final String name, final LivingEntity entity) {
+        if (!effects.containsKey(name)) {
+            return false;
         }
+        entity.addPotionEffect(effects.get(name), true);
+        return true;
     }
 
     public static ItemStack createSkull(String url, String name)
@@ -121,16 +140,6 @@ public class LootsManager implements Listener {
         loots.clear();
         cooldowns.clear();
 
-    }
-
-    private static boolean aidFunc(final Player p) {
-        final double mx = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-        if (p.getHealth() != mx) {
-            p.setHealth(mx);
-            return true;
-        } else {
-            return false;
-        }
     }
 
     @EventHandler

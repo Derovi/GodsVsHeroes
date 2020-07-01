@@ -20,8 +20,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static by.dero.gvh.utils.DataUtils.damage;
-import static by.dero.gvh.utils.DataUtils.getNearby;
+import static by.dero.gvh.utils.GameUtils.damage;
+import static by.dero.gvh.utils.GameUtils.getNearby;
 import static java.lang.Math.random;
 
 public class ExplosiveBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {

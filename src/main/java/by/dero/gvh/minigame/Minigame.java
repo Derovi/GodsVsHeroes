@@ -18,7 +18,7 @@ import org.bukkit.World;
 
 public class Minigame implements PluginMode {
     private static Minigame instance;
-    private static AreaManager areaManager;
+    private AreaManager areaManager;
     private GameData gameData;
     private Game game;
 
@@ -30,13 +30,14 @@ public class Minigame implements PluginMode {
     private CommandManager commandManager;
     private World world;
 
+    private LootsManager lootsManager;
+
     @Override
     public void onEnable() {
         instance = this;
 
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
                 ServerType.GAME);
-        areaManager = new AreaManager();
         gameData = new GameData(new LocalStorage());
         gameData.load();
         game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
@@ -48,18 +49,25 @@ public class Minigame implements PluginMode {
         world.setGameRuleValue("doDaylightCycle", "false");
         world.setGameRuleValue("doMobLoot", "false");
         game.prepare();
-        Bukkit.getPluginManager().registerEvents(game, Plugin.getInstance());
         registerEvents();
         registerCommands();
     }
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+
+    }
 
     private void registerEvents() {
         gameEvents = new GameEvents();
+        lootsManager = new LootsManager();
+        areaManager = new AreaManager();
+        Bukkit.getPluginManager().registerEvents(game, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(gameEvents, Plugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(areaManager, Plugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(lootsManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new DoubleSpaceListener(), Plugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(new SneakListener(), Plugin.getInstance());
     }
 
     private void registerCommands() {
@@ -92,7 +100,11 @@ public class Minigame implements PluginMode {
         return commandManager;
     }
 
-    public static AreaManager getAreaManager() {
+    public AreaManager getAreaManager() {
         return areaManager;
+    }
+
+    public LootsManager getLootsManager() {
+        return lootsManager;
     }
 }

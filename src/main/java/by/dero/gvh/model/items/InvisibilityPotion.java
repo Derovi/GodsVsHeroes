@@ -7,7 +7,7 @@ import by.dero.gvh.utils.Invisibility;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static by.dero.gvh.utils.DataUtils.getPlayer;
+import static by.dero.gvh.utils.GameUtils.getPlayer;
 
 public class InvisibilityPotion extends Item implements PlayerInteractInterface {
     private final int duration;

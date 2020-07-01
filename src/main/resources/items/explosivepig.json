@@ -1,0 +1,20 @@
+{
+  "name": "explosivepig",
+  "slot": 0,
+  "levels": [
+    {
+      "cooldown": 60,
+      "radius": 3.5,
+      "damage": 15,
+      "duration": 300,
+      "cost": 80,
+      "material": "TNT",
+      "displayName": "§cExplosive pig",
+      "lore": [
+        "§aРаньте своих врагов!",
+        "§6Уровень 1"
+      ],
+      "amount": 1
+    }
+  ]
+}

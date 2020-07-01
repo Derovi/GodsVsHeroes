@@ -1,19 +1,19 @@
 package by.dero.gvh;
 
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
-import org.bukkit.entity.ArmorStand;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.EntityType;
 
 public class FlyingText {
-    private final ArmorStand armorStand;
+    private final CraftArmorStand armorStand;
 
     public FlyingText(final Location pos, final String text) {
-        armorStand = (ArmorStand) pos.getWorld().spawnEntity(pos, EntityType.ARMOR_STAND);
+        armorStand = (CraftArmorStand) pos.getWorld().spawnEntity(pos, EntityType.ARMOR_STAND);
 
-        armorStand.setGravity(false);
-        armorStand.setCanPickupItems(false);
-        armorStand.setCustomNameVisible(true);
-        armorStand.setVisible(false);
+        GameUtils.setInvisibleFlags(armorStand);
+        armorStand.getHandle().setCustomNameVisible(true);
+        armorStand.getHandle().setMarker(true);
         setText(text);
     }
 
