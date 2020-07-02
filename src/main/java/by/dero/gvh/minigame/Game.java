@@ -1,6 +1,7 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.ChargesManager;
+import by.dero.gvh.GameMob;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
@@ -51,8 +52,7 @@ public abstract class Game implements Listener {
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
-    private ArrayList<HashMap<UUID, LivingEntity> > mobs;
-    private HashMap<UUID, Integer> mobTeam;
+    private HashMap<UUID, GameMob> mobs;
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private MapManager mapManager;
@@ -166,11 +166,7 @@ public abstract class Game implements Listener {
         for (int index = 0; index < playerNames.size(); ++index) {
             players.get(playerNames.get(index)).setTeam(cnt - index % cnt - 1);
         }
-        mobs = new ArrayList<>();
-        for (int i = 0; i < cnt; i++) {
-            mobs.add(new HashMap<>());
-        }
-        mobTeam = new HashMap<>();
+        mobs = new HashMap<>();
     }
 
     public void finish(int winnerTeam) {
@@ -388,11 +384,7 @@ public abstract class Game implements Listener {
         return players;
     }
 
-    public ArrayList<HashMap<UUID, LivingEntity>> getMobs() {
+    public HashMap<UUID, GameMob> getMobs() {
         return mobs;
-    }
-
-    public HashMap<UUID, Integer> getMobTeam() {
-        return mobTeam;
     }
 }

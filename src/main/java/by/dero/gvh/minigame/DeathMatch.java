@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.GameMode;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -126,7 +127,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             }
         }
         for (final GamePlayer gp : getPlayers().values()) {
-            if (gp.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
+            if (GameUtils.isInGame(gp.getPlayer())) {
                 if (teamAlive == -1) {
                     teamAlive = gp.getTeam();
                 } else {
@@ -156,7 +157,9 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         if (player.getKiller() != null) {
             kil = player.getKiller();
         }
-
+        if (!(kil instanceof Player)) {
+            kil = GameUtils.getMob(kil.getUniqueId()).getOwner();
+        }
         onPlayerKilled(player, kil);
         getPlayerDeathLocations().put(player.getName(), player.getLocation());
 

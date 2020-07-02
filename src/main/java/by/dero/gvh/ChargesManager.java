@@ -2,6 +2,7 @@ package by.dero.gvh;
 
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -67,7 +68,7 @@ public class ChargesManager {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                if (!player.isOnline()) {
+                if (!GameUtils.isInGame(player)) {
                     this.cancel();
                     return;
                 }
@@ -90,11 +91,11 @@ public class ChargesManager {
         final PlayerInventory inv = player.getInventory();
         final int cur = charges.get(uuid).get(item.getName());
 
-        if (!player.isOnline() || cur == item.getInfo().getAmount()) {
+        if (!GameUtils.isInGame(player) || cur == item.getInfo().getAmount()) {
             return false;
         }
 
-        if (inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+        if (inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
             inv.setItem(slot, item.getItemStack());
         }
         inv.getItem(slot).setAmount(cur + 1);
@@ -112,7 +113,7 @@ public class ChargesManager {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                if (!player.isOnline() || !addItem(player, item, slot)) {
+                if (!GameUtils.isInGame(player) || !addItem(player, item, slot)) {
                     this.cancel();
                 }
             }

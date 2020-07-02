@@ -1,5 +1,7 @@
 package by.dero.gvh.utils;
 
+import by.dero.gvh.GameMob;
+import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
@@ -10,6 +12,7 @@ import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EntityLiving;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
@@ -28,6 +31,10 @@ public class GameUtils {
     public static final double eyeHeight = 1.7775;
     public static GamePlayer getPlayer(String name) {
         return Minigame.getInstance().getGame().getPlayers().getOrDefault(name, null);
+    }
+
+    public static GameMob getMob(UUID uuid) {
+        return Minigame.getInstance().getGame().getMobs().getOrDefault(uuid, null);
     }
 
     public static void damage(double damage, LivingEntity target, LivingEntity killer) {
@@ -50,10 +57,9 @@ public class GameUtils {
         return entity.getBukkitEntity();
     }
 
-    public static LivingEntity spawnTeamEntity(Location loc, EntityType type, int team) {
+    public static LivingEntity spawnTeamEntity(Location loc, EntityType type, GamePlayer gp) {
         LivingEntity entity = (LivingEntity) spawnEntity(loc, type);
-        Game.getInstance().getMobs().get(team).put(entity.getUniqueId(), entity);
-        Game.getInstance().getMobTeam().put(entity.getUniqueId(), team);
+        Game.getInstance().getMobs().put(entity.getUniqueId(), new GameMob(entity, gp.getTeam(), gp.getPlayer()));
         return entity;
     }
 
@@ -76,21 +82,26 @@ public class GameUtils {
         if (!(ent instanceof LivingEntity)) {
             return false;
         }
-        if (ent instanceof Player) {
-            return getPlayer(ent.getName()).getTeam() != team;
-        }
-        return !Game.getInstance().getMobs().get(team).containsKey(ent.getUniqueId());
+
+        GameObject obj = ent instanceof Player ? getPlayer(ent.getName()) : getMob(ent.getUniqueId());
+        return obj != null && obj.getTeam() != team;
     }
 
     public static boolean isEnemy(Entity ent, Entity other) {
-        if (!(ent instanceof LivingEntity) || !(other instanceof LivingEntity)) {
+        if (!(ent instanceof LivingEntity) || !(other instanceof LivingEntity) ||
+                ent.isDead() || other.isDead()) {
             return false;
         }
-        int t1 = ent instanceof Player ? getPlayer(ent.getName()).getTeam() :
-                Game.getInstance().getMobTeam().getOrDefault(ent.getUniqueId(), -1);
-        int t2 = other instanceof Player ? getPlayer(other.getName()).getTeam() :
-                Game.getInstance().getMobTeam().getOrDefault(other.getUniqueId(), -2);
-        return t1 != t2;
+
+        GameObject o1 = ent instanceof Player ? getPlayer(ent.getName()) :
+                Game.getInstance().getMobs().get(ent.getUniqueId());
+        GameObject o2 = other instanceof Player ? getPlayer(other.getName()) :
+                Game.getInstance().getMobs().get(other.getUniqueId());
+        return o1 != null && o2 != null && o1.getTeam() != o2.getTeam();
+    }
+
+    public static boolean isInGame(Player player) {
+        return player != null && player.isOnline() && player.getGameMode().equals(GameMode.SURVIVAL);
     }
 
     public static List<LivingEntity> getNearby(final Location wh, final double radius) {
@@ -111,10 +122,21 @@ public class GameUtils {
         if (!(ent instanceof LivingEntity)) {
             return false;
         }
-        if (ent instanceof Player) {
-            return getPlayer(ent.getName()).getTeam() == team;
+        GameObject obj = ent instanceof Player ? getPlayer(ent.getName()) : getMob(ent.getUniqueId());
+        return obj != null && obj.getTeam() == team;
+    }
+
+    public static boolean isAlly(final Entity ent, final Entity other) {
+        if (!(ent instanceof LivingEntity) || !(other instanceof LivingEntity) ||
+            ent.isDead() || other.isDead()) {
+            return false;
         }
-        return Game.getInstance().getMobs().get(team).containsKey(ent.getUniqueId());
+
+        GameObject o1 = ent instanceof Player ? getPlayer(ent.getName()) :
+                Game.getInstance().getMobs().get(ent.getUniqueId());
+        GameObject o2 = other instanceof Player ? getPlayer(other.getName()) :
+                Game.getInstance().getMobs().get(other.getUniqueId());
+        return o1 != null && o2 != null && o1.getTeam() == o2.getTeam();
     }
 
     public static Player getLastUsedLightning() {
