@@ -10,6 +10,7 @@ import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -24,12 +25,10 @@ public class ChickenAvatar extends EntityChicken {
         this.player = player;
         setPosition(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
         ((CraftEntity)player).getHandle().a(this, true);
-        System.out.println("Invise");
         player.setGameMode(GameMode.ADVENTURE);
         PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0);
         player.addPotionEffect(effect);
         for (Player other : player.getWorld().getPlayers()) {
-            System.out.println("Name: " + other.getName());
             other.hidePlayer(Plugin.getInstance(), player);
         }
         boundingBox.e += 1.05;
@@ -55,7 +54,6 @@ public class ChickenAvatar extends EntityChicken {
     }
 
     public void die() {
-        System.out.println("Die");
         player.setGameMode(GameMode.SURVIVAL);
         player.removePotionEffect(PotionEffectType.INVISIBILITY);
         for (Player other : player.getWorld().getPlayers()) {
@@ -65,6 +63,7 @@ public class ChickenAvatar extends EntityChicken {
     }
 
     public void spawn() {
+        getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         getWorld().addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
     }
 
