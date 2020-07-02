@@ -7,7 +7,6 @@ import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.interfaces.SneakInterface;
 import by.dero.gvh.model.itemsinfo.SpawnHorseInfo;
 import by.dero.gvh.utils.GameUtils;
-import net.minecraft.server.v1_12_R1.ItemSaddle;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -33,6 +32,7 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInter
         cooldown.reload();
         horse = (SkeletonHorse) GameUtils.spawnEntity(owner.getLocation(), EntityType.SKELETON_HORSE);
         horse.setAdult();
+        horse.setInvulnerable(true);
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
         horse.setOwner(owner);
         horse.addPassenger(owner);

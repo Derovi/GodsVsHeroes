@@ -97,6 +97,10 @@ public class GameLobby {
                 .replace("%max%", String.valueOf(needed))
         );
         updateDisplays();
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.showPlayer(Plugin.getInstance(), gamePlayer.getPlayer());
+            gamePlayer.getPlayer().showPlayer(Plugin.getInstance(), p);
+        }
 
         gamePlayer.getPlayer().getInventory().clear();
         if (players >= game.getInfo().getMinPlayerCount() && !ready) {
