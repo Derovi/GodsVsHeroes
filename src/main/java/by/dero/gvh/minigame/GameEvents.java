@@ -39,12 +39,6 @@ public class GameEvents implements Listener {
         return damageCause;
     }
 
-    public HashMap<UUID, Vector> getLastPos() {
-        return lastPos;
-    }
-
-    public final HashMap<UUID, Vector> lastPos = new HashMap<>();
-
     private final HashMap<LivingEntity, LivingEntity> damageCause = new HashMap<>();
 
     public HashSet<UUID> getProjectiles() {
@@ -244,35 +238,6 @@ public class GameEvents implements Listener {
                 !(ent instanceof ArmorStand) && !ent.hasMetadata("custom")) {
             ent.remove();
         }
-    }
-
-    private static DirectedPosition[] borders = null;
-    private static String desMsg;
-    @EventHandler
-    public void checkBorders(PlayerMoveEvent event) {
-        if (borders == null) {
-            borders = game.getInfo().getMapBorders();
-            desMsg = Lang.get("game.desertionMessage");
-        }
-        final Player player = event.getPlayer();
-        final Location loc = player.getLocation();
-        if (loc.getX() < borders[0].getX()) {
-            player.setVelocity(new Vector(2, 0, 0));
-            player.sendMessage(desMsg);
-        }
-        if (loc.getX() > borders[1].getX()) {
-            player.setVelocity(new Vector(-2, 0, 0));
-            player.sendMessage(desMsg);
-        }
-        if (loc.getZ() < borders[0].getZ()) {
-            player.setVelocity(new Vector(0, 0, 2));
-            player.sendMessage(desMsg);
-        }
-        if (loc.getZ() > borders[1].getZ()) {
-            player.setVelocity(new Vector(0, 0, -2));
-            player.sendMessage(desMsg);
-        }
-        lastPos.put(player.getUniqueId(), player.getLocation().toVector());
     }
 
     @EventHandler

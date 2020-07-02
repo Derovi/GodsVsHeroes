@@ -49,8 +49,11 @@ public class ChickenAvatar extends EntityChicken {
         double dx = player.getLocation().getDirection().getX() * speed;
         double dy = player.getLocation().getDirection().getY() * speed;
         double dz = player.getLocation().getDirection().getZ() * speed;
-        super.move(EnumMoveType.SELF, dx, dy + motY, dz);
+        super.move(EnumMoveType.SELF, dx + motX, dy + motY, dz + motZ);
         this.motY = Math.max(0, motY - 0.03999999910593033D);
+        this.motX *= 0.9800000190734863D;
+        this.motY *= 0.9800000190734863D;
+        this.motZ *= 0.9800000190734863D;
     }
 
     public void die() {
