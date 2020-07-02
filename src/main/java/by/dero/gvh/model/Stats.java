@@ -3,13 +3,15 @@ package by.dero.gvh.model;
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
-import static by.dero.gvh.utils.GameUtils.getPlayer;
 
 public class Stats {
     private final HashMap<String, Integer> kills = new HashMap<>();
@@ -56,7 +58,7 @@ public class Stats {
         for (Map.Entry<String, Double> entry : damageTaken.entrySet()) {
             final String a = entry.getKey();
             final Double b = entry.getValue();
-            if (!hm.containsValue(getPlayer(a))) {
+            if (!hm.containsValue(GameUtils.getPlayer(a))) {
                 return a;
             }
             if (val > b) {
@@ -88,7 +90,7 @@ public class Stats {
         for (Map.Entry<String, Integer> entry : deaths.entrySet()) {
             final String a = entry.getKey();
             final int b = entry.getValue();
-            if (!hm.containsValue(getPlayer(a))) {
+            if (!hm.containsValue(GameUtils.getPlayer(a))) {
                 return a;
             }
             if (val > b) {

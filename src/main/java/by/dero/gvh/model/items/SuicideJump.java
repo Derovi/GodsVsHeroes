@@ -5,13 +5,12 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.SuicideJumpInfo;
 import by.dero.gvh.nmcapi.throwing.GravityFireball;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class SuicideJump extends Item implements PlayerInteractInterface {
     private final double radius;
@@ -40,10 +39,10 @@ public class SuicideJump extends Item implements PlayerInteractInterface {
 
         gravityFireball.setOnHit(() -> {
             final Location loc = player.getLocation();
-            damage(selfDamage, player, player);
-            for (final LivingEntity entity : getNearby(loc, radius)) {
-                if (isEnemy(entity, getTeam())) {
-                    damage(damage, entity, player);
+            GameUtils.damage(selfDamage, player, player);
+            for (final LivingEntity entity : GameUtils.getNearby(loc, radius)) {
+                if (GameUtils.isEnemy(entity, getTeam())) {
+                    GameUtils.damage(damage, entity, player);
                 }
             }
             for (int i = 0; i < 5; i++) {

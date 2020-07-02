@@ -1,15 +1,13 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.SpurtInfo;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import static by.dero.gvh.model.Drawings.drawCircleInFront;
 
 public class Spurt extends Item implements DoubleSpaceInterface {
     private final SpurtInfo info;
@@ -21,7 +19,7 @@ public class Spurt extends Item implements DoubleSpaceInterface {
 
     @Override
     public void onDoubleSpace() {
-        drawCircleInFront(owner.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
+        Drawings.drawCircleInFront(owner.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
         owner.setVelocity(owner.getLocation().getDirection().normalize().multiply(info.getPower()).setY (0.3));
         float playerSpeed = owner.getWalkSpeed();
         owner.setWalkSpeed(playerSpeed * 1.3f);

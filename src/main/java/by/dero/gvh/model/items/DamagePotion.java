@@ -5,11 +5,10 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.DamagePotionInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class DamagePotion extends Item implements ProjectileHitInterface,
         InfiniteReplenishInterface, PlayerInteractInterface {
@@ -25,9 +24,9 @@ public class DamagePotion extends Item implements ProjectileHitInterface,
     @Override
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();
-        for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
-            if (isEnemy(ent, getTeam())) {
-                damage(damage, ent, owner);
+        for (final LivingEntity ent : GameUtils.getNearby(at.getLocation(), radius)) {
+            if (GameUtils.isEnemy(ent, getTeam())) {
+                GameUtils.damage(damage, ent, owner);
             }
         }
     }
@@ -39,7 +38,7 @@ public class DamagePotion extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+        final Projectile proj = GameUtils.spawnProjectile(event.getPlayer().getEyeLocation(),
                 1, EntityType.SPLASH_POTION, event.getPlayer());
         summonedEntityIds.add(proj.getUniqueId());
     }

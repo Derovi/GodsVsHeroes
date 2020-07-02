@@ -1,9 +1,11 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChainLightningInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -13,9 +15,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
-
-import static by.dero.gvh.model.Drawings.*;
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class ChainLightning extends Item implements PlayerInteractInterface {
     private final double radius;
@@ -36,10 +35,10 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
 
-        drawCircleInFront(player.getEyeLocation(), 2, 3, 20, Particle.END_ROD);
-        final LivingEntity entity = getTargetEntity(player, 100);
-        if (!isEnemy(entity, getTeam())) {
-            drawLine(player.getEyeLocation(),
+        Drawings.drawCircleInFront(player.getEyeLocation(), 2, 3, 20, Particle.END_ROD);
+        final LivingEntity entity = GameUtils.getTargetEntity(player, 100);
+        if (!GameUtils.isEnemy(entity, getTeam())) {
+            Drawings.drawLine(player.getEyeLocation(),
                     player.getEyeLocation().clone().add(player.getLocation().getDirection().multiply(100)),
                     Particle.END_ROD);
             return;
@@ -50,14 +49,14 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
             LivingEntity next = entity;
             @Override
             public void run() {
-                drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.END_ROD);
+                Drawings.drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.END_ROD);
                 Objects.requireNonNull(next.getEyeLocation().getWorld()).spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
                 hit.add(next.getUniqueId());
-                damage(damage, next, owner);
+                GameUtils.damage(damage, next, owner);
                 cur = next;
                 next = null;
-                for (LivingEntity obj : getNearby(cur.getLocation(), radius)) {
-                    if (isEnemy(obj, getTeam()) && !hit.contains(obj.getUniqueId())) {
+                for (LivingEntity obj : GameUtils.getNearby(cur.getLocation(), radius)) {
+                    if (GameUtils.isEnemy(obj, getTeam()) && !hit.contains(obj.getUniqueId())) {
                         next = obj;
                         break;
                     }

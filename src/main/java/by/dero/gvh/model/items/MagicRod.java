@@ -4,6 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.MagicRodInfo;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -15,8 +16,6 @@ import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.UUID;
-
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class MagicRod extends Item implements PlayerInteractInterface {
     private final double damage;
@@ -46,9 +45,9 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                 start.add(start.getDirection().multiply(1));
                 final Vector kek = st.clone().crossProduct(start.getDirection()).multiply(MathUtils.sin(ticks) * 3);
                 start.getWorld().spawnParticle(Particle.LAVA, start, 1);
-                for (final LivingEntity obj : getNearby(start, 2)) {
-                    if (isEnemy(obj, getTeam()) && !stroke.contains(obj.getUniqueId())) {
-                        damage(damage, obj, owner);
+                for (final LivingEntity obj : GameUtils.getNearby(start, 2)) {
+                    if (GameUtils.isEnemy(obj, getTeam()) && !stroke.contains(obj.getUniqueId())) {
+                        GameUtils.damage(damage, obj, owner);
                         stroke.add(obj.getUniqueId());
                     }
                 }

@@ -3,6 +3,7 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -13,8 +14,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
 import java.util.ArrayList;
-
-import static by.dero.gvh.utils.GameUtils.getPlayer;
 
 public class DoubleSpaceListener implements Listener {
     private ArrayList<DoubleSpaceInterface> getItems(final GamePlayer gp) {
@@ -28,7 +27,7 @@ public class DoubleSpaceListener implements Listener {
     }
 
     private void groundUpdate (final Player player) {
-        if (getItems(getPlayer(player.getName())).isEmpty()) {
+        if (getItems(GameUtils.getPlayer(player.getName())).isEmpty()) {
             return;
         }
 
@@ -42,7 +41,7 @@ public class DoubleSpaceListener implements Listener {
     public void onPlayerMove (final PlayerMoveEvent event) {
         if (Game.getInstance().getState().equals(Game.State.GAME)) {
             final Player p = event.getPlayer();
-            if (!getItems(getPlayer(p.getName())).isEmpty() && !p.getAllowFlight()) {
+            if (!getItems(GameUtils.getPlayer(p.getName())).isEmpty() && !p.getAllowFlight()) {
                 groundUpdate(p);
             }
         }
@@ -52,7 +51,7 @@ public class DoubleSpaceListener implements Listener {
     public void onPlayerToggleFlight (final PlayerToggleFlightEvent event) {
         if (Game.getInstance().getState().equals(Game.State.GAME)) {
             final Player p = event.getPlayer();
-            final ArrayList<DoubleSpaceInterface> items = getItems(getPlayer(p.getName()));
+            final ArrayList<DoubleSpaceInterface> items = getItems(GameUtils.getPlayer(p.getName()));
             if (!items.isEmpty() && p.getGameMode() == GameMode.SURVIVAL) {
                 p.setAllowFlight(false);
                 event.setCancelled(true);

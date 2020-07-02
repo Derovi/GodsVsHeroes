@@ -4,14 +4,13 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ExchangeInfo;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class Exchange extends Item implements PlayerInteractInterface {
     private final double maxRange;
@@ -38,7 +37,7 @@ public class Exchange extends Item implements PlayerInteractInterface {
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
-        final LivingEntity target = getTargetEntity(player, maxRange);
+        final LivingEntity target = GameUtils.getTargetEntity(player, maxRange);
 
         final Location zxc = player.getLocation().clone();
         if (target != null) {

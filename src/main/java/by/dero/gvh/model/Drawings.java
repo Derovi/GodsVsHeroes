@@ -18,11 +18,9 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.UUID;
 
-import static java.lang.Math.random;
-
 public class Drawings {
-    private static final double dense = 3;
-    private static final Vector randomVector = new Vector(random(), random(), random()).normalize();
+    public static final double dense = 3;
+    public static final Vector randomVector = new Vector(Math.random(), Math.random(), Math.random()).normalize();
 
     public static void drawLine(Location a, Location b, Particle obj) {
         Vector cur = a.toVector();

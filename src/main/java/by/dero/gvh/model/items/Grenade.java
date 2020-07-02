@@ -5,13 +5,15 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.GrenadeInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class Grenade extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, PlayerInteractInterface {
@@ -29,9 +31,9 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Location loc = event.getEntity().getLocation();
         loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
-        for (final LivingEntity ent : getNearby(loc, radius)) {
-            if (isEnemy(ent, getTeam())) {
-                damage(damage, ent, owner);
+        for (final LivingEntity ent : GameUtils.getNearby(loc, radius)) {
+            if (GameUtils.isEnemy(ent, getTeam())) {
+                GameUtils.damage(damage, ent, owner);
             }
         }
     }
@@ -43,7 +45,7 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+        final Projectile proj = GameUtils.spawnProjectile(event.getPlayer().getEyeLocation(),
                 1.2, EntityType.SNOWBALL, event.getPlayer());
         summonedEntityIds.add(proj.getUniqueId());
     }

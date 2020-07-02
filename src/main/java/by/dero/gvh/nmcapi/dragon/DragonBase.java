@@ -1,7 +1,5 @@
 package by.dero.gvh.nmcapi.dragon;
 
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-
 public class DragonBase extends EmptyArmorStand {
     private ControlledDragon dragon;
 

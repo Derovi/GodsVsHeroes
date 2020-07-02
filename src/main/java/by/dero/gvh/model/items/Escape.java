@@ -3,12 +3,11 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.EscapeInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class Escape extends Item implements PlayerInteractInterface {
     private final double force;
@@ -28,9 +27,9 @@ public class Escape extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
         player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1);
-        for (final LivingEntity entity : getNearby(player.getLocation(), 3)) {
-            if (isEnemy(entity, getTeam())) {
-                damage(damage, entity, player);
+        for (final LivingEntity entity : GameUtils.getNearby(player.getLocation(), 3)) {
+            if (GameUtils.isEnemy(entity, getTeam())) {
+                GameUtils.damage(damage, entity, player);
             }
         }
         player.setVelocity(player.getLocation().getDirection().multiply(-force));

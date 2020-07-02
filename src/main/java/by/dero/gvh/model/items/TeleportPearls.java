@@ -6,6 +6,7 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
@@ -32,9 +33,9 @@ public class TeleportPearls extends Item implements PlayerInteractInterface,
 		Location loc = event.getEntity().getLocation();
 		owner.teleport(loc);
 		int parts = 4;
-		for (int i = 0; i < parts; i++) {
-			Drawings.drawCircle(loc, 1.5, Particle.SPELL_WITCH);
-			loc.add(0, 2.0 / parts, 0);
+		for (double angle = 0; angle < MathUtils.PI2; angle += MathUtils.PI2 / parts) {
+			Location t = loc.clone().add(MathUtils.cos(angle), 0, MathUtils.sin(angle));
+			Drawings.drawLine(t, t.clone().add(0, 2, 0), Particle.SPELL_WITCH);
 		}
 	}
 

@@ -6,14 +6,11 @@ import by.dero.gvh.model.Lang;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import static by.dero.gvh.model.Drawings.drawCircle;
 
 public class Stun {
     public static void stunEntity(LivingEntity p, int latency) {

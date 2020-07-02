@@ -5,7 +5,6 @@ import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.ServerInfo;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.utils.BungeeUtils;
-import org.bukkit.Server;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
