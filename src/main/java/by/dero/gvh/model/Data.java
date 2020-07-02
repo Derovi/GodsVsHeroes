@@ -74,6 +74,7 @@ public class Data {
         registerItem("poisonousbow", PoisonousBowInfo.class, PoisonousBow.class);
         registerItem("ninjarope", NinjaRopeInfo.class, NinjaRope.class);
         registerItem("spawnhorse", SpawnHorseInfo.class, SpawnHorse.class);
+        registerItem("eaglefly", EagleFlyInfo.class, EagleFly.class);
     }
 
     private void registerClasses() {
