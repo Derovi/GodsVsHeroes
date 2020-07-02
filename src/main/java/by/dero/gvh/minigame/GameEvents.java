@@ -3,13 +3,11 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.ChargesManager;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
-import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.*;
 import by.dero.gvh.model.interfaces.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -136,13 +134,13 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity)) {
+            return;
+        }
         if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) ||
             event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK) ||
             event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
             event.setCancelled(true);
-            return;
-        }
-        if (!(event.getEntity() instanceof LivingEntity)) {
             return;
         }
 
@@ -163,18 +161,18 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity) || event.getFinalDamage() == 0) {
+        if (!(event.getEntity() instanceof LivingEntity) ||
+                !(event.getDamager() instanceof LivingEntity) ||
+                event.getFinalDamage() == 0) {
             return;
         }
-        final LivingEntity entity = (LivingEntity) event.getEntity();
-        if (event.getDamager() instanceof LivingEntity) {
-            if (event.getDamager() instanceof Player &&
-                    isEnemy(entity, getPlayer(event.getDamager().getName()).getTeam())) {
-                game.getStats().addDamage(entity, (LivingEntity) event.getDamager(), event.getDamage());
-                damageCause.put(entity, (LivingEntity) event.getDamager());
-            } else {
-                event.setCancelled(true);
-            }
+        LivingEntity entity = (LivingEntity) event.getEntity();
+        LivingEntity damager = (LivingEntity) event.getDamager();
+        if (GameUtils.isEnemy(entity, event.getDamager())) {
+            game.getStats().addDamage(entity, damager, event.getDamage());
+            damageCause.put(entity, damager);
+        } else {
+            event.setCancelled(true);
         }
     }
 

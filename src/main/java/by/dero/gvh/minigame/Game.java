@@ -51,11 +51,11 @@ public abstract class Game implements Listener {
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
+    private ArrayList<HashMap<UUID, LivingEntity> > mobs;
+    private HashMap<UUID, Integer> mobTeam;
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
-    private BukkitRunnable cooldownMessageUpdater;
     private MapManager mapManager;
-    private BukkitRunnable borderChecker;
 
     public Stats getStats() {
         return stats;
@@ -89,7 +89,7 @@ public abstract class Game implements Listener {
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
         lobby = null;
-        cooldownMessageUpdater = new BukkitRunnable() {
+        BukkitRunnable cooldownMessageUpdater = new BukkitRunnable() {
             @Override
             public void run() {
                 for (GamePlayer player : getPlayers().values()) {
@@ -108,12 +108,15 @@ public abstract class Game implements Listener {
             }
         };
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
-        borderChecker = new BukkitRunnable() {
+        runnables.add(cooldownMessageUpdater);
+
+        BukkitRunnable borderChecker = new BukkitRunnable() {
             final DirectedPosition[] borders = getInfo().getMapBorders();
             final String desMsg = Lang.get("game.desertionMessage");
+
             @Override
             public void run() {
-                for (Entity entity : Minigame.getInstance().getWorld().getEntities()) {
+                for (LivingEntity entity : Minigame.getInstance().getWorld().getLivingEntities()) {
                     final Location loc = entity.getLocation();
                     Vector newVelocity = null;
                     if (loc.getX() < borders[0].getX()) {
@@ -137,6 +140,7 @@ public abstract class Game implements Listener {
             }
         };
         borderChecker.runTaskTimer(Plugin.getInstance(), 5, 5);
+        runnables.add(borderChecker);
         stats = new Stats();
 
         new ChargesManager();
@@ -162,6 +166,11 @@ public abstract class Game implements Listener {
         for (int index = 0; index < playerNames.size(); ++index) {
             players.get(playerNames.get(index)).setTeam(cnt - index % cnt - 1);
         }
+        mobs = new ArrayList<>();
+        for (int i = 0; i < cnt; i++) {
+            mobs.add(new HashMap<>());
+        }
+        mobTeam = new HashMap<>();
     }
 
     public void finish(int winnerTeam) {
@@ -174,6 +183,11 @@ public abstract class Game implements Listener {
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
 
+        for (LivingEntity entity: Bukkit.getWorld(getInfo().getWorld()).getLivingEntities()) {
+            if (!(entity instanceof Player)) {
+                entity.remove();
+            }
+        }
         for (final BukkitRunnable runnable : runnables) {
             runnable.cancel();
         }
@@ -198,10 +212,10 @@ public abstract class Game implements Listener {
                 spawnFirework(MathUtils.randomCylinder(
                         getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
                         25, -10
-                ), 3);
+                ), 2);
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 5);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -226,8 +240,6 @@ public abstract class Game implements Listener {
                 prepare();
             }
         }.runTaskLater(Plugin.getInstance(), 20 * getInfo().getFinishTime());
-        cooldownMessageUpdater.cancel();
-        borderChecker.cancel();
     }
 
     public void prepare() {
@@ -374,5 +386,13 @@ public abstract class Game implements Listener {
 
     public HashMap<String, GamePlayer> getPlayers() {
         return players;
+    }
+
+    public ArrayList<HashMap<UUID, LivingEntity>> getMobs() {
+        return mobs;
+    }
+
+    public HashMap<UUID, Integer> getMobTeam() {
+        return mobTeam;
     }
 }

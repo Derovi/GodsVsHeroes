@@ -14,6 +14,8 @@ import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.UUID;
+
 public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInterface {
     private final int duration;
 
@@ -23,7 +25,8 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInter
         duration = info.getDuration();
     }
 
-    SkeletonHorse horse = null;
+    private SkeletonHorse horse = null;
+    private UUID last = owner.getUniqueId();
     @Override
     public void onDoubleSpace() {
         if (!cooldown.isReady() || horse != null) {
@@ -36,13 +39,17 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInter
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
         horse.setOwner(owner);
         horse.addPassenger(owner);
+        final UUID uuid = horse.getUniqueId();
+        last = uuid;
 
         summonedEntityIds.add(horse.getUniqueId());
 
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                onPlayerSneak();
+                if (last.equals(uuid)) {
+                    onPlayerSneak();
+                }
             }
         };
         runnable.runTaskLater(Plugin.getInstance(), duration);

@@ -5,7 +5,10 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.StorageInterface;
+import com.google.common.base.Predicate;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
+import net.minecraft.server.v1_12_R1.EntityLiving;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,6 +50,13 @@ public class GameUtils {
         return entity.getBukkitEntity();
     }
 
+    public static LivingEntity spawnTeamEntity(Location loc, EntityType type, int team) {
+        LivingEntity entity = (LivingEntity) spawnEntity(loc, type);
+        Game.getInstance().getMobs().get(team).put(entity.getUniqueId(), entity);
+        Game.getInstance().getMobTeam().put(entity.getUniqueId(), team);
+        return entity;
+    }
+
     public static Projectile spawnProjectile(final Location at, final double speed,
                                              final EntityType type, final Player player) {
         final Vector dir = at.getDirection().clone();
@@ -60,16 +70,27 @@ public class GameUtils {
     }
 
     public static boolean isEnemy(final Entity ent, final int team) {
-        if (ent instanceof ArmorStand) {
+        if (ent instanceof ArmorStand || ent.isDead()) {
             return false;
         }
-        if (!(ent instanceof LivingEntity) || ent.isDead()) {
+        if (!(ent instanceof LivingEntity)) {
             return false;
         }
-        if (!(ent instanceof Player)) {
-            return true;
+        if (ent instanceof Player) {
+            return getPlayer(ent.getName()).getTeam() != team;
         }
-        return getPlayer(ent.getName()).getTeam() != team;
+        return !Game.getInstance().getMobs().get(team).containsKey(ent.getUniqueId());
+    }
+
+    public static boolean isEnemy(Entity ent, Entity other) {
+        if (!(ent instanceof LivingEntity) || !(other instanceof LivingEntity)) {
+            return false;
+        }
+        int t1 = ent instanceof Player ? getPlayer(ent.getName()).getTeam() :
+                Game.getInstance().getMobTeam().getOrDefault(ent.getUniqueId(), -1);
+        int t2 = other instanceof Player ? getPlayer(other.getName()).getTeam() :
+                Game.getInstance().getMobTeam().getOrDefault(other.getUniqueId(), -2);
+        return t1 != t2;
     }
 
     public static List<LivingEntity> getNearby(final Location wh, final double radius) {
@@ -84,16 +105,16 @@ public class GameUtils {
     }
 
     public static boolean isAlly(final Entity ent, final int team) {
-        if (ent instanceof ArmorStand) {
+        if (ent instanceof ArmorStand || ent.isDead()) {
             return false;
         }
-        if (!(ent instanceof LivingEntity) || ent.isDead()) {
+        if (!(ent instanceof LivingEntity)) {
             return false;
         }
-        if (!(ent instanceof Player)) {
-            return true;
+        if (ent instanceof Player) {
+            return getPlayer(ent.getName()).getTeam() == team;
         }
-        return getPlayer(ent.getName()).getTeam() == team;
+        return Game.getInstance().getMobs().get(team).containsKey(ent.getUniqueId());
     }
 
     public static Player getLastUsedLightning() {
@@ -177,5 +198,9 @@ public class GameUtils {
         }
         assert ret != null;
         return ret;
+    }
+
+    public static Predicate<EntityLiving> getTargetPredicate(int team) {
+        return (entity) -> entity != null && isEnemy(entity.getBukkitEntity(), team);
     }
 }

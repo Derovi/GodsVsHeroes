@@ -29,31 +29,9 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
         minradius = info.getMinRadius();
     }
 
-    private Location getNormal(Location loc) {
-        final Location startLoc = loc.clone();
-        final DirectedPosition[] poses = Game.getInstance().getInfo().getMapBorders();
-        do {
-            loc = MathUtils.randomCylinder(loc.clone(), radius, 0);
-        } while (poses[0].getX() > loc.getX() || poses[0].getZ() > loc.getZ() ||
-                poses[1].getX() < loc.getX() || poses[1].getZ() < loc.getZ() ||
-                startLoc.distance(loc) < minradius);
-
-        while (loc.getBlock().getType().equals(Material.AIR) &&
-                loc.clone().add(0, 1,0 ).getBlock().getType().equals(Material.AIR) &&
-                loc.clone().add(0, 2,0 ).getBlock().getType().equals(Material.AIR)) {
-            loc.add(0, -1, 0);
-        }
-        while (!loc.getBlock().getType().equals(Material.AIR) ||
-                !loc.clone().add(0, 1,0 ).getBlock().getType().equals(Material.AIR) ||
-                !loc.clone().add(0, 2,0 ).getBlock().getType().equals(Material.AIR)) {
-            loc.add(0, 1, 0);
-        }
-        return loc;
-    }
-
     @Override
     public void onDoubleSpace() {
-        final Location loc = getNormal(owner.getLocation());
+        final Location loc = MathUtils.getGoodInCylinder(owner.getLocation().clone(), minradius, radius);
         if (!cooldown.isReady()) {
             return;
         }
