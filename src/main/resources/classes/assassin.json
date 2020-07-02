@@ -1,0 +1,13 @@
+{
+  "name": "assassin",
+  "maxHP": 40,
+  "cost": 0,
+  "itemNames": [
+    "defaultsword",
+    "poisonousbow",
+    "ninjarope",
+    "eaglefly",
+    "damagepotion",
+    "invisibility"
+  ]
+}
