@@ -316,7 +316,6 @@ public abstract class Game implements Listener {
                 --counter;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
-
     }
 
     public MapManager getMapManager() {
