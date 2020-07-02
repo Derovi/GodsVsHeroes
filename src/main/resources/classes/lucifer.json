@@ -1,0 +1,12 @@
+{
+  "name": "lucifer",
+  "maxHP": 40,
+  "cost": 1000,
+  "itemNames": [
+    "magicrod",
+    "escapeteleport",
+    "suicidejump",
+    "exchange",
+    "lightningstorm"
+  ]
+}

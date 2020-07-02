@@ -75,6 +75,7 @@ public class Data {
         registerItem("ninjarope", NinjaRopeInfo.class, NinjaRope.class);
         registerItem("spawnhorse", SpawnHorseInfo.class, SpawnHorse.class);
         registerItem("skeletonarmy", SkeletonArmyInfo.class, SkeletonArmy.class);
+        registerItem("eaglefly", EagleFlyInfo.class, EagleFly.class);
     }
 
     private void registerClasses() {
@@ -84,6 +85,10 @@ public class Data {
         registerClass("ull");
 
         registerClass("warrior");
+        registerClass("lucifer");
+        registerClass("assassin");
+        registerClass("dovahkiin");
+        registerClass("horseman");
     }
 
     public void load() {

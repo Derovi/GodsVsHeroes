@@ -13,6 +13,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
@@ -48,7 +49,9 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             final Scoreboard sb = board.getScoreboard();
             for (int team = 0; team < currentLivesCount.length; team++) {
                 final String t = team + "hp";
-                sb.registerNewTeam(t).setPrefix(Lang.get("commands." + (char)('1' + team)).substring(0, 2));
+                Team currentTeam = sb.registerNewTeam(t);
+                currentTeam.setPrefix(Lang.get("commands." + (char)('1' + team)).substring(0, 2));
+                currentTeam.setCanSeeFriendlyInvisibles(false);
             }
             final Objective obj = sb.registerNewObjective("health", "health");
             obj.setDisplayName("§c❤");
@@ -94,7 +97,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         super.start();
 
         setDisplays();
-        updateDisplays();
+        //updateDisplays();
     }
 
     @Override

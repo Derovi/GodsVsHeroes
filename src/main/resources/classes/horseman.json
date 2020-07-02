@@ -1,0 +1,9 @@
+{
+  "name": "horseman",
+  "maxHP": 40,
+  "cost": 1000,
+  "itemNames": [
+    "meteor",
+    "spawnhorse"
+  ]
+}

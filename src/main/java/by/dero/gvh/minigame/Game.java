@@ -14,9 +14,12 @@ import by.dero.gvh.utils.MessagingUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -52,7 +55,6 @@ public abstract class Game implements Listener {
     private HashMap<UUID, Integer> mobTeam;
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
-    private BukkitRunnable cooldownMessageUpdater;
     private MapManager mapManager;
 
     public Stats getStats() {
@@ -87,7 +89,7 @@ public abstract class Game implements Listener {
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
         lobby = null;
-        cooldownMessageUpdater = new BukkitRunnable() {
+        BukkitRunnable cooldownMessageUpdater = new BukkitRunnable() {
             @Override
             public void run() {
                 for (GamePlayer player : getPlayers().values()) {
@@ -106,6 +108,39 @@ public abstract class Game implements Listener {
             }
         };
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
+        runnables.add(cooldownMessageUpdater);
+
+        BukkitRunnable borderChecker = new BukkitRunnable() {
+            final DirectedPosition[] borders = getInfo().getMapBorders();
+            final String desMsg = Lang.get("game.desertionMessage");
+
+            @Override
+            public void run() {
+                for (LivingEntity entity : Minigame.getInstance().getWorld().getLivingEntities()) {
+                    final Location loc = entity.getLocation();
+                    Vector newVelocity = null;
+                    if (loc.getX() < borders[0].getX()) {
+                        newVelocity = new Vector(2, 0, 0);
+                    } else if (loc.getX() > borders[1].getX()) {
+                        newVelocity = new Vector(-2, 0, 0);
+                    } else if (loc.getZ() < borders[0].getZ()) {
+                        newVelocity = new Vector(0, 0, 2);
+                    } else if (loc.getZ() > borders[1].getZ()) {
+                        newVelocity = new Vector(0, 0, -2);
+                    }
+                    if (newVelocity != null) {
+                        if (!entity.isInsideVehicle()) {
+                            entity.setVelocity(newVelocity);
+                        }
+                        if (entity instanceof Player) {
+                            entity.sendMessage(desMsg);
+                        }
+                    }
+                }
+            }
+        };
+        borderChecker.runTaskTimer(Plugin.getInstance(), 5, 5);
+        runnables.add(borderChecker);
         stats = new Stats();
 
         new ChargesManager();
@@ -205,7 +240,6 @@ public abstract class Game implements Listener {
                 prepare();
             }
         }.runTaskLater(Plugin.getInstance(), 20 * getInfo().getFinishTime());
-        cooldownMessageUpdater.cancel();
     }
 
     public void prepare() {
@@ -328,7 +362,6 @@ public abstract class Game implements Listener {
                 --counter;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
-
     }
 
     public MapManager getMapManager() {
