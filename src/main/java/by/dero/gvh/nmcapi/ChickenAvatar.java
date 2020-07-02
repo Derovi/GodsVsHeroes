@@ -1,15 +1,18 @@
 package by.dero.gvh.nmcapi;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Minigame;
 import net.minecraft.server.v1_12_R1.EntityChicken;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
 import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -19,10 +22,13 @@ import java.awt.*;
 public class ChickenAvatar extends EntityChicken {
     private Player player;
     private double speed = 0.5;
+    private final ItemStack[] contents;
 
     public ChickenAvatar(Player player) {
         super(((CraftWorld) player.getLocation().getWorld()).getHandle());
         this.player = player;
+        contents = player.getInventory().getContents().clone();
+        player.getInventory().clear();
         setPosition(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
         ((CraftEntity)player).getHandle().a(this, true);
         player.setGameMode(GameMode.ADVENTURE);
@@ -40,7 +46,7 @@ public class ChickenAvatar extends EntityChicken {
     @Override
     public void B_() {
         if (player.getVehicle() == null || !player.getVehicle().getUniqueId().equals(getUniqueID())) {
-            die();
+            finish();
             return;
         }
         yaw = player.getLocation().getYaw();
@@ -56,12 +62,26 @@ public class ChickenAvatar extends EntityChicken {
         this.motZ *= 0.9800000190734863D;
     }
 
-    public void die() {
+    public void finish() {
+        if (dead) {
+            return;
+        }
         player.setGameMode(GameMode.SURVIVAL);
         player.removePotionEffect(PotionEffectType.INVISIBILITY);
+        player.getInventory().setContents(contents);
         for (Player other : player.getWorld().getPlayers()) {
             other.showPlayer(Plugin.getInstance(), player);
         }
+        super.die();
+    }
+
+    public void die() {
+        if (dead) {
+            return;
+        }
+        player.getInventory().setContents(contents);
+        player.setHealth(0);
+        Minigame.getInstance().getGame().onPlayerKilled(player, killer == null ? player : killer.getBukkitEntity());
         super.die();
     }
 
