@@ -1,7 +1,7 @@
 package by.dero.gvh.commands;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.nmcapi.RotatingDragon;
+import by.dero.gvh.nmcapi.dragon.RotatingDragon;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

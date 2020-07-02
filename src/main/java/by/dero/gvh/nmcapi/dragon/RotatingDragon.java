@@ -1,4 +1,4 @@
-package by.dero.gvh.nmcapi;
+package by.dero.gvh.nmcapi.dragon;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;

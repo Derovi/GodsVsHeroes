@@ -320,7 +320,7 @@ public class ThrowingItem extends EntityArmorStand {
     }
 
     public void spawn() {
-        ((CraftWorld) armorStand.getWorld()).getHandle().addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        world.addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
     }
 
     public boolean isPhysicsSpin() {
