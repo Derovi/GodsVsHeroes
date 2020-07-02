@@ -55,6 +55,7 @@ public class ChickenAvatar extends EntityChicken {
     }
 
     public void die() {
+        System.out.println("Die");
         player.setGameMode(GameMode.SURVIVAL);
         player.removePotionEffect(PotionEffectType.INVISIBILITY);
         for (Player other : player.getWorld().getPlayers()) {
