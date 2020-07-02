@@ -5,12 +5,10 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
@@ -37,17 +35,6 @@ public class DoubleSpaceListener implements Listener {
         final Block block = player.getLocation().clone().subtract(0,1,0).getBlock();;
         if (block.getType ().isSolid ()) {
             player.setAllowFlight (true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerDamage (final EntityDamageEvent event) {
-        if (Game.getInstance().getState().equals(Game.State.GAME)) {
-            if (event.getEntityType () == EntityType.PLAYER &&
-                    !getItems(getPlayer(event.getEntity().getName())).isEmpty() &&
-                    event.getCause () == EntityDamageEvent.DamageCause.FALL) {
-                event.setCancelled (true);
-            }
         }
     }
 
