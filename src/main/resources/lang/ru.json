@@ -60,7 +60,10 @@
     "scout": "Разведчик",
     "ull": "Улль",
     "warrior": "Воин",
-    "lucifer": "Люцифер"
+    "lucifer": "Люцифер",
+    "assassin": "Ассасин",
+    "dovahkiin": "Довакин",
+    "horseman": "Апокалипсис"
   },
   "commands": {
     "stat": "§%col%Команда %com%§8: §9%pts%",

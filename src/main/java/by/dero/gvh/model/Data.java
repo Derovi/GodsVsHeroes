@@ -84,6 +84,10 @@ public class Data {
         registerClass("ull");
 
         registerClass("warrior");
+        registerClass("lucifer");
+        registerClass("assassin");
+        registerClass("dovahkiin");
+        registerClass("horseman");
     }
 
     public void load() {
