@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.GameMode;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
@@ -48,7 +50,9 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             final Scoreboard sb = board.getScoreboard();
             for (int team = 0; team < currentLivesCount.length; team++) {
                 final String t = team + "hp";
-                sb.registerNewTeam(t).setPrefix(Lang.get("commands." + (char)('1' + team)).substring(0, 2));
+                Team currentTeam = sb.registerNewTeam(t);
+                currentTeam.setPrefix(Lang.get("commands." + (char)('1' + team)).substring(0, 2));
+                currentTeam.setCanSeeFriendlyInvisibles(false);
             }
             final Objective obj = sb.registerNewObjective("health", "health");
             obj.setDisplayName("§c❤");
@@ -94,7 +98,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         super.start();
 
         setDisplays();
-        updateDisplays();
+        //updateDisplays();
     }
 
     @Override
@@ -123,7 +127,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             }
         }
         for (final GamePlayer gp : getPlayers().values()) {
-            if (gp.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
+            if (GameUtils.isInGame(gp.getPlayer())) {
                 if (teamAlive == -1) {
                     teamAlive = gp.getTeam();
                 } else {
@@ -153,7 +157,9 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         if (player.getKiller() != null) {
             kil = player.getKiller();
         }
-
+        if (!(kil instanceof Player)) {
+            kil = GameUtils.getMob(kil.getUniqueId()).getOwner();
+        }
         onPlayerKilled(player, kil);
         getPlayerDeathLocations().put(player.getName(), player.getLocation());
 

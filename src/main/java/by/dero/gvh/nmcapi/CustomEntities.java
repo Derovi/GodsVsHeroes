@@ -1,5 +1,7 @@
 package by.dero.gvh.nmcapi;
 
+import by.dero.gvh.nmcapi.dragon.EmptyArmorStand;
+import by.dero.gvh.nmcapi.dragon.RotatingDragon;
 import by.dero.gvh.nmcapi.throwing.GravityFireball;
 import by.dero.gvh.nmcapi.throwing.ThrowingItem;
 import net.minecraft.server.v1_12_R1.*;
@@ -8,10 +10,12 @@ import org.bukkit.entity.EntityType;
 public enum CustomEntities {
 
     SMART_ARMOR_STAND("ThrowingItem", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingItem.class),
+    EMPTY_ARMOR_STAND("EmptyArmorStand", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, EmptyArmorStand.class),
     GRAVITY_FIRE_BALL("GravityFireBall", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, GravityFireball.class),
     CORRECT_FIREWORK("CorrectFirework", 22, EntityType.FIREWORK, EntityFireworks.class, InstantFirework.class),
     PASSIVE_CHICKEN("PassiveChicken", 93, EntityType.CHICKEN, EntityChicken.class, ChickenAvatar.class),
-    SMART_FALLING_BLOCK("SmartFallingBlock", 21, EntityType.FALLING_BLOCK, EntityFallingBlock.class, SmartFallingBlock.class);
+    SMART_FALLING_BLOCK("SmartFallingBlock", 21, EntityType.FALLING_BLOCK, EntityFallingBlock.class, SmartFallingBlock.class),
+    SMART_DRAGON("SmartDragon", 63, EntityType.ENDER_DRAGON, EntityEnderDragon.class, RotatingDragon.class);;
 
     private final String name;
     private final int id;

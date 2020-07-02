@@ -1,15 +1,11 @@
 package by.dero.gvh.commands;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.nmcapi.ChickenAvatar;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import net.minecraft.server.v1_12_R1.PacketPlayOutCamera;
-import org.bukkit.GameMode;
+import by.dero.gvh.nmcapi.dragon.ControlledDragon;
+import by.dero.gvh.nmcapi.dragon.RotatingDragon;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -19,7 +15,7 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] strings) {
         Player player = (Player) commandSender;
-
+        ControlledDragon controlledDragon = new ControlledDragon(player);
         return true;
     }
 }

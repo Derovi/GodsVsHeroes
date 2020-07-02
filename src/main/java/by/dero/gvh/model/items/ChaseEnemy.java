@@ -65,8 +65,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
             @Override
             public void run() {
                 ticks -= 5;
-                if (!owner.isOnline() || !owner.getGameMode().equals(GameMode.SURVIVAL) ||
-                        ticks < 0 || zombie.passengers.isEmpty() ||
+                if (!GameUtils.isInGame(owner) || ticks < 0 || zombie.passengers.isEmpty() ||
                         GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).
                                 getPlayer().getLocation().distance(owner.getLocation()) < 2) {
                     zombie.die();

@@ -28,7 +28,7 @@ public class EagleFly extends Item implements DoubleSpaceInterface {
         new BukkitRunnable() {
             @Override
             public void run() {
-                passiveChicken.die();
+                passiveChicken.finish();
             }
         }.runTaskLater(Plugin.getInstance(), info.getDuration());
         passiveChicken.setSpeed(0.06);

@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-public class GamePlayer {
+public class GamePlayer implements GameObject {
     private Player player;
     private String className = "default";
     private PlayerInfo playerInfo;

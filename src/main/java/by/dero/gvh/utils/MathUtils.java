@@ -1,7 +1,9 @@
 package by.dero.gvh.utils;
 
+import by.dero.gvh.minigame.Game;
 import net.minecraft.server.v1_12_R1.MathHelper;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 public class MathUtils {
@@ -108,5 +110,27 @@ public class MathUtils {
     public static Vector getInCphereByHeight(Vector center, double radius, double horAngle, double height) {
         double vertAngle = Math.asin(height / radius * 2 - 1);
         return getInCphere(center, radius, horAngle, vertAngle);
+    }
+
+    public static Location getGoodInCylinder(Location loc, double minradius, double radius) {
+        final Location startLoc = loc.clone();
+        final DirectedPosition[] poses = Game.getInstance().getInfo().getMapBorders();
+        do {
+            loc = MathUtils.randomCylinder(loc.clone(), radius, 0);
+        } while (poses[0].getX() > loc.getX() || poses[0].getZ() > loc.getZ() ||
+                poses[1].getX() < loc.getX() || poses[1].getZ() < loc.getZ() ||
+                startLoc.distance(loc) < minradius);
+
+        while (loc.getBlock().getType().equals(Material.AIR) &&
+                loc.clone().add(0, 1,0 ).getBlock().getType().equals(Material.AIR) &&
+                loc.clone().add(0, 2,0 ).getBlock().getType().equals(Material.AIR)) {
+            loc.add(0, -1, 0);
+        }
+        while (!loc.getBlock().getType().equals(Material.AIR) ||
+                !loc.clone().add(0, 1,0 ).getBlock().getType().equals(Material.AIR) ||
+                !loc.clone().add(0, 2,0 ).getBlock().getType().equals(Material.AIR)) {
+            loc.add(0, 1, 0);
+        }
+        return loc;
     }
 }

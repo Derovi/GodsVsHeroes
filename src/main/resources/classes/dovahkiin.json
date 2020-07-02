@@ -1,0 +1,11 @@
+{
+  "name": "dovahkiin",
+  "maxHP": 40,
+  "cost": 1000,
+  "itemNames": [
+    "swordthrow",
+    "dragonbreath",
+    "explosivebow",
+    "chaseenemy"
+  ]
+}
