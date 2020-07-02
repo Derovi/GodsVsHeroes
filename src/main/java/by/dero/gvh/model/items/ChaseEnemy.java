@@ -7,6 +7,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChaseEnemyInfo;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.PathfinderFollow;
 import com.google.common.base.Predicate;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Bukkit;
@@ -16,6 +17,7 @@ import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -42,21 +44,22 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
         if (!cooldown.isReady()) {
             return;
         }
+        cooldown.reload();
         Location loc = owner.getLocation();
 
         EntityZombie zombie = new EntityZombie(((CraftWorld) owner.getWorld()).world);
         zombie.setPosition(loc.x, loc.y, loc.z);
 
-        zombie.targetSelector.b.clear();
-        Predicate<EntityPlayer> pred = (pl) -> GameUtils.isEnemy(pl.getBukkitEntity(), getTeam());
-        zombie.targetSelector.a(0, new PathfinderGoalNearestAttackableTarget<EntityPlayer>(
-                zombie, EntityPlayer.class, 1, true, false, pred));
         setAttributes(zombie);
-        cooldown.reload();
+        CraftPlayer target = (CraftPlayer) GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).getPlayer();
+//        Predicate<EntityPlayer> pred = (pl) -> GameUtils.isEnemy(pl.getBukkitEntity(), getTeam());
+        zombie.goalSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
+        zombie.targetSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
+        zombie.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
+        zombie.goalSelector.a(0, new PathfinderFollow(zombie, 1, 50));
         zombie.getBukkitEntity().addPassenger(owner);
         zombie.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         zombie.world.addEntity(zombie, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        Bukkit.getServer().broadcastMessage("1");
         BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = duration;
             @Override
@@ -68,7 +71,6 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
                                 getPlayer().getLocation().distance(owner.getLocation()) < 2) {
                     zombie.die();
                     this.cancel();
-                    Bukkit.getServer().broadcastMessage("4");
                 }
             }
         };

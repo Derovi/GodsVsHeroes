@@ -9,7 +9,9 @@ public enum CustomEntities {
 
     SMART_ARMOR_STAND("ThrowingItem", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingItem.class),
     GRAVITY_FIRE_BALL("GravityFireBall", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, GravityFireball.class),
-    CORRECT_FIREWORK("CorrectFirework", 22, EntityType.FIREWORK, EntityFireworks.class, InstantFirework.class);
+    CORRECT_FIREWORK("CorrectFirework", 22, EntityType.FIREWORK, EntityFireworks.class, InstantFirework.class),
+    PASSIVE_CHICKEN("PassiveChicken", 93, EntityType.CHICKEN, EntityChicken.class, PassiveChicken.class),
+    SMART_FALLING_BLOCK("SmartFallingBlock", 21, EntityType.FALLING_BLOCK, EntityFallingBlock.class, SmartFallingBlock.class);
 
     private final String name;
     private final int id;

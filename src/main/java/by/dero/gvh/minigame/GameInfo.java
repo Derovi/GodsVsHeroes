@@ -1,7 +1,6 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.utils.DirectedPosition;
-import by.dero.gvh.utils.Position;
 
 public class GameInfo {
     private String world = "World";

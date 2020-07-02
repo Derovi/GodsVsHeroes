@@ -9,6 +9,7 @@ import by.dero.gvh.utils.DirectedPosition;
 import org.bukkit.*;
 import by.dero.gvh.model.interfaces.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -58,10 +59,11 @@ public class GameEvents implements Listener {
         if ((event.getEntity() instanceof Player)) {
             String playerName = event.getEntity().getName();
             GamePlayer gp = Minigame.getInstance().getGame().getPlayers().get(playerName);
-            Item selectedItem = gp.getSelectedItem();
+            Item selectedItem = gp.getLastUsed();
             if (selectedItem instanceof PlayerShootBowInterface) {
                 ((PlayerShootBowInterface) selectedItem).onPlayerShootBow(event);
             }
+            selectedItem.getSummonedEntityIds().add(event.getProjectile().getUniqueId());
         }
     }
 
@@ -100,7 +102,7 @@ public class GameEvents implements Listener {
                 if (itemInHand.getCooldown().isReady()) {
                     ItemStack item = player.getInventory().getItemInMainHand();
                     item.setAmount(item.getAmount()-1);
-                    ((UltimateInterface)itemInHand).onPlayerInteract(event);
+                    ((UltimateInterface) itemInHand).onPlayerInteract(event);
                 }
             } else {
                 if (itemInHand instanceof InfiniteReplenishInterface) {
@@ -108,7 +110,7 @@ public class GameEvents implements Listener {
                         return;
                     }
                 }
-                ((PlayerInteractInterface)itemInHand).onPlayerInteract(event);
+                ((PlayerInteractInterface) itemInHand).onPlayerInteract(event);
             }
         }
     }
@@ -125,7 +127,7 @@ public class GameEvents implements Listener {
                         item instanceof ProjectileHitInterface) {
                     ((ProjectileHitInterface) item).onProjectileHit(event);
                     if (event.getHitEntity() != null &&
-                            event.getHitEntity() instanceof LivingEntity) {
+                            isEnemy(event.getHitEntity(), gamePlayer.getTeam())) {
                         ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
                     }
                     item.getSummonedEntityIds().remove(event.getEntity().getUniqueId());
@@ -140,7 +142,9 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)) {
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) ||
+            event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK) ||
+            event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
             event.setCancelled(true);
             return;
         }
@@ -149,8 +153,6 @@ public class GameEvents implements Listener {
         }
 
         final LivingEntity entity = (LivingEntity) event.getEntity();
-        entity.setNoDamageTicks(0);
-        entity.setMaximumNoDamageTicks(0);
 
         if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
                 getLastLightningTime() + 100 > System.currentTimeMillis()) {
@@ -162,6 +164,7 @@ public class GameEvents implements Listener {
                 event.setCancelled(true);
             }
         }
+        ((LivingEntity) event.getEntity()).setNoDamageTicks(5);
     }
 
     @EventHandler
@@ -170,8 +173,6 @@ public class GameEvents implements Listener {
             return;
         }
         final LivingEntity entity = (LivingEntity) event.getEntity();
-        entity.setNoDamageTicks(0);
-        entity.setMaximumNoDamageTicks(0);
         if (event.getDamager() instanceof LivingEntity) {
             if (event.getDamager() instanceof Player &&
                     isEnemy(entity, getPlayer(event.getDamager().getName()).getTeam())) {
@@ -239,11 +240,8 @@ public class GameEvents implements Listener {
     @EventHandler
     public void removeEntities(EntitySpawnEvent event) {
         final Entity ent = event.getEntity();
-        if (ent instanceof LivingEntity &&
-                !(ent instanceof Player) &&
-                !(ent instanceof ArmorStand) &&
-                !ent.hasMetadata("custom")) {
-
+        if (ent instanceof LivingEntity && !(ent instanceof Player) &&
+                !(ent instanceof ArmorStand) && !ent.hasMetadata("custom")) {
             ent.remove();
         }
     }

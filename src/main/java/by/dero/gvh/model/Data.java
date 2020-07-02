@@ -3,7 +3,6 @@ package by.dero.gvh.model;
 import by.dero.gvh.minigame.Reward;
 import by.dero.gvh.minigame.RewardManager;
 import by.dero.gvh.utils.DataUtils;
-import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import by.dero.gvh.model.items.FlyBow;
 import by.dero.gvh.model.itemsinfo.FlyBowInfo;
@@ -71,16 +70,13 @@ public class Data {
         registerItem("meteor", MeteorInfo.class, Meteor.class);
         registerItem("chaseenemy", ChaseEnemyInfo.class, ChaseEnemy.class);
         registerItem("spurt", SpurtInfo.class, Spurt.class);
+        registerItem("explosivepig", ExplosivePigInfo.class, ExplosivePig.class);
+        registerItem("poisonousbow", PoisonousBowInfo.class, PoisonousBow.class);
+        registerItem("ninjarope", NinjaRopeInfo.class, NinjaRope.class);
+        registerItem("spawnhorse", SpawnHorseInfo.class, SpawnHorse.class);
     }
 
     private void registerClasses() {
-//        registerClass("alchemist");
-//        registerClass("archer");
-//        registerClass("default");
-//        registerClass("eyre");
-//        registerClass("heimdall");
-//        registerClass("loki");
-//        registerClass("mercenary");
         registerClass("odin");
         registerClass("paladin");
         registerClass("scout");

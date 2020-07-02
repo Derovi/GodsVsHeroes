@@ -8,12 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-
-import java.util.Arrays;
 
 import static by.dero.gvh.utils.MessagingUtils.sendTitle;
 import static org.apache.commons.lang.ArrayUtils.indexOf;
@@ -103,6 +97,10 @@ public class GameLobby {
                 .replace("%max%", String.valueOf(needed))
         );
         updateDisplays();
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.showPlayer(Plugin.getInstance(), gamePlayer.getPlayer());
+            gamePlayer.getPlayer().showPlayer(Plugin.getInstance(), p);
+        }
 
         gamePlayer.getPlayer().getInventory().clear();
         if (players >= game.getInfo().getMinPlayerCount() && !ready) {

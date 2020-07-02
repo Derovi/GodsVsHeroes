@@ -3,15 +3,13 @@
   "maxHP": 40,
   "cost": 1000,
   "itemNames": [
-    "defaultsword",
+    "poisonousbow",
     "explosivebow",
-    "magicrod",
     "healpotion",
-    "escape",
     "escapeteleport",
-    "stunrocks",
     "arrowrain",
     "defaultchestplate",
+
     "defaulthelmet",
     "defaultarrow"
   ]

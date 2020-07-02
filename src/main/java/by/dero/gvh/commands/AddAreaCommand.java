@@ -16,7 +16,7 @@ public class AddAreaCommand implements PluginCommand {
             return;
         }
         World world = getPlayer(sender.getName()).getPlayer().getWorld();
-        Minigame.getAreaManager().addArea(new Area(
+        Minigame.getInstance().getAreaManager().addArea(new Area(
                 new Location(
                         world,
                         Integer.parseInt(args[0]),

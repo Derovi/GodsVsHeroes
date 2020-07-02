@@ -3,6 +3,7 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.GameUtils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -35,10 +36,12 @@ public class LootsManager implements Listener {
     private final HashMap<String, PotionEffect> effects = new HashMap<>();
 
     public LootsManager() {
-        Bukkit.getPluginManager().registerEvents(this, Plugin.getInstance());
         effects.put("heal", new PotionEffect(PotionEffectType.HEAL, 1, 10));
         effects.put("speed", new PotionEffect(PotionEffectType.SPEED, 400, 1));
         effects.put("resistance", new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 400, 2));
+    }
+
+    public void load() {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
@@ -55,12 +58,22 @@ public class LootsManager implements Listener {
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 10);
         Game.getInstance().getRunnables().add(runnable);
+
+        GameInfo info = Game.getInstance().getInfo();
+        for (final DirectedPosition pos : info.getHealPoints()) {
+            spawn(pos.toLocation(info.getWorld()), "heal");
+        }
+        for (final DirectedPosition pos : info.getSpeedPoints()) {
+            spawn(pos.toLocation(info.getWorld()), "speed");
+        }
+        for (final DirectedPosition pos : info.getResistancePoints()) {
+            spawn(pos.toLocation(info.getWorld()), "resistance");
+        }
     }
 
     public void spawn(final Location at, final String name) {
         CraftArmorStand stand = (CraftArmorStand) at.getWorld().spawnEntity(
                 at.subtract(0, eyeHeight - 0.4, 0), EntityType.ARMOR_STAND);
-
         GameUtils.setInvisibleFlags(stand);
         stand.getHandle().setCustomNameVisible(false);
         stand.getEquipment().setHelmet(getHead(name));

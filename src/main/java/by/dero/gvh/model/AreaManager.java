@@ -1,7 +1,5 @@
 package by.dero.gvh.model;
 
-import by.dero.gvh.Plugin;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,10 +10,6 @@ import java.util.ArrayList;
 
 public class AreaManager implements Listener {
     private final ArrayList<Area> buffer = new ArrayList<>();
-
-    public AreaManager() {
-        Bukkit.getPluginManager().registerEvents(this, Plugin.getInstance());
-    }
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {

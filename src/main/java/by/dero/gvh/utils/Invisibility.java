@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class Invisibility {
     public static void makeInvisible(final GamePlayer player, final int time) {
         final Game game = Minigame.getInstance().getGame();
+        player.getPlayer().getWorld().getPlayers();
         for (final GamePlayer gp : game.getPlayers().values()) {
             if (player.getTeam() != gp.getTeam()) {
                 gp.getPlayer().hidePlayer(Plugin.getInstance(), player.getPlayer());
