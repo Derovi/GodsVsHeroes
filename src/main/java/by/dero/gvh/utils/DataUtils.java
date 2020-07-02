@@ -11,12 +11,4 @@ public class DataUtils {
         }
         return storage.load(collection, name);
     }
-
-    public static void setInvisibleEntity(net.minecraft.server.v1_12_R1.Entity handle) {
-        handle.setCustomNameVisible(false);
-        handle.setNoGravity(true);
-        handle.setInvisible(true);
-        handle.noclip = true;
-        handle.invulnerable = true;
-    }
 }

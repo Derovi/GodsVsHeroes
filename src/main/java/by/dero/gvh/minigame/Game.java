@@ -340,15 +340,15 @@ public abstract class Game implements Listener {
                     this.cancel();
                     return;
                 }
-                if (counter == 0) {
+                if (counter <= 0) {
                     toSpawn(gp);
                     onPlayerRespawned(gp);
                     this.cancel();
                     return;
                 }
                 MessagingUtils.sendActionBar(Lang.get("game.deathTime").
-                        replace("%time%", MessagingUtils.getTimeString(counter, false)), player.getPlayer());
-                --counter;
+                        replace("%time%", MessagingUtils.getTimeString(counter / 20, false)), player.getPlayer());
+                counter -= 20;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
     }

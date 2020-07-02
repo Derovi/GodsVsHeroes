@@ -7,14 +7,15 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import com.google.common.base.Predicate;
-import net.minecraft.server.v1_12_R1.EntityArmorStand;
-import net.minecraft.server.v1_12_R1.EntityLiving;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftMonster;
 import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
@@ -37,6 +38,16 @@ public class GameUtils {
         damage(damage, target, killer, false);
     }
 
+    public static <T> ArrayList<T> selectItems(GamePlayer gp, Class<T> cl) {
+        final ArrayList<T> list = new ArrayList<>();
+        for (by.dero.gvh.model.Item item : gp.getItems().values()) {
+            if (cl.isInstance(item)) {
+                list.add(cl.cast(item));
+            }
+        }
+        return list;
+    }
+
     public static void damage(double damage, LivingEntity target, LivingEntity killer, boolean hasDelay) {
         Minigame.getInstance().getGameEvents().getDamageCause().put(target, killer);
         if (!hasDelay) {
@@ -51,6 +62,20 @@ public class GameUtils {
         entity.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         wrld.addEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
         return entity.getBukkitEntity();
+    }
+
+    public static void addTeamAi(CraftMonster entity, int team) {
+        EntityMonster handle = entity.getHandle();
+
+        handle.goalSelector = new PathfinderGoalSelector(handle.world.methodProfiler);
+        handle.targetSelector = new PathfinderGoalSelector(handle.world.methodProfiler);
+        handle.targetSelector.a(0, new PathfinderAttackEnemies<>(
+                handle, EntityLiving.class, 50, true, false, GameUtils.getTargetPredicate(team)));
+
+        handle.goalSelector.a(1, new PathfinderGoalFloat(handle));
+        handle.goalSelector.a(5, new PathfinderGoalRandomStrollLand(handle, 1.0D));
+        handle.goalSelector.a(6, new PathfinderGoalLookAtPlayer(handle, EntityHuman.class, 8.0F));
+        handle.goalSelector.a(6, new PathfinderGoalRandomLookaround(handle));
     }
 
     public static LivingEntity spawnTeamEntity(Location loc, EntityType type, GamePlayer gp) {

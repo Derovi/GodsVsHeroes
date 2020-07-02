@@ -67,7 +67,6 @@ public class Minigame implements PluginMode {
         Bukkit.getPluginManager().registerEvents(areaManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(lootsManager, Plugin.getInstance());
         Bukkit.getPluginManager().registerEvents(new DoubleSpaceListener(), Plugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(new SneakListener(), Plugin.getInstance());
     }
 
     private void registerCommands() {

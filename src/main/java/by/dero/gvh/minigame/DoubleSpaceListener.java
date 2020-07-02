@@ -1,7 +1,5 @@
 package by.dero.gvh.minigame;
 
-import by.dero.gvh.GamePlayer;
-import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.GameMode;
@@ -16,18 +14,8 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import java.util.ArrayList;
 
 public class DoubleSpaceListener implements Listener {
-    private ArrayList<DoubleSpaceInterface> getItems(final GamePlayer gp) {
-        final ArrayList<DoubleSpaceInterface> list = new ArrayList<>();
-        for (final Item item : gp.getItems().values()) {
-            if (item instanceof DoubleSpaceInterface) {
-                list.add((DoubleSpaceInterface) item);
-            }
-        }
-        return list;
-    }
-
     private void groundUpdate (final Player player) {
-        if (getItems(GameUtils.getPlayer(player.getName())).isEmpty()) {
+        if (GameUtils.selectItems(GameUtils.getPlayer(player.getName()), DoubleSpaceInterface.class).isEmpty()) {
             return;
         }
 
@@ -41,7 +29,8 @@ public class DoubleSpaceListener implements Listener {
     public void onPlayerMove (final PlayerMoveEvent event) {
         if (Game.getInstance().getState().equals(Game.State.GAME)) {
             final Player p = event.getPlayer();
-            if (!getItems(GameUtils.getPlayer(p.getName())).isEmpty() && !p.getAllowFlight()) {
+            if (!GameUtils.selectItems(GameUtils.getPlayer(p.getName()), DoubleSpaceInterface.class).isEmpty() &&
+                    !p.getAllowFlight()) {
                 groundUpdate(p);
             }
         }
@@ -51,7 +40,8 @@ public class DoubleSpaceListener implements Listener {
     public void onPlayerToggleFlight (final PlayerToggleFlightEvent event) {
         if (Game.getInstance().getState().equals(Game.State.GAME)) {
             final Player p = event.getPlayer();
-            final ArrayList<DoubleSpaceInterface> items = getItems(GameUtils.getPlayer(p.getName()));
+            final ArrayList<DoubleSpaceInterface> items = GameUtils.selectItems(
+                    GameUtils.getPlayer(p.getName()), DoubleSpaceInterface.class);
             if (!items.isEmpty() && p.getGameMode() == GameMode.SURVIVAL) {
                 p.setAllowFlight(false);
                 event.setCancelled(true);

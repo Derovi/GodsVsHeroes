@@ -5,7 +5,6 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.GameUtils;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -16,7 +15,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
 
@@ -152,18 +150,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
         spawnFirework(player.getLocation().clone().add(0,1,0), 1);
 
-        final HashMap<LivingEntity, LivingEntity> damageCause = Minigame.getInstance().getGameEvents().getDamageCause();
-        LivingEntity kil = damageCause.getOrDefault(player, player);
-        if (player.getKiller() != null) {
-            kil = player.getKiller();
-        }
-        if (!(kil instanceof Player)) {
-            kil = GameUtils.getMob(kil.getUniqueId()).getOwner();
-        }
-        onPlayerKilled(player, kil);
-        getPlayerDeathLocations().put(player.getName(), player.getLocation());
-
-        final int team = getPlayers().get(event.getEntity().getName()).getTeam();
+        final int team = getPlayers().get(player.getName()).getTeam();
         int respTime = -1;
 
         if (currentLivesCount[team] > 0) {
@@ -171,11 +158,11 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             respawning[team]++;
             respTime = getInfo().getRespawnTime();
         }
+        getPlayerDeathLocations().put(player.getName(), player.getLocation());
         player.spigot().respawn();
         spawnPlayer(getPlayers().get(player.getName()), respTime);
         player.setExp(exp);
 
-        damageCause.remove(player);
         updateDisplays();
         checkForGameEnd();
     }

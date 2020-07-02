@@ -21,12 +21,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import java.util.*;
 
 import static by.dero.gvh.model.Drawings.addTrail;
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class GameEvents implements Listener {
     public static void setGame(DeathMatch game) {
@@ -119,7 +117,7 @@ public class GameEvents implements Listener {
                         item instanceof ProjectileHitInterface) {
                     ((ProjectileHitInterface) item).onProjectileHit(event);
                     if (event.getHitEntity() != null &&
-                            isEnemy(event.getHitEntity(), gamePlayer.getTeam())) {
+                            GameUtils.isEnemy(event.getHitEntity(), gamePlayer.getTeam())) {
                         ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
                     }
                     item.getSummonedEntityIds().remove(event.getEntity().getUniqueId());
@@ -129,6 +127,17 @@ public class GameEvents implements Listener {
 
         if (event.getEntity() instanceof Arrow) {
             event.getEntity().remove();
+        }
+    }
+
+    @EventHandler
+    public void onPlayerSneak(PlayerToggleSneakEvent event) {
+        Player player = event.getPlayer();
+        if (!player.isSneaking()) {
+            return;
+        }
+        for (SneakInterface item : GameUtils.selectItems(GameUtils.getPlayer(player.getName()), SneakInterface.class)) {
+            item.onPlayerSneak();
         }
     }
 
@@ -147,9 +156,9 @@ public class GameEvents implements Listener {
         final LivingEntity entity = (LivingEntity) event.getEntity();
 
         if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
-                getLastLightningTime() + 100 > System.currentTimeMillis()) {
-            final Player player = getLastUsedLightning();
-            if (isEnemy(entity, getPlayer(player.getName()).getTeam())) {
+                GameUtils.getLastLightningTime() + 100 > System.currentTimeMillis()) {
+            final Player player = GameUtils.getLastUsedLightning();
+            if (GameUtils.isEnemy(entity, GameUtils.getPlayer(player.getName()).getTeam())) {
                 game.getStats().addDamage(entity, player, event.getDamage());
                 damageCause.put(entity, player);
             } else {
@@ -208,7 +217,20 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
-
+        Player player = event.getEntity();
+        final HashMap<LivingEntity, LivingEntity> damageCause = Minigame.getInstance().getGameEvents().getDamageCause();
+        LivingEntity kil = damageCause.getOrDefault(player, player);
+        if (player.getKiller() != null) {
+            kil = player.getKiller();
+        }
+        if (!(kil instanceof Player)) {
+            kil = GameUtils.getMob(kil.getUniqueId()).getOwner();
+        }
+        for (PlayerKillInterface item : GameUtils.selectItems(GameUtils.getPlayer(kil.getName()), PlayerKillInterface.class)) {
+            item.onPlayerKill(player);
+        }
+        game.onPlayerKilled(player, kil);
+        damageCause.remove(player);
     }
 
     @EventHandler
