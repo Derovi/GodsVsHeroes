@@ -40,8 +40,10 @@ public class ChickenAvatar extends EntityChicken {
 
     @Override
     public void B_() {
-        //System.out.println("yaw " + player.getLocation().getYaw());
-        //System.out.println("pitch " + player.getLocation().getPitch());
+        if (player.getVehicle() == null || !player.getVehicle().getUniqueId().equals(getUniqueID())) {
+            die();
+            return;
+        }
         yaw = player.getLocation().getYaw();
         pitch = player.getLocation().getPitch();
         setHeadRotation(((CraftEntity) player).getHandle().getHeadRotation());

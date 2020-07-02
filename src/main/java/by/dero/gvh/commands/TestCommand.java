@@ -19,34 +19,7 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] strings) {
         Player player = (Player) commandSender;
-        ChickenAvatar passiveChicken = new ChickenAvatar(player);
-        passiveChicken.spawn();
-        //chicken.setVelocity(new Vector(0,1.5,0));
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                //chicken.setGravity(false);
-                //chicken.setVelocity(new Vector(0,0,0));
-                //chicken.teleport(chicken.getLocation().clone().setDirection(new Vector(0,-1,0)));
-            }
-        }.runTaskLater(Plugin.getInstance(), 60);
-        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                passiveChicken.die();
-            }
-        }.runTaskLater(Plugin.getInstance(), 400);
-        passiveChicken.setSpeed(0.06);
-        passiveChicken.getBukkitEntity().setVelocity(new Vector(0,1,0));
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                passiveChicken.setSpeed(0.5);
-            }
-        }.runTaskLater(Plugin.getInstance(), 25);
-        //PacketPlayOutCamera packetPlayOutCamera = new PacketPlayOutCamera(passiveChicken);
-        //entityPlayer.playerConnection.sendPacket(packetPlayOutCamera);
+
         return true;
     }
 }
