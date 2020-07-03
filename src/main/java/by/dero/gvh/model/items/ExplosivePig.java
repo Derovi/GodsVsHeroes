@@ -65,7 +65,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
             int ticks = duration;
             @Override
             public void run() {
-                ticks -= 5;
+                ticks -= 3;
                 Location loc = pig.getBukkitEntity().getLocation();
                 if (ticks < 0 || GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).getPlayer().
                         getLocation().distance(loc) < radius) {

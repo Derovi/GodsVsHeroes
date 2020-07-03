@@ -4,7 +4,6 @@
   "slot": 0,
   "levels": [
     {
-      "type": "ZOMBIE",
       "cooldown": 0,
       "cost": 80,
       "material": "FEATHER",

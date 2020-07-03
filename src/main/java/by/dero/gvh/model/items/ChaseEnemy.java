@@ -50,7 +50,6 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
 
         setAttributes(zombie);
         CraftPlayer target = (CraftPlayer) GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).getPlayer();
-//        Predicate<EntityPlayer> pred = (pl) -> GameUtils.isEnemy(pl.getBukkitEntity(), getTeam());
         zombie.goalSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
         zombie.targetSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
         zombie.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
