@@ -57,7 +57,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         pig.goalSelector = new PathfinderGoalSelector(pig.world.methodProfiler);
         pig.targetSelector = new PathfinderGoalSelector(pig.world.methodProfiler);
         pig.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
-        pig.goalSelector.a(0, new PathfinderFollow(pig, 1, 50));
+        pig.goalSelector.a(0, new PathfinderFollow(pig, 1, 200));
 
         pig.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         pig.world.addEntity(pig, CreatureSpawnEvent.SpawnReason.CUSTOM);

@@ -64,20 +64,6 @@ public class GameUtils {
         return entity.getBukkitEntity();
     }
 
-    public static void addTeamAi(CraftMonster entity, int team) {
-        EntityMonster handle = entity.getHandle();
-
-        handle.goalSelector = new PathfinderGoalSelector(handle.world.methodProfiler);
-        handle.targetSelector = new PathfinderGoalSelector(handle.world.methodProfiler);
-        handle.targetSelector.a(0, new PathfinderAttackEnemies<>(
-                handle, EntityLiving.class, 50, true, false, GameUtils.getTargetPredicate(team)));
-
-        handle.goalSelector.a(1, new PathfinderGoalFloat(handle));
-        handle.goalSelector.a(5, new PathfinderGoalRandomStrollLand(handle, 1.0D));
-        handle.goalSelector.a(6, new PathfinderGoalLookAtPlayer(handle, EntityHuman.class, 8.0F));
-        handle.goalSelector.a(6, new PathfinderGoalRandomLookaround(handle));
-    }
-
     public static LivingEntity spawnTeamEntity(Location loc, EntityType type, GamePlayer gp) {
         LivingEntity entity = (LivingEntity) spawnEntity(loc, type);
         Game.getInstance().getMobs().put(entity.getUniqueId(), new GameMob(entity, gp.getTeam(), gp.getPlayer()));

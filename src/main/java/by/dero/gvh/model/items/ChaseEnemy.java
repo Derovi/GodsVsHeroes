@@ -54,7 +54,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
         zombie.goalSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
         zombie.targetSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
         zombie.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
-        zombie.goalSelector.a(0, new PathfinderFollow(zombie, 1, 50));
+        zombie.goalSelector.a(0, new PathfinderFollow(zombie, 1, 200));
         zombie.getBukkitEntity().addPassenger(owner);
         zombie.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         zombie.world.addEntity(zombie, CreatureSpawnEvent.SpawnReason.CUSTOM);
@@ -62,7 +62,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
             int ticks = duration;
             @Override
             public void run() {
-                ticks -= 5;
+                ticks -= 2;
                 if (!GameUtils.isInGame(owner) || ticks < 0 || zombie.passengers.isEmpty() ||
                         GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).
                                 getPlayer().getLocation().distance(owner.getLocation()) < 2) {
@@ -71,7 +71,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 5);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
         Game.getInstance().getRunnables().add(runnable);
     }
 }

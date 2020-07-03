@@ -73,7 +73,7 @@ public class Data {
         registerItem("explosivepig", ExplosivePigInfo.class, ExplosivePig.class);
         registerItem("poisonousbow", PoisonousBowInfo.class, PoisonousBow.class);
         registerItem("ninjarope", NinjaRopeInfo.class, NinjaRope.class);
-        registerItem("spawnhorse", SpawnHorseInfo.class, SpawnHorse.class);
+        registerItem("spawnhorse", ItemInfo.class, SpawnHorse.class);
         registerItem("skeletonarmy", SkeletonArmyInfo.class, SkeletonArmy.class);
         registerItem("eaglefly", EagleFlyInfo.class, EagleFly.class);
         registerItem("teleportpearls", ItemInfo.class, TeleportPearls.class);

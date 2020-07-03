@@ -96,7 +96,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         super.start();
 
         setDisplays();
-        //updateDisplays();
+        updateDisplays();
     }
 
     @Override
