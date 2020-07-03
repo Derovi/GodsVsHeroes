@@ -33,6 +33,7 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
         if (!cooldown.isReady()) {
             return;
         }
+        cooldown.reload();
         EntityPlayer player = ((CraftPlayer) owner).getHandle();
         EntityFishingHook fishingHook = new EntityFishingHook(player.world, player);
         Arrow arrow = (Arrow) GameUtils.spawnProjectile(owner.getEyeLocation(), 2, EntityType.ARROW, owner);
