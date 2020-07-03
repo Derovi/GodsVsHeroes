@@ -292,10 +292,6 @@ public class Drawings {
     public static void addTrail(final Projectile proj) {
         final HashSet<UUID> projectiles = Minigame.getInstance().getGameEvents().getProjectiles();
         projectiles.add(proj.getUniqueId());
-        final Random rnd = new Random();
-        final int red = rnd.nextInt(256);
-        final int green = rnd.nextInt(256);
-        final int blue = rnd.nextInt(256);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -303,8 +299,8 @@ public class Drawings {
                     this.cancel();
                 }
                 final Location loc = proj.getLocation();
-                loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(),
-                        0, red, green, blue, 0);
+                loc.getWorld().spawnParticle(Particle.FLAME, loc.getX(), loc.getY(), loc.getZ(),
+                        0, 0, 0, 0);
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 1);
     }

@@ -65,7 +65,6 @@ public class GameEvents implements Listener {
             event.setCancelled(true);
         } else {
             projectiles.add(proj.getUniqueId());
-            addTrail(proj);
         }
     }
 

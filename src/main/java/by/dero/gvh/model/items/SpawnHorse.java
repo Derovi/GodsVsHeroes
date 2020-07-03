@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.UUID;
-
 public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInterface {
 
     public SpawnHorse(String name, int level, Player owner) {
@@ -19,7 +17,7 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInter
     }
 
     private SkeletonHorse horse = null;
-    private UUID last = owner.getUniqueId();
+
     @Override
     public void onDoubleSpace() {
         if (!cooldown.isReady() || horse != null) {
@@ -32,8 +30,6 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInter
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
         horse.setOwner(owner);
         horse.addPassenger(owner);
-        final UUID uuid = horse.getUniqueId();
-        last = uuid;
 
         summonedEntityIds.add(horse.getUniqueId());
     }
