@@ -3,15 +3,12 @@ package by.dero.gvh.nmcapi.throwing;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
-import com.google.common.collect.Lists;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
 import net.minecraft.server.v1_12_R1.Vector3f;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -20,10 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ThrowingItem extends EntityArmorStand {
     private final ArmorStand armorStand;

@@ -5,6 +5,7 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.ArrowRainInfo;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -14,10 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
-
-import static by.dero.gvh.utils.GameUtils.getNearby;
-import static by.dero.gvh.utils.GameUtils.isEnemy;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArrowRain extends Item implements UltimateInterface {
     private final double radius;
@@ -54,8 +53,8 @@ public class ArrowRain extends Item implements UltimateInterface {
             public void run() {
                 final Location shooter = MathUtils.randomCylinder(center, radius, 0);
                 final List<Location> targets = new ArrayList<>();
-                for (LivingEntity obj : getNearby(center, radius)) {
-                    if (isEnemy(obj, getTeam())) {
+                for (LivingEntity obj : GameUtils.getNearby(center, radius)) {
+                    if (GameUtils.isEnemy(obj, getTeam())) {
                         targets.add(obj.getLocation().clone());
                     }
                 }

@@ -1,14 +1,13 @@
 package by.dero.gvh.model;
 
-import by.dero.gvh.utils.ResourceUtils;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ItemInfo {
     static class EnchantInfo {

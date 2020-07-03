@@ -3,11 +3,10 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.InvisibilityPotionInfo;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.Invisibility;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import static by.dero.gvh.utils.GameUtils.getPlayer;
 
 public class InvisibilityPotion extends Item implements PlayerInteractInterface {
     private final int duration;
@@ -22,7 +21,7 @@ public class InvisibilityPotion extends Item implements PlayerInteractInterface 
             return;
         }
         cooldown.reload();
-        Invisibility.makeInvisible(getPlayer(event.getPlayer().getName()), duration);
+        Invisibility.makeInvisible(GameUtils.getPlayer(event.getPlayer().getName()), duration);
     }
 
 

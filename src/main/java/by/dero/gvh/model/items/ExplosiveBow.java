@@ -5,6 +5,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -19,10 +20,6 @@ import org.bukkit.util.Vector;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-
-import static by.dero.gvh.utils.GameUtils.damage;
-import static by.dero.gvh.utils.GameUtils.getNearby;
-import static java.lang.Math.random;
 
 public class ExplosiveBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
     private final double reclining;
@@ -50,7 +47,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
         new BukkitRunnable() {
             double power;
             int ticks = 0;
-            final Vector st = new Vector(random(), random(), random()).normalize();
+            final Vector st = new Vector(Math.random(), Math.random(), Math.random()).normalize();
             @Override
             public void run() {
                 Vector dir = obj.getLocation().getDirection();
@@ -70,8 +67,8 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                     final float force = (float)(power*power*multiplier);
                     Location loc = obj.getLocation();
                     loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 3);
-                    for (LivingEntity ent : getNearby(loc, 5)) {
-                        damage(force, ent, owner);
+                    for (LivingEntity ent : GameUtils.getNearby(loc, 5)) {
+                        GameUtils.damage(force, ent, owner);
                     }
                     this.cancel();
                     return;

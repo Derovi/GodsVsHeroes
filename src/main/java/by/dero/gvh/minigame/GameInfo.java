@@ -5,7 +5,7 @@ import by.dero.gvh.utils.DirectedPosition;
 public class GameInfo {
     private String world = "World";
     private int teamCount = 2;
-    private int respawnTime = 10;
+    private int respawnTime = 200;
     private int minPlayerCount = 2;
     private int maxPlayerCount = 24;
     private DirectedPosition lobbyPosition;

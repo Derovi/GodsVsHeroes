@@ -5,13 +5,12 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.PoisonPotionInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class PoisonPotion extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, PlayerInteractInterface {
@@ -28,8 +27,8 @@ public class PoisonPotion extends Item implements InfiniteReplenishInterface,
     @Override
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();
-        for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
-            if (isEnemy(ent, getTeam())) {
+        for (final LivingEntity ent : GameUtils.getNearby(at.getLocation(), radius)) {
+            if (GameUtils.isEnemy(ent, getTeam())) {
                 new PotionEffect(PotionEffectType.POISON, latency, 1).apply(ent);
             }
         }
@@ -42,7 +41,7 @@ public class PoisonPotion extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+        final Projectile proj = GameUtils.spawnProjectile(event.getPlayer().getEyeLocation(),
                 1, EntityType.SPLASH_POTION, event.getPlayer());
         summonedEntityIds.add(proj.getUniqueId());
     }

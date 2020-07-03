@@ -1,6 +1,7 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.ChargesManager;
+import by.dero.gvh.GameMob;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
@@ -14,22 +15,15 @@ import by.dero.gvh.utils.MessagingUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.*;
-
-import static by.dero.gvh.model.Drawings.spawnFirework;
-import static by.dero.gvh.utils.MessagingUtils.sendActionBar;
-import static by.dero.gvh.utils.MessagingUtils.sendTitle;
 
 public abstract class Game implements Listener {
     public static Game getInstance() {
@@ -51,8 +45,7 @@ public abstract class Game implements Listener {
     private final GameInfo info;
     private State state;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
-    private ArrayList<HashMap<UUID, LivingEntity> > mobs;
-    private HashMap<UUID, Integer> mobTeam;
+    private HashMap<UUID, GameMob> mobs;
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private MapManager mapManager;
@@ -166,11 +159,7 @@ public abstract class Game implements Listener {
         for (int index = 0; index < playerNames.size(); ++index) {
             players.get(playerNames.get(index)).setTeam(cnt - index % cnt - 1);
         }
-        mobs = new ArrayList<>();
-        for (int i = 0; i < cnt; i++) {
-            mobs.add(new HashMap<>());
-        }
-        mobTeam = new HashMap<>();
+        mobs = new HashMap<>();
     }
 
     public void finish(int winnerTeam) {
@@ -209,7 +198,7 @@ public abstract class Game implements Listener {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                spawnFirework(MathUtils.randomCylinder(
+                Drawings.spawnFirework(MathUtils.randomCylinder(
                         getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
                         25, -10
                 ), 2);
@@ -322,8 +311,8 @@ public abstract class Game implements Listener {
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
         player.setHealth(maxHealth);
 
-        sendTitle("", player, 0, 1, 0);
-        sendActionBar("", player);
+        MessagingUtils.sendTitle("", player, 0, 1, 0);
+        MessagingUtils.sendActionBar("", player);
         addItems(gp);
     }
 
@@ -338,10 +327,10 @@ public abstract class Game implements Listener {
         player.teleport(playerDeathLocations.get(player.getName()));
         player.setVelocity(new Vector(0,4,0));
         if (respawnTime == -1) {
-            sendTitle(Lang.get("game.livesNotLeft"), player, 0, 20, 0);
+            MessagingUtils.sendTitle(Lang.get("game.livesNotLeft"), player, 0, 20, 0);
             return;
         }
-        sendTitle(Lang.get("game.dead"), player, 0, 20, 0);
+        MessagingUtils.sendTitle(Lang.get("game.dead"), player, 0, 20, 0);
 
         new BukkitRunnable() {
             int counter = respawnTime;
@@ -351,15 +340,15 @@ public abstract class Game implements Listener {
                     this.cancel();
                     return;
                 }
-                if (counter == 0) {
+                if (counter <= 0) {
                     toSpawn(gp);
                     onPlayerRespawned(gp);
                     this.cancel();
                     return;
                 }
-                sendActionBar(Lang.get("game.deathTime").
-                        replace("%time%", MessagingUtils.getTimeString(counter, false)), player.getPlayer());
-                --counter;
+                MessagingUtils.sendActionBar(Lang.get("game.deathTime").
+                        replace("%time%", MessagingUtils.getTimeString(counter / 20, false)), player.getPlayer());
+                counter -= 20;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
     }
@@ -388,11 +377,7 @@ public abstract class Game implements Listener {
         return players;
     }
 
-    public ArrayList<HashMap<UUID, LivingEntity>> getMobs() {
+    public HashMap<UUID, GameMob> getMobs() {
         return mobs;
-    }
-
-    public HashMap<UUID, Integer> getMobTeam() {
-        return mobTeam;
     }
 }

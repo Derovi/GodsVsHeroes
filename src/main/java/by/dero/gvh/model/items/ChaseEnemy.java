@@ -5,13 +5,11 @@ import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChaseEnemyInfo;
-import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.PathfinderFollow;
-import com.google.common.base.Predicate;
-import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
+import net.minecraft.server.v1_12_R1.EntityZombie;
+import net.minecraft.server.v1_12_R1.GenericAttributes;
+import net.minecraft.server.v1_12_R1.PathfinderGoalSelector;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
@@ -56,7 +54,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
         zombie.goalSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
         zombie.targetSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
         zombie.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
-        zombie.goalSelector.a(0, new PathfinderFollow(zombie, 1, 50));
+        zombie.goalSelector.a(0, new PathfinderFollow(zombie, 1, 200));
         zombie.getBukkitEntity().addPassenger(owner);
         zombie.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         zombie.world.addEntity(zombie, CreatureSpawnEvent.SpawnReason.CUSTOM);
@@ -64,9 +62,8 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
             int ticks = duration;
             @Override
             public void run() {
-                ticks -= 5;
-                if (!owner.isOnline() || !owner.getGameMode().equals(GameMode.SURVIVAL) ||
-                        ticks < 0 || zombie.passengers.isEmpty() ||
+                ticks -= 2;
+                if (!GameUtils.isInGame(owner) || ticks < 0 || zombie.passengers.isEmpty() ||
                         GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).
                                 getPlayer().getLocation().distance(owner.getLocation()) < 2) {
                     zombie.die();
@@ -74,7 +71,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 5);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
         Game.getInstance().getRunnables().add(runnable);
     }
 }

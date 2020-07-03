@@ -4,15 +4,13 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.HealAllInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import static by.dero.gvh.utils.GameUtils.getNearby;
-import static by.dero.gvh.utils.GameUtils.isAlly;
 
 public class HealAll extends Item implements UltimateInterface {
     private final double radius;
@@ -41,8 +39,8 @@ public class HealAll extends Item implements UltimateInterface {
         }
         cooldown.reload();
         drawSign(p.getLocation());
-        for (final LivingEntity ent : getNearby(p.getLocation(), radius)) {
-            if (isAlly(ent, getTeam())) {
+        for (final LivingEntity ent : GameUtils.getNearby(p.getLocation(), radius)) {
+            if (GameUtils.isAlly(ent, getTeam())) {
                 final double hp = Math.min(ent.getHealth() + heal,
                         ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 ent.setHealth(hp);

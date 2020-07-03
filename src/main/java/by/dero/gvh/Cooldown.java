@@ -1,6 +1,5 @@
 package by.dero.gvh;
 
-
 public class Cooldown {
     private long startTime;
     private final long duration;

@@ -2,6 +2,7 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -9,8 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
-
-import static by.dero.gvh.utils.GameUtils.getPlayer;
 
 public class Item {
     protected final Player owner;
@@ -86,7 +85,7 @@ public class Item {
 
     public int getTeam() {
         if (team == -1) {
-            team = getPlayer(owner.getName()).getTeam();
+            team = GameUtils.getPlayer(owner.getName()).getTeam();
         }
         return team;
     }

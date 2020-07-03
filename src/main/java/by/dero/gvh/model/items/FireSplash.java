@@ -1,8 +1,10 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.FireSplashInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -11,11 +13,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashSet;
 import java.util.UUID;
-
-import static by.dero.gvh.model.Drawings.drawSector;
-import static by.dero.gvh.utils.GameUtils.damage;
-import static by.dero.gvh.utils.GameUtils.isEnemy;
-import static java.lang.Math.sqrt;
 
 public class FireSplash extends Item implements PlayerInteractInterface {
     private final double radius;
@@ -36,20 +33,20 @@ public class FireSplash extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
-        final Location[] locs = drawSector(player.getEyeLocation(), 0,
+        final Location[] locs = Drawings.drawSector(player.getEyeLocation(), 0,
                 radius, Math.PI / 2, Particle.FLAME);
         stroke.clear();
         for (final Player otherPlayer : Bukkit.getOnlinePlayers()) {
             final Location other = otherPlayer.getLocation();
             for (final Location at : locs) {
-                if (stroke.contains(otherPlayer.getUniqueId()) || !isEnemy(otherPlayer, getTeam())) {
+                if (stroke.contains(otherPlayer.getUniqueId()) || !GameUtils.isEnemy(otherPlayer, getTeam())) {
                     break;
                 }
                 if (other.getY() <= at.getY() && at.getY() <= other.getY() + 2) {
-                    final double dst = sqrt((other.getX() - at.getX()) * (other.getX() - at.getX()) +
+                    final double dst = Math.sqrt((other.getX() - at.getX()) * (other.getX() - at.getX()) +
                                         (other.getZ() - at.getZ()) * (other.getZ() - at.getZ()));
                     if (dst < 1) {
-                        damage(damage, otherPlayer, owner);
+                        GameUtils.damage(damage, otherPlayer, owner);
                         stroke.add(otherPlayer.getUniqueId());
                     }
                 }

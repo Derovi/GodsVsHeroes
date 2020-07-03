@@ -1,8 +1,6 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.lobby.Lobby;
-import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;

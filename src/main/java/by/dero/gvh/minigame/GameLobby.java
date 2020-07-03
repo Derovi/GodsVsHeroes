@@ -4,13 +4,12 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.MessagingUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import static by.dero.gvh.utils.MessagingUtils.sendTitle;
-import static org.apache.commons.lang.ArrayUtils.indexOf;
 
 public class GameLobby {
     private final Game game;
@@ -46,7 +45,7 @@ public class GameLobby {
             prepairing.cancel();
         }
         ready = false;
-        sendTitle(Lang.get("game.gameAlreadyStarted"), game.getPlayers().values());
+        MessagingUtils.sendTitle(Lang.get("game.gameAlreadyStarted"), game.getPlayers().values());
 
         for(Player online : Bukkit.getOnlinePlayers()){
             online.setHealth(online.getHealth());
@@ -71,8 +70,8 @@ public class GameLobby {
                     }
                 }
                 updateDisplays();
-                if (indexOf(showTime, timeLeft) != -1) {
-                    sendTitle("§a" + timeLeft, game.getPlayers().values());
+                if (ArrayUtils.indexOf(showTime, timeLeft) != -1) {
+                    MessagingUtils.sendTitle("§a" + timeLeft, game.getPlayers().values());
                 }
                 timeLeft--;
 

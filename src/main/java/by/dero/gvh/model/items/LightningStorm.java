@@ -6,6 +6,7 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.LightningStormInfo;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -13,8 +14,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class LightningStorm extends Item implements UltimateInterface {
     private final double radius;
@@ -73,9 +72,9 @@ public class LightningStorm extends Item implements UltimateInterface {
             final Location center = player.getLocation().clone();
             @Override
             public void run() {
-                for (final LivingEntity obj : getNearby(center, radius)) {
-                    if (isEnemy(obj, getTeam())) {
-                        setLastUsedLightning(owner);
+                for (final LivingEntity obj : GameUtils.getNearby(center, radius)) {
+                    if (GameUtils.isEnemy(obj, getTeam())) {
+                        GameUtils.setLastUsedLightning(owner);
                         center.getWorld().strikeLightning(obj.getLocation());
                     }
                 }

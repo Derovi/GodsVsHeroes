@@ -4,19 +4,17 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
-import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
 import by.dero.gvh.model.itemsinfo.ExplosivePigInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.PathfinderFollow;
-import com.google.common.base.Predicate;
-import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.*;
-import org.bukkit.Material;
+import net.minecraft.server.v1_12_R1.EntityPig;
+import net.minecraft.server.v1_12_R1.GenericAttributes;
+import net.minecraft.server.v1_12_R1.PathfinderGoalSelector;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPig;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
@@ -56,11 +54,10 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         setAttributes(pig);
 
         CraftPlayer target = (CraftPlayer) GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).getPlayer();
-//        Predicate<EntityPlayer> pred = (pl) -> GameUtils.isEnemy(pl.getBukkitEntity(), getTeam());
         pig.goalSelector = new PathfinderGoalSelector(pig.world.methodProfiler);
         pig.targetSelector = new PathfinderGoalSelector(pig.world.methodProfiler);
         pig.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
-        pig.goalSelector.a(0, new PathfinderFollow(pig, 1, 50));
+        pig.goalSelector.a(0, new PathfinderFollow(pig, 1, 200));
 
         pig.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         pig.world.addEntity(pig, CreatureSpawnEvent.SpawnReason.CUSTOM);

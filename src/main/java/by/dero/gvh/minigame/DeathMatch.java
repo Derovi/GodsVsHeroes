@@ -4,8 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
-import org.bukkit.GameMode;
-import org.bukkit.entity.LivingEntity;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -15,7 +14,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
 
@@ -97,7 +96,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         super.start();
 
         setDisplays();
-        //updateDisplays();
+        updateDisplays();
     }
 
     @Override
@@ -126,7 +125,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             }
         }
         for (final GamePlayer gp : getPlayers().values()) {
-            if (gp.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
+            if (GameUtils.isInGame(gp.getPlayer())) {
                 if (teamAlive == -1) {
                     teamAlive = gp.getTeam();
                 } else {
@@ -151,16 +150,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
         spawnFirework(player.getLocation().clone().add(0,1,0), 1);
 
-        final HashMap<LivingEntity, LivingEntity> damageCause = Minigame.getInstance().getGameEvents().getDamageCause();
-        LivingEntity kil = damageCause.getOrDefault(player, player);
-        if (player.getKiller() != null) {
-            kil = player.getKiller();
-        }
-
-        onPlayerKilled(player, kil);
-        getPlayerDeathLocations().put(player.getName(), player.getLocation());
-
-        final int team = getPlayers().get(event.getEntity().getName()).getTeam();
+        final int team = getPlayers().get(player.getName()).getTeam();
         int respTime = -1;
 
         if (currentLivesCount[team] > 0) {
@@ -168,11 +158,11 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             respawning[team]++;
             respTime = getInfo().getRespawnTime();
         }
+        getPlayerDeathLocations().put(player.getName(), player.getLocation());
         player.spigot().respawn();
         spawnPlayer(getPlayers().get(player.getName()), respTime);
         player.setExp(exp);
 
-        damageCause.remove(player);
         updateDisplays();
         checkForGameEnd();
     }
