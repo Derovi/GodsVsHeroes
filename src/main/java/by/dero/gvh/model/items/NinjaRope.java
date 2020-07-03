@@ -48,7 +48,7 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
         Location at = event.getEntity().getLocation();
 
         Vector force = at.clone().subtract(owner.getLocation()).multiply(forceMultiplier).toVector();
-        force.y = Math.max(force.y / 3, 1);
+        force.y = Math.max(force.y, 1.5);
         owner.setVelocity(force);
     }
 
