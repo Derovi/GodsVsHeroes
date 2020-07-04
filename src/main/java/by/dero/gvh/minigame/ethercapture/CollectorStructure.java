@@ -3,6 +3,8 @@ package by.dero.gvh.minigame.ethercapture;
 import by.dero.gvh.minigame.Minigame;
 import org.bukkit.block.Block;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CollectorStructure {
@@ -22,7 +24,9 @@ public class CollectorStructure {
     }
 
     private static void initStructure() {
-        // TODO
+        // init base
+        //base = new ArrayList<>();
+        //base.add(new BlockInfo(1,0,0, Material.));
     }
 
     public static void changeBlockAccordingToColor(Block block, TeamColor color) {

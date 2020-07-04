@@ -13,9 +13,11 @@ public class EtherCollector {
     private double currentHeight = maxHeight;
     private int captureStatus = 0;
     private int owner = -1;  // -1 if neutral
+    private final CollectorStructure collectorStructure;
 
     public EtherCollector(IntPosition position) {
         this.position = position;
+        collectorStructure = new CollectorStructure(this);
     }
 
     public void update(List<GamePlayer> offenders) {
@@ -23,6 +25,7 @@ public class EtherCollector {
     }
 
     public void load() {
+        collectorStructure.buildStructure();
     }
 
     public void unload() {

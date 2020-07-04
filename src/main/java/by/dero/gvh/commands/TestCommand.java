@@ -1,6 +1,8 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.minigame.ethercapture.EtherCollector;
 import by.dero.gvh.nmcapi.dragon.ControlledDragon;
+import by.dero.gvh.utils.IntPosition;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +13,8 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] strings) {
         Player player = (Player) commandSender;
-        ControlledDragon controlledDragon = new ControlledDragon(player);
+        EtherCollector etherCollector = new EtherCollector(new IntPosition(player.getLocation()));
+        etherCollector.load();
         return true;
     }
 }
