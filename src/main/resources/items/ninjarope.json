@@ -3,8 +3,8 @@
   "slot": 0,
   "levels": [
     {
-      "range": 30,
-      "forceMultiplier": 0.2,
+      "forceMultiplier": 0.25,
+      "distance": 10,
       "cooldown": 60,
       "cost": 80,
       "material": "STICK",

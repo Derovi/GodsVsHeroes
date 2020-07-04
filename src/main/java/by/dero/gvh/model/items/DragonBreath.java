@@ -15,9 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-import static by.dero.gvh.utils.GameUtils.getNearby;
-import static by.dero.gvh.utils.GameUtils.isEnemy;
-
 public class DragonBreath extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
     private final double damage;
@@ -48,12 +45,12 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
             loc.getWorld().spawnParticle(Particle.FLAME, loc.clone().add(dlt), 0,
                     at.getX() / 20, at.getY() / 20, at.getZ() / 20, 7);
         }
-        for (final LivingEntity entity : getNearby(loc, radius)) {
+        for (final LivingEntity entity : GameUtils.getNearby(loc, radius)) {
             final Vector a = entity.getLocation().toVector().clone().subtract(loc.toVector()).normalize();
             final Vector b = loc.getDirection().clone();
             b.setY(0);
             a.setY(0);
-            if (a.dot(b) / a.length() / b.length() >= cosSpread && isEnemy(entity, getTeam())) {
+            if (a.dot(b) / a.length() / b.length() >= cosSpread && GameUtils.isEnemy(entity, getTeam())) {
                 entity.setFireTicks(100);
                 GameUtils.damage(damage, entity, owner);
             }

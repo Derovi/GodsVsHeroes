@@ -3,30 +3,25 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.ChargesManager;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.ProjectileHitInterface;
-import by.dero.gvh.utils.GameUtils;
-import org.bukkit.*;
 import by.dero.gvh.model.interfaces.*;
+import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
-import java.util.*;
-
-import static by.dero.gvh.model.Drawings.addTrail;
-import static by.dero.gvh.utils.GameUtils.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.UUID;
 
 public class GameEvents implements Listener {
     public static void setGame(DeathMatch game) {
@@ -67,17 +62,11 @@ public class GameEvents implements Listener {
             event.setCancelled(true);
         } else {
             projectiles.add(proj.getUniqueId());
-            addTrail(proj);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction().equals(Action.LEFT_CLICK_AIR) ||
-            event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
-            event.setCancelled(true);
-            return;
-        }
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
         Item itemInHand = gamePlayer.getSelectedItem();
@@ -85,6 +74,12 @@ public class GameEvents implements Listener {
         if (itemInHand == null) {
             return;
         }
+        if (event.getAction().equals(Action.LEFT_CLICK_AIR) ||
+            event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (itemInHand.getInfo().getMaterial() != Material.BOW) {
             event.setCancelled(true);
         }
@@ -115,12 +110,12 @@ public class GameEvents implements Listener {
             String shooterName = ((Player) proj.getShooter()).getName();
             GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
             for (Item item : gamePlayer.getItems().values()) {
-                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId()) &&
-                        item instanceof ProjectileHitInterface) {
-                    ((ProjectileHitInterface) item).onProjectileHit(event);
-                    if (event.getHitEntity() != null &&
-                            isEnemy(event.getHitEntity(), gamePlayer.getTeam())) {
-                        ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
+                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId())) {
+                    if (item instanceof ProjectileHitInterface) {
+                        ((ProjectileHitInterface) item).onProjectileHit(event);
+                        if (event.getHitEntity() != null && GameUtils.isEnemy(event.getHitEntity(), gamePlayer.getTeam())) {
+                            ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
+                        }
                     }
                     item.getSummonedEntityIds().remove(event.getEntity().getUniqueId());
                 }
@@ -129,6 +124,17 @@ public class GameEvents implements Listener {
 
         if (event.getEntity() instanceof Arrow) {
             event.getEntity().remove();
+        }
+    }
+
+    @EventHandler
+    public void onPlayerSneak(PlayerToggleSneakEvent event) {
+        Player player = event.getPlayer();
+        if (!player.isSneaking()) {
+            return;
+        }
+        for (SneakInterface item : GameUtils.selectItems(GameUtils.getPlayer(player.getName()), SneakInterface.class)) {
+            item.onPlayerSneak();
         }
     }
 
@@ -147,9 +153,9 @@ public class GameEvents implements Listener {
         final LivingEntity entity = (LivingEntity) event.getEntity();
 
         if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
-                getLastLightningTime() + 100 > System.currentTimeMillis()) {
-            final Player player = getLastUsedLightning();
-            if (isEnemy(entity, getPlayer(player.getName()).getTeam())) {
+                GameUtils.getLastLightningTime() + 100 > System.currentTimeMillis()) {
+            final Player player = GameUtils.getLastUsedLightning();
+            if (GameUtils.isEnemy(entity, GameUtils.getPlayer(player.getName()).getTeam())) {
                 game.getStats().addDamage(entity, player, event.getDamage());
                 damageCause.put(entity, player);
             } else {
@@ -168,6 +174,9 @@ public class GameEvents implements Listener {
         }
         LivingEntity entity = (LivingEntity) event.getEntity();
         LivingEntity damager = (LivingEntity) event.getDamager();
+        if (!(damager instanceof Player)) {
+            damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
+        }
         if (GameUtils.isEnemy(entity, event.getDamager())) {
             game.getStats().addDamage(entity, damager, event.getDamage());
             damageCause.put(entity, damager);
@@ -208,7 +217,20 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
-
+        Player player = event.getEntity();
+        final HashMap<LivingEntity, LivingEntity> damageCause = Minigame.getInstance().getGameEvents().getDamageCause();
+        LivingEntity kil = damageCause.getOrDefault(player, player);
+        if (player.getKiller() != null) {
+            kil = player.getKiller();
+        }
+        if (!(kil instanceof Player)) {
+            kil = GameUtils.getMob(kil.getUniqueId()).getOwner();
+        }
+        for (PlayerKillInterface item : GameUtils.selectItems(GameUtils.getPlayer(kil.getName()), PlayerKillInterface.class)) {
+            item.onPlayerKill(player);
+        }
+        game.onPlayerKilled(player, kil);
+        damageCause.remove(player);
     }
 
     @EventHandler
@@ -255,18 +277,6 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-        if (event.getPlayer() != null) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
         event.setCancelled(true);
     }
 }

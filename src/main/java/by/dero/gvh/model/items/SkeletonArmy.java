@@ -12,7 +12,6 @@ import by.dero.gvh.utils.PathfinderAttackEnemies;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftMonster;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftSkeleton;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftWitherSkeleton;
 import org.bukkit.entity.*;
@@ -46,6 +45,8 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Ultim
         handle.targetSelector = new PathfinderGoalSelector(handle.world.methodProfiler);
         handle.targetSelector.a(0, new PathfinderAttackEnemies<>(
                 handle, EntityLiving.class, 50, true, false, GameUtils.getTargetPredicate(getTeam())));
+
+        handle.goalSelector.a(1, new PathfinderGoalFloat(handle));
         handle.goalSelector.a(handle.c);
         handle.goalSelector.a(handle.b);
         if (isMelee) {
@@ -53,8 +54,6 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Ultim
         } else {
             handle.goalSelector.a(4, handle.b);
         }
-
-        handle.goalSelector.a(1, new PathfinderGoalFloat(handle));
         handle.goalSelector.a(5, new PathfinderGoalRandomStrollLand(handle, 1.0D));
         handle.goalSelector.a(6, new PathfinderGoalLookAtPlayer(handle, EntityHuman.class, 8.0F));
         handle.goalSelector.a(6, new PathfinderGoalRandomLookaround(handle));

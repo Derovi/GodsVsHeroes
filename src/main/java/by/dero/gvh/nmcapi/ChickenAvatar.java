@@ -4,10 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import net.minecraft.server.v1_12_R1.EntityChicken;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
-import org.bukkit.Color;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.Player;
@@ -16,8 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.awt.*;
 
 public class ChickenAvatar extends EntityChicken {
     private Player player;

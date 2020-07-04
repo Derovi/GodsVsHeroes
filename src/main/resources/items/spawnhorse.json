@@ -5,7 +5,6 @@
   "levels": [
     {
       "cooldown": 0,
-      "duration": 300,
       "material": "FEATHER",
       "displayName": "",
       "lore": [],

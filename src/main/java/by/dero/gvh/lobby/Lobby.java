@@ -6,7 +6,6 @@ import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
-import by.dero.gvh.minigame.SneakListener;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.*;
 import by.dero.gvh.model.Lang;

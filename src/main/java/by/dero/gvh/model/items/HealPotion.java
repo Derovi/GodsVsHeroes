@@ -5,12 +5,11 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.HealPotionInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class HealPotion extends Item implements ProjectileHitInterface,
         InfiniteReplenishInterface, PlayerInteractInterface {
@@ -27,8 +26,8 @@ public class HealPotion extends Item implements ProjectileHitInterface,
     @Override
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();
-        for (final LivingEntity ent : getNearby(at.getLocation(), radius)) {
-            if (isAlly(ent, getTeam())) {
+        for (final LivingEntity ent : GameUtils.getNearby(at.getLocation(), radius)) {
+            if (GameUtils.isAlly(ent, getTeam())) {
                 final double hp = Math.min(ent.getHealth() + heal,
                         ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 ent.setHealth(hp);
@@ -43,7 +42,7 @@ public class HealPotion extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+        final Projectile proj = GameUtils.spawnProjectile(event.getPlayer().getEyeLocation(),
                 1, EntityType.SPLASH_POTION, event.getPlayer());
         summonedEntityIds.add(proj.getUniqueId());
     }

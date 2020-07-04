@@ -4,13 +4,15 @@
   "cost": 1000,
   "itemNames": [
     "healpotion",
-    "swordthrow",
     "ninjarope",
     "dragonbreath",
     "meteor",
     "spawnhorse",
     "skeletonarmy",
+    "teleportpearls",
+    "lightningbow",
 
+    "entityonkill",
     "defaulthelmet",
     "defaultboots",
     "defaultarrow"

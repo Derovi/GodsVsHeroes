@@ -6,23 +6,20 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
-import by.dero.gvh.model.StorageInterface;
 import com.google.common.base.Predicate;
-import net.minecraft.server.v1_12_R1.EntityArmorStand;
-import net.minecraft.server.v1_12_R1.EntityLiving;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import org.bukkit.Bukkit;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftMonster;
 import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-import java.io.IOException;
 import java.util.*;
 
 public class GameUtils {
@@ -39,6 +36,16 @@ public class GameUtils {
 
     public static void damage(double damage, LivingEntity target, LivingEntity killer) {
         damage(damage, target, killer, false);
+    }
+
+    public static <T> ArrayList<T> selectItems(GamePlayer gp, Class<T> cl) {
+        final ArrayList<T> list = new ArrayList<>();
+        for (by.dero.gvh.model.Item item : gp.getItems().values()) {
+            if (cl.isInstance(item)) {
+                list.add(cl.cast(item));
+            }
+        }
+        return list;
     }
 
     public static void damage(double damage, LivingEntity target, LivingEntity killer, boolean hasDelay) {

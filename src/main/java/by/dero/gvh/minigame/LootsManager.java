@@ -7,7 +7,6 @@ import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.GameUtils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
@@ -24,21 +23,21 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Field;
-import java.util.*;
-
-import static by.dero.gvh.utils.GameUtils.eyeHeight;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class LootsManager implements Listener {
     private final long cooldown = 1200;
-    private final HashMap<String, ArrayList<ArmorStand> > loots = new HashMap<>();
+    private final HashMap<String, ArrayList<ArmorStand>> loots = new HashMap<>();
     private final HashMap<UUID, Long> cooldowns = new HashMap<>();
     private final HashMap<UUID, FlyingText> texts = new HashMap<>();
     private final HashMap<String, PotionEffect> effects = new HashMap<>();
 
     public LootsManager() {
         effects.put("heal", new PotionEffect(PotionEffectType.HEAL, 1, 10));
-        effects.put("speed", new PotionEffect(PotionEffectType.SPEED, 400, 1));
-        effects.put("resistance", new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 400, 2));
+        effects.put("speed", new PotionEffect(PotionEffectType.SPEED, 600, 2));
+        effects.put("resistance", new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 400, 1));
     }
 
     public void load() {
@@ -73,14 +72,14 @@ public class LootsManager implements Listener {
 
     public void spawn(final Location at, final String name) {
         CraftArmorStand stand = (CraftArmorStand) at.getWorld().spawnEntity(
-                at.subtract(0, eyeHeight - 0.4, 0), EntityType.ARMOR_STAND);
+                at.subtract(0, GameUtils.eyeHeight - 0.4, 0), EntityType.ARMOR_STAND);
         GameUtils.setInvisibleFlags(stand);
         stand.getHandle().setCustomNameVisible(false);
         stand.getEquipment().setHelmet(getHead(name));
         if (!loots.containsKey(name)) {
             loots.put(name, new ArrayList<>());
         }
-        texts.put(stand.getUniqueId(), new FlyingText(stand.getEyeLocation(), ""));
+        texts.put(stand.getUniqueId(), new FlyingText(stand.getEyeLocation().add(0,1,0), ""));
         loots.get(name).add(stand);
     }
 

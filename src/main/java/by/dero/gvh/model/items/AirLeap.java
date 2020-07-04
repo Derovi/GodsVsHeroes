@@ -1,14 +1,13 @@
 
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.AirLeapInfo;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import static by.dero.gvh.model.Drawings.drawCircleInFront;
 
 public class AirLeap extends Item implements PlayerInteractInterface {
     private final double force;
@@ -24,7 +23,7 @@ public class AirLeap extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
-        drawCircleInFront(player.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
+        Drawings.drawCircleInFront(player.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
         player.setVelocity(player.getLocation().getDirection().multiply(force));
     }
 }

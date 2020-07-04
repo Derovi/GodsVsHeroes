@@ -4,9 +4,6 @@ import by.dero.gvh.utils.Position;
 import by.dero.gvh.model.StorageInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import sun.jvm.hotspot.opto.HaltNode;
-
-import java.util.HashMap;
 
 public class LobbyData {
     private final StorageInterface storage;

@@ -4,7 +4,6 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginCommand;
-import by.dero.gvh.model.Data;
 import by.dero.gvh.model.UnitClassDescription;
 import org.bukkit.command.CommandSender;
 

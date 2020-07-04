@@ -3,11 +3,10 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ImprovedBowInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
-
-import static by.dero.gvh.utils.GameUtils.damage;
 
 public class ImprovedBow extends Item implements ProjectileHitInterface {
     private final int damage;
@@ -24,7 +23,7 @@ public class ImprovedBow extends Item implements ProjectileHitInterface {
     @Override
     public void onProjectileHitEnemy(final ProjectileHitEvent event) {
         if (event.getHitEntity() instanceof LivingEntity) {
-            damage(damage, (LivingEntity) event.getHitEntity(), owner);
+            GameUtils.damage(damage, (LivingEntity) event.getHitEntity(), owner);
         }
     }
 }

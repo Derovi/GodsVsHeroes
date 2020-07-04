@@ -2,7 +2,6 @@ package by.dero.gvh.lobby;
 
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.commands.TestCommand;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
@@ -15,7 +14,10 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static by.dero.gvh.utils.Board.setText;
 

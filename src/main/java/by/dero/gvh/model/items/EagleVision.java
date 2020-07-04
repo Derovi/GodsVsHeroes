@@ -4,6 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.EagleVisionInfo;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,9 +18,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
-
-import static by.dero.gvh.utils.GameUtils.getPlayer;
-import static by.dero.gvh.utils.GameUtils.isEnemy;
 
 public class EagleVision extends Item implements UltimateInterface {
     private final double particleDense = 32;
@@ -45,11 +43,11 @@ public class EagleVision extends Item implements UltimateInterface {
         }
         cooldown.reload();
         final Location loc = player.getLocation().clone();
-        final int team = getPlayer(player.getName()).getTeam();
+        final int team = GameUtils.getPlayer(player.getName()).getTeam();
         for (final Entity obj : Objects.requireNonNull(loc.getWorld()).getNearbyEntities(loc, radius, 200, radius)) {
             final Location cur = obj.getLocation().clone();
             final double dst = loc.distance(new Location(cur.getWorld(), cur.getX(), loc.getY(), cur.getZ()));
-            if (isEnemy(obj, team) && dst <= radius) {
+            if (GameUtils.isEnemy(obj, team) && dst <= radius) {
                 new PotionEffect(PotionEffectType.GLOWING, Math.toIntExact(glowTime), 1).apply((LivingEntity) obj);
                 if (obj instanceof Player) {
                     for (final Player p : Bukkit.getOnlinePlayers()) {

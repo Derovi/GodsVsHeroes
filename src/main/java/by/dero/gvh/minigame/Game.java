@@ -15,12 +15,9 @@ import by.dero.gvh.utils.MessagingUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,11 +25,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-import static by.dero.gvh.model.Drawings.spawnFirework;
-import static by.dero.gvh.utils.MessagingUtils.sendActionBar;
-import static by.dero.gvh.utils.MessagingUtils.sendTitle;
-
-public abstract class Game implements Listener {
+public abstract class Game {
     public static Game getInstance() {
         return instance;
     }
@@ -205,7 +198,7 @@ public abstract class Game implements Listener {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                spawnFirework(MathUtils.randomCylinder(
+                Drawings.spawnFirework(MathUtils.randomCylinder(
                         getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
                         25, -10
                 ), 2);
@@ -318,8 +311,8 @@ public abstract class Game implements Listener {
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
         player.setHealth(maxHealth);
 
-        sendTitle("", player, 0, 1, 0);
-        sendActionBar("", player);
+        MessagingUtils.sendTitle("", player, 0, 1, 0);
+        MessagingUtils.sendActionBar("", player);
         addItems(gp);
     }
 
@@ -334,10 +327,10 @@ public abstract class Game implements Listener {
         player.teleport(playerDeathLocations.get(player.getName()));
         player.setVelocity(new Vector(0,4,0));
         if (respawnTime == -1) {
-            sendTitle(Lang.get("game.livesNotLeft"), player, 0, 20, 0);
+            MessagingUtils.sendTitle(Lang.get("game.livesNotLeft"), player, 0, 20, 0);
             return;
         }
-        sendTitle(Lang.get("game.dead"), player, 0, 20, 0);
+        MessagingUtils.sendTitle(Lang.get("game.dead"), player, 0, 20, 0);
 
         new BukkitRunnable() {
             int counter = respawnTime;
@@ -347,15 +340,15 @@ public abstract class Game implements Listener {
                     this.cancel();
                     return;
                 }
-                if (counter == 0) {
+                if (counter <= 0) {
                     toSpawn(gp);
                     onPlayerRespawned(gp);
                     this.cancel();
                     return;
                 }
-                sendActionBar(Lang.get("game.deathTime").
-                        replace("%time%", MessagingUtils.getTimeString(counter, false)), player.getPlayer());
-                --counter;
+                MessagingUtils.sendActionBar(Lang.get("game.deathTime").
+                        replace("%time%", MessagingUtils.getTimeString(counter / 20, false)), player.getPlayer());
+                counter -= 20;
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 20);
     }

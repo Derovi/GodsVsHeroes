@@ -1,0 +1,17 @@
+{
+  "name": "teleportpearls",
+  "slot": 0,
+  "levels": [
+    {
+      "cooldown": 60,
+      "cost": 80,
+      "material": "ENDER_PEARL",
+      "displayName": "§cTeleport pearls",
+      "lore": [
+        "§aТелепорт!",
+        "§6Уровень 1"
+      ],
+      "amount": 3
+    }
+  ]
+}

@@ -3,9 +3,11 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.FireSpearInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -15,11 +17,6 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import static by.dero.gvh.model.Drawings.drawCircleInFront;
-import static by.dero.gvh.model.Drawings.drawLine;
-import static by.dero.gvh.utils.GameUtils.damage;
-import static by.dero.gvh.utils.GameUtils.isEnemy;
 
 public class FireSpear extends Item implements PlayerInteractInterface {
     private final int parts = 6;
@@ -43,7 +40,7 @@ public class FireSpear extends Item implements PlayerInteractInterface {
         final Vector dlt = loc.getDirection().multiply(0.05 * speed);
         final HashSet<Player> left = new HashSet<>();
         for (final GamePlayer gp : Game.getInstance().getPlayers().values()) {
-            if (isEnemy(gp.getPlayer(), getTeam())) {
+            if (GameUtils.isEnemy(gp.getPlayer(), getTeam())) {
                 left.add(gp.getPlayer());
             }
         }
@@ -56,16 +53,16 @@ public class FireSpear extends Item implements PlayerInteractInterface {
                 for (final Player p : left) {
                     if (p.getLocation().distance(loc) < 3 || p.getEyeLocation().distance(loc) < 3) {
                         rem.add(p);
-                        damage(damage, p, owner);
+                        GameUtils.damage(damage, p, owner);
                     }
                 }
                 left.removeAll(rem);
                 rem.clear();
 
                 for (int i = 0; i < 3; i++) {
-                    drawCircleInFront(loc, i * 0.33, -i, parts, Particle.FLAME);
+                    Drawings.drawCircleInFront(loc, i * 0.33, -i, parts, Particle.FLAME);
                 }
-                drawLine(loc, loc.clone().subtract(dlt.clone().multiply(Math.min(10, ticks))), Particle.END_ROD);
+                Drawings.drawLine(loc, loc.clone().subtract(dlt.clone().multiply(Math.min(10, ticks))), Particle.END_ROD);
                 loc.add(dlt.clone().multiply(2));
                 if (++ticks >= time) {
                     this.cancel();

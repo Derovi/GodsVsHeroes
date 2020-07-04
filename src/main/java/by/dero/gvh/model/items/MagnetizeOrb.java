@@ -5,13 +5,12 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.MagnetizeOrbInfo;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
-
-import static by.dero.gvh.utils.GameUtils.*;
 
 public class MagnetizeOrb extends Item implements ProjectileHitInterface,
         InfiniteReplenishInterface, PlayerInteractInterface {
@@ -25,8 +24,8 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface,
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity proj = event.getEntity();
         final Location loc = proj.getLocation();
-        for (final Entity obj : getNearby(proj.getLocation(), radius)) {
-            if (isEnemy(obj, getTeam())) {
+        for (final Entity obj : GameUtils.getNearby(proj.getLocation(), radius)) {
+            if (GameUtils.isEnemy(obj, getTeam())) {
                 final Vector add = loc.toVector().subtract(obj.getLocation().toVector());
                 final double force = Math.log(add.length()) / Math.log(2);
                 obj.setVelocity(obj.getVelocity().add(add.normalize().multiply(force)));
@@ -41,7 +40,7 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Projectile proj = spawnProjectile(event.getPlayer().getEyeLocation(),
+        final Projectile proj = GameUtils.spawnProjectile(event.getPlayer().getEyeLocation(),
                 1.2, EntityType.SNOWBALL, event.getPlayer());
         summonedEntityIds.add(proj.getUniqueId());
     }
