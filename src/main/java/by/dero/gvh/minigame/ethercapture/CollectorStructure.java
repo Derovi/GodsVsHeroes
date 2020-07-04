@@ -54,4 +54,8 @@ public class CollectorStructure {
     public EtherCollector getCollector() {
         return collector;
     }
+
+    public static int getStageCount() {
+        return stages.size();
+    }
 }
