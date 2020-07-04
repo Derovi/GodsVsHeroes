@@ -2,9 +2,8 @@ package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.utils.Position;
+import org.bukkit.Location;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class EtherCollector {
@@ -26,6 +25,10 @@ public class EtherCollector {
     }
 
     public void unload() {
+    }
+
+    public boolean isInside(Location location) {
+        return false; //TODO
     }
 
     public Position getPosition() {

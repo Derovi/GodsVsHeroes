@@ -22,16 +22,19 @@ import static by.dero.gvh.model.Drawings.spawnFirework;
 
 public class EtherCapture extends Game implements DisplayInteractInterface {
     private final EtherCaptureInfo etherCaptureInfo;
+    private final EtherCollectorsManager collectorsManager;
 
     private int[] currentEtherCount;
 
     public EtherCapture(GameInfo info, EtherCaptureInfo etherCaptureInfo) {
         super(info);
         this.etherCaptureInfo = etherCaptureInfo;
+        this.collectorsManager = new EtherCollectorsManager(this);
     }
 
     @Override
     public void load() {
+        collectorsManager.load();
         final int teams = getInfo().getTeamCount();
         currentEtherCount = new int[teams];
         for (int index = 0; index < teams; ++index) {
@@ -102,6 +105,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             gp.getBoard().clear();
         }
         super.finish(winnerTeam);
+        collectorsManager.unload();
     }
 
     public void addEther(int team, int count) {
