@@ -5,7 +5,6 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.GameUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
