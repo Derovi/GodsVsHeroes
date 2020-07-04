@@ -1,19 +1,20 @@
 package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.Position;
 import org.bukkit.Location;
 
 import java.util.List;
 
 public class EtherCollector {
-    private final Position position;
+    private final IntPosition position;
     private final double maxHeight = 32;
     private double currentHeight = maxHeight;
     private int captureStatus = 0;
     private int owner = -1;  // -1 if neutral
 
-    public EtherCollector(Position position) {
+    public EtherCollector(IntPosition position) {
         this.position = position;
     }
 
@@ -31,7 +32,7 @@ public class EtherCollector {
         return false; //TODO
     }
 
-    public Position getPosition() {
+    public IntPosition getPosition() {
         return position;
     }
 

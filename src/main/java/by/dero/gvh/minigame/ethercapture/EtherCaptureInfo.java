@@ -1,19 +1,20 @@
 package by.dero.gvh.minigame.ethercapture;
 
+import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.Position;
 
 public class EtherCaptureInfo {
-    private Position[] etherCollectors;
+    private IntPosition[] etherCollectors;
     private int etherToWin;
     private int etherForKill;
     private int etherForCollector;
     private int captureTime;
 
-    public Position[] getEtherCollectors() {
+    public IntPosition[] getEtherCollectors() {
         return etherCollectors;
     }
 
-    public void setEtherCollectors(Position[] etherCollectors) {
+    public void setEtherCollectors(IntPosition[] etherCollectors) {
         this.etherCollectors = etherCollectors;
     }
 

@@ -2,6 +2,7 @@ package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.Position;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -20,7 +21,7 @@ public class EtherCollectorsManager {
     }
 
     public void load() {
-        for (Position position : game.getEtherCaptureInfo().getEtherCollectors()) {
+        for (IntPosition position : game.getEtherCaptureInfo().getEtherCollectors()) {
             EtherCollector collector = new EtherCollector(position);
             collector.load();
             collectors.add(collector);
