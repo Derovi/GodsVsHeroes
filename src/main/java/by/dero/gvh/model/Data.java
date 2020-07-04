@@ -79,6 +79,7 @@ public class Data {
         registerItem("teleportpearls", ItemInfo.class, TeleportPearls.class);
         registerItem("entityonkill", EntityOnKillInfo.class, EntityOnKill.class);
         registerItem("firebow", ItemInfo.class, FireBow.class);
+        registerItem("lightningbow", LightningBowInfo.class, LightningBow.class);
     }
 
     private void registerClasses() {

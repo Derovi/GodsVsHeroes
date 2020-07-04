@@ -15,6 +15,7 @@ import by.dero.gvh.model.storages.LocalStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
+import org.bukkit.plugin.PluginManager;
 
 public class Minigame implements PluginMode {
     private static Minigame instance;
@@ -62,11 +63,13 @@ public class Minigame implements PluginMode {
         gameEvents = new GameEvents();
         lootsManager = new LootsManager();
         areaManager = new AreaManager();
-        Bukkit.getPluginManager().registerEvents(game, Plugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(gameEvents, Plugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(areaManager, Plugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(lootsManager, Plugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(new DoubleSpaceListener(), Plugin.getInstance());
+        Plugin instance = Plugin.getInstance();
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.registerEvents(gameEvents, instance);
+        manager.registerEvents(areaManager, instance);
+        manager.registerEvents(lootsManager, instance);
+        manager.registerEvents(new DoubleSpaceListener(), instance);
+        manager.registerEvents(new LiftManager(), instance);
     }
 
     private void registerCommands() {

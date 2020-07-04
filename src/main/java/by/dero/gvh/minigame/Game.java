@@ -25,7 +25,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public abstract class Game implements Listener {
+public abstract class Game {
     public static Game getInstance() {
         return instance;
     }

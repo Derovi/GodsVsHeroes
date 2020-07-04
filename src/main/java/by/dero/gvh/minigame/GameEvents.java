@@ -3,28 +3,25 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.ChargesManager;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.ProjectileHitInterface;
-import by.dero.gvh.utils.GameUtils;
-import org.bukkit.*;
 import by.dero.gvh.model.interfaces.*;
+import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
-
-import static by.dero.gvh.model.Drawings.addTrail;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.UUID;
 
 public class GameEvents implements Listener {
     public static void setGame(DeathMatch game) {
@@ -70,11 +67,6 @@ public class GameEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction().equals(Action.LEFT_CLICK_AIR) ||
-            event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
-            event.setCancelled(true);
-            return;
-        }
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
         Item itemInHand = gamePlayer.getSelectedItem();
@@ -82,6 +74,12 @@ public class GameEvents implements Listener {
         if (itemInHand == null) {
             return;
         }
+        if (event.getAction().equals(Action.LEFT_CLICK_AIR) ||
+            event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (itemInHand.getInfo().getMaterial() != Material.BOW) {
             event.setCancelled(true);
         }
@@ -112,12 +110,12 @@ public class GameEvents implements Listener {
             String shooterName = ((Player) proj.getShooter()).getName();
             GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
             for (Item item : gamePlayer.getItems().values()) {
-                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId()) &&
-                        item instanceof ProjectileHitInterface) {
-                    ((ProjectileHitInterface) item).onProjectileHit(event);
-                    if (event.getHitEntity() != null &&
-                            GameUtils.isEnemy(event.getHitEntity(), gamePlayer.getTeam())) {
-                        ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
+                if (item.getSummonedEntityIds().contains(event.getEntity().getUniqueId())) {
+                    if (item instanceof ProjectileHitInterface) {
+                        ((ProjectileHitInterface) item).onProjectileHit(event);
+                        if (event.getHitEntity() != null && GameUtils.isEnemy(event.getHitEntity(), gamePlayer.getTeam())) {
+                            ((ProjectileHitInterface) item).onProjectileHitEnemy(event);
+                        }
                     }
                     item.getSummonedEntityIds().remove(event.getEntity().getUniqueId());
                 }
@@ -279,18 +277,6 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-        if (event.getPlayer() != null) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
         event.setCancelled(true);
     }
 }

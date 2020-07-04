@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.ArrayList;
@@ -20,6 +21,13 @@ public class AreaManager implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
+        if (!isTerritoryDamage(event.getBlock().getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
         if (!isTerritoryDamage(event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
