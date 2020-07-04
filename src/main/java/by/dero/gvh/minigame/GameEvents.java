@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class GameEvents implements Listener {
-    public static void setGame(DeathMatch game) {
+    public static void setGame(Game game) {
         GameEvents.game = game;
     }
 
@@ -39,7 +39,7 @@ public class GameEvents implements Listener {
     }
 
     private final HashSet<UUID> projectiles = new HashSet<>();
-    private static DeathMatch game;
+    private static Game game;
 
     @EventHandler
     public void onEntityShootBow(org.bukkit.event.entity.EntityShootBowEvent event) {

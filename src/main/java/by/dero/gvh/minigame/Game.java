@@ -37,6 +37,7 @@ public abstract class Game {
     public Game(GameInfo info) {
         this.info = info;
         instance = this;
+        GameEvents.setGame(this);
     }
 
     private static Game instance;
@@ -241,7 +242,7 @@ public abstract class Game {
         Plugin.getInstance().getData().loadRewards(rewardManager);
     }
 
-    abstract void load();
+    public abstract void load();
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {

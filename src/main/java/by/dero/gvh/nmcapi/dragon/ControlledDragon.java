@@ -5,10 +5,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public class ControlledDragon {
-    private DragonBase dragonBase;
-    private RotatingDragon dragon;
+    private final DragonBase dragonBase;
+    private final RotatingDragon dragon;
     private EmptyArmorStand empty1;
-    private EmptyArmorStand empty2;
+    private final EmptyArmorStand empty2;
     private Player player;
 
     public ControlledDragon(Player player) {
