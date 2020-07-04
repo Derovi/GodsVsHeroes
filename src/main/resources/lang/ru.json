@@ -39,7 +39,8 @@
     "stunMessage": "§cВы в стане!",
     "desertionMessage": "§cНа фронте дезертирству нет места!",
     "lootsLabelCooldown": "§cПерезаряжается! Осталось %time%",
-    "lootsLabelReady": "§aГотово!"
+    "lootsLabelReady": "§aГотово!",
+    "ether": "Эфира"
   },
   "stats": {
     "label": "§aСтатистика",
@@ -66,7 +67,7 @@
     "horseman": "Апокалипсис"
   },
   "commands": {
-    "stat": "§%col%Команда %com%§8: §9%pts%",
+    "stat": "§%col%%com%§8: §9%pts%",
     "playingFor": "§aВы играете за§8: §9%com%",
     "1": "§cКрасные",
     "2": "§aЗеленые",

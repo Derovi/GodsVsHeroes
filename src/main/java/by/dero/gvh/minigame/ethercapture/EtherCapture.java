@@ -1,14 +1,15 @@
-package by.dero.gvh.minigame;
+package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.minigame.Game;
+import by.dero.gvh.minigame.GameInfo;
+import by.dero.gvh.minigame.ethercapture.EtherCaptureInfo;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
-import by.dero.gvh.utils.GameUtils;
-import org.bukkit.Bukkit;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -19,35 +20,34 @@ import java.util.ArrayList;
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
 
-public class DeathMatch extends Game implements DisplayInteractInterface {
-    private final DeathMatchInfo deathMatchInfo;
+public class EtherCapture extends Game implements DisplayInteractInterface {
+    private final EtherCaptureInfo etherCaptureInfo;
+    private final EtherCollectorsManager collectorsManager;
 
-    private int[] currentLivesCount;
+    private int[] currentEtherCount;
 
-    private int[] respawning;
-
-    public DeathMatch(GameInfo info, DeathMatchInfo deathMatchInfo) {
+    public EtherCapture(GameInfo info, EtherCaptureInfo etherCaptureInfo) {
         super(info);
-        this.deathMatchInfo = deathMatchInfo;
-        GameEvents.setGame(this);
+        this.etherCaptureInfo = etherCaptureInfo;
+        this.collectorsManager = new EtherCollectorsManager(this);
     }
 
     @Override
-    void load() {
+    public void load() {
+        collectorsManager.load();
         final int teams = getInfo().getTeamCount();
-        currentLivesCount = new int[teams];
+        currentEtherCount = new int[teams];
         for (int index = 0; index < teams; ++index) {
-            currentLivesCount[index] = this.deathMatchInfo.getLivesCount();
+            currentEtherCount[index] = 0;
         }
-        respawning = new int[teams];
     }
 
     @Override
     public void setDisplays() {
         for (final GamePlayer gp : getPlayers().values()) {
-            final Board board = new Board(Lang.get("game.livesLeft"),currentLivesCount.length + 1);
+            final Board board = new Board(Lang.get("game.ether"),getInfo().getTeamCount() + 1);
             final Scoreboard sb = board.getScoreboard();
-            for (int team = 0; team < currentLivesCount.length; team++) {
+            for (int team = 0; team < getInfo().getTeamCount(); team++) {
                 final String t = team + "hp";
                 Team currentTeam = sb.registerNewTeam(t);
                 currentTeam.setPrefix(Lang.get("commands." + (char)('1' + team)).substring(0, 2));
@@ -67,30 +67,29 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
     @Override
     public void updateDisplays() {
-        ArrayList<Integer> idxs = new ArrayList<>();
-        for (int i = 0; i < currentLivesCount.length; i++) {
-            idxs.add(i);
+        ArrayList<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < getInfo().getTeamCount(); i++) {
+            indexes.add(i);
         }
-        idxs.sort((a, b) -> currentLivesCount[b] - currentLivesCount[a]);
-        String[] str = new String[currentLivesCount.length + 1];
-        for (int zxc = 0; zxc < currentLivesCount.length; zxc++) {
-            final int i = idxs.get(zxc);
-            final String com = Lang.get("commands." + (char)('1' + i));
-            str[i] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
+        //idxs.sort((a, b) -> currentLivesCount[b] - currentLivesCount[a]);
+        String[] str = new String[getInfo().getTeamCount() + 1];
+        for (int idx = 0; idx < getInfo().getTeamCount(); ++idx) {
+            final int team = indexes.get(idx);
+            final String com = Lang.get("commands." + (char)('1' + team));
+            str[team] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
                     .replace("%com%", com)
-                    .replace("%pts%", String.valueOf(currentLivesCount[i]));
+                    .replace("%pts%", String.valueOf(currentEtherCount[team]) +
+                            " (" + (int) ((double) currentEtherCount[team] / etherCaptureInfo.getEtherToWin() * 100) + "%)");
         }
         for (final GamePlayer gp : getPlayers().values()) {
-            str[currentLivesCount.length] = Lang.get("commands.playingFor").
+            str[getInfo().getTeamCount()] = Lang.get("commands.playingFor").
                     replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
             gp.getBoard().update(str);
         }
     }
 
     @Override
-    protected void onPlayerRespawned(final GamePlayer gp) {
-        respawning[gp.getTeam()]--;
-    }
+    protected void onPlayerRespawned(GamePlayer gp) {}
 
     @Override
     public void start() {
@@ -106,38 +105,29 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             gp.getBoard().clear();
         }
         super.finish(winnerTeam);
+        collectorsManager.unload();
+    }
+
+    public void addEther(int team, int count) {
+        currentEtherCount[team] += count;
+        updateDisplays();
+        checkForGameEnd();
     }
 
     private void checkForGameEnd() {
-        boolean alive = false;
-        int teamAlive = -1;
-        for (final int i : currentLivesCount) {
-            if (i > 0) {
-                if (alive) {
-                    return;
-                }
-                alive = true;
+        for (int team = 0; team < getInfo().getTeamCount(); ++team) {
+            if (currentEtherCount[team] >= etherCaptureInfo.getEtherToWin()) {
+                finish(team);
+            }
+        }
+    }
 
-            }
+    @Override
+    public void onPlayerKilled(Player player, LivingEntity killer) {
+        super.onPlayerKilled(player, killer);
+        if (killer instanceof Player) {
+            addEther(getPlayers().get(killer.getName()).getTeam(), etherCaptureInfo.getEtherForKill());
         }
-        for (final int i : respawning) {
-            if (i > 0) {
-                return;
-            }
-        }
-        for (final GamePlayer gp : getPlayers().values()) {
-            if (GameUtils.isInGame(gp.getPlayer())) {
-                if (teamAlive == -1) {
-                    teamAlive = gp.getTeam();
-                } else {
-                    if (teamAlive != gp.getTeam()) {
-                        return;
-                    }
-                }
-            }
-        }
-
-        finish(teamAlive);
     }
 
     @EventHandler
@@ -154,24 +144,18 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         final int team = getPlayers().get(player.getName()).getTeam();
         int respTime = -1;
 
-        if (currentLivesCount[team] > 0) {
+        /*if (currentLivesCount[team] > 0) {
             --currentLivesCount[team];
             respawning[team]++;
             respTime = getInfo().getRespawnTime();
-        }
+        }*/
         getPlayerDeathLocations().put(player.getName(), player.getLocation());
         player.spigot().respawn();
         spawnPlayer(getPlayers().get(player.getName()), respTime);
         player.setExp(exp);
-
-        updateDisplays();
-        checkForGameEnd();
     }
 
-    @EventHandler
-    public void onDamage(EntityDamageEvent event) {
-        if (getState() != State.GAME) {
-            event.setCancelled(true);
-        }
+    public EtherCaptureInfo getEtherCaptureInfo() {
+        return etherCaptureInfo;
     }
 }

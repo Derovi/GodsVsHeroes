@@ -9,6 +9,8 @@ import by.dero.gvh.minigame.commands.AddSpawnPointCommand;
 import by.dero.gvh.minigame.commands.FinishCommand;
 import by.dero.gvh.minigame.commands.SelectCommand;
 import by.dero.gvh.minigame.commands.StartCommand;
+import by.dero.gvh.minigame.deathmatch.DeathMatch;
+import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.AreaManager;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;
@@ -41,7 +43,11 @@ public class Minigame implements PluginMode {
                 ServerType.GAME);
         gameData = new GameData(new LocalStorage());
         gameData.load();
-        game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
+        if (gameData.getGameInfo().getMode().equals("deathMatch")) {
+            game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
+        } else {
+            game = new EtherCapture(gameData.getGameInfo(), gameData.getEtherCaptureInfo());
+        }
 
         world = Bukkit.getWorld(game.getInfo().getWorld());
         world.setTime(1000);

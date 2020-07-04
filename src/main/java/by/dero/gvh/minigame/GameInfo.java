@@ -4,6 +4,7 @@ import by.dero.gvh.utils.DirectedPosition;
 
 public class GameInfo {
     private String world = "World";
+    private String mode;
     private int teamCount = 2;
     private int respawnTime = 200;
     private int minPlayerCount = 2;
@@ -128,5 +129,13 @@ public class GameInfo {
 
     public void setResistancePoints(DirectedPosition[] resistancePoints) {
         this.resistancePoints = resistancePoints;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }
