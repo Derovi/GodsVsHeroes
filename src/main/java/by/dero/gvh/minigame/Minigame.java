@@ -9,6 +9,8 @@ import by.dero.gvh.minigame.commands.AddSpawnPointCommand;
 import by.dero.gvh.minigame.commands.FinishCommand;
 import by.dero.gvh.minigame.commands.SelectCommand;
 import by.dero.gvh.minigame.commands.StartCommand;
+import by.dero.gvh.minigame.deathmatch.DeathMatch;
+import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.AreaManager;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;

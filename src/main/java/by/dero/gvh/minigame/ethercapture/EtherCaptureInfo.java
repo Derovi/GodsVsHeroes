@@ -1,4 +1,4 @@
-package by.dero.gvh.minigame;
+package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.utils.Position;
 

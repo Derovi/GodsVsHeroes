@@ -1,5 +1,7 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.minigame.deathmatch.DeathMatchInfo;
+import by.dero.gvh.minigame.ethercapture.EtherCaptureInfo;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import by.dero.gvh.model.StorageInterface;

@@ -1,14 +1,15 @@
-package by.dero.gvh.minigame;
+package by.dero.gvh.minigame.deathmatch;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.minigame.Game;
+import by.dero.gvh.minigame.GameInfo;
+import by.dero.gvh.minigame.deathmatch.DeathMatchInfo;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.GameUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -32,7 +33,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    void load() {
+    public void load() {
         final int teams = getInfo().getTeamCount();
         currentLivesCount = new int[teams];
         for (int index = 0; index < teams; ++index) {

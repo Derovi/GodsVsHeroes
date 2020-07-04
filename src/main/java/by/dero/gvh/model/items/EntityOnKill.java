@@ -1,7 +1,7 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.minigame.DeathMatch;
+import by.dero.gvh.minigame.deathmatch.DeathMatch;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerKillInterface;

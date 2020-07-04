@@ -242,7 +242,7 @@ public abstract class Game {
         Plugin.getInstance().getData().loadRewards(rewardManager);
     }
 
-    abstract void load();
+    public abstract void load();
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {
