@@ -1,5 +1,6 @@
 {
   "world": "World",
+  "mode": "etherCapture",
   "teamCount": 2,
   "minPlayerCount": 2,
   "maxPlayerCount": 4,

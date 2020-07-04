@@ -37,6 +37,7 @@ public abstract class Game {
     public Game(GameInfo info) {
         this.info = info;
         instance = this;
+        GameEvents.setGame(this);
     }
 
     private static Game instance;

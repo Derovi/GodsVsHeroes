@@ -1,0 +1,7 @@
+{
+  "etherCollectors": [],
+  "etherToWin": 1000,
+  "etherForKill": 50,
+  "etherForCollector": 50,
+  "captureTime": 200
+}
