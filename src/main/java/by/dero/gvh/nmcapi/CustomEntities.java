@@ -16,7 +16,8 @@ public enum CustomEntities {
     PASSIVE_CHICKEN("PassiveChicken", 93, EntityType.CHICKEN, EntityChicken.class, ChickenAvatar.class),
     SMART_FALLING_BLOCK("SmartFallingBlock", 21, EntityType.FALLING_BLOCK, EntityFallingBlock.class, SmartFallingBlock.class),
     SMART_DRAGON("SmartDragon", 63, EntityType.ENDER_DRAGON, EntityEnderDragon.class, RotatingDragon.class),
-    InfiniteFishHook("InfiniteFishHook", 83, EntityType.FISHING_HOOK, EntityFishingHook.class, InfiniteFishHook.class);
+    CUSTOM_LEASH("CustomLeash", 83, EntityType.LEASH_HITCH, EntityLeash.class, CustomLeash.class),
+    INFINITE_FISH_HOOK("InfiniteFishHook", 83, EntityType.FISHING_HOOK, EntityFishingHook.class, InfiniteFishHook.class);
 
     private final String name;
     private final int id;

@@ -5,6 +5,8 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import org.bukkit.GameMode;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Invisibility {
@@ -16,6 +18,7 @@ public class Invisibility {
                 gp.getPlayer().hidePlayer(Plugin.getInstance(), player.getPlayer());
             }
         }
+        player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, time, 0), true);
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
