@@ -148,15 +148,14 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         final float exp = player.getExp();
 
         spawnFirework(player.getLocation().clone().add(0,1,0), 1);
-
-        final int team = getPlayers().get(player.getName()).getTeam();
-        int respTime = -1;
-
-        /*if (currentLivesCount[team] > 0) {
-            --currentLivesCount[team];
-            respawning[team]++;
-            respTime = getInfo().getRespawnTime();
-        }*/
+        int respTime = getInfo().getRespawnTime();
+//        final int team = getPlayers().get(player.getName()).getTeam();
+//        int respTime = -1;
+//        if (currentLivesCount[team] > 0) {
+//            --currentLivesCount[team];
+//            respawning[team]++;
+//            respTime = getInfo().getRespawnTime();
+//        }
         getPlayerDeathLocations().put(player.getName(), player.getLocation());
         player.spigot().respawn();
         spawnPlayer(getPlayers().get(player.getName()), respTime);
