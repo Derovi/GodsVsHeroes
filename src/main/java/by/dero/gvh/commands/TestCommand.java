@@ -1,7 +1,6 @@
 package by.dero.gvh.commands;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.nmcapi.CastratedEnderCrystal;
 import by.dero.gvh.nmcapi.MovingCrystal;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

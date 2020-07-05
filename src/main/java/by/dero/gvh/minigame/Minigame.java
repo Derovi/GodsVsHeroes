@@ -55,6 +55,7 @@ public class Minigame implements PluginMode {
         world.setGameRuleValue("keepInventory", "true");
         world.setGameRuleValue("doDaylightCycle", "false");
         world.setGameRuleValue("doMobLoot", "false");
+        world.setGameRuleValue("announceAdvancements", "false");
         game.prepare();
         registerEvents();
         registerCommands();

@@ -306,4 +306,9 @@ public class GameEvents implements Listener {
     public Location getLastPos (Player player) {
         return lastPos.getOrDefault(player.getUniqueId(), player.getLocation());
     }
+
+    @EventHandler
+    public void removePotions(PotionSplashEvent event) {
+        event.setCancelled(true);
+    }
 }

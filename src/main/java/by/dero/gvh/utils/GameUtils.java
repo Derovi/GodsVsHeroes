@@ -9,14 +9,20 @@ import by.dero.gvh.minigame.Minigame;
 import com.google.common.base.Predicate;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EntityLiving;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.EntityPotion;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionType;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -108,6 +114,26 @@ public class GameUtils {
         obj.setShooter(player);
 
         return obj;
+    }
+
+    public static Projectile spawnSplashPotion(Location at, double speed, PotionType type, Player player) {
+        Potion instance = new Potion(type, 1, true);
+
+        EntityPlayer pl = ((CraftPlayer) player).getHandle();
+        EntityPotion potion = new EntityPotion(pl.world, pl, CraftItemStack.asCraftCopy(instance.toItemStack(1)).handle);
+        potion.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(),""));
+        Vector dir = at.getDirection();
+        Location loc = at.clone().add(dir.clone().multiply(2));
+        potion.locX = loc.x;
+        potion.locY = loc.y;
+        potion.locZ = loc.z;
+        potion.motX = dir.x * speed;
+        potion.motY = dir.y * speed;
+        potion.motZ = dir.z * speed;
+
+        potion.world.addEntity(potion, CreatureSpawnEvent.SpawnReason.CUSTOM);
+
+        return (Projectile) potion.getBukkitEntity();
     }
 
     public static boolean isEnemy(final Entity ent, final int team) {

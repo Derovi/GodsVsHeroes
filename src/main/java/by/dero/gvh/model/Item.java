@@ -40,6 +40,11 @@ public class Item {
 
     public static ItemStack getItemStack(String name, ItemInfo info) {
         ItemStack itemStack = new ItemStack(info.getMaterial(), info.getAmount());
+
+        return setItemMeta(itemStack, name, info);
+    }
+
+    public static ItemStack setItemMeta(ItemStack itemStack, String name, ItemInfo info) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         for (ItemInfo.EnchantInfo enchantInfo : info.getEnchantments()) {
             System.out.println(enchantInfo.getName());
