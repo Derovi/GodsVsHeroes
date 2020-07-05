@@ -5,8 +5,10 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.itemsinfo.DragonFlyInfo;
 import by.dero.gvh.nmcapi.dragon.ControlledDragon;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class DragonFly extends Item implements PlayerInteractInterface {
@@ -31,5 +33,14 @@ public class DragonFly extends Item implements PlayerInteractInterface {
                 dragon.finish();
             }
         }.runTaskLater(Plugin.getInstance(), info.getDuration());
+    }
+
+    @Override
+    public ItemStack getItemStack() {
+        ItemStack result = super.getItemStack();
+        if (result.getType().equals(Material.SKULL_ITEM)) {
+            result.setDurability((short) 5);
+        }
+        return result;
     }
 }

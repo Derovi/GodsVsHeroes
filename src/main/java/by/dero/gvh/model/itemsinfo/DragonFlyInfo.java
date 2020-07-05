@@ -6,7 +6,7 @@ public class DragonFlyInfo extends ItemInfo {
     private int fireballCoolDown;
     private int duration;
     private int damage;
-    private int speed;
+    private double speed;
 
     public int getFireballCoolDown() {
         return fireballCoolDown;
@@ -32,7 +32,7 @@ public class DragonFlyInfo extends ItemInfo {
         this.damage = damage;
     }
 
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
