@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 public class ControlledDragon {
     private final DragonBase dragonBase;
     private final RotatingDragon dragon;
-    private EmptyArmorStand empty1;
+    private final EmptyArmorStand empty1;
     private final EmptyArmorStand empty2;
     private Player player;
 
@@ -29,6 +29,10 @@ public class ControlledDragon {
 
     // called from DragonBase.B_()
     public void update() {
+        if (player.getVehicle() == null || !player.getVehicle().getUniqueId().equals(empty2.getUniqueID())) {
+            finish();
+            return;
+        }
         float pitch = player.getLocation().getPitch();
         if (player.getLocation().getPitch() < 0.0f) {
             pitch = 0.0f;
@@ -47,6 +51,13 @@ public class ControlledDragon {
         dragonBase.locX += dx;
         dragonBase.locY += dy;
         dragonBase.locZ += dz;
+    }
+
+    public void finish() {
+        empty2.die();
+        empty1.die();
+        dragon.die();
+        dragonBase.die();
     }
 
     public Player getPlayer() {
