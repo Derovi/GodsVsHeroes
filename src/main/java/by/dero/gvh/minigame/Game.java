@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -21,7 +22,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public abstract class Game {
+public abstract class Game implements Listener {
     public static Game getInstance() {
         return instance;
     }

@@ -3,6 +3,7 @@ package by.dero.gvh.nmcapi;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.nmcapi.dragon.EmptyArmorStand;
 import by.dero.gvh.utils.Position;
+import net.minecraft.server.v1_12_R1.BlockPosition;
 import org.bukkit.Location;
 import org.bukkit.metadata.FixedMetadataValue;
 
