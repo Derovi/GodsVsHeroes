@@ -10,6 +10,7 @@ import by.dero.gvh.nmcapi.PlayerUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -30,6 +31,8 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
             return;
         }
         cooldown.reload();
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 16, 1);
+        loc.getWorld().playSound(loc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 16, 1);
         Drawings.drawCphere(owner.getLocation().clone(), 1.5, Particle.SMOKE_LARGE);
         PlayerUtils.jumpDown(owner, 10);
         owner.setInvulnerable(true);

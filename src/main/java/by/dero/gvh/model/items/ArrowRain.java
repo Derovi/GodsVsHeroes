@@ -9,6 +9,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -52,6 +53,7 @@ public class ArrowRain extends Item implements UltimateInterface {
             @Override
             public void run() {
                 final Location shooter = MathUtils.randomCylinder(center, radius, 0);
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 16, 1);
                 final List<Location> targets = new ArrayList<>();
                 for (LivingEntity obj : GameUtils.getNearby(center, radius)) {
                     if (GameUtils.isEnemy(obj, getTeam())) {
@@ -63,14 +65,6 @@ public class ArrowRain extends Item implements UltimateInterface {
                             obj.toVector().subtract(shooter.toVector()).normalize(),
                             4F, 1);
                     arrow.setShooter(owner);
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            if (arrow.isValid()) {
-                                this.cancel();
-                            }
-                        }
-                    }.runTaskTimer(Plugin.getInstance(), 0, 1);
                 }
                 targets.clear();
 

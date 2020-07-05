@@ -5,6 +5,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -39,6 +40,7 @@ public class GameEvents implements Listener {
     }
 
     private final HashSet<UUID> projectiles = new HashSet<>();
+    private final HashMap<UUID, Location> lastPos = new HashMap<>();
     private static Game game;
 
     @EventHandler
@@ -144,13 +146,22 @@ public class GameEvents implements Listener {
             return;
         }
         if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) ||
-            event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK) ||
-            event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
+                event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.FALL) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.FLY_INTO_WALL)) {
             event.setCancelled(true);
             return;
         }
 
         final LivingEntity entity = (LivingEntity) event.getEntity();
+
+        if ((event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.FIRE) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.WITHER)) &&
+                entity.getHealth() <= event.getFinalDamage()) {
+            event.setCancelled(true);
+            return;
+        }
 
         if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
                 GameUtils.getLastLightningTime() + 100 > System.currentTimeMillis()) {
@@ -276,7 +287,28 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
+    public void removeNotGameDamage(EntityDamageEvent event) {
+        if (!game.getState().equals(Game.State.GAME)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        lastPos.put(event.getPlayer().getUniqueId(), event.getFrom());
+    }
+
+    public Location getLastPos (Player player) {
+        return lastPos.getOrDefault(player.getUniqueId(), player.getLocation());
+    }
+
+    @EventHandler
+    public void removePotions(PotionSplashEvent event) {
         event.setCancelled(true);
     }
 }

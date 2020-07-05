@@ -1,14 +1,13 @@
 package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.utils.IntPosition;
-import by.dero.gvh.utils.Position;
 
 public class EtherCaptureInfo {
     private IntPosition[] etherCollectors;
     private int etherToWin;
     private int etherForKill;
     private int etherForCollector;
-    private int captureTime;
+    private int etherMineDelay;
 
     public IntPosition[] getEtherCollectors() {
         return etherCollectors;
@@ -42,11 +41,11 @@ public class EtherCaptureInfo {
         this.etherForCollector = etherForCollector;
     }
 
-    public int getCaptureTime() {
-        return captureTime;
+    public int getEtherMineDelay () {
+        return etherMineDelay;
     }
 
-    public void setCaptureTime(int captureTime) {
-        this.captureTime = captureTime;
+    public void setEtherMineDelay (int etherMineDelay) {
+        this.etherMineDelay = etherMineDelay;
     }
 }

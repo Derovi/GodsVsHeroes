@@ -55,6 +55,8 @@ public class Minigame implements PluginMode {
         world.setGameRuleValue("keepInventory", "true");
         world.setGameRuleValue("doDaylightCycle", "false");
         world.setGameRuleValue("doMobLoot", "false");
+        world.setGameRuleValue("announceAdvancements", "false");
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "weather clear 100000");
         game.prepare();
         registerEvents();
         registerCommands();
@@ -62,7 +64,9 @@ public class Minigame implements PluginMode {
 
     @Override
     public void onDisable() {
-
+        if (game != null) {
+            game.unload();
+        }
     }
 
     private void registerEvents() {
@@ -76,6 +80,7 @@ public class Minigame implements PluginMode {
         manager.registerEvents(lootsManager, instance);
         manager.registerEvents(new DoubleSpaceListener(), instance);
         manager.registerEvents(new LiftManager(), instance);
+        manager.registerEvents(game, instance);
     }
 
     private void registerCommands() {

@@ -5,15 +5,12 @@ import by.dero.gvh.GameMob;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
-import by.dero.gvh.utils.BungeeUtils;
-import by.dero.gvh.utils.DirectedPosition;
-import by.dero.gvh.utils.MathUtils;
+import by.dero.gvh.utils.*;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import by.dero.gvh.utils.MessagingUtils;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -25,7 +22,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public abstract class Game {
+public abstract class Game implements Listener {
     public static Game getInstance() {
         return instance;
     }
@@ -178,14 +175,6 @@ public abstract class Game {
                 entity.remove();
             }
         }
-        for (final BukkitRunnable runnable : runnables) {
-            runnable.cancel();
-        }
-        mapManager.finish();
-        Minigame.getInstance().getLootsManager().unload();
-        runnables.clear();
-
-        Minigame.getInstance().getGameEvents().getDamageCause().clear();
         for (GamePlayer player : players.values()) {
             if (player.getTeam() == winnerTeam) {
                 rewardManager.give("winGame", player.getPlayer());
@@ -194,6 +183,7 @@ public abstract class Game {
             }
         }
 
+        this.unload();
         afterParty = new AfterParty(this, winnerTeam);
         afterParty.start();
         final BukkitRunnable runnable = new BukkitRunnable() {
@@ -201,11 +191,11 @@ public abstract class Game {
             public void run() {
                 Drawings.spawnFirework(MathUtils.randomCylinder(
                         getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
-                        25, -10
+                        18, -10
                 ), 2);
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 5);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -243,6 +233,17 @@ public abstract class Game {
     }
 
     public abstract void load();
+
+    public void unload() {
+        for (final BukkitRunnable runnable : runnables) {
+            runnable.cancel();
+        }
+        mapManager.finish();
+        Minigame.getInstance().getLootsManager().unload();
+        runnables.clear();
+
+        Minigame.getInstance().getGameEvents().getDamageCause().clear();
+    }
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {

@@ -3,9 +3,9 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.nmcapi.CustomLeash;
 import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftChicken;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -18,10 +18,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.UUID;
 
 public class LiftManager implements Listener {
 	private final HashMap<UUID, LinkedList<Entity>> lifting = new HashMap<>();
+	private final HashSet<UUID> forced = new HashSet<>();
 
 	private static final Vector[] adds = new Vector[] {
 			new Vector(-2, 0, -2), new Vector(2, 0, 2), new Vector(2, 0, -2), new Vector(-2, 0, 2),
@@ -41,6 +45,12 @@ public class LiftManager implements Listener {
 		}
 		if (event.getTo().getY() == event.getFrom().getY()) {
 			removeRopes(uuid);
+		}
+		if (!lifting.get(uuid).isEmpty() && !forced.contains(uuid) && event.getTo().getY() < event.getFrom().getY()) {
+			forced.add(uuid);
+			Entity ent = lifting.get(uuid).getFirst();
+			Location loc = player.getLocation();
+			player.setVelocity(new Vector(ent.locX - loc.x, ent.locY - loc.y, ent.locZ - loc.z).multiply(0.4));
 		}
 		if (event.getFrom().getY() != event.getTo().getY() &&
 				event.getFrom().getY() - (int)event.getFrom().getY() < 0.1 &&
@@ -83,10 +93,13 @@ public class LiftManager implements Listener {
 			list.add(chicken);
 			list.add(leash);
 			player.setVelocity(new Vector(0, Math.cbrt(good.y - player.getLocation().y) * 0.7, 0));
+
+			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 16, 1);
 		}
 	}
 
 	public void removeRopes(UUID uuid) {
+		forced.remove(uuid);
 		LinkedList<Entity> list = lifting.get(uuid);
 		while (!list.isEmpty()){
 			Entity e = list.getFirst();

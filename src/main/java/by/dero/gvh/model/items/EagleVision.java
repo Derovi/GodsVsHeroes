@@ -9,6 +9,7 @@ import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -43,6 +44,7 @@ public class EagleVision extends Item implements UltimateInterface {
         }
         cooldown.reload();
         final Location loc = player.getLocation().clone();
+        owner.getWorld().playSound(loc, Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 16, 1);
         final int team = GameUtils.getPlayer(player.getName()).getTeam();
         for (final Entity obj : Objects.requireNonNull(loc.getWorld()).getNearbyEntities(loc, radius, 200, radius)) {
             final Location cur = obj.getLocation().clone();

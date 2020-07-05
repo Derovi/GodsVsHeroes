@@ -9,7 +9,7 @@ import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.LightningBowInfo;
 import by.dero.gvh.utils.GameUtils;
-import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -35,6 +35,12 @@ public class LightningBow extends Item implements PlayerShootBowInterface, Proje
 
 	@Override
 	public void onPlayerShootBow (EntityShootBowEvent event) {
+		if (!cooldown.isReady()) {
+			summonedEntityIds.remove(event.getProjectile().getUniqueId());
+			event.setCancelled(true);
+			return;
+		}
+		cooldown.reload();
 		Arrow arrow = (Arrow) event.getProjectile();
 
 		BukkitRunnable runnable = new BukkitRunnable() {
@@ -53,7 +59,8 @@ public class LightningBow extends Item implements PlayerShootBowInterface, Proje
 							!hit.contains(liv.getUniqueId()) && GameUtils.isEnemy(liv, getTeam())) {
 							hit.add(liv.getUniqueId());
 
-							Drawings.drawLine(arrow.getLocation(), liv.getEyeLocation(), Particle.END_ROD);
+							Drawings.drawLineColor(arrow.getLocation(), liv.getEyeLocation(), 255, 0, 0);
+							liv.getLocation().getWorld().playSound(liv.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 16, 1);
 							GameUtils.damage(damage, liv, owner);
 						}
 					}

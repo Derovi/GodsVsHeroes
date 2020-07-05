@@ -9,10 +9,14 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.AxeThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingAxe;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.MathUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
@@ -37,9 +41,29 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
         axe.spawn();
         axe.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(axe.getHoldEntity(), getTeam())) {
+                Location at = axe.getItemPosition().toLocation(owner.getWorld());
+                at.getWorld().spawnParticle(Particle.BLOCK_CRACK, at, 50,
+                        new MaterialData(Material.REDSTONE_BLOCK));
                 GameUtils.damage(damage, (LivingEntity) axe.getHoldEntity(), owner);
             }
         });
+        axe.setOnHitBlock(() -> new BukkitRunnable() {
+            double angle = 0;
+            @Override
+            public void run () {
+                if (axe.isRemoved()) {
+                    this.cancel();
+                    return;
+                }
+                angle += Math.PI / 30;
+                for (int i = 0; i < 2; i++) {
+                    double al = angle + Math.PI * i;
+                    Location at = axe.getItemPosition().toLocation(owner.getWorld()).
+                            add(MathUtils.cos(al)*0.5, 1, MathUtils.sin(al)*0.5);
+                    owner.spawnParticle(Particle.VILLAGER_HAPPY, at, 0, 0, 0, 0);
+                }
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, 2));
         axe.setOnOwnerPickUp(() -> {
             ChargesManager.getInstance().addItem(owner, this, slot);
             axe.remove();

@@ -8,11 +8,10 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.NinjaRopeInfo;
 import by.dero.gvh.nmcapi.InfiniteFishHook;
 import by.dero.gvh.utils.GameUtils;
-import net.minecraft.server.v1_12_R1.EntityFishingHook;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
@@ -58,6 +57,7 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
                 }
                 if (arrow.getLocation().distance(owner.getLocation()) > distance) {
                     owner.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, arrow.getLocation(), 0, 0, 0, 0);
+                    owner.getWorld().playSound(arrow.getLocation(), Sound.ITEM_SHIELD_BREAK, 16, 1);
                     fishingHook.die();
                     arrow.remove();
                 }
@@ -72,6 +72,8 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
         Location at = event.getEntity().getLocation();
 
         Vector force = at.clone().subtract(owner.getLocation()).multiply(forceMultiplier).toVector();
+
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 16, 1);
         force.y = Math.max(force.y, 0.7);
         force.y = Math.min(force.y, 1.8);
         owner.setVelocity(force);

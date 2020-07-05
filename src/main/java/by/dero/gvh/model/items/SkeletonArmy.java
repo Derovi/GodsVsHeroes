@@ -12,9 +12,11 @@ import by.dero.gvh.utils.PathfinderAttackEnemies;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftSkeleton;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftWitherSkeleton;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class SkeletonArmy extends Item implements PlayerInteractInterface, UltimateInterface {
@@ -62,17 +64,20 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Ultim
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
         cooldown.reload();
+
         GamePlayer player = GameUtils.getPlayer(owner.getName());
         for (int i = 0; i < melee; i++) {
             CraftWitherSkeleton skeleton = (CraftWitherSkeleton) GameUtils.spawnTeamEntity(
                     MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), EntityType.WITHER_SKELETON, player);
             Drawings.drawCircle(skeleton.getLocation(), 2, Particle.DRAGON_BREATH);
             initAttributes(skeleton, true);
+            owner.getWorld().playSound(skeleton.getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 16, 1);
         }
         for (int i = 0; i < range; i++) {
             CraftSkeleton skeleton = (CraftSkeleton) GameUtils.spawnTeamEntity(
                     MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), EntityType.SKELETON, player);
             Drawings.drawCircle(skeleton.getLocation(), 2, Particle.DRAGON_BREATH);
+            owner.getWorld().playSound(skeleton.getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 16, 1);
             initAttributes(skeleton, false);
         }
     }

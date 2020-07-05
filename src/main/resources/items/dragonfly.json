@@ -1,0 +1,81 @@
+{
+  "name": "dragonfly",
+  "slot": 0,
+  "levels": [
+    {
+      "fireballCoolDown": 60,
+      "cooldown": 1600,
+      "duration": 400,
+      "damage": 12,
+      "speed": 0.55,
+      "cost": 80,
+      "material": "SKULL_ITEM",
+      "displayName": "§cDragon fly",
+      "lore": [
+        "§aНажмите, чтобы оседлать дракона.",
+        "§6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "fireballCoolDown": 60,
+      "cooldown": 1600,
+      "duration": 400,
+      "damage": 13,
+      "speed": 0.55,
+      "cost": 100,
+      "material": "SKULL_ITEM",
+      "displayName": "§cDragon fly",
+      "lore": [
+        "§aНажмите, чтобы оседлать дракона.",
+        "§6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "fireballCoolDown": 60,
+      "cooldown": 1600,
+      "duration": 400,
+      "damage": 14,
+      "speed": 0.55,
+      "cost": 120,
+      "material": "SKULL_ITEM",
+      "displayName": "§cDragon fly",
+      "lore": [
+        "§aНажмите, чтобы оседлать дракона.",
+        "§6Уровень 3"
+      ],
+      "amount": 1
+    },
+    {
+      "fireballCoolDown": 60,
+      "cooldown": 1600,
+      "duration": 400,
+      "cost": 120,
+      "damage": 15,
+      "speed": 0.55,
+      "material": "SKULL_ITEM",
+      "displayName": "§cDragon fly",
+      "lore": [
+        "§aНажмите, чтобы оседлать дракона.",
+        "§6Уровень 4"
+      ],
+      "amount": 1
+    },
+    {
+      "fireballCoolDown": 60,
+      "cooldown": 1600,
+      "duration": 400,
+      "damage": 16,
+      "speed": 0.55,
+      "cost": 140,
+      "material": "SKULL_ITEM",
+      "displayName": "§cDragon fly",
+      "lore": [
+        "§aНажмите, чтобы оседлать дракона.",
+        "§6Уровень 5"
+      ],
+      "amount": 1
+    }
+  ]
+}

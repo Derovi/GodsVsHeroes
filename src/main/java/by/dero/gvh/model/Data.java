@@ -4,8 +4,6 @@ import by.dero.gvh.minigame.Reward;
 import by.dero.gvh.minigame.RewardManager;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
-import by.dero.gvh.model.items.FlyBow;
-import by.dero.gvh.model.itemsinfo.FlyBowInfo;
 import by.dero.gvh.model.items.*;
 import by.dero.gvh.model.itemsinfo.*;
 import com.google.gson.Gson;
@@ -80,6 +78,7 @@ public class Data {
         registerItem("entityonkill", EntityOnKillInfo.class, EntityOnKill.class);
         registerItem("firebow", ItemInfo.class, FireBow.class);
         registerItem("lightningbow", LightningBowInfo.class, LightningBow.class);
+        registerItem("dragonfly", DragonFlyInfo.class, DragonFly.class);
     }
 
     private void registerClasses() {

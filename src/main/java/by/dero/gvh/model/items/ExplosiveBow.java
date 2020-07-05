@@ -7,6 +7,7 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ExplosiveBowInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -66,7 +67,7 @@ public class ExplosiveBow extends Item implements PlayerShootBowInterface, Proje
                 if (!arrows.contains(obj.getUniqueId()) || ticks > 300) {
                     final float force = (float)(power*power*multiplier);
                     Location loc = obj.getLocation();
-                    loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 3);
+                    loc.getWorld().playEffect(loc, Effect.END_GATEWAY_SPAWN, null);
                     for (LivingEntity ent : GameUtils.getNearby(loc, 5)) {
                         GameUtils.damage(force, ent, owner);
                     }

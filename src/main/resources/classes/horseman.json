@@ -4,6 +4,7 @@
   "cost": 1000,
   "itemNames": [
     "meteor",
-    "spawnhorse"
+    "spawnhorse",
+    "defaultarrow"
   ]
 }

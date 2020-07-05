@@ -3,7 +3,6 @@ package by.dero.gvh.minigame.deathmatch;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
-import by.dero.gvh.minigame.deathmatch.DeathMatchInfo;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
@@ -102,10 +101,15 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
     @Override
     public void finish(int winnerTeam) {
+        super.finish(winnerTeam);
+    }
+
+    @Override
+    public void unload () {
+        super.unload();
         for (final GamePlayer gp : getPlayers().values()) {
             gp.getBoard().clear();
         }
-        super.finish(winnerTeam);
     }
 
     private void checkForGameEnd() {
