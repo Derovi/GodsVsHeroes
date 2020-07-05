@@ -9,7 +9,10 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.SwordThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingSword;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.MathUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -40,6 +43,22 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
                 GameUtils.damage(damage, (LivingEntity) sword.getHoldEntity(), owner);
             }
         });
+        sword.setOnHitBlock(() -> new BukkitRunnable() {
+            double angle = 0;
+            @Override
+            public void run () {
+                if (sword.isRemoved()) {
+                    this.cancel();
+                    return;
+                }
+                angle += Math.PI / 30;
+                for (int i = 0; i < 2; i++) {
+                    double al = angle + Math.PI * i;
+                    Location at = sword.getBukkitEntity().getLocation().add(MathUtils.cos(al), 2, MathUtils.sin(al));
+                    owner.spawnParticle(Particle.DRAGON_BREATH, at, 0, 0, 0, 0);
+                }
+            }
+        }.runTaskTimer(Plugin.getInstance(), 0, 2));
         sword.setOnOwnerPickUp(() -> {
             ChargesManager.getInstance().addItem(owner, this, slot);
             sword.remove();
