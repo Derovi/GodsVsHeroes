@@ -1,0 +1,76 @@
+{
+  "name": "dragonfly",
+  "slot": 0,
+  "levels": [
+    {
+      "fireballCoolDown": 60,
+      "cooldown": 1600,
+      "duration": 400,
+      "damage": 12,
+      "cost": 80,
+      "material": "FEATHER",
+      "displayName": "§cDragon fly",
+      "lore": [
+        "§aНажмите, чтобы оседлать дракона.",
+        "§6Уровень 1"
+      ],
+      "amount": 1
+    },
+    {
+      "fireballCoolDown": 60,
+      "cooldown": 1600,
+      "duration": 400,
+      "damage": 13,
+      "cost": 100,
+      "material": "FEATHER",
+      "displayName": "§cDragon fly",
+      "lore": [
+        "§aНажмите, чтобы оседлать дракона.",
+        "§6Уровень 2"
+      ],
+      "amount": 1
+    },
+    {
+      "fireballCoolDown": 60,
+      "cooldown": 1600,
+      "duration": 400,
+      "damage": 14,
+      "cost": 120,
+      "material": "FEATHER",
+      "displayName": "§cDragon fly",
+      "lore": [
+        "§aНажмите, чтобы оседлать дракона.",
+        "§6Уровень 3"
+      ],
+      "amount": 1
+    },
+    {
+      "fireballCoolDown": 60,
+      "cooldown": 1600,
+      "duration": 400,
+      "cost": 120,
+      "damage": 15,
+      "material": "FEATHER",
+      "displayName": "§cDragon fly",
+      "lore": [
+        "§aНажмите, чтобы оседлать дракона.",
+        "§6Уровень 4"
+      ],
+      "amount": 1
+    },
+    {
+      "fireballCoolDown": 60,
+      "cooldown": 1600,
+      "duration": 400,
+      "damage": 16,
+      "cost": 140,
+      "material": "FEATHER",
+      "displayName": "§cDragon fly",
+      "lore": [
+        "§aНажмите, чтобы оседлать дракона.",
+        "§6Уровень 5"
+      ],
+      "amount": 1
+    }
+  ]
+}
