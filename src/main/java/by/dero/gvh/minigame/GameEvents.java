@@ -153,6 +153,14 @@ public class GameEvents implements Listener {
 
         final LivingEntity entity = (LivingEntity) event.getEntity();
 
+        if ((event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.FIRE) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.WITHER)) &&
+                entity.getHealth() <= event.getFinalDamage()) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
                 GameUtils.getLastLightningTime() + 100 > System.currentTimeMillis()) {
             final Player player = GameUtils.getLastUsedLightning();

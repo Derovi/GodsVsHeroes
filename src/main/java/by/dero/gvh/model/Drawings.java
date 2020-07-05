@@ -2,20 +2,20 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
-import net.minecraft.server.v1_12_R1.EntityFireworks;
 import by.dero.gvh.utils.MathUtils;
+import net.minecraft.server.v1_12_R1.EntityFireworks;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftFirework;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.UUID;
 
 public class Drawings {
@@ -49,7 +49,7 @@ public class Drawings {
         while (true) {
             a.getWorld().spawnParticle(Particle.REDSTONE,
                     new Location(a.getWorld(), cur.getX(), cur.getY(), cur.getZ()),
-                    1, red, green, blue);
+                    0, red, green, blue);
 
             if (cur.equals(to)) {
                 break;
