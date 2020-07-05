@@ -5,6 +5,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -39,6 +40,7 @@ public class GameEvents implements Listener {
     }
 
     private final HashSet<UUID> projectiles = new HashSet<>();
+    private final HashMap<UUID, Location> lastPos = new HashMap<>();
     private static Game game;
 
     @EventHandler
@@ -294,5 +296,14 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        lastPos.put(event.getPlayer().getUniqueId(), event.getFrom());
+    }
+
+    public Location getLastPos (Player player) {
+        return lastPos.getOrDefault(player.getUniqueId(), player.getLocation());
     }
 }

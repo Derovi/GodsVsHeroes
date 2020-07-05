@@ -1,5 +1,6 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
@@ -33,7 +34,7 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
         final Location loc = event.getPlayer().getEyeLocation().clone();
         Entity ownerHandle = ((CraftEntity) owner).getHandle();
         final Vector dlt = event.getPlayer().getLocation().toVector().subtract(
-                new Vector(ownerHandle.lastX, ownerHandle.lastY, ownerHandle.lastZ)).multiply(4);
+                Minigame.getInstance().getGameEvents().getLastPos(event.getPlayer()).toVector()).multiply(4);
         dlt.y = Math.min(dlt.y, 1);
         dlt.y = Math.max(dlt.y, -1);
         for (int i = 0; i < 20; i++) {
