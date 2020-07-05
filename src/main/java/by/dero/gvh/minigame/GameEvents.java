@@ -2,6 +2,7 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.ChargesManager;
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
@@ -19,6 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -125,12 +127,17 @@ public class GameEvents implements Listener {
         }
 
         if (event.getEntity() instanceof Arrow) {
-            event.getEntity().remove();
+            new BukkitRunnable() {
+                @Override
+                public void run () {
+                    event.getEntity().remove();
+                }
+            }.runTaskLater(Plugin.getInstance(), 60);
         }
     }
 
     @EventHandler
-    public void onPlayerSneak(PlayerToggleSneakEvent event) {
+    public void onPlayerSneak(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         if (!player.isSneaking()) {
             return;

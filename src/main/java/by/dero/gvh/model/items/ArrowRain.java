@@ -53,7 +53,7 @@ public class ArrowRain extends Item implements UltimateInterface {
             @Override
             public void run() {
                 final Location shooter = MathUtils.randomCylinder(center, radius, 0);
-                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 16, 1);
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 24, 1);
                 final List<Location> targets = new ArrayList<>();
                 for (LivingEntity obj : GameUtils.getNearby(center, radius)) {
                     if (GameUtils.isEnemy(obj, getTeam())) {

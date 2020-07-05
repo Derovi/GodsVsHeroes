@@ -1,11 +1,16 @@
 package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
+import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -63,18 +68,18 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
 
     @Override
     public void updateDisplays() {
-        ArrayList<Integer> indexes = new ArrayList<>();
+        ArrayList<Integer> idxs = new ArrayList<>();
         for (int i = 0; i < getInfo().getTeamCount(); i++) {
-            indexes.add(i);
+            idxs.add(i);
         }
-        //idxs.sort((a, b) -> currentLivesCount[b] - currentLivesCount[a]);
+        idxs.sort((a, b) -> currentEtherCount[b] - currentEtherCount[a]);
         String[] str = new String[getInfo().getTeamCount() + 1];
-        for (int idx = 0; idx < getInfo().getTeamCount(); ++idx) {
-            final int team = indexes.get(idx);
+        for (int i = 0; i < getInfo().getTeamCount(); ++i) {
+            final int team = idxs.get(i);
             final String com = Lang.get("commands." + (char)('1' + team));
             str[team] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
                     .replace("%com%", com)
-                    .replace("%pts%", String.valueOf(currentEtherCount[team]) +
+                    .replace("%pts%", currentEtherCount[team] +
                             " (" + (int) ((double) currentEtherCount[team] / etherCaptureInfo.getEtherToWin() * 100) + "%)");
         }
         for (final GamePlayer gp : getPlayers().values()) {
@@ -125,7 +130,12 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     private void checkForGameEnd() {
         for (int team = 0; team < getInfo().getTeamCount(); ++team) {
             if (currentEtherCount[team] >= etherCaptureInfo.getEtherToWin()) {
-                finish(team);
+                int finalTeam = team;
+                World world = Minigame.getInstance().getWorld();
+                world.playSound(collectorsManager.getCollectors().get(0).getPosition().toLocation(world).add(0, 30, 0),
+                        Sound.ENTITY_ENDERDRAGON_DEATH, 300, 1);
+                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> finish(finalTeam), 100);
+                return;
             }
         }
     }
@@ -147,18 +157,10 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         final Player player = event.getEntity();
         final float exp = player.getExp();
 
-        spawnFirework(player.getLocation().clone().add(0,1,0), 1);
-        int respTime = getInfo().getRespawnTime();
-//        final int team = getPlayers().get(player.getName()).getTeam();
-//        int respTime = -1;
-//        if (currentLivesCount[team] > 0) {
-//            --currentLivesCount[team];
-//            respawning[team]++;
-//            respTime = getInfo().getRespawnTime();
-//        }
+        spawnFirework(player.getLocation().clone().add(0, 1, 0), 1);
         getPlayerDeathLocations().put(player.getName(), player.getLocation());
         player.spigot().respawn();
-        spawnPlayer(getPlayers().get(player.getName()), respTime);
+        spawnPlayer(getPlayers().get(player.getName()), getInfo().getRespawnTime());
         player.setExp(exp);
     }
 

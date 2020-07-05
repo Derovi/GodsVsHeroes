@@ -41,7 +41,8 @@
     "desertionMessage": "§cНа фронте дезертирству нет места!",
     "lootsLabelCooldown": "§cПерезаряжается! Осталось %time%",
     "lootsLabelReady": "§aГотово!",
-    "ether": "Эфира"
+    "ether": "Эфира",
+    "collectorCaptureInform": "§aКоллектор §c%num%§a захвачен командой %com%§a!"
   },
   "stats": {
     "label": "§aСтатистика",

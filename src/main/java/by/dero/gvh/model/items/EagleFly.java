@@ -21,7 +21,7 @@ public class EagleFly extends Item implements DoubleSpaceInterface {
     @Override
     public void onDoubleSpace() {
         ChickenAvatar passiveChicken = new ChickenAvatar(owner);
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_CHICKEN_DEATH, 16, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 24, 1);
         passiveChicken.spawn();
         new BukkitRunnable() {
             @Override

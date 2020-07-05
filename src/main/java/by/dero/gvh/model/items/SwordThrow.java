@@ -13,6 +13,7 @@ import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -43,27 +44,31 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
             if (GameUtils.isEnemy(sword.getHoldEntity(), getTeam())) {
                 GameUtils.damage(damage, (LivingEntity) sword.getHoldEntity(), owner);
                 Location at = sword.getItemPosition().toLocation(owner.getWorld());
-                at.getWorld().spawnParticle(Particle.BLOCK_CRACK, at.clone().add(0,0,0), 50,
+                at.getWorld().spawnParticle(Particle.BLOCK_CRACK, at.clone().add(0,0,0), 20,
                         new MaterialData(Material.REDSTONE_BLOCK));
             }
         });
-        sword.setOnHitBlock(() -> new BukkitRunnable() {
-            double angle = 0;
-            @Override
-            public void run () {
-                if (sword.isRemoved()) {
-                    this.cancel();
-                    return;
+        sword.setOnHitBlock(() -> {
+            new BukkitRunnable() {
+                double angle = 0;
+                @Override
+                public void run () {
+                    if (sword.isRemoved()) {
+                        this.cancel();
+                        return;
+                    }
+                    angle += Math.PI / 30;
+                    for (int i = 0; i < 2; i++) {
+                        double al = angle + Math.PI * i;
+                        Location at = sword.getItemPosition().toLocation(owner.getWorld()).
+                                add(MathUtils.cos(al)*0.5, 1, MathUtils.sin(al)*0.5);
+                        owner.spawnParticle(Particle.VILLAGER_HAPPY, at, 0, 0, 0, 0);
+                    }
                 }
-                angle += Math.PI / 30;
-                for (int i = 0; i < 2; i++) {
-                    double al = angle + Math.PI * i;
-                    Location at = sword.getItemPosition().toLocation(owner.getWorld()).
-                            add(MathUtils.cos(al)*0.5, 1, MathUtils.sin(al)*0.5);
-                    owner.spawnParticle(Particle.VILLAGER_HAPPY, at, 0, 0, 0, 0);
-                }
-            }
-        }.runTaskTimer(Plugin.getInstance(), 0, 2));
+            }.runTaskTimer(Plugin.getInstance(), 0, 2);
+            owner.getWorld().playSound(sword.getItemPosition().toLocation(owner.getWorld()),
+                    Sound.BLOCK_SHULKER_BOX_OPEN, 24, 1);
+        });
         sword.setOnOwnerPickUp(() -> {
             ChargesManager.getInstance().addItem(owner, this, slot);
             sword.remove();
