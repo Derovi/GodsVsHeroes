@@ -16,6 +16,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
@@ -40,6 +41,9 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
         axe.spawn();
         axe.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(axe.getHoldEntity(), getTeam())) {
+                Location at = axe.getItemPosition().toLocation(owner.getWorld());
+                at.getWorld().spawnParticle(Particle.BLOCK_CRACK, at.clone().add(0,0,0), 50,
+                        new MaterialData(Material.REDSTONE_BLOCK));
                 GameUtils.damage(damage, (LivingEntity) axe.getHoldEntity(), owner);
             }
         });
@@ -54,7 +58,8 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
                 angle += Math.PI / 30;
                 for (int i = 0; i < 2; i++) {
                     double al = angle + Math.PI * i;
-                    Location at = axe.getBukkitEntity().getLocation().add(MathUtils.cos(al), 2, MathUtils.sin(al));
+                    Location at = axe.getItemPosition().toLocation(owner.getWorld()).
+                            add(MathUtils.cos(al), 2, MathUtils.sin(al));
                     owner.spawnParticle(Particle.DRAGON_BREATH, at, 0, 0, 0, 0);
                 }
             }
