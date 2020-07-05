@@ -16,7 +16,7 @@ public class ControlledDragon {
         this.player = player;
         dragonBase = new DragonBase(this);
         dragonBase.spawn();
-        dragon = new RotatingDragon(player.getLocation());
+        dragon = new RotatingDragon(this);
         dragon.spawn();
         empty1 = new EmptyArmorStand(player.getLocation());
         empty2 = new EmptyArmorStand(player.getLocation());
