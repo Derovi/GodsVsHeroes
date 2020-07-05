@@ -194,7 +194,7 @@ public abstract class Game {
                 ), 2);
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 5);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 10);
         new BukkitRunnable() {
             @Override
             public void run() {

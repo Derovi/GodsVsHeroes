@@ -7,10 +7,8 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.DragonBreathInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
-import net.minecraft.server.v1_12_R1.Entity;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -32,7 +30,6 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
         final Location loc = event.getPlayer().getEyeLocation().clone();
-        Entity ownerHandle = ((CraftEntity) owner).getHandle();
         final Vector dlt = event.getPlayer().getLocation().toVector().subtract(
                 Minigame.getInstance().getGameEvents().getLastPos(event.getPlayer()).toVector()).multiply(4);
         dlt.y = Math.min(dlt.y, 1);

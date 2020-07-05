@@ -15,6 +15,7 @@ import java.util.UUID;
 
 public class ChargesManager {
     final private HashMap<UUID, HashMap<String, Integer> > charges = new HashMap<>();
+//    final private HashMap<UUID, HashS> hasRunnables
     private static ChargesManager instance;
     public ChargesManager() {
         instance = this;
@@ -33,7 +34,7 @@ public class ChargesManager {
 
     public boolean consume(final Player player, final Item item) {
         final UUID uuid = player.getUniqueId();
-        final int cur = charges.get(uuid).get(item.getName());
+        final int cur = getCharges(player, item);
         if (cur == 0) {
             return false;
         }
@@ -60,7 +61,7 @@ public class ChargesManager {
     private void replenishInvisible(final Player player, final Item item) {
         final UUID uuid = player.getUniqueId();
         final int need = item.getInfo().getAmount();
-        if (need != charges.get(uuid).get(item.getName())) {
+        if (need != getCharges(player, item)) {
             return;
         }
 
@@ -71,12 +72,15 @@ public class ChargesManager {
                     this.cancel();
                     return;
                 }
-                final int cur = charges.get(uuid).get(item.getName());
+                final int cur = getCharges(player, item);
                 if (cur == need) {
                     this.cancel();
                     return;
                 }
                 charges.get(uuid).put(item.getName(), cur + 1);
+                if (need == cur + 1) {
+                    this.cancel();
+                }
             }
         };
 
@@ -88,7 +92,7 @@ public class ChargesManager {
     public boolean addItem(final Player player, final Item item, final int slot) {
         final UUID uuid = player.getUniqueId();
         final PlayerInventory inv = player.getInventory();
-        final int cur = charges.get(uuid).get(item.getName());
+        final int cur = getCharges(player, item);
 
         if (!GameUtils.isInGame(player) || cur == item.getInfo().getAmount()) {
             return false;
@@ -104,15 +108,16 @@ public class ChargesManager {
     }
 
     private void replenishVisible(final Player player, final Item item) {
-        final UUID uuid = player.getUniqueId();
-        if (item.getInfo().getAmount() != charges.get(uuid).get(item.getName())) {
+        final int need = item.getInfo().getAmount();
+        if (need != getCharges(player, item)) {
             return;
         }
         final int slot = player.getInventory().getHeldItemSlot();
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                if (!GameUtils.isInGame(player) || !addItem(player, item, slot)) {
+                if (!GameUtils.isInGame(player) || !addItem(player, item, slot) ||
+                        need == getCharges(player, item)) {
                     this.cancel();
                 }
             }
@@ -123,9 +128,6 @@ public class ChargesManager {
     }
 
     public int getCharges(final Player player, final Item item) {
-        if (!charges.containsKey(player.getUniqueId())) {
-            return 0;
-        }
-        return charges.get(player.getUniqueId()).getOrDefault(item.getName(), item.getInfo().getAmount());
+        return charges.get(player.getUniqueId()).get(item.getName());
     }
 }

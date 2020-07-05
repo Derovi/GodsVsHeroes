@@ -74,7 +74,7 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
                 sword.remove();
             }
         };
-        runnable.runTaskLater(Plugin.getInstance(), cooldown.getDuration());
+        runnable.runTaskLater(Plugin.getInstance(), cooldown.getDuration()-1);
         Game.getInstance().getRunnables().add(runnable);
     }
 }
