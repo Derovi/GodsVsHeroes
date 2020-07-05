@@ -84,7 +84,7 @@ public class LightningStorm extends Item implements UltimateInterface {
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, delayStrikes);
+        runnable.runTaskTimer(Plugin.getInstance(), 40, delayStrikes);
         Minigame.getInstance().getGame().getRunnables().add(runnable);
     }
 }

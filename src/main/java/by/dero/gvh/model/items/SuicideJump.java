@@ -35,7 +35,7 @@ public class SuicideJump extends Item implements PlayerInteractInterface {
         cooldown.reload();
         GravityFireball gravityFireball = new GravityFireball(player.getLocation().clone().add(0, -1,0));
         gravityFireball.addPassenger(player);
-        gravityFireball.setVelocity(player.getLocation().getDirection().normalize().multiply(1.3));
+        gravityFireball.setVelocity(player.getLocation().getDirection().normalize().multiply(1.2).add(MathUtils.UPVECTOR));
         gravityFireball.spawn();
 
         gravityFireball.setOnHit(() -> {
@@ -50,7 +50,7 @@ public class SuicideJump extends Item implements PlayerInteractInterface {
                 final Location at = MathUtils.randomCylinder(loc,radius - 1, -2);
                 loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, at, 0, 0, 0, 0);
 
-                at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 16, 1);
+                at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 24, 1);
             }
             for (int i = 0; i < 20; i++) {
                 final Location at = MathUtils.randomCylinder(loc, radius, -2);

@@ -12,6 +12,7 @@ import net.minecraft.server.v1_12_R1.GenericAttributes;
 import net.minecraft.server.v1_12_R1.PathfinderGoalSelector;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
@@ -71,6 +72,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
                         getLocation().distance(loc) < radius) {
                     pig.die();
                     pig.world.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
+                    owner.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 24, 1);
                     for (LivingEntity entity : GameUtils.getNearby(loc, radius)) {
                         if (GameUtils.isEnemy(entity, getTeam())) {
                             GameUtils.damage(damage, entity, owner);

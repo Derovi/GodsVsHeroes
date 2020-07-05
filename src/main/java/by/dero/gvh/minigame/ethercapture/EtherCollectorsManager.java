@@ -21,10 +21,12 @@ public class EtherCollectorsManager {
     }
 
     public void load() {
+        int collectorIndex = 0;
         for (IntPosition position : game.getEtherCaptureInfo().getEtherCollectors()) {
-            EtherCollector collector = new EtherCollector(position);
+            EtherCollector collector = new EtherCollector(position, collectorIndex);
             collector.load();
             collectors.add(collector);
+            collectorIndex++;
         }
         playersOnCollector = new ArrayList<>(collectors.size());
         for (int index = 0; index < collectors.size(); ++index) {

@@ -100,7 +100,7 @@ public class LootsManager implements Listener {
         if (!effects.containsKey(name)) {
             return false;
         }
-        entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 16, 1);
+        entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 24, 1);
         entity.addPotionEffect(effects.get(name), true);
         return true;
     }

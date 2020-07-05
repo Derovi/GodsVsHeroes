@@ -31,27 +31,27 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
             return;
         }
         cooldown.reload();
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 16, 1);
-        loc.getWorld().playSound(loc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 16, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 24, 1);
+        loc.getWorld().playSound(loc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 24, 1);
         Drawings.drawCphere(owner.getLocation().clone(), 1.5, Particle.SMOKE_LARGE);
-        PlayerUtils.jumpDown(owner, 10);
+        PlayerUtils.jumpDown(owner, 15);
         owner.setInvulnerable(true);
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 Drawings.drawLineColor(loc.clone(), owner.getLocation().clone(), 255, 0, 0);
                 owner.teleport(loc.clone().add(0,-2,0));
-                PlayerUtils.jumpUp(owner, 10);
+                PlayerUtils.jumpUp(owner, 15);
                 Drawings.drawCphere(loc.clone(), 1.5, Particle.SMOKE_LARGE);
             }
         };
-        runnable.runTaskLater(Plugin.getInstance(), 10);
+        runnable.runTaskLater(Plugin.getInstance(), 15);
         new BukkitRunnable() {
             @Override
             public void run() {
                 owner.setInvulnerable(false);
             }
-        }.runTaskLater(Plugin.getInstance(), 20);
+        }.runTaskLater(Plugin.getInstance(), 30);
         Minigame.getInstance().getGame().getRunnables().add(runnable);
     }
 }

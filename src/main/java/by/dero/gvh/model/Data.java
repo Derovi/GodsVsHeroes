@@ -78,6 +78,7 @@ public class Data {
         registerItem("entityonkill", EntityOnKillInfo.class, EntityOnKill.class);
         registerItem("firebow", ItemInfo.class, FireBow.class);
         registerItem("lightningbow", LightningBowInfo.class, LightningBow.class);
+        registerItem("smokes", SmokesInfo.class, Smokes.class);
     }
 
     private void registerClasses() {

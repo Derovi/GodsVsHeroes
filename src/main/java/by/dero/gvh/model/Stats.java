@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-
 public class Stats {
     private final HashMap<String, Integer> kills = new HashMap<>();
     private final HashMap<String, Integer> deaths = new HashMap<>();
@@ -52,9 +51,9 @@ public class Stats {
     }
 
     private String getBestDamageTaken() {
+        final HashMap<String, GamePlayer> hm = Minigame.getInstance().getGame().getPlayers();
         String best = "";
         double val = Double.MAX_VALUE;
-        final HashMap<String, GamePlayer> hm = Minigame.getInstance().getGame().getPlayers();
         for (Map.Entry<String, Double> entry : damageTaken.entrySet()) {
             final String a = entry.getKey();
             final Double b = entry.getValue();

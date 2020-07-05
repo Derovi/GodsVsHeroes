@@ -1,6 +1,6 @@
 {
   "killEnemy": {
-    "message": "§aВы получили §6%count%§a опыта за убийство §c%enemy%§a!",
+    "message": "§aВы получили §6%count%§a опыта за убийство §c%enemy%§a!. Всего за игру заработано §6%allcount%§c.",
     "count": 4
   },
   "winGame": {
@@ -10,5 +10,9 @@
   "loseGame": {
     "message": "§cВы приняли участие в игре, за что получили §6%count%§c опыта. Всего за игру заработано §6%allcount%§c.",
     "count": 20
+  },
+  "collectorCaptured":{
+    "message": "§aЗа участие в захвате вы получаете §6%count%§a опыта. Всего за игру заработано §6%allcount%§c.",
+    "count": 5
   }
 }
