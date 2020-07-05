@@ -1,12 +1,10 @@
 package by.dero.gvh.nmcapi;
 
+import by.dero.gvh.Plugin;
 import by.dero.gvh.nmcapi.dragon.EmptyArmorStand;
 import by.dero.gvh.utils.Position;
-import net.minecraft.server.v1_12_R1.DamageSource;
-import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 
 public class MovingCrystal extends EmptyArmorStand {
     private final CastratedEnderCrystal crystal;
@@ -16,9 +14,14 @@ public class MovingCrystal extends EmptyArmorStand {
     private double progress = 0;  // from 0 to 1
 
     public MovingCrystal(Location loc) {
-        super(loc);
+        super(loc.add(0.5, 0.5, 0.5));
         baseHeight = loc.getY();
         crystal = new CastratedEnderCrystal(loc);
+        crystal.invulnerable = true;
+        crystal.noclip = true;
+        crystal.fireProof = true;
+        crystal.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
+        getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         crystal.spawn();
         crystal.a(this, true);
     }

@@ -54,7 +54,7 @@ public class EtherCollectorsManager {
                 }
             }
         };
-        collectorsUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
+        collectorsUpdater.runTaskTimer(Plugin.getInstance(), 5, 1);
     }
 
     public void unload() {

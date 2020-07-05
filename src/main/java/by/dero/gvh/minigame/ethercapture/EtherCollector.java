@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.nmcapi.MovingCrystal;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.IntPosition;
 import org.apache.commons.lang3.tuple.Pair;
@@ -21,7 +22,8 @@ import static by.dero.gvh.minigame.ethercapture.CollectorStructure.getStages;
 
 public class EtherCollector {
     private Location location;
-    private final double maxHeight = 32;
+    private MovingCrystal crystal;
+    private final double maxHeight = 16;
     private double currentHeight = 0;
     private int captureStatus = 0; // 0 to 36
     private int offender = -1;
@@ -66,15 +68,17 @@ public class EtherCollector {
         char teamcode = Lang.get(("commands." + (char)('1' + leading))).charAt(1);
         for (int i = 0; i < val; i++) {
             if (offender == -1 || offender == leading) {
-                if (captureStatus == getStages().size()) {
+                if (captureStatus == getStages().size() * 5) {
                     break;
                 }
                 offender = leading;
                 updateBlock(teamcode);
                 captureStatus++;
-                if (captureStatus == getStages().size()) {
+                if (captureStatus == getStages().size() * 5) {
                     owner = leading;
-                    etherAdd.runTaskTimer(Plugin.getInstance(), etherDelay, etherDelay);
+                    if (etherAdd.task == null) {
+                        etherAdd.runTaskTimer(Plugin.getInstance(), etherDelay, etherDelay);
+                    }
                 }
             } else {
                 captureStatus--;
@@ -82,22 +86,37 @@ public class EtherCollector {
                 if (captureStatus == 0) {
                     owner = -1;
                     offender = -1;
-                    etherAdd.cancel();
+                    if (etherAdd.task != null) {
+                        etherAdd.cancel();
+                    }
                 }
             }
         }
     }
 
     private void updateBlock(char teamcode) {
-        if (captureStatus % 6 == 5) {
-            GameUtils.changeColor(getChanging().get(captureStatus / 6).getValue().
+        if (captureStatus % 30 == 29) {
+            GameUtils.changeColor(getChanging().get(captureStatus / 30).getValue().
                     toLocation(location.world).add(location), teamcode);
         }
-        Pair<Material, Vector> block = getStages().get(captureStatus);
+
+        Pair<Material, Vector> block = getStages().get(captureStatus / 5);
         GameUtils.changeColor(block.getValue().toLocation(location.world).add(location), teamcode);
     }
 
     public void load() {
+        crystal = new MovingCrystal(location.clone().add(0, 3, 0));
+        crystal.setMaxHeight(maxHeight);
+        crystal.spawn();
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run () {
+                crystal.setProgress((double) captureStatus / 180);
+            }
+        };
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 1);
+        EtherCapture.getInstance().getRunnables().add(runnable);
+
         CollectorStructure.build(location);
     }
 
