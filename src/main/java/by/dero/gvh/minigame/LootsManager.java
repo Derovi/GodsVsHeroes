@@ -9,6 +9,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -99,6 +100,7 @@ public class LootsManager implements Listener {
         if (!effects.containsKey(name)) {
             return false;
         }
+        entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 16, 1);
         entity.addPotionEffect(effects.get(name), true);
         return true;
     }

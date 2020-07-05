@@ -8,6 +8,7 @@ import by.dero.gvh.model.itemsinfo.GrenadeInfo;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -31,6 +32,7 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Location loc = event.getEntity().getLocation();
         loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
+        loc.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 16, 1);
         for (final LivingEntity ent : GameUtils.getNearby(loc, radius)) {
             if (GameUtils.isEnemy(ent, getTeam())) {
                 GameUtils.damage(damage, ent, owner);

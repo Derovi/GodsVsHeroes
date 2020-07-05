@@ -9,6 +9,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -48,6 +49,8 @@ public class SuicideJump extends Item implements PlayerInteractInterface {
             for (int i = 0; i < 5; i++) {
                 final Location at = MathUtils.randomCylinder(loc,radius - 1, -2);
                 loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, at, 0, 0, 0, 0);
+
+                at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 16, 1);
             }
             for (int i = 0; i < 20; i++) {
                 final Location at = MathUtils.randomCylinder(loc, radius, -2);

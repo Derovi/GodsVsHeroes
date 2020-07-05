@@ -9,6 +9,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -31,6 +32,7 @@ public class TeleportPearls extends Item implements PlayerInteractInterface,
 	@Override
 	public void onProjectileHit (ProjectileHitEvent event) {
 		Location loc = event.getEntity().getLocation();
+		owner.getWorld().playSound(loc, Sound.ENTITY_ENDERMEN_TELEPORT, 16, 1);
 		owner.teleport(loc);
 		int parts = 4;
 		for (double angle = 0; angle < MathUtils.PI2; angle += MathUtils.PI2 / parts) {

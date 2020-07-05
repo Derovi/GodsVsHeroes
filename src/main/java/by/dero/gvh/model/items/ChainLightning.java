@@ -7,6 +7,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChainLightningInfo;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -52,6 +53,8 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
                 Drawings.drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.END_ROD);
                 Objects.requireNonNull(next.getEyeLocation().getWorld()).spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
                 hit.add(next.getUniqueId());
+
+                next.getWorld().playSound(next.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 16, 1);
                 GameUtils.damage(damage, next, owner);
                 cur = next;
                 next = null;

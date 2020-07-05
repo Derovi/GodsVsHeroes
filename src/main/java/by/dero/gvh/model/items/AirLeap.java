@@ -5,6 +5,7 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.AirLeapInfo;
+import org.bukkit.Effect;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,12 +19,12 @@ public class AirLeap extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
-        Drawings.drawCircleInFront(player.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
-        player.setVelocity(player.getLocation().getDirection().multiply(force));
+        owner.getWorld().playEffect(owner.getLocation(), Effect.WITHER_SHOOT, null);
+        Drawings.drawCircleInFront(owner.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
+        owner.setVelocity(owner.getLocation().getDirection().multiply(force));
     }
 }

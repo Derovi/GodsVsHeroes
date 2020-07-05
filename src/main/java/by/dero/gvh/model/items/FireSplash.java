@@ -8,6 +8,7 @@ import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -33,6 +34,7 @@ public class FireSplash extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 16, 1);
         final Location[] locs = Drawings.drawSector(player.getEyeLocation(), 0,
                 radius, Math.PI / 2, Particle.FLAME);
         stroke.clear();

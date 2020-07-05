@@ -5,6 +5,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.EscapeInfo;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -27,6 +28,7 @@ public class Escape extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
         player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 16, 1);
         for (final LivingEntity entity : GameUtils.getNearby(player.getLocation(), 3)) {
             if (GameUtils.isEnemy(entity, getTeam())) {
                 GameUtils.damage(damage, entity, player);

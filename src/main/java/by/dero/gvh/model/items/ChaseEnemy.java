@@ -11,6 +11,7 @@ import net.minecraft.server.v1_12_R1.EntityZombie;
 import net.minecraft.server.v1_12_R1.GenericAttributes;
 import net.minecraft.server.v1_12_R1.PathfinderGoalSelector;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -65,6 +66,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
                 if (!GameUtils.isInGame(owner) || ticks < 0 || zombie.passengers.isEmpty() ||
                         GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).
                                 getPlayer().getLocation().distance(owner.getLocation()) < 2) {
+                    owner.getWorld().playSound(zombie.getBukkitEntity().getLocation(), Sound.ENTITY_HUSK_DEATH, 16, 1);
                     zombie.die();
                     this.cancel();
                 }

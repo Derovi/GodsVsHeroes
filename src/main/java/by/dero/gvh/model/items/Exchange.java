@@ -8,6 +8,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -49,6 +50,8 @@ public class Exchange extends Item implements PlayerInteractInterface {
             drawSign(target);
             player.teleport(target);
             target.teleport(zxc);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSION_ILLAGER_MIRROR_MOVE, 16, 1);
+            target.getWorld().playSound(target.getLocation(), Sound.ENTITY_ILLUSION_ILLAGER_MIRROR_MOVE, 16, 1);
         }
     }
 }

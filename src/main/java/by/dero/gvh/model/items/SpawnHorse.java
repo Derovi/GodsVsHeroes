@@ -5,6 +5,7 @@ import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.interfaces.SneakInterface;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.SkeletonHorse;
@@ -31,6 +32,7 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInter
         horse.setOwner(owner);
         horse.addPassenger(owner);
 
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 16, 1);
         summonedEntityIds.add(horse.getUniqueId());
     }
 

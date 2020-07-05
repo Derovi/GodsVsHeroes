@@ -8,6 +8,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -31,6 +32,8 @@ public class MagicRod extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
+
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 16, 1);
         new BukkitRunnable() {
             double ticks = 0;
             final Vector st = new Vector(

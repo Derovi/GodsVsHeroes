@@ -9,6 +9,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -34,6 +35,8 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
                 Minigame.getInstance().getGameEvents().getLastPos(event.getPlayer()).toVector()).multiply(4);
         dlt.y = Math.min(dlt.y, 1);
         dlt.y = Math.max(dlt.y, -1);
+
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 16, 1);
         for (int i = 0; i < 20; i++) {
             Vector at = loc.getDirection().clone();
             double x = Math.random() * spread * 2 - spread;

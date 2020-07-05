@@ -56,6 +56,7 @@ public class Minigame implements PluginMode {
         world.setGameRuleValue("doDaylightCycle", "false");
         world.setGameRuleValue("doMobLoot", "false");
         world.setGameRuleValue("announceAdvancements", "false");
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "weather clear 100000");
         game.prepare();
         registerEvents();
         registerCommands();
