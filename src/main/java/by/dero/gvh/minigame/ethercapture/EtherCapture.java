@@ -3,7 +3,6 @@ package by.dero.gvh.minigame.ethercapture;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
-import by.dero.gvh.minigame.ethercapture.EtherCaptureInfo;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
@@ -23,23 +22,20 @@ import static by.dero.gvh.model.Drawings.spawnFirework;
 public class EtherCapture extends Game implements DisplayInteractInterface {
     private final EtherCaptureInfo etherCaptureInfo;
     private final EtherCollectorsManager collectorsManager;
+    private static EtherCapture instance;
 
     private int[] currentEtherCount;
 
     public EtherCapture(GameInfo info, EtherCaptureInfo etherCaptureInfo) {
         super(info);
+        instance = this;
         this.etherCaptureInfo = etherCaptureInfo;
         this.collectorsManager = new EtherCollectorsManager(this);
     }
 
     @Override
     public void load() {
-        collectorsManager.load();
-        final int teams = getInfo().getTeamCount();
-        currentEtherCount = new int[teams];
-        for (int index = 0; index < teams; ++index) {
-            currentEtherCount[index] = 0;
-        }
+
     }
 
     @Override
@@ -95,17 +91,29 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     public void start() {
         super.start();
 
+        collectorsManager.load();
+        final int teams = getInfo().getTeamCount();
+        currentEtherCount = new int[teams];
+        for (int index = 0; index < teams; ++index) {
+            currentEtherCount[index] = 0;
+        }
+
         setDisplays();
         updateDisplays();
     }
 
     @Override
     public void finish(int winnerTeam) {
+        super.finish(winnerTeam);
+    }
+
+    @Override
+    public void unload () {
+        collectorsManager.unload();
         for (final GamePlayer gp : getPlayers().values()) {
             gp.getBoard().clear();
         }
-        super.finish(winnerTeam);
-        collectorsManager.unload();
+        super.unload();
     }
 
     public void addEther(int team, int count) {
@@ -157,5 +165,13 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
 
     public EtherCaptureInfo getEtherCaptureInfo() {
         return etherCaptureInfo;
+    }
+
+    public int[] getCurrentEtherCount () {
+        return currentEtherCount;
+    }
+
+    public static EtherCapture getInstance () {
+        return instance;
     }
 }

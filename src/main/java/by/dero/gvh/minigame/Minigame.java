@@ -62,7 +62,9 @@ public class Minigame implements PluginMode {
 
     @Override
     public void onDisable() {
-
+        if (game != null) {
+            game.unload();
+        }
     }
 
     private void registerEvents() {

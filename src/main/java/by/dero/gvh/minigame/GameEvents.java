@@ -144,8 +144,9 @@ public class GameEvents implements Listener {
             return;
         }
         if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) ||
-            event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK) ||
-            event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
+                event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.FALL) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.FLY_INTO_WALL)) {
             event.setCancelled(true);
             return;
         }
@@ -273,6 +274,13 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void removeNotGameDamage(EntityDamageEvent event) {
+        if (!game.getState().equals(Game.State.GAME)) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler

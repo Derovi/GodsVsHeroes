@@ -1,65 +1,145 @@
 package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.model.Lang;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.IntPosition;
-import by.dero.gvh.utils.Position;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static by.dero.gvh.minigame.ethercapture.CollectorStructure.getChanging;
+import static by.dero.gvh.minigame.ethercapture.CollectorStructure.getStages;
 
 public class EtherCollector {
-    private final IntPosition position;
+    private Location location;
     private final double maxHeight = 32;
-    private double currentHeight = maxHeight;
-    private int captureStatus = 0;
+    private double currentHeight = 0;
+    private int captureStatus = 0; // 0 to 36
+    private int offender = -1;
     private int owner = -1;  // -1 if neutral
-    private final CollectorStructure collectorStructure;
+    private final BukkitRunnable etherAdd;
+    private final int etherDelay;
+    private final int etherMineValue;
 
-    public EtherCollector(IntPosition position) {
-        this.position = position;
-        collectorStructure = new CollectorStructure(this);
+    public EtherCollector(IntPosition pos) {
+        setPosition(pos);
+        EtherCaptureInfo info = EtherCapture.getInstance().getEtherCaptureInfo();
+        etherDelay = info.getEtherMineDelay();
+        etherMineValue = info.getEtherForCollector();
+        etherAdd = new BukkitRunnable() {
+            @Override
+            public void run () {
+                if (owner != -1) {
+                    EtherCapture.getInstance().addEther(owner, etherMineValue);
+                }
+            }
+        };
     }
 
+    private final HashMap<Integer, Integer> counter = new HashMap<>();
     public void update(List<GamePlayer> offenders) {
-        // TODO
+        if (offenders == null || offenders.size() == 0) {
+            return;
+        }
+
+        counter.clear();
+        for (GamePlayer gp : offenders) {
+            counter.put(gp.getTeam(),counter.getOrDefault(gp.getTeam(), 0) + 1);
+        }
+        int leading = -1, val = -1;
+        for (Map.Entry<Integer, Integer> entry : counter.entrySet()) {
+            if (val < entry.getValue()) {
+                val = entry.getValue();
+                leading = entry.getKey();
+            }
+        }
+        val = val * 2 - offenders.size();
+        char teamcode = Lang.get(("commands." + (char)('1' + leading))).charAt(1);
+        for (int i = 0; i < val; i++) {
+            if (offender == -1 || offender == leading) {
+                if (captureStatus == getStages().size()) {
+                    break;
+                }
+                offender = leading;
+                updateBlock(teamcode);
+                captureStatus++;
+                if (captureStatus == getStages().size()) {
+                    owner = leading;
+                    etherAdd.runTaskTimer(Plugin.getInstance(), etherDelay, etherDelay);
+                }
+            } else {
+                captureStatus--;
+                updateBlock('f');
+                if (captureStatus == 0) {
+                    owner = -1;
+                    offender = -1;
+                    etherAdd.cancel();
+                }
+            }
+        }
+    }
+
+    private void updateBlock(char teamcode) {
+        if (captureStatus % 6 == 5) {
+            GameUtils.changeColor(getChanging().get(captureStatus / 6).getValue().
+                    toLocation(location.world).add(location), teamcode);
+        }
+        Pair<Material, Vector> block = getStages().get(captureStatus);
+        GameUtils.changeColor(block.getValue().toLocation(location.world).add(location), teamcode);
     }
 
     public void load() {
-        collectorStructure.buildStructure();
+        CollectorStructure.build(location);
     }
 
     public void unload() {
+        if (etherAdd.task != null) {
+            etherAdd.cancel();
+        }
     }
 
     public boolean isInside(Location location) {
-        return false; //TODO
+        return location.distance(this.location) < 4;
     }
 
-    public IntPosition getPosition() {
-        return position;
-    }
-
-    public int getOwner() {
-        return owner;
-    }
-
-    public void setOwner(int owner) {
-        this.owner = owner;
-    }
-
-    public int getCaptureStatus() {
-        return captureStatus;
-    }
-
-    public void setCaptureStatus(int captureStatus) {
-        this.captureStatus = captureStatus;
-    }
-
-    public double getCurrentHeight() {
+    public double getCurrentHeight () {
         return currentHeight;
     }
 
-    public void setCurrentHeight(double currentHeight) {
+    public void setCurrentHeight (double currentHeight) {
         this.currentHeight = currentHeight;
+    }
+
+    public int getCaptureStatus () {
+        return captureStatus;
+    }
+
+    public void setCaptureStatus (int captureStatus) {
+        this.captureStatus = captureStatus;
+    }
+
+    public IntPosition getPosition() {
+        return new IntPosition(location);
+    }
+
+    public void setPosition(IntPosition pos) {
+        location = pos.toLocation(Minigame.getInstance().getWorld());
+    }
+
+    public int getOwner () {
+        return owner;
+    }
+
+    public void setOwner (int owner) {
+        this.owner = owner;
     }
 }

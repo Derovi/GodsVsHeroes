@@ -7,15 +7,14 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import com.google.common.base.Predicate;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_R1.EntityArmorStand;
+import net.minecraft.server.v1_12_R1.EntityLiving;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftMonster;
 import org.bukkit.entity.*;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
@@ -26,6 +25,35 @@ public class GameUtils {
     private static Player lastUsedLightning;
     private static Long lastLightningTime = 0L;
     public static final double eyeHeight = 1.7775;
+
+    public static HashMap<Character, Byte> codeToData = null;
+
+    public GameUtils () {
+        if (codeToData == null) {
+            codeToData = new HashMap<>();
+            codeToData.put('0', (byte) 15);
+            codeToData.put('1', (byte) 11);
+            codeToData.put('2', (byte) 13);
+            codeToData.put('3', (byte) 9);
+            codeToData.put('4', (byte) 14);
+            codeToData.put('5', (byte) 10);
+            codeToData.put('6', (byte) 4);
+            codeToData.put('7', (byte) 8);
+            codeToData.put('8', (byte) 7);
+            codeToData.put('9', (byte) 11);
+            codeToData.put('a', (byte) 5);
+            codeToData.put('b', (byte) 3);
+            codeToData.put('c', (byte) 14);
+            codeToData.put('d', (byte) 2);
+            codeToData.put('e', (byte) 4);
+            codeToData.put('f', (byte) 0);
+        }
+    }
+
+    public static void changeColor(Location loc, char code) {
+        loc.getBlock().setData(codeToData.get(code));
+    }
+
     public static GamePlayer getPlayer(String name) {
         return Minigame.getInstance().getGame().getPlayers().getOrDefault(name, null);
     }

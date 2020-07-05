@@ -1,7 +1,23 @@
 {
-  "etherCollectors": [],
+  "etherCollectors": [
+    {
+      "x": -3540,
+      "y": 66,
+      "z": 866
+    },
+    {
+      "x": -3553,
+      "y": 66,
+      "z": 779
+    },
+    {
+      "x": -3556,
+      "y": 72,
+      "z": 823
+    }
+  ],
+  "etherMineDelay": 200,
   "etherToWin": 1000,
   "etherForKill": 50,
-  "etherForCollector": 50,
-  "captureTime": 200
+  "etherForCollector": 25
 }
