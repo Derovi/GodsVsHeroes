@@ -9,6 +9,7 @@ public class ControlledDragon {
     private final RotatingDragon dragon;
     private final EmptyArmorStand empty1;
     private final EmptyArmorStand empty2;
+    private double speed = 1.0;
     private Player player;
 
     public ControlledDragon(Player player) {
@@ -40,7 +41,7 @@ public class ControlledDragon {
         else if (player.getLocation().getPitch() > 60.0f) {
             pitch = 60.0f;
         }
-        final Vector vec = player.getLocation().getDirection().multiply(1).setY(pitch / 40.0f * -1.0f + 0.75);
+        final Vector vec = player.getLocation().getDirection().multiply(speed).setY(pitch / 40.0f * -1.0f + 0.75);
         move(vec.getX() + dragonBase.motX, vec.getY() + dragonBase.motY, vec.getZ() + dragonBase.motZ);
         dragonBase.motY = Math.max(0, dragonBase.motY - 0.03999999910593033D);
         dragonBase.motX *= 0.9800000190734863D;
@@ -69,5 +70,13 @@ public class ControlledDragon {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 }

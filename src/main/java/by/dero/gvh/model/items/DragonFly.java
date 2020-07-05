@@ -19,12 +19,12 @@ public class DragonFly extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
         ControlledDragon dragon = new ControlledDragon(owner);
+        dragon.setSpeed(info.getSpeed());
         new BukkitRunnable() {
             @Override
             public void run() {
