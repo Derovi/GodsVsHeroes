@@ -11,7 +11,7 @@ public class MovingCrystal extends EmptyArmorStand {
 
     private double baseHeight;
     private double maxHeight = 36;
-    private double progress = 0;  // from 0 to 1
+    public double progress = 0;  // from 0 to 1
 
     public MovingCrystal(Location loc) {
         super(loc.add(0.5, 0.5, 0.5));
@@ -28,7 +28,11 @@ public class MovingCrystal extends EmptyArmorStand {
 
     @Override
     public void B_() {
-        locY = baseHeight + progress * maxHeight;
+        if (progress > 0.5) {
+            locY = baseHeight + maxHeight - (progress - 0.5) * maxHeight * 2;
+        } else {
+            locY = baseHeight + (progress * 2) * maxHeight;
+        }
     }
 
     @Override

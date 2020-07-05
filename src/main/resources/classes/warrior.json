@@ -14,6 +14,7 @@
 
     "resistancebuf",
     "defaulthelmet",
-    "defaultboots"
+    "defaultboots",
+    "defaultarrow"
   ]
 }

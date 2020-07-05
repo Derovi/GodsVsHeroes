@@ -190,11 +190,11 @@ public abstract class Game {
             public void run() {
                 Drawings.spawnFirework(MathUtils.randomCylinder(
                         getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
-                        25, -10
+                        18, -10
                 ), 2);
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 10);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
         new BukkitRunnable() {
             @Override
             public void run() {
