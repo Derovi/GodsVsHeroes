@@ -17,7 +17,9 @@ public enum CustomEntities {
     SMART_FALLING_BLOCK("SmartFallingBlock", 21, EntityType.FALLING_BLOCK, EntityFallingBlock.class, SmartFallingBlock.class),
     SMART_DRAGON("SmartDragon", 63, EntityType.ENDER_DRAGON, EntityEnderDragon.class, RotatingDragon.class),
     CUSTOM_LEASH("CustomLeash", 83, EntityType.LEASH_HITCH, EntityLeash.class, CustomLeash.class),
-    INFINITE_FISH_HOOK("InfiniteFishHook", 83, EntityType.FISHING_HOOK, EntityFishingHook.class, InfiniteFishHook.class);
+    INFINITE_FISH_HOOK("InfiniteFishHook", 83, EntityType.FISHING_HOOK, EntityFishingHook.class, InfiniteFishHook.class),
+    CASTRATED_ENDER_CRYSTAL("CastratedEnderCrystal", 200, EntityType.ENDER_CRYSTAL, EntityEnderCrystal.class, CastratedEnderCrystal.class),
+    MOVING_CRYSTAL("MovingCrystal", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, MovingCrystal.class);
 
     private final String name;
     private final int id;
