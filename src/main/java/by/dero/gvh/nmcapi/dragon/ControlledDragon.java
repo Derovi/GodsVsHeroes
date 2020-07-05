@@ -41,8 +41,11 @@ public class ControlledDragon {
             pitch = 60.0f;
         }
         final Vector vec = player.getLocation().getDirection().multiply(1).setY(pitch / 40.0f * -1.0f + 0.75);
-        move(vec.getX(), vec.getY(), vec.getZ());
-
+        move(vec.getX() + dragonBase.motX, vec.getY() + dragonBase.motY, vec.getZ() + dragonBase.motZ);
+        dragonBase.motY = Math.max(0, dragonBase.motY - 0.03999999910593033D);
+        dragonBase.motX *= 0.9800000190734863D;
+        dragonBase.motY *= 0.9800000190734863D;
+        dragonBase.motZ *= 0.9800000190734863D;
         dragon.yaw = player.getLocation().getYaw() - 180.0f;
         empty2.yaw = player.getLocation().getYaw();
     }
