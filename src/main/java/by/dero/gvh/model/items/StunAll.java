@@ -8,6 +8,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.Stun;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -40,6 +41,7 @@ public class StunAll extends Item implements UltimateInterface {
         }
         cooldown.reload();
         drawSign(p.getLocation().clone());
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 16, 1);
         for (final LivingEntity ot : GameUtils.getNearby(p.getLocation(), radius)) {
             if (GameUtils.isEnemy(ot, getTeam())) {
                 Stun.stunEntity(ot, latency);

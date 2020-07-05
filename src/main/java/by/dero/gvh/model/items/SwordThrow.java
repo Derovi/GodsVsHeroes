@@ -59,8 +59,8 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
                 for (int i = 0; i < 2; i++) {
                     double al = angle + Math.PI * i;
                     Location at = sword.getItemPosition().toLocation(owner.getWorld()).
-                            add(MathUtils.cos(al), 2, MathUtils.sin(al));
-                    owner.spawnParticle(Particle.DRAGON_BREATH, at, 0, 0, 0, 0);
+                            add(MathUtils.cos(al)*0.5, 1, MathUtils.sin(al)*0.5);
+                    owner.spawnParticle(Particle.VILLAGER_HAPPY, at, 0, 0, 0, 0);
                 }
             }
         }.runTaskTimer(Plugin.getInstance(), 0, 2));

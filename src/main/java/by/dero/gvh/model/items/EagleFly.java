@@ -5,6 +5,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.EagleFlyInfo;
 import by.dero.gvh.nmcapi.ChickenAvatar;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -20,6 +21,7 @@ public class EagleFly extends Item implements DoubleSpaceInterface {
     @Override
     public void onDoubleSpace() {
         ChickenAvatar passiveChicken = new ChickenAvatar(owner);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_CHICKEN_DEATH, 16, 1);
         passiveChicken.spawn();
         new BukkitRunnable() {
             @Override

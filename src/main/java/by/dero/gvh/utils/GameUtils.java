@@ -270,7 +270,7 @@ public class GameUtils {
         GamePlayer ret = null;
         double dst = 100000;
         for (GamePlayer ot : Game.getInstance().getPlayers().values()) {
-            if (ot.getTeam() == gp.getTeam()) {
+            if (ot.getTeam() == gp.getTeam() || !isInGame(ot.getPlayer())) {
                 continue;
             }
             double cur = wh.distance(ot.getPlayer().getLocation());

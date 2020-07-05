@@ -9,6 +9,7 @@ import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.LightningBowInfo;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -59,6 +60,7 @@ public class LightningBow extends Item implements PlayerShootBowInterface, Proje
 							hit.add(liv.getUniqueId());
 
 							Drawings.drawLineColor(arrow.getLocation(), liv.getEyeLocation(), 255, 0, 0);
+							liv.getLocation().getWorld().playSound(liv.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 16, 1);
 							GameUtils.damage(damage, liv, owner);
 						}
 					}

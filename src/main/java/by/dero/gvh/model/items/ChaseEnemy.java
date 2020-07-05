@@ -1,8 +1,10 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChaseEnemyInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -11,6 +13,7 @@ import net.minecraft.server.v1_12_R1.EntityZombie;
 import net.minecraft.server.v1_12_R1.GenericAttributes;
 import net.minecraft.server.v1_12_R1.PathfinderGoalSelector;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -42,6 +45,13 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
         if (!cooldown.isReady()) {
             return;
         }
+        GamePlayer gp = GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName()));
+        if (gp == null) {
+            owner.sendMessage(Lang.get("game.noEnemyTarget"));
+            return;
+        }
+        CraftPlayer target = (CraftPlayer) gp.getPlayer();
+
         cooldown.reload();
         Location loc = owner.getLocation();
 
@@ -49,7 +59,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
         zombie.setPosition(loc.x, loc.y, loc.z);
 
         setAttributes(zombie);
-        CraftPlayer target = (CraftPlayer) GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).getPlayer();
+
         zombie.goalSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
         zombie.targetSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
         zombie.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
@@ -65,6 +75,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
                 if (!GameUtils.isInGame(owner) || ticks < 0 || zombie.passengers.isEmpty() ||
                         GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).
                                 getPlayer().getLocation().distance(owner.getLocation()) < 2) {
+                    owner.getWorld().playSound(zombie.getBukkitEntity().getLocation(), Sound.ENTITY_HUSK_DEATH, 16, 1);
                     zombie.die();
                     this.cancel();
                 }

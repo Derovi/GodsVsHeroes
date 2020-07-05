@@ -5,6 +5,7 @@ import by.dero.gvh.nmcapi.CustomLeash;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftChicken;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -92,6 +93,8 @@ public class LiftManager implements Listener {
 			list.add(chicken);
 			list.add(leash);
 			player.setVelocity(new Vector(0, Math.cbrt(good.y - player.getLocation().y) * 0.7, 0));
+
+			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 16, 1);
 		}
 	}
 

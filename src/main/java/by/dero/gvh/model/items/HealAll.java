@@ -5,6 +5,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.HealAllInfo;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
@@ -43,6 +44,7 @@ public class HealAll extends Item implements UltimateInterface {
             if (GameUtils.isAlly(ent, getTeam())) {
                 final double hp = Math.min(ent.getHealth() + heal,
                         ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+                ent.getWorld().playEffect(ent.getLocation(), Effect.BREWING_STAND_BREW,null);
                 ent.setHealth(hp);
             }
         }
