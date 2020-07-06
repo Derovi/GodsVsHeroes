@@ -1,5 +1,6 @@
 package by.dero.gvh.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,12 +12,13 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] strings) {
 
-        Player p = (Player) commandSender;
+
         try {
-            int idx = Integer.parseInt(strings[0]);
-            p.getWorld().playSound(p.getLocation(), Sound.values()[idx], 32, 20);
-            p.sendMessage(Sound.values()[idx].toString());
-        } catch (Exception ignored) {
+            Player p = (Player) commandSender;
+            Sound sound = Sound.values()[Integer.parseInt(strings[0])];
+            Bukkit.getServer().broadcastMessage(sound.toString());
+            p.getWorld().playSound(p.getLocation(), sound, 24, 1);
+        } catch (NumberFormatException ignored) {
 
         }
         return true;

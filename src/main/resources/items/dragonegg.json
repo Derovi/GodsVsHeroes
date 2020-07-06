@@ -1,55 +1,50 @@
 {
-  "name": "eaglefly",
+  "name": "dragonegg",
   "invisible": true,
   "slot": 0,
   "levels": [
     {
       "cooldown": 600,
-      "speed": 0.5,
-      "duration": 200,
+      "duration": 40,
       "cost": 80,
       "material": "FEATHER",
-      "displayName": "§cEagle fly",
+      "displayName": "§cDragon egg",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 600,
-      "speed": 0.52,
-      "duration": 220,
+      "duration": 45,
       "cost": 100,
       "material": "FEATHER",
-      "displayName": "§cEagle fly",
+      "displayName": "§cDragon egg",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 600,
-      "speed": 0.54,
-      "duration": 240,
+      "duration": 50,
       "cost": 120,
       "material": "FEATHER",
-      "displayName": "§cEagle fly",
+      "displayName": "§cDragon egg",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 600,
-      "speed": 0.56,
-      "duration": 260,
+      "duration": 55,
       "cost": 140,
       "material": "FEATHER",
-      "displayName": "§cEagle fly",
+      "displayName": "§cDragon egg",
       "lore": [],
       "amount": 1
     },
     {
       "cooldown": 600,
-      "speed": 0.58,
-      "duration": 280,
+      "duration": 60,
       "cost": 160,
       "material": "FEATHER",
-      "displayName": "§cEagle fly",
+      "displayName": "§cDragon egg",
       "lore": [],
       "amount": 1
     }

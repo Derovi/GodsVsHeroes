@@ -39,6 +39,7 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
         final ThrowingAxe axe = new ThrowingAxe(owner, material);
 
         final int slot = owner.getInventory().getHeldItemSlot();
+        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  24, 1);
         axe.spawn();
         axe.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(axe.getHoldEntity(), getTeam())) {

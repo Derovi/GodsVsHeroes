@@ -15,6 +15,8 @@ public class GamePlayer implements GameObject {
     private final HashMap<String, Item> items = new HashMap<>();
     private int team;
     private Item lastUsed;
+    private boolean actionBarBlocked = false;
+    private ItemStack[] contents = null;
 
     private Board board;
 
@@ -76,6 +78,26 @@ public class GamePlayer implements GameObject {
         }
     }
 
+    public void showInventory() {
+        if (!isInventoryHided()) {
+            return;
+        }
+        player.getInventory().setContents(contents);
+        contents = null;
+    }
+
+    public void hideInventory() {
+        if (isInventoryHided()) {
+            return;
+        }
+        contents = player.getInventory().getContents().clone();
+        player.getInventory().clear();
+    }
+
+    public boolean isInventoryHided() {
+        return contents != null;
+    }
+
     public PlayerInfo getPlayerInfo() {
         return playerInfo;
     }
@@ -122,5 +144,13 @@ public class GamePlayer implements GameObject {
 
     public Board getBoard() {
         return board;
+    }
+
+    public boolean isActionBarBlocked() {
+        return actionBarBlocked;
+    }
+
+    public void setActionBarBlocked(boolean actionBarBlocked) {
+        this.actionBarBlocked = actionBarBlocked;
     }
 }

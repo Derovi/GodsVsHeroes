@@ -3,6 +3,7 @@ package by.dero.gvh;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -93,6 +94,7 @@ public class ChargesManager {
         final UUID uuid = player.getUniqueId();
         final PlayerInventory inv = player.getInventory();
         final int cur = getCharges(player, item);
+        Bukkit.getServer().broadcastMessage("" + cur);
 
         if (!GameUtils.isInGame(player) || cur == item.getInfo().getAmount()) {
             return false;
@@ -102,7 +104,7 @@ public class ChargesManager {
             inv.setItem(slot, item.getItemStack());
         }
         inv.getItem(slot).setAmount(cur + 1);
-
+        Bukkit.getServer().broadcastMessage("zxc " + (cur + 1));
         charges.get(uuid).put(item.getName(), cur + 1);
         return true;
     }

@@ -10,6 +10,7 @@ import by.dero.gvh.model.itemsinfo.FireSpearInfo;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -20,7 +21,7 @@ import java.util.HashSet;
 
 public class FireSpear extends Item implements PlayerInteractInterface {
     private final int parts = 6;
-    private final double speed = 5;
+    private final double speed = 20;
     private final int time = 140;
     private final double damage;
     public FireSpear(final String name, final int level, final Player owner) {
@@ -44,6 +45,7 @@ public class FireSpear extends Item implements PlayerInteractInterface {
                 left.add(gp.getPlayer());
             }
         }
+        owner.getWorld().playSound(loc, Sound.BLOCK_CHORUS_FLOWER_GROW, 24, 1);
         final BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = 0;
             final ArrayList<Player> rem = new ArrayList<>();
@@ -54,6 +56,7 @@ public class FireSpear extends Item implements PlayerInteractInterface {
                     if (p.getLocation().distance(loc) < 3 || p.getEyeLocation().distance(loc) < 3) {
                         rem.add(p);
                         GameUtils.damage(damage, p, owner);
+                        p.setFireTicks(60);
                     }
                 }
                 left.removeAll(rem);

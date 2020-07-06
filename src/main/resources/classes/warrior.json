@@ -7,14 +7,15 @@
     "webthrow",
     "grenade",
     "healpotion",
-    "stunall",
+    "firespear",
+    "healall",
+
     "spurt",
+
+    "defaultarrow",
     "defaultchestplate",
     "defaultleggings",
-
-    "resistancebuf",
     "defaulthelmet",
-    "defaultboots",
-    "defaultarrow"
+    "defaultboots"
   ]
 }

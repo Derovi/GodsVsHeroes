@@ -6,6 +6,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -137,7 +138,7 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
-    public void onPlayerSneak(PlayerMoveEvent event) {
+    public void onPlayerSneak(PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
         if (!player.isSneaking()) {
             return;
@@ -171,9 +172,11 @@ public class GameEvents implements Listener {
         }
 
         if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
-                GameUtils.getLastLightningTime() + 100 > System.currentTimeMillis()) {
+                GameUtils.getLastLightningTime() + 1000 > System.currentTimeMillis()) {
             final Player player = GameUtils.getLastUsedLightning();
+            Bukkit.getServer().broadcastMessage(player.getName());
             if (GameUtils.isEnemy(entity, GameUtils.getPlayer(player.getName()).getTeam())) {
+                Bukkit.getServer().broadcastMessage("3");
                 game.getStats().addDamage(entity, player, event.getDamage());
                 damageCause.put(entity, player);
             } else {
@@ -185,17 +188,25 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
+        Entity ent = event.getDamager();
+        if (ent instanceof Firework) {
+            event.setCancelled(true);
+            return;
+        }
+        if (ent instanceof Projectile) {
+            ent = (Entity) ((Projectile) ent).getShooter();
+        }
         if (!(event.getEntity() instanceof LivingEntity) ||
-                !(event.getDamager() instanceof LivingEntity) ||
+                !(ent instanceof LivingEntity) ||
                 event.getFinalDamage() == 0) {
             return;
         }
         LivingEntity entity = (LivingEntity) event.getEntity();
-        LivingEntity damager = (LivingEntity) event.getDamager();
+        LivingEntity damager = (LivingEntity) ent;
         if (!(damager instanceof Player)) {
             damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
         }
-        if (GameUtils.isEnemy(entity, event.getDamager())) {
+        if (GameUtils.isEnemy(entity, damager)) {
             game.getStats().addDamage(entity, damager, event.getDamage());
             damageCause.put(entity, damager);
         } else {
@@ -247,7 +258,7 @@ public class GameEvents implements Listener {
         for (PlayerKillInterface item : GameUtils.selectItems(GameUtils.getPlayer(kil.getName()), PlayerKillInterface.class)) {
             item.onPlayerKill(player);
         }
-        game.onPlayerKilled(player, kil);
+        game.onPlayerKilled(player, (Player) kil);
         damageCause.remove(player);
     }
 

@@ -1,16 +1,19 @@
 package by.dero.gvh.nmcapi.throwing;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
-import net.minecraft.server.v1_12_R1.EntityArmorStand;
-import net.minecraft.server.v1_12_R1.EnumMoveType;
-import net.minecraft.server.v1_12_R1.Vector3f;
+import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,10 +32,8 @@ public class ThrowingItem extends EntityArmorStand {
     private double xDelta;
     private double yDelta;
     private double zDelta;
-    private final double xDir;
-    private final double yDir;
-    private final double zDir;
-    private final double lenDir;
+    private double xDir;
+    private double zDir;
     private double itemLength;
     private double spinning = 0;
     private double step = 0.40;
@@ -45,14 +46,16 @@ public class ThrowingItem extends EntityArmorStand {
     private double expX;
     private double expY;
     private double expZ;
+    private double sizeMultiplier = 1.0;
 
     public ThrowingItem(Location loc, Material material) {
         super(((CraftWorld) loc.getWorld()).getHandle());
         armorStand = (ArmorStand) getBukkitEntity();
         xDir = loc.getDirection().getX();
-        yDir = loc.getDirection().getY();
         zDir = loc.getDirection().getZ();
-        lenDir = Math.sqrt(xDir * xDir + yDir * yDir + zDir * zDir);
+        double lenDir = Math.sqrt(xDir * xDir + zDir * zDir);
+        xDir /= lenDir;
+        zDir /= lenDir;
         this.setPosition(loc.getX(), loc.getY(), loc.getZ());
         this.setYawPitch(loc.getYaw(), loc.getPitch());
         this.setInvisible(true);
@@ -82,21 +85,31 @@ public class ThrowingItem extends EntityArmorStand {
 
     public Position getItemPosition() {
         if (spinning != 0 || physicsSpin) {
-            double rotX = armorStand.getLocation().getPitch();
+            double rotX = armorStand.getLocation().getYaw();
             double rotY = rightArmPose.x;
             Vector vector = new Vector();
-            vector.setY(-MathUtils.sin(Math.toRadians(rotY)));
-            double xz = MathUtils.cos(Math.toRadians(rotY));
-            vector.setX(-xz * MathUtils.sin(Math.toRadians(rotX)));
-            vector.setZ(xz * MathUtils.cos(Math.toRadians(rotX)));
+            vector.setY(-Math.sin(Math.toRadians(rotY)));
+            double xz = Math.cos(Math.toRadians(rotY));
+            vector.setX(-xz * Math.sin(Math.toRadians(rotX)));
+            vector.setZ(xz * Math.cos(Math.toRadians(rotX)));
             vector.normalize();
-            return new Position(locX - zDir / 2 + vector.getX() * itemLength,
-                    locY + 1 + vector.getY() * itemLength,
-                    locZ + xDir / 2 + vector.getZ() * itemLength);
+
+            Vector vector2 = new Vector();
+            vector2.setY(-Math.sin(Math.toRadians(rotY + 90)));
+            double xz2 = Math.cos(Math.toRadians(rotY + 90));
+            vector2.setX(-xz2 * Math.sin(Math.toRadians(rotX)));
+            vector2.setZ(xz2 * Math.cos(Math.toRadians(rotX)));
+            vector2.normalize();
+
+            double vx = vector.getX() * itemLength + vector2.getX() * 0.7 * sizeMultiplier;
+            double vy = vector.getY() * itemLength + vector2.getY() * 0.7 * sizeMultiplier;
+            double vz = vector.getZ() * itemLength + vector2.getZ() * 0.7 * sizeMultiplier;
+
+            return new Position(locX - zDir * 0.45 * sizeMultiplier + vx,
+                    locY + 1.5 * sizeMultiplier + vy,
+                    locZ + xDir * 0.45 * sizeMultiplier + vz);
         }
-        return new Position(locX - zDir / 2 + xDir / lenDir * itemLength,
-                locY + 1 + yDir / lenDir * itemLength,
-                locZ + xDir / 2 + zDir / lenDir * itemLength);
+        return null;
     }
 
     private void stop() {
@@ -184,7 +197,7 @@ public class ThrowingItem extends EntityArmorStand {
     public void move(EnumMoveType moveType, double x, double y, double z) {
         if (isStopped()) {
             if (holdEntity != null) {
-                if (holdEntity.isDead()) {
+                if (holdEntity.isDead() || GameUtils.isDeadPlayer(holdEntity)) {
                     holdEntity = null;
                 } else {
                     locX = holdEntity.getLocation().getX() + xDelta;
@@ -218,10 +231,10 @@ public class ThrowingItem extends EntityArmorStand {
             double rotX = armorStand.getLocation().getPitch();
             double rotY = rightArmPose.x;
             Vector vector = new Vector();
-            vector.setY(-MathUtils.sin(Math.toRadians(rotY)));
-            double xz = MathUtils.cos(Math.toRadians(rotY));
-            vector.setX(-xz * MathUtils.sin(Math.toRadians(rotX)));
-            vector.setZ(xz * MathUtils.cos(Math.toRadians(rotX)));
+            vector.setY(-Math.sin(Math.toRadians(rotY)));
+            double xz = Math.cos(Math.toRadians(rotY));
+            vector.setX(-xz * Math.sin(Math.toRadians(rotX)));
+            vector.setZ(xz * Math.cos(Math.toRadians(rotX)));
             vector.normalize();
             vector.multiply(itemLength * center);
 
@@ -236,6 +249,7 @@ public class ThrowingItem extends EntityArmorStand {
         int stepCount = (int) (length / step) + 1;
 
         int step;
+        boolean stopSteps = false;
         for (step = 0; step < stepCount; ++ step) {
             locX += x / stepCount;
             locY += y / stepCount;
@@ -253,12 +267,15 @@ public class ThrowingItem extends EntityArmorStand {
                 }
                 break;
             }
-            Collection<Entity> entities = getPierced(itemLocation);
+            Collection<Entity> entities = itemLocation.getWorld().getNearbyEntities(itemLocation, 0.15, 0.15, 0.15);
             for (Entity entity : entities) {
                 if (entity.getUniqueId().equals(getUniqueID())) {
                     continue;
                 }
                 if (owner != null && entity.getUniqueId().equals(owner.getUniqueId())) {
+                    continue;
+                }
+                if (!GameUtils.isGameEntity(entity)) {
                     continue;
                 }
                 holdEntity = entity;
@@ -269,6 +286,10 @@ public class ThrowingItem extends EntityArmorStand {
                 if (onHitEntity != null) {
                     onHitEntity.run();
                 }
+                stopSteps = true;
+                break;
+            }
+            if (stopSteps) {
                 break;
             }
         }
@@ -280,25 +301,10 @@ public class ThrowingItem extends EntityArmorStand {
         }
     }
 
-    public Collection<Entity> getPierced(Location location) {
-        /*double consider = 1.5;
-        List<Entity> pierced = new LinkedList<>();
-        for (Entity entity : location.getChunk().getEntities()) {
-            double ex = entity.getLocation().getX();
-            double ey = entity.getLocation().getY();
-            double ez = entity.getLocation().getZ();
-            if (ex + consider < location.getX() ||
-                ex - consider > location.getX() ||
-                ey + consider < location.getY() ||
-                ey - consider > location.getY() ||
-                ez + consider < location.getZ() ||
-                ez - consider > location.getZ()) {
-                continue;
-            }
-            ((CraftEntity) entity).getHandle().getBoundingBox().get
-        }
-        itemLocation.getWorld().getNearbyEntities(itemLocation, 0.05, 2, 0.05);*/
-        return location.getNearbyEntities(0.15, 0.15, 0.15);
+    @Override
+    public void setSmall(boolean flag) {
+        sizeMultiplier = flag ? 0.5 : 1;
+        super.setSmall(flag);
     }
 
     public void setHoldEntity(Entity holdEntity) {
@@ -314,7 +320,7 @@ public class ThrowingItem extends EntityArmorStand {
     }
 
     public void spawn() {
-        world.addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        ((CraftWorld) armorStand.getWorld()).getHandle().addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
     }
 
     public boolean isPhysicsSpin() {

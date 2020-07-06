@@ -11,7 +11,6 @@ import by.dero.gvh.utils.Board;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -77,7 +76,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         for (int i = 0; i < getInfo().getTeamCount(); ++i) {
             final int team = idxs.get(i);
             final String com = Lang.get("commands." + (char)('1' + team));
-            str[team] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
+            str[i] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
                     .replace("%com%", com)
                     .replace("%pts%", currentEtherCount[team] +
                             " (" + (int) ((double) currentEtherCount[team] / etherCaptureInfo.getEtherToWin() * 100) + "%)");
@@ -132,7 +131,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             if (currentEtherCount[team] >= etherCaptureInfo.getEtherToWin()) {
                 int finalTeam = team;
                 World world = Minigame.getInstance().getWorld();
-                world.playSound(collectorsManager.getCollectors().get(0).getPosition().toLocation(world).add(0, 30, 0),
+                world.playSound(getInfo().getLobbyPosition().toLocation(world).add(0, 30, 0),
                         Sound.ENTITY_ENDERDRAGON_DEATH, 300, 1);
                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> finish(finalTeam), 100);
                 return;
@@ -141,7 +140,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void onPlayerKilled(Player player, LivingEntity killer) {
+    public void onPlayerKilled(Player player, Player killer) {
         super.onPlayerKilled(player, killer);
         if (killer instanceof Player) {
             addEther(getPlayers().get(killer.getName()).getTeam(), etherCaptureInfo.getEtherForKill());

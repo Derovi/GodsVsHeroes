@@ -1,8 +1,8 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.minigame.deathmatch.DeathMatch;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.minigame.deathmatch.DeathMatch;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerKillInterface;
 import by.dero.gvh.utils.GameUtils;
@@ -29,6 +29,7 @@ public class EntityOnKill extends Item implements PlayerKillInterface {
 		zombie.targetSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
 		zombie.goalSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
 
+		zombie.fireProof = true;
 		zombie.goalSelector.a(0, new PathfinderGoalFloat(zombie));
 		zombie.goalSelector.a(2, new PathfinderGoalZombieAttack(zombie, 1.0D, false));
 		zombie.goalSelector.a(5, new PathfinderGoalMoveTowardsRestriction(zombie, 1.0D));

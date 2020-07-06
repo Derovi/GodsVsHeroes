@@ -1,7 +1,9 @@
 package by.dero.gvh.nmcapi;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.utils.GameUtils;
 import net.minecraft.server.v1_12_R1.EntityChicken;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
 import org.bukkit.GameMode;
@@ -16,14 +18,14 @@ import org.bukkit.potion.PotionEffectType;
 
 public class ChickenAvatar extends EntityChicken {
     private Player player;
+    private final GamePlayer gamePlayer;
     private double speed = 0.5;
-    private final ItemStack[] contents;
 
     public ChickenAvatar(Player player) {
         super(((CraftWorld) player.getLocation().getWorld()).getHandle());
         this.player = player;
-        contents = player.getInventory().getContents().clone();
-        player.getInventory().clear();
+        this.gamePlayer = GameUtils.getPlayer(player.getName());
+        gamePlayer.hideInventory();
         setPosition(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
         ((CraftEntity)player).getHandle().a(this, true);
         player.setGameMode(GameMode.ADVENTURE);
@@ -63,7 +65,7 @@ public class ChickenAvatar extends EntityChicken {
         }
         player.setGameMode(GameMode.SURVIVAL);
         player.removePotionEffect(PotionEffectType.INVISIBILITY);
-        player.getInventory().setContents(contents);
+        gamePlayer.showInventory();
         for (Player other : player.getWorld().getPlayers()) {
             other.showPlayer(Plugin.getInstance(), player);
         }
@@ -74,9 +76,9 @@ public class ChickenAvatar extends EntityChicken {
         if (dead) {
             return;
         }
-        player.getInventory().setContents(contents);
+        gamePlayer.showInventory();
         player.setHealth(0);
-        Minigame.getInstance().getGame().onPlayerKilled(player, killer == null ? player : killer.getBukkitEntity());
+        Minigame.getInstance().getGame().onPlayerKilled(player, killer == null ? player : (Player) killer.getBukkitEntity());
         super.die();
     }
 

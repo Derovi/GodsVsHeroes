@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 100,
-      "damage" : 6,
+      "damage" : 8,
       "radius" : 5,
       "cost": 80,
       "material": "SNOW_BALL",
@@ -17,7 +17,7 @@
     },
     {
       "cooldown": 100,
-      "damage" : 8,
+      "damage" : 10,
       "radius" : 5,
       "cost": 100,
       "material": "SNOW_BALL",
@@ -30,7 +30,7 @@
     },
     {
       "cooldown": 60,
-      "damage" : 10,
+      "damage" : 12,
       "radius" : 5,
       "cost": 120,
       "material": "SNOW_BALL",
