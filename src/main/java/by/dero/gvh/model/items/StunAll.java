@@ -2,7 +2,8 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.UltimateInterface;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.StunAllInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.Stun;
@@ -13,7 +14,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class StunAll extends Item implements UltimateInterface {
+public class StunAll extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
     private final int latency;
 
@@ -24,7 +25,6 @@ public class StunAll extends Item implements UltimateInterface {
         latency = info.getLatency();
     }
 
-    @Override
     public void drawSign(Location loc) {
         for (double hei = 0; hei < radius; hei += 0.3) {
             Drawings.spawnMovingCircle(loc.clone(), latency, radius, 2,0, Particle.FLAME, owner.getWorld());

@@ -2,7 +2,8 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.UltimateInterface;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.EagleVisionInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
@@ -20,7 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 
-public class EagleVision extends Item implements UltimateInterface {
+public class EagleVision extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double particleDense = 32;
 
     private final double radius;
@@ -61,7 +62,6 @@ public class EagleVision extends Item implements UltimateInterface {
         drawSign(player.getLocation().clone());
     }
 
-    @Override
     public void drawSign(final Location loc) {
         new BukkitRunnable(){
             double r = 1, addAngle = 0;

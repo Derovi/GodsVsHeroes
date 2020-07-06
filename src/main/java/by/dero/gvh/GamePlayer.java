@@ -91,7 +91,7 @@ public class GamePlayer implements GameObject {
         }
         player.getInventory().setContents(contents);
         contents = null;
-        updateInventory(this);
+        updateInventory();
     }
 
     public void hideInventory() {
@@ -198,11 +198,11 @@ public class GamePlayer implements GameObject {
         }
     }
 
-    public void updateInventory(final GamePlayer gp) {
-        if (gp.isInventoryHided()) {
+    public void updateInventory() {
+        if (isInventoryHided()) {
             return;
         }
-        Player player = gp.getPlayer();
+        Player player = getPlayer();
         PlayerInventory inv = player.getInventory();
 
         for (Map.Entry<Item, Integer> obj : itemsSlots.entrySet()) {
@@ -217,6 +217,10 @@ public class GamePlayer implements GameObject {
                 inv.getItem(slot).setAmount(need);
             }
         }
+    }
+
+    public void onDie() {
+
     }
 
     public boolean isInventoryHided() {

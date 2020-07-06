@@ -1,12 +1,11 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.UltimateInterface;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.DragonFlyInfo;
 import by.dero.gvh.nmcapi.dragon.ControlledDragon;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -14,7 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DragonFly extends Item implements PlayerInteractInterface, UltimateInterface {
+public class DragonFly extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final DragonFlyInfo info;
 
     public DragonFly(String name, int level, Player owner) {
@@ -46,10 +45,5 @@ public class DragonFly extends Item implements PlayerInteractInterface, Ultimate
             result.setDurability((short) 5);
         }
         return result;
-    }
-
-    @Override
-    public void drawSign (Location loc) {
-
     }
 }

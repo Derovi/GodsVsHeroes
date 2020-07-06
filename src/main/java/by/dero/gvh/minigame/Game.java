@@ -60,7 +60,9 @@ public abstract class Game implements Listener {
 
     private final LinkedList<BukkitRunnable> runnables = new LinkedList<>();
 
-    protected abstract void onPlayerRespawned(final GamePlayer gp);
+    protected void onPlayerRespawned(final GamePlayer gp) {
+        gp.updateInventory();
+    }
 
     public void start() {
         mapManager = new MapManager(Bukkit.getWorld(getInfo().getWorld()));
@@ -137,6 +139,9 @@ public abstract class Game implements Listener {
 
         new ChargesManager();
         Minigame.getInstance().getLootsManager().load();
+        for (GamePlayer gp : getPlayers().values()) {
+            gp.updateInventory();
+        }
     }
 
     public void onPlayerKilled(Player player, Player killer) {
@@ -317,6 +322,7 @@ public abstract class Game implements Listener {
         for (String itemName : classDescription.getItemNames()) {
             player.addItem(itemName, player.getPlayerInfo().getItemLevel(player.getClassName(), itemName));
         }
+        player.updateInventory();
     }
 
     private void toSpawn(final GamePlayer gp) {

@@ -3,7 +3,8 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.UltimateInterface;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ArrowRainInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
@@ -19,7 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrowRain extends Item implements UltimateInterface {
+public class ArrowRain extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
     private final int arrowCycles;
     private final int cycleDelay;
@@ -33,7 +34,6 @@ public class ArrowRain extends Item implements UltimateInterface {
         cycleDelay = info.getCycleDelay();
     }
 
-    @Override
     public void drawSign(final Location loc) {
         for (int rad = 10; rad <= radius; rad += 10)
             Drawings.drawCircle(loc.clone().add(0, height, 0), rad, Particle.EXPLOSION_LARGE);
