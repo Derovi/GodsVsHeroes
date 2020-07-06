@@ -71,7 +71,7 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
                     Sound.BLOCK_SHULKER_BOX_OPEN, 24, 1);
         });
         sword.setOnOwnerPickUp(() -> {
-            ChargesManager.getInstance().addItem(owner, this, slot);
+            ChargesManager.getInstance().addItem(GameUtils.getPlayer(owner.getName()), this, slot);
             sword.remove();
         });
         final BukkitRunnable runnable = new BukkitRunnable() {

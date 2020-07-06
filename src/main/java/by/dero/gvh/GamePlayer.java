@@ -84,6 +84,7 @@ public class GamePlayer implements GameObject {
         }
         player.getInventory().setContents(contents);
         contents = null;
+        ChargesManager.getInstance().updateInventory(this);
     }
 
     public void hideInventory() {

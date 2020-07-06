@@ -71,7 +71,7 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
                     Sound.BLOCK_SHULKER_BOX_OPEN, 24, 1);
         });
         axe.setOnOwnerPickUp(() -> {
-            ChargesManager.getInstance().addItem(owner, this, slot);
+            ChargesManager.getInstance().addItem(GameUtils.getPlayer(owner.getName()), this, slot);
             axe.remove();
         });
         final BukkitRunnable runnable = new BukkitRunnable() {
