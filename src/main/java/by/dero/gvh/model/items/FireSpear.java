@@ -10,6 +10,7 @@ import by.dero.gvh.model.itemsinfo.FireSpearInfo;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -44,6 +45,7 @@ public class FireSpear extends Item implements PlayerInteractInterface {
                 left.add(gp.getPlayer());
             }
         }
+        owner.getWorld().playSound(loc, Sound.BLOCK_CHORUS_FLOWER_GROW, 24, 1);
         final BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = 0;
             final ArrayList<Player> rem = new ArrayList<>();

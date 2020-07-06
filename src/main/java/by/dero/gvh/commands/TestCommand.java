@@ -1,8 +1,6 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.nmcapi.throwing.ThrowingKnife;
-import by.dero.gvh.nmcapi.throwing.ThrowingSword;
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,9 +12,15 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] strings) {
 
-        Player p = (Player) commandSender;
-        ThrowingKnife sword = new ThrowingKnife(p, Material.DIAMOND_SWORD);
-        sword.spawn();
+
+        try {
+            Player p = (Player) commandSender;
+            Sound sound = Sound.values()[Integer.parseInt(strings[0])];
+            Bukkit.getServer().broadcastMessage(sound.toString());
+            p.getWorld().playSound(p.getLocation(), sound, 24, 1);
+        } catch (NumberFormatException ignored) {
+
+        }
         return true;
     }
 }

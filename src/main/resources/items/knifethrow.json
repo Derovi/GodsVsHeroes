@@ -3,49 +3,49 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 20,
-      "damage": 5,
+      "cooldown": 100,
+      "damage": 8,
       "cost": 0,
       "material": "STONE_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
-      "amount": 1
+      "amount": 3
     },
     {
-      "cooldown": 20,
-      "damage": 6,
+      "cooldown": 90,
+      "damage": 8,
       "cost": 80,
       "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
-      "amount": 1
+      "amount": 3
     },
     {
-      "cooldown": 20,
-      "damage": 7,
+      "cooldown": 90,
+      "damage": 9,
       "cost": 100,
       "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
-      "amount": 1
+      "amount": 3
     },
     {
-      "cooldown": 20,
-      "damage": 8,
+      "cooldown": 80,
+      "damage": 9,
       "cost": 120,
       "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
-      "amount": 1
+      "amount": 3
     },
     {
-      "cooldown": 20,
-      "damage": 8,
+      "cooldown": 100,
+      "damage": 10,
       "cost": 140,
       "material": "DIAMOND_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
-      "amount": 1
+      "amount": 4
     }
   ]
 }
