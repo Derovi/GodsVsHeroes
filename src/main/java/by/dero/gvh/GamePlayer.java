@@ -16,6 +16,7 @@ public class GamePlayer implements GameObject {
     private int team;
     private Item lastUsed;
     private boolean actionBarBlocked = false;
+    private ItemStack[] contents = null;
 
     private Board board;
 
@@ -75,6 +76,26 @@ public class GamePlayer implements GameObject {
             System.err.println("Can't add item! " + name + ":" + String.valueOf(level) + " to " + getPlayer().getName());
             ex.printStackTrace();
         }
+    }
+
+    public void showInventory() {
+        if (!isInventoryHided()) {
+            return;
+        }
+        player.getInventory().setContents(contents);
+        contents = null;
+    }
+
+    public void hideInventory() {
+        if (isInventoryHided()) {
+            return;
+        }
+        contents = player.getInventory().getContents().clone();
+        player.getInventory().clear();
+    }
+
+    public boolean isInventoryHided() {
+        return contents != null;
     }
 
     public PlayerInfo getPlayerInfo() {
