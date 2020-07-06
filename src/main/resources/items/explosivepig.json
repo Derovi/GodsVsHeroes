@@ -3,9 +3,9 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 60,
-      "radius": 3.5,
-      "damage": 15,
+      "cooldown": 400,
+      "radius": 4,
+      "damage": 18,
       "duration": 300,
       "cost": 80,
       "material": "TNT",

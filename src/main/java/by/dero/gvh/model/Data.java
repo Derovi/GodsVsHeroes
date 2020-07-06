@@ -80,14 +80,16 @@ public class Data {
         registerItem("lightningbow", LightningBowInfo.class, LightningBow.class);
         registerItem("smokes", SmokesInfo.class, Smokes.class);
         registerItem("dragonfly", DragonFlyInfo.class, DragonFly.class);
+        registerItem("thorbow", ItemInfo.class, ThorBow.class);
     }
 
     private void registerClasses() {
-        registerClass("odin");
-        registerClass("paladin");
-        registerClass("scout");
-        registerClass("ull");
+//        registerClass("odin");
+//        registerClass("paladin");
+//        registerClass("scout");
+//        registerClass("ull");
 
+        registerClass("thor");
         registerClass("warrior");
         registerClass("lucifer");
         registerClass("assassin");

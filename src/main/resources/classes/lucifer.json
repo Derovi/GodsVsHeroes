@@ -3,11 +3,19 @@
   "maxHP": 40,
   "cost": 1000,
   "itemNames": [
+    "defaultsword",
     "magicrod",
-    "escapeteleport",
     "suicidejump",
     "exchange",
     "lightningstorm",
-    "defaultarrow"
+
+    "escapeteleport",
+    "entityonkill",
+
+    "defaultarrow",
+    "defaultchestplate",
+    "defaultleggings",
+    "defaulthelmet",
+    "defaultboots"
   ]
 }

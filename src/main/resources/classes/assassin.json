@@ -5,13 +5,15 @@
   "itemNames": [
     "defaultsword",
     "poisonousbow",
+    "damagepotion",
+    "smokes",
     "ninjarope",
     "eaglefly",
-    "damagepotion",
-    "invisibilitypotion",
 
+    "defaultarrow",
+    "defaultchestplate",
+    "defaultleggings",
     "defaulthelmet",
-    "defaultboots",
-    "defaultarrow"
+    "defaultboots"
   ]
 }

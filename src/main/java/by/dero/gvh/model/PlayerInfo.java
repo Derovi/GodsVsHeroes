@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class PlayerInfo {
     private String name;
-    private String selectedClass = "paladin";
+    private String selectedClass = "assassin";
     private int balance = 7000;
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
@@ -29,6 +29,7 @@ public class PlayerInfo {
     }
 
     public boolean canUnlock(String className) {
+        System.out.println(className);
         return balance >= Plugin.getInstance().getData().getClassNameToDescription().get(className).getCost();
     }
 

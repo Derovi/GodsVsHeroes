@@ -26,11 +26,12 @@ public class MonumentManager implements Listener {
 //        registerMonument("heimdall", ArmorStandMonument.class);
 //        registerMonument("loki", ArmorStandMonument.class);
 //        registerMonument("mercenary", ArmorStandMonument.class);
-        registerMonument("odin", ArmorStandMonument.class);
-        registerMonument("paladin", ArmorStandMonument.class);
-        registerMonument("scout", ArmorStandMonument.class);
-        registerMonument("ull", ArmorStandMonument.class);
+//        registerMonument("odin", ArmorStandMonument.class);
+//        registerMonument("paladin", ArmorStandMonument.class);
+//        registerMonument("scout", ArmorStandMonument.class);
+//        registerMonument("ull", ArmorStandMonument.class);
 
+        registerMonument("thor", ArmorStandMonument.class);
         registerMonument("warrior", ArmorStandMonument.class);
         registerMonument("lucifer", ArmorStandMonument.class);
         registerMonument("assassin", ArmorStandMonument.class);

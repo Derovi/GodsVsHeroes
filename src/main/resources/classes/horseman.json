@@ -3,8 +3,18 @@
   "maxHP": 40,
   "cost": 1000,
   "itemNames": [
+    "defaultaxe",
+    "lightningbow",
     "meteor",
+    "stunrocks",
+    "explosivepig",
+    "skeletonarmy",
+
     "spawnhorse",
-    "defaultarrow"
+    "defaultarrow",
+    "defaultchestplate",
+    "defaultleggings",
+    "defaulthelmet",
+    "defaultboots"
   ]
 }

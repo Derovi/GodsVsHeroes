@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 100,
+      "cooldown": 80,
       "damage": 15,
       "cost": 80,
       "material": "IRON_SPADE",

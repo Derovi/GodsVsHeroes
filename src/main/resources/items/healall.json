@@ -4,8 +4,8 @@
   "levels": [
     {
       "cooldown": 600,
-      "radius": 10.0,
-      "heal": 8,
+      "radius": 20.0,
+      "heal": 14,
       "cost": 80,
       "material": "END_CRYSTAL",
       "displayName": "§cHeal All",
@@ -17,8 +17,8 @@
     },
     {
       "cooldown": 600,
-      "radius": 10.0,
-      "heal": 9,
+      "radius": 20.0,
+      "heal": 16,
       "cost": 100,
       "material": "END_CRYSTAL",
       "displayName": "§cHeal All",
@@ -30,8 +30,8 @@
     },
     {
       "cooldown": 600,
-      "radius": 10.0,
-      "heal": 10,
+      "radius": 20.0,
+      "heal": 18,
       "cost": 100,
       "material": "END_CRYSTAL",
       "displayName": "§cHeal All",

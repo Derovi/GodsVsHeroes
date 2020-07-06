@@ -20,7 +20,7 @@ import java.util.HashSet;
 
 public class FireSpear extends Item implements PlayerInteractInterface {
     private final int parts = 6;
-    private final double speed = 5;
+    private final double speed = 20;
     private final int time = 140;
     private final double damage;
     public FireSpear(final String name, final int level, final Player owner) {
@@ -54,6 +54,7 @@ public class FireSpear extends Item implements PlayerInteractInterface {
                     if (p.getLocation().distance(loc) < 3 || p.getEyeLocation().distance(loc) < 3) {
                         rem.add(p);
                         GameUtils.damage(damage, p, owner);
+                        p.setFireTicks(60);
                     }
                 }
                 left.removeAll(rem);

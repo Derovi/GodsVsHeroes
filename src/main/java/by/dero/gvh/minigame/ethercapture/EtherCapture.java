@@ -11,7 +11,6 @@ import by.dero.gvh.utils.Board;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -141,7 +140,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void onPlayerKilled(Player player, LivingEntity killer) {
+    public void onPlayerKilled(Player player, Player killer) {
         super.onPlayerKilled(player, killer);
         if (killer instanceof Player) {
             addEther(getPlayers().get(killer.getName()).getTeam(), etherCaptureInfo.getEtherForKill());

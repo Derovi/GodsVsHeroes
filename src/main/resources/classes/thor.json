@@ -1,16 +1,16 @@
 {
-  "name": "warrior",
+  "name": "thor",
   "maxHP": 40,
   "cost": 0,
   "itemNames": [
-    "swordthrow",
-    "webthrow",
-    "grenade",
+    "axethrow",
+    "chainlightning",
+    "thorbow",
     "healpotion",
-    "firespear",
-    "healall",
+    "magnetizeorb",
+    "stunall",
 
-    "spurt",
+    "resistancebuf",
 
     "defaultarrow",
     "defaultchestplate",

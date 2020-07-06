@@ -50,6 +50,7 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                 start.getWorld().spawnParticle(Particle.LAVA, start, 1);
                 for (final LivingEntity obj : GameUtils.getNearby(start, 2)) {
                     if (GameUtils.isEnemy(obj, getTeam()) && !stroke.contains(obj.getUniqueId())) {
+                        obj.setFireTicks(20);
                         GameUtils.damage(damage, obj, owner);
                         stroke.add(obj.getUniqueId());
                     }
