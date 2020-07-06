@@ -6,6 +6,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.model.Item;
 import com.google.common.base.Predicate;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.GameMode;
@@ -22,6 +23,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -100,6 +102,20 @@ public class GameUtils {
             target.setNoDamageTicks(0);
         }
         target.damage(damage, killer);
+    }
+
+    public static void doubleSpaceCooldownMessage(Item item) {
+        GamePlayer player = GameUtils.getPlayer(item.getOwner().getName());
+        if (!player.isActionBarBlocked()) {
+            player.setActionBarBlocked(true);
+            MessagingUtils.sendCooldownMessage(player.getPlayer(), item.getName(), item.getCooldown().getSecondsRemaining());
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    player.setActionBarBlocked(false);
+                }
+            }.runTaskLater(Plugin.getInstance(), 30);
+        }
     }
 
     public static Entity spawnEntity(final Location loc, final EntityType type) {
