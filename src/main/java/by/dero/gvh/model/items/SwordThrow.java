@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.ChargesManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
@@ -71,7 +70,7 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
                     Sound.BLOCK_SHULKER_BOX_OPEN, 24, 1);
         });
         sword.setOnOwnerPickUp(() -> {
-            ChargesManager.getInstance().addItem(owner, this, slot);
+            GameUtils.getPlayer(owner.getName()).addItem(this, slot);
             sword.remove();
         });
         final BukkitRunnable runnable = new BukkitRunnable() {

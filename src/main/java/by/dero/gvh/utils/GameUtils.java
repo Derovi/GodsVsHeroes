@@ -254,7 +254,7 @@ public class GameUtils {
     }
 
     public static boolean isInGame(Player player) {
-        return player != null && player.isOnline() && player.getGameMode().equals(GameMode.SURVIVAL);
+        return player != null && player.isOnline() && !player.getGameMode().equals(GameMode.SPECTATOR);
     }
 
     public static List<LivingEntity> getNearby(final Location wh, final double radius) {

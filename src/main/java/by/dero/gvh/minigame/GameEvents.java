@@ -1,6 +1,5 @@
 package by.dero.gvh.minigame;
 
-import by.dero.gvh.ChargesManager;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
@@ -109,7 +108,7 @@ public class GameEvents implements Listener {
                 }
             } else {
                 if (itemInHand instanceof InfiniteReplenishInterface) {
-                    if (!itemInHand.getCooldown().isReady() || !ChargesManager.getInstance().consume(player, itemInHand)) {
+                    if (!itemInHand.getCooldown().isReady() || !gamePlayer.consume(itemInHand)) {
                         return;
                     }
                 }
@@ -185,9 +184,7 @@ public class GameEvents implements Listener {
         if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
                 GameUtils.getLastLightningTime() + 1000 > System.currentTimeMillis()) {
             final Player player = GameUtils.getLastUsedLightning();
-            Bukkit.getServer().broadcastMessage(player.getName());
             if (GameUtils.isEnemy(entity, GameUtils.getPlayer(player.getName()).getTeam())) {
-                Bukkit.getServer().broadcastMessage("3");
                 game.getStats().addDamage(entity, player, event.getDamage());
                 damageCause.put(entity, player);
             } else {

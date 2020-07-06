@@ -3,6 +3,7 @@ package by.dero.gvh.model;
 import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -16,6 +17,15 @@ public class Item {
     protected final String name;
     private final int level;
     private int team = -1;
+
+    public static ItemStack getPane(String name) {
+        ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
+        pane.setAmount(1);
+        final ItemMeta meta = pane.getItemMeta();
+        meta.setDisplayName(name);
+        pane.setItemMeta(meta);
+        return pane;
+    }
 
     public Cooldown getCooldown() {
         return cooldown;
@@ -76,8 +86,12 @@ public class Item {
         return summonedEntityIds;
     }
 
+    private ItemDescription description = null;
     public ItemDescription getDescription() {
-        return Plugin.getInstance().getData().getItemDescription(name);
+        if (description == null) {
+            description = Plugin.getInstance().getData().getItemDescription(name);
+        }
+        return description;
     }
 
     public ItemInfo getInfo() {
