@@ -8,7 +8,6 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.KnifeThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingKnife;
 import by.dero.gvh.utils.GameUtils;
-import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -43,23 +42,6 @@ public class KnifeThrow extends Item implements PlayerInteractInterface, Infinit
         knife.setOnHitBlock(() -> {
             Location at = knife.getItemPosition().toLocation(owner.getWorld());
             owner.getWorld().spawnParticle(Particle.CRIT_MAGIC, at, 1);
-            new BukkitRunnable() {
-                double angle = 0;
-                @Override
-                public void run () {
-                    if (knife.isRemoved()) {
-                        this.cancel();
-                        return;
-                    }
-                    angle += Math.PI / 30;
-                    for (int i = 0; i < 2; i++) {
-                        double al = angle + Math.PI * i;
-                        Location at = knife.getItemPosition().toLocation(owner.getWorld()).
-                                add(MathUtils.cos(al)*0.5, 1, MathUtils.sin(al)*0.5);
-                        owner.spawnParticle(Particle.VILLAGER_HAPPY, at, 0, 0, 0, 0);
-                    }
-                }
-            }.runTaskTimer(Plugin.getInstance(), 0, 2);
             owner.getWorld().playSound(knife.getItemPosition().toLocation(owner.getWorld()),
                     Sound.BLOCK_FENCE_GATE_CLOSE, 24, 1);
         });
