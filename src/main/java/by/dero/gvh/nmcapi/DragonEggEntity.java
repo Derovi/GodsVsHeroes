@@ -6,9 +6,11 @@ import by.dero.gvh.utils.GameUtils;
 import net.minecraft.server.v1_12_R1.EntityFallingBlock;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_12_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -26,6 +28,7 @@ public class DragonEggEntity extends EntityFallingBlock {
         player.setInvulnerable(false);
         PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0);
         player.addPotionEffect(effect);
+        ((CraftPlayer) player).getHandle().a(this, true);
         for (Player other : player.getWorld().getPlayers()) {
             other.hidePlayer(Plugin.getInstance(), player);
         }

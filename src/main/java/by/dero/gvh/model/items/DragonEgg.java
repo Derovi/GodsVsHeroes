@@ -7,6 +7,7 @@ import by.dero.gvh.model.itemsinfo.DragonEggInfo;
 import by.dero.gvh.nmcapi.ChickenAvatar;
 import by.dero.gvh.nmcapi.DragonEggEntity;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -21,10 +22,15 @@ public class DragonEgg extends Item implements DoubleSpaceInterface {
 
     @Override
     public void onDoubleSpace() {
+        if (!cooldown.isReady()) {
+            return;
+        }
+        cooldown.reload();
         DragonEggEntity egg = new DragonEggEntity(owner);
         // TODO add sound
         // TODO add status bar
         egg.spawn();
+        System.out.println("Info " + info.getDuration());
         new BukkitRunnable() {
             @Override
             public void run() {
