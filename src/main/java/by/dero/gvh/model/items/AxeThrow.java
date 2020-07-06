@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.ChargesManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
@@ -71,7 +70,7 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
                     Sound.BLOCK_SHULKER_BOX_OPEN, 24, 1);
         });
         axe.setOnOwnerPickUp(() -> {
-            ChargesManager.getInstance().addItem(GameUtils.getPlayer(owner.getName()), this, slot);
+            GameUtils.getPlayer(owner.getName()).addItem(this, slot);
             axe.remove();
         });
         final BukkitRunnable runnable = new BukkitRunnable() {
