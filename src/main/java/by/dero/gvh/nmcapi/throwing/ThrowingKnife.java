@@ -13,7 +13,7 @@ public class ThrowingKnife extends ThrowingItem {
         setItemLength(0.4);
         setPhysicsSpin(true);
         setRightArmPose(new Vector3f(player.getLocation().getPitch(),11, 0));
-        setLiveTimeAfterStop(120);
+        setLiveTimeAfterStop(80);
         setVelocity(player.getLocation().getDirection().add(new Vector(0,0.2,0)).normalize().multiply(2));
     }
 }

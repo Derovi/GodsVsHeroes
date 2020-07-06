@@ -15,6 +15,7 @@ public class GamePlayer implements GameObject {
     private final HashMap<String, Item> items = new HashMap<>();
     private int team;
     private Item lastUsed;
+    private boolean actionBarBlocked = false;
 
     private Board board;
 
@@ -122,5 +123,13 @@ public class GamePlayer implements GameObject {
 
     public Board getBoard() {
         return board;
+    }
+
+    public boolean isActionBarBlocked() {
+        return actionBarBlocked;
+    }
+
+    public void setActionBarBlocked(boolean actionBarBlocked) {
+        this.actionBarBlocked = actionBarBlocked;
     }
 }
