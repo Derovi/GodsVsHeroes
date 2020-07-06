@@ -104,6 +104,21 @@ public class GameUtils {
         target.damage(damage, killer);
     }
 
+    public static boolean isDeadPlayer(Entity entity) {
+        if (entity instanceof Player) {
+            return ((Player) entity).getGameMode().equals(GameMode.SPECTATOR);
+        }
+        return false;
+    }
+
+    public static boolean isGameEntity(Entity entity) {
+        if (entity instanceof Player) {
+            Player player = ((Player) entity);
+            return player.getGameMode().equals(GameMode.SURVIVAL) && !getPlayer(player.getName()).isInventoryHided();
+        }
+        return true;
+    }
+
     public static void doubleSpaceCooldownMessage(Item item) {
         GamePlayer player = GameUtils.getPlayer(item.getOwner().getName());
         if (!player.isActionBarBlocked()) {

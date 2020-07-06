@@ -1,6 +1,7 @@
 package by.dero.gvh.nmcapi.throwing;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
 import net.minecraft.server.v1_12_R1.*;
@@ -192,19 +193,11 @@ public class ThrowingItem extends EntityArmorStand {
         }
     }
 
-    private boolean isDeadPlayer(Entity entity) {
-        if (entity instanceof Player) {
-            Player player = (Player) entity;
-            return player.getGameMode().equals(GameMode.SPECTATOR);
-        }
-        return false;
-    }
-
     @Override
     public void move(EnumMoveType moveType, double x, double y, double z) {
         if (isStopped()) {
             if (holdEntity != null) {
-                if (holdEntity.isDead() || isDeadPlayer(holdEntity)) {
+                if (holdEntity.isDead() || GameUtils.isDeadPlayer(holdEntity)) {
                     holdEntity = null;
                 } else {
                     locX = holdEntity.getLocation().getX() + xDelta;
@@ -280,6 +273,9 @@ public class ThrowingItem extends EntityArmorStand {
                     continue;
                 }
                 if (owner != null && entity.getUniqueId().equals(owner.getUniqueId())) {
+                    continue;
+                }
+                if (!GameUtils.isGameEntity(entity)) {
                     continue;
                 }
                 holdEntity = entity;
