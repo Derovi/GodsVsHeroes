@@ -139,11 +139,21 @@ public abstract class Game implements Listener {
         Minigame.getInstance().getLootsManager().load();
     }
 
-    public void onPlayerKilled(Player player, LivingEntity killer) {
+    public void onPlayerKilled(Player player, Player killer) {
         try {
             if (!player.equals(killer)) {
-                rewardManager.give("killEnemy", (Player) killer,
+                rewardManager.give("killEnemy", killer,
                         rewardManager.getMessage("killEnemy").replace("%enemy%", player.getName()));
+                GamePlayer gpKiller = GameUtils.getPlayer(killer.getName());
+                GamePlayer gpTarget = GameUtils.getPlayer(player.getName());
+                String kilCode = Lang.get("commands." + (char)('1' + gpKiller.getTeam())).substring(0, 2);
+                String tarCode = Lang.get("commands." + (char)('1' + gpTarget.getTeam())).substring(0, 2);
+                String kilClass = Lang.get("classes." + gpKiller.getClassName());
+                String tarClass = Lang.get("classes." + gpTarget.getClassName());
+                Bukkit.getServer().broadcastMessage(Lang.get("game.killGlobalMessage").
+                        replace("%kilCode%", kilCode).replace("%kilClass%", kilClass).replace("%killer%", killer.getName()).
+                        replace("%tarCode%", tarCode).replace("%tarClass%", tarClass).replace("%target%", player.getName()));
+
                 stats.addKill(player, killer);
             }
         } catch (Exception ex) {

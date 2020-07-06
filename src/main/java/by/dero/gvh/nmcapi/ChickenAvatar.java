@@ -78,7 +78,7 @@ public class ChickenAvatar extends EntityChicken {
         }
         gamePlayer.showInventory();
         player.setHealth(0);
-        Minigame.getInstance().getGame().onPlayerKilled(player, killer == null ? player : killer.getBukkitEntity());
+        Minigame.getInstance().getGame().onPlayerKilled(player, killer == null ? player : (Player) killer.getBukkitEntity());
         super.die();
     }
 

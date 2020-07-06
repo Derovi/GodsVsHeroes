@@ -165,6 +165,9 @@ public class GameUtils {
     }
 
     public static boolean isEnemy(final Entity ent, final int team) {
+        if (ent == null) {
+            return false;
+        }
         if (ent instanceof ArmorStand || ent.isDead()) {
             return false;
         }
@@ -177,6 +180,9 @@ public class GameUtils {
     }
 
     public static boolean isEnemy(Entity ent, Entity other) {
+        if (ent == null || other == null) {
+            return false;
+        }
         if (!(ent instanceof LivingEntity) || !(other instanceof LivingEntity) ||
                 ent.isDead() || other.isDead()) {
             return false;
@@ -205,6 +211,9 @@ public class GameUtils {
     }
 
     public static boolean isAlly(final Entity ent, final int team) {
+        if (ent == null) {
+            return false;
+        }
         if (ent instanceof ArmorStand || ent.isDead()) {
             return false;
         }
@@ -216,6 +225,9 @@ public class GameUtils {
     }
 
     public static boolean isAlly(final Entity ent, final Entity other) {
+        if (ent == null || other == null) {
+            return false;
+        }
         if (!(ent instanceof LivingEntity) || !(other instanceof LivingEntity) ||
             ent.isDead() || other.isDead()) {
             return false;

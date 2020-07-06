@@ -1,14 +1,16 @@
 {
-  "name": "assassin",
+  "name": "thor",
   "maxHP": 40,
   "cost": 0,
   "itemNames": [
-    "knifethrow",
-    "poisonousbow",
-    "damagepotion",
-    "smokes",
-    "ninjarope",
-    "eaglefly",
+    "axethrow",
+    "chainlightning",
+    "thorbow",
+    "healpotion",
+    "magnetizeorb",
+    "stunall",
+
+    "resistancebuf",
 
     "defaultarrow",
     "defaultchestplate",

@@ -5,7 +5,7 @@
     {
       "cooldown": 100,
       "radius": 4.0,
-      "damage": 6,
+      "damage": 8,
       "cost": 80,
       "material": "BOW",
       "displayName": "§cLightning bow",
@@ -16,12 +16,12 @@
       "amount": 1
     },
     {
-      "cooldown": 50,
+      "cooldown": 80,
       "radius": 5.0,
-      "damage": 6,
+      "damage": 8,
       "cost": 100,
-      "material": "SPLASH_POTION",
-      "displayName": "§cDamage Potion",
+      "material": "BOW",
+      "displayName": "§cLightning bow",
       "lore": [
         "§aРаньте своих врагов!",
         "§6Уровень 2"
@@ -29,12 +29,12 @@
       "amount": 3
     },
     {
-      "cooldown": 40,
+      "cooldown": 60,
       "radius": 5.0,
-      "damage": 6,
+      "damage": 8,
       "cost": 120,
-      "material": "SPLASH_POTION",
-      "displayName": "§cDamage Potion",
+      "material": "BOW",
+      "displayName": "§cLightning bow",
       "lore": [
         "§aРаньте своих врагов!",
         "§6Уровень 3"

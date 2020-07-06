@@ -5,9 +5,18 @@
   "itemNames": [
     "swordthrow",
     "dragonbreath",
-    "explosivebow",
+    "healpotion",
+    "firebow",
+    "teleportpearls",
     "chaseenemy",
     "dragonfly",
-    "defaultarrow"
+
+    "resistancebuf",
+
+    "defaultarrow",
+    "defaultchestplate",
+    "defaultleggings",
+    "defaulthelmet",
+    "defaultboots"
   ]
 }

@@ -33,6 +33,7 @@
     "gameAlreadyStarted": "§4Игра началась!",
     "gamePrepairing": "§2Загружаемся",
     "gameFinished": "§4Игра окончена",
+    "killGlobalMessage": "§aИгрок %kilCode%[%kilClass%] %killer%§a убил игрока %tarCode%[%tarClass%] %target%§a!",
     "deathMessage": "Вы были убиты игроком %name%",
     "deathTime": "§aДо возрождения осталось§8: §9%time%",
     "livesNotLeft": "§cУ вашей команды не осталось жизней",
@@ -66,7 +67,8 @@
     "lucifer": "Люцифер",
     "assassin": "Ассасин",
     "dovahkiin": "Довакин",
-    "horseman": "Апокалипсис"
+    "horseman": "Апокалипсис",
+    "thor": "Тор"
   },
   "commands": {
     "stat": "§%col%%com%§8: §9%pts%",
