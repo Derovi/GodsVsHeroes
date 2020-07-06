@@ -4,7 +4,7 @@ public class DragonBase extends EmptyArmorStand {
     private ControlledDragon dragon;
 
     public DragonBase(ControlledDragon dragon) {
-        super(dragon.getPlayer().getLocation());
+        super(dragon.getPlayer().getEyeLocation());
         this.dragon = dragon;
     }
 
