@@ -1,5 +1,6 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.nmcapi.throwing.ThrowingKnife;
 import by.dero.gvh.nmcapi.throwing.ThrowingSword;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -14,7 +15,7 @@ public class TestCommand implements CommandExecutor {
                              Command command, String s, String[] strings) {
 
         Player p = (Player) commandSender;
-        ThrowingSword sword = new ThrowingSword(p, Material.DIAMOND_SWORD);
+        ThrowingKnife sword = new ThrowingKnife(p, Material.DIAMOND_SWORD);
         sword.spawn();
         return true;
     }

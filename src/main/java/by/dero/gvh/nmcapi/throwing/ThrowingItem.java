@@ -254,7 +254,6 @@ public class ThrowingItem extends EntityArmorStand {
             locZ += z / stepCount;
             //super.move(moveType, x, y, z);
             Location itemLocation = getItemPosition().toLocation(armorStand.getWorld());
-            itemLocation.getWorld().spawnParticle(Particle.REDSTONE, itemLocation, 1);
             if (itemLocation.getY() < 0) {
                 stop();
                 break;
