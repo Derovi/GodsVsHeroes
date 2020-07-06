@@ -162,6 +162,10 @@ public abstract class Game implements Listener {
     }
 
     public void finish(int winnerTeam) {
+        finish(winnerTeam, true);
+    }
+
+    public void finish(int winnerTeam, boolean needFireworks) {
         if (state != State.GAME) {
             System.err.println("Can't finish game, not in game! Current status: " + state);
             return;
@@ -174,6 +178,8 @@ public abstract class Game implements Listener {
         for (LivingEntity entity: Bukkit.getWorld(getInfo().getWorld()).getLivingEntities()) {
             if (!(entity instanceof Player)) {
                 entity.remove();
+            } else {
+                ((Player) entity).setAllowFlight(false);
             }
         }
         for (GamePlayer player : players.values()) {
@@ -190,10 +196,12 @@ public abstract class Game implements Listener {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                Drawings.spawnFirework(MathUtils.randomCylinder(
-                        getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
-                        18, -10
-                ), 2);
+                if (needFireworks) {
+                    Drawings.spawnFirework(MathUtils.randomCylinder(
+                            getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
+                            18, -10
+                    ), 2);
+                }
             }
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
@@ -382,5 +390,9 @@ public abstract class Game implements Listener {
 
     public HashMap<UUID, GameMob> getMobs() {
         return mobs;
+    }
+
+    public RewardManager getRewardManager () {
+        return rewardManager;
     }
 }

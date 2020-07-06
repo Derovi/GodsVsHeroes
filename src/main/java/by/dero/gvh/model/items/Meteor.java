@@ -61,7 +61,6 @@ public class Meteor extends Item implements PlayerInteractInterface, ProjectileH
 
         EntityLargeFireball fireball = new EntityLargeFireball(((CraftWorld) owner.getWorld()).world);
 
-        at.getWorld().playSound(at, Sound.ENTITY_ENDERDRAGON_AMBIENT, 16, 1);
         fireball.isIncendiary = false;
         fireball.projectileSource = owner;
         fireball.setPosition(at.getX(), at.getY(), at.getZ());
@@ -77,7 +76,7 @@ public class Meteor extends Item implements PlayerInteractInterface, ProjectileH
     public void onProjectileHit(ProjectileHitEvent event) {
         Location loc = event.getEntity().getLocation();
         owner.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 0, 0, 0, 0);
-        owner.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_FIREBALL_EXPLODE, 16, 1);
+        owner.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_FIREBALL_EXPLODE, 24, 1);
         for (LivingEntity entity : GameUtils.getNearby(loc, radius)) {
             if (GameUtils.isEnemy(entity, getTeam())) {
                 GameUtils.damage(damage, entity, owner);

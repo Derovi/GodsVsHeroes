@@ -54,7 +54,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
                 Objects.requireNonNull(next.getEyeLocation().getWorld()).spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
                 hit.add(next.getUniqueId());
 
-                next.getWorld().playSound(next.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 16, 1);
+                next.getWorld().playSound(next.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 24, 1);
                 GameUtils.damage(damage, next, owner);
                 cur = next;
                 next = null;

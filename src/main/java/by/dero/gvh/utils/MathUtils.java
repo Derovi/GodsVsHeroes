@@ -133,4 +133,8 @@ public class MathUtils {
         }
         return loc;
     }
+
+    public static int randInt(int rvalue) {
+        return (int) (Math.random() * rvalue);
+    }
 }

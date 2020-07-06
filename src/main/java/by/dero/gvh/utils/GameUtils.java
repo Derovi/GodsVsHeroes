@@ -7,18 +7,17 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import com.google.common.base.Predicate;
-import net.minecraft.server.v1_12_R1.EntityArmorStand;
-import net.minecraft.server.v1_12_R1.EntityLiving;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import net.minecraft.server.v1_12_R1.EntityPotion;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.Potion;
@@ -33,6 +32,19 @@ public class GameUtils {
     public static final double eyeHeight = 1.7775;
 
     public static HashMap<Character, Byte> codeToData = null;
+    public static Sound[] notes = new Sound[] {
+            Sound.BLOCK_NOTE_BASEDRUM,
+            Sound.BLOCK_NOTE_BASS,
+            Sound.BLOCK_NOTE_BELL,
+            Sound.BLOCK_NOTE_CHIME,
+            Sound.BLOCK_NOTE_FLUTE,
+            Sound.BLOCK_NOTE_GUITAR,
+            Sound.BLOCK_NOTE_HARP,
+            Sound.BLOCK_NOTE_HAT,
+            Sound.BLOCK_NOTE_PLING,
+            Sound.BLOCK_NOTE_SNARE,
+            Sound.BLOCK_NOTE_XYLOPHONE,
+    };
 
     public GameUtils () {
         if (codeToData == null) {

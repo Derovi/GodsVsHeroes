@@ -2,6 +2,7 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.ChargesManager;
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
@@ -19,6 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -125,7 +127,12 @@ public class GameEvents implements Listener {
         }
 
         if (event.getEntity() instanceof Arrow) {
-            event.getEntity().remove();
+            new BukkitRunnable() {
+                @Override
+                public void run () {
+                    event.getEntity().remove();
+                }
+            }.runTaskLater(Plugin.getInstance(), 60);
         }
     }
 
@@ -178,17 +185,25 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
+        Entity ent = event.getDamager();
+        if (ent instanceof Firework) {
+            event.setCancelled(true);
+            return;
+        }
+        if (ent instanceof Projectile) {
+            ent = (Entity) ((Projectile) ent).getShooter();
+        }
         if (!(event.getEntity() instanceof LivingEntity) ||
-                !(event.getDamager() instanceof LivingEntity) ||
+                !(ent instanceof LivingEntity) ||
                 event.getFinalDamage() == 0) {
             return;
         }
         LivingEntity entity = (LivingEntity) event.getEntity();
-        LivingEntity damager = (LivingEntity) event.getDamager();
+        LivingEntity damager = (LivingEntity) ent;
         if (!(damager instanceof Player)) {
             damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
         }
-        if (GameUtils.isEnemy(entity, event.getDamager())) {
+        if (GameUtils.isEnemy(entity, damager)) {
             game.getStats().addDamage(entity, damager, event.getDamage());
             damageCause.put(entity, damager);
         } else {

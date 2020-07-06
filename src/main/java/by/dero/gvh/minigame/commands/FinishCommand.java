@@ -16,14 +16,18 @@ public class FinishCommand implements PluginCommand {
             sender.sendMessage("§cCan't finish game, not prepared yet!");
             return;
         }
+        boolean needFireworks = true;
         int winnerTeam;
         try {
             winnerTeam = Integer.parseInt(arguments[0]);
+            if (arguments.length == 2) {
+                needFireworks = Boolean.parseBoolean(arguments[1]);
+            }
         } catch (Exception ex) {
             sender.sendMessage("§cInvalid arguments!");
             return;
         }
-        Minigame.getInstance().getGame().finish(winnerTeam);
+        Minigame.getInstance().getGame().finish(winnerTeam, needFireworks);
     }
 
     @Override

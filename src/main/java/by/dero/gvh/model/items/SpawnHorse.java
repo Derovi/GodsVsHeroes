@@ -32,7 +32,7 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInter
         horse.setOwner(owner);
         horse.addPassenger(owner);
 
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 16, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_HORSE_ARMOR, 24, 1);
         summonedEntityIds.add(horse.getUniqueId());
     }
 

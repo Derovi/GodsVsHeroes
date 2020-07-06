@@ -8,6 +8,7 @@ import by.dero.gvh.model.itemsinfo.WebThrowInfo;
 import by.dero.gvh.nmcapi.SmartFallingBlock;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -37,6 +38,7 @@ public class WebThrow extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
         Player player = event.getPlayer();
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 24, 1);
         SmartFallingBlock smartFallingBlock = new SmartFallingBlock(player.getLocation().add(0,1,0), Material.WEB);
         smartFallingBlock.setVelocity(player.getLocation().getDirection().multiply(force));
         smartFallingBlock.spawn();
@@ -46,11 +48,13 @@ public class WebThrow extends Item implements PlayerInteractInterface {
             smartFallingBlock.dieLater(100);
             smartFallingBlock.setNoGravity(true);
             smartFallingBlock.setVelocity(new Vector(0,0,0));
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_HOSTILE_DEATH, 24, 1);
         });
         smartFallingBlock.setOnHitEntity((Entity entity) -> {
             if (!(entity instanceof LivingEntity)) {
                 return;
             }
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_HOSTILE_DEATH, 24, 1);
             //smartFallingBlock.setHoldEntity(entity);
             smartFallingBlock.setNoGravity(true);
             smartFallingBlock.setVelocity(new Vector(0,0,0));

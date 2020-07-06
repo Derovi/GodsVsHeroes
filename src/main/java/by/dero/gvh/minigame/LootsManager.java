@@ -7,6 +7,7 @@ import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.GameUtils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -100,7 +101,8 @@ public class LootsManager implements Listener {
         if (!effects.containsKey(name)) {
             return false;
         }
-        entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 16, 1);
+        entity.getWorld().playEffect(entity.getLocation(), Effect.ENDER_SIGNAL, null);
+        entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 24, 1);
         entity.addPotionEffect(effects.get(name), true);
         return true;
     }

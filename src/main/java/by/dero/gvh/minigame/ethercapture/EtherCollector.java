@@ -3,12 +3,15 @@ package by.dero.gvh.minigame.ethercapture;
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.minigame.RewardManager;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.nmcapi.MovingCrystal;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.IntPosition;
 import org.apache.commons.lang3.tuple.Pair;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -23,6 +26,7 @@ import static by.dero.gvh.minigame.ethercapture.CollectorStructure.getChanging;
 import static by.dero.gvh.minigame.ethercapture.CollectorStructure.getStages;
 
 public class EtherCollector {
+    private int number;
     private Location location;
     private MovingCrystal crystal;
     private FlyingText captureIndicator;
@@ -34,8 +38,9 @@ public class EtherCollector {
     private final int etherDelay;
     private final int etherMineValue;
 
-    public EtherCollector(IntPosition pos) {
+    public EtherCollector(IntPosition pos, int number) {
         setPosition(pos);
+        this.number = number;
         EtherCaptureInfo info = EtherCapture.getInstance().getEtherCaptureInfo();
         etherDelay = info.getEtherMineDelay();
         etherMineValue = info.getEtherForCollector();
@@ -83,6 +88,10 @@ public class EtherCollector {
                 }
                 updateBlock(teamcode);
                 captureStatus++;
+                if (captureStatus == getStages().size() * 5) {
+                    onCapture(offenders);
+                    break;
+                }
             } else {
                 captureStatus--;
                 updateBlock('f');
@@ -90,8 +99,11 @@ public class EtherCollector {
         }
         String indText = Lang.get(("commands." + (char)('1' + owner))).substring(0, 2) + "||||||||||||||||||";
         int idx = captureStatus / 10;
-        indText = indText.substring(0, idx) + "§f" + indText.substring(idx);
-        captureIndicator.setText(indText);
+        String capture = indText.substring(0, idx+2);
+        if (idx != indText.length() - 2) {
+            capture += "§f" + indText.substring(idx+2);
+        }
+        captureIndicator.setText(capture);
     }
 
     private void updateBlock(char teamcode) {
@@ -99,7 +111,7 @@ public class EtherCollector {
             Pair<Material, Vector> block = getStages().get(captureStatus / 5);
             Location wh = block.getValue().toLocation(location.world).add(location);
             GameUtils.changeColor(wh, teamcode);
-            location.getWorld().playSound(wh, Sound.BLOCK_STONE_BREAK, 16, 1);
+            location.getWorld().playSound(wh, Sound.BLOCK_STONE_BREAK, 24, 1);
             if (captureStatus % 30 == 29) {
                 Location at = getChanging().get(captureStatus / 30).getValue().
                         toLocation(location.world).add(location);
@@ -109,13 +121,24 @@ public class EtherCollector {
     }
 
     public void load() {
-        crystal = new MovingCrystal(location.clone().add(0, 3, 0));
+        crystal = new MovingCrystal(location.clone().add(0, 2, 0));
         crystal.setMaxHeight(maxHeight);
         crystal.spawn();
 
-        captureIndicator = new FlyingText(location.clone().add(0, 3, 0), "||||||||||||||||||");
+        captureIndicator = new FlyingText(location.clone().add(-0.5, 3.5, 0.5), "||||||||||||||||||");
         CollectorStructure.build(location);
         etherAdd.runTaskTimer(Plugin.getInstance(), 2, 1);
+    }
+
+    public void onCapture(List<GamePlayer> offenders) {
+        RewardManager manager = Game.getInstance().getRewardManager();
+        for (GamePlayer gp : offenders) {
+            manager.give("collectorCaptured", gp.getPlayer(), manager.getMessage("collectorCaptured"));
+        }
+        Bukkit.getServer().broadcastMessage(Lang.get("game.collectorCaptureInform").
+                replace("%num%", "" + number).
+                replace("%com%", Lang.get("commands." + (char)('1' + owner))));
+        Minigame.getInstance().getWorld().playSound(location, Sound.ENTITY_ENDERDRAGON_GROWL, 100, 1);
     }
 
     public void unload() {
