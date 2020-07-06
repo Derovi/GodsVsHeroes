@@ -9,7 +9,7 @@
       "material": "STONE_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
-      "amount": 3
+      "amount": 1
     },
     {
       "cooldown": 90,
@@ -18,7 +18,7 @@
       "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
-      "amount": 3
+      "amount": 1
     },
     {
       "cooldown": 90,
@@ -27,7 +27,7 @@
       "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
-      "amount": 3
+      "amount": 1
     },
     {
       "cooldown": 80,
@@ -36,7 +36,7 @@
       "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
-      "amount": 3
+      "amount": 1
     },
     {
       "cooldown": 100,
@@ -45,7 +45,7 @@
       "material": "DIAMOND_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
-      "amount": 4
+      "amount": 1
     }
   ]
 }
