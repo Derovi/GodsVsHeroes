@@ -9,7 +9,7 @@ public class ThrowingSword extends ThrowingItem {
     public ThrowingSword(Player player, Material material) {
         super(player.getLocation(), material);
         setOwner(player);
-        setItemLength(0.7);
+        setItemLength(0.8);
         setPhysicsSpin(true);
         setRightArmPose(new Vector3f(player.getLocation().getPitch(),11, 0));
         setLiveTimeAfterStop(120);
