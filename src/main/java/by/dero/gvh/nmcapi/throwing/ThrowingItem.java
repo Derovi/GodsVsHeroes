@@ -3,9 +3,8 @@ package by.dero.gvh.nmcapi.throwing;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
-import net.minecraft.server.v1_12_R1.EntityArmorStand;
-import net.minecraft.server.v1_12_R1.EnumMoveType;
-import net.minecraft.server.v1_12_R1.Vector3f;
+import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -191,12 +190,23 @@ public class ThrowingItem extends EntityArmorStand {
         }
     }
 
+    private boolean isDeadPlayer(Entity entity) {
+        System.out.println("Is dead player");
+        if (entity instanceof EntityPlayer) {
+            System.out.println("Entity player");
+            EntityPlayer player = (EntityPlayer) entity;
+            System.out.println("gamemode " + GameMode.getByValue(player.playerInteractManager.getGameMode().getId()));
+            System.out.println("gamemode " + GameMode.getByValue(player.playerInteractManager.getGameMode().getId()).equals(GameMode.SPECTATOR));
+            return GameMode.getByValue(player.playerInteractManager.getGameMode().getId()).equals(GameMode.SPECTATOR);
+        }
+        return false;
+    }
+
     @Override
     public void move(EnumMoveType moveType, double x, double y, double z) {
         if (isStopped()) {
-            Location itmLocation = getItemPosition().toLocation(armorStand.getWorld());
             if (holdEntity != null) {
-                if (holdEntity.isDead()) {
+                if (holdEntity.isDead() || isDeadPlayer(holdEntity)) {
                     holdEntity = null;
                 } else {
                     locX = holdEntity.getLocation().getX() + xDelta;
@@ -248,6 +258,7 @@ public class ThrowingItem extends EntityArmorStand {
         int stepCount = (int) (length / step) + 1;
 
         int step;
+        boolean stopSteps = false;
         for (step = 0; step < stepCount; ++ step) {
             locX += x / stepCount;
             locY += y / stepCount;
@@ -281,6 +292,10 @@ public class ThrowingItem extends EntityArmorStand {
                 if (onHitEntity != null) {
                     onHitEntity.run();
                 }
+                stopSteps = true;
+                break;
+            }
+            if (stopSteps) {
                 break;
             }
         }
