@@ -6,6 +6,7 @@ import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.DragonEggInfo;
 import by.dero.gvh.nmcapi.ChickenAvatar;
 import by.dero.gvh.nmcapi.DragonEggEntity;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -23,6 +24,7 @@ public class DragonEgg extends Item implements DoubleSpaceInterface {
     @Override
     public void onDoubleSpace() {
         if (!cooldown.isReady()) {
+            GameUtils.doubleSpaceCooldownMessage(this);
             return;
         }
         cooldown.reload();
