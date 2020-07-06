@@ -39,6 +39,7 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
         final ThrowingSword sword = new ThrowingSword(owner, material);
 
         final int slot = owner.getInventory().getHeldItemSlot();
+        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  24, 1);
         sword.spawn();
         sword.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(sword.getHoldEntity(), getTeam())) {

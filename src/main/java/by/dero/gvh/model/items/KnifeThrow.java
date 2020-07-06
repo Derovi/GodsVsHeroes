@@ -30,6 +30,7 @@ public class KnifeThrow extends Item implements PlayerInteractInterface, Infinit
     public void onPlayerInteract(PlayerInteractEvent event) {
         final int slot = owner.getInventory().getHeldItemSlot();
         final ThrowingKnife knife = new ThrowingKnife(owner, info.getMaterial());
+        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  24, 1);
         knife.spawn();
         knife.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(knife.getHoldEntity(), getTeam())) {
