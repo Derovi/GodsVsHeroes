@@ -3,14 +3,13 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
-import by.dero.gvh.model.interfaces.UltimateInterface;
 import by.dero.gvh.model.itemsinfo.SkeletonArmyInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.PathfinderAttackEnemies;
 import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftSkeleton;
@@ -19,7 +18,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class SkeletonArmy extends Item implements PlayerInteractInterface, UltimateInterface {
+public class SkeletonArmy extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final int melee;
     private final int range;
 
@@ -28,11 +27,6 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Ultim
         SkeletonArmyInfo info = (SkeletonArmyInfo) getInfo();
         melee = info.getMelee();
         range = info.getRange();
-    }
-
-    @Override
-    public void drawSign(Location loc) {
-
     }
 
     private void initAttributes(CraftSkeleton monster, boolean isMelee) {

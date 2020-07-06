@@ -88,6 +88,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
     @Override
     protected void onPlayerRespawned(final GamePlayer gp) {
+        super.onPlayerRespawned(gp);
         respawning[gp.getTeam()]--;
     }
 

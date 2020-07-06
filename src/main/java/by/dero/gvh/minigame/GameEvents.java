@@ -5,7 +5,6 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,7 +18,6 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -85,7 +83,6 @@ public class GameEvents implements Listener {
         }
 
         Item itemInHand = gamePlayer.getSelectedItem();
-        Player player = event.getPlayer();
         if (itemInHand == null) {
             return;
         }
@@ -100,20 +97,12 @@ public class GameEvents implements Listener {
         }
         gamePlayer.setLastUsed(itemInHand);
         if (itemInHand instanceof PlayerInteractInterface) {
-            if (itemInHand instanceof UltimateInterface) {
-                if (itemInHand.getCooldown().isReady()) {
-                    ItemStack item = player.getInventory().getItemInMainHand();
-                    item.setAmount(item.getAmount()-1);
-                    ((UltimateInterface) itemInHand).onPlayerInteract(event);
+            if (itemInHand instanceof InfiniteReplenishInterface) {
+                if (!itemInHand.getCooldown().isReady() || !gamePlayer.consume(itemInHand)) {
+                    return;
                 }
-            } else {
-                if (itemInHand instanceof InfiniteReplenishInterface) {
-                    if (!itemInHand.getCooldown().isReady() || !gamePlayer.consume(itemInHand)) {
-                        return;
-                    }
-                }
-                ((PlayerInteractInterface) itemInHand).onPlayerInteract(event);
             }
+            ((PlayerInteractInterface) itemInHand).onPlayerInteract(event);
         }
     }
 

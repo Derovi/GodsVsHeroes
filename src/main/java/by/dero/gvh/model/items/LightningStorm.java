@@ -4,7 +4,8 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.UltimateInterface;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.LightningStormInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
@@ -15,7 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class LightningStorm extends Item implements UltimateInterface {
+public class LightningStorm extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
     private final int strikes;
     private final double[] signRadius;
@@ -32,7 +33,6 @@ public class LightningStorm extends Item implements UltimateInterface {
         drawParticle = info.getDrawParticle();
     }
 
-    @Override
     public void drawSign(final Location loc) {
         new BukkitRunnable() {
             long passed;

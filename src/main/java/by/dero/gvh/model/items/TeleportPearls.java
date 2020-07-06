@@ -33,6 +33,7 @@ public class TeleportPearls extends Item implements PlayerInteractInterface,
 	public void onProjectileHit (ProjectileHitEvent event) {
 		Location loc = event.getEntity().getLocation();
 		owner.getWorld().playSound(loc, Sound.ENTITY_ENDERMEN_TELEPORT, 24, 1);
+		GameUtils.damage(6, owner, owner);
 		owner.teleport(loc);
 		int parts = 4;
 		for (double angle = 0; angle < MathUtils.PI2; angle += MathUtils.PI2 / parts) {

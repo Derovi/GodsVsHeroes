@@ -5,13 +5,11 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.interfaces.InteractAnyItem;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.UltimateInterface;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.itemsinfo.DragonFlyInfo;
 import by.dero.gvh.nmcapi.dragon.ControlledDragon;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
@@ -19,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DragonFly extends Item implements PlayerInteractInterface, InteractAnyItem {
+public class DragonFly extends Item implements PlayerInteractInterface, InteractAnyItem, InfiniteReplenishInterface {
     private final DragonFlyInfo info;
     private final Cooldown fireballCooldown;
     private ControlledDragon dragon;
