@@ -29,6 +29,7 @@ public class EntityOnKill extends Item implements PlayerKillInterface {
 		zombie.targetSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
 		zombie.goalSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
 
+		zombie.fireProof = true;
 		zombie.goalSelector.a(0, new PathfinderGoalFloat(zombie));
 		zombie.goalSelector.a(2, new PathfinderGoalZombieAttack(zombie, 1.0D, false));
 		zombie.goalSelector.a(5, new PathfinderGoalMoveTowardsRestriction(zombie, 1.0D));

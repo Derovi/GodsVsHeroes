@@ -77,7 +77,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         for (int i = 0; i < getInfo().getTeamCount(); ++i) {
             final int team = idxs.get(i);
             final String com = Lang.get("commands." + (char)('1' + team));
-            str[team] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
+            str[i] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
                     .replace("%com%", com)
                     .replace("%pts%", currentEtherCount[team] +
                             " (" + (int) ((double) currentEtherCount[team] / etherCaptureInfo.getEtherToWin() * 100) + "%)");

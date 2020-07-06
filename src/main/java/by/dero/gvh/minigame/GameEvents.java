@@ -203,7 +203,7 @@ public class GameEvents implements Listener {
         if (!(damager instanceof Player)) {
             damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
         }
-        if (GameUtils.isEnemy(entity, event.getDamager())) {
+        if (GameUtils.isEnemy(entity, damager)) {
             game.getStats().addDamage(entity, damager, event.getDamage());
             damageCause.put(entity, damager);
         } else {
