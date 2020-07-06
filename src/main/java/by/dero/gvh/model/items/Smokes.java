@@ -38,7 +38,7 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 	public void onPlayerInteract (PlayerInteractEvent event) {
 		final Projectile proj = GameUtils.spawnProjectile(event.getPlayer().getEyeLocation(),
 				1.2, EntityType.SNOWBALL, event.getPlayer());
-		owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 24, 1);
+		owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.7f, 1);
 		summonedEntityIds.add(proj.getUniqueId());
 	}
 
@@ -56,7 +56,7 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 					}
 				}
 				if (time % 60 == 0) {
-					loc.getWorld().playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 16, 1);
+					loc.getWorld().playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 1.7f, 1);
 				}
 				time += 2;
 				if (time > duration) {

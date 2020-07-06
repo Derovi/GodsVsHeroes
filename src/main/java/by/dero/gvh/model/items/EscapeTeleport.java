@@ -36,8 +36,8 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
             return;
         }
         cooldown.reload();
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 24, 1);
-        loc.getWorld().playSound(loc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 1.7f, 1);
+        loc.getWorld().playSound(loc, Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 1.7f, 1);
         Drawings.drawCphere(owner.getLocation().clone(), 1.5, Particle.SMOKE_LARGE);
         PlayerUtils.jumpDown(owner, 15);
         owner.setInvulnerable(true);

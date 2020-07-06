@@ -17,7 +17,7 @@ public class TestCommand implements CommandExecutor {
             Player p = (Player) commandSender;
             Sound sound = Sound.values()[Integer.parseInt(strings[0])];
             Bukkit.getServer().broadcastMessage(sound.toString());
-            p.getWorld().playSound(p.getLocation(), sound, 24, 1);
+            p.getWorld().playSound(p.getLocation(), sound, 1.7f, 1);
         } catch (NumberFormatException ignored) {
 
         }

@@ -53,7 +53,7 @@ public class HealPotion extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.7f, 1);
         summonedEntityIds.add(GameUtils.spawnSplashPotion(owner.getEyeLocation(), 1,
                 PotionType.INSTANT_HEAL, owner).getUniqueId());
     }

@@ -36,7 +36,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
 
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 1.7f, 1);
         Drawings.drawCircleInFront(player.getEyeLocation(), 2, 3, 20, Particle.END_ROD);
         final LivingEntity entity = GameUtils.getTargetEntity(player, 100);
         if (!GameUtils.isEnemy(entity, getTeam())) {
@@ -55,7 +55,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
                 Objects.requireNonNull(next.getEyeLocation().getWorld()).spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
                 hit.add(next.getUniqueId());
 
-                next.getWorld().playSound(next.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 24, 1);
+                next.getWorld().playSound(next.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 1.7f, 1);
                 GameUtils.damage(damage, next, owner);
                 cur = next;
                 next = null;

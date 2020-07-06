@@ -34,7 +34,7 @@ public class FireSplash extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.7f, 1);
         final Location[] locs = Drawings.drawSector(player.getEyeLocation(), 0,
                 radius, Math.PI / 2, Particle.FLAME);
         stroke.clear();

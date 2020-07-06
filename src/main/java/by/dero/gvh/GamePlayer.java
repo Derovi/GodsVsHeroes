@@ -108,18 +108,17 @@ public class GamePlayer implements GameObject {
     public boolean consume(final Item item) {
         Player player = getPlayer();
 
-        HashMap<String, Integer> localCharges = charges;
-
-        int cur = localCharges.get(item.getName());
+        int cur = charges.get(item.getName());
         if (cur <= 0) {
             return false;
         }
 
-        int slot = player.getInventory().getHeldItemSlot();
-        itemsSlots.put(item, slot);
-
-        localCharges.put(item.getName(), cur - 1);
-        updateSlot(item, slot);
+        charges.put(item.getName(), cur - 1);
+        if (!item.getDescription().isInvisible()) {
+            int slot = player.getInventory().getHeldItemSlot();
+            itemsSlots.put(item, slot);
+            updateSlot(item, slot);
+        }
         replenish(item);
         return true;
     }
@@ -159,26 +158,6 @@ public class GamePlayer implements GameObject {
         Game.getInstance().getRunnables().add(runnable);
     }
 
-    public boolean addItem(final Item item, final int slot) {
-        Player player = getPlayer();
-
-        int cur = charges.get(item.getName());
-
-        if (!GameUtils.isInGame(player) || cur >= item.getInfo().getAmount()) {
-            return false;
-        } else {
-            charges.put(item.getName(), cur + 1);
-            if (!item.getDescription().isInvisible()) {
-                updateSlot(item, slot);
-            }
-        }
-        return true;
-    }
-
-    public int getCharges(final Item item) {
-        return charges.get(item.getName());
-    }
-
     private void updateSlot(Item item, int slot) {
         if (isInventoryHided()) {
             return;
@@ -190,11 +169,11 @@ public class GamePlayer implements GameObject {
         PlayerInventory inv = player.getInventory();
         if (need == 0) {
             inv.setItem(slot, Item.getPane(item.getInfo().getDisplayName()));
-        } else if (inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
-            inv.setItem(slot, item.getItemStack());
-            inv.getItem(slot).setAmount(need);
-        } else if (inv.getItem(slot).getAmount() != need) {
-            inv.getItem(slot).setAmount(need);
+        } else if (inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE) ||
+                inv.getItem(slot).getAmount() != need) {
+            ItemStack zxc = item.getItemStack();
+            zxc.setAmount(need);
+            inv.setItem(slot, zxc);
         }
     }
 
@@ -210,17 +189,13 @@ public class GamePlayer implements GameObject {
             int need = charges.get(obj.getKey().getName());
             if (need == 0) {
                 inv.setItem(slot, Item.getPane(obj.getKey().getInfo().getDisplayName()));
-            } else if (inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
-                inv.setItem(slot, obj.getKey().getItemStack());
-                inv.getItem(slot).setAmount(need);
-            } else if (inv.getItem(slot).getAmount() != need) {
-                inv.getItem(slot).setAmount(need);
+            } else if (inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE) ||
+                        inv.getItem(slot).getAmount() != need) {
+                ItemStack zxc = obj.getKey().getItemStack();
+                zxc.setAmount(need);
+                inv.setItem(slot, zxc);
             }
         }
-    }
-
-    public void onDie() {
-
     }
 
     public boolean isInventoryHided() {

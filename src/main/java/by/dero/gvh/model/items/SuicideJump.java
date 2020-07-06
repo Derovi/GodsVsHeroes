@@ -50,7 +50,7 @@ public class SuicideJump extends Item implements PlayerInteractInterface {
                 final Location at = MathUtils.randomCylinder(loc,radius - 1, -2);
                 loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, at, 0, 0, 0, 0);
 
-                at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 24, 1);
+                at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 1.7f, 1);
             }
             for (int i = 0; i < 20; i++) {
                 final Location at = MathUtils.randomCylinder(loc, radius, -2);

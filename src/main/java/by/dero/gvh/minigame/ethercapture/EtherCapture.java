@@ -89,7 +89,9 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    protected void onPlayerRespawned(GamePlayer gp) {}
+    protected void onPlayerRespawned(GamePlayer gp) {
+        super.onPlayerRespawned(gp);
+    }
 
     @Override
     public void start() {

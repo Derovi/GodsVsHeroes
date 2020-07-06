@@ -72,7 +72,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
                         getLocation().distance(loc) < radius) {
                     pig.die();
                     pig.world.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
-                    owner.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 24, 1);
+                    owner.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1.7f, 1);
                     for (LivingEntity entity : GameUtils.getNearby(loc, radius)) {
                         if (GameUtils.isEnemy(entity, getTeam())) {
                             GameUtils.damage(damage, entity, owner);
