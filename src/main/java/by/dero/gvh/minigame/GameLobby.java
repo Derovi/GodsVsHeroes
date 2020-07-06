@@ -7,13 +7,15 @@ import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.MessagingUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameLobby {
     private final Game game;
-    private int timeLeft = 60;
+    private int timeLeft = 61;
     private BukkitRunnable prepairing;
 
     public GameLobby(Game game) {
@@ -40,7 +42,7 @@ public class GameLobby {
     }
 
     public void startGame() {
-        timeLeft = 60;
+        timeLeft = 61;
         if (prepairing != null) {
             prepairing.cancel();
         }
@@ -59,21 +61,24 @@ public class GameLobby {
             public void run() {
                 if (!ready) {
                     this.cancel();
-                    timeLeft = 60;
+                    timeLeft = 61;
                     updateDisplays();
                     return;
                 }
                 if (timeLeft <= 10) {
+                    World world = Minigame.getInstance().getWorld();
+                    world.playSound(game.getInfo().getLobbyPosition().toLocation(world),
+                           Sound.BLOCK_NOTE_PLING, 100, 1);
                     for (final Player player : Bukkit.getOnlinePlayers()) {
                         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(timeLeft);
                         player.setHealth(timeLeft);
                     }
                 }
-                updateDisplays();
+                timeLeft--;
                 if (ArrayUtils.indexOf(showTime, timeLeft) != -1) {
                     MessagingUtils.sendTitle("§a" + timeLeft, game.getPlayers().values());
                 }
-                timeLeft--;
+                updateDisplays();
 
                 if (timeLeft == 0) {
                     this.cancel();

@@ -137,7 +137,7 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
-    public void onPlayerSneak(PlayerMoveEvent event) {
+    public void onPlayerSneak(PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
         if (!player.isSneaking()) {
             return;
@@ -185,13 +185,21 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
+        Entity ent = event.getDamager();
+        if (ent instanceof Firework) {
+            event.setCancelled(true);
+            return;
+        }
+        if (ent instanceof Projectile) {
+            ent = (Entity) ((Projectile) ent).getShooter();
+        }
         if (!(event.getEntity() instanceof LivingEntity) ||
-                !(event.getDamager() instanceof LivingEntity) ||
+                !(ent instanceof LivingEntity) ||
                 event.getFinalDamage() == 0) {
             return;
         }
         LivingEntity entity = (LivingEntity) event.getEntity();
-        LivingEntity damager = (LivingEntity) event.getDamager();
+        LivingEntity damager = (LivingEntity) ent;
         if (!(damager instanceof Player)) {
             damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
         }

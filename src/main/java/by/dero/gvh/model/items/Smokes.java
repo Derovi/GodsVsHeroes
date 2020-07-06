@@ -55,10 +55,10 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 						ent.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration - time, 4), true);
 					}
 				}
-				time += 2;
-				if (time % 10 == 0) {
+				if (time % 60 == 0) {
 					loc.getWorld().playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 16, 1);
 				}
+				time += 2;
 				if (time > duration) {
 					this.cancel();
 				}
@@ -73,13 +73,9 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 			public void run () {
 				for (int i = 0; i < 3; i++) {
 					Location at = MathUtils.randomCylinder(loc, radius, -2);
-					at.getWorld().spawnParticle(Particle.SMOKE_LARGE, at, 0, 0, 0.5, 0);
-					at.getWorld().playSound(at, Sound.BLOCK_FIRE_EXTINGUISH, 16, 1);
+					at.getWorld().spawnParticle(Particle.SMOKE_LARGE, at, 0, 0, 0.1, 0);
 				}
 				time++;
-				if (time % 5 == 0) {
-					loc.getWorld().playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 16, 1);
-				}
 				if (time > duration) {
 					this.cancel();
 				}

@@ -132,7 +132,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             if (currentEtherCount[team] >= etherCaptureInfo.getEtherToWin()) {
                 int finalTeam = team;
                 World world = Minigame.getInstance().getWorld();
-                world.playSound(collectorsManager.getCollectors().get(0).getPosition().toLocation(world).add(0, 30, 0),
+                world.playSound(getInfo().getLobbyPosition().toLocation(world).add(0, 30, 0),
                         Sound.ENTITY_ENDERDRAGON_DEATH, 300, 1);
                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> finish(finalTeam), 100);
                 return;
