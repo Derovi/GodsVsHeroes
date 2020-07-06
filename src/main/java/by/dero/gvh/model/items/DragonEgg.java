@@ -30,7 +30,6 @@ public class DragonEgg extends Item implements DoubleSpaceInterface {
         // TODO add sound
         // TODO add status bar
         egg.spawn();
-        System.out.println("Info " + info.getDuration());
         new BukkitRunnable() {
             @Override
             public void run() {

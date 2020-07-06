@@ -119,6 +119,49 @@ public class GameUtils {
         return true;
     }
 
+    public static boolean isVoid(Material material) {
+        switch (material) {
+            case AIR:
+            case SAPLING:
+            case POWERED_RAIL:
+            case DETECTOR_RAIL:
+            case LONG_GRASS:
+            case DEAD_BUSH:
+            case YELLOW_FLOWER:
+            case RED_ROSE:
+            case BROWN_MUSHROOM:
+            case RED_MUSHROOM:
+            case TORCH:
+            case FIRE:
+            case REDSTONE_WIRE:
+            case CROPS:
+            case LADDER:
+            case RAILS:
+            case LEVER:
+            case REDSTONE_TORCH_OFF:
+            case REDSTONE_TORCH_ON:
+            case STONE_BUTTON:
+            case SNOW:
+            case SUGAR_CANE_BLOCK:
+            case WATER_LILY:
+            case TRIPWIRE:
+            case FLOWER_POT:
+            case CARROT:
+            case POTATO:
+            case WOOD_BUTTON:
+            case ACTIVATOR_RAIL:
+            case CARPET:
+            case DOUBLE_PLANT:
+            case END_ROD:
+            case CHORUS_PLANT:
+            case CHORUS_FLOWER:
+            case BEETROOT_BLOCK:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     public static void doubleSpaceCooldownMessage(Item item) {
         GamePlayer player = GameUtils.getPlayer(item.getOwner().getName());
         if (!player.isActionBarBlocked()) {

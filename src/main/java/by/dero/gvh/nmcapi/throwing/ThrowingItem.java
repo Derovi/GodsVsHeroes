@@ -150,49 +150,6 @@ public class ThrowingItem extends EntityArmorStand {
         this.itemLength = itemLength;
     }
 
-    public boolean isVoid(Material material) {
-        switch (material) {
-            case AIR:
-            case SAPLING:
-            case POWERED_RAIL:
-            case DETECTOR_RAIL:
-            case LONG_GRASS:
-            case DEAD_BUSH:
-            case YELLOW_FLOWER:
-            case RED_ROSE:
-            case BROWN_MUSHROOM:
-            case RED_MUSHROOM:
-            case TORCH:
-            case FIRE:
-            case REDSTONE_WIRE:
-            case CROPS:
-            case LADDER:
-            case RAILS:
-            case LEVER:
-            case REDSTONE_TORCH_OFF:
-            case REDSTONE_TORCH_ON:
-            case STONE_BUTTON:
-            case SNOW:
-            case SUGAR_CANE_BLOCK:
-            case WATER_LILY:
-            case TRIPWIRE:
-            case FLOWER_POT:
-            case CARROT:
-            case POTATO:
-            case WOOD_BUTTON:
-            case ACTIVATOR_RAIL:
-            case CARPET:
-            case DOUBLE_PLANT:
-            case END_ROD:
-            case CHORUS_PLANT:
-            case CHORUS_FLOWER:
-            case BEETROOT_BLOCK:
-                return true;
-            default:
-                return false;
-        }
-    }
-
     @Override
     public void move(EnumMoveType moveType, double x, double y, double z) {
         if (isStopped()) {
@@ -207,7 +164,7 @@ public class ThrowingItem extends EntityArmorStand {
             }
             if (holdEntity == null) {
                 Location itemLocation = getItemPosition().toLocation(armorStand.getWorld());
-                if (isVoid(armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType())) {
+                if (GameUtils.isVoid(armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType())) {
                     locY -= 0.1;
                 }
             }
@@ -260,7 +217,7 @@ public class ThrowingItem extends EntityArmorStand {
                 stop();
                 break;
             }
-            if (!isVoid(armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType())) {
+            if (!GameUtils.isVoid(armorStand.getLocation().getWorld().getBlockAt(itemLocation).getType())) {
                 stop();
                 if (onHitBlock != null) {
                     onHitBlock.run();

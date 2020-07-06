@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DragonFly extends Item implements PlayerInteractInterface, UltimateInterface {
+public class DragonFly extends Item implements PlayerInteractInterface {
     private final DragonFlyInfo info;
 
     public DragonFly(String name, int level, Player owner) {
@@ -48,8 +48,4 @@ public class DragonFly extends Item implements PlayerInteractInterface, Ultimate
         return result;
     }
 
-    @Override
-    public void drawSign (Location loc) {
-
-    }
 }
