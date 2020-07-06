@@ -11,6 +11,8 @@ import org.bukkit.Particle;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -191,13 +193,9 @@ public class ThrowingItem extends EntityArmorStand {
     }
 
     private boolean isDeadPlayer(Entity entity) {
-        System.out.println("Is dead player");
-        if (entity instanceof EntityPlayer) {
-            System.out.println("Entity player");
-            EntityPlayer player = (EntityPlayer) entity;
-            System.out.println("gamemode " + GameMode.getByValue(player.playerInteractManager.getGameMode().getId()));
-            System.out.println("gamemode " + GameMode.getByValue(player.playerInteractManager.getGameMode().getId()).equals(GameMode.SPECTATOR));
-            return GameMode.getByValue(player.playerInteractManager.getGameMode().getId()).equals(GameMode.SPECTATOR);
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
+            return player.getGameMode().equals(GameMode.SPECTATOR);
         }
         return false;
     }

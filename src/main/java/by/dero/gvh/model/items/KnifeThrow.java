@@ -44,7 +44,7 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
             @Override
             public void run() {
                 Location at = knife.getItemPosition().toLocation(owner.getWorld());
-                owner.spawnParticle(Particle.CRIT, at, 1);
+                owner.spawnParticle(Particle.CRIT_MAGIC, at, 1);
             }
         });
     }
