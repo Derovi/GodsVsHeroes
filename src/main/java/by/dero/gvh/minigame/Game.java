@@ -84,7 +84,8 @@ public abstract class Game implements Listener {
             @Override
             public void run() {
                 for (GamePlayer player : getPlayers().values()) {
-                    if (player.getPlayer().getGameMode() == GameMode.SPECTATOR) {
+                    if (player.getPlayer().getGameMode() == GameMode.SPECTATOR ||
+                        player.isActionBarBlocked()) {
                         continue;
                     }
                     Item item = player.getSelectedItem();

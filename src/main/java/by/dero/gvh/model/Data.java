@@ -81,6 +81,7 @@ public class Data {
         registerItem("smokes", SmokesInfo.class, Smokes.class);
         registerItem("dragonfly", DragonFlyInfo.class, DragonFly.class);
         registerItem("thorbow", ItemInfo.class, ThorBow.class);
+        registerItem("knifethrow", KnifeThrowInfo.class, KnifeThrow.class);
     }
 
     private void registerClasses() {

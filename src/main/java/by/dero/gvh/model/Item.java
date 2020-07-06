@@ -94,4 +94,12 @@ public class Item {
         }
         return team;
     }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public int getLevel() {
+        return level;
+    }
 }
