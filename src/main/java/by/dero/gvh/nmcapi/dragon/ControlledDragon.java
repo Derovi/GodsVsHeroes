@@ -1,5 +1,6 @@
 package by.dero.gvh.nmcapi.dragon;
 
+import by.dero.gvh.model.interfaces.InteractAnyItem;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
@@ -98,5 +99,21 @@ public class ControlledDragon {
 
     public void setSpeed(double speed) {
         this.speed = speed;
+    }
+
+    public DragonBase getDragonBase() {
+        return dragonBase;
+    }
+
+    public RotatingDragon getDragon() {
+        return dragon;
+    }
+
+    public EmptyArmorStand getEmpty1() {
+        return empty1;
+    }
+
+    public EmptyArmorStand getEmpty2() {
+        return empty2;
     }
 }

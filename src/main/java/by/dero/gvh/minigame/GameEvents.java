@@ -74,6 +74,17 @@ public class GameEvents implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
+
+        for (Item item : gamePlayer.getItems().values()) {
+            if (item instanceof InteractAnyItem) {
+                InteractAnyItem in = (InteractAnyItem) item;
+                if (in.playerInteract()) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+        }
+
         Item itemInHand = gamePlayer.getSelectedItem();
         Player player = event.getPlayer();
         if (itemInHand == null) {

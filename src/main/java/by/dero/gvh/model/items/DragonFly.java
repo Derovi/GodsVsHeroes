@@ -1,6 +1,8 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.interfaces.InteractAnyItem;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.UltimateInterface;
@@ -9,17 +11,23 @@ import by.dero.gvh.nmcapi.dragon.ControlledDragon;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.EnderDragon;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DragonFly extends Item implements PlayerInteractInterface {
+public class DragonFly extends Item implements PlayerInteractInterface, InteractAnyItem {
     private final DragonFlyInfo info;
+    private final Cooldown fireballCooldown;
+    private ControlledDragon dragon;
 
     public DragonFly(String name, int level, Player owner) {
         super(name, level, owner);
         info = (DragonFlyInfo) getInfo();
+        fireballCooldown = new Cooldown(info.getFireballCoolDown());
     }
 
     @Override
@@ -29,7 +37,7 @@ public class DragonFly extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 1);
-        ControlledDragon dragon = new ControlledDragon(owner);
+        dragon = new ControlledDragon(owner);
         dragon.setSpeed(info.getSpeed());
         new BukkitRunnable() {
             @Override
@@ -48,4 +56,17 @@ public class DragonFly extends Item implements PlayerInteractInterface {
         return result;
     }
 
+    @Override
+    public boolean playerInteract() {
+        if (dragon != null && dragon.getDragon() != null && !dragon.getDragon().dead) {
+            if (!fireballCooldown.isReady()) {
+                return true;
+            }
+            Fireball fireball = (Fireball) owner.getWorld().spawnEntity(owner.getEyeLocation(), EntityType.DRAGON_FIREBALL);
+            fireball.setVelocity(owner.getLocation().getDirection());
+            fireballCooldown.reload();
+            return true;
+        }
+        return false;
+    }
 }
