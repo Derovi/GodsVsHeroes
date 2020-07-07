@@ -2,10 +2,10 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.minigame.Reward;
 import by.dero.gvh.minigame.RewardManager;
-import by.dero.gvh.utils.DataUtils;
-import by.dero.gvh.utils.ResourceUtils;
 import by.dero.gvh.model.items.*;
 import by.dero.gvh.model.itemsinfo.*;
+import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -83,6 +83,18 @@ public class Data {
         registerItem("thorbow", ThorBowInfo.class, ThorBow.class);
         registerItem("knifethrow", KnifeThrowInfo.class, KnifeThrow.class);
         registerItem("dragonegg", DragonEggInfo.class, DragonEgg.class);
+        registerItem("defaulthelmet2", ItemInfo.class, Item.class);
+        registerItem("defaultchestplate2", ItemInfo.class, Item.class);
+        registerItem("defaultleggings2", ItemInfo.class, Item.class);
+        registerItem("defaultboots2", ItemInfo.class, Item.class);
+        registerItem("defaulthelmet3", ItemInfo.class, Item.class);
+        registerItem("defaultchestplate3", ItemInfo.class, Item.class);
+        registerItem("defaultleggings3", ItemInfo.class, Item.class);
+        registerItem("defaultboots3", ItemInfo.class, Item.class);
+        registerItem("defaulthelmetchainmail", ItemInfo.class, Item.class);
+        registerItem("defaultchestplatechainmail", ItemInfo.class, Item.class);
+        registerItem("defaultleggingschainmail", ItemInfo.class, Item.class);
+        registerItem("defaultbootschainmail", ItemInfo.class, Item.class);
     }
 
     private void registerClasses() {

@@ -1,10 +1,10 @@
 {
-  "name": "defaultboots",
+  "name": "defaultboots2",
   "slot": -4,
   "levels": [
     {
       "cooldown": 0,
-      "material": "LEATHER_BOOTS",
+      "material": "GOLD_BOOTS",
       "displayName": "§cСандали",
       "lore": [],
       "amount": 1
