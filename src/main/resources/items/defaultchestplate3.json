@@ -5,7 +5,7 @@
     {
       "cooldown": 0,
       "cost": 80,
-      "material": "LEATHER_CHESTPLATE",
+      "material": "IRON_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],
       "amount": 1

@@ -1,11 +1,11 @@
 {
-  "name": "defaultchestplate",
+  "name": "defaultchestplate2",
   "slot": -2,
   "levels": [
     {
       "cooldown": 0,
       "cost": 80,
-      "material": "LEATHER_CHESTPLATE",
+      "material": "GOLD_CHESTPLATE",
       "displayName": "§cНагрудник",
       "lore": [],
       "amount": 1

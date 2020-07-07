@@ -12,9 +12,9 @@
 
     "spawnhorse",
     "defaultarrow",
-    "defaultchestplate",
-    "defaultleggings",
-    "defaulthelmet",
-    "defaultboots"
+    "defaultchestplate3",
+    "defaultleggingschainmail",
+    "defaulthelmetchainmail",
+    "defaultbootschainmail"
   ]
 }

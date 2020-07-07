@@ -1,10 +1,10 @@
 {
-  "name": "defaulthelmet",
+  "name": "defaulthelmetchainmail",
   "slot": -1,
   "levels": [
     {
       "cooldown": 0,
-      "material": "LEATHER_HELMET",
+      "material": "CHAINMAIL_HELMET",
       "displayName": "§cШлем",
       "lore": [],
       "amount": 1
