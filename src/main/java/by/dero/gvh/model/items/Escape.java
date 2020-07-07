@@ -28,7 +28,7 @@ public class Escape extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
         player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1);
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.7f, 1);
         for (final LivingEntity entity : GameUtils.getNearby(player.getLocation(), 3)) {
             if (GameUtils.isEnemy(entity, getTeam())) {
                 GameUtils.damage(damage, entity, player);

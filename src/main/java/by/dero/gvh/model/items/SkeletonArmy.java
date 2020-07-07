@@ -65,13 +65,13 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
                     MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), EntityType.WITHER_SKELETON, player);
             Drawings.drawCircle(skeleton.getLocation(), 2, Particle.DRAGON_BREATH);
             initAttributes(skeleton, true);
-            owner.getWorld().playSound(skeleton.getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 24, 1);
+            owner.getWorld().playSound(skeleton.getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.7f, 1);
         }
         for (int i = 0; i < range; i++) {
             CraftSkeleton skeleton = (CraftSkeleton) GameUtils.spawnTeamEntity(
                     MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), EntityType.SKELETON, player);
             Drawings.drawCircle(skeleton.getLocation(), 2, Particle.DRAGON_BREATH);
-            owner.getWorld().playSound(skeleton.getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 24, 1);
+            owner.getWorld().playSound(skeleton.getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.7f, 1);
             initAttributes(skeleton, false);
         }
     }

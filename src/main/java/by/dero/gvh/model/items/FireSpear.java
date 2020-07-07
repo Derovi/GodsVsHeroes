@@ -45,7 +45,7 @@ public class FireSpear extends Item implements PlayerInteractInterface {
                 left.add(gp.getPlayer());
             }
         }
-        owner.getWorld().playSound(loc, Sound.BLOCK_CHORUS_FLOWER_GROW, 24, 1);
+        owner.getWorld().playSound(loc, Sound.BLOCK_CHORUS_FLOWER_GROW, 1.7f, 1);
         final BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = 0;
             final ArrayList<Player> rem = new ArrayList<>();

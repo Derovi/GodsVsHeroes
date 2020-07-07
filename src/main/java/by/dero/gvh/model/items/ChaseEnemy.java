@@ -75,7 +75,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
                 if (!GameUtils.isInGame(owner) || ticks < 0 || zombie.passengers.isEmpty() ||
                         GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).
                                 getPlayer().getLocation().distance(owner.getLocation()) < 2) {
-                    owner.getWorld().playSound(zombie.getBukkitEntity().getLocation(), Sound.ENTITY_HUSK_DEATH, 24, 1);
+                    owner.getWorld().playSound(zombie.getBukkitEntity().getLocation(), Sound.ENTITY_HUSK_DEATH, 1.7f, 1);
                     zombie.die();
                     this.cancel();
                 }

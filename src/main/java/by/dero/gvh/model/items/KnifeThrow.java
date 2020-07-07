@@ -7,10 +7,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.KnifeThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingKnife;
 import by.dero.gvh.utils.GameUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -31,9 +28,8 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
-        final int slot = owner.getInventory().getHeldItemSlot();
         final ThrowingKnife knife = new ThrowingKnife(owner, info.getMaterial());
-        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.7f, 1);
         knife.spawn();
         knife.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(knife.getHoldEntity(), getTeam())) {
@@ -47,7 +43,7 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
             Location at = knife.getItemPosition().toLocation(owner.getWorld());
             owner.getWorld().spawnParticle(Particle.CRIT_MAGIC, at, 1);
             owner.getWorld().playSound(knife.getItemPosition().toLocation(owner.getWorld()),
-                    Sound.BLOCK_FENCE_GATE_CLOSE, 24, 1);
+                    Sound.BLOCK_FENCE_GATE_CLOSE, 1.7f, 1);
         });
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override

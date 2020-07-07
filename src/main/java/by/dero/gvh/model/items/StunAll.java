@@ -41,7 +41,7 @@ public class StunAll extends Item implements PlayerInteractInterface, InfiniteRe
         }
         cooldown.reload();
         drawSign(p.getLocation().clone());
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1.7f, 1);
         for (final LivingEntity ot : GameUtils.getNearby(p.getLocation(), radius)) {
             if (GameUtils.isEnemy(ot, getTeam())) {
                 Stun.stunEntity(ot, latency);

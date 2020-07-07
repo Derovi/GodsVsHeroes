@@ -60,9 +60,7 @@ public abstract class Game implements Listener {
 
     private final LinkedList<BukkitRunnable> runnables = new LinkedList<>();
 
-    protected void onPlayerRespawned(final GamePlayer gp) {
-        gp.updateInventory();
-    }
+    protected void onPlayerRespawned(final GamePlayer gp) { }
 
     public void start() {
         mapManager = new MapManager(Bukkit.getWorld(getInfo().getWorld()));
