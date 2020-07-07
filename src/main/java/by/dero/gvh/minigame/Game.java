@@ -188,18 +188,20 @@ public abstract class Game implements Listener {
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
 
+        for (GamePlayer player : players.values()) {
+            player.getPlayer().leaveVehicle();
+            if (player.getTeam() == winnerTeam) {
+                rewardManager.give("winGame", player.getPlayer());
+            } else {
+                rewardManager.give("loseGame", player.getPlayer());
+            }
+        }
+
         for (LivingEntity entity: Bukkit.getWorld(getInfo().getWorld()).getLivingEntities()) {
             if (!(entity instanceof Player)) {
                 entity.remove();
             } else {
                 ((Player) entity).setAllowFlight(false);
-            }
-        }
-        for (GamePlayer player : players.values()) {
-            if (player.getTeam() == winnerTeam) {
-                rewardManager.give("winGame", player.getPlayer());
-            } else {
-                rewardManager.give("loseGame", player.getPlayer());
             }
         }
 
@@ -335,6 +337,7 @@ public abstract class Game implements Listener {
         final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(gp.getClassName()).getMaxHP();
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
         player.setHealth(maxHealth);
+        player.setInvulnerable(false);
 
         MessagingUtils.sendTitle("", player, 0, 1, 0);
         MessagingUtils.sendActionBar("", player);

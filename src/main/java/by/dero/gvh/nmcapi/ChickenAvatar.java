@@ -7,6 +7,7 @@ import by.dero.gvh.utils.GameUtils;
 import net.minecraft.server.v1_12_R1.EntityChicken;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
 import org.bukkit.GameMode;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.Player;
@@ -19,6 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 public class ChickenAvatar extends EntityChicken {
     private Player player;
     private final GamePlayer gamePlayer;
+    private double playerHealth;
     private double speed = 0.5;
 
     public ChickenAvatar(Player player) {
@@ -28,24 +30,24 @@ public class ChickenAvatar extends EntityChicken {
         gamePlayer.hideInventory();
         setPosition(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
         ((CraftEntity)player).getHandle().a(this, true);
-        player.setGameMode(GameMode.ADVENTURE);
         PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0);
         player.addPotionEffect(effect);
-        for (Player other : player.getWorld().getPlayers()) {
-            other.hidePlayer(Plugin.getInstance(), player);
-        }
+        playerHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(4);
+        player.setHealth(4);
         boundingBox.e += 1.05;
     }
 
     @Override
-    public void r() { }
+    public void r() {}
 
     @Override
     public void B_() {
-        if (player.getVehicle() == null || !player.getVehicle().getUniqueId().equals(getUniqueID())) {
+        if (player.isDead() || player.getVehicle() == null || !player.getVehicle().getUniqueId().equals(getUniqueID())) {
             finish();
             return;
         }
+        setHealth((float) player.getHealth());
         yaw = player.getLocation().getYaw();
         pitch = player.getLocation().getPitch();
         setHeadRotation(((CraftEntity) player).getHandle().getHeadRotation());
@@ -63,22 +65,11 @@ public class ChickenAvatar extends EntityChicken {
         if (dead) {
             return;
         }
-        player.setGameMode(GameMode.SURVIVAL);
+        player.leaveVehicle();
         player.removePotionEffect(PotionEffectType.INVISIBILITY);
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(playerHealth);
+        player.setHealth(playerHealth);
         gamePlayer.showInventory();
-        for (Player other : player.getWorld().getPlayers()) {
-            other.showPlayer(Plugin.getInstance(), player);
-        }
-        super.die();
-    }
-
-    public void die() {
-        if (dead) {
-            return;
-        }
-        gamePlayer.showInventory();
-        player.setHealth(0);
-        Minigame.getInstance().getGame().onPlayerKilled(player, killer == null ? player : (Player) killer.getBukkitEntity());
         super.die();
     }
 
