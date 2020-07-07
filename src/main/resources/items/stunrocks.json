@@ -3,8 +3,8 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 140,
-      "duration": 40,
+      "cooldown": 200,
+      "duration": 14,
       "cost": 80,
       "material": "SNOW_BALL",
       "displayName": "§cStun Rocks",

@@ -20,6 +20,10 @@ public class ThorBow extends Item implements PlayerShootBowInterface, Projectile
 
 	@Override
 	public void onPlayerShootBow (EntityShootBowEvent event) {
+		if (!cooldown.isReady()) {
+			return;
+		}
+		cooldown.reload();
 		Arrow arrow = (Arrow) event.getProjectile();
 		BukkitRunnable runnable = new BukkitRunnable() {
 			@Override

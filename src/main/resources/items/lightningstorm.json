@@ -5,9 +5,9 @@
     {
       "cooldown": 1200,
       "radius": 7,
-      "strikes": 3,
+      "strikes": 5,
       "signRadius": [7, 11],
-      "delayStrikes": 20,
+      "delayStrikes": 13,
       "cost": 80,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",

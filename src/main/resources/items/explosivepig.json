@@ -5,7 +5,7 @@
     {
       "cooldown": 400,
       "radius": 4,
-      "damage": 18,
+      "damage": 12,
       "duration": 300,
       "cost": 80,
       "material": "TNT",

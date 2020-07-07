@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 60,
+      "cooldown": 80,
       "cost": 80,
       "material": "BOW",
       "displayName": "§cThor bow",
