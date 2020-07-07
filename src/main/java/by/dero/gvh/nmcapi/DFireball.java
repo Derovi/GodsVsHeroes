@@ -1,11 +1,14 @@
 package by.dero.gvh.nmcapi;
 
+import by.dero.gvh.GamePlayer;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public class DFireball extends EntityDragonFireball {
+    private GamePlayer owner;
     private int explodeDamage;
 
     public DFireball(Location loc) {
@@ -14,7 +17,12 @@ public class DFireball extends EntityDragonFireball {
     }
 
     public void a(MovingObjectPosition var1) {
-        System.out.println("EXPLODE");
+        if (var1.entity == null || !var1.entity.s(this.shooter)) {
+            if (!this.world.isClientSide) {
+                // EXPLODE
+                this.die();
+            }
+        }
     }
 
     public void spawn() {
@@ -27,5 +35,13 @@ public class DFireball extends EntityDragonFireball {
 
     public void setExplodeDamage(int explodeDamage) {
         this.explodeDamage = explodeDamage;
+    }
+
+    public GamePlayer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(GamePlayer owner) {
+        this.owner = owner;
     }
 }
