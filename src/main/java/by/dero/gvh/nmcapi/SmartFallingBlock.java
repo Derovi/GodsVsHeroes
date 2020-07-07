@@ -69,7 +69,6 @@ public class SmartFallingBlock extends EntityFallingBlock {
             this.lastZ = this.locZ;
 
             if (holdEntity != null) {
-                System.out.println("change " + hx + ' ' + hy + ' ' + hz);
                 this.locX += holdEntity.locX - hx;
                 this.locY += holdEntity.locY - hy;
                 this.locZ += holdEntity.locZ - hz;

@@ -6,6 +6,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InteractAnyItem;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.DragonFlyInfo;
+import by.dero.gvh.nmcapi.DFireball;
 import by.dero.gvh.nmcapi.dragon.ControlledDragon;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 public class DragonFly extends Item implements PlayerInteractInterface, InteractAnyItem {
     private final DragonFlyInfo info;
@@ -59,9 +61,13 @@ public class DragonFly extends Item implements PlayerInteractInterface, Interact
             if (!fireballCooldown.isReady()) {
                 return true;
             }
-            Fireball fireball = (Fireball) owner.getWorld().spawnEntity(owner.getEyeLocation(), EntityType.DRAGON_FIREBALL);
-            fireball.setVelocity(owner.getLocation().getDirection());
             fireballCooldown.reload();
+            Vector vector = new Vector(owner.getLocation().getDirection().getX(), 0,
+                    owner.getLocation().getDirection().getZ()).normalize().multiply(4);
+            DFireball fireball = new DFireball(owner.getEyeLocation().add(vector));
+            fireball.spawn();
+            fireball.getBukkitEntity().setVelocity(owner.getLocation().getDirection());
+            fireball.setExplodeDamage(info.getDamage());
             return true;
         }
         return false;
