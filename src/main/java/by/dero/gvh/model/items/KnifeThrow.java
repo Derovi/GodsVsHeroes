@@ -27,7 +27,7 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (cooldown.isReady()) {
+        if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();

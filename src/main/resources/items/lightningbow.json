@@ -5,7 +5,7 @@
     {
       "cooldown": 100,
       "radius": 4.0,
-      "damage": 8,
+      "damage": 16,
       "cost": 80,
       "material": "BOW",
       "displayName": "§cLightning bow",
@@ -18,7 +18,7 @@
     {
       "cooldown": 80,
       "radius": 5.0,
-      "damage": 8,
+      "damage": 16,
       "cost": 100,
       "material": "BOW",
       "displayName": "§cLightning bow",
@@ -31,7 +31,7 @@
     {
       "cooldown": 60,
       "radius": 5.0,
-      "damage": 8,
+      "damage": 16,
       "cost": 120,
       "material": "BOW",
       "displayName": "§cLightning bow",
