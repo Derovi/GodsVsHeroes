@@ -5,6 +5,7 @@ import by.dero.gvh.model.ItemInfo;
 public class SkeletonArmyInfo extends ItemInfo {
     private int melee;
     private int range;
+    private int duration;
 
     public int getMelee() {
         return melee;
@@ -20,5 +21,13 @@ public class SkeletonArmyInfo extends ItemInfo {
 
     public void setRange(int range) {
         this.range = range;
+    }
+
+    public int getDuration () {
+        return duration;
+    }
+
+    public void setDuration (int duration) {
+        this.duration = duration;
     }
 }

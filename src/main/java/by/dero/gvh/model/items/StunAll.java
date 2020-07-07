@@ -2,7 +2,6 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.StunAllInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -13,8 +12,9 @@ import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.util.Vector;
 
-public class StunAll extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class StunAll extends Item implements PlayerInteractInterface {
     private final double radius;
     private final int latency;
 
@@ -41,9 +41,15 @@ public class StunAll extends Item implements PlayerInteractInterface, InfiniteRe
         }
         cooldown.reload();
         drawSign(p.getLocation().clone());
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1.7f, 1);
-        for (final LivingEntity ot : GameUtils.getNearby(p.getLocation(), radius)) {
-            if (GameUtils.isEnemy(ot, getTeam())) {
+        Location loc = owner.getLocation();
+        owner.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_GROWL, 1.07f, 1);
+        for (final LivingEntity ot : owner.getWorld().getLivingEntities()) {
+            Location otloc = ot.getLocation();
+            if (otloc.y > loc.y + radius || otloc.y + 2 < loc.y) {
+                continue;
+            }
+            double dst = new Vector(loc.x - otloc.x, 0, loc.z - otloc.z).length();
+            if (dst < radius && GameUtils.isEnemy(ot, getTeam())) {
                 Stun.stunEntity(ot, latency);
             }
         }

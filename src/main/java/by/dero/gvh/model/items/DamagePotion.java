@@ -49,7 +49,7 @@ public class DamagePotion extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.7f, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
         summonedEntityIds.add(GameUtils.spawnSplashPotion(owner.getEyeLocation(), 1,
                 PotionType.INSTANT_DAMAGE, owner).getUniqueId());
     }

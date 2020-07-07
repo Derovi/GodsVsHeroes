@@ -4,8 +4,8 @@
   "levels": [
     {
       "cooldown": 400,
-      "radius": 3.0,
-      "duration": 60,
+      "radius": 5.0,
+      "duration": 80,
       "cost": 80,
       "material": "SNOW_BALL",
       "displayName": "§cSmokes",
@@ -16,9 +16,9 @@
       "amount": 2
     },
     {
-      "cooldown": 160,
-      "radius": 4.0,
-      "duration": 200,
+      "cooldown": 400,
+      "radius": 5.5,
+      "duration": 80,
       "cost": 100,
       "material": "SNOW_BALL",
       "displayName": "§cSmokes",
@@ -29,9 +29,9 @@
       "amount": 3
     },
     {
-      "cooldown": 140,
-      "radius": 4.0,
-      "duration": 200,
+      "cooldown": 400,
+      "radius": 6,
+      "duration": 80,
       "cost": 120,
       "material": "SNOW_BALL",
       "displayName": "§cSmokes",

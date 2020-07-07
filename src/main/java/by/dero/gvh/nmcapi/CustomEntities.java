@@ -19,6 +19,7 @@ public enum CustomEntities {
     CUSTOM_LEASH("CustomLeash", 83, EntityType.LEASH_HITCH, EntityLeash.class, CustomLeash.class),
     INFINITE_FISH_HOOK("InfiniteFishHook", 83, EntityType.FISHING_HOOK, EntityFishingHook.class, InfiniteFishHook.class),
     CASTRATED_ENDER_CRYSTAL("CastratedEnderCrystal", 200, EntityType.ENDER_CRYSTAL, EntityEnderCrystal.class, CastratedEnderCrystal.class),
+    CUSTOM_LIGHTNING("CustomLightning", 86, EntityType.LIGHTNING, CustomLightning.class, EntityLightning.class),
     DRAGON_EGG("DragonEgg", 21, EntityType.FALLING_BLOCK, EntityFallingBlock.class, DragonEggEntity.class);
 
     private final String name;

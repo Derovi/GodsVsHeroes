@@ -4,6 +4,7 @@
   "levels": [
     {
       "cooldown": 1200,
+      "duration": 800,
       "range": 2,
       "melee": 2,
       "cost": 80,

@@ -33,7 +33,7 @@ public class MagicRod extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
 
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 1.7f, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 1.07f, 1);
         new BukkitRunnable() {
             double ticks = 0;
             final Vector st = new Vector(

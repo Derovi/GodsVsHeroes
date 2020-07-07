@@ -32,7 +32,7 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Location loc = event.getEntity().getLocation();
         loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
-        loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1.7f, 1);
+        loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1.07f, 1);
         for (final LivingEntity ent : GameUtils.getNearby(loc, radius)) {
             if (GameUtils.isEnemy(ent, getTeam())) {
                 GameUtils.damage(damage, ent, owner);
@@ -49,7 +49,7 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
     public void onPlayerInteract(PlayerInteractEvent event) {
         final Projectile proj = GameUtils.spawnProjectile(event.getPlayer().getEyeLocation(),
                 1.2, EntityType.SNOWBALL, event.getPlayer());
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.7f, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
         summonedEntityIds.add(proj.getUniqueId());
     }
 }

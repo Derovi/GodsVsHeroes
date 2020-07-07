@@ -29,7 +29,7 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
         final ThrowingKnife knife = new ThrowingKnife(owner, info.getMaterial());
-        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.7f, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         knife.spawn();
         knife.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(knife.getHoldEntity(), getTeam())) {
@@ -43,7 +43,7 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
             Location at = knife.getItemPosition().toLocation(owner.getWorld());
             owner.getWorld().spawnParticle(Particle.CRIT_MAGIC, at, 1);
             owner.getWorld().playSound(knife.getItemPosition().toLocation(owner.getWorld()),
-                    Sound.BLOCK_FENCE_GATE_CLOSE, 1.7f, 1);
+                    Sound.BLOCK_FENCE_GATE_CLOSE, 1.07f, 1);
         });
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override

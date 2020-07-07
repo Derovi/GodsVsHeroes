@@ -102,7 +102,7 @@ public class LootsManager implements Listener {
             return false;
         }
         entity.getWorld().playEffect(entity.getLocation(), Effect.ENDER_SIGNAL, null);
-        entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1.7f, 1);
+        entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1.07f, 1);
         entity.addPotionEffect(effects.get(name), true);
         return true;
     }

@@ -2,7 +2,6 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.EagleVisionInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -21,7 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 
-public class EagleVision extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class EagleVision extends Item implements PlayerInteractInterface {
     private final double particleDense = 32;
 
     private final double radius;
@@ -45,7 +44,7 @@ public class EagleVision extends Item implements PlayerInteractInterface, Infini
         }
         cooldown.reload();
         final Location loc = player.getLocation().clone();
-        owner.getWorld().playSound(loc, Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.7f, 1);
+        owner.getWorld().playSound(loc, Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.07f, 1);
         final int team = GameUtils.getPlayer(player.getName()).getTeam();
         for (final Entity obj : Objects.requireNonNull(loc.getWorld()).getNearbyEntities(loc, radius, 200, radius)) {
             final Location cur = obj.getLocation().clone();

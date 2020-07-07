@@ -94,7 +94,7 @@ public class LiftManager implements Listener {
 			list.add(leash);
 			player.setVelocity(new Vector(0, Math.cbrt(good.y - player.getLocation().y) * 0.7, 0));
 
-			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.7f, 1);
+			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.07f, 1);
 		}
 	}
 

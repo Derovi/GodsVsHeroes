@@ -38,7 +38,7 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
         final ThrowingAxe axe = new ThrowingAxe(owner, material);
 
         final int slot = owner.getInventory().getHeldItemSlot();
-        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.7f, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         axe.spawn();
         axe.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(axe.getHoldEntity(), getTeam())) {
@@ -67,7 +67,7 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
                 }
             }.runTaskTimer(Plugin.getInstance(), 0, 2);
             owner.getWorld().playSound(axe.getItemPosition().toLocation(owner.getWorld()),
-                    Sound.BLOCK_SHULKER_BOX_OPEN, 1.7f, 1);
+                    Sound.BLOCK_SHULKER_BOX_OPEN, 1.07f, 1);
         });
         axe.setOnOwnerPickUp(() -> {
             if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {

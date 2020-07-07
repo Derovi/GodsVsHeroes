@@ -201,6 +201,7 @@ public abstract class Game implements Listener {
             } else {
                 rewardManager.give("loseGame", player.getPlayer());
             }
+            player.getPlayer().setFireTicks(0);
         }
 
         this.unload();
@@ -212,12 +213,12 @@ public abstract class Game implements Listener {
                 if (needFireworks) {
                     Drawings.spawnFirework(MathUtils.randomCylinder(
                             getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
-                            18, -10
+                            13, -10
                     ), 2);
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 40);
         new BukkitRunnable() {
             @Override
             public void run() {

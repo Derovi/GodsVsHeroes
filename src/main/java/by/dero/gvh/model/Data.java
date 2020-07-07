@@ -80,7 +80,7 @@ public class Data {
         registerItem("lightningbow", LightningBowInfo.class, LightningBow.class);
         registerItem("smokes", SmokesInfo.class, Smokes.class);
         registerItem("dragonfly", DragonFlyInfo.class, DragonFly.class);
-        registerItem("thorbow", ItemInfo.class, ThorBow.class);
+        registerItem("thorbow", ThorBowInfo.class, ThorBow.class);
         registerItem("knifethrow", KnifeThrowInfo.class, KnifeThrow.class);
         registerItem("dragonegg", DragonEggInfo.class, DragonEgg.class);
     }
