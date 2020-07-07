@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 
 public class ThrowingKnife extends ThrowingItem {
     public ThrowingKnife(Player player, Material material) {
-        super(player.getLocation(), material);
+        super(player.getLocation().add(0,0.5,0), material);
         setOwner(player);
         setSmall(true);
         setItemLength(0.4);
