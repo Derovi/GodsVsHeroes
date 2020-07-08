@@ -1,6 +1,6 @@
 {
   "name": "warrior",
-  "maxHP": 40,
+  "maxHP": 30,
   "cost": 0,
   "itemNames": [
     "swordthrow",
