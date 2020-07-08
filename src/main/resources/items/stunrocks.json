@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 200,
-      "duration": 30,
+      "duration": 40,
       "cost": 80,
       "material": "SNOW_BALL",
       "displayName": "§cStun Rocks",
@@ -16,7 +16,7 @@
     },
     {
       "cooldown": 180,
-      "duration": 30,
+      "duration": 40,
       "cost": 100,
       "material": "SNOW_BALL",
       "displayName": "§cStun Rocks",
@@ -28,7 +28,7 @@
     },
     {
       "cooldown": 160,
-      "duration": 30,
+      "duration": 40,
       "cost": 120,
       "material": "SNOW_BALL",
       "displayName": "§cStun Rocks",
