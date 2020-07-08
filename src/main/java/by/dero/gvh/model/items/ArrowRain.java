@@ -3,7 +3,7 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.UltimateInterface;
+import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ArrowRainInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrowRain extends Item implements UltimateInterface {
+public class ArrowRain extends Item implements PlayerInteractInterface {
     private final double radius;
     private final int arrowCycles;
     private final int cycleDelay;
@@ -33,7 +33,6 @@ public class ArrowRain extends Item implements UltimateInterface {
         cycleDelay = info.getCycleDelay();
     }
 
-    @Override
     public void drawSign(final Location loc) {
         for (int rad = 10; rad <= radius; rad += 10)
             Drawings.drawCircle(loc.clone().add(0, height, 0), rad, Particle.EXPLOSION_LARGE);
@@ -53,7 +52,7 @@ public class ArrowRain extends Item implements UltimateInterface {
             @Override
             public void run() {
                 final Location shooter = MathUtils.randomCylinder(center, radius, 0);
-                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 24, 1);
+                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1.07f, 1);
                 final List<Location> targets = new ArrayList<>();
                 for (LivingEntity obj : GameUtils.getNearby(center, radius)) {
                     if (GameUtils.isEnemy(obj, getTeam())) {

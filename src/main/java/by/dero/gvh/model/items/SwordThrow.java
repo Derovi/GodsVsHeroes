@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.ChargesManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
@@ -39,7 +38,7 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
         final ThrowingSword sword = new ThrowingSword(owner, material);
 
         final int slot = owner.getInventory().getHeldItemSlot();
-        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         sword.spawn();
         sword.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(sword.getHoldEntity(), getTeam())) {
@@ -68,10 +67,13 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
                 }
             }.runTaskTimer(Plugin.getInstance(), 0, 2);
             owner.getWorld().playSound(sword.getItemPosition().toLocation(owner.getWorld()),
-                    Sound.BLOCK_SHULKER_BOX_OPEN, 24, 1);
+                    Sound.BLOCK_SHULKER_BOX_OPEN, 1.07f, 1);
         });
         sword.setOnOwnerPickUp(() -> {
-            ChargesManager.getInstance().addItem(owner, this, slot);
+            if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+                owner.getInventory().setItem(slot, getItemStack());
+                owner.getInventory().getItem(slot).setAmount(1);
+            }
             sword.remove();
         });
         final BukkitRunnable runnable = new BukkitRunnable() {

@@ -4,7 +4,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 600,
+      "cooldown": 800,
       "speed": 0.5,
       "duration": 200,
       "cost": 80,

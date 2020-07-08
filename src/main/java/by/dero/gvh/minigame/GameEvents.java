@@ -1,12 +1,10 @@
 package by.dero.gvh.minigame;
 
-import by.dero.gvh.ChargesManager;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,7 +18,6 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -74,8 +71,18 @@ public class GameEvents implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
+
+        for (Item item : gamePlayer.getItems().values()) {
+            if (item instanceof InteractAnyItem) {
+                InteractAnyItem in = (InteractAnyItem) item;
+                if (in.playerInteract()) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+        }
+
         Item itemInHand = gamePlayer.getSelectedItem();
-        Player player = event.getPlayer();
         if (itemInHand == null) {
             return;
         }
@@ -90,20 +97,12 @@ public class GameEvents implements Listener {
         }
         gamePlayer.setLastUsed(itemInHand);
         if (itemInHand instanceof PlayerInteractInterface) {
-            if (itemInHand instanceof UltimateInterface) {
-                if (itemInHand.getCooldown().isReady()) {
-                    ItemStack item = player.getInventory().getItemInMainHand();
-                    item.setAmount(item.getAmount()-1);
-                    ((UltimateInterface) itemInHand).onPlayerInteract(event);
+            if (itemInHand instanceof InfiniteReplenishInterface) {
+                if (!itemInHand.getCooldown().isReady() || !gamePlayer.consume(itemInHand)) {
+                    return;
                 }
-            } else {
-                if (itemInHand instanceof InfiniteReplenishInterface) {
-                    if (!itemInHand.getCooldown().isReady() || !ChargesManager.getInstance().consume(player, itemInHand)) {
-                        return;
-                    }
-                }
-                ((PlayerInteractInterface) itemInHand).onPlayerInteract(event);
             }
+            ((PlayerInteractInterface) itemInHand).onPlayerInteract(event);
         }
     }
 
@@ -174,9 +173,7 @@ public class GameEvents implements Listener {
         if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
                 GameUtils.getLastLightningTime() + 1000 > System.currentTimeMillis()) {
             final Player player = GameUtils.getLastUsedLightning();
-            Bukkit.getServer().broadcastMessage(player.getName());
             if (GameUtils.isEnemy(entity, GameUtils.getPlayer(player.getName()).getTeam())) {
-                Bukkit.getServer().broadcastMessage("3");
                 game.getStats().addDamage(entity, player, event.getDamage());
                 damageCause.put(entity, player);
             } else {

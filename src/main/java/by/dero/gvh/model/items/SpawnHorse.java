@@ -27,12 +27,11 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInter
         cooldown.reload();
         horse = (SkeletonHorse) GameUtils.spawnEntity(owner.getLocation(), EntityType.SKELETON_HORSE);
         horse.setAdult();
-        horse.setInvulnerable(true);
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
         horse.setOwner(owner);
         horse.addPassenger(owner);
 
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_HORSE_ARMOR, 24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1.07f, 1);
         summonedEntityIds.add(horse.getUniqueId());
     }
 

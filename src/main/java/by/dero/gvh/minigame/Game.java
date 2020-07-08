@@ -60,7 +60,7 @@ public abstract class Game implements Listener {
 
     private final LinkedList<BukkitRunnable> runnables = new LinkedList<>();
 
-    protected abstract void onPlayerRespawned(final GamePlayer gp);
+    protected void onPlayerRespawned(final GamePlayer gp) { }
 
     public void start() {
         mapManager = new MapManager(Bukkit.getWorld(getInfo().getWorld()));
@@ -137,6 +137,9 @@ public abstract class Game implements Listener {
 
         new ChargesManager();
         Minigame.getInstance().getLootsManager().load();
+        for (GamePlayer gp : getPlayers().values()) {
+            gp.updateInventory();
+        }
     }
 
     public void onPlayerKilled(Player player, Player killer) {
@@ -185,18 +188,21 @@ public abstract class Game implements Listener {
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
 
+        for (GamePlayer player : players.values()) {
+            player.getPlayer().leaveVehicle();
+            if (player.getTeam() == winnerTeam) {
+                rewardManager.give("winGame", player.getPlayer());
+            } else {
+                rewardManager.give("loseGame", player.getPlayer());
+            }
+            player.getPlayer().setFireTicks(0);
+        }
+
         for (LivingEntity entity: Bukkit.getWorld(getInfo().getWorld()).getLivingEntities()) {
             if (!(entity instanceof Player)) {
                 entity.remove();
             } else {
                 ((Player) entity).setAllowFlight(false);
-            }
-        }
-        for (GamePlayer player : players.values()) {
-            if (player.getTeam() == winnerTeam) {
-                rewardManager.give("winGame", player.getPlayer());
-            } else {
-                rewardManager.give("loseGame", player.getPlayer());
             }
         }
 
@@ -209,12 +215,12 @@ public abstract class Game implements Listener {
                 if (needFireworks) {
                     Drawings.spawnFirework(MathUtils.randomCylinder(
                             getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
-                            18, -10
+                            13, -10
                     ), 2);
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 40);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -317,6 +323,7 @@ public abstract class Game implements Listener {
         for (String itemName : classDescription.getItemNames()) {
             player.addItem(itemName, player.getPlayerInfo().getItemLevel(player.getClassName(), itemName));
         }
+        player.updateInventory();
     }
 
     private void toSpawn(final GamePlayer gp) {
@@ -331,6 +338,7 @@ public abstract class Game implements Listener {
         final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(gp.getClassName()).getMaxHP();
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
         player.setHealth(maxHealth);
+        player.setInvulnerable(false);
 
         MessagingUtils.sendTitle("", player, 0, 1, 0);
         MessagingUtils.sendActionBar("", player);

@@ -111,7 +111,7 @@ public class EtherCollector {
             Pair<Material, Vector> block = getStages().get(captureStatus / 5);
             Location wh = block.getValue().toLocation(location.world).add(location);
             GameUtils.changeColor(wh, teamcode);
-            location.getWorld().playSound(wh, Sound.BLOCK_STONE_BREAK, 24, 1);
+            location.getWorld().playSound(wh, Sound.BLOCK_STONE_BREAK, 1.07f, 1);
             if (captureStatus % 30 == 29) {
                 Location at = getChanging().get(captureStatus / 30).getValue().
                         toLocation(location.world).add(location);

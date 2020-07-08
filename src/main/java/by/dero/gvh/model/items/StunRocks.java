@@ -34,7 +34,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
         final Location loc = event.getEntity().getLocation();
         loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 1);
 
-        loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 24, 1);
+        loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1.07f, 1);
         for (final LivingEntity entity : GameUtils.getNearby(event.getEntity().getLocation(), 1.5)) {
             if (GameUtils.isEnemy(entity, getTeam())) {
                 Stun.stunEntity(entity, duration);
@@ -46,7 +46,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
     public void onPlayerInteract(PlayerInteractEvent event) {
         final Projectile proj = GameUtils.spawnProjectile(event.getPlayer().getEyeLocation(),
                 1.2, EntityType.SNOWBALL, event.getPlayer());
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
         summonedEntityIds.add(proj.getUniqueId());
     }
 }

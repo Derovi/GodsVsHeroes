@@ -6,7 +6,7 @@
       "radius": 20.0,
       "arrowCycles": 4,
       "cycleDelay": 20,
-      "cooldown": 600,
+      "cooldown": 1200,
       "cost": 80,
       "material": "END_CRYSTAL",
       "displayName": "§cArrow Rain",
@@ -14,13 +14,13 @@
         "§aУльтимативная. Используйте, чтобы начать дождь стрел",
         "§6Уровень 1"
       ],
-      "amount": 3
+      "amount": 1
     },
     {
       "radius": 20.0,
       "arrowCycles": 4,
       "cycleDelay": 20,
-      "cooldown": 600,
+      "cooldown": 1200,
       "cost": 100,
       "material": "END_CRYSTAL",
       "displayName": "§cArrow Rain",
@@ -28,13 +28,13 @@
         "§aУльтимативная. Используйте, чтобы начать дождь стрел",
         "§6Уровень 2"
       ],
-      "amount": 4
+      "amount": 1
     },
     {
       "radius": 20.0,
       "arrowCycles": 4,
       "cycleDelay": 20,
-      "cooldown": 600,
+      "cooldown": 1200,
       "cost": 120,
       "material": "END_CRYSTAL",
       "displayName": "§cArrow Rain",
@@ -42,7 +42,7 @@
         "§aУльтимативная. Используйте, чтобы начать дождь стрел",
         "§6Уровень 3"
       ],
-      "amount": 5
+      "amount": 1
     }
   ]
 }

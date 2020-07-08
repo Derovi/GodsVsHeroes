@@ -76,7 +76,7 @@ public class Meteor extends Item implements PlayerInteractInterface, ProjectileH
     public void onProjectileHit(ProjectileHitEvent event) {
         Location loc = event.getEntity().getLocation();
         owner.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 0, 0, 0, 0);
-        owner.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_FIREBALL_EXPLODE, 24, 1);
+        owner.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_FIREBALL_EXPLODE, 1.07f, 1);
         for (LivingEntity entity : GameUtils.getNearby(loc, radius)) {
             if (GameUtils.isEnemy(entity, getTeam())) {
                 GameUtils.damage(damage, entity, owner);

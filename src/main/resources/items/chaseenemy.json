@@ -3,8 +3,8 @@
   "slot": 0,
   "levels": [
     {
-      "duration": 100,
-      "cooldown": 60,
+      "duration": 70,
+      "cooldown": 520,
       "cost": 80,
       "material": "EYE_OF_ENDER",
       "displayName": "§cChase enemy",

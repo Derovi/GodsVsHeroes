@@ -4,7 +4,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 600,
+      "cooldown": 220,
       "duration": 40,
       "cost": 80,
       "material": "FEATHER",

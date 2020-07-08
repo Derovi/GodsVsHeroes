@@ -3,9 +3,9 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 60,
-      "radius": 5.0,
-      "damage": 6,
+      "cooldown": 100,
+      "radius": 4.0,
+      "damage": 8,
       "cost": 80,
       "material": "SPLASH_POTION",
       "displayName": "§cDamage Potion",
@@ -17,8 +17,8 @@
     },
     {
       "cooldown": 50,
-      "radius": 5.0,
-      "damage": 6,
+      "radius": 4.0,
+      "damage": 8,
       "cost": 100,
       "material": "SPLASH_POTION",
       "displayName": "§cDamage Potion",
@@ -30,8 +30,8 @@
     },
     {
       "cooldown": 40,
-      "radius": 5.0,
-      "damage": 6,
+      "radius": 4.0,
+      "damage": 8,
       "cost": 120,
       "material": "SPLASH_POTION",
       "displayName": "§cDamage Potion",

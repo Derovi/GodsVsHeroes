@@ -57,7 +57,7 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
                 }
                 if (arrow.getLocation().distance(owner.getLocation()) > distance) {
                     owner.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, arrow.getLocation(), 0, 0, 0, 0);
-                    owner.getWorld().playSound(arrow.getLocation(), Sound.ITEM_SHIELD_BREAK, 24, 1);
+                    owner.getWorld().playSound(arrow.getLocation(), Sound.ITEM_SHIELD_BREAK, 1.07f, 1);
                     fishingHook.die();
                     arrow.remove();
                 }
@@ -74,7 +74,7 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
 
         Vector force = at.clone().subtract(owner.getLocation()).multiply(forceMultiplier).toVector();
 
-        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.07f, 1);
         force.y = Math.max(force.y, 0.7);
         force.y = Math.min(force.y, 1.8);
         owner.setVelocity(force);

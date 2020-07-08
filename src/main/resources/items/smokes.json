@@ -3,9 +3,9 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 200,
-      "radius": 4.0,
-      "duration": 200,
+      "cooldown": 400,
+      "radius": 5.0,
+      "duration": 80,
       "cost": 80,
       "material": "SNOW_BALL",
       "displayName": "§cSmokes",
@@ -13,12 +13,12 @@
         "§aОслепите своих врагов!",
         "§6Уровень 1"
       ],
-      "amount": 3
+      "amount": 2
     },
     {
-      "cooldown": 160,
-      "radius": 4.0,
-      "duration": 200,
+      "cooldown": 400,
+      "radius": 5.5,
+      "duration": 80,
       "cost": 100,
       "material": "SNOW_BALL",
       "displayName": "§cSmokes",
@@ -29,9 +29,9 @@
       "amount": 3
     },
     {
-      "cooldown": 140,
-      "radius": 4.0,
-      "duration": 200,
+      "cooldown": 400,
+      "radius": 6,
+      "duration": 80,
       "cost": 120,
       "material": "SNOW_BALL",
       "displayName": "§cSmokes",

@@ -22,12 +22,13 @@ public class Stun {
             @Override
             public void run() {
                 p.teleport(loc);
-                if (ticks % 7 == 0) {
+                if (ticks % 8 == 0) {
                     p.getWorld().spawnParticle(Particle.VILLAGER_ANGRY,
                             p.getEyeLocation().add(p.getLocation().getDirection().multiply(0.5)),
                             0, 0, 0, 0);
                 }
-                if (++ticks >= latency ||
+                ticks += 2;
+                if (ticks >= latency ||
                         (p instanceof Player && ((Player) p).getGameMode().equals(GameMode.SPECTATOR))) {
                     this.cancel();
                 }

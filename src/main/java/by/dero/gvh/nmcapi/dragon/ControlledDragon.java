@@ -1,5 +1,8 @@
 package by.dero.gvh.nmcapi.dragon;
 
+import by.dero.gvh.model.interfaces.InteractAnyItem;
+import by.dero.gvh.utils.GameUtils;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -11,6 +14,8 @@ public class ControlledDragon {
     private final EmptyArmorStand empty2;
     private double speed = 1.0;
     private Player player;
+    private final double sizeX = 1;
+    private final double sizeY = 1;
 
     public ControlledDragon(Player player) {
         this.player = player;
@@ -52,9 +57,25 @@ public class ControlledDragon {
     }
 
     public void move(double dx, double dy, double dz) {
-        dragonBase.locX += dx;
-        dragonBase.locY += dy;
-        dragonBase.locZ += dz;
+        if (!isCollideBlocks(empty2.locX + dx, empty2.locY + dy, empty2.locZ + dz)) {
+            dragonBase.locX += dx;
+            dragonBase.locY += dy;
+            dragonBase.locZ += dz;
+        }
+    }
+
+    private boolean isCollideBlocks(double dragonX, double dragonY, double dragonZ) {
+        World world = player.getWorld();
+        for (double x = dragonX - sizeX; x <= dragonX + sizeX; ++x) {
+            for (double y = dragonY; y <= dragonY + sizeY; ++y) {
+                for (double z = dragonZ - sizeX; z <= dragonZ + sizeX; ++z) {
+                    if (!GameUtils.isVoid(world.getBlockAt((int) x, (int) y, (int) z).getType())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public void finish() {
@@ -78,5 +99,21 @@ public class ControlledDragon {
 
     public void setSpeed(double speed) {
         this.speed = speed;
+    }
+
+    public DragonBase getDragonBase() {
+        return dragonBase;
+    }
+
+    public RotatingDragon getDragon() {
+        return dragon;
+    }
+
+    public EmptyArmorStand getEmpty1() {
+        return empty1;
+    }
+
+    public EmptyArmorStand getEmpty2() {
+        return empty2;
     }
 }

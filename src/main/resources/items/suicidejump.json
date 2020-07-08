@@ -5,10 +5,10 @@
     {
       "cooldown": 600,
       "radius": 5.0,
-      "damage": 20,
-      "selfDamage": 20,
+      "damage": 14,
+      "selfDamage": 12,
       "cost": 80,
-      "material": "STICK",
+      "material": "FIREBALL",
       "displayName": "§cSuicide jump",
       "lore": [
         "§aЗаберите врагов за собой в ад!",

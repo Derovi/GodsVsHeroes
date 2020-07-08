@@ -3,8 +3,9 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 60,
+      "cooldown": 80,
       "cost": 80,
+      "damage": 10,
       "material": "BOW",
       "displayName": "§cThor bow",
       "lore": [
@@ -16,6 +17,7 @@
     {
       "cooldown": 55,
       "cost": 100,
+      "damage": 10,
       "material": "BOW",
       "displayName": "§cThor bow",
       "lore": [
@@ -27,6 +29,7 @@
     {
       "cooldown": 50,
       "cost": 120,
+      "damage": 10,
       "material": "BOW",
       "displayName": "§cThor bow",
       "lore": [
@@ -38,6 +41,7 @@
     {
       "cooldown": 45,
       "cost": 120,
+      "damage": 10,
       "material": "BOW",
       "displayName": "§cThor bow",
       "lore": [
@@ -49,6 +53,7 @@
     {
       "cooldown": 40,
       "cost": 120,
+      "damage": 10,
       "material": "BOW",
       "displayName": "§cThor bow",
       "lore": [

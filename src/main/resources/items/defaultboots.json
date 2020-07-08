@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 0,
-      "material": "GOLD_BOOTS",
+      "material": "LEATHER_BOOTS",
       "displayName": "§cСандали",
       "lore": [],
       "amount": 1

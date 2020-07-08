@@ -3,11 +3,11 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 600,
-      "radius": 11,
-      "strikes": 3,
+      "cooldown": 1200,
+      "radius": 7,
+      "strikes": 5,
       "signRadius": [7, 11],
-      "delayStrikes": 20,
+      "delayStrikes": 13,
       "cost": 80,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
@@ -16,11 +16,11 @@
         "§aУльтимативная. Нажмите, чтобы обрушить шторм на ваших врагов.",
         "§6Уровень 1"
       ],
-      "amount": 3
+      "amount": 1
     },
     {
-      "cooldown": 600,
-      "radius": 11,
+      "cooldown": 1200,
+      "radius": 9,
       "strikes": 3,
       "signRadius": [7, 11],
       "delayStrikes": 20,
@@ -35,9 +35,9 @@
       "amount": 4
     },
     {
-      "cooldown": 600,
+      "cooldown": 1200,
       "radius": 11,
-      "strikes": 3,
+      "strikes": 4,
       "signRadius": [7, 11],
       "delayStrikes": 20,
       "cost": 120,
@@ -48,7 +48,7 @@
         "§aУльтимативная. Нажмите, чтобы обрушить шторм на ваших врагов.",
         "§6Уровень 3"
       ],
-      "amount": 4
+      "amount": 1
     }
   ]
 }

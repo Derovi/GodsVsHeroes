@@ -8,12 +8,13 @@
     "damagepotion",
     "smokes",
     "ninjarope",
+    "poisonpotion",
     "eaglefly",
 
     "defaultarrow",
+    "defaulthelmet",
     "defaultchestplate",
     "defaultleggings",
-    "defaulthelmet",
-    "defaultboots"
+    "defaultbootschainmail"
   ]
 }

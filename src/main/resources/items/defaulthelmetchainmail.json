@@ -1,0 +1,13 @@
+{
+  "name": "defaulthelmetchainmail",
+  "slot": -1,
+  "levels": [
+    {
+      "cooldown": 0,
+      "material": "CHAINMAIL_HELMET",
+      "displayName": "§cШлем",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

@@ -4,8 +4,8 @@
   "invisible": true,
   "levels": [
     {
-      "radius": 30.0,
-      "minRadius": 10.0,
+      "radius": 18.0,
+      "minRadius": 8.0,
       "cooldown": 600,
       "cost": 80,
       "material": "FEATHER",

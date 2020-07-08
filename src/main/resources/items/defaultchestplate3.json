@@ -1,0 +1,14 @@
+{
+  "name": "defaultchestplate",
+  "slot": -2,
+  "levels": [
+    {
+      "cooldown": 0,
+      "cost": 80,
+      "material": "IRON_CHESTPLATE",
+      "displayName": "§cНагрудник",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

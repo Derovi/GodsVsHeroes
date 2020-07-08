@@ -198,6 +198,12 @@ public class Drawings {
                                      final double startAngle,
                                      final double endAngle) {
 
+        player.playSound(loc, Sound.BLOCK_END_PORTAL_SPAWN, 2f, 1);
+        for (int i = 0; i <= duration; i += 15) {
+            Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
+                    player.playSound(loc, Sound.BLOCK_FIRE_AMBIENT, 2, 1), i);
+        }
+
         spawnMovingSphere(loc.clone().add(0,1,0),
                 duration / 2, radius, Math.PI / 80,
                 startAngle, endAngle, 1, Particle.FLAME, player);
@@ -216,8 +222,10 @@ public class Drawings {
                         duration / 2, radius, Math.PI / 80,
                         endAngle, startAngle, 1, Particle.FLAME, player), duration / 2);
 
-        Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), ()->
-                spawnFirework(loc.clone().add(0,1,0), 2), duration);
+        Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+                    player.playSound(loc, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 2, 1);
+                    spawnFirework(loc.clone().add(0,1,0), 2);
+                }, duration);
     }
 
     public static void drawCircleInFront(final Location loc, final double radius,

@@ -39,7 +39,8 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
     private void setAttributes(EntityPig pig) {
         pig.getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(1000);
         pig.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.5);
-        pig.setInvulnerable(true);
+        pig.getAttributeInstance(GenericAttributes.maxHealth).setValue(10);
+        pig.setHealth(10);
     }
 
     @Override
@@ -72,7 +73,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
                         getLocation().distance(loc) < radius) {
                     pig.die();
                     pig.world.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
-                    owner.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 24, 1);
+                    owner.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1.07f, 1);
                     for (LivingEntity entity : GameUtils.getNearby(loc, radius)) {
                         if (GameUtils.isEnemy(entity, getTeam())) {
                             GameUtils.damage(damage, entity, owner);

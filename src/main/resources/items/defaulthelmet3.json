@@ -1,0 +1,13 @@
+{
+  "name": "defaulthelmet3",
+  "slot": -1,
+  "levels": [
+    {
+      "cooldown": 0,
+      "material": "IRON_HELMET",
+      "displayName": "§cШлем",
+      "lore": [],
+      "amount": 1
+    }
+  ]
+}

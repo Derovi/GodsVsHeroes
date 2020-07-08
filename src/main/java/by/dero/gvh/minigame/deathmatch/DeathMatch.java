@@ -88,6 +88,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
     @Override
     protected void onPlayerRespawned(final GamePlayer gp) {
+        super.onPlayerRespawned(gp);
         respawning[gp.getTeam()]--;
     }
 
@@ -151,6 +152,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         }
         event.setDeathMessage(null);
         final Player player = event.getEntity();
+        //player.leaveVehicle();
         final float exp = player.getExp();
 
         spawnFirework(player.getLocation().clone().add(0,1,0), 1);

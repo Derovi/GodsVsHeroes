@@ -3,22 +3,18 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.KnifeThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingKnife;
 import by.dero.gvh.utils.GameUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class KnifeThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class KnifeThrow extends Item implements PlayerInteractInterface {
     private final KnifeThrowInfo info;
 
     public KnifeThrow(String name, int level, Player owner) {
@@ -28,9 +24,12 @@ public class KnifeThrow extends Item implements PlayerInteractInterface, Infinit
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final int slot = owner.getInventory().getHeldItemSlot();
+        if (!cooldown.isReady()) {
+            return;
+        }
+        cooldown.reload();
         final ThrowingKnife knife = new ThrowingKnife(owner, info.getMaterial());
-        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         knife.spawn();
         knife.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(knife.getHoldEntity(), getTeam())) {
@@ -44,7 +43,7 @@ public class KnifeThrow extends Item implements PlayerInteractInterface, Infinit
             Location at = knife.getItemPosition().toLocation(owner.getWorld());
             owner.getWorld().spawnParticle(Particle.CRIT_MAGIC, at, 1);
             owner.getWorld().playSound(knife.getItemPosition().toLocation(owner.getWorld()),
-                    Sound.BLOCK_FENCE_GATE_CLOSE, 24, 1);
+                    Sound.BLOCK_FENCE_GATE_CLOSE, 1.07f, 1);
         });
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override

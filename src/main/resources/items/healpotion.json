@@ -5,7 +5,7 @@
     {
       "cooldown": 80,
       "radius": 5.0,
-      "heal": 3,
+      "heal": 4,
       "cost": 80,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
@@ -13,12 +13,12 @@
         "§aЛечите своих сопартийцев!",
         "§6Уровень 1"
       ],
-      "amount": 3
+      "amount": 2
     },
     {
       "cooldown": 75,
       "radius": 5.0,
-      "heal": 3,
+      "heal": 4,
       "cost": 100,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
@@ -26,12 +26,12 @@
         "§aЛечите своих сопартийцев!",
         "§6Уровень 2"
       ],
-      "amount": 3
+      "amount": 2
     },
     {
       "cooldown": 70,
       "radius": 5.0,
-      "heal": 3,
+      "heal": 4,
       "cost": 120,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
@@ -39,12 +39,12 @@
         "§aЛечите своих сопартийцев!",
         "§6Уровень 3"
       ],
-      "amount": 3
+      "amount": 2
     },
     {
       "cooldown": 65,
       "radius": 5.0,
-      "heal": 3,
+      "heal": 4,
       "cost": 120,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
@@ -52,12 +52,12 @@
         "§aЛечите своих сопартийцев!",
         "§6Уровень 4"
       ],
-      "amount": 3
+      "amount": 2
     },
     {
       "cooldown": 80,
       "radius": 5.0,
-      "heal": 3,
+      "heal": 4,
       "cost": 120,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
@@ -65,7 +65,7 @@
         "§aЛечите своих сопартийцев!",
         "§6Уровень 5"
       ],
-      "amount": 4
+      "amount": 3
     }
   ]
 }

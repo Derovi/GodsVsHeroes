@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.ChargesManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
@@ -39,7 +38,7 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
         final ThrowingAxe axe = new ThrowingAxe(owner, material);
 
         final int slot = owner.getInventory().getHeldItemSlot();
-        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  24, 1);
+        owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         axe.spawn();
         axe.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(axe.getHoldEntity(), getTeam())) {
@@ -68,10 +67,13 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
                 }
             }.runTaskTimer(Plugin.getInstance(), 0, 2);
             owner.getWorld().playSound(axe.getItemPosition().toLocation(owner.getWorld()),
-                    Sound.BLOCK_SHULKER_BOX_OPEN, 24, 1);
+                    Sound.BLOCK_SHULKER_BOX_OPEN, 1.07f, 1);
         });
         axe.setOnOwnerPickUp(() -> {
-            ChargesManager.getInstance().addItem(owner, this, slot);
+            if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+                owner.getInventory().setItem(slot, getItemStack());
+                owner.getInventory().getItem(slot).setAmount(1);
+            }
             axe.remove();
         });
         final BukkitRunnable runnable = new BukkitRunnable() {
