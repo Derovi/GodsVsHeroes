@@ -34,10 +34,12 @@ public class Minigame implements PluginMode {
     private World world;
 
     private LootsManager lootsManager;
+    public static long startTime;
 
     @Override
     public void onEnable() {
         instance = this;
+        startTime = System.currentTimeMillis();
 
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
                 ServerType.GAME);
@@ -60,6 +62,10 @@ public class Minigame implements PluginMode {
         game.prepare();
         registerEvents();
         registerCommands();
+    }
+
+    public static Long getLastTicks() {
+        return (System.currentTimeMillis() - startTime) / 50;
     }
 
     @Override

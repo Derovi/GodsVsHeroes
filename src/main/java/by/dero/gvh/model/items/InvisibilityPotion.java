@@ -21,7 +21,7 @@ public class InvisibilityPotion extends Item implements PlayerInteractInterface 
             return;
         }
         cooldown.reload();
-        Invisibility.makeInvisible(GameUtils.getPlayer(event.getPlayer().getName()), duration);
+        Invisibility.makeInvisible(GameUtils.getObject(event.getPlayer()), duration);
     }
 
 

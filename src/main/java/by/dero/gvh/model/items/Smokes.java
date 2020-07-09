@@ -1,5 +1,6 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
@@ -13,7 +14,6 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -21,6 +21,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashSet;
 
 public class Smokes extends Item implements InfiniteReplenishInterface, PlayerInteractInterface, ProjectileHitInterface {
 	private final double radius;
@@ -42,24 +44,47 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 		summonedEntityIds.add(proj.getUniqueId());
 	}
 
+	private static final HashSet<Location> poses = new HashSet<>();
+
+	private void smoke() {
+		for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
+			if (GameUtils.isEnemy(owner, gp.getTeam())) {
+				Player player = gp.getPlayer();
+				boolean inside = false;
+				for (Location loc : poses) {
+					if (loc.distance(player.getLocation()) < radius) {
+						if (!player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
+							player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 4), true);
+						}
+						inside = true;
+						break;
+					}
+				}
+				if (!inside) {
+					player.removePotionEffect(PotionEffectType.BLINDNESS);
+				}
+			}
+		}
+	}
+
 	@Override
 	public void onProjectileHit (ProjectileHitEvent event) {
 		Location loc = event.getEntity().getLocation();
+		poses.add(loc);
 		BukkitRunnable effects = new BukkitRunnable() {
 			int time = 0;
 
 			@Override
 			public void run () {
-				for (LivingEntity ent : GameUtils.getNearby(loc, radius)) {
-					if (ent instanceof Player && GameUtils.isEnemy(owner, ent)) {
-						ent.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 4), true);
-					}
-				}
+				smoke();
+
 				if (time % 60 == 0) {
 					loc.getWorld().playSound(loc, Sound.BLOCK_FIRE_EXTINGUISH, 1.07f, 1);
 				}
 				time += 2;
 				if (time > duration) {
+					poses.remove(loc);
+					smoke();
 					this.cancel();
 				}
 			}
