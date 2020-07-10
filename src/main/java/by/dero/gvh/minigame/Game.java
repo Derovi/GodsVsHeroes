@@ -125,6 +125,18 @@ public abstract class Game implements Listener {
                         if (!entity.isInsideVehicle()) {
                             entity.setVelocity(newVelocity);
                         } else {
+                            newVelocity = newVelocity.multiply(0.5);
+                            if (entity.getVehicle() instanceof Chicken) {
+                                entity.getVehicle().setVelocity(newVelocity.multiply(0.2));
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!entity.isDead()) {
+                                            entity.getVehicle().setVelocity(new Vector(0, 0, 0));
+                                        }
+                                    }
+                                }.runTaskLater(Plugin.getInstance(), 10);
+                            } else
                             if (entity.getVehicle() instanceof SkeletonHorse) {
                                 ArmorStand armorStand = (ArmorStand) entity.getWorld().spawnEntity(entity.getLocation(),
                                         EntityType.ARMOR_STAND);

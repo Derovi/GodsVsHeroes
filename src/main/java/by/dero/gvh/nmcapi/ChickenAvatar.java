@@ -59,6 +59,10 @@ public class ChickenAvatar extends EntityChicken {
         this.motX *= 0.9800000190734863D;
         this.motY *= 0.9800000190734863D;
         this.motZ *= 0.9800000190734863D;
+        System.out.println("mot");
+        System.out.println(motX);
+        System.out.println(motY);
+        System.out.println(motZ);
     }
 
     public void finish() {
