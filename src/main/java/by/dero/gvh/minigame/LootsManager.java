@@ -55,12 +55,12 @@ public class LootsManager implements Listener {
 
         public LootsNode(Location loc, PotionEffect effect, String headName, String text) {
             this.updateText = text;
-            this.text = new FlyingText(loc.add(0, 1, 0), "");
+            this.loc = loc.clone();
+            this.text = new FlyingText(loc.clone().add(0, 1.5, 0), "");
             this.effect = effect;
             EntityArmorStand ent = new EntityArmorStand(((CraftWorld) loc.getWorld()).getHandle(),
-                    loc.x, loc.y - GameUtils.eyeHeight * 2 + 0.15, loc.z);
+                    loc.x, loc.y - GameUtils.eyeHeight + 0.3, loc.z);
             stand = (CraftArmorStand) ent.getBukkitEntity();
-            this.loc = stand.getEyeLocation();
             stand.setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
             GameUtils.setInvisibleFlags(stand);
             ent.getWorld().addEntity(ent, CreatureSpawnEvent.SpawnReason.CUSTOM);
