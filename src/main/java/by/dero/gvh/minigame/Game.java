@@ -15,6 +15,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
@@ -127,7 +128,6 @@ public abstract class Game implements Listener {
                         } else {
                             newVelocity = newVelocity.multiply(0.5);
                             if (entity.getVehicle() instanceof Chicken) {
-                                entity.getVehicle().setVelocity(newVelocity.multiply(0.2));
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
