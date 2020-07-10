@@ -180,6 +180,28 @@ public class GameUtils {
         }
     }
 
+    public static void spawnLightning(Location at, double damage, double sound, GamePlayer owner) {
+        EntityLightning entity = new EntityLightning(((CraftWorld)at.getWorld()).world,
+                at.getX(), at.getY(), at.getZ(), false);
+
+        at.getWorld().playSound(at, Sound.ENTITY_LIGHTNING_THUNDER, (float) sound, 1);
+        for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
+            Player player = gp.getPlayer();
+            if (player.getLocation().distance(at) <= 2 && owner.getTeam() != gp.getTeam()) {
+                GameUtils.damage(damage, player, owner.getPlayer());
+            }
+            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntityWeather(entity));
+        }
+        for (GameMob gm : Game.getInstance().getMobs().values()) {
+            if (gm.getEntity().isDead()) {
+                continue;
+            }
+            if (gm.getEntity().getLocation().distance(at) <= 2 && owner.getTeam() != gm.getTeam()) {
+                GameUtils.damage(damage, gm.getEntity(), owner.getPlayer());
+            }
+        }
+    }
+
     public static Entity spawnEntity(final Location loc, final EntityType type) {
         CraftWorld wrld = ((CraftWorld) loc.getWorld());
         net.minecraft.server.v1_12_R1.Entity entity = wrld.createEntity(loc, type.getEntityClass());
@@ -264,8 +286,7 @@ public class GameUtils {
     public static List<LivingEntity> getNearby(final Location wh, final double radius) {
         final List<LivingEntity> buf = new ArrayList<>();
         for (Entity ent : Objects.requireNonNull(wh.getWorld()).getNearbyEntities(wh, radius, radius, radius)) {
-            if (ent instanceof LivingEntity &&
-                    ent.getLocation().distance(wh) <= radius) {
+            if (ent instanceof LivingEntity && ent.getLocation().distance(wh) <= radius && !isDeadPlayer(ent)) {
                 buf.add((LivingEntity) ent);
             }
         }
@@ -367,12 +388,12 @@ public class GameUtils {
         return false;
     }
 
-    public static GamePlayer getNearestEnemyPlayer(GamePlayer gp) {
-        Location wh = gp.getPlayer().getLocation();
+    public static GamePlayer getNearestEnemyPlayer(GameObject gp) {
+        Location wh = gp.getEntity().getLocation();
         GamePlayer ret = null;
-        double dst = 100000;
+        double dst = 10000;
         for (GamePlayer ot : Game.getInstance().getPlayers().values()) {
-            if (ot.getTeam() == gp.getTeam() || !isInGame(ot.getPlayer())) {
+            if (ot.getTeam() == gp.getTeam() || !isInGame(ot.getPlayer()) || isDeadPlayer(ot.getPlayer())) {
                 continue;
             }
             double cur = wh.distance(ot.getPlayer().getLocation());

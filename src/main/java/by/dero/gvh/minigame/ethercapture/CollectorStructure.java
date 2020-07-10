@@ -35,6 +35,10 @@ public class CollectorStructure {
             }
         }
 
+        base.add(Pair.of(Material.OBSIDIAN,new Vector(-1, -1, -1)));
+        base.add(Pair.of(Material.OBSIDIAN,new Vector(1, -1, 1)));
+        base.add(Pair.of(Material.OBSIDIAN,new Vector(1, -1, -1)));
+        base.add(Pair.of(Material.OBSIDIAN,new Vector(-1, -1, 1)));
         base.add(Pair.of(Material.OBSIDIAN,new Vector(-1, 0, 0)));
         base.add(Pair.of(Material.OBSIDIAN,new Vector(1, 0, 0)));
         base.add(Pair.of(Material.OBSIDIAN,new Vector(0, 0, -1)));

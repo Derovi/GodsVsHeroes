@@ -1,5 +1,6 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Drawings;
@@ -18,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class LightningStorm extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
+    private final int damage;
     private final int strikes;
     private final double[] signRadius;
     private final long delayStrikes;
@@ -27,6 +29,7 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
         super(name, level, owner);
         final LightningStormInfo info = (LightningStormInfo) getInfo();
         radius = info.getRadius();
+        damage = info.getDamage();
         strikes = info.getStrikes();
         signRadius = info.getSignRadius();
         delayStrikes = info.getDelayStrikes();
@@ -60,22 +63,22 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
-        drawSign(player.getLocation().clone());
+        drawSign(owner.getLocation().clone());
 
+        GamePlayer ownerGM = GameUtils.getPlayer(owner.getName());
         final BukkitRunnable runnable = new BukkitRunnable() {
             int times = 0;
-            final Location center = player.getLocation().clone();
+            final Location center = owner.getLocation().clone();
             @Override
             public void run() {
                 for (final LivingEntity obj : GameUtils.getNearby(center, radius)) {
                     if (GameUtils.isEnemy(obj, getTeam())) {
-                        GameUtils.setLastUsedLightning(owner);
-                        center.getWorld().strikeLightning(obj.getLocation());
+                        Location at = obj.getLocation();
+                        GameUtils.spawnLightning(at, damage, 1, ownerGM);
                     }
                 }
 

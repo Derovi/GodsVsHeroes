@@ -7,54 +7,111 @@ import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.GameUtils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import net.minecraft.server.v1_12_R1.EntityArmorStand;
+import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class LootsManager implements Listener {
     private final long cooldown = 1200;
-    private final HashMap<String, ArrayList<ArmorStand>> loots = new HashMap<>();
-    private final HashMap<UUID, Long> cooldowns = new HashMap<>();
-    private final HashMap<UUID, FlyingText> texts = new HashMap<>();
-    private final HashMap<String, PotionEffect> effects = new HashMap<>();
+    private final ArrayList<LootsNode> loots = new ArrayList<>();
 
-    public LootsManager() {
-        effects.put("heal", new PotionEffect(PotionEffectType.HEAL, 1, 10));
-        effects.put("speed", new PotionEffect(PotionEffectType.SPEED, 600, 2));
-        effects.put("resistance", new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 400, 1));
+    public class LootsNode {
+        private final CraftArmorStand stand;
+        private final PotionEffect effect;
+        private final FlyingText text;
+        private final String updateText;
+        private final Location loc;
+        private Long lastUsed = 0L;
+
+        private final ArrayList<Integer> updateIdxs = new ArrayList<>();
+        public void update(String... args) {
+            long left = lastUsed + cooldown * 50 - System.currentTimeMillis();
+            if (left >= 0) {
+                text.setText(Lang.get("game.lootsLabelCooldown").replace("%time%", String.valueOf(left / 1000)));
+                return;
+            }
+            String result = updateText;
+            for (int i = 0; i < updateIdxs.size(); i += 2) {
+                result = result.replace(result.substring(updateIdxs.get(i), updateIdxs.get(i+1)+1), args[i / 2]);
+            }
+            text.setText(result);
+        }
+
+        public LootsNode(Location loc, PotionEffect effect, String headName, String text) {
+            this.updateText = text;
+            this.loc = loc.clone();
+            this.text = new FlyingText(loc.clone().add(0, 1.5, 0), "");
+            this.effect = effect;
+            EntityArmorStand ent = new EntityArmorStand(((CraftWorld) loc.getWorld()).getHandle(),
+                    loc.x, loc.y - GameUtils.eyeHeight + 0.3, loc.z);
+            stand = (CraftArmorStand) ent.getBukkitEntity();
+            stand.setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
+            GameUtils.setInvisibleFlags(stand);
+            ent.getWorld().addEntity(ent, CreatureSpawnEvent.SpawnReason.CUSTOM);
+            ent.setCustomNameVisible(false);
+            stand.getEquipment().setHelmet(getHead(headName));
+
+            for (int i = 0; i < text.length(); i++) {
+                if (text.charAt(i) == '%') {
+                    updateIdxs.add(i);
+                }
+            }
+            update();
+        }
+
+        public boolean isReady() {
+            return lastUsed + cooldown * 50 - System.currentTimeMillis() < 0;
+        }
+
+        public void use(Player player) {
+            player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, null);
+            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1.07f, 1);
+            GameUtils.getPlayer(player.getName()).addEffect(effect);
+            lastUsed = System.currentTimeMillis();
+            stand.teleport(stand.getLocation().subtract(0, 30, 0));
+            final BukkitRunnable runnable = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    stand.teleport(stand.getLocation().clone().add(0,30,0));
+                }
+            };
+            runnable.runTaskLater(Plugin.getInstance(), cooldown);
+            Game.getInstance().getRunnables().add(runnable);
+        }
+
+        public void unload() {
+            stand.remove();
+            text.unload();
+        }
+
+        public Location getLoc () {
+            return loc;
+        }
     }
 
     public void load() {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                texts.forEach((uuid, text) -> {
-                    final long left = cooldowns.getOrDefault(uuid, 0L) +
-                            cooldown * 50 - System.currentTimeMillis();
-                    if (left >= 0) {
-                        text.setText(Lang.get("game.lootsLabelCooldown").replace("%time%", String.valueOf(left / 1000)));
-                    } else {
-                        text.setText(Lang.get("game.lootsLabelReady"));
-                    }
-                });
+                for (LootsNode node : loots) {
+                    node.update();
+                }
             }
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 10);
@@ -62,27 +119,17 @@ public class LootsManager implements Listener {
 
         GameInfo info = Game.getInstance().getInfo();
         for (final DirectedPosition pos : info.getHealPoints()) {
-            spawn(pos.toLocation(info.getWorld()), "heal");
+            loots.add(new LootsNode(pos.toLocation(info.getWorld()), new PotionEffect(PotionEffectType.HEAL, 1, 10),
+                    "heal", Lang.get("loots.labelHeal").replace("%pts%",  "10")));
         }
         for (final DirectedPosition pos : info.getSpeedPoints()) {
-            spawn(pos.toLocation(info.getWorld()), "speed");
+            loots.add(new LootsNode(pos.toLocation(info.getWorld()), new PotionEffect(PotionEffectType.SPEED, 240, 2),
+                    "speed", Lang.get("loots.labelReady")));
         }
         for (final DirectedPosition pos : info.getResistancePoints()) {
-            spawn(pos.toLocation(info.getWorld()), "resistance");
+            loots.add(new LootsNode(pos.toLocation(info.getWorld()), new PotionEffect(PotionEffectType.HEAL, 240, 1),
+                    "resistance", Lang.get("loots.labelReady")));
         }
-    }
-
-    public void spawn(final Location at, final String name) {
-        CraftArmorStand stand = (CraftArmorStand) at.getWorld().spawnEntity(
-                at.subtract(0, GameUtils.eyeHeight - 0.4, 0), EntityType.ARMOR_STAND);
-        GameUtils.setInvisibleFlags(stand);
-        stand.getHandle().setCustomNameVisible(false);
-        stand.getEquipment().setHelmet(getHead(name));
-        if (!loots.containsKey(name)) {
-            loots.put(name, new ArrayList<>());
-        }
-        texts.put(stand.getUniqueId(), new FlyingText(stand.getEyeLocation().add(0,2,0), ""));
-        loots.get(name).add(stand);
     }
 
     public static ItemStack getHead(String name)
@@ -97,18 +144,8 @@ public class LootsManager implements Listener {
         return null;
     }
 
-    private boolean useByName(final String name, final Player player) {
-        if (!effects.containsKey(name)) {
-            return false;
-        }
-        player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, null);
-        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1.07f, 1);
-        GameUtils.getPlayer(player.getName()).addEffect(effects.get(name));
-        return true;
-    }
 
-    public static ItemStack createSkull(String url, String name)
-    {
+    public static ItemStack createSkull(String url, String name) {
         ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
         if (url.isEmpty()) return head;
 
@@ -133,36 +170,20 @@ public class LootsManager implements Listener {
     }
 
     public void unload() {
-        for (final ArrayList<ArmorStand> list : loots.values()) {
-            for (final ArmorStand stand : list) {
-                stand.remove();
-            }
-            list.clear();
+        for (LootsNode node : loots) {
+            node.unload();
         }
-        texts.forEach((uuid, text) -> text.unload());
-        loots.clear();
-        cooldowns.clear();
-
     }
 
     @EventHandler
     public void checkForLoots(final PlayerMoveEvent event) {
-        loots.forEach((name, list) -> list.forEach((loot) -> {
-            if ((System.currentTimeMillis() - cooldowns.getOrDefault(loot.getUniqueId(), 0L)) / 50 >= cooldown &&
-                    loot.getEyeLocation().distance(event.getPlayer().getLocation()) <= 1) {
-                if (useByName(name, event.getPlayer())) {
-                    cooldowns.put(loot.getUniqueId(), System.currentTimeMillis());
-                    loot.teleport(loot.getLocation().clone().subtract(0,30,0));
-                    final BukkitRunnable runnable = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            loot.teleport(loot.getLocation().clone().add(0,30,0));
-                        }
-                    };
-                    runnable.runTaskLater(Plugin.getInstance(), cooldown);
-                    Game.getInstance().getRunnables().add(runnable);
+        Player player = event.getPlayer();
+        if (player.getGameMode().equals(GameMode.SURVIVAL)) {
+            for (LootsNode node : loots) {
+                if (node.isReady() && node.loc.distance(player.getLocation()) <= 1) {
+                    node.use(player);
                 }
             }
-        }));
+        }
     }
 }

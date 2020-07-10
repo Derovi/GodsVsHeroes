@@ -15,7 +15,7 @@ import java.util.HashMap;
 public abstract class GameObject {
 	public LivingEntity entity;
 
-	private int team;
+	private int team = -1;
 	private final HashMap<PotionEffectType, ArrayList<Pair<Long, Integer> > > effects = new HashMap<>();
 	private Pair<Long, Integer> lastEffect = Pair.of(-1L, -1);
 

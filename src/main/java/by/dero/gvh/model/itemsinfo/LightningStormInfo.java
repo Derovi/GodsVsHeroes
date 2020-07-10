@@ -5,6 +5,7 @@ import org.bukkit.Particle;
 
 public class LightningStormInfo extends ItemInfo {
     private double radius;
+    private int damage;
     private int strikes;
     private double[] signRadius;
     private long delayStrikes;
@@ -48,5 +49,13 @@ public class LightningStormInfo extends ItemInfo {
 
     public void setDrawParticle(Particle drawParticle) {
         this.drawParticle = drawParticle;
+    }
+
+    public int getDamage () {
+        return damage;
+    }
+
+    public void setDamage (int damage) {
+        this.damage = damage;
     }
 }
