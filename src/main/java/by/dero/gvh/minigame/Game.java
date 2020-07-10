@@ -122,7 +122,11 @@ public abstract class Game implements Listener {
                     }
                     if (newVelocity != null) {
                         if (!entity.isInsideVehicle()) {
+                            System.out.println("veloc1");
                             entity.setVelocity(newVelocity);
+                        } else {
+                            System.out.println("Veloc2");
+                            entity.getVehicle().setVelocity(newVelocity);
                         }
                         if (entity instanceof Player) {
                             entity.sendMessage(desMsg);

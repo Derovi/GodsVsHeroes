@@ -10,6 +10,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInterface {
 
@@ -27,9 +28,10 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInter
         cooldown.reload();
         horse = (SkeletonHorse) GameUtils.spawnEntity(owner.getLocation(), EntityType.SKELETON_HORSE);
         horse.setAdult();
+        horse.setVelocity(new Vector(0,2,0));
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
-        horse.setOwner(owner);
-        horse.addPassenger(owner);
+        //horse.setOwner(owner);
+        //horse.addPassenger(owner);
 
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1.07f, 1);
         summonedEntityIds.add(horse.getUniqueId());
