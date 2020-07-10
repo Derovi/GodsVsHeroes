@@ -1,8 +1,10 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ExplosivePigInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -48,6 +50,12 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         if (!cooldown.isReady()) {
             return;
         }
+
+        GamePlayer gp = GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName()));
+        if (gp == null) {
+            owner.sendMessage(Lang.get("game.noEnemyTarget"));
+            return;
+        }
         cooldown.reload();
 
         EntityPig pig = new EntityPig(((CraftWorld) owner.getWorld()).world);
@@ -55,9 +63,10 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         pig.setPosition(pLoc.getX(), pLoc.getY(), pLoc.getZ());
         setAttributes(pig);
 
-        CraftPlayer target = (CraftPlayer) GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).getPlayer();
         pig.goalSelector = new PathfinderGoalSelector(pig.world.methodProfiler);
         pig.targetSelector = new PathfinderGoalSelector(pig.world.methodProfiler);
+
+        CraftPlayer target = (CraftPlayer) gp.getPlayer();
         pig.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
         pig.goalSelector.a(0, new PathfinderFollow(pig, 1, 200));
 

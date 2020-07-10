@@ -1,9 +1,9 @@
 {
   "name": "paladin",
-  "maxHP": 40,
+  "maxHP": 30,
   "cost": 0,
   "itemNames": [
-    "defaultsword",
+    "swordthrow",
     "healpotion",
     "airleap",
     "improvedbow",

@@ -1,7 +1,6 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.WebThrowInfo;
@@ -58,7 +57,7 @@ public class WebThrow extends Item implements PlayerInteractInterface {
             //smartFallingBlock.setHoldEntity(entity);
             smartFallingBlock.setNoGravity(true);
             smartFallingBlock.setVelocity(new Vector(0,0,0));
-            ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, level), true);
+            GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, duration, level));
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -66,10 +65,11 @@ public class WebThrow extends Item implements PlayerInteractInterface {
                 }
             }.runTaskLater(Plugin.getInstance(), duration);
         });
-        int playerTeam = Minigame.getInstance().getGame().getPlayers().get(player.getName()).getTeam();
+
+        int playerTeam = GameUtils.getPlayer(player.getName()).getTeam();
         smartFallingBlock.setOnEnter((Entity entity) -> {
             if (entity instanceof LivingEntity && GameUtils.isEnemy(entity, playerTeam)) {
-                ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, level), true);
+                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, duration, level));
             }
         });
     }

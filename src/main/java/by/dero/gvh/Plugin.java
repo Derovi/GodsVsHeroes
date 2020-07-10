@@ -37,6 +37,7 @@ public class Plugin extends JavaPlugin implements Listener {
         super.onEnable();
         CustomEntities.registerEntities();
         instance = this;
+        new GameUtils();
         try {
             settings = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(),
                     "settings", "settings", ResourceUtils.readResourceFile("/settings.json")),
@@ -84,7 +85,6 @@ public class Plugin extends JavaPlugin implements Listener {
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(Plugin.getInstance(), "BungeeCord");
         Bukkit.getPluginManager().registerEvents(this, this);
         new MathUtils();
-        new GameUtils();
     }
 
     @Override

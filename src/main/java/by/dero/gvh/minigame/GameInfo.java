@@ -18,6 +18,7 @@ public class GameInfo {
     private DirectedPosition[] healPoints;
     private DirectedPosition[] speedPoints;
     private DirectedPosition[] resistancePoints;
+    private DirectedPosition[] liftHints;
 
     public int getFinishTime() {
         return finishTime;
@@ -137,5 +138,13 @@ public class GameInfo {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public DirectedPosition[] getLiftHints () {
+        return liftHints;
+    }
+
+    public void setLiftHints (DirectedPosition[] liftHints) {
+        this.liftHints = liftHints;
     }
 }

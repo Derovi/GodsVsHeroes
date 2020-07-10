@@ -1,11 +1,15 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.nmcapi.CustomLeash;
+import by.dero.gvh.utils.DirectedPosition;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftChicken;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -35,6 +39,24 @@ public class LiftManager implements Listener {
 			new Vector(-1, 0, -1), new Vector(1, 0, -1), new Vector(1, 0, 1), new Vector(-1, 0, 1),
 			new Vector(-1, 0, 0), new Vector(0, 0, -1), new Vector(0, 0, 1), new Vector(1, 0, 0),
 	};
+
+	private FlyingText[] hints = null;
+	public void load() {
+		DirectedPosition[] poses = Game.getInstance().getInfo().getLiftHints();
+		World wrld = Minigame.getInstance().getWorld();
+		hints = new FlyingText[poses.length];
+		for (int i = 0; i < poses.length; i++) {
+			hints[i] = new FlyingText(poses[i].toLocation(wrld), Lang.get("hints.lift"));
+		}
+	}
+
+	public void unload() {
+		for (FlyingText hint : hints) {
+			hint.unload();
+		}
+		hints = null;
+	}
+
 
 	@EventHandler
 	public void activateLift(PlayerMoveEvent event) {

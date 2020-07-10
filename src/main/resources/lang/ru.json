@@ -15,6 +15,9 @@
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
   },
+  "hints": {
+    "lift": "§8[§aПРОБЕЛ§8]§b - подняться"
+  },
   "time": {
     "sec0": "секунд",
     "sec1": "секунды",
@@ -40,10 +43,13 @@
     "dead": "§4Вы мертвы",
     "stunMessage": "§cВы в стане!",
     "desertionMessage": "§cНа фронте дезертирству нет места!",
-    "lootsLabelCooldown": "§cПерезаряжается! Осталось %time%",
-    "lootsLabelReady": "§aГотово!",
     "ether": "Эфира",
     "collectorCaptureInform": "§aКоллектор §c%num%§a захвачен командой %com%§a!"
+  },
+  "loots": {
+    "labelHeal": "§aГотово! %pts%§c❤",
+    "labelCooldown": "§cПерезаряжается! Осталось %time%",
+    "labelReady": "§aГотово!"
   },
   "stats": {
     "label": "§aСтатистика",
@@ -73,6 +79,7 @@
   "commands": {
     "stat": "§%col%%com%§8: §9%pts%",
     "playingFor": "§aВы играете за§8: §9%com%",
+    "0": "§aСлучайная",
     "1": "§cКрасные",
     "2": "§aЗеленые",
     "3": "§bТолерантные",
@@ -83,6 +90,9 @@
     "8": "§8Незеленые"
   },
   "gameLobby": {
+    "cantSelect": "§cВ этой команде уже слишком много людей",
+    "exit": "§cВыйти назад в лобби",
+    "boardPreferred": "§aВыбрано§8: %com%§a!",
     "boardReady": "§aГотово к игре§8: §9%cur%/%max%",
     "boardRequired": "§aНужно как минимум§8: §9%min%",
     "boardTimeLeft": "§bОсталось времени§8: §9%time%",

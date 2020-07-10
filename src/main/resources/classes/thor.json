@@ -1,6 +1,6 @@
 {
   "name": "thor",
-  "maxHP": 40,
+  "maxHP": 30,
   "cost": 0,
   "itemNames": [
     "axethrow",

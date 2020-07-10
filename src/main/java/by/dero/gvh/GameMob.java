@@ -3,13 +3,12 @@ package by.dero.gvh;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-public class GameMob implements GameObject {
+public class GameMob extends GameObject {
 	private final int team;
 	private final Player owner;
-	private final LivingEntity entity;
 
 	public GameMob(LivingEntity entity, int team, Player owner) {
-		this.entity = entity;
+		super(entity);
 		this.team = team;
 		this.owner = owner;
 	}
