@@ -81,7 +81,7 @@ public class LootsManager implements Listener {
         if (!loots.containsKey(name)) {
             loots.put(name, new ArrayList<>());
         }
-        texts.put(stand.getUniqueId(), new FlyingText(stand.getEyeLocation().add(0,1,0), ""));
+        texts.put(stand.getUniqueId(), new FlyingText(stand.getEyeLocation().add(0,2,0), ""));
         loots.get(name).add(stand);
     }
 

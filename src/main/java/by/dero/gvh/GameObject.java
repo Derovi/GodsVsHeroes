@@ -4,7 +4,6 @@ package by.dero.gvh;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import org.apache.commons.lang3.tuple.Pair;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -26,7 +25,6 @@ public abstract class GameObject {
 
 	public long setBestEffect(PotionEffectType type) {
 		long time = Minigame.getLastTicks();
-		Bukkit.getServer().broadcastMessage(time + " ");
 		ArrayList<Pair<Long, Integer>> local = effects.get(type);
 		local.removeIf((e) -> e.getKey() <= time);
 		if (local.isEmpty()) {
@@ -40,7 +38,6 @@ public abstract class GameObject {
 				end = ef.getKey();
 			}
 		}
-		Bukkit.getServer().broadcastMessage(end + " zxc " + amp);
 		if (lastEffect.getKey() == end && lastEffect.getValue() == amp) {
 			return -1;
 		}
@@ -56,7 +53,6 @@ public abstract class GameObject {
 			return false;
 		}
 
-		Bukkit.getServer().broadcastMessage("try update");
 		BukkitRunnable runnable = new BukkitRunnable() {
 			@Override
 			public void run () {
