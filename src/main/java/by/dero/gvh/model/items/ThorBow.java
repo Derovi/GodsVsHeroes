@@ -1,21 +1,13 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.GameMob;
-import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ThorBowInfo;
 import by.dero.gvh.utils.GameUtils;
-import net.minecraft.server.v1_12_R1.EntityLightning;
-import net.minecraft.server.v1_12_R1.PacketPlayOutSpawnEntityWeather;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -55,27 +47,7 @@ public class ThorBow extends Item implements PlayerShootBowInterface, Projectile
 	@Override
 	public void onProjectileHit (ProjectileHitEvent event) {
 		Location at = event.getEntity().getLocation();
-//		CustomLightning lightning = new CustomLightning(((CraftWorld)at.getWorld()).getHandle(), at.x, at.y, at.z, false, false);
-//		lightning.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
-//		GameUtils.setLastUsedLightning(owner);
-//		owner.getWorld().strikeLightning(at);
-//		lightning.getWorld().addEntity(lightning, CreatureSpawnEvent.SpawnReason.CUSTOM);
-		EntityLightning entity = new EntityLightning(((CraftWorld)at.getWorld()).world,
-				at.getX(), at.getY(), at.getZ(), false);
-		at.getWorld().playSound(at, Sound.ENTITY_LIGHTNING_THUNDER, 0.5f, 1);
-		for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
-			Player player = gp.getPlayer();
-			((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntityWeather(entity));
-
-			if (player.getLocation().distance(at) <= 2 && getTeam() != gp.getTeam()) {
-				GameUtils.damage(damage, player, owner);
-			}
-		}
-		for (GameMob gm : Game.getInstance().getMobs().values()) {
-			if (gm.getEntity().getLocation().distance(at) <= 2 && getTeam() != gm.getTeam()) {
-				GameUtils.damage(damage, gm.getEntity(), owner);
-			}
-		}
+		GameUtils.spawnLightning(at, damage, 0.5, GameUtils.getPlayer(owner.getName()));
 	}
 
 	@Override

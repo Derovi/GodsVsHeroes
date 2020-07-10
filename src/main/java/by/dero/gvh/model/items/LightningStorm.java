@@ -2,7 +2,6 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
@@ -11,13 +10,8 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.LightningStormInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
-import net.minecraft.server.v1_12_R1.EntityLightning;
-import net.minecraft.server.v1_12_R1.PacketPlayOutSpawnEntityWeather;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -75,6 +69,7 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
         cooldown.reload();
         drawSign(owner.getLocation().clone());
 
+        GamePlayer ownerGM = GameUtils.getPlayer(owner.getName());
         final BukkitRunnable runnable = new BukkitRunnable() {
             int times = 0;
             final Location center = owner.getLocation().clone();
@@ -83,17 +78,7 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
                 for (final LivingEntity obj : GameUtils.getNearby(center, radius)) {
                     if (GameUtils.isEnemy(obj, getTeam())) {
                         Location at = obj.getLocation();
-                        EntityLightning entity = new EntityLightning(((CraftWorld)at.getWorld()).world,
-                                at.getX(), at.getY(), at.getZ(), false);
-
-                        at.getWorld().playSound(at, Sound.ENTITY_LIGHTNING_THUNDER, 1, 1);
-                        for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
-                            Player player = gp.getPlayer();
-                            if (player.getLocation().distance(at) <= 2 && getTeam() != gp.getTeam()) {
-                                GameUtils.damage(damage, player, owner);
-                            }
-                            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntityWeather(entity));
-                        }
+                        GameUtils.spawnLightning(at, damage, 1, ownerGM);
                     }
                 }
 
