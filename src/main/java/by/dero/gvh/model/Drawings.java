@@ -28,7 +28,7 @@ public class Drawings {
         while (true) {
             a.getWorld().spawnParticle(obj,
                     new Location(a.getWorld(), cur.getX(), cur.getY(), cur.getZ()),
-                    1, 0,0,0,0);
+                    1, 0, 0, 0, 0);
 
             if (cur.equals(to)) {
                 break;
