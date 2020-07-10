@@ -165,12 +165,33 @@ public abstract class Game implements Listener {
     }
 
     private void chooseTeams() {
-        List<String> playerNames = new ArrayList<>(players.keySet());
-        Collections.shuffle(playerNames);
         final int cnt = getInfo().getTeamCount();
-        for (int index = 0; index < playerNames.size(); ++index) {
-            players.get(playerNames.get(index)).setTeam(cnt - index % cnt - 1);
+        int[] teams = new int[cnt];
+
+        final Stack<GamePlayer> left = new Stack<>();
+        for (GamePlayer gp : getPlayers().values()) {
+            if (gp.getTeam() != -1) {
+                teams[gp.getTeam()]++;
+            } else {
+                left.add(gp);
+            }
         }
+        ArrayList<Integer> idxs = new ArrayList<>(cnt);
+        for (int i = 0; i < cnt; i++) {
+            idxs.add(i);
+        }
+        idxs.sort(Comparator.comparingInt(a -> teams[a]));
+        for (int t = 0; t < cnt-1; t++) {
+            while (teams[t] != teams[t+1] && !left.isEmpty()) {
+                for (int i = 0; i <= t && !left.isEmpty(); i++) {
+                    int team = idxs.get(i);
+                    teams[team]++;
+                    left.peek().setTeam(team);
+                    left.pop();
+                }
+            }
+        }
+
         mobs = new HashMap<>();
     }
 

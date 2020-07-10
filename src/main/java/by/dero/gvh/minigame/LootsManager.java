@@ -38,8 +38,8 @@ public class LootsManager implements Listener {
 
     public LootsManager() {
         effects.put("heal", new PotionEffect(PotionEffectType.HEAL, 1, 10));
-        effects.put("speed", new PotionEffect(PotionEffectType.SPEED, 600, 2));
-        effects.put("resistance", new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 400, 1));
+        effects.put("speed", new PotionEffect(PotionEffectType.SPEED, 240, 2));
+        effects.put("resistance", new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 240, 1));
     }
 
     public void load() {
