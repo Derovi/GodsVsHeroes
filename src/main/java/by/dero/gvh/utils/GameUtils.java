@@ -82,6 +82,10 @@ public class GameUtils {
         return Minigame.getInstance().getGame().getMobs().getOrDefault(uuid, null);
     }
 
+    public static GameObject getObject(LivingEntity entity) {
+        return entity instanceof Player ? getPlayer(entity.getName()) : getMob(entity.getUniqueId());
+    }
+
     public static void damage(double damage, LivingEntity target, LivingEntity killer) {
         damage(damage, target, killer, false);
     }

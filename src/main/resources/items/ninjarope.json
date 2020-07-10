@@ -5,7 +5,7 @@
     {
       "forceMultiplier": 0.25,
       "distance": 10,
-      "cooldown": 120,
+      "cooldown": 100,
       "cost": 80,
       "material": "STICK",
       "displayName": "§cNinja rope",

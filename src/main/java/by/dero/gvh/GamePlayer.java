@@ -14,12 +14,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GamePlayer implements GameObject {
+public class GamePlayer extends GameObject {
     private Player player;
     private String className = "default";
     private PlayerInfo playerInfo;
     private final HashMap<String, Item> items = new HashMap<>();
-    private int team;
     private Item lastUsed;
     private boolean actionBarBlocked = false;
     private ItemStack[] contents = null;
@@ -27,9 +26,11 @@ public class GamePlayer implements GameObject {
     private Board board;
 
     public GamePlayer(Player player) {
+        super(player);
         this.player = player;
         this.playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
     }
+
 
     public Item getLastUsed() {
         return lastUsed;
@@ -228,14 +229,6 @@ public class GamePlayer implements GameObject {
 
     public HashMap<String, Item> getItems() {
         return items;
-    }
-
-    public int getTeam() {
-        return team;
-    }
-
-    public void setTeam(int team) {
-        this.team = team;
     }
 
     public void setBoard(final Board board) {

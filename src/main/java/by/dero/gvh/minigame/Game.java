@@ -77,8 +77,7 @@ public abstract class Game implements Listener {
             spawnPlayer(player, 0);
         }
         state = State.GAME;
-        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
-                state.toString());
+        Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(), state.toString());
         lobby = null;
         BukkitRunnable cooldownMessageUpdater = new BukkitRunnable() {
             @Override
@@ -141,6 +140,7 @@ public abstract class Game implements Listener {
 
         new ChargesManager();
         Minigame.getInstance().getLootsManager().load();
+        Minigame.getInstance().getLiftManager().load();
         for (GamePlayer gp : getPlayers().values()) {
             gp.updateInventory();
         }
@@ -268,6 +268,7 @@ public abstract class Game implements Listener {
             runnable.cancel();
         }
         mapManager.finish();
+        Minigame.getInstance().getLiftManager().unload();
         Minigame.getInstance().getLootsManager().unload();
         runnables.clear();
 

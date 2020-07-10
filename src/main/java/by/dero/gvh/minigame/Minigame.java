@@ -34,10 +34,13 @@ public class Minigame implements PluginMode {
     private World world;
 
     private LootsManager lootsManager;
+    private LiftManager liftManager;
+    public static long startTime;
 
     @Override
     public void onEnable() {
         instance = this;
+        startTime = System.currentTimeMillis();
 
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
                 ServerType.GAME);
@@ -62,6 +65,10 @@ public class Minigame implements PluginMode {
         registerCommands();
     }
 
+    public static Long getLastTicks() {
+        return (System.currentTimeMillis() - startTime) / 50;
+    }
+
     @Override
     public void onDisable() {
         if (game != null) {
@@ -73,13 +80,14 @@ public class Minigame implements PluginMode {
         gameEvents = new GameEvents();
         lootsManager = new LootsManager();
         areaManager = new AreaManager();
+        liftManager = new LiftManager();
         Plugin instance = Plugin.getInstance();
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(gameEvents, instance);
         manager.registerEvents(areaManager, instance);
         manager.registerEvents(lootsManager, instance);
         manager.registerEvents(new DoubleSpaceListener(), instance);
-        manager.registerEvents(new LiftManager(), instance);
+        manager.registerEvents(liftManager, instance);
         manager.registerEvents(game, instance);
     }
 
@@ -119,5 +127,9 @@ public class Minigame implements PluginMode {
 
     public LootsManager getLootsManager() {
         return lootsManager;
+    }
+
+    public LiftManager getLiftManager () {
+        return liftManager;
     }
 }

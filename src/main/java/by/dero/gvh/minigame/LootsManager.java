@@ -14,7 +14,7 @@ import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -81,7 +81,7 @@ public class LootsManager implements Listener {
         if (!loots.containsKey(name)) {
             loots.put(name, new ArrayList<>());
         }
-        texts.put(stand.getUniqueId(), new FlyingText(stand.getEyeLocation().add(0,1,0), ""));
+        texts.put(stand.getUniqueId(), new FlyingText(stand.getEyeLocation().add(0,2,0), ""));
         loots.get(name).add(stand);
     }
 
@@ -97,13 +97,13 @@ public class LootsManager implements Listener {
         return null;
     }
 
-    private boolean useByName(final String name, final LivingEntity entity) {
+    private boolean useByName(final String name, final Player player) {
         if (!effects.containsKey(name)) {
             return false;
         }
-        entity.getWorld().playEffect(entity.getLocation(), Effect.ENDER_SIGNAL, null);
-        entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1.07f, 1);
-        entity.addPotionEffect(effects.get(name), true);
+        player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, null);
+        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1.07f, 1);
+        GameUtils.getPlayer(player.getName()).addEffect(effects.get(name));
         return true;
     }
 

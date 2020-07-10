@@ -5,7 +5,7 @@
     {
       "cooldown": 0,
       "cost": 80,
-      "material": "STONE_SWORD",
+      "material": "DIAMOND_SWORD",
       "displayName": "§cМеч",
       "lore": [],
       "amount": 1
@@ -13,7 +13,7 @@
     {
       "cooldown": 0,
       "cost": 100,
-      "material": "IRON_SWORD",
+      "material": "DIAMOND_SWORD",
       "displayName": "§cМеч",
       "lore": [],
       "amount": 1
