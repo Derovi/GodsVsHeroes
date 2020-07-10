@@ -13,6 +13,7 @@ import net.minecraft.server.v1_12_R1.EntityLightning;
 import net.minecraft.server.v1_12_R1.PacketPlayOutSpawnEntityWeather;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
@@ -61,6 +62,7 @@ public class ThorBow extends Item implements PlayerShootBowInterface, Projectile
 //		lightning.getWorld().addEntity(lightning, CreatureSpawnEvent.SpawnReason.CUSTOM);
 		EntityLightning entity = new EntityLightning(((CraftWorld)at.getWorld()).world,
 				at.getX(), at.getY(), at.getZ(), false);
+		at.getWorld().playSound(at, Sound.ENTITY_LIGHTNING_THUNDER, 0.5f, 1);
 		for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
 			Player player = gp.getPlayer();
 			((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntityWeather(entity));

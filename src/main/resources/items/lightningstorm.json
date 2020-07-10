@@ -6,6 +6,7 @@
       "cooldown": 1200,
       "radius": 7,
       "strikes": 5,
+      "damage": 8,
       "signRadius": [7, 11],
       "delayStrikes": 13,
       "cost": 80,
@@ -21,6 +22,7 @@
     {
       "cooldown": 1200,
       "radius": 9,
+      "damage": 8,
       "strikes": 3,
       "signRadius": [7, 11],
       "delayStrikes": 20,
@@ -37,6 +39,7 @@
     {
       "cooldown": 1200,
       "radius": 11,
+      "damage": 8,
       "strikes": 4,
       "signRadius": [7, 11],
       "delayStrikes": 20,
