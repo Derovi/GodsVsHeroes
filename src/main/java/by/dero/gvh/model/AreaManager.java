@@ -1,6 +1,5 @@
 package by.dero.gvh.model;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,9 +21,7 @@ public class AreaManager implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        Bukkit.getServer().broadcastMessage("1");
         if (!isTerritoryDamage(event.getBlock().getLocation())) {
-            Bukkit.getServer().broadcastMessage("2");
             event.setCancelled(true);
         }
     }

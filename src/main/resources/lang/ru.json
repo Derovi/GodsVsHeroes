@@ -43,10 +43,13 @@
     "dead": "§4Вы мертвы",
     "stunMessage": "§cВы в стане!",
     "desertionMessage": "§cНа фронте дезертирству нет места!",
-    "lootsLabelCooldown": "§cПерезаряжается! Осталось %time%",
-    "lootsLabelReady": "§aГотово!",
     "ether": "Эфира",
     "collectorCaptureInform": "§aКоллектор §c%num%§a захвачен командой %com%§a!"
+  },
+  "loots": {
+    "labelHeal": "§aГотово! %pts%§c❤",
+    "labelCooldown": "§cПерезаряжается! Осталось %time%",
+    "labelReady": "§aГотово!"
   },
   "stats": {
     "label": "§aСтатистика",

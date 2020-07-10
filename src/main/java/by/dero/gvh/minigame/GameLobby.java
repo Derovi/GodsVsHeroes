@@ -80,6 +80,7 @@ public class GameLobby implements Listener {
         } else if (!gp.setPreferredTeam(slot)) {
             player.sendMessage(Lang.get("gameLobby.cantSelect"));
         } else {
+            player.getInventory().setHelmet(event.getItem());
             updateDisplays();
         }
     }

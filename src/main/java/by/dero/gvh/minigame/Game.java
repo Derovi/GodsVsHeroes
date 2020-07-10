@@ -130,7 +130,7 @@ public abstract class Game implements Listener {
                 }
             }
         };
-        borderChecker.runTaskTimer(Plugin.getInstance(), 5, 5);
+        borderChecker.runTaskTimer(Plugin.getInstance(), 5, 10);
         runnables.add(borderChecker);
         stats = new Stats();
 
@@ -190,6 +190,11 @@ public abstract class Game implements Listener {
                     left.pop();
                 }
             }
+        }
+        for (int t = 0; !left.isEmpty(); t = (t + 1) % cnt) {
+            teams[t]++;
+            left.peek().setTeam(t);
+            left.pop();
         }
 
         mobs = new HashMap<>();

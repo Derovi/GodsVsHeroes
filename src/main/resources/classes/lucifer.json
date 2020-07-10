@@ -3,7 +3,7 @@
   "maxHP": 30,
   "cost": 1000,
   "itemNames": [
-    "defaultsword",
+    "swordthrow",
     "magicrod",
     "suicidejump",
     "exchange",
