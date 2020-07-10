@@ -286,8 +286,7 @@ public class GameUtils {
     public static List<LivingEntity> getNearby(final Location wh, final double radius) {
         final List<LivingEntity> buf = new ArrayList<>();
         for (Entity ent : Objects.requireNonNull(wh.getWorld()).getNearbyEntities(wh, radius, radius, radius)) {
-            if (ent instanceof LivingEntity &&
-                    ent.getLocation().distance(wh) <= radius) {
+            if (ent instanceof LivingEntity && ent.getLocation().distance(wh) <= radius && !isDeadPlayer(ent)) {
                 buf.add((LivingEntity) ent);
             }
         }
@@ -389,12 +388,12 @@ public class GameUtils {
         return false;
     }
 
-    public static GamePlayer getNearestEnemyPlayer(GamePlayer gp) {
-        Location wh = gp.getPlayer().getLocation();
+    public static GamePlayer getNearestEnemyPlayer(GameObject gp) {
+        Location wh = gp.getEntity().getLocation();
         GamePlayer ret = null;
-        double dst = 100000;
+        double dst = 10000;
         for (GamePlayer ot : Game.getInstance().getPlayers().values()) {
-            if (ot.getTeam() == gp.getTeam() || !isInGame(ot.getPlayer())) {
+            if (ot.getTeam() == gp.getTeam() || !isInGame(ot.getPlayer()) || isDeadPlayer(ot.getPlayer())) {
                 continue;
             }
             double cur = wh.distance(ot.getPlayer().getLocation());

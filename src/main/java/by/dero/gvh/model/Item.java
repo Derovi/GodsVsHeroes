@@ -57,7 +57,6 @@ public class Item {
     public static ItemStack setItemMeta(ItemStack itemStack, String name, ItemInfo info) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         for (ItemInfo.EnchantInfo enchantInfo : info.getEnchantments()) {
-            System.out.println(enchantInfo.getName());
             itemMeta.addEnchant(Enchantment.getByName(enchantInfo.getName()), enchantInfo.getLevel(), enchantInfo.isVisible());
         }
         itemMeta.setDisplayName(info.getDisplayName());
