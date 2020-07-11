@@ -352,6 +352,10 @@ public abstract class Game implements Listener {
             player.kickPlayer(Lang.get("game.gamePrepairing"));
             return;
         }
+        if (getInfo().getMaxPlayerCount() <= getPlayers().size()) {
+            player.kickPlayer(Lang.get("game.overflow"));
+            return;
+        }
         GamePlayer gamePlayer = new GamePlayer(player);
         PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
         gamePlayer.setClassName(info.getSelectedClass());

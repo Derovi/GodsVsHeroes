@@ -253,6 +253,9 @@ public class GamePlayer extends GameObject {
 
     public boolean setPreferredTeam (int preferredTeam) {
         int[] cnt = new int[Game.getInstance().getInfo().getTeamCount()];
+        if (preferredTeam >= cnt.length) {
+            return false;
+        }
         for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
             if (gp.getTeam() != -1) {
                 cnt[gp.getTeam()]++;
