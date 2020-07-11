@@ -1,8 +1,8 @@
 package by.dero.gvh.minigame.commands;
 
-import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.PluginCommand;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.minigame.Minigame;
 import org.bukkit.command.CommandSender;
 
 public class FinishCommand implements PluginCommand {

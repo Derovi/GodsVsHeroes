@@ -3,7 +3,6 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
-import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;

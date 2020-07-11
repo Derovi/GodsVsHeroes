@@ -6,13 +6,16 @@ import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
-import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.utils.*;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
+import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.Position;
+import by.dero.gvh.utils.ResourceUtils;
+import by.dero.gvh.utils.VoidGenerator;
 import com.google.gson.Gson;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -23,6 +26,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -306,6 +310,11 @@ public class Lobby implements PluginMode, Listener {
             p.setVelocity(p.getVelocity().add(new Vector(0,1,0)));
             event.setCancelled (true);
         }
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        event.setCancelled(true);
     }
 
     @EventHandler

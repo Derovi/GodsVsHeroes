@@ -3,6 +3,7 @@ package by.dero.gvh.lobby;
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
 import com.google.gson.annotations.SerializedName;
+
 import java.util.Map;
 
 public class LobbyInfo {

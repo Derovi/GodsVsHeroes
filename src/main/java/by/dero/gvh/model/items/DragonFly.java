@@ -11,8 +11,6 @@ import by.dero.gvh.nmcapi.dragon.ControlledDragon;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
