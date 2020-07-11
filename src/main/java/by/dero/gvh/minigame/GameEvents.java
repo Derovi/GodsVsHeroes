@@ -18,6 +18,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -144,6 +145,13 @@ public class GameEvents implements Listener {
         }
         for (SneakInterface item : GameUtils.selectItems(GameUtils.getPlayer(player.getName()), SneakInterface.class)) {
             item.onPlayerSneak();
+        }
+    }
+
+    @EventHandler
+    public void onPlayerUnmount(VehicleExitEvent event) {
+        for (VehicleExitInterface item : GameUtils.selectItems(GameUtils.getPlayer(event.getExited().getName()), VehicleExitInterface.class)) {
+            item.onPlayerUnmount(event);
         }
     }
 
