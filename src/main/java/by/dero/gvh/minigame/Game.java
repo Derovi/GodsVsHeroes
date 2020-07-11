@@ -5,6 +5,8 @@ import by.dero.gvh.GameMob;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.*;
+import by.dero.gvh.model.Item;
+import by.dero.gvh.nmcapi.dragon.EmptyArmorStand;
 import by.dero.gvh.utils.*;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -12,8 +14,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
+import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -111,17 +114,46 @@ public abstract class Game implements Listener {
                     final Location loc = entity.getLocation();
                     Vector newVelocity = null;
                     if (loc.getX() < borders[0].getX()) {
-                        newVelocity = new Vector(2, 0, 0);
+                        newVelocity = new Vector(1.5, 0, 0);
                     } else if (loc.getX() > borders[1].getX()) {
-                        newVelocity = new Vector(-2, 0, 0);
+                        newVelocity = new Vector(-1.5, 0, 0);
                     } else if (loc.getZ() < borders[0].getZ()) {
-                        newVelocity = new Vector(0, 0, 2);
+                        newVelocity = new Vector(0, 0, 1.5);
                     } else if (loc.getZ() > borders[1].getZ()) {
-                        newVelocity = new Vector(0, 0, -2);
+                        newVelocity = new Vector(0, 0, -1.5);
                     }
                     if (newVelocity != null) {
                         if (!entity.isInsideVehicle()) {
                             entity.setVelocity(newVelocity);
+                        } else {
+                            newVelocity = newVelocity.multiply(0.5);
+                            if (entity.getVehicle() instanceof Chicken) {
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!entity.isDead()) {
+                                            entity.getVehicle().setVelocity(new Vector(0, 0, 0));
+                                        }
+                                    }
+                                }.runTaskLater(Plugin.getInstance(), 10);
+                            } else
+                            if (entity.getVehicle() instanceof SkeletonHorse) {
+                                ArmorStand armorStand = (ArmorStand) entity.getWorld().spawnEntity(entity.getLocation(),
+                                        EntityType.ARMOR_STAND);
+                                armorStand.setVisible(false);
+                                armorStand.setInvulnerable(true);
+                                armorStand.setSmall(true);
+                                armorStand.setVelocity(newVelocity);
+                                armorStand.addPassenger(entity.getVehicle());
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        armorStand.remove();
+                                    }
+                                }.runTaskLater(Plugin.getInstance(), 10);
+                            } else {
+                                entity.getVehicle().setVelocity(newVelocity);
+                            }
                         }
                         if (entity instanceof Player) {
                             entity.sendMessage(desMsg);

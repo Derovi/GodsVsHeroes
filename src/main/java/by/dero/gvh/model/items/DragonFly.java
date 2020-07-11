@@ -67,7 +67,9 @@ public class DragonFly extends Item implements PlayerInteractInterface, Interact
                     owner.getLocation().getDirection().getZ()).normalize().multiply(4);
             DFireball fireball = new DFireball(owner.getEyeLocation().add(vector));
             fireball.setOwner(GameUtils.getPlayer(owner.getName()));
-            fireball.getBukkitEntity().setVelocity(owner.getLocation().getDirection());
+            fireball.setDirection(owner.getLocation().getDirection().getX(),
+                    owner.getLocation().getDirection().getY(),
+                    owner.getLocation().getDirection().getZ());
             fireball.setExplodeDamage(info.getDamage());
             fireball.spawn();
             return true;
