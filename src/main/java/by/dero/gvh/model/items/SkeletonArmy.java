@@ -46,7 +46,7 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
         handle.goalSelector = new PathfinderGoalSelector(handle.world.methodProfiler);
         handle.targetSelector = new PathfinderGoalSelector(handle.world.methodProfiler);
         handle.targetSelector.a(0, new PathfinderAttackEnemies<>(
-                handle, EntityLiving.class, 50, true, false, GameUtils.getTargetPredicate(getTeam())));
+                handle, EntityLiving.class, 100, true, false, GameUtils.getTargetPredicate(getTeam())));
 
         handle.goalSelector.a(1, new PathfinderGoalFloat(handle));
         handle.goalSelector.a(handle.c);

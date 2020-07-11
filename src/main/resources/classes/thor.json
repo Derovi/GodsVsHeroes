@@ -1,6 +1,6 @@
 {
   "name": "thor",
-  "maxHP": 30,
+  "maxHP": 40,
   "cost": 0,
   "itemNames": [
     "axethrow",
@@ -12,6 +12,7 @@
 
     "resistancebuf",
 
+    "speedbuf",
     "defaultarrow",
     "defaultchestplate3",
     "defaultleggings3",

@@ -1,6 +1,6 @@
 {
   "name": "paladin",
-  "maxHP": 30,
+  "maxHP": 40,
   "cost": 0,
   "itemNames": [
     "swordthrow",
@@ -11,6 +11,7 @@
     "stunall",
     "defaultchestplate",
     "defaultleggings",
+    "speedbuf",
 
     "defaultarrow",
     "resistancebuf",

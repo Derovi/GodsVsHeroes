@@ -1,6 +1,6 @@
 {
   "name": "scout",
-  "maxHP": 30,
+  "maxHP": 40,
   "cost": 1000,
   "itemNames": [
     "defaultaxe",

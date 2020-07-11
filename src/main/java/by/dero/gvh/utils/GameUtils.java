@@ -409,4 +409,8 @@ public class GameUtils {
     public static Predicate<EntityLiving> getTargetPredicate(int team) {
         return (entity) -> entity != null && isEnemy(entity.getBukkitEntity(), team);
     }
+
+    public static Predicate<EntityPlayer> getTargetPlayerPredicate(int team) {
+        return (entityPlayer -> entityPlayer != null && isEnemy(entityPlayer.getBukkitEntity(), team));
+    }
 }
