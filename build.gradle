@@ -18,7 +18,7 @@ compileJava.options.encoding = 'UTF-8'
 dependencies {
     implementation files('lib/spigot.jar')
     implementation files('lib/worldedit.jar')
-    implementation files('lib/worldedit-cli.jar')
+    implementation files('lib/core.jar')
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
     compile 'org.mongodb:mongodb-driver-sync:3.9.1'
 }
