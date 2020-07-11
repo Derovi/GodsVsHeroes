@@ -1,14 +1,10 @@
 package by.dero.gvh.nmcapi.dragon;
 
 import by.dero.gvh.Plugin;
-import net.minecraft.server.v1_12_R1.DamageSource;
 import net.minecraft.server.v1_12_R1.EntityEnderCrystal;
 import net.minecraft.server.v1_12_R1.EntityEnderDragon;
-import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;

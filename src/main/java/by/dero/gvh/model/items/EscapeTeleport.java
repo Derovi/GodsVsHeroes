@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Drawings;
@@ -10,7 +9,6 @@ import by.dero.gvh.model.itemsinfo.EscapeTeleportInfo;
 import by.dero.gvh.nmcapi.PlayerUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
-import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;

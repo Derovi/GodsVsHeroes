@@ -1,6 +1,9 @@
 package by.dero.gvh.model;
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,8 +1,6 @@
 package by.dero.gvh.nmcapi;
 
 import net.minecraft.server.v1_12_R1.EntityEnderCrystal;
-import net.minecraft.server.v1_12_R1.GameProfileSerializer;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.event.entity.CreatureSpawnEvent;

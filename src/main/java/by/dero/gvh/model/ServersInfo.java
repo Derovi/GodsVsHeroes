@@ -1,6 +1,7 @@
 package by.dero.gvh.model;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServersInfo {
     private final Map<String, ServerInfo> servers = new HashMap<>();
