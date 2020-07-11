@@ -1,6 +1,5 @@
 package by.dero.gvh.minigame;
 
-import by.dero.gvh.ChargesManager;
 import by.dero.gvh.GameMob;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
@@ -163,7 +162,6 @@ public abstract class Game implements Listener {
         runnables.add(borderChecker);
         stats = new Stats();
 
-        new ChargesManager();
         Minigame.getInstance().getLootsManager().load();
         Minigame.getInstance().getLiftManager().load();
         for (GamePlayer gp : getPlayers().values()) {
