@@ -44,18 +44,15 @@ public class PortalManager implements Listener {
 
     private void playerEnteredPortal(LobbyPlayer player) {
         String serverName = null;
-        System.out.println("1");
         for (ServerInfo info : Plugin.getInstance().getServerData().getGameServers()) {
             if (info.getType() == ServerType.GAME && info.getStatus().equals(Game.State.WAITING.toString())) {
                 serverName = info.getName();
                 break;
             }
         }
-        System.out.println(2);
         if (serverName == null) {
             System.out.println("There is no available game server!");
         }
-        System.out.println(3 + " " + serverName);
         BungeeUtils.redirectPlayer(player.getPlayer(), serverName);
     }
 }
