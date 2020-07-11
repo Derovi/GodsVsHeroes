@@ -380,6 +380,18 @@ public abstract class Game implements Listener {
             lobby.onPlayerLeft(player);
         }
         players.remove(playerName);
+        if (state == State.GAME) {
+            int tt = -1;
+            for (GamePlayer gp : players.values()) {
+                if (tt == -1) {
+                    tt = gp.getTeam();
+                }
+                if (tt != gp.getTeam()) {
+                    return;
+                }
+            }
+            finish(tt);
+        }
     }
 
     public void respawnPlayer(GamePlayer gamePlayer) {
