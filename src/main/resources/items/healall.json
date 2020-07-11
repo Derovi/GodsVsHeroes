@@ -5,7 +5,7 @@
     {
       "cooldown": 1200,
       "radius": 20.0,
-      "heal": 14,
+      "heal": 10,
       "cost": 80,
       "material": "END_CRYSTAL",
       "displayName": "§cHeal All",
@@ -18,7 +18,7 @@
     {
       "cooldown": 1200,
       "radius": 20.0,
-      "heal": 16,
+      "heal": 12,
       "cost": 100,
       "material": "END_CRYSTAL",
       "displayName": "§cHeal All",
@@ -31,7 +31,7 @@
     {
       "cooldown": 1200,
       "radius": 20.0,
-      "heal": 18,
+      "heal": 14,
       "cost": 100,
       "material": "END_CRYSTAL",
       "displayName": "§cHeal All",
