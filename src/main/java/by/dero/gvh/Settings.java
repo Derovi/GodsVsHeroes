@@ -2,6 +2,7 @@ package by.dero.gvh;
 
 public class Settings {
     private String mode;
+    private boolean cristalix;
     private String locale;
     private String serverName;
     private String dataStorageType;
@@ -16,6 +17,14 @@ public class Settings {
     private String serverDataStorageType;
     private String serverDataMongodbConnection;
     private String serverDataMongodbDatabase;
+
+    public boolean isCristalix() {
+        return cristalix;
+    }
+
+    public void setCristalix(boolean cristalix) {
+        this.cristalix = cristalix;
+    }
 
     public String getMode() {
         return mode;

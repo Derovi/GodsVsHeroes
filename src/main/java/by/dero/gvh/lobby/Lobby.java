@@ -35,6 +35,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.realm.IRealmService;
+import ru.cristalix.core.realm.RealmInfo;
+import ru.cristalix.core.realm.RealmStatus;
 
 import java.io.File;
 import java.util.*;
@@ -96,6 +99,10 @@ public class Lobby implements PluginMode, Listener {
         portalManager = new PortalManager();
         loadSchematic();
         registerEvents();
+        if (Plugin.getInstance().getSettings().isCristalix()) {
+            RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+            info.setStatus(RealmStatus.WAITING_FOR_PLAYERS);
+        }
     }
 
     private void registerEvents() {

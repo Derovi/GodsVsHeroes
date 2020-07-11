@@ -39,8 +39,10 @@ public class Plugin extends JavaPlugin implements Listener {
         instance = this;
         new GameUtils();
         try {
-            settings = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(),
-                    "settings", "settings", ResourceUtils.readResourceFile("/settings.json")),
+            String text = DataUtils.loadOrDefault(new LocalStorage(),
+                    "settings", "settings", ResourceUtils.readResourceFile("/settings.json"));
+            System.out.println("set:" + text);
+            settings = new Gson().fromJson(text,
                     Settings.class);
         } catch (IOException e) {
             e.printStackTrace();

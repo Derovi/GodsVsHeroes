@@ -18,6 +18,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.realm.IRealmService;
+import ru.cristalix.core.realm.RealmInfo;
+import ru.cristalix.core.realm.RealmStatus;
 
 import java.util.*;
 
@@ -77,6 +80,10 @@ public abstract class Game implements Listener {
         }
         state = State.GAME;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(), state.toString());
+        if (Plugin.getInstance().getSettings().isCristalix()) {
+            RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+            info.setStatus(RealmStatus.GAME_STARTED_RESTRICTED);
+        }
         lobby = null;
         BukkitRunnable cooldownMessageUpdater = new BukkitRunnable() {
             @Override
@@ -240,6 +247,10 @@ public abstract class Game implements Listener {
         state = State.FINISHING;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
+        if (Plugin.getInstance().getSettings().isCristalix()) {
+            RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+            info.setStatus(RealmStatus.GAME_ENDING);
+        }
 
         for (GamePlayer player : players.values()) {
             player.getPlayer().leaveVehicle();
@@ -295,6 +306,10 @@ public abstract class Game implements Listener {
                 state = State.PREPARING;
                 Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                         state.toString());
+                if (Plugin.getInstance().getSettings().isCristalix()) {
+                    RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+                    info.setStatus(RealmStatus.STARTING_GAME);
+                }
                 prepare();
             }
         }.runTaskLater(Plugin.getInstance(), 20 * getInfo().getFinishTime());
@@ -306,6 +321,10 @@ public abstract class Game implements Listener {
         state = State.WAITING;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
+        if (Plugin.getInstance().getSettings().isCristalix()) {
+            RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+            info.setStatus(RealmStatus.WAITING_FOR_PLAYERS);
+        }
         rewardManager = new RewardManager();
         Plugin.getInstance().getData().loadRewards(rewardManager);
     }
