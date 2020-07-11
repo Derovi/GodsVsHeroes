@@ -1,6 +1,6 @@
 {
   "name": "assassin",
-  "maxHP": 30,
+  "maxHP": 40,
   "cost": 0,
   "itemNames": [
     "knifethrow",
@@ -10,6 +10,7 @@
     "ninjarope",
     "poisonpotion",
     "eaglefly",
+    "speedbuf",
 
     "defaultarrow",
     "defaulthelmet",

@@ -1,6 +1,6 @@
 {
   "name": "ull",
-  "maxHP": 30,
+  "maxHP": 40,
   "cost": 1000,
   "itemNames": [
     "poisonousbow",
@@ -10,6 +10,7 @@
     "arrowrain",
     "defaultchestplate",
 
+    "speedbuf",
     "defaulthelmet",
     "defaultarrow"
   ]

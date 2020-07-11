@@ -1,5 +1,6 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.GameMob;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
@@ -9,6 +10,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ExplosivePigInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.PathfinderFollow;
+import net.minecraft.server.v1_12_R1.EntityLiving;
 import net.minecraft.server.v1_12_R1.EntityPig;
 import net.minecraft.server.v1_12_R1.GenericAttributes;
 import net.minecraft.server.v1_12_R1.PathfinderGoalSelector;
@@ -51,8 +53,8 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
             return;
         }
 
-        GamePlayer gp = GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName()));
-        if (gp == null) {
+        GamePlayer targetGP = GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName()));
+        if (targetGP == null) {
             owner.sendMessage(Lang.get("game.noEnemyTarget"));
             return;
         }
@@ -66,28 +68,36 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         pig.goalSelector = new PathfinderGoalSelector(pig.world.methodProfiler);
         pig.targetSelector = new PathfinderGoalSelector(pig.world.methodProfiler);
 
-        CraftPlayer target = (CraftPlayer) gp.getPlayer();
+        CraftPlayer target = (CraftPlayer) targetGP.getPlayer();
         pig.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
         pig.goalSelector.a(0, new PathfinderFollow(pig, 1, 200));
 
         pig.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
+        Game.getInstance().getMobs().put(pig.uniqueID, new GameMob((LivingEntity) pig.getBukkitEntity(), getTeam(), owner));
         pig.world.addEntity(pig, CreatureSpawnEvent.SpawnReason.CUSTOM);
         BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = duration;
+            GamePlayer cur = targetGP;
             @Override
             public void run() {
                 ticks -= 3;
                 Location loc = pig.getBukkitEntity().getLocation();
-                if (ticks < 0 || GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName())).getPlayer().
-                        getLocation().distance(loc) < radius) {
-                    pig.die();
-                    pig.world.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
-                    owner.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1.07f, 1);
-                    for (LivingEntity entity : GameUtils.getNearby(loc, radius)) {
-                        if (GameUtils.isEnemy(entity, getTeam())) {
-                            GameUtils.damage(damage, entity, owner);
-                        }
-                    }
+
+                GamePlayer nxt = GameUtils.getNearestEnemyPlayer(GameUtils.getMob(pig.uniqueID));
+                if (cur != nxt) {
+                    cur = nxt;
+                    pig.setGoalTarget(((CraftPlayer) cur.getPlayer()).getHandle(), EntityTargetEvent.TargetReason.CUSTOM, true);
+                }
+                if (cur == null) {
+                    explode(pig);
+                    this.cancel();
+                    return;
+                }
+
+                EntityLiving tar = pig.getGoalTarget();
+
+                if (ticks < 0 || (tar != null && tar.getBukkitEntity().getLocation().distance(loc) < radius)) {
+                    explode(pig);
                     this.cancel();
                 }
             }
@@ -95,4 +105,17 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         runnable.runTaskTimer(Plugin.getInstance(), 0, 3);
         Game.getInstance().getRunnables().add(runnable);
     }
+
+    private void explode(EntityPig pig) {
+        Location loc = pig.getBukkitEntity().getLocation();
+        pig.die();
+        pig.world.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
+        owner.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1.07f, 1);
+        for (LivingEntity entity : GameUtils.getNearby(loc, radius)) {
+            if (GameUtils.isEnemy(entity, getTeam())) {
+                GameUtils.damage(damage, entity, owner);
+            }
+        }
+    }
+
 }

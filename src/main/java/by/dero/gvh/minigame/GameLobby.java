@@ -4,9 +4,12 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.BungeeUtils;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MessagingUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -14,30 +17,32 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameLobby implements Listener {
     private final Game game;
     private int timeLeft = 61;
     private BukkitRunnable prepairing;
-//    private final ItemStack[] chooseInv;
+    private final ItemStack[] chooseInv;
 
     public GameLobby(Game game) {
         this.game = game;
-//        chooseInv = new ItemStack[9];
-//        int cnt = game.getInfo().getTeamCount();
-//        for (int i = 0; i < cnt; i++) {
-//            String name = Lang.get("commands." + (char)('1' + i));
-//            chooseInv[i] = new ItemStack(Material.WOOL, 1, GameUtils.codeToData.get(name.charAt(1)));
-//            ItemMeta meta = chooseInv[i].getItemMeta();
-//            meta.setDisplayName(name);
-//            chooseInv[i].setItemMeta(meta);
-//        }
-//        chooseInv[8] = new ItemStack(Material.BARRIER, 1);
-//        ItemMeta cns = chooseInv[8].getItemMeta();
-//        cns.setDisplayName(Lang.get("gameLobby.exit"));
-//        chooseInv[8].setItemMeta(cns);
+        chooseInv = new ItemStack[9];
+        int cnt = game.getInfo().getTeamCount();
+        for (int i = 0; i < cnt; i++) {
+            String name = Lang.get("commands." + (char)('1' + i));
+            chooseInv[i] = new ItemStack(Material.WOOL, 1, GameUtils.codeToData.get(name.charAt(1)));
+            ItemMeta meta = chooseInv[i].getItemMeta();
+            meta.setDisplayName(name);
+            chooseInv[i].setItemMeta(meta);
+        }
+        chooseInv[8] = new ItemStack(Material.BARRIER, 1);
+        ItemMeta cns = chooseInv[8].getItemMeta();
+        cns.setDisplayName(Lang.get("gameLobby.exit"));
+        chooseInv[8].setItemMeta(cns);
         Bukkit.getPluginManager().registerEvents(this, Plugin.getInstance());
     }
 
@@ -64,20 +69,20 @@ public class GameLobby implements Listener {
 
     @EventHandler
     public void onPlayerChoose(PlayerInteractEvent event) {
-//        Player player = event.getPlayer();
-//        if (player.getInventory().getItemInMainHand() == null) {
-//            return;
-//        }
-//        int slot = player.getInventory().getHeldItemSlot();
-//        GamePlayer gp = GameUtils.getPlayer(player.getName());
-//        if (slot == 8) {
-//            BungeeUtils.redirectPlayer(player.getPlayer(), Plugin.getInstance().getServerData().getLobbyServer().getName());
-//        } else if (!gp.setPreferredTeam(slot)) {
-//            player.sendMessage(Lang.get("gameLobby.cantSelect"));
-//        } else {
-//            player.getInventory().setHelmet(event.getItem());
-//            updateDisplays();
-//        }
+        Player player = event.getPlayer();
+        if (player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
+            return;
+        }
+        int slot = player.getInventory().getHeldItemSlot();
+        GamePlayer gp = GameUtils.getPlayer(player.getName());
+        if (slot == 8) {
+            BungeeUtils.redirectPlayer(player.getPlayer(), Plugin.getInstance().getServerData().getLobbyServer().getName());
+        } else if (!gp.setPreferredTeam(slot)) {
+            player.sendMessage(Lang.get("gameLobby.cantSelect"));
+        } else {
+            player.getInventory().setHelmet(event.getItem());
+            updateDisplays();
+        }
     }
 
     public void startGame() {
@@ -148,9 +153,9 @@ public class GameLobby implements Listener {
 
         PlayerInventory inv = gamePlayer.getPlayer().getInventory();
         inv.clear();
-//        for (int i = 0; i < 9; i++) {
-//            inv.setItem(i, chooseInv[i]);
-//        }
+        for (int i = 0; i < 9; i++) {
+            inv.setItem(i, chooseInv[i]);
+        }
         if (players >= game.getInfo().getMinPlayerCount() && !ready) {
             ready = true;
             startPrepairing();

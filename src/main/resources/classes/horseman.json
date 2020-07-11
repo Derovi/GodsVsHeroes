@@ -1,6 +1,6 @@
 {
   "name": "horseman",
-  "maxHP": 30,
+  "maxHP": 40,
   "cost": 1000,
   "itemNames": [
     "defaultaxe",
@@ -9,6 +9,7 @@
     "stunrocks",
     "explosivepig",
     "skeletonarmy",
+    "speedbuf",
 
     "spawnhorse",
     "defaultarrow",

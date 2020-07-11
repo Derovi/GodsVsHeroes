@@ -10,6 +10,7 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.SmokesInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -44,25 +45,23 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 		summonedEntityIds.add(proj.getUniqueId());
 	}
 
-	private static final HashSet<Location> poses = new HashSet<>();
+	private static final HashSet<Pair<Location, Integer>> poses = new HashSet<>();
 
 	private void smoke() {
 		for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
-			if (GameUtils.isEnemy(owner, gp.getTeam())) {
-				Player player = gp.getPlayer();
-				boolean inside = false;
-				for (Location loc : poses) {
-					if (loc.distance(player.getLocation()) < radius) {
-						if (!player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
-							player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 4), true);
-						}
-						inside = true;
-						break;
+			Player player = gp.getPlayer();
+			boolean inside = false;
+			for (Pair<Location, Integer> pose : poses) {
+				if (gp.getTeam() != pose.getValue() && pose.getKey().distance(player.getLocation()) < radius) {
+					if (!player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
+						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 4), true);
 					}
+					inside = true;
+					break;
 				}
-				if (!inside) {
-					player.removePotionEffect(PotionEffectType.BLINDNESS);
-				}
+			}
+			if (!inside) {
+				player.removePotionEffect(PotionEffectType.BLINDNESS);
 			}
 		}
 	}
@@ -70,10 +69,10 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 	@Override
 	public void onProjectileHit (ProjectileHitEvent event) {
 		Location loc = event.getEntity().getLocation();
-		poses.add(loc);
+		int team = GameUtils.getPlayer(owner.getName()).getTeam();
+		poses.add(Pair.of(loc, team));
 		BukkitRunnable effects = new BukkitRunnable() {
 			int time = 0;
-
 			@Override
 			public void run () {
 				smoke();
@@ -83,7 +82,7 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 				}
 				time += 2;
 				if (time > duration) {
-					poses.remove(loc);
+					poses.remove(Pair.of(loc, team));
 					smoke();
 					this.cancel();
 				}

@@ -200,41 +200,41 @@ public abstract class Game implements Listener {
 
     private void chooseTeams() {
         final int cnt = getInfo().getTeamCount();
-        int zxc = 0;
-        for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
-            gp.setTeam(zxc % cnt);
-            zxc++;
+//        int zxc = 0;
+//        for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
+//            gp.setTeam(zxc % cnt);
+//            zxc++;
+//        }
+        int[] teams = new int[cnt];
+
+        final Stack<GamePlayer> left = new Stack<>();
+        for (GamePlayer gp : getPlayers().values()) {
+            if (gp.getTeam() != -1) {
+                teams[gp.getTeam()]++;
+            } else {
+                left.add(gp);
+            }
         }
-//        int[] teams = new int[cnt];
-//
-//        final Stack<GamePlayer> left = new Stack<>();
-//        for (GamePlayer gp : getPlayers().values()) {
-//            if (gp.getTeam() != -1) {
-//                teams[gp.getTeam()]++;
-//            } else {
-//                left.add(gp);
-//            }
-//        }
-//        ArrayList<Integer> idxs = new ArrayList<>(cnt);
-//        for (int i = 0; i < cnt; i++) {
-//            idxs.add(i);
-//        }
-//        idxs.sort(Comparator.comparingInt(a -> teams[a]));
-//        for (int t = 0; t < cnt-1; t++) {
-//            while (teams[t] != teams[t+1] && !left.isEmpty()) {
-//                for (int i = 0; i <= t && !left.isEmpty(); i++) {
-//                    int team = idxs.get(i);
-//                    teams[team]++;
-//                    left.peek().setTeam(team);
-//                    left.pop();
-//                }
-//            }
-//        }
-//        for (int t = 0; !left.isEmpty(); t = (t + 1) % cnt) {
-//            teams[t]++;
-//            left.peek().setTeam(t);
-//            left.pop();
-//        }
+        ArrayList<Integer> idxs = new ArrayList<>(cnt);
+        for (int i = 0; i < cnt; i++) {
+            idxs.add(i);
+        }
+        idxs.sort(Comparator.comparingInt(a -> teams[a]));
+        for (int t = 0; t < cnt-1; t++) {
+            while (teams[t] != teams[t+1] && !left.isEmpty()) {
+                for (int i = 0; i <= t && !left.isEmpty(); i++) {
+                    int team = idxs.get(i);
+                    teams[team]++;
+                    left.peek().setTeam(team);
+                    left.pop();
+                }
+            }
+        }
+        for (int t = 0; !left.isEmpty(); t = (t + 1) % cnt) {
+            teams[t]++;
+            left.peek().setTeam(t);
+            left.pop();
+        }
 
         mobs = new HashMap<>();
     }
@@ -384,6 +384,18 @@ public abstract class Game implements Listener {
             lobby.onPlayerLeft(player);
         }
         players.remove(playerName);
+        if (state == State.GAME) {
+            int tt = -1;
+            for (GamePlayer gp : players.values()) {
+                if (tt == -1) {
+                    tt = gp.getTeam();
+                }
+                if (tt != gp.getTeam()) {
+                    return;
+                }
+            }
+            finish(tt);
+        }
     }
 
     public void respawnPlayer(GamePlayer gamePlayer) {

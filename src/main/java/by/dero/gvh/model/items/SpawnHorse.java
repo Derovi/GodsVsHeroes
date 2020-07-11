@@ -2,16 +2,17 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
-import by.dero.gvh.model.interfaces.SneakInterface;
+import by.dero.gvh.model.interfaces.VehicleExitInterface;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.SkeletonHorse;
+import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInterface {
+public class SpawnHorse extends Item implements DoubleSpaceInterface, VehicleExitInterface {
 
     public SpawnHorse(String name, int level, Player owner) {
         super(name, level, owner);
@@ -35,10 +36,8 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, SneakInter
     }
 
     @Override
-    public void onPlayerSneak() {
-        if (horse != null) {
-            horse.remove();
-            horse = null;
-        }
+    public void onPlayerUnmount (VehicleExitEvent event) {
+        horse.remove();
+        horse = null;
     }
 }

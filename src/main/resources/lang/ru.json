@@ -80,7 +80,7 @@
   "commands": {
     "stat": "§%col%%com%§8: §9%pts%",
     "playingFor": "§aВы играете за§8: §9%com%",
-    "0": "§aСлучайная",
+    "0": "§fСлучайная",
     "1": "§cКрасные",
     "2": "§aЗеленые",
     "3": "§bТолерантные",
@@ -103,10 +103,10 @@
   },
   "lobby": {
     "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",
-    "heroLocked": "§cКласс §9%class%§8:§c заблокирован",
-    "selectedClass": "§aВыбран класс§8: §9%class%",
-    "heroSelected": "§6Класс §9%class%§8:§a выбран",
-    "standTitle": "§bПКМ, чтобы выбрать§8: §9%class%",
+    "heroLocked": "§cКласс §9%class%:§c заблокирован",
+    "selectedClass": "§aВыбран класс: §9%class%",
+    "heroSelected": "§6Класс §9%class%§6 выбран",
+    "standTitle": "§bПКМ - выбрать§8 §9%class%",
     "moneyBalance": "§6Ваш баланс§8: §9%money%"
   }
 }
