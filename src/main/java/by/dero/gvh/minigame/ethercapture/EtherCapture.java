@@ -144,9 +144,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     @Override
     public void onPlayerKilled(Player player, Player killer) {
         super.onPlayerKilled(player, killer);
-        if (killer instanceof Player) {
-            addEther(getPlayers().get(killer.getName()).getTeam(), etherCaptureInfo.getEtherForKill());
-        }
+        addEther(getPlayers().get(killer.getName()).getTeam(), etherCaptureInfo.getEtherForKill());
     }
 
     @EventHandler
@@ -160,8 +158,8 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
 
         spawnFirework(player.getLocation().clone().add(0, 1, 0), 1);
         getPlayerDeathLocations().put(player.getName(), player.getLocation());
-        player.spigot().respawn();
         spawnPlayer(getPlayers().get(player.getName()), getInfo().getRespawnTime());
+        player.spigot().respawn();
         player.setExp(exp);
     }
 
