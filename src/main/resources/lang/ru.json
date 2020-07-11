@@ -92,9 +92,9 @@
   "gameLobby": {
     "cantSelect": "§cВ этой команде уже слишком много людей",
     "exit": "§cВыйти назад в лобби",
-    "boardPreferred": "§aВыбрано§8: %com%§a!",
-    "boardReady": "§aГотово к игре§8: §9%cur%/%max%",
-    "boardRequired": "§aНужно как минимум§8: §9%min%",
+    "boardPreferred": "§bВыбрано§8: %com%§a!",
+    "boardReady": "§bГотово к игре§8: §9%cur%/%max%",
+    "boardRequired": "§bНужно как минимум§8: §9%min%",
     "boardTimeLeft": "§bОсталось времени§8: §9%time%",
     "gameStarted": "§aИгра началась!",
     "playerJoined": "§aИгрок %name% присоединился! §f%cur%/%max%",
