@@ -109,6 +109,12 @@ public class Lobby implements PluginMode, Listener {
             RealmInfo info = IRealmService.get().getCurrentRealmInfo();
             info.setStatus(RealmStatus.WAITING_FOR_PLAYERS);
         }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                world.save();
+            }
+        }.runTaskTimer(Plugin.getInstance(), 6000, 6000);
     }
 
     private void registerEvents() {
@@ -128,6 +134,7 @@ public class Lobby implements PluginMode, Listener {
         for (final PlayerLobby playerLobby : activeLobbies.values()) {
             playerLobby.unload();
         }
+        Plugin.getInstance().getServerData().unregister(Plugin.getInstance().getSettings().getServerName());
     }
 
     private void loadSchematic() {

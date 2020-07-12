@@ -95,6 +95,13 @@ public class ServerData {
         saveServersInfo(globalInfo);
     }
 
+    public void unregister(String serverName) {
+        ServersInfo globalInfo = getServersInfo();
+        globalInfo.getServers().remove(serverName);
+        saveServersInfo(globalInfo);
+    }
+
+
     public void updateStatus(String serverName, String status) {
         ServersInfo globalInfo = getServersInfo();
         globalInfo.updateStatus(serverName, status);
