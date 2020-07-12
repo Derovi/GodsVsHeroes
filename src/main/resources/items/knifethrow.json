@@ -6,7 +6,7 @@
       "cooldown": 20,
       "damage": 8,
       "cost": 0,
-      "material": "DIAMOND_SWORD",
+      "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
       "amount": 1
@@ -15,7 +15,7 @@
       "cooldown": 20,
       "damage": 8,
       "cost": 80,
-      "material": "DIAMOND_SWORD",
+      "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
       "amount": 1
@@ -24,7 +24,7 @@
       "cooldown": 20,
       "damage": 9,
       "cost": 100,
-      "material": "DIAMOND_SWORD",
+      "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
       "amount": 1
@@ -33,7 +33,7 @@
       "cooldown": 20,
       "damage": 9,
       "cost": 120,
-      "material": "DIAMOND_SWORD",
+      "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
       "amount": 1
@@ -42,7 +42,7 @@
       "cooldown": 20,
       "damage": 10,
       "cost": 140,
-      "material": "DIAMOND_SWORD",
+      "material": "IRON_SWORD",
       "displayName": "§cКинжал",
       "lore": [],
       "amount": 1

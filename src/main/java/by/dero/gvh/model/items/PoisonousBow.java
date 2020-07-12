@@ -21,7 +21,7 @@ public class PoisonousBow extends Item implements ProjectileHitInterface {
     @Override
     public void onProjectileHitEnemy(ProjectileHitEvent event) {
         GameUtils.getObject((LivingEntity) event.getHitEntity()).addEffect(
-                new PotionEffect(PotionEffectType.POISON, duration, 1));
+                new PotionEffect(PotionEffectType.POISON, duration, 2));
     }
 
     @Override
