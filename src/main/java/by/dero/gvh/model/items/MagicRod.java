@@ -46,7 +46,7 @@ public class MagicRod extends Item implements PlayerInteractInterface {
             @Override
             public void run() {
                 start.add(start.getDirection().multiply(1));
-                final Vector kek = st.clone().crossProduct(start.getDirection()).multiply(MathUtils.sin(ticks) * 3);
+                final Vector kek = st.clone().crossProduct(start.getDirection()).normalize().multiply(MathUtils.sin(ticks) * 3);
                 start.getWorld().spawnParticle(Particle.LAVA, start, 1);
                 for (final LivingEntity obj : GameUtils.getNearby(start, 2)) {
                     if (GameUtils.isEnemy(obj, getTeam()) && !stroke.contains(obj.getUniqueId())) {
