@@ -70,6 +70,10 @@ public class GameEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+            event.setCancelled(true);
+            return;
+        }
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
 
@@ -139,6 +143,10 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerSneak(PlayerToggleSneakEvent event) {
+        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+            event.setCancelled(true);
+            return;
+        }
         Player player = event.getPlayer();
         if (!player.isSneaking()) {
             return;
@@ -157,6 +165,10 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
+        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+            event.setCancelled(true);
+            return;
+        }
         if (!(event.getEntity() instanceof LivingEntity)) {
             return;
         }
@@ -193,6 +205,10 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
+        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+            event.setCancelled(true);
+            return;
+        }
         Entity ent = event.getDamager();
         if (ent instanceof Firework) {
             event.setCancelled(true);
