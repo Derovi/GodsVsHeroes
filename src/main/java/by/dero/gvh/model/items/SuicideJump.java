@@ -41,7 +41,7 @@ public class SuicideJump extends Item implements PlayerInteractInterface {
 
         gravityFireball.setOnHit(() -> {
             final Location loc = player.getLocation();
-            player.damage(damage, player);
+            GameUtils.damage(damage, player, player);
             for (final LivingEntity entity : GameUtils.getNearby(loc, radius)) {
                 if (GameUtils.isEnemy(entity, getTeam())) {
                     GameUtils.damage(damage, entity, player);

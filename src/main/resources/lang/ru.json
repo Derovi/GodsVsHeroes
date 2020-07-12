@@ -103,7 +103,7 @@
   },
   "lobby": {
     "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",
-    "heroLocked": "§cКласс §9%class%:§c заблокирован",
+    "heroLocked": "§cКласс §9%class%§c заблокирован",
     "selectedClass": "§aВыбран класс: §9%class%",
     "heroSelected": "§6Класс §9%class%§6 выбран",
     "standTitle": "§bПКМ - выбрать§8 §9%class%",

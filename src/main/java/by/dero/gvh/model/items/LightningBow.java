@@ -60,7 +60,7 @@ public class LightningBow extends Item implements PlayerShootBowInterface, Proje
 							hit.add(liv.getUniqueId());
 
 							Drawings.drawLineColor(arrow.getLocation(), liv.getEyeLocation(), 255, 0, 0);
-							liv.getLocation().getWorld().playSound(liv.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.07f, 1);
+							liv.getLocation().getWorld().playSound(liv.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 1);
 							GameUtils.damage(damage, liv, owner);
 						}
 					}

@@ -3,7 +3,7 @@
   "maxHP": 40,
   "cost": 1000,
   "itemNames": [
-    "defaultaxe",
+    "axethrow",
     "lightningbow",
     "meteor",
     "stunrocks",
