@@ -43,7 +43,6 @@ public class PlayerLobby {
     public void create() {
         WorldEditUtils.pasteSchematic(Lobby.getInstance().getLobbySchematicFile(),
                 Lobby.getInstance().getWorld(), record.getPosition());
-
     }
 
     public void destroy() {

@@ -74,6 +74,7 @@ public class Minigame implements PluginMode {
         if (game != null) {
             game.unload();
         }
+        Plugin.getInstance().getServerData().unregister(Plugin.getInstance().getSettings().getServerName());
     }
 
     private void registerEvents() {
