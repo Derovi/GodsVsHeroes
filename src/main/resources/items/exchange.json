@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 20,
+      "cooldown": 300,
       "maxRange": 20,
       "cost": 80,
       "material": "STICK",
@@ -15,8 +15,8 @@
       "amount": 1
     },
     {
-      "cooldown": 20,
-      "maxRange": 20,
+      "cooldown": 300,
+      "maxRange": 25,
       "cost": 100,
       "material": "STICK",
       "displayName": "§cExchange",
@@ -27,8 +27,8 @@
       "amount": 1
     },
     {
-      "cooldown": 20,
-      "maxRange": 20,
+      "cooldown": 300,
+      "maxRange": 30,
       "cost": 120,
       "material": "STICK",
       "displayName": "§cExchange",

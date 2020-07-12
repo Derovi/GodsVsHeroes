@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "duration": 70,
+      "duration": 120,
       "cooldown": 520,
       "cost": 80,
       "material": "EYE_OF_ENDER",

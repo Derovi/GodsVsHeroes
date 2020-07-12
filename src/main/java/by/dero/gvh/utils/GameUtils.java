@@ -105,7 +105,11 @@ public class GameUtils {
         if (!hasDelay) {
             target.setNoDamageTicks(0);
         }
-        target.damage(damage, killer);
+        if (target.equals(killer)) {
+            target.damage(damage);
+        } else {
+            target.damage(damage, killer);
+        }
     }
 
     public static boolean isDeadPlayer(Entity entity) {

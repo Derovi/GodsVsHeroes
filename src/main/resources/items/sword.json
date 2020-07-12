@@ -12,25 +12,16 @@
       "amount": 1
     },
     {
-      "cooldown": 12,
+      "cooldown": 13,
       "throwDamage": 8,
-      "cost": 80,
+      "cost": 100,
       "material": "STONE_SWORD",
       "displayName": "§cМеч",
       "lore": [],
       "amount": 1
     },
     {
-      "cooldown": 12,
-      "throwDamage": 10,
-      "cost": 100,
-      "material": "IRON_SWORD",
-      "displayName": "§cМеч",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 10,
+      "cooldown": 11,
       "throwDamage": 10,
       "cost": 120,
       "material": "IRON_SWORD",
@@ -40,8 +31,17 @@
     },
     {
       "cooldown": 10,
-      "throwDamage": 12,
+      "throwDamage": 10,
       "cost": 140,
+      "material": "IRON_SWORD",
+      "displayName": "§cМеч",
+      "lore": [],
+      "amount": 1
+    },
+    {
+      "cooldown": 9,
+      "throwDamage": 12,
+      "cost": 160,
       "material": "DIAMOND_SWORD",
       "displayName": "§cМеч",
       "lore": [],

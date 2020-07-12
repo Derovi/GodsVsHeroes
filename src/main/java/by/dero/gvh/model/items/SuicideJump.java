@@ -29,22 +29,21 @@ public class SuicideJump extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
-        GravityFireball gravityFireball = new GravityFireball(player.getLocation().clone().add(0, -1,0));
-        gravityFireball.addPassenger(player);
-        gravityFireball.setVelocity(player.getLocation().getDirection().normalize().multiply(1.2).add(MathUtils.UPVECTOR));
+        GravityFireball gravityFireball = new GravityFireball(owner.getLocation().clone().add(0, -1,0));
+        gravityFireball.addPassenger(owner);
+        gravityFireball.setVelocity(owner.getLocation().getDirection().normalize().multiply(1.2).add(MathUtils.UPVECTOR));
         gravityFireball.spawn();
 
         gravityFireball.setOnHit(() -> {
-            final Location loc = player.getLocation();
-            player.damage(damage, player);
+            final Location loc = owner.getLocation();
+            GameUtils.damage(selfDamage, owner, owner);
             for (final LivingEntity entity : GameUtils.getNearby(loc, radius)) {
                 if (GameUtils.isEnemy(entity, getTeam())) {
-                    GameUtils.damage(damage, entity, player);
+                    GameUtils.damage(damage, entity, owner);
                 }
             }
             for (int i = 0; i < 5; i++) {

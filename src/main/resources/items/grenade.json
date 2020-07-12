@@ -16,7 +16,7 @@
       "amount": 2
     },
     {
-      "cooldown": 100,
+      "cooldown": 120,
       "damage" : 10,
       "radius" : 5,
       "cost": 100,
@@ -26,11 +26,11 @@
         "§aИскусство это взрыв!",
         "§6Уровень 2"
       ],
-      "amount": 3
+      "amount": 2
     },
     {
-      "cooldown": 60,
-      "damage" : 12,
+      "cooldown": 120,
+      "damage" : 10,
       "radius" : 5,
       "cost": 120,
       "material": "SNOW_BALL",
