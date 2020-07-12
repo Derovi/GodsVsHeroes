@@ -29,7 +29,6 @@ public class PlayerInfo {
     }
 
     public boolean canUnlock(String className) {
-        System.out.println(className);
         return balance >= Plugin.getInstance().getData().getClassNameToDescription().get(className).getCost();
     }
 

@@ -1,9 +1,10 @@
 package by.dero.gvh.minigame;
 
-import by.dero.gvh.ChargesManager;
+import by.dero.gvh.AdviceManager;
 import by.dero.gvh.GameMob;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Item;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.*;
 import net.md_5.bungee.api.ChatMessageType;
@@ -12,13 +13,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.realm.IRealmService;
+import ru.cristalix.core.realm.RealmInfo;
+import ru.cristalix.core.realm.RealmStatus;
 
 import java.util.*;
 
@@ -75,9 +78,22 @@ public abstract class Game implements Listener {
         chooseTeams();
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
+            AdviceManager.sendAdvice(player.getPlayer(), "gameStarted");
         }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (GamePlayer player : players.values()) {
+                    AdviceManager.sendAdvice(player.getPlayer(), "toWin");
+                }
+            }
+        }.runTaskLater(Plugin.getInstance(), 60);
         state = State.GAME;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(), state.toString());
+        if (Plugin.getInstance().getSettings().isCristalix()) {
+            RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+            info.setStatus(RealmStatus.GAME_STARTED_RESTRICTED);
+        }
         lobby = null;
         BukkitRunnable cooldownMessageUpdater = new BukkitRunnable() {
             @Override
@@ -111,17 +127,46 @@ public abstract class Game implements Listener {
                     final Location loc = entity.getLocation();
                     Vector newVelocity = null;
                     if (loc.getX() < borders[0].getX()) {
-                        newVelocity = new Vector(2, 0, 0);
+                        newVelocity = new Vector(1.5, 0, 0);
                     } else if (loc.getX() > borders[1].getX()) {
-                        newVelocity = new Vector(-2, 0, 0);
+                        newVelocity = new Vector(-1.5, 0, 0);
                     } else if (loc.getZ() < borders[0].getZ()) {
-                        newVelocity = new Vector(0, 0, 2);
+                        newVelocity = new Vector(0, 0, 1.5);
                     } else if (loc.getZ() > borders[1].getZ()) {
-                        newVelocity = new Vector(0, 0, -2);
+                        newVelocity = new Vector(0, 0, -1.5);
                     }
                     if (newVelocity != null) {
                         if (!entity.isInsideVehicle()) {
                             entity.setVelocity(newVelocity);
+                        } else {
+                            newVelocity = newVelocity.multiply(0.5);
+                            if (entity.getVehicle() instanceof Chicken) {
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!entity.isDead()) {
+                                            entity.getVehicle().setVelocity(new Vector(0, 0, 0));
+                                        }
+                                    }
+                                }.runTaskLater(Plugin.getInstance(), 10);
+                            } else
+                            if (entity.getVehicle() instanceof SkeletonHorse) {
+                                ArmorStand armorStand = (ArmorStand) entity.getWorld().spawnEntity(entity.getLocation(),
+                                        EntityType.ARMOR_STAND);
+                                armorStand.setVisible(false);
+                                armorStand.setInvulnerable(true);
+                                armorStand.setSmall(true);
+                                armorStand.setVelocity(newVelocity);
+                                armorStand.addPassenger(entity.getVehicle());
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        armorStand.remove();
+                                    }
+                                }.runTaskLater(Plugin.getInstance(), 10);
+                            } else {
+                                entity.getVehicle().setVelocity(newVelocity);
+                            }
                         }
                         if (entity instanceof Player) {
                             entity.sendMessage(desMsg);
@@ -134,7 +179,6 @@ public abstract class Game implements Listener {
         runnables.add(borderChecker);
         stats = new Stats();
 
-        new ChargesManager();
         Minigame.getInstance().getLootsManager().load();
         Minigame.getInstance().getLiftManager().load();
         for (GamePlayer gp : getPlayers().values()) {
@@ -166,6 +210,11 @@ public abstract class Game implements Listener {
 
     private void chooseTeams() {
         final int cnt = getInfo().getTeamCount();
+//        int zxc = 0;
+//        for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
+//            gp.setTeam(zxc % cnt);
+//            zxc++;
+//        }
         int[] teams = new int[cnt];
 
         final Stack<GamePlayer> left = new Stack<>();
@@ -213,6 +262,10 @@ public abstract class Game implements Listener {
         state = State.FINISHING;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
+        if (Plugin.getInstance().getSettings().isCristalix()) {
+            RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+            info.setStatus(RealmStatus.GAME_ENDING);
+        }
 
         for (GamePlayer player : players.values()) {
             player.getPlayer().leaveVehicle();
@@ -268,6 +321,10 @@ public abstract class Game implements Listener {
                 state = State.PREPARING;
                 Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                         state.toString());
+                if (Plugin.getInstance().getSettings().isCristalix()) {
+                    RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+                    info.setStatus(RealmStatus.STARTING_GAME);
+                }
                 prepare();
             }
         }.runTaskLater(Plugin.getInstance(), 20 * getInfo().getFinishTime());
@@ -279,6 +336,10 @@ public abstract class Game implements Listener {
         state = State.WAITING;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
+        if (Plugin.getInstance().getSettings().isCristalix()) {
+            RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+            info.setStatus(RealmStatus.WAITING_FOR_PLAYERS);
+        }
         rewardManager = new RewardManager();
         Plugin.getInstance().getData().loadRewards(rewardManager);
     }
@@ -306,6 +367,10 @@ public abstract class Game implements Listener {
             player.kickPlayer(Lang.get("game.gamePrepairing"));
             return;
         }
+        if (getInfo().getMaxPlayerCount() <= getPlayers().size()) {
+            player.kickPlayer(Lang.get("game.overflow"));
+            return;
+        }
         GamePlayer gamePlayer = new GamePlayer(player);
         PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
         gamePlayer.setClassName(info.getSelectedClass());
@@ -329,6 +394,18 @@ public abstract class Game implements Listener {
             lobby.onPlayerLeft(player);
         }
         players.remove(playerName);
+        if (state == State.GAME) {
+            int tt = -1;
+            for (GamePlayer gp : players.values()) {
+                if (tt == -1) {
+                    tt = gp.getTeam();
+                }
+                if (tt != gp.getTeam()) {
+                    return;
+                }
+            }
+            finish(tt);
+        }
     }
 
     public void respawnPlayer(GamePlayer gamePlayer) {

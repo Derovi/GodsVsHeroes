@@ -1,6 +1,6 @@
 {
   "name": "odin",
-  "maxHP": 30,
+  "maxHP": 40,
   "cost": 1000,
   "itemNames": [
     "healpotion",
@@ -12,6 +12,7 @@
     "skeletonarmy",
     "teleportpearls",
     "lightningbow",
+    "speedbuf",
 
     "entityonkill",
     "defaulthelmet",

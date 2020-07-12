@@ -17,9 +17,9 @@
       "amount": 1
     },
     {
-      "radius": 40.0,
-      "minRadius": 10.0,
-      "cooldown": 600,
+      "radius": 18.0,
+      "minRadius": 8.0,
+      "cooldown": 540,
       "cost": 100,
       "material": "FEATHER",
       "displayName": "§cEscape teleport",
@@ -30,9 +30,9 @@
       "amount": 1
     },
     {
-      "radius": 50.0,
-      "minRadius": 10.0,
-      "cooldown": 600,
+      "radius": 18.0,
+      "minRadius": 8.0,
+      "cooldown": 480,
       "cost": 120,
       "material": "FEATHER",
       "displayName": "§cEscape teleport",

@@ -2,6 +2,7 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.WebThrowInfo;
 import by.dero.gvh.nmcapi.SmartFallingBlock;
@@ -17,7 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class WebThrow extends Item implements PlayerInteractInterface {
+public class WebThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final float force;
     private final int duration;
     private final int level;

@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 80,
+      "cooldown": 120,
       "radius": 5.0,
       "heal": 4,
       "cost": 80,
@@ -16,7 +16,7 @@
       "amount": 2
     },
     {
-      "cooldown": 75,
+      "cooldown": 115,
       "radius": 5.0,
       "heal": 4,
       "cost": 100,
@@ -29,7 +29,7 @@
       "amount": 2
     },
     {
-      "cooldown": 70,
+      "cooldown": 110,
       "radius": 5.0,
       "heal": 4,
       "cost": 120,
@@ -42,7 +42,7 @@
       "amount": 2
     },
     {
-      "cooldown": 65,
+      "cooldown": 105,
       "radius": 5.0,
       "heal": 4,
       "cost": 120,
@@ -55,7 +55,7 @@
       "amount": 2
     },
     {
-      "cooldown": 80,
+      "cooldown": 120,
       "radius": 5.0,
       "heal": 4,
       "cost": 120,

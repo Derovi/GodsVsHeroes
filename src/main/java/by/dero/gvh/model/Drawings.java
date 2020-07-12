@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class Drawings {
-    public static final double dense = 3;
+    public static final double dense = 1.8;
     public static final Vector randomVector = new Vector(Math.random(), Math.random(), Math.random()).normalize();
 
     public static void drawLine(Location a, Location b, Particle obj) {
@@ -28,7 +28,7 @@ public class Drawings {
         while (true) {
             a.getWorld().spawnParticle(obj,
                     new Location(a.getWorld(), cur.getX(), cur.getY(), cur.getZ()),
-                    1, 0,0,0,0);
+                    1, 0, 0, 0, 0);
 
             if (cur.equals(to)) {
                 break;
@@ -179,7 +179,7 @@ public class Drawings {
                 for (double partAngle = 0; partAngle < MathUtils.PI2; partAngle += MathUtils.PI2 / parts) {
                     final double angle = horAngle + partAngle;
                     final Location at = MathUtils.getInCircle(loc, radius, angle);
-                    player.spawnParticle(particle, at, 0,0,0,0);
+                    player.spawnParticle(particle, at, 0, 0, 0, 0);
                 }
 
                 horAngle += speed * dT;
@@ -229,10 +229,11 @@ public class Drawings {
     }
 
     public static void drawCircleInFront(final Location loc, final double radius,
-                                         final double dst, final int parts, final Particle par) {
+                                         final double dst, final Particle par) {
         final Vector dir = loc.getDirection();
         final Location center = loc.clone().add(dir.clone().multiply(dst));
 
+        int parts = (int) (MathUtils.PI2 * radius * dense);
         for (int i = 0; i < parts; i++) {
             final double angle = MathUtils.PI2 * i / parts;
             final Vector at = MathUtils.rotateAroundAxis(randomVector.clone().crossProduct(dir).normalize(), dir, angle).multiply(radius);

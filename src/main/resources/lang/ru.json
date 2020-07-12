@@ -15,8 +15,15 @@
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
   },
+  "advices": {
+    "unlockClass": "§6Разблокируйте любой класс, нажав на него §fПКМ",
+    "startGame": "§c§l❕ §6Зайдите в §fпортал§6, чтобы начать игру!",
+    "chooseTeam": "§6Выберите §fкоманду§6, используя §fшерсть§6!",
+    "gameStarted": "§6Убивайте §fврагов §6и захватывайте§f коллекторы§6!",
+    "toWin": "§6Для победы нужно §f§l3000 эфира!"
+  },
   "hints": {
-    "lift": "§8[§aПРОБЕЛ§8]§b - подняться"
+    "lift": "§8[§aПРОБЕЛ§8]§b чтобы подняться"
   },
   "time": {
     "sec0": "секунд",
@@ -26,6 +33,7 @@
   },
   "game": {
     "boardTitle": "§aСтатистика",
+    "overflow": "§cМест нет!",
     "won": "§aВы победили!",
     "lost": "§4Вы проиграли!",
     "livesLeft": "§cЖизней",
@@ -79,7 +87,7 @@
   "commands": {
     "stat": "§%col%%com%§8: §9%pts%",
     "playingFor": "§aВы играете за§8: §9%com%",
-    "0": "§aСлучайная",
+    "0": "§fСлучайная",
     "1": "§cКрасные",
     "2": "§aЗеленые",
     "3": "§bТолерантные",
@@ -92,9 +100,9 @@
   "gameLobby": {
     "cantSelect": "§cВ этой команде уже слишком много людей",
     "exit": "§cВыйти назад в лобби",
-    "boardPreferred": "§aВыбрано§8: %com%§a!",
-    "boardReady": "§aГотово к игре§8: §9%cur%/%max%",
-    "boardRequired": "§aНужно как минимум§8: §9%min%",
+    "boardPreferred": "§bВыбрано§8: %com%§a!",
+    "boardReady": "§bГотово к игре§8: §9%cur%/%max%",
+    "boardRequired": "§bНужно как минимум§8: §9%min%",
     "boardTimeLeft": "§bОсталось времени§8: §9%time%",
     "gameStarted": "§aИгра началась!",
     "playerJoined": "§aИгрок %name% присоединился! §f%cur%/%max%",
@@ -102,10 +110,12 @@
   },
   "lobby": {
     "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",
-    "heroLocked": "§cКласс §9%class%§8:§c заблокирован",
-    "selectedClass": "§aВыбран класс: %class%",
-    "heroSelected": "§aКласс §9%class%§8:§a выбран",
-    "standTitle": "§bПКМ, чтобы выбрать§8: §9%class%",
-    "moneyBalance": "§6Ваш баланс§8: §9%money%"
+    "heroLocked": "§cКласс §9%class%§c заблокирован",
+    "selectedClass": "§aВыбран класс: §9%class%",
+    "heroSelected": "§6Класс §9%class%§6 выбран",
+    "standTitle": "§bПКМ - выбрать§8 §9%class%",
+    "moneyBalance": "§6Ваш баланс§8: §9%money%",
+    "busy": "§cНа всех серверах игра уже идет, подождите!",
+    "locked": "§6Тестирование сегодня в §f16:30§6! Актуальная информация в группе §fВК §cvk.com/etherwar"
   }
 }

@@ -252,11 +252,20 @@ public class GamePlayer extends GameObject {
     }
 
     public boolean setPreferredTeam (int preferredTeam) {
+        if (preferredTeam == getTeam()) {
+            return true;
+        }
         int[] cnt = new int[Game.getInstance().getInfo().getTeamCount()];
+        if (preferredTeam >= cnt.length) {
+            return false;
+        }
         for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
             if (gp.getTeam() != -1) {
                 cnt[gp.getTeam()]++;
             }
+        }
+        if (getTeam() != -1) {
+            cnt[getTeam()]--;
         }
         int mx1 = -1, val1 = -1, val2 = -1;
         for (int i = 0; i < cnt.length; i++) {

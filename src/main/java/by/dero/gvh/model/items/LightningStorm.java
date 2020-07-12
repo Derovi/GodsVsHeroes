@@ -78,7 +78,7 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
                 for (final LivingEntity obj : GameUtils.getNearby(center, radius)) {
                     if (GameUtils.isEnemy(obj, getTeam())) {
                         Location at = obj.getLocation();
-                        GameUtils.spawnLightning(at, damage, 1, ownerGM);
+                        GameUtils.spawnLightning(at, damage, 2.5, ownerGM);
                     }
                 }
 
@@ -87,7 +87,7 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 40, delayStrikes);
+        runnable.runTaskTimer(Plugin.getInstance(), 30, delayStrikes);
         Minigame.getInstance().getGame().getRunnables().add(runnable);
     }
 }

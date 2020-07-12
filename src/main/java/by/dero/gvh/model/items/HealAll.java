@@ -2,6 +2,7 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.HealAllInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -12,7 +13,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class HealAll extends Item implements PlayerInteractInterface {
+public class HealAll extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
     private final int heal;
     public HealAll(final String name, final int level, final Player owner) {

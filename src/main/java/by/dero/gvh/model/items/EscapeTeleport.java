@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Drawings;
@@ -10,7 +9,6 @@ import by.dero.gvh.model.itemsinfo.EscapeTeleportInfo;
 import by.dero.gvh.nmcapi.PlayerUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
-import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -19,18 +17,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class EscapeTeleport extends Item implements DoubleSpaceInterface {
     private final double radius;
-    private final double minradius;
+    private final double minRadius;
 
     public EscapeTeleport(String name, int level, Player owner) {
         super(name, level, owner);
         final EscapeTeleportInfo info = (EscapeTeleportInfo) getInfo();
         radius = info.getRadius();
-        minradius = info.getMinRadius();
+        minRadius = info.getMinRadius();
     }
 
     @Override
     public void onDoubleSpace() {
-        final Location loc = MathUtils.getGoodInCylinder(owner.getLocation().clone(), minradius, radius);
+        final Location loc = MathUtils.getGoodInCylinder(owner.getLocation().clone(), minRadius, radius);
         if (!cooldown.isReady()) {
             GameUtils.doubleSpaceCooldownMessage(this);
             return;

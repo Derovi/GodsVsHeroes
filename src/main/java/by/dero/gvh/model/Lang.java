@@ -19,10 +19,13 @@ public class Lang {
     }
 
     public void load(String locale) {
-        System.out.println("/lang/" + locale + ".json");
         try {
-            DataUtils.loadOrDefault(storage, "lang", locale,
-                    ResourceUtils.readResourceFile("/lang/" + locale + ".json"));
+            if (Plugin.getInstance().getSettings().isOverrideLang()) {
+                storage.save("lang", locale, ResourceUtils.readResourceFile("/lang/" + locale + ".json"));
+            } else {
+                DataUtils.loadOrDefault(storage, "lang", locale,
+                        ResourceUtils.readResourceFile("/lang/" + locale + ".json"));
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -1,8 +1,10 @@
 {
   "mode": "minigame",
   "locale": "ru",
+  "overrideLang": true,
   "serverName": "minigame",
-  "dataStorageType": "local",
+  "cristalix": false,
+  "dataStorageType": "null",
   "dataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
   "dataMongodbDatabase": "gvh",
   "playerDataStorageType": "local",

@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "fireballCoolDown": 60,
+      "fireballCoolDown": 30,
       "cooldown": 1600,
       "duration": 400,
       "damage": 12,
@@ -18,7 +18,7 @@
       "amount": 1
     },
     {
-      "fireballCoolDown": 60,
+      "fireballCoolDown": 30,
       "cooldown": 1600,
       "duration": 400,
       "damage": 13,
@@ -33,7 +33,7 @@
       "amount": 1
     },
     {
-      "fireballCoolDown": 60,
+      "fireballCoolDown": 30,
       "cooldown": 1600,
       "duration": 400,
       "damage": 14,
@@ -48,7 +48,7 @@
       "amount": 1
     },
     {
-      "fireballCoolDown": 60,
+      "fireballCoolDown": 30,
       "cooldown": 1600,
       "duration": 400,
       "cost": 120,
@@ -63,7 +63,7 @@
       "amount": 1
     },
     {
-      "fireballCoolDown": 60,
+      "fireballCoolDown": 30,
       "cooldown": 1600,
       "duration": 400,
       "damage": 16,

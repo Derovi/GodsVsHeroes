@@ -2,16 +2,16 @@
   "world": "World",
   "mode": "etherCapture",
   "teamCount": 2,
-  "minPlayerCount": 6,
-  "maxPlayerCount": 10,
+  "minPlayerCount": 12,
+  "maxPlayerCount": 20,
   "respawnTime": 200,
   "lobbyPosition": {
     "x": -3556,
     "y": 73,
     "z": 825,
     "dx": 1,
-    "dy": 1,
-    "dz": 1
+    "dy": 0,
+    "dz": 0
   },
   "mapBorders": [
     {

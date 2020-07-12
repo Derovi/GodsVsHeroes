@@ -25,6 +25,19 @@ public class MessagingUtils {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(title);
     }
 
+    public static void sendSubtitle(final String text, final Player player, int c, int d, int e) {
+        final PacketPlayOutTitle title = new PacketPlayOutTitle(
+                PacketPlayOutTitle.EnumTitleAction.TITLE,
+                IChatBaseComponent.ChatSerializer.a("{\"text\":\"\"}"),
+                c, d, e);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(title);
+        final PacketPlayOutTitle subtitle = new PacketPlayOutTitle(
+                PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
+                IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + text + "\"}"),
+                c, d, e);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(subtitle);
+    }
+
     public static void sendActionBar(final String text, final Player player) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(text));
     }

@@ -1,6 +1,6 @@
 {
   "name": "lucifer",
-  "maxHP": 30,
+  "maxHP": 40,
   "cost": 1000,
   "itemNames": [
     "swordthrow",
@@ -12,6 +12,7 @@
     "escapeteleport",
     "entityonkill",
 
+    "speedbuf",
     "defaultarrow",
     "defaultchestplatechainmail",
     "defaultleggings2",

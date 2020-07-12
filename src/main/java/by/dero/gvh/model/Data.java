@@ -58,7 +58,7 @@ public class Data {
         registerItem("grenade", GrenadeInfo.class, Grenade.class);
         registerItem("webthrow", WebThrowInfo.class, WebThrow.class);
         registerItem("escapeteleport", EscapeTeleportInfo.class, EscapeTeleport.class);
-        registerItem("sword", SwordInfo.class, Sword.class);
+        registerItem("sword", ItemInfo.class, Sword.class);
         registerItem("firesplash", FireSplashInfo.class, FireSplash.class);
         registerItem("suicidejump", SuicideJumpInfo.class, SuicideJump.class);
         registerItem("dragonbreath", DragonBreathInfo.class, DragonBreath.class);
@@ -115,10 +115,13 @@ public class Data {
         //load items
         try {
             for (String itemName : itemNameToClass.keySet()) {
-                if (!storageInterface.exists("items", itemName)) {
-                    storageInterface.save("items", itemName, ResourceUtils.readResourceFile("/items/" + itemName + ".json"));
+                String itemJson = ResourceUtils.readResourceFile("/items/" + itemName + ".json");
+                if (storageInterface != null) {
+                    if (!storageInterface.exists("items", itemName)) {
+                        storageInterface.save("items", itemName, itemJson);
+                    }
+                    itemJson = storageInterface.load("items", itemName);
                 }
-                String itemJson = storageInterface.load("items", itemName);
                 Gson gson = new GsonBuilder().registerTypeAdapter(ItemDescription.class,
                         ItemDescription.getDeserializer(this)).setPrettyPrinting().create();
                 items.put(itemName, gson.fromJson(itemJson, ItemDescription.class));
@@ -130,10 +133,13 @@ public class Data {
         try {
             Set<String> classNames = new HashSet<>(classNameToDescription.keySet());
             for (String className : classNames) {
-                if (!storageInterface.exists("classes", className)) {
-                    storageInterface.save("classes", className, ResourceUtils.readResourceFile("/classes/" + className + ".json"));
+                String classJson = ResourceUtils.readResourceFile("/classes/" + className + ".json");
+                if (storageInterface != null) {
+                    if (!storageInterface.exists("classes", className)) {
+                        storageInterface.save("classes", className, classJson);
+                    }
+                    classJson = storageInterface.load("classes", className);
                 }
-                String classJson = storageInterface.load("classes", className);
                 Gson gson = new Gson();
                 classNameToDescription.put(className, gson.fromJson(classJson, UnitClassDescription.class));
             }
@@ -144,8 +150,11 @@ public class Data {
 
     public void loadRewards(RewardManager manager) {
         try {
-            String rewardsJson = DataUtils.loadOrDefault(storageInterface, "game", "rewards",
-                    ResourceUtils.readResourceFile("/game/rewards.json"));
+            String rewardsJson = ResourceUtils.readResourceFile("/game/rewards.json");
+            if (storageInterface != null) {
+                rewardsJson = DataUtils.loadOrDefault(storageInterface, "game", "rewards",
+                        rewardsJson);
+            }
             manager.setRewards(new Gson().fromJson(rewardsJson, new TypeToken<HashMap<String, Reward>>() {}.getType()));
         } catch (Exception ex) {
             ex.printStackTrace();

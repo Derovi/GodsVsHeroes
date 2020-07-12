@@ -4,14 +4,10 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.DragonEggInfo;
-import by.dero.gvh.nmcapi.ChickenAvatar;
 import by.dero.gvh.nmcapi.DragonEggEntity;
 import by.dero.gvh.utils.GameUtils;
-import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 public class DragonEgg extends Item implements DoubleSpaceInterface {
     private final DragonEggInfo info;

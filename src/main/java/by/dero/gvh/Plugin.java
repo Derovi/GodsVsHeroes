@@ -20,6 +20,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import ru.cristalix.core.CoreApi;
+import ru.cristalix.core.network.ISocketClient;
+import ru.cristalix.core.permissions.IPermissionService;
+import ru.cristalix.core.permissions.PermissionService;
+import ru.cristalix.core.pvp.CPSLimiter;
+import ru.cristalix.core.realm.IRealmService;
+import ru.cristalix.core.scoreboard.IScoreboardService;
+import ru.cristalix.core.scoreboard.ScoreboardService;
+import ru.cristalix.core.transfer.ITransferService;
+import ru.cristalix.core.transfer.TransferService;
 
 import java.io.IOException;
 
@@ -39,8 +50,9 @@ public class Plugin extends JavaPlugin implements Listener {
         instance = this;
         new GameUtils();
         try {
-            settings = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(),
-                    "settings", "settings", ResourceUtils.readResourceFile("/settings.json")),
+            String text = DataUtils.loadOrDefault(new LocalStorage(),
+                    "settings", "settings", ResourceUtils.readResourceFile("/settings.json"));
+            settings = new Gson().fromJson(text,
                     Settings.class);
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,7 +60,10 @@ public class Plugin extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
         lang = new Lang(new LocalStorage());
         lang.load(settings.getLocale());
-        StorageInterface dataStorage = new LocalStorage();
+        StorageInterface dataStorage = null;
+        if (settings.getDataStorageType().equals("local")) {
+            dataStorage = new LocalStorage();
+        } else
         if (settings.getDataStorageType().equals("mongodb")) {
             dataStorage = new MongoDBStorage(settings.getDataMongodbConnection(), settings.getDataMongodbDatabase());
         }
@@ -83,6 +98,14 @@ public class Plugin extends JavaPlugin implements Listener {
             Bukkit.getPluginManager().registerEvents((Listener) pluginMode, this);
         }
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(Plugin.getInstance(), "BungeeCord");
+        if (settings.isCristalix()) {
+            CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
+            CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
+            IPermissionService.get().enableTablePermissions();
+            new CPSLimiter(this, 10);
+            IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
+            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(100);
+        }
         Bukkit.getPluginManager().registerEvents(this, this);
         new MathUtils();
     }

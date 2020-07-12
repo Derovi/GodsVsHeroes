@@ -5,8 +5,13 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.utils.*;
-import org.bukkit.*;
+import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.MathUtils;
+import by.dero.gvh.utils.Position;
+import by.dero.gvh.utils.WorldEditUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -38,7 +43,6 @@ public class PlayerLobby {
     public void create() {
         WorldEditUtils.pasteSchematic(Lobby.getInstance().getLobbySchematicFile(),
                 Lobby.getInstance().getWorld(), record.getPosition());
-
     }
 
     public void destroy() {

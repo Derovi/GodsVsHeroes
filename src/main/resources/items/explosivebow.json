@@ -17,7 +17,7 @@
     },
     {
       "cooldown": 200,
-      "multiplier": 1.2,
+      "multiplier": 1.15,
       "reclining": 0.7,
       "cost": 100,
       "material": "BOW",

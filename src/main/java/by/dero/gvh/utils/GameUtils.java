@@ -7,6 +7,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.Lang;
 import com.google.common.base.Predicate;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.GameMode;
@@ -17,8 +18,8 @@ import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
-import org.bukkit.entity.*;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.Potion;
@@ -70,6 +71,17 @@ public class GameUtils {
         }
     }
 
+    private static DirectedPosition[] borders = null;
+    public static boolean insideMap(Location loc) {
+        if (borders == null) {
+            borders = Game.getInstance().getInfo().getMapBorders();
+        }
+        final String desMsg = Lang.get("game.desertionMessage");
+
+        return loc.getX() >= borders[0].getX() && loc.getX() <= borders[1].getX() &&
+                loc.getZ() >= borders[0].getZ() && loc.getZ() <= borders[1].getZ();
+    }
+
     public static void changeColor(Location loc, char code) {
         loc.getBlock().setData(codeToData.get(code));
     }
@@ -92,7 +104,7 @@ public class GameUtils {
 
     public static <T> ArrayList<T> selectItems(GamePlayer gp, Class<T> cl) {
         final ArrayList<T> list = new ArrayList<>();
-        for (by.dero.gvh.model.Item item : gp.getItems().values()) {
+        for (Item item : gp.getItems().values()) {
             if (cl.isInstance(item)) {
                 list.add(cl.cast(item));
             }
@@ -105,7 +117,11 @@ public class GameUtils {
         if (!hasDelay) {
             target.setNoDamageTicks(0);
         }
-        target.damage(damage, killer);
+        if (target.equals(killer)) {
+            target.damage(damage);
+        } else {
+            target.damage(damage, killer);
+        }
     }
 
     public static boolean isDeadPlayer(Entity entity) {
@@ -213,6 +229,8 @@ public class GameUtils {
     public static LivingEntity spawnTeamEntity(Location loc, EntityType type, GamePlayer gp) {
         LivingEntity entity = (LivingEntity) spawnEntity(loc, type);
         Game.getInstance().getMobs().put(entity.getUniqueId(), new GameMob(entity, gp.getTeam(), gp.getPlayer()));
+        entity.setCustomName(Lang.get("commands." + (char)('1' + gp.getTeam())));
+        entity.setCustomNameVisible(true);
         return entity;
     }
 
@@ -337,19 +355,19 @@ public class GameUtils {
     }
 
 
-    public static LivingEntity getTargetEntity(final Player entity, final double maxRange) {
-        return getTarget(entity, entity.getWorld().getLivingEntities(), maxRange);
+    public static LivingEntity getTargetEntity(final Player entity, final double maxRange,
+                                               java.util.function.Predicate<LivingEntity> pred) {
+        return getTarget(entity, entity.getWorld().getLivingEntities(), maxRange, pred);
     }
 
-    public static <T extends LivingEntity> T getTarget(final Player entity,
-                                                final Iterable<T> entities,
-                                                final double maxRange) {
+    public static <T extends LivingEntity> T getTarget(Player entity, Iterable<T> entities, double maxRange,
+                                                       java.util.function.Predicate<LivingEntity> pred) {
         if (entity == null)
             return null;
         T target = null;
         final double threshold = 1;
         for (final T other : entities) {
-            if (other.getLocation().distance(entity.getLocation()) > maxRange) {
+            if (other.getLocation().distance(entity.getLocation()) > maxRange || !pred.test(other)) {
                 continue;
             }
             final Vector n = other.getLocation().toVector().subtract(entity.getLocation().toVector());
@@ -408,5 +426,9 @@ public class GameUtils {
 
     public static Predicate<EntityLiving> getTargetPredicate(int team) {
         return (entity) -> entity != null && isEnemy(entity.getBukkitEntity(), team);
+    }
+
+    public static Predicate<EntityPlayer> getTargetPlayerPredicate(int team) {
+        return (entityPlayer -> entityPlayer != null && isEnemy(entityPlayer.getBukkitEntity(), team));
     }
 }

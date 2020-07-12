@@ -43,7 +43,7 @@ public class LootsManager implements Listener {
         public void update(String... args) {
             long left = lastUsed + cooldown * 50 - System.currentTimeMillis();
             if (left >= 0) {
-                text.setText(Lang.get("game.lootsLabelCooldown").replace("%time%", String.valueOf(left / 1000)));
+                text.setText(Lang.get("loots.labelCooldown").replace("%time%", String.valueOf(left / 1000)));
                 return;
             }
             String result = updateText;

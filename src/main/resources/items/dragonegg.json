@@ -4,7 +4,7 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 220,
+      "cooldown": 340,
       "duration": 40,
       "cost": 80,
       "material": "FEATHER",
@@ -13,7 +13,7 @@
       "amount": 1
     },
     {
-      "cooldown": 600,
+      "cooldown": 340,
       "duration": 45,
       "cost": 100,
       "material": "FEATHER",
@@ -22,7 +22,7 @@
       "amount": 1
     },
     {
-      "cooldown": 600,
+      "cooldown": 340,
       "duration": 50,
       "cost": 120,
       "material": "FEATHER",
@@ -31,7 +31,7 @@
       "amount": 1
     },
     {
-      "cooldown": 600,
+      "cooldown": 340,
       "duration": 55,
       "cost": 140,
       "material": "FEATHER",
@@ -40,7 +40,7 @@
       "amount": 1
     },
     {
-      "cooldown": 600,
+      "cooldown": 340,
       "duration": 60,
       "cost": 160,
       "material": "FEATHER",

@@ -9,8 +9,6 @@ import org.bukkit.potion.PotionEffectType;
 public class SpeedBuf extends Item {
     public SpeedBuf(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        if (level != 0) {
-            GameUtils.getPlayer(owner.getName()).addEffect(new PotionEffect(PotionEffectType.SPEED, (int)2e9, level-1));
-        }
+        GameUtils.getPlayer(owner.getName()).addEffect(new PotionEffect(PotionEffectType.SPEED, (int)2e9, 0));
     }
 }

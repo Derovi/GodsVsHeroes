@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 80,
-      "damage": 15,
+      "damage": 14,
       "cost": 80,
       "material": "IRON_SPADE",
       "displayName": "§cFire spear",

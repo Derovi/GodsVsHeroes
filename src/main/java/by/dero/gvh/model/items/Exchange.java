@@ -24,11 +24,11 @@ public class Exchange extends Item implements PlayerInteractInterface {
     public void drawSign(final LivingEntity player) {
         double radius = 0.7;
         for (int ticks = 0; ticks < 5; ticks++) {
-            Drawings.drawCircleInFront(player.getEyeLocation(), radius, 3, 5, Particle.PORTAL);
+            Drawings.drawCircleInFront(player.getEyeLocation(), radius, 3, Particle.PORTAL);
             radius += 0.3;
         }
 
-        Drawings.drawCircleInFront(player.getEyeLocation(), radius, 3, 20, Particle.PORTAL);
+        Drawings.drawCircleInFront(player.getEyeLocation(), radius, 3, Particle.PORTAL);
         for (int i = 0; i < parts; i++) {
             player.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,
                     MathUtils.randomCylinder(player.getLocation(), 1.3, -2), 0);
@@ -38,7 +38,7 @@ public class Exchange extends Item implements PlayerInteractInterface {
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
-        final LivingEntity target = GameUtils.getTargetEntity(player, maxRange);
+        final LivingEntity target = GameUtils.getTargetEntity(player, maxRange, (e) -> GameUtils.isEnemy(e, getTeam()));
 
         final Location zxc = player.getLocation().clone();
         if (target != null) {

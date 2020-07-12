@@ -10,7 +10,10 @@ import by.dero.gvh.utils.Stun;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -34,7 +37,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
         final Location loc = event.getEntity().getLocation();
         loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 1);
 
-        loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1.07f, 1);
+        loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 1);
         for (final LivingEntity entity : GameUtils.getNearby(event.getEntity().getLocation(), 1.5)) {
             if (GameUtils.isEnemy(entity, getTeam())) {
                 Stun.stunEntity(entity, duration);

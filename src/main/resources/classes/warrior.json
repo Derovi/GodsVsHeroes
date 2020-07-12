@@ -1,6 +1,6 @@
 {
   "name": "warrior",
-  "maxHP": 30,
+  "maxHP": 40,
   "cost": 0,
   "itemNames": [
     "swordthrow",
@@ -12,6 +12,7 @@
 
     "spurt",
 
+    "speedbuf",
     "defaultarrow",
     "defaultchestplate3",
     "defaultleggings",

@@ -18,6 +18,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -69,6 +70,10 @@ public class GameEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+            event.setCancelled(true);
+            return;
+        }
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
 
@@ -138,6 +143,10 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerSneak(PlayerToggleSneakEvent event) {
+        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+            event.setCancelled(true);
+            return;
+        }
         Player player = event.getPlayer();
         if (!player.isSneaking()) {
             return;
@@ -148,7 +157,18 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
+    public void onPlayerUnmount(VehicleExitEvent event) {
+        for (VehicleExitInterface item : GameUtils.selectItems(GameUtils.getPlayer(event.getExited().getName()), VehicleExitInterface.class)) {
+            item.onPlayerUnmount(event);
+        }
+    }
+
+    @EventHandler
     public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
+        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+            event.setCancelled(true);
+            return;
+        }
         if (!(event.getEntity() instanceof LivingEntity)) {
             return;
         }
@@ -185,6 +205,10 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
+        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+            event.setCancelled(true);
+            return;
+        }
         Entity ent = event.getDamager();
         if (ent instanceof Firework) {
             event.setCancelled(true);
@@ -234,6 +258,10 @@ public class GameEvents implements Listener {
             }
             e.setCancelled(true);
         }
+    }
+    @EventHandler
+    public void onInteractEntity(PlayerInteractAtEntityEvent event) {
+        event.setCancelled(true);
     }
 
     @EventHandler
@@ -320,6 +348,11 @@ public class GameEvents implements Listener {
 
     public Location getLastPos (Player player) {
         return lastPos.getOrDefault(player.getUniqueId(), player.getLocation());
+    }
+
+    @EventHandler
+    public void interactArmorStand(PlayerInteractAtEntityEvent event) {
+        event.setCancelled(true);
     }
 
     @EventHandler

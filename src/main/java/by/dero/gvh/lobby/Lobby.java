@@ -1,18 +1,22 @@
 package by.dero.gvh.lobby;
 
+import by.dero.gvh.AdviceManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
-import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.utils.*;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
+import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.Position;
+import by.dero.gvh.utils.ResourceUtils;
+import by.dero.gvh.utils.VoidGenerator;
 import com.google.gson.Gson;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -22,15 +26,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.realm.IRealmService;
+import ru.cristalix.core.realm.RealmInfo;
+import ru.cristalix.core.realm.RealmStatus;
 
 import java.io.File;
 import java.util.*;
@@ -92,6 +105,16 @@ public class Lobby implements PluginMode, Listener {
         portalManager = new PortalManager();
         loadSchematic();
         registerEvents();
+        if (Plugin.getInstance().getSettings().isCristalix()) {
+            RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+            info.setStatus(RealmStatus.WAITING_FOR_PLAYERS);
+        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                world.save();
+            }
+        }.runTaskTimer(Plugin.getInstance(), 6000, 6000);
     }
 
     private void registerEvents() {
@@ -111,6 +134,7 @@ public class Lobby implements PluginMode, Listener {
         for (final PlayerLobby playerLobby : activeLobbies.values()) {
             playerLobby.unload();
         }
+        Plugin.getInstance().getServerData().unregister(Plugin.getInstance().getSettings().getServerName());
     }
 
     private void loadSchematic() {
@@ -177,6 +201,14 @@ public class Lobby implements PluginMode, Listener {
         playerLobby.load();
         activeLobbies.put(player.getName(), playerLobby);
         Lobby.getInstance().updateDisplays(player);
+
+        player.getInventory().setItem(0, new ItemStack(Material.COMPASS, 1));
+        AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
+                (pl) -> (!players.containsKey(pl.getName()) || players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
+
+        AdviceManager.sendAdvice(player, "startGame", 30, 400,
+                (pl) -> (!players.containsKey(pl.getName())),
+                (pl) -> (players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
     }
 
     public void playerLeft(Player player) {
@@ -299,6 +331,30 @@ public class Lobby implements PluginMode, Listener {
             p.setVelocity(p.getVelocity().add(new Vector(0,1,0)));
             event.setCancelled (true);
         }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
+            event.getAction().equals(Action.RIGHT_CLICK_BLOCK) &&
+            event.getPlayer().getInventory().getHeldItemSlot() == 0) {
+            System.out.println("compass");
+        }
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        event.setCancelled(true);
     }
 
     @EventHandler
