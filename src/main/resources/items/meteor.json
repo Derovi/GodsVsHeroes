@@ -3,10 +3,10 @@
   "slot": 0,
   "levels": [
     {
-      "damage": 16,
+      "damage": 12,
       "radius": 6.0,
       "range": 50,
-      "cooldown": 400,
+      "cooldown": 300,
       "cost": 80,
       "material": "FIREBALL",
       "displayName": "§cMeteor",
@@ -17,10 +17,10 @@
       "amount": 1
     },
     {
-      "damage": 16,
+      "damage": 12,
       "radius": 6.0,
       "range": 50,
-      "cooldown": 400,
+      "cooldown": 300,
       "cost": 80,
       "material": "FIREBALL",
       "displayName": "§cMeteor",
@@ -31,10 +31,10 @@
       "amount": 1
     },
     {
-      "damage": 16,
+      "damage": 12,
       "radius": 6.0,
       "range": 50,
-      "cooldown": 400,
+      "cooldown": 300,
       "cost": 80,
       "material": "FIREBALL",
       "displayName": "§cMeteor",
