@@ -297,6 +297,7 @@ public abstract class Game implements Listener {
                             13, -10
                     ), 2);
                 }
+                Bukkit.getServer().broadcastMessage("§6Спасибо за участие! Все заходим в группу вк §cvk.com/etherwar§6 и проходим опрос в закрепе!");
             }
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 40);
@@ -312,7 +313,8 @@ public abstract class Game implements Listener {
                     Player player = players.get(playerName).getPlayer();
                     removePlayer(playerName);
                     if (lobbyServer != null) {
-                        BungeeUtils.redirectPlayer(player, lobbyServer.getName());
+                        player.kickPlayer(Lang.get("game.gameFinished"));
+                        //BungeeUtils.redirectPlayer(player, lobbyServer.getName());
                     } else {
                         player.kickPlayer(Lang.get("game.gameFinished"));
                     }

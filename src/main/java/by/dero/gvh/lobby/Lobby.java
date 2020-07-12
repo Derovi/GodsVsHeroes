@@ -338,7 +338,7 @@ public class Lobby implements PluginMode, Listener {
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
             event.getAction().equals(Action.RIGHT_CLICK_BLOCK) &&
             event.getPlayer().getInventory().getHeldItemSlot() == 0) {
-            System.out.println("compass");
+            //System.out.println("compass");
         }
     }
 
