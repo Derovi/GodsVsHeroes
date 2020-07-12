@@ -73,10 +73,10 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         pig.goalSelector.a(0, new PathfinderFollow(pig, 1, 200));
 
         pig.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
-        Game.getInstance().getMobs().put(pig.uniqueID, new GameMob((LivingEntity) pig.getBukkitEntity(), getTeam(), owner));
-        pig.setCustomName(Lang.get("commands." + (char)('1' + getTeam())));
-        pig.setCustomNameVisible(true);
         pig.world.addEntity(pig, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        GameMob gm = new GameMob((LivingEntity) pig.getBukkitEntity(), getTeam(), owner);
+        gm.updateName();
+        Game.getInstance().getMobs().put(pig.uniqueID, gm);
         BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = duration;
             GamePlayer cur = targetGP;

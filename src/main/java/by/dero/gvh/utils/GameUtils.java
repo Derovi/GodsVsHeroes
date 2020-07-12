@@ -228,9 +228,9 @@ public class GameUtils {
 
     public static LivingEntity spawnTeamEntity(Location loc, EntityType type, GamePlayer gp) {
         LivingEntity entity = (LivingEntity) spawnEntity(loc, type);
-        Game.getInstance().getMobs().put(entity.getUniqueId(), new GameMob(entity, gp.getTeam(), gp.getPlayer()));
-        entity.setCustomName(Lang.get("commands." + (char)('1' + gp.getTeam())));
-        entity.setCustomNameVisible(true);
+        GameMob gm = new GameMob(entity, gp.getTeam(), gp.getPlayer());
+        Game.getInstance().getMobs().put(entity.getUniqueId(), gm);
+        gm.updateName();
         return entity;
     }
 

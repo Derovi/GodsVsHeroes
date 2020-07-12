@@ -157,14 +157,14 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
-    public void onPlayerUnmount(VehicleExitEvent event) {
+    public void onPlayerUnmount (VehicleExitEvent event) {
         for (VehicleExitInterface item : GameUtils.selectItems(GameUtils.getPlayer(event.getExited().getName()), VehicleExitInterface.class)) {
             item.onPlayerUnmount(event);
         }
     }
 
     @EventHandler
-    public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
+    public void onEntityTakeUnregisteredDamage (EntityDamageEvent event) {
         if (!Game.getInstance().getState().equals(Game.State.GAME)) {
             event.setCancelled(true);
             return;
@@ -204,7 +204,7 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
-    public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
+    public void onEntityTakeRegisteredDamage (EntityDamageByEntityEvent event) {
         if (!Game.getInstance().getState().equals(Game.State.GAME)) {
             event.setCancelled(true);
             return;
@@ -227,9 +227,13 @@ public class GameEvents implements Listener {
         if (!(damager instanceof Player)) {
             damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
         }
-        if (GameUtils.isEnemy(entity, damager)) {
+        int entTeam = entity instanceof Player ? -1 : GameUtils.getMob(entity.getUniqueId()).getTeam();
+        if (GameUtils.isEnemy(damager, entTeam)) {
             game.getStats().addDamage(entity, damager, event.getDamage());
             damageCause.put(entity, damager);
+            if (!entity.isDead() && entTeam != -1) {
+                GameUtils.getMob(entity.getUniqueId()).updateName();
+            }
         } else {
             event.setCancelled(true);
         }
