@@ -52,7 +52,6 @@ public class Plugin extends JavaPlugin implements Listener {
         try {
             String text = DataUtils.loadOrDefault(new LocalStorage(),
                     "settings", "settings", ResourceUtils.readResourceFile("/settings.json"));
-            System.out.println("set:" + text);
             settings = new Gson().fromJson(text,
                     Settings.class);
         } catch (IOException e) {

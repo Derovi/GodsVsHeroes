@@ -2,6 +2,7 @@ package by.dero.gvh.lobby;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.ServerInfo;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.utils.BungeeUtils;
@@ -51,7 +52,7 @@ public class PortalManager implements Listener {
             }
         }
         if (serverName == null) {
-            System.out.println("There is no available game server!");
+            player.getPlayer().sendMessage(Lang.get("lobby.busy"));
         }
         BungeeUtils.redirectPlayer(player.getPlayer(), serverName);
     }

@@ -15,6 +15,11 @@
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
   },
+  "advices": {
+    "unlockClass": "§6Разблокируйте любой класс, нажав на него §fПКМ",
+    "startGame": "§6Зайдите в §fпортал§6 или используйте§f компас§6, чтобы начать игру!",
+    "chooseCommand": "§"
+  },
   "hints": {
     "lift": "§8[§aПРОБЕЛ§8]§b чтобы подняться"
   },
@@ -107,6 +112,7 @@
     "selectedClass": "§aВыбран класс: §9%class%",
     "heroSelected": "§6Класс §9%class%§6 выбран",
     "standTitle": "§bПКМ - выбрать§8 §9%class%",
-    "moneyBalance": "§6Ваш баланс§8: §9%money%"
+    "moneyBalance": "§6Ваш баланс§8: §9%money%",
+    "busy": "§cНа всех серверах игра уже идет, подождите!"
   }
 }

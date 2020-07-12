@@ -1,5 +1,6 @@
 package by.dero.gvh.lobby;
 
+import by.dero.gvh.AdviceManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
@@ -188,6 +189,13 @@ public class Lobby implements PluginMode, Listener {
         playerLobby.load();
         activeLobbies.put(player.getName(), playerLobby);
         Lobby.getInstance().updateDisplays(player);
+
+        AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
+                (pl) -> (!players.containsKey(pl.getName()) || players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
+
+        AdviceManager.sendAdvice(player, "startGame", 30, 400,
+                (pl) -> (!players.containsKey(pl.getName())),
+                (pl) -> (players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
     }
 
     public void playerLeft(Player player) {
