@@ -5,7 +5,7 @@
     {
       "cooldown": 25,
       "radius": 5.0,
-      "damage": 3,
+      "damage": 4,
       "cost": 80,
       "material": "BLAZE_ROD",
       "displayName": "§cDragon breath",
@@ -18,7 +18,7 @@
     {
       "cooldown": 25,
       "radius": 5.0,
-      "damage": 3,
+      "damage": 4,
       "cost": 100,
       "material": "BLAZE_ROD",
       "displayName": "§cDragon breath",
@@ -31,7 +31,7 @@
     {
       "cooldown": 25,
       "radius": 5.0,
-      "damage": 3,
+      "damage": 4,
       "cost": 120,
       "material": "BLAZE_ROD",
       "displayName": "§cDragon breath",

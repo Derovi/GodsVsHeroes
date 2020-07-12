@@ -5,6 +5,7 @@
     {
       "cooldown": 100,
       "damage": 15,
+      "meleeDamage": 10,
       "cost": 80,
       "material": "IRON_AXE",
       "displayName": "§cAxe throw",
@@ -17,6 +18,7 @@
     {
       "cooldown": 100,
       "damage": 17,
+      "meleeDamage": 10,
       "cost": 100,
       "material": "IRON_AXE",
       "displayName": "§cAxe throw",
@@ -29,6 +31,7 @@
     {
       "cooldown": 100,
       "damage": 20,
+      "meleeDamage": 10,
       "cost": 120,
       "material": "IRON_AXE",
       "displayName": "§cAxe throw",

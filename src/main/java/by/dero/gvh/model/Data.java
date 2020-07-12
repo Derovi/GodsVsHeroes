@@ -58,7 +58,7 @@ public class Data {
         registerItem("grenade", GrenadeInfo.class, Grenade.class);
         registerItem("webthrow", WebThrowInfo.class, WebThrow.class);
         registerItem("escapeteleport", EscapeTeleportInfo.class, EscapeTeleport.class);
-        registerItem("sword", SwordInfo.class, Sword.class);
+        registerItem("sword", ItemInfo.class, Sword.class);
         registerItem("firesplash", FireSplashInfo.class, FireSplash.class);
         registerItem("suicidejump", SuicideJumpInfo.class, SuicideJump.class);
         registerItem("dragonbreath", DragonBreathInfo.class, DragonBreath.class);

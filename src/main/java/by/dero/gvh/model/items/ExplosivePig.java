@@ -74,6 +74,8 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
 
         pig.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         Game.getInstance().getMobs().put(pig.uniqueID, new GameMob((LivingEntity) pig.getBukkitEntity(), getTeam(), owner));
+        pig.setCustomName(Lang.get("commands." + (char)('1' + getTeam())));
+        pig.setCustomNameVisible(true);
         pig.world.addEntity(pig, CreatureSpawnEvent.SpawnReason.CUSTOM);
         BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = duration;

@@ -14,7 +14,7 @@ public class DoubleJump extends Item implements DoubleSpaceInterface {
 
     @Override
     public void onDoubleSpace() {
-        Drawings.drawCircleInFront(owner.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
+        Drawings.drawCircleInFront(owner.getEyeLocation(), 3, 0.5, Particle.EXPLOSION_LARGE);
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.07f, 1);
         owner.setVelocity(owner.getLocation().getDirection().multiply (1.1d).setY (1.0d));
     }

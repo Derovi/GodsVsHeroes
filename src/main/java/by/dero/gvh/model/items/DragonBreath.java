@@ -37,7 +37,7 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
         dlt.y = Math.max(dlt.y, -1);
 
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.07f, 1);
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 15; i++) {
             Vector at = loc.getDirection().clone();
             double x = Math.random() * spread * 2 - spread;
             double y = Math.random() * spread * 2 - spread;

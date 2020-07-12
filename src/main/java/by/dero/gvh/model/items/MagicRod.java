@@ -1,6 +1,7 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.MagicRodInfo;
@@ -46,7 +47,6 @@ public class MagicRod extends Item implements PlayerInteractInterface {
             @Override
             public void run() {
                 start.add(start.getDirection().multiply(1));
-                final Vector kek = st.clone().crossProduct(start.getDirection()).normalize().multiply(MathUtils.sin(ticks) * 3);
                 start.getWorld().spawnParticle(Particle.LAVA, start, 1);
                 for (final LivingEntity obj : GameUtils.getNearby(start, 2)) {
                     if (GameUtils.isEnemy(obj, getTeam()) && !stroke.contains(obj.getUniqueId())) {
@@ -55,16 +55,7 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                         stroke.add(obj.getUniqueId());
                     }
                 }
-                final int steps = 16;
-                for (int i = 0; i < steps; i ++) {
-                    MathUtils.rotateAroundAxis(kek, start.getDirection(), MathUtils.PI2 / steps);
-                    start.getWorld().spawnParticle(Particle.SPELL_WITCH, new Location(
-                            start.getWorld(),
-                            start.getX() + kek.getX(),
-                            start.getY() + kek.getY(),
-                            start.getZ() + kek.getZ()
-                    ), 1);
-                }
+                Drawings.drawCircleInFront(start, MathUtils.sin(ticks) * 3,0, Particle.SPELL_WITCH);
                 ticks += Math.PI / 10;
                 if (ticks >= 10000) {
                     this.cancel();

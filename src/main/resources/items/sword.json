@@ -3,47 +3,26 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 14,
-      "throwDamage": 8,
+      "cooldown": 0,
       "cost": 80,
-      "material": "STONE_SWORD",
-      "displayName": "§cМеч",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 13,
-      "throwDamage": 8,
-      "cost": 100,
-      "material": "STONE_SWORD",
-      "displayName": "§cМеч",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 11,
-      "throwDamage": 10,
-      "cost": 120,
       "material": "IRON_SWORD",
-      "displayName": "§cМеч",
+      "displayName": "§cIron Sword",
       "lore": [],
       "amount": 1
     },
     {
-      "cooldown": 10,
-      "throwDamage": 10,
-      "cost": 140,
+      "cooldown": 0,
+      "cost": 80,
       "material": "IRON_SWORD",
-      "displayName": "§cМеч",
+      "displayName": "§cIron Sword",
       "lore": [],
       "amount": 1
     },
     {
-      "cooldown": 9,
-      "throwDamage": 12,
-      "cost": 160,
-      "material": "DIAMOND_SWORD",
-      "displayName": "§cМеч",
+      "cooldown": 0,
+      "cost": 80,
+      "material": "IRON_SWORD",
+      "displayName": "§cIron Sword",
       "lore": [],
       "amount": 1
     }
