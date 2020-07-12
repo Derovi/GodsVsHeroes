@@ -37,7 +37,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
         cooldown.reload();
 
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 1.07f, 1);
-        Drawings.drawCircleInFront(player.getEyeLocation(), 2, 3, 20, Particle.END_ROD);
+        Drawings.drawCircleInFront(player.getEyeLocation(), 2, 3, Particle.END_ROD);
         final LivingEntity entity = GameUtils.getTargetEntity(player, 100);
         if (!GameUtils.isEnemy(entity, getTeam())) {
             Drawings.drawLine(player.getEyeLocation(),

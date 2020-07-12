@@ -9,24 +9,56 @@ import by.dero.gvh.model.itemsinfo.AxeThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingAxe;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.NBTTagInt;
+import net.minecraft.server.v1_12_R1.NBTTagList;
+import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final Material material;
     private final double damage;
+    private final int meleeDamage;
     public AxeThrow(String name, int level, Player owner) {
         super(name, level, owner);
         final AxeThrowInfo info = (AxeThrowInfo) getInfo();
         damage = info.getDamage();
         material = info.getMaterial();
+        meleeDamage = info.getMeleeDamage();
+    }
+
+    @Override
+    public ItemStack getItemStack () {
+        ItemStack axe = new ItemStack(material, 1);
+
+        axe = setItemMeta(axe, name, getInfo());
+        net.minecraft.server.v1_12_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(axe);
+        NBTTagCompound compound = nmsStack.hasTag() ? nmsStack.getTag() : new NBTTagCompound();
+        NBTTagList modifiers = new NBTTagList();
+        NBTTagCompound damage = new NBTTagCompound();
+        damage.set("AttributeName", new NBTTagString("generic.attackDamage"));
+        damage.set("Name", new NBTTagString("generic.attackDamage"));
+        damage.set("Amount", new NBTTagInt(meleeDamage));
+        damage.set("Operation", new NBTTagInt(0));
+        damage.set("UUIDLeast", new NBTTagInt(894654));
+        damage.set("UUIDMost", new NBTTagInt(2872));
+        damage.set("Slot", new NBTTagString("mainhand"));
+        modifiers.add(damage);
+        compound.set("AttributeModifiers", modifiers);
+        nmsStack.setTag(compound);
+        axe = CraftItemStack.asBukkitCopy(nmsStack);
+
+        return axe;
     }
 
     @Override

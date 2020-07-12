@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class FireSpear extends Item implements PlayerInteractInterface {
-    private final int parts = 6;
     private final double speed = 30;
     private final int time = 140;
     private final double damage;
@@ -70,7 +69,7 @@ public class FireSpear extends Item implements PlayerInteractInterface {
                 rem.clear();
 
                 for (int i = 0; i < 3; i++) {
-                    Drawings.drawCircleInFront(loc, i * 0.33, -i, parts, Particle.FLAME);
+                    Drawings.drawCircleInFront(loc, i * 0.33, -i, Particle.FLAME);
                 }
                 Drawings.drawLine(loc, loc.clone().subtract(dlt.clone().multiply(Math.min(3, ticks))), Particle.END_ROD);
                 loc.add(dlt.clone().multiply(2));

@@ -27,21 +27,23 @@ public class StunAll extends Item implements PlayerInteractInterface {
 
     public void drawSign(Location loc) {
         for (double hei = 0; hei < radius; hei += 0.3) {
-            Drawings.spawnMovingCircle(loc.clone(), latency, radius, 2,0, Particle.FLAME, owner.getWorld());
+            Drawings.drawCircle(loc.clone(), radius, Particle.FLAME);
             loc = loc.add(0, 0.3, 0);
         }
-        Drawings.spawnMovingCircle(loc.clone(), latency, radius, 4,0, Particle.FLAME, owner.getWorld());
     }
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final Player p = event.getPlayer();
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
-        drawSign(p.getLocation().clone());
+
         Location loc = owner.getLocation();
+        for (double hei = 0; hei < radius; hei += 0.4) {
+            Drawings.drawCircle(loc.clone(), radius, Particle.FLAME);
+            loc = loc.add(0, 0.4, 0);
+        }
         owner.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_GROWL, 1.07f, 1);
         for (final LivingEntity ot : owner.getWorld().getLivingEntities()) {
             Location otloc = ot.getLocation();

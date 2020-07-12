@@ -24,7 +24,7 @@ public class AirLeap extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
         owner.getWorld().playEffect(owner.getLocation(), Effect.WITHER_SHOOT, null);
-        Drawings.drawCircleInFront(owner.getEyeLocation(), 3, 0.5, 5, Particle.EXPLOSION_LARGE);
+        Drawings.drawCircleInFront(owner.getEyeLocation(), 3, 0.5, Particle.EXPLOSION_LARGE);
         owner.setVelocity(owner.getLocation().getDirection().multiply(force));
     }
 }
