@@ -1,5 +1,6 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.AdviceManager;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
@@ -163,6 +164,10 @@ public class GameLobby implements Listener {
         if (players >= game.getInfo().getMaxPlayerCount()) {
             timeLeft = 10;
         }
+        AdviceManager.sendAdvice(gamePlayer.getPlayer(), "chooseTeam", 20, 240,
+                (pl) -> (!game.getState().equals(Game.State.WAITING) ||
+                        !game.getPlayers().containsKey(pl.getName()) ||
+                        game.getPlayers().get(pl.getName()).getTeam() != -1));
     }
 
     public void onPlayerLeft(GamePlayer gamePlayer) {
