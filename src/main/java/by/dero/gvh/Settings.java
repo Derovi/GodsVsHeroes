@@ -3,6 +3,7 @@ package by.dero.gvh;
 public class Settings {
     private String mode;
     private boolean cristalix;
+    private boolean overrideLang;
     private String locale;
     private String serverName;
     private String dataStorageType;
@@ -144,5 +145,13 @@ public class Settings {
 
     public void setLocale(String locale) {
         this.locale = locale;
+    }
+
+    public boolean isOverrideLang() {
+        return overrideLang;
+    }
+
+    public void setOverrideLang(boolean overrideLang) {
+        this.overrideLang = overrideLang;
     }
 }

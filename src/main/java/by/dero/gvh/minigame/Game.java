@@ -1,5 +1,6 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.AdviceManager;
 import by.dero.gvh.GameMob;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
@@ -77,7 +78,16 @@ public abstract class Game implements Listener {
         chooseTeams();
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
+            AdviceManager.sendAdvice(player.getPlayer(), "gameStarted");
         }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (GamePlayer player : players.values()) {
+                    AdviceManager.sendAdvice(player.getPlayer(), "toWin");
+                }
+            }
+        }.runTaskLater(Plugin.getInstance(), 60);
         state = State.GAME;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(), state.toString());
         if (Plugin.getInstance().getSettings().isCristalix()) {

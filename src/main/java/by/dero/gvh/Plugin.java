@@ -60,7 +60,10 @@ public class Plugin extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
         lang = new Lang(new LocalStorage());
         lang.load(settings.getLocale());
-        StorageInterface dataStorage = new LocalStorage();
+        StorageInterface dataStorage = null;
+        if (settings.getDataStorageType().equals("local")) {
+            dataStorage = new LocalStorage();
+        } else
         if (settings.getDataStorageType().equals("mongodb")) {
             dataStorage = new MongoDBStorage(settings.getDataMongodbConnection(), settings.getDataMongodbDatabase());
         }
