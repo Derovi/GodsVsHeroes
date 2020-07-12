@@ -243,6 +243,10 @@ public class GameEvents implements Listener {
             e.setCancelled(true);
         }
     }
+    @EventHandler
+    public void onInteractEntity(PlayerInteractAtEntityEvent event) {
+        event.setCancelled(true);
+    }
 
     @EventHandler
     public void onEntityDie(EntityDeathEvent event) {
@@ -328,6 +332,11 @@ public class GameEvents implements Listener {
 
     public Location getLastPos (Player player) {
         return lastPos.getOrDefault(player.getUniqueId(), player.getLocation());
+    }
+
+    @EventHandler
+    public void interactArmorStand(PlayerInteractAtEntityEvent event) {
+        event.setCancelled(true);
     }
 
     @EventHandler

@@ -5,7 +5,7 @@
     {
       "cooldown": 100,
       "damage": 15,
-      "meleeDamage": 9,
+      "meleeDamage": 8,
       "cost": 80,
       "material": "IRON_SWORD",
       "displayName": "§cSword throw",
@@ -18,7 +18,7 @@
     {
       "cooldown": 100,
       "damage": 17,
-      "meleeDamage": 9,
+      "meleeDamage": 8,
       "cost": 100,
       "material": "IRON_SWORD",
       "displayName": "§cSword throw",
@@ -31,7 +31,7 @@
     {
       "cooldown": 100,
       "damage": 19,
-      "meleeDamage": 9,
+      "meleeDamage": 8,
       "cost": 120,
       "material": "IRON_SWORD",
       "displayName": "§cSword throw",

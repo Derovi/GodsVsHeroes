@@ -39,7 +39,9 @@ public class EntityOnKill extends Item implements PlayerKillInterface {
 		zombie.targetSelector.a(0, new PathfinderAttackEnemies<>(
 				zombie, EntityLiving.class, 50, true, false, GameUtils.getTargetPredicate(getTeam())));
 
+		zombie.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(5);
 		entity.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1), true);
+		zombie.setBaby(false);
 		BukkitRunnable runnable = new BukkitRunnable() {
 			@Override
 			public void run () {

@@ -3,10 +3,10 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 600,
+      "cooldown": 400,
       "radius": 8.0,
-      "damage": 18,
-      "selfDamage": 12,
+      "damage": 16,
+      "selfDamage": 10,
       "cost": 80,
       "material": "FIREBALL",
       "displayName": "§cSuicide jump",
@@ -17,10 +17,10 @@
       "amount": 1
     },
     {
-      "cooldown": 600,
+      "cooldown": 400,
       "radius": 8.0,
-      "damage": 21,
-      "selfDamage": 12,
+      "damage": 19,
+      "selfDamage": 10,
       "cost": 100,
       "material": "STICK",
       "displayName": "§cSuicide jump",
@@ -31,10 +31,10 @@
       "amount": 1
     },
     {
-      "cooldown": 600,
+      "cooldown": 400,
       "radius": 8.0,
-      "damage": 24,
-      "selfDamage": 12,
+      "damage": 21,
+      "selfDamage": 10,
       "cost": 120,
       "material": "STICK",
       "displayName": "§cSuicide jump",

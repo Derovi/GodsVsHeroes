@@ -25,13 +25,16 @@ public class TeleportPearls extends Item implements PlayerInteractInterface,
 
 	@Override
 	public void onPlayerInteract (PlayerInteractEvent event) {
-		Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(), 1.2, EntityType.ENDER_PEARL, owner);
+		Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(), 1.2, EntityType.ENDER_PEARL, null);
 		summonedEntityIds.add(proj.getUniqueId());
 	}
 
 	@Override
 	public void onProjectileHit (ProjectileHitEvent event) {
 		Location loc = event.getEntity().getLocation();
+		if (!GameUtils.insideMap(loc)) {
+			return;
+		}
 		owner.getWorld().playSound(loc, Sound.ENTITY_ENDERMEN_TELEPORT, 1.07f, 1);
 		GameUtils.damage(6, owner, owner);
 		owner.teleport(loc);

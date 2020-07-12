@@ -16,7 +16,7 @@ public class FireBow extends Item implements PlayerShootBowInterface, Projectile
 
 	@Override
 	public void onPlayerShootBow (EntityShootBowEvent event) {
-		event.getProjectile().setFireTicks(400);
+
 	}
 
 	@Override
@@ -28,6 +28,7 @@ public class FireBow extends Item implements PlayerShootBowInterface, Projectile
 	public void onProjectileHitEnemy (ProjectileHitEvent event) {
 		if (GameUtils.isEnemy(event.getHitEntity(), getTeam())) {
 			GameUtils.damage(5, (LivingEntity) event.getHitEntity(), owner);
+			event.getHitEntity().setFireTicks(400);
 		}
 	}
 }

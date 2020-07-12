@@ -2,6 +2,7 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.SuicideJumpInfo;
 import by.dero.gvh.nmcapi.throwing.GravityFireball;
@@ -14,7 +15,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class SuicideJump extends Item implements PlayerInteractInterface {
+public class SuicideJump extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
     private final double selfDamage;
     private final double damage;

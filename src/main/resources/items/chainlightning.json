@@ -3,7 +3,7 @@
   "slot": 0,
   "levels": [
     {
-      "damage": 8,
+      "damage": 14,
       "radius": 6.0,
       "cooldown": 40,
       "cost": 80,
@@ -16,7 +16,7 @@
       "amount": 1
     },
     {
-      "damage": 9,
+      "damage": 15,
       "radius": 7.0,
       "cooldown": 40,
       "cost": 100,
@@ -29,7 +29,7 @@
       "amount": 1
     },
     {
-      "damage": 10,
+      "damage": 15,
       "radius": 8.0,
       "cooldown": 40,
       "cost": 120,

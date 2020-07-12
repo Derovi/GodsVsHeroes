@@ -6,6 +6,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.FireSpearInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -21,9 +22,9 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class FireSpear extends Item implements PlayerInteractInterface {
+public class FireSpear extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double speed = 30;
-    private final int time = 140;
+    private final int time = 80;
     private final double damage;
     public FireSpear(final String name, final int level, final Player owner) {
         super(name, level, owner);

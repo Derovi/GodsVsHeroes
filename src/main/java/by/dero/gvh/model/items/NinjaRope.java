@@ -55,7 +55,7 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
                     this.cancel();
                     return;
                 }
-                if (arrow.getLocation().distance(owner.getLocation()) > distance) {
+                if (arrow.getLocation().distance(owner.getLocation()) > distance || !GameUtils.insideMap(arrow.getLocation())) {
                     owner.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, arrow.getLocation(), 0, 0, 0, 0);
                     owner.getWorld().playSound(arrow.getLocation(), Sound.ITEM_SHIELD_BREAK, 1.07f, 1);
                     fishingHook.die();

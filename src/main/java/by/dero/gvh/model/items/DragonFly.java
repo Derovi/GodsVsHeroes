@@ -3,6 +3,7 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.InteractAnyItem;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.DragonFlyInfo;
@@ -17,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class DragonFly extends Item implements PlayerInteractInterface, InteractAnyItem {
+public class DragonFly extends Item implements PlayerInteractInterface, InteractAnyItem, InfiniteReplenishInterface {
     private final DragonFlyInfo info;
     private final Cooldown fireballCooldown;
     private ControlledDragon dragon;

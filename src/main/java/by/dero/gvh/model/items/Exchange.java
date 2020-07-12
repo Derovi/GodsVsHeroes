@@ -38,7 +38,7 @@ public class Exchange extends Item implements PlayerInteractInterface {
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
-        final LivingEntity target = GameUtils.getTargetEntity(player, maxRange);
+        final LivingEntity target = GameUtils.getTargetEntity(player, maxRange, (e) -> GameUtils.isEnemy(e, getTeam()));
 
         final Location zxc = player.getLocation().clone();
         if (target != null) {

@@ -3,6 +3,7 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.MeteorInfo;
@@ -22,7 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.BlockIterator;
 
-public class Meteor extends Item implements PlayerInteractInterface, ProjectileHitInterface {
+public class Meteor extends Item implements PlayerInteractInterface, ProjectileHitInterface, InfiniteReplenishInterface {
     private final double damage;
     private final double radius;
     private final int range;
@@ -40,6 +41,7 @@ public class Meteor extends Item implements PlayerInteractInterface, ProjectileH
         if (!cooldown.isReady()) {
             return;
         }
+        cooldown.reload();
         BlockIterator it = new BlockIterator(owner.getEyeLocation(), 0, range);
         Location at = null;
         while (it.hasNext()) {
@@ -53,7 +55,6 @@ public class Meteor extends Item implements PlayerInteractInterface, ProjectileH
         if (at == null) {
             return;
         }
-        cooldown.reload();
         at.add(0, 10, 0);
         Drawings.drawLine(at.clone().add(radius, 0, 0), at.clone().add(-radius, 0, 0), Particle.SMOKE_LARGE);
         Drawings.drawLine(at.clone().add(0, 0, radius), at.clone().add(0, 0, -radius), Particle.SMOKE_LARGE);
