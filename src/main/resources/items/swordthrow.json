@@ -28,7 +28,7 @@
     },
     {
       "cooldown": 100,
-      "damage": 20,
+      "damage": 19,
       "cost": 120,
       "material": "IRON_SWORD",
       "displayName": "§cSword throw",

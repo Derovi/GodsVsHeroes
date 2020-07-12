@@ -16,7 +16,7 @@
       "amount": 3
     },
     {
-      "cooldown": 50,
+      "cooldown": 90,
       "radius": 4.0,
       "damage": 8,
       "cost": 100,
@@ -29,7 +29,7 @@
       "amount": 3
     },
     {
-      "cooldown": 40,
+      "cooldown": 80,
       "radius": 4.0,
       "damage": 8,
       "cost": 120,

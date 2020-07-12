@@ -15,7 +15,7 @@
       "amount": 3
     },
     {
-      "cooldown": 40,
+      "cooldown": 50,
       "radius": 7,
       "cost": 100,
       "material": "SNOW_BALL",
@@ -27,7 +27,7 @@
       "amount": 3
     },
     {
-      "cooldown": 20,
+      "cooldown": 40,
       "radius": 7,
       "cost": 120,
       "material": "SNOW_BALL",

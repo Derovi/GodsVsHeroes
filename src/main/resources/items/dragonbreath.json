@@ -5,7 +5,7 @@
     {
       "cooldown": 25,
       "radius": 5.0,
-      "damage": 4,
+      "damage": 3,
       "cost": 80,
       "material": "BLAZE_ROD",
       "displayName": "§cDragon breath",
@@ -13,12 +13,12 @@
         "§aСожгите всех своим дыханием!",
         "§6Уровень 1"
       ],
-      "amount": 15
+      "amount": 10
     },
     {
-      "cooldown": 21,
+      "cooldown": 25,
       "radius": 5.0,
-      "damage": 4,
+      "damage": 3,
       "cost": 100,
       "material": "BLAZE_ROD",
       "displayName": "§cDragon breath",
@@ -26,12 +26,12 @@
         "§aСожгите всех своим дыханием!",
         "§6Уровень 2"
       ],
-      "amount": 15
+      "amount": 13
     },
     {
-      "cooldown": 17,
+      "cooldown": 25,
       "radius": 5.0,
-      "damage": 4,
+      "damage": 3,
       "cost": 120,
       "material": "BLAZE_ROD",
       "displayName": "§cDragon breath",
@@ -39,7 +39,7 @@
         "§aСожгите всех своим дыханием!",
         "§6Уровень 3"
       ],
-      "amount": 15
+      "amount": 16
     }
   ]
 }

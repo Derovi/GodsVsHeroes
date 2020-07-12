@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 60,
-      "damage": 10,
+      "damage": 9,
       "cost": 80,
       "material": "BLAZE_ROD",
       "displayName": "§cMagic Rod",
@@ -16,7 +16,7 @@
     },
     {
       "cooldown": 55,
-      "damage": 11,
+      "damage": 9,
       "cost": 100,
       "material": "BLAZE_ROD",
       "displayName": "§cMagic Rod",
@@ -28,7 +28,7 @@
     },
     {
       "cooldown": 50,
-      "damage": 12,
+      "damage": 10,
       "cost": 120,
       "material": "BLAZE_ROD",
       "displayName": "§cMagic Rod",
@@ -40,7 +40,7 @@
     },
     {
       "cooldown": 45,
-      "damage": 13,
+      "damage": 10,
       "cost": 140,
       "material": "BLAZE_ROD",
       "displayName": "§cMagic Rod",
@@ -52,7 +52,7 @@
     },
     {
       "cooldown": 40,
-      "damage": 14,
+      "damage": 11,
       "cost": 140,
       "material": "BLAZE_ROD",
       "displayName": "§cMagic Rod",
@@ -64,7 +64,7 @@
     },
     {
       "cooldown": 35,
-      "damage": 14,
+      "damage": 11,
       "cost": 140,
       "material": "BLAZE_ROD",
       "displayName": "§cMagic Rod",
