@@ -35,6 +35,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -376,5 +377,10 @@ public class Lobby implements PluginMode, Listener {
         if (e.toWeatherState()) {
             e.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void removeSwapHand(PlayerSwapHandItemsEvent event) {
+        event.setCancelled(true);
     }
 }
