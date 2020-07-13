@@ -11,9 +11,11 @@ import java.util.Random;
 
 public class ReportData {
     private final StorageInterface storage;
+    private final Random random;
 
     public ReportData(StorageInterface storage) {
         this.storage = storage;
+        random = new Random();
     }
 
     public void saveBug(String playerName, String text) {
@@ -22,7 +24,7 @@ public class ReportData {
             Date date = Calendar.getInstance().getTime();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
             info.setDate(dateFormat.format(date));
-            storage.save("bugReports", dateFormat.format(date) + new Random().nextInt(),
+            storage.save("bugReports", dateFormat.format(date) + random.nextInt(),
                     new GsonBuilder().setPrettyPrinting().create().toJson(info));
         } catch (Exception ex) {
             ex.printStackTrace();
