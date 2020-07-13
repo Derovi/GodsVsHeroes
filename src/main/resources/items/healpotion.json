@@ -55,7 +55,7 @@
       "amount": 2
     },
     {
-      "cooldown": 120,
+      "cooldown": 180,
       "radius": 5.0,
       "heal": 4,
       "cost": 120,
