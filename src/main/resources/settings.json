@@ -13,5 +13,8 @@
   "playerDataMongodbDatabase": "gvh",
   "lobbyDataStorageType": "local",
   "lobbyDataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
-  "lobbyDataMongodbDatabase": "gvh"
+  "lobbyDataMongodbDatabase": "gvh",
+  "reportDataStorageType": "local",
+  "reportDataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",
+  "reportDataMongodbDatabase": "gvh"
 }

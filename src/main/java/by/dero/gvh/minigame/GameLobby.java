@@ -5,7 +5,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.Board;
-import by.dero.gvh.utils.BungeeUtils;
+import by.dero.gvh.utils.BridgeUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MessagingUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -78,7 +78,7 @@ public class GameLobby implements Listener {
         int slot = player.getInventory().getHeldItemSlot();
         GamePlayer gp = GameUtils.getPlayer(player.getName());
         if (slot == 8) {
-            BungeeUtils.redirectPlayer(player.getPlayer(), Plugin.getInstance().getServerData().getLobbyServer().getName());
+            BridgeUtils.redirectPlayer(player.getPlayer(), Plugin.getInstance().getServerData().getLobbyServer().getName());
         } else if (!gp.setPreferredTeam(slot)) {
             player.sendMessage(Lang.get("gameLobby.cantSelect"));
         } else {

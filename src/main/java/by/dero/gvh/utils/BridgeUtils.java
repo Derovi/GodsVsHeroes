@@ -1,13 +1,31 @@
 package by.dero.gvh.utils;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.ServerInfo;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.entity.Player;
 import ru.cristalix.core.realm.RealmId;
 import ru.cristalix.core.transfer.ITransferService;
 
-public class BungeeUtils {
+public class BridgeUtils {
+    public static void toLobby(Player player) {
+        toLobby(player, null);
+    }
+
+    public static void toLobby(Player player, String message) {
+        ServerInfo lobbyServer = Plugin.getInstance().getServerData().getLobbyServer();
+        if (lobbyServer != null) {
+            if (message != null) {
+                player.sendMessage(message);
+            }
+            BridgeUtils.redirectPlayer(player, lobbyServer.getName());
+        } else {
+            player.kickPlayer(message == null ? "" : message);
+        }
+    }
+
     public static void redirectPlayer(Player player, String serverName) {
         if (Plugin.getInstance().getSettings().isCristalix()) {
             ITransferService.get().transfer(player.getUniqueId(), RealmId.of(serverName));

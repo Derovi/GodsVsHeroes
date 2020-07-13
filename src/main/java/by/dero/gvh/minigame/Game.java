@@ -326,8 +326,7 @@ public abstract class Game implements Listener {
                     Player player = players.get(playerName).getPlayer();
                     removePlayer(playerName);
                     if (lobbyServer != null) {
-                        player.kickPlayer(Lang.get("game.gameFinished"));
-                        //BungeeUtils.redirectPlayer(player, lobbyServer.getName());
+                        BridgeUtils.redirectPlayer(player, lobbyServer.getName());
                     } else {
                         player.kickPlayer(Lang.get("game.gameFinished"));
                     }
@@ -379,15 +378,15 @@ public abstract class Game implements Listener {
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {
-            player.kickPlayer(Lang.get("game.gameAlreadyStarted"));
+            BridgeUtils.toLobby(player, Lang.get("game.gameAlreadyStarted"));
             return;
         }
         if (state == State.PREPARING) {
-            player.kickPlayer(Lang.get("game.gamePrepairing"));
+            BridgeUtils.toLobby(player, Lang.get("game.gamePrepairing"));
             return;
         }
         if (getInfo().getMaxPlayerCount() <= getPlayers().size()) {
-            player.kickPlayer(Lang.get("game.overflow"));
+            BridgeUtils.toLobby(player, Lang.get("game.overflow"));
             return;
         }
         if (getPlayers().size() >= info.getMaxPlayerCount()) {
