@@ -56,20 +56,24 @@ public class ServerData {
         }
         servers.sort((info1, info2) -> {
             int status1 = 0;
-            if (info1.getStatus().equals(Game.State.PREPARING.toString())) {
+            if (info1.getStatus().equals(Game.State.GAME_FULL.toString())) {
                 status1 = 1;
-            } else if (info1.getStatus().equals(Game.State.FINISHING.toString())) {
+            } else if (info1.getStatus().equals(Game.State.PREPARING.toString())) {
                 status1 = 2;
-            } else if (info1.getStatus().equals(Game.State.GAME.toString())) {
+            } else if (info1.getStatus().equals(Game.State.FINISHING.toString())) {
                 status1 = 3;
+            } else if (info1.getStatus().equals(Game.State.GAME.toString())) {
+                status1 = 4;
             }
             int status2 = 0;
-            if (info2.getStatus().equals(Game.State.PREPARING.toString())) {
+            if (info2.getStatus().equals(Game.State.GAME_FULL.toString())) {
                 status2 = 1;
-            } else if (info2.getStatus().equals(Game.State.FINISHING.toString())) {
+            } else if (info2.getStatus().equals(Game.State.PREPARING.toString())) {
                 status2 = 2;
-            } else if (info1.getStatus().equals(Game.State.GAME.toString())) {
+            } else if (info2.getStatus().equals(Game.State.FINISHING.toString())) {
                 status2 = 3;
+            } else if (info1.getStatus().equals(Game.State.GAME.toString())) {
+                status2 = 4;
             }
             if (status1 == status2) {
                 return info2.getOnline() - info1.getOnline();

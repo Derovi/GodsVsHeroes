@@ -3,6 +3,7 @@
   "locale": "ru",
   "overrideLang": true,
   "serverName": "minigame",
+  "stopAfterGame": true,
   "cristalix": false,
   "dataStorageType": "null",
   "dataMongodbConnection": "mongodb://login:password@localhost:27017/?authSource=admin",

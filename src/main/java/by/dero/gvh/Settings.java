@@ -4,6 +4,7 @@ public class Settings {
     private String mode;
     private boolean cristalix;
     private boolean overrideLang;
+    private boolean stopAfterGame;
     private String locale;
     private String serverName;
     private String dataStorageType;
@@ -18,6 +19,14 @@ public class Settings {
     private String serverDataStorageType;
     private String serverDataMongodbConnection;
     private String serverDataMongodbDatabase;
+
+    public boolean isStopAfterGame() {
+        return stopAfterGame;
+    }
+
+    public void setStopAfterGame(boolean stopAfterGame) {
+        this.stopAfterGame = stopAfterGame;
+    }
 
     public boolean isCristalix() {
         return cristalix;

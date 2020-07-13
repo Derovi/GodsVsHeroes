@@ -31,7 +31,7 @@ public abstract class Game implements Listener {
     }
 
     public enum State {
-        GAME, FINISHING, WAITING, PREPARING
+        GAME, FINISHING, WAITING, PREPARING, GAME_FULL
     }
 
     public Game(GameInfo info) {
@@ -297,6 +297,7 @@ public abstract class Game implements Listener {
                             13, -10
                     ), 2);
                 }
+                Bukkit.getServer().broadcastMessage("§6Спасибо за участие! Все заходим в группу вк §cvk.com/etherwar§6 и проходим опрос в закрепе!");
             }
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 40);
@@ -312,12 +313,17 @@ public abstract class Game implements Listener {
                     Player player = players.get(playerName).getPlayer();
                     removePlayer(playerName);
                     if (lobbyServer != null) {
-                        BungeeUtils.redirectPlayer(player, lobbyServer.getName());
+                        player.kickPlayer(Lang.get("game.gameFinished"));
+                        //BungeeUtils.redirectPlayer(player, lobbyServer.getName());
                     } else {
                         player.kickPlayer(Lang.get("game.gameFinished"));
                     }
                 }
                 stats.unload();
+                if (Plugin.getInstance().getSettings().isStopAfterGame()) {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "stop");
+                    return;
+                }
                 state = State.PREPARING;
                 Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                         state.toString());
@@ -371,6 +377,11 @@ public abstract class Game implements Listener {
             player.kickPlayer(Lang.get("game.overflow"));
             return;
         }
+        if (getPlayers().size() >= info.getMaxPlayerCount()) {
+            state = State.GAME_FULL;
+            Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                    state.toString());
+        }
         GamePlayer gamePlayer = new GamePlayer(player);
         PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
         gamePlayer.setClassName(info.getSelectedClass());
@@ -392,6 +403,11 @@ public abstract class Game implements Listener {
         player.getPlayer().getInventory().clear();
         if (state == State.WAITING) {
             lobby.onPlayerLeft(player);
+            if (getPlayers().size() == info.getMaxPlayerCount()) {
+                state = State.WAITING;
+                Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                        state.toString());
+            }
         }
         players.remove(playerName);
         if (state == State.GAME) {
