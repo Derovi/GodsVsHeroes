@@ -38,13 +38,13 @@ public class DoubleSpaceListener implements Listener {
 
     @EventHandler (priority = EventPriority.HIGH)
     public void onPlayerToggleFlight (final PlayerToggleFlightEvent event) {
+        event.setCancelled(true);
         if (Game.getInstance().getState().equals(Game.State.GAME)) {
             final Player p = event.getPlayer();
             final ArrayList<DoubleSpaceInterface> items = GameUtils.selectItems(
                     GameUtils.getPlayer(p.getName()), DoubleSpaceInterface.class);
             if (!items.isEmpty() && p.getGameMode() == GameMode.SURVIVAL) {
                 p.setAllowFlight(false);
-                event.setCancelled(true);
                 for (final DoubleSpaceInterface item : items) {
                     item.onDoubleSpace();
                 }
