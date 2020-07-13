@@ -72,6 +72,7 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
                     MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), EntityType.WITHER_SKELETON, player);
             Drawings.drawCircle(skeleton.getLocation(), 2, Particle.DRAGON_BREATH);
             initAttributes(skeleton, true);
+            GameUtils.getMob(skeleton.getUniqueId()).updateName();
             owner.getWorld().playSound(skeleton.getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.07f, 1);
         }
         for (int i = 0; i < range; i++) {
@@ -79,6 +80,7 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
                     MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), EntityType.SKELETON, player);
             Drawings.drawCircle(skeleton.getLocation(), 2, Particle.DRAGON_BREATH);
             owner.getWorld().playSound(skeleton.getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.07f, 1);
+            GameUtils.getMob(skeleton.getUniqueId()).updateName();
             initAttributes(skeleton, false);
         }
     }

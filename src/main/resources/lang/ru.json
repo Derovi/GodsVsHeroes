@@ -119,8 +119,12 @@
     "dead": "§4Вы мертвы",
     "stunMessage": "§cВы в стане!",
     "desertionMessage": "§cНельзя покидать границу карты!",
-    "ether": "Эфира",
-    "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%"
+    "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
+    "ether": "EtherWar",
+    "classSelected": "§bВаш класс §8» §f%class%",
+    "expGained": "Опыт за игру §8» §b%exp%",
+    "kills": "Убийств §8» §a%kills%",
+    "deaths": "Смертей §8» §c%deaths%"
   },
   "loots": {
     "labelHeal": "§aГотово! %pts%§c❤",
@@ -129,10 +133,10 @@
   },
   "stats": {
     "label": "§aСтатистика",
-    "bestKills": "§aБольше всего убийств§8: §9%pl%",
-    "bestDamageDealt": "§aБольше всего нанесено урона§8: §9%pl%",
-    "bestDeaths": "§aМеньше всего смертей§8: §9%pl%",
-    "bestDamageTaken": "§aМеньше всего получил урона§8: §9%pl%"
+    "bestKills": "§aБольше всего убийств §8» §9%pl%",
+    "bestDamageDealt": "§aБольше всего нанесено урона §8» §9%pl%",
+    "bestDeaths": "§aМеньше всего смертей §8» §9%pl%",
+    "bestDamageTaken": "§aМеньше всего получил урона §8» §9%pl%"
   },
   "classes": {
     "alchemist": "Алхимик",
@@ -153,8 +157,8 @@
     "thor": "Тор"
   },
   "commands": {
-    "stat": "§%col%%com%§8: §9%pts%",
-    "playingFor": "§aВы играете за§8: §9%com%",
+    "stat": "§%col%%com% §8» §9%pts%",
+    "playingFor": "Вы за §8» %com%",
     "0": "§fСлучайная",
     "1": "§cКрасные",
     "2": "§aЗеленые",
@@ -168,10 +172,10 @@
   "gameLobby": {
     "cantSelect": "§cВ этой команде уже слишком много людей",
     "exit": "§cВыйти назад в лобби",
-    "boardPreferred": "§bВыбрано§8: %com%§a!",
-    "boardReady": "§bГотово к игре§8: §9%cur%/%max%",
-    "boardRequired": "§bНужно как минимум§8: §9%min%",
-    "boardTimeLeft": "§bОсталось времени§8: §9%time%",
+    "boardPreferred": "§bКоманда §8» %com%§a",
+    "boardReady": "§bГотово к игре §8» §9%cur%/%max%",
+    "boardRequired": "§bНужно как минимум §8» §9%min%",
+    "boardTimeLeft": "§bОсталось времени §8» §9%time%",
     "gameStarted": "§aИгра началась!",
     "playerJoined": "§f%name%§a присоединился! §f%cur%/%max%",
     "playerLeft": "§f%name%§c вышел! §f%cur%/%max%"
@@ -179,10 +183,10 @@
   "lobby": {
     "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",
     "heroLocked": "§cКласс §9%class%§c заблокирован",
-    "selectedClass": "§aВыбран класс: §9%class%",
+    "selectedClass": "Выбран §8» §b%class%",
     "heroSelected": "§6Класс §9%class%§6 выбран",
     "standTitle": "§bПКМ - выбрать§8 §9%class%",
-    "moneyBalance": "§6Ваш баланс§8: §9%money%",
+    "moneyBalance": "Ваш баланс §8» §b%money%",
     "busy": "§cНа всех серверах игра уже идет, подождите!",
     "locked": "§6Тестирование сегодня в §f16:30§6! Актуальная информация в группе §fВК §cvk.com/etherwar"
   }

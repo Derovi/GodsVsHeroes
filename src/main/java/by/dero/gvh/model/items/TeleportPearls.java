@@ -7,6 +7,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -25,12 +26,13 @@ public class TeleportPearls extends Item implements PlayerInteractInterface,
 
 	@Override
 	public void onPlayerInteract (PlayerInteractEvent event) {
-		Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(), 1.2, EntityType.ENDER_PEARL, null);
+		Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(), 1.2, EntityType.SNOWBALL, owner);
 		summonedEntityIds.add(proj.getUniqueId());
 	}
 
 	@Override
 	public void onProjectileHit (ProjectileHitEvent event) {
+		event.getEntity().remove();
 		Location loc = event.getEntity().getLocation();
 		if (!GameUtils.insideMap(loc)) {
 			return;
