@@ -91,16 +91,19 @@ public abstract class Game implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Random random = new Random();
                 for (GamePlayer player : players.values()) {
-                    if (random.nextBoolean()) {
-                        AdviceManager.sendAdvice(player.getPlayer(), "bug");
-                    } else {
-                        AdviceManager.sendAdvice(player.getPlayer(), "advice");
-                    }
+                    AdviceManager.sendAdvice(player.getPlayer(), "bug");
                 }
             }
         }.runTaskLater(Plugin.getInstance(), 120);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (GamePlayer player : players.values()) {
+                     AdviceManager.sendAdvice(player.getPlayer(), "advice");
+                }
+            }
+        }.runTaskLater(Plugin.getInstance(), 180);
         state = State.GAME;
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(), state.toString());
         if (Plugin.getInstance().getSettings().isCristalix()) {

@@ -3,7 +3,9 @@ package by.dero.gvh.lobby;
 import by.dero.gvh.AdviceManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
+import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
+import by.dero.gvh.lobby.interfaces.SelectorInterface;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
@@ -338,7 +340,9 @@ public class Lobby implements PluginMode, Listener {
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
             event.getAction().equals(Action.RIGHT_CLICK_BLOCK) &&
             event.getPlayer().getInventory().getHeldItemSlot() == 0) {
-            //System.out.println("compass");
+            CompassInterface compassInterface = new CompassInterface(
+                    Lobby.getInstance().getInterfaceManager(), event.getPlayer());
+            compassInterface.open();
         }
     }
 
