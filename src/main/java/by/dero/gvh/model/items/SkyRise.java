@@ -53,7 +53,7 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 			public void run () {
 				ArrayList<Location> list = new ArrayList<>(explosions);
 				for (int i = 0; i < explosions; i++) {
-					Location at = MathUtils.randomCylinder(owner.getLocation(), radius, 0);
+					Location at = MathUtils.randomCylinder(owner.getLocation().subtract(0, 1, 0), radius, 0);
 					list.add(at);
 					at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
 					at.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, at, 1);

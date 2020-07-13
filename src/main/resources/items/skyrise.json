@@ -5,8 +5,8 @@
   "levels": [
     {
       "radius": 8,
-      "damage": 14,
-      "explosions": 4,
+      "damage": 18,
+      "explosions": 5,
       "cooldown": 500,
       "cost": 80,
       "material": "FEATHER",
