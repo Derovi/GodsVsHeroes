@@ -1,5 +1,7 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.GameMob;
+import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
@@ -230,13 +232,13 @@ public class GameEvents implements Listener {
         if (!(damager instanceof Player)) {
             damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
         }
-        int entTeam = GameUtils.getObject(entity).getTeam();
-        if (GameUtils.isEnemy(damager, entTeam)) {
+        GameObject gm = GameUtils.getObject(entity);
+        if (gm != null && GameUtils.isEnemy(damager, gm.getTeam())) {
             game.getStats().addDamage(entity, damager, event.getDamage());
             damageCause.put(entity, damager);
             Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
-                if (!entity.isDead() && !(entity instanceof Player)) {
-                    GameUtils.getMob(entity.getUniqueId()).updateName();
+                if (!entity.isDead() && gm instanceof GameMob) {
+                    ((GameMob) gm).updateName();
                 }
             }, 1);
         } else {
