@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class Drawings {
-    public static final double dense = 1.8;
+    public static final double dense = 1.5;
     public static final Vector randomVector = new Vector(Math.random(), Math.random(), Math.random()).normalize();
 
     public static void drawLine(Location a, Location b, Particle obj) {

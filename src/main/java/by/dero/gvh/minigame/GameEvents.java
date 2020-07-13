@@ -227,10 +227,6 @@ public class GameEvents implements Listener {
                 event.getFinalDamage() == 0) {
             return;
         }
-        if (event.getEntity() == null) {
-            event.setCancelled(true);
-            return;
-        }
         LivingEntity entity = (LivingEntity) event.getEntity();
         LivingEntity damager = (LivingEntity) ent;
         if (!(damager instanceof Player)) {
@@ -274,6 +270,7 @@ public class GameEvents implements Listener {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
     public void onInteractEntity(PlayerInteractAtEntityEvent event) {
         event.setCancelled(true);

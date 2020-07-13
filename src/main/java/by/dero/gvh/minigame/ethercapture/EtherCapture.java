@@ -143,7 +143,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
                 World world = Minigame.getInstance().getWorld();
                 world.playSound(getInfo().getLobbyPosition().toLocation(world).add(0, 30, 0),
                         Sound.ENTITY_ENDERDRAGON_DEATH, 300, 1);
-                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> finish(finalTeam), 100);
+                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> finish(finalTeam), 1);
                 return;
             }
         }

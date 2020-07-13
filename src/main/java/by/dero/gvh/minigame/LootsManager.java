@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class LootsManager implements Listener {
-    private final long cooldown = 1200;
+    private final long cooldown = 400;
     private final ArrayList<LootsNode> loots = new ArrayList<>();
 
     public class LootsNode {
@@ -127,7 +127,7 @@ public class LootsManager implements Listener {
                     "speed", Lang.get("loots.labelReady")));
         }
         for (final DirectedPosition pos : info.getResistancePoints()) {
-            loots.add(new LootsNode(pos.toLocation(info.getWorld()), new PotionEffect(PotionEffectType.HEAL, 240, 1),
+            loots.add(new LootsNode(pos.toLocation(info.getWorld()), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 240, 1),
                     "resistance", Lang.get("loots.labelReady")));
         }
     }

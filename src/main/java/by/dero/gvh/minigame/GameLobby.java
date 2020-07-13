@@ -9,10 +9,7 @@ import by.dero.gvh.utils.BridgeUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MessagingUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -138,6 +135,7 @@ public class GameLobby implements Listener {
     }
 
     public void onPlayerJoined(GamePlayer gamePlayer) {
+        gamePlayer.getPlayer().setGameMode(GameMode.SURVIVAL);
         gamePlayer.setBoard(new Board("Lobby", 6));
 
         gamePlayer.getPlayer().getInventory().setHeldItemSlot(0);

@@ -44,7 +44,7 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
             at = MathUtils.rotateAroundAxis(at, MathUtils.getRightVector(at), x);
             at = MathUtils.rotateAroundAxis(at, new Vector(0,1,0), y);
             loc.getWorld().spawnParticle(Particle.FLAME, loc.clone().add(dlt), 0,
-                    at.getX() / 20, at.getY() / 20, at.getZ() / 20, 7);
+                    at.getX() / 20, at.getY() / 20, at.getZ() / 20, 11);
         }
         for (final LivingEntity entity : GameUtils.getNearby(loc, radius)) {
             final Vector a = entity.getLocation().toVector().clone().subtract(loc.toVector()).normalize();

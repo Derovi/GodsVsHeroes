@@ -3,6 +3,7 @@ package by.dero.gvh.minigame.deathmatch;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
@@ -16,8 +17,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
-
-import static by.dero.gvh.model.Drawings.spawnFirework;
 
 public class DeathMatch extends Game implements DisplayInteractInterface {
     private final DeathMatchInfo deathMatchInfo;
@@ -155,7 +154,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         //player.leaveVehicle();
         final float exp = player.getExp();
 
-        spawnFirework(player.getLocation().clone().add(0,1,0), 1);
+        Drawings.spawnFirework(player.getLocation().clone().add(0,1,0), 1);
 
         final int team = getPlayers().get(player.getName()).getTeam();
         int respTime = -1;

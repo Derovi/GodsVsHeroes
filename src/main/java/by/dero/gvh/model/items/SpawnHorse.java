@@ -28,7 +28,7 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, VehicleExi
         }
         horse = (SkeletonHorse) GameUtils.spawnTeamEntity(owner.getLocation(), EntityType.SKELETON_HORSE,
                 GameUtils.getPlayer(owner.getName()));
-        horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(15);
+        horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(30);
         horse.setHealth(15);
         horse.setAdult();
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));

@@ -68,11 +68,12 @@ public class LiftManager implements Listener {
 		if (event.getTo().getY() == event.getFrom().getY()) {
 			removeRopes(uuid);
 		}
-		if (!lifting.get(uuid).isEmpty() && !forced.contains(uuid) && event.getTo().getY() < event.getFrom().getY()) {
+		if (!lifting.get(uuid).isEmpty() && !forced.contains(uuid) &&
+				(event.getTo().getY() < event.getFrom().getY() || event.getTo().getY() - 1.5 > lifting.get(uuid).getLast().locY)) {
 			forced.add(uuid);
 			Entity ent = lifting.get(uuid).getFirst();
 			Location loc = player.getLocation();
-			player.setVelocity(new Vector(ent.locX - loc.x, (ent.locY - loc.y) / 3, ent.locZ - loc.z).multiply(0.4));
+			player.setVelocity(new Vector(ent.locX - loc.x, (ent.locY - loc.y) / 2, ent.locZ - loc.z).multiply(0.5));
 		}
 		if (event.getFrom().getY() != event.getTo().getY() &&
 				event.getFrom().getY() - (int)event.getFrom().getY() < 0.1 &&
