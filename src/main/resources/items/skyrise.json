@@ -4,7 +4,7 @@
   "slot": 0,
   "levels": [
     {
-      "radius": 11,
+      "radius": 16,
       "damage": 15,
       "explosions": 5,
       "cooldown": 500,

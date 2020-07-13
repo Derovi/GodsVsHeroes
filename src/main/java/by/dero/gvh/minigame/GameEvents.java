@@ -19,6 +19,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.VehicleExitEvent;
+import org.bukkit.event.weather.ThunderChangeEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -362,5 +364,19 @@ public class GameEvents implements Listener {
     @EventHandler
     public void removePotions(PotionSplashEvent event) {
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onThunderChange(ThunderChangeEvent e) {
+        if (e.toThunderState()) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onWeatherChange(WeatherChangeEvent e) {
+        if (e.toWeatherState()) {
+            e.setCancelled(true);
+        }
     }
 }

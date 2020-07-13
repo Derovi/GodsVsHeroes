@@ -45,7 +45,7 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 			Location loc = new Location(owner.getWorld(),
 					ent.getLocation().getX(), owner.getLocation().getY(), ent.getLocation().getZ());
 			if (go.getTeam() != getTeam() && loc.distance(owner.getLocation()) < radius) {
-				ent.setVelocity(loc.clone().subtract(owner.getLocation()).toVector().normalize().multiply(-1.5));
+				ent.setVelocity(owner.getLocation().subtract(loc).toVector().normalize().multiply(1.2));
 			}
 		}
 		BukkitRunnable activate = new BukkitRunnable() {
@@ -63,7 +63,7 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 					for (Location loc : list) {
 						if (go.getTeam() != getTeam() && loc.distance(owner.getLocation()) < 4) {
 							GameUtils.damage(damage, ent, owner, false);
-//							ent.setVelocity(loc.clone().subtract(owner.getLocation()).toVector().normalize());
+							ent.setVelocity(ent.getLocation().subtract(loc).toVector().normalize().multiply(0.5));
 							break;
 						}
 					}

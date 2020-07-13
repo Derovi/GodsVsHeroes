@@ -36,6 +36,8 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.weather.ThunderChangeEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -360,5 +362,19 @@ public class Lobby implements PluginMode, Listener {
     @EventHandler
     public void onBlockBreak (BlockBreakEvent event) {
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onThunderChange(ThunderChangeEvent e) {
+        if (e.toThunderState()) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onWeatherChange(WeatherChangeEvent e) {
+        if (e.toWeatherState()) {
+            e.setCancelled(true);
+        }
     }
 }
