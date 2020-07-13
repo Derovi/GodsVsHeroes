@@ -31,7 +31,7 @@ public abstract class Game implements Listener {
     }
 
     public enum State {
-        GAME, FINISHING, WAITING, PREPARING
+        GAME, FINISHING, WAITING, PREPARING, GAME_FULL
     }
 
     public Game(GameInfo info) {
@@ -377,6 +377,11 @@ public abstract class Game implements Listener {
             player.kickPlayer(Lang.get("game.overflow"));
             return;
         }
+        if (getPlayers().size() >= info.getMaxPlayerCount()) {
+            state = State.GAME_FULL;
+            Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                    state.toString());
+        }
         GamePlayer gamePlayer = new GamePlayer(player);
         PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
         gamePlayer.setClassName(info.getSelectedClass());
@@ -398,6 +403,11 @@ public abstract class Game implements Listener {
         player.getPlayer().getInventory().clear();
         if (state == State.WAITING) {
             lobby.onPlayerLeft(player);
+            if (getPlayers().size() == info.getMaxPlayerCount()) {
+                state = State.WAITING;
+                Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
+                        state.toString());
+            }
         }
         players.remove(playerName);
         if (state == State.GAME) {
