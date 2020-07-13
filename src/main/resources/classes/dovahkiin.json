@@ -1,7 +1,7 @@
 {
   "name": "dovahkiin",
   "maxHP": 40,
-  "cost": 1000,
+  "cost": 10,
   "itemNames": [
     "swordthrow",
     "dragonbreath",

@@ -1,7 +1,7 @@
 {
   "name": "horseman",
   "maxHP": 40,
-  "cost": 1000,
+  "cost": 10,
   "itemNames": [
     "axethrow",
     "lightningbow",
