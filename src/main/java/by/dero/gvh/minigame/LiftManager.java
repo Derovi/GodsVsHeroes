@@ -72,7 +72,7 @@ public class LiftManager implements Listener {
 			forced.add(uuid);
 			Entity ent = lifting.get(uuid).getFirst();
 			Location loc = player.getLocation();
-			player.setVelocity(new Vector(ent.locX - loc.x, ent.locY - loc.y, ent.locZ - loc.z).multiply(0.4));
+			player.setVelocity(new Vector(ent.locX - loc.x, (ent.locY - loc.y) / 3, ent.locZ - loc.z).multiply(0.4));
 		}
 		if (event.getFrom().getY() != event.getTo().getY() &&
 				event.getFrom().getY() - (int)event.getFrom().getY() < 0.1 &&
