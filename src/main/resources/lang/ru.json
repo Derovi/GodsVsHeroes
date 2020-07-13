@@ -20,7 +20,26 @@
     "startGame": "§c§l❕ §6Зайдите в §fпортал§6, чтобы начать игру!",
     "chooseTeam": "§6Выберите §fкоманду§6, используя §fшерсть§6!",
     "gameStarted": "§6Убивайте §fврагов §6и захватывайте§f коллекторы§6!",
-    "toWin": "§6Для победы нужно §f§l3000 эфира!"
+    "toWin": "§6Для победы нужно §f§l3000 эфира!",
+  },
+  "death": {
+    "all": {
+      "collectors": "§8§l ⚔§6 коллекторов даёт §fопыт§6 вам и §fэфир§6 команде",
+      "upgrade": "§6За §fопыт§6 в лобби можно улучшать скилы",
+      "unlock": "§6Открывайте новые §fклассы §6в лобби"
+    },
+    "lucifier": {
+      "swap": "§6Комбинируйте §f§lОбмен местами§6 с §f§lУльтимейтом",
+      "space": "§6Двойной §f[ПРОБЕЛ]§6 помогает убежать",
+      "sword": "§6Меч можно кинуть, нажав §f[ПКМ]",
+      "suicideJump": "§f§lПрыжок Люцифера §6наносит §lвам§6 урон"
+    },
+    "assassin": {
+      "swap": "§6Комбинируйте §f§lОбмен местами§6 с §f§lУльтимейтом",
+      "space": "§6Двойной §f[ПРОБЕЛ]§6 помогает убежать",
+      "dagger": "§6Кинжал можно кинуть, нажав §f[ПКМ]",
+      "suicideJump": "§f§lПрыжок Люцифера §6наносит §lвам§6 урон"
+    }
   },
   "hints": {
     "lift": "§8[§aПРОБЕЛ§8]§b чтобы подняться"
@@ -44,15 +63,15 @@
     "gameAlreadyStarted": "§4Игра началась!",
     "gamePrepairing": "§2Загружаемся",
     "gameFinished": "§4Игра окончена",
-    "killGlobalMessage": "§aИгрок %kilCode%[%kilClass%] %killer%§a убил игрока %tarCode%[%tarClass%] %target%§a!",
+    "killGlobalMessage": "§f%kilCode%[%kilClass%] %killer%§8§l ⚔ %tarCode%[%tarClass%] %target%",
     "deathMessage": "Вы были убиты игроком %name%",
     "deathTime": "§aДо возрождения осталось§8: §9%time%",
     "livesNotLeft": "§cУ вашей команды не осталось жизней",
     "dead": "§4Вы мертвы",
     "stunMessage": "§cВы в стане!",
-    "desertionMessage": "§cНа фронте дезертирству нет места!",
+    "desertionMessage": "§cНельзя покидать границу карты!",
     "ether": "Эфира",
-    "collectorCaptureInform": "§aКоллектор §c%num%§a захвачен командой %com%§a!"
+    "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%"
   },
   "loots": {
     "labelHeal": "§aГотово! %pts%§c❤",
@@ -105,8 +124,8 @@
     "boardRequired": "§bНужно как минимум§8: §9%min%",
     "boardTimeLeft": "§bОсталось времени§8: §9%time%",
     "gameStarted": "§aИгра началась!",
-    "playerJoined": "§aИгрок %name% присоединился! §f%cur%/%max%",
-    "playerLeft": "§aИгрок %name% вышел! §f%cur%/%max%"
+    "playerJoined": "§f%name%§a присоединился! §f%cur%/%max%",
+    "playerLeft": "§f%name%§c вышел! §f%cur%/%max%"
   },
   "lobby": {
     "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",

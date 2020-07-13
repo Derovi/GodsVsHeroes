@@ -320,6 +320,10 @@ public abstract class Game implements Listener {
                     }
                 }
                 stats.unload();
+                if (Plugin.getInstance().getSettings().isStopAfterGame()) {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "stop");
+                    return;
+                }
                 state = State.PREPARING;
                 Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                         state.toString());
