@@ -3,10 +3,10 @@
   "slot": 0,
   "levels": [
     {
-      "cooldown": 400,
+      "cooldown": 280,
       "radius": 4,
       "damage": 12,
-      "duration": 300,
+      "duration": 200,
       "cost": 80,
       "material": "TNT",
       "displayName": "§cExplosive pig",

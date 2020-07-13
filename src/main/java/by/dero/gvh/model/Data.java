@@ -95,6 +95,7 @@ public class Data {
         registerItem("defaultchestplatechainmail", ItemInfo.class, Item.class);
         registerItem("defaultleggingschainmail", ItemInfo.class, Item.class);
         registerItem("defaultbootschainmail", ItemInfo.class, Item.class);
+        registerItem("skyrise", SkyRiseInfo.class, SkyRise.class);
     }
 
     private void registerClasses() {
