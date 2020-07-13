@@ -62,7 +62,8 @@ public class GameLobby implements Listener {
                             Lang.get("gameLobby.boardTimeLeft").
                                     replace("%time%", String.valueOf(timeLeft)),
                             Lang.get("gameLobby.boardPreferred").
-                                    replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())))
+                                    replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam()))),
+                            Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()))
                     }
             );
         }
@@ -136,7 +137,7 @@ public class GameLobby implements Listener {
     }
 
     public void onPlayerJoined(GamePlayer gamePlayer) {
-        gamePlayer.setBoard(new Board("Lobby", 4));
+        gamePlayer.setBoard(new Board("Lobby", 5));
 
         final int players = game.getPlayers().size();
         final int needed = game.getInfo().getMaxPlayerCount();

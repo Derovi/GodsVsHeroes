@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 public class RewardManager {
     private HashMap<String, Reward> rewards = new HashMap<>();
-    private final HashMap<String, Integer> xpEarned = new HashMap<>();
 
     public Reward get(String name) {
         return rewards.get(name);
@@ -19,10 +18,11 @@ public class RewardManager {
 
     public void give(String reward, Player player, String message) {
         int count = get(reward).getCount();
-        xpEarned.put(player.getName(), xpEarned.getOrDefault(player.getName(), 0) + count);
-        Plugin.getInstance().getPlayerData().increaseBalance(player.getName(), count);
+        String name = player.getName();
+        Game.getInstance().getStats().addExp(name, count);
+        Plugin.getInstance().getPlayerData().increaseBalance(name, count);
         player.sendMessage(message.replace("%count%", String.valueOf(count)).replace(
-                "%allcount%", String.valueOf(xpEarned.get(player.getName()))));
+                "%allcount%", String.valueOf(Game.getInstance().getStats().getExpGained(name))));
     }
 
     public String getMessage(String reward) {

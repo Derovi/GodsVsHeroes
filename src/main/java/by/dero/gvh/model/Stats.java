@@ -2,7 +2,9 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -17,6 +19,7 @@ public class Stats {
     private final HashMap<String, Integer> deaths = new HashMap<>();
     private final HashMap<String, Double> damageDealt = new HashMap<>();
     private final HashMap<String, Double> damageTaken = new HashMap<>();
+    private final HashMap<String, Integer> expGained = new HashMap<>();
 
     public void addKill(final LivingEntity target, final LivingEntity killer) {
         if (target instanceof Player) {
@@ -24,6 +27,9 @@ public class Stats {
                 kills.put(killer.getName(), kills.getOrDefault(killer.getName(), 0) + 1);
             }
             deaths.put(target.getName(), deaths.getOrDefault(target.getName(), 0) + 1);
+        }
+        if (Game.getInstance() instanceof DisplayInteractInterface) {
+            ((DisplayInteractInterface) Game.getInstance()).updateDisplays();
         }
     }
 
@@ -33,6 +39,14 @@ public class Stats {
                 damageDealt.put(killer.getName(), damageDealt.getOrDefault(killer.getName(), 0.0) + damage);
             }
             damageTaken.put(target.getName(), damageTaken.getOrDefault(target.getName(), 0.0) + damage);
+        }
+    }
+
+    public void addExp(String name, Integer value) {
+        expGained.put(name, expGained.getOrDefault(name, 0) + value);
+
+        if (Game.getInstance() instanceof DisplayInteractInterface) {
+            ((DisplayInteractInterface) Game.getInstance()).updateDisplays();
         }
     }
 
@@ -119,5 +133,17 @@ public class Stats {
         for (final FlyingText text : texts) {
             text.unload();
         }
+    }
+
+    public Integer getKills(String name) {
+        return kills.getOrDefault(name, 0);
+    }
+
+    public Integer getDeaths(String name) {
+        return deaths.getOrDefault(name, 0);
+    }
+
+    public Integer getExpGained(String name) {
+        return expGained.getOrDefault(name, 0);
     }
 }
