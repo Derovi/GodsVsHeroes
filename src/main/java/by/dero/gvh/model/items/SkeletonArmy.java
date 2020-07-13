@@ -40,7 +40,7 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
         handle.getAttributeInstance(GenericAttributes.i).setValue(20);
         handle.getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(100);
         handle.getAttributeInstance(GenericAttributes.maxHealth).setValue(40);
-        handle.setHealth(30);
+        handle.setHealth(40);
         handle.fireProof = true;
 
         handle.goalSelector = new PathfinderGoalSelector(handle.world.methodProfiler);

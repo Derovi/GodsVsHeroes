@@ -267,12 +267,8 @@ public class GameUtils {
 
     public static ArrayList<GameObject> getGameObjects() {
         ArrayList<GameObject> list = new ArrayList<>();
-        Iterator<Map.Entry<UUID, GameMob>> it = Game.getInstance().getMobs().entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<UUID, GameMob> obj = it.next();
-            if (obj.getValue().getEntity().isDead()) {
-                it.remove();
-            } else {
+        for (Map.Entry<UUID, GameMob> obj : Game.getInstance().getMobs().entrySet()) {
+            if (!obj.getValue().getEntity().isDead()) {
                 list.add(obj.getValue());
             }
         }

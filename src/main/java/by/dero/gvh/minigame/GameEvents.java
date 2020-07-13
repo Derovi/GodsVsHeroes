@@ -5,6 +5,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -229,13 +230,15 @@ public class GameEvents implements Listener {
         if (!(damager instanceof Player)) {
             damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
         }
-        int entTeam = entity instanceof Player ? -1 : GameUtils.getMob(entity.getUniqueId()).getTeam();
+        int entTeam = GameUtils.getObject(entity).getTeam();
         if (GameUtils.isEnemy(damager, entTeam)) {
             game.getStats().addDamage(entity, damager, event.getDamage());
             damageCause.put(entity, damager);
-            if (!entity.isDead() && entTeam != -1) {
-                GameUtils.getMob(entity.getUniqueId()).updateName();
-            }
+            Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+                if (!entity.isDead() && !(entity instanceof Player)) {
+                    GameUtils.getMob(entity.getUniqueId()).updateName();
+                }
+            }, 1);
         } else {
             event.setCancelled(true);
         }
