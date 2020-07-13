@@ -7,6 +7,7 @@ import by.dero.gvh.utils.BridgeUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CompassInterface extends Interface {
@@ -29,36 +30,41 @@ public class CompassInterface extends Interface {
     }
 
     private void updateItems() {
-        System.out.println("updating");
         clear();
         int index = 0;
         for (ServerInfo info : Plugin.getInstance().getServerData().getGameServers()) {
             ItemStack itemStack = null;
-            if (info.getStatus().equals(Game.State.WAITING.toString())) {
-                itemStack = new ItemStack(Material.WOOL, info.getOnline(), (byte) 5);
-                itemStack.getItemMeta().setDisplayName(Lang.get("compass.waiting"));
-            } else if (info.getStatus().equals(Game.State.PREPARING.toString())) {
-                itemStack = new ItemStack(Material.WOOL, info.getOnline(), (byte) 8);
-                itemStack.getItemMeta().setDisplayName(Lang.get("compass.preparing"));
-            } else if (info.getStatus().equals(Game.State.GAME_FULL.toString())) {
-                itemStack = new ItemStack(Material.WOOL, info.getOnline(), (byte) 14);
-                itemStack.getItemMeta().setDisplayName(Lang.get("compass.gameFull"));
-            } else if (info.getStatus().equals(Game.State.FINISHING.toString())) {
-                itemStack = new ItemStack(Material.WOOL, info.getOnline(), (byte) 4);
-                itemStack.getItemMeta().setDisplayName(Lang.get("compass.finishing"));
-            } else if (info.getStatus().equals(Game.State.GAME.toString())) {
-                itemStack = new ItemStack(Material.WOOL, info.getOnline(), (byte) 3);
-                itemStack.getItemMeta().setDisplayName(Lang.get("compass.game"));
+            int count = info.getOnline();
+            if (count == 0) {
+                count = 1;
             }
+            String name = null;
             if (info.getStatus().equals(Game.State.WAITING.toString())) {
+                itemStack = new ItemStack(Material.WOOL, count, (byte) 5);
+                name = Lang.get("compass.waiting");
+            } else if (info.getStatus().equals(Game.State.PREPARING.toString())) {
+                itemStack = new ItemStack(Material.WOOL, count, (byte) 8);
+                name = Lang.get("compass.preparing");
+            } else if (info.getStatus().equals(Game.State.GAME_FULL.toString())) {
+                itemStack = new ItemStack(Material.WOOL, count, (byte) 14);
+                name = Lang.get("compass.gameFull");
+            } else if (info.getStatus().equals(Game.State.FINISHING.toString())) {
+                itemStack = new ItemStack(Material.WOOL, count, (byte) 4);
+                name = Lang.get("compass.finishing");
+            } else if (info.getStatus().equals(Game.State.GAME.toString())) {
+                itemStack = new ItemStack(Material.WOOL, count, (byte) 3);
+                name = Lang.get("compass.game");
+            }
+            ItemMeta meta = itemStack.getItemMeta();
+            meta.setDisplayName(name);
+            itemStack.setItemMeta(meta);
+            if (!info.getStatus().equals(Game.State.WAITING.toString())) {
                 addItem(index % 9, index / 9, itemStack);
             } else {
-                addButton(index % 9, index / 9, itemStack, () -> {
-                    BridgeUtils.redirectPlayer(getPlayer(), info.getName());
-                });
+                addButton(index % 9, index / 9, itemStack, () -> BridgeUtils.redirectPlayer(getPlayer(), info.getName()));
             }
             ++index;
         }
-        update();
+        //update();
     }
 }

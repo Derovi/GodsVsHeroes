@@ -1,5 +1,6 @@
 package by.dero.gvh.lobby.interfaces;
 
+import com.sk89q.worldedit.util.gson.GsonUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public class Interface {
                 removeButton(x, y);
             }
         }
-        update();
+        //update();
     }
 
     public void clicked(int pos) {

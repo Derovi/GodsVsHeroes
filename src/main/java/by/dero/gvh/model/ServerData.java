@@ -50,7 +50,7 @@ public class ServerData {
     public List<ServerInfo> getGameServers() {
         List<ServerInfo> servers = new LinkedList<>();
         for (ServerInfo info : getServersInfo().getServers().values()) {
-            if (info.getStatus().equals(Game.State.WAITING.toString())) {
+            if (info.getType().equals(ServerType.GAME)) {
                 servers.add(info);
             }
         }
