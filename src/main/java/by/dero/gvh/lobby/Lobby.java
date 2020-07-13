@@ -176,6 +176,7 @@ public class Lobby implements PluginMode, Listener {
     }
 
     public void playerJoined(Player player) {
+        player.getInventory().setHeldItemSlot(0);
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
         lobbyPlayer.loadInfo();
         players.put(player.getName(), lobbyPlayer);

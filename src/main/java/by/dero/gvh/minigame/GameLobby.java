@@ -140,6 +140,7 @@ public class GameLobby implements Listener {
     public void onPlayerJoined(GamePlayer gamePlayer) {
         gamePlayer.setBoard(new Board("Lobby", 6));
 
+        gamePlayer.getPlayer().getInventory().setHeldItemSlot(0);
         final int players = game.getPlayers().size();
         final int needed = game.getInfo().getMaxPlayerCount();
 
