@@ -1,5 +1,7 @@
 package by.dero.gvh;
 
+import by.dero.gvh.commands.AdviceCommand;
+import by.dero.gvh.commands.BugCommand;
 import by.dero.gvh.commands.TestCommand;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Minigame;
@@ -39,6 +41,7 @@ public class Plugin extends JavaPlugin implements Listener {
     private Data data;
     private PlayerData playerData;
     private ServerData serverData;
+    private ReportData reportData;
     private PluginMode pluginMode;
     private Settings settings;
     private Lang lang;
@@ -58,6 +61,8 @@ public class Plugin extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
+        Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
+        Bukkit.getPluginCommand("advice").setExecutor(new AdviceCommand());
         lang = new Lang(new LocalStorage());
         lang.load(settings.getLocale());
         StorageInterface dataStorage = null;
@@ -82,6 +87,12 @@ public class Plugin extends JavaPlugin implements Listener {
         }
         serverData = new ServerData(serverDataStorage);
         serverData.load();
+        StorageInterface reportDataStorage = new LocalStorage();
+        if (settings.getReportDataStorageType().equals("mongodb")) {
+            reportDataStorage = new MongoDBStorage(
+                    settings.getReportDataMongodbConnection(), settings.getReportDataMongodbDatabase());
+        }
+        reportData = new ReportData(reportDataStorage);
         World world;
         if (settings.getMode().equals("minigame")) {
             pluginMode = new Minigame();
@@ -138,6 +149,10 @@ public class Plugin extends JavaPlugin implements Listener {
 
     public Data getData() {
         return data;
+    }
+
+    public ReportData getReportData() {
+        return reportData;
     }
 
     @EventHandler

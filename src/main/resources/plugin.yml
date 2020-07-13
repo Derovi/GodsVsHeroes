@@ -9,3 +9,6 @@ commands:
   game:
     aliases: [gvh]
   test:
+  bug:
+    aliases: [bugreport]
+  advice:

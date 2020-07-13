@@ -19,6 +19,33 @@ public class Settings {
     private String serverDataStorageType;
     private String serverDataMongodbConnection;
     private String serverDataMongodbDatabase;
+    private String reportDataStorageType;
+    private String reportDataMongodbConnection;
+    private String reportDataMongodbDatabase;
+
+    public String getReportDataStorageType() {
+        return reportDataStorageType;
+    }
+
+    public void setReportDataStorageType(String reportDataStorageType) {
+        this.reportDataStorageType = reportDataStorageType;
+    }
+
+    public String getReportDataMongodbConnection() {
+        return reportDataMongodbConnection;
+    }
+
+    public void setReportDataMongodbConnection(String reportDataMongodbConnection) {
+        this.reportDataMongodbConnection = reportDataMongodbConnection;
+    }
+
+    public String getReportDataMongodbDatabase() {
+        return reportDataMongodbDatabase;
+    }
+
+    public void setReportDataMongodbDatabase(String reportDataMongodbDatabase) {
+        this.reportDataMongodbDatabase = reportDataMongodbDatabase;
+    }
 
     public boolean isStopAfterGame() {
         return stopAfterGame;
