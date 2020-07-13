@@ -76,7 +76,6 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         pig.world.addEntity(pig, CreatureSpawnEvent.SpawnReason.CUSTOM);
         GameMob gm = new GameMob((LivingEntity) pig.getBukkitEntity(), getTeam(), owner);
         gm.updateName();
-        Game.getInstance().getMobs().put(pig.uniqueID, gm);
         BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = duration;
             GamePlayer cur = targetGP;
@@ -98,7 +97,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
 
                 EntityLiving tar = pig.getGoalTarget();
 
-                if (ticks < 0 || (tar != null && tar.getBukkitEntity().getLocation().distance(loc) < radius)) {
+                if (pig.dead || ticks < 0 || (tar != null && tar.getBukkitEntity().getLocation().distance(loc) < radius)) {
                     explode(pig);
                     this.cancel();
                 }

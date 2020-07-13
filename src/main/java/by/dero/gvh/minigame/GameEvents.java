@@ -1,10 +1,13 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.GameMob;
+import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,6 +22,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.VehicleExitEvent;
+import org.bukkit.event.weather.ThunderChangeEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -227,13 +232,15 @@ public class GameEvents implements Listener {
         if (!(damager instanceof Player)) {
             damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
         }
-        int entTeam = entity instanceof Player ? -1 : GameUtils.getMob(entity.getUniqueId()).getTeam();
-        if (GameUtils.isEnemy(damager, entTeam)) {
+        GameObject gm = GameUtils.getObject(entity);
+        if (gm != null && GameUtils.isEnemy(damager, gm.getTeam())) {
             game.getStats().addDamage(entity, damager, event.getDamage());
             damageCause.put(entity, damager);
-            if (!entity.isDead() && entTeam != -1) {
-                GameUtils.getMob(entity.getUniqueId()).updateName();
-            }
+            Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+                if (!entity.isDead() && gm instanceof GameMob) {
+                    ((GameMob) gm).updateName();
+                }
+            }, 1);
         } else {
             event.setCancelled(true);
         }
@@ -361,6 +368,25 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void removePotions(PotionSplashEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onThunderChange(ThunderChangeEvent e) {
+        if (e.toThunderState()) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onWeatherChange(WeatherChangeEvent e) {
+        if (e.toWeatherState()) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void removeSwapHand(PlayerSwapHandItemsEvent event) {
         event.setCancelled(true);
     }
 }

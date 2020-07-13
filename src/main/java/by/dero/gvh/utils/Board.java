@@ -38,6 +38,7 @@ public class Board {
     }
 
     public static void setText(final Team team, final String str) {
+        team.setSuffix(" ");
         if (str.length() > 16) {
             int idx = -1;
             for (int i = 0; i < 16; i++) {
