@@ -56,7 +56,7 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 					Location at = MathUtils.randomCylinder(owner.getLocation().subtract(0, 1, 0), radius, 0);
 					list.add(at);
 					at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
-					at.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, at, 1);
+					at.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, at, 1);
 				}
 				for (GameObject go : GameUtils.getGameObjects()) {
 					LivingEntity ent = go.getEntity();
