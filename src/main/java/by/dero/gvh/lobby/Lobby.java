@@ -5,7 +5,6 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
-import by.dero.gvh.lobby.interfaces.SelectorInterface;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
@@ -35,10 +34,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
-import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -352,6 +348,11 @@ public class Lobby implements PluginMode, Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onDropItem(PlayerDropItemEvent event) {
         event.setCancelled(true);
     }
 

@@ -22,11 +22,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
-import ru.cristalix.core.permissions.PermissionService;
 import ru.cristalix.core.pvp.CPSLimiter;
 import ru.cristalix.core.realm.IRealmService;
 import ru.cristalix.core.scoreboard.IScoreboardService;
@@ -153,6 +151,10 @@ public class Plugin extends JavaPlugin implements Listener {
 
     public ReportData getReportData() {
         return reportData;
+    }
+
+    public PluginMode getPluginMode() {
+        return pluginMode;
     }
 
     @EventHandler
