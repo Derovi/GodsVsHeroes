@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
+import ru.cristalix.core.realm.IRealmService;
 
 public class Minigame implements PluginMode {
     private static Minigame instance;
@@ -63,6 +64,7 @@ public class Minigame implements PluginMode {
         game.prepare();
         registerEvents();
         registerCommands();
+        IRealmService.get().getCurrentRealmInfo().setMaxPlayers(game.getInfo().getMaxPlayerCount());
     }
 
     public static Long getLastTicks() {

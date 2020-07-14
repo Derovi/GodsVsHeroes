@@ -6,7 +6,9 @@ import by.dero.gvh.model.ServerInfo;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.entity.Player;
+import ru.cristalix.core.realm.IRealmService;
 import ru.cristalix.core.realm.RealmId;
+import ru.cristalix.core.realm.RealmStatus;
 import ru.cristalix.core.transfer.ITransferService;
 
 public class BridgeUtils {
@@ -28,7 +30,9 @@ public class BridgeUtils {
 
     public static void redirectPlayer(Player player, String serverName) {
         if (Plugin.getInstance().getSettings().isCristalix()) {
-            ITransferService.get().transfer(player.getUniqueId(), RealmId.of(serverName));
+            if (IRealmService.get().getRealmById(RealmId.of(serverName)).getStatus().equals(RealmStatus.WAITING_FOR_PLAYERS)) {
+                ITransferService.get().transfer(player.getUniqueId(), RealmId.of(serverName));
+            }
         } else {
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("Connect");

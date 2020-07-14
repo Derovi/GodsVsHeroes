@@ -1,5 +1,6 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.GameObject;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
@@ -58,7 +59,11 @@ public class WebThrow extends Item implements PlayerInteractInterface, InfiniteR
             //smartFallingBlock.setHoldEntity(entity);
             smartFallingBlock.setNoGravity(true);
             smartFallingBlock.setVelocity(new Vector(0,0,0));
-            GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, duration, level));
+            GameObject go = GameUtils.getObject((LivingEntity) entity);
+            if (go != null) {
+                go.addEffect(new PotionEffect(PotionEffectType.SLOW, duration, level));
+            }
+
             new BukkitRunnable() {
                 @Override
                 public void run() {

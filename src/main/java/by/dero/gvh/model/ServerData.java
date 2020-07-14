@@ -1,6 +1,7 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.storages.MongoDBStorage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -8,9 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ServerData {
-    private final StorageInterface storage;
+    private final MongoDBStorage storage;
 
-    public ServerData(StorageInterface storage) {
+    public ServerData(MongoDBStorage storage) {
         this.storage = storage;
     }
 
