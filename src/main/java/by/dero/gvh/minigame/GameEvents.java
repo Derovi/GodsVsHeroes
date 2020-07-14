@@ -180,7 +180,8 @@ public class GameEvents implements Listener {
         if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) ||
                 event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK) ||
                 event.getCause().equals(EntityDamageEvent.DamageCause.FALL) ||
-                event.getCause().equals(EntityDamageEvent.DamageCause.FLY_INTO_WALL)) {
+                event.getCause().equals(EntityDamageEvent.DamageCause.FLY_INTO_WALL) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.SUFFOCATION)) {
             event.setCancelled(true);
             return;
         }
