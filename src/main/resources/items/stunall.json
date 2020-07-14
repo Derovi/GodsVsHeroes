@@ -4,7 +4,7 @@
   "levels": [
     {
       "cooldown": 1200,
-      "radius": 7.0,
+      "radius": 5.0,
       "latency": 70,
       "cost": 80,
       "material": "NETHER_STAR",
@@ -17,7 +17,7 @@
     },
     {
       "cooldown": 1200,
-      "radius": 7.0,
+      "radius": 5.0,
       "latency": 80,
       "cost": 100,
       "material": "NETHER_STAR",
@@ -30,7 +30,7 @@
     },
     {
       "cooldown": 1200,
-      "radius": 7.0,
+      "radius": 5.0,
       "latency": 90,
       "cost": 120,
       "material": "NETHER_STAR",

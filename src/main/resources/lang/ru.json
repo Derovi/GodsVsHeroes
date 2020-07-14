@@ -135,6 +135,7 @@
     "livesNotLeft": "§cУ вашей команды не осталось жизней",
     "dead": "§4Вы мертвы",
     "stunMessage": "§cВы в стане!",
+    "cantUse": "§cВы не можете этого сделать сейчас!",
     "desertionMessage": "§cНельзя покидать границу карты!",
     "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
     "ether": "EtherWar",

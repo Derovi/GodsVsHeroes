@@ -5,6 +5,7 @@ import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Bukkit;
@@ -106,6 +107,11 @@ public class GameEvents implements Listener {
             event.setCancelled(true);
         }
         gamePlayer.setLastUsed(itemInHand);
+        if (gamePlayer.isDisabled()) {
+            gamePlayer.getPlayer().sendMessage(Lang.get("game.cantUse"));
+            event.setCancelled(true);
+            return;
+        }
         if (itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof InfiniteReplenishInterface) {
                 if (!itemInHand.getCooldown().isReady() || !gamePlayer.consume(itemInHand)) {
@@ -156,7 +162,13 @@ public class GameEvents implements Listener {
         if (!player.isSneaking()) {
             return;
         }
-        for (SneakInterface item : GameUtils.selectItems(GameUtils.getPlayer(player.getName()), SneakInterface.class)) {
+        GamePlayer gp = GameUtils.getPlayer(player.getName());
+        if (gp.isDisabled()) {
+            gp.getPlayer().sendMessage(Lang.get("game.cantUse"));
+            event.setCancelled(true);
+            return;
+        }
+        for (SneakInterface item : GameUtils.selectItems(gp, SneakInterface.class)) {
             item.onPlayerSneak();
         }
     }

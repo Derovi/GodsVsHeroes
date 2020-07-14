@@ -34,14 +34,14 @@ public class SuicideJump extends Item implements PlayerInteractInterface, Infini
             return;
         }
         cooldown.reload();
-        ownerGP.hideInventory();
+        ownerGP.setDisabled(true);
         GravityFireball gravityFireball = new GravityFireball(owner.getLocation().clone().add(0, -1,0));
         gravityFireball.addPassenger(owner);
         gravityFireball.setVelocity(owner.getLocation().getDirection().normalize().multiply(1.2).add(MathUtils.UPVECTOR));
         gravityFireball.spawn();
 
         gravityFireball.setOnHit(() -> {
-            ownerGP.showInventory();
+            ownerGP.setDisabled(false);
             final Location loc = owner.getLocation();
             GameUtils.damage(selfDamage, owner, owner);
             for (final LivingEntity entity : GameUtils.getNearby(loc, radius)) {
