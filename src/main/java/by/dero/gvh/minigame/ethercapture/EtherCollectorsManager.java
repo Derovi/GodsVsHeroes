@@ -2,6 +2,7 @@ package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.utils.SafeRunnable;
 import by.dero.gvh.utils.IntPosition;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -11,9 +12,10 @@ import java.util.List;
 public class EtherCollectorsManager {
     private final List<EtherCollector> collectors = new ArrayList<>();
     private final EtherCapture game;
-    private BukkitRunnable playersUpdater;
+    private SafeRunnable playersUpdater;
     private BukkitRunnable collectorsUpdater;
     private List<List<GamePlayer>> playersOnCollector;
+    private boolean loaded = false;
 
 
     public EtherCollectorsManager(EtherCapture game) {
@@ -21,6 +23,10 @@ public class EtherCollectorsManager {
     }
 
     public void load() {
+        if (loaded) {
+            return;
+        }
+        loaded = true;
         int collectorIndex = 0;
         for (IntPosition position : game.getEtherCaptureInfo().getEtherCollectors()) {
             EtherCollector collector = new EtherCollector(position, collectorIndex);
@@ -32,7 +38,7 @@ public class EtherCollectorsManager {
         for (int index = 0; index < collectors.size(); ++index) {
             playersOnCollector.add(new ArrayList<>());
         }
-        playersUpdater = new BukkitRunnable() {
+        playersUpdater = new SafeRunnable() {
             @Override
             public void run() {
                 for (int index = 0; index < collectors.size(); ++index) {
@@ -60,11 +66,18 @@ public class EtherCollectorsManager {
     }
 
     public void unload() {
+        if (!loaded) {
+            return;
+        }
+        loaded = false;
         for (EtherCollector collector : collectors) {
             collector.unload();
         }
         collectors.clear();
-        playersUpdater.cancel();
+        if (playersUpdater.task != null) {
+            playersUpdater.cancel();
+        }
+
         collectorsUpdater.cancel();
         playersOnCollector = null;
         CollectorStructure.unload();

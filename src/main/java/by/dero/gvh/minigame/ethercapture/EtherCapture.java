@@ -38,8 +38,8 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void load() {
-
+    public boolean load() {
+        return super.load();
     }
 
     @Override
@@ -122,12 +122,15 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void unload () {
+    public boolean unload () {
+        if (!super.unload()) {
+            return false;
+        }
         collectorsManager.unload();
         for (final GamePlayer gp : getPlayers().values()) {
             gp.getBoard().clear();
         }
-        super.unload();
+        return true;
     }
 
     public void addEther(int team, int count) {

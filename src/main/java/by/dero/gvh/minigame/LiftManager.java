@@ -30,6 +30,7 @@ import java.util.UUID;
 public class LiftManager implements Listener {
 	private final HashMap<UUID, LinkedList<Entity>> lifting = new HashMap<>();
 	private final HashSet<UUID> forced = new HashSet<>();
+	private boolean loaded = false;
 
 	private static final Vector[] adds = new Vector[] {
 			new Vector(-2, 0, -2), new Vector(2, 0, 2), new Vector(2, 0, -2), new Vector(-2, 0, 2),
@@ -42,6 +43,10 @@ public class LiftManager implements Listener {
 
 	private FlyingText[] hints = null;
 	public void load() {
+		if (loaded) {
+			return;
+		}
+		loaded = true;
 		DirectedPosition[] poses = Game.getInstance().getInfo().getLiftHints();
 		World wrld = Minigame.getInstance().getWorld();
 		hints = new FlyingText[poses.length];
@@ -51,6 +56,10 @@ public class LiftManager implements Listener {
 	}
 
 	public void unload() {
+		if (!loaded) {
+			return;
+		}
+		loaded = false;
 		for (FlyingText hint : hints) {
 			hint.unload();
 		}

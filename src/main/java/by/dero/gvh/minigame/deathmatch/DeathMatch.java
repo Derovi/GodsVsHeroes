@@ -31,13 +31,17 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void load() {
+    public boolean load() {
+        if (!super.load()) {
+            return false;
+        }
         final int teams = getInfo().getTeamCount();
         currentLivesCount = new int[teams];
         for (int index = 0; index < teams; ++index) {
             currentLivesCount[index] = this.deathMatchInfo.getLivesCount();
         }
         respawning = new int[teams];
+        return true;
     }
 
     @Override
@@ -105,11 +109,14 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void unload () {
-        super.unload();
+    public boolean unload () {
+        if (!super.unload()) {
+            return false;
+        }
         for (final GamePlayer gp : getPlayers().values()) {
             gp.getBoard().clear();
         }
+        return true;
     }
 
     private void checkForGameEnd() {

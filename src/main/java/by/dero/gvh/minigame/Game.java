@@ -50,6 +50,7 @@ public abstract class Game implements Listener {
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private MapManager mapManager;
+    private boolean loaded = false;
 
     public Stats getStats() {
         return stats;
@@ -111,7 +112,7 @@ public abstract class Game implements Listener {
             info.setStatus(RealmStatus.GAME_STARTED_RESTRICTED);
         }
         lobby = null;
-        BukkitRunnable cooldownMessageUpdater = new BukkitRunnable() {
+        SafeRunnable cooldownMessageUpdater = new SafeRunnable() {
             @Override
             public void run() {
                 for (GamePlayer player : getPlayers().values()) {
@@ -133,7 +134,7 @@ public abstract class Game implements Listener {
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
         runnables.add(cooldownMessageUpdater);
 
-        BukkitRunnable borderChecker = new BukkitRunnable() {
+        SafeRunnable borderChecker = new SafeRunnable() {
             final DirectedPosition[] borders = getInfo().getMapBorders();
             final String desMsg = Lang.get("game.desertionMessage");
             final HashMap<UUID, Vector> lastPos = new HashMap<>();
@@ -365,20 +366,31 @@ public abstract class Game implements Listener {
         Plugin.getInstance().getData().loadRewards(rewardManager);
     }
 
-    public abstract void load();
+    public boolean load() {
+        if (loaded) {
+            return false;
+        }
+        loaded = true;
+        return true;
+    }
 
-    public void unload() {
+    public boolean unload() {
+        if (!loaded) {
+            return false;
+        }
+        loaded = false;
         for (final BukkitRunnable runnable : runnables) {
-            if (runnable.task != null) {
-                runnable.cancel();
-            }
+            runnable.cancel();
         }
         runnables.clear();
-        mapManager.finish();
+        if (mapManager != null) {
+            mapManager.finish();
+        }
         Minigame.getInstance().getLiftManager().unload();
         Minigame.getInstance().getLootsManager().unload();
 
         Minigame.getInstance().getGameEvents().getDamageCause().clear();
+        return true;
     }
 
     public void addPlayer(Player player) {
@@ -498,7 +510,7 @@ public abstract class Game implements Listener {
         }
         MessagingUtils.sendTitle(Lang.get("game.dead"), player, 0, 20, 0);
 
-        BukkitRunnable runnable = new BukkitRunnable() {
+        SafeRunnable runnable = new SafeRunnable() {
             int counter = respawnTime;
             @Override
             public void run() {

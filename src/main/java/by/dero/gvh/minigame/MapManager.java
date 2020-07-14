@@ -76,7 +76,7 @@ public class MapManager {
 
     private final long startTime;
     private final World world;
-    private BukkitRunnable runnable;
+    private final BukkitRunnable runnable;
 
     MapManager(World world) {
         this.world = world;

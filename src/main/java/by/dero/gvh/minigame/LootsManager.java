@@ -30,6 +30,7 @@ import java.util.UUID;
 public class LootsManager implements Listener {
     private final long cooldown = 400;
     private final ArrayList<LootsNode> loots = new ArrayList<>();
+    private boolean loaded = false;
 
     public class LootsNode {
         private final CraftArmorStand stand;
@@ -106,6 +107,10 @@ public class LootsManager implements Listener {
     }
 
     public void load() {
+        if (loaded) {
+            return;
+        }
+        loaded = true;
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
@@ -170,6 +175,10 @@ public class LootsManager implements Listener {
     }
 
     public void unload() {
+        if (!loaded) {
+            return;
+        }
+        loaded = false;
         for (LootsNode node : loots) {
             node.unload();
         }
