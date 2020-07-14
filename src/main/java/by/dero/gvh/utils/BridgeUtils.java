@@ -1,7 +1,6 @@
 package by.dero.gvh.utils;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.ServerInfo;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;

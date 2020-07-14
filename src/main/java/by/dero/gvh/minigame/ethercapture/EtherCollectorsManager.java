@@ -2,8 +2,8 @@ package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.utils.SafeRunnable;
 import by.dero.gvh.utils.IntPosition;
+import by.dero.gvh.utils.SafeRunnable;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;

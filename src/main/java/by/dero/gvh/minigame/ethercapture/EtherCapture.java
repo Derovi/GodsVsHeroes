@@ -1,14 +1,12 @@
 package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -117,20 +115,15 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void finish(int winnerTeam) {
-        super.finish(winnerTeam);
-    }
-
-    @Override
     public boolean unload () {
-        if (!super.unload()) {
+        if (!loaded) {
             return false;
         }
         collectorsManager.unload();
         for (final GamePlayer gp : getPlayers().values()) {
             gp.getBoard().clear();
         }
-        return true;
+        return super.unload();
     }
 
     public void addEther(int team, int count) {
@@ -142,11 +135,10 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     private void checkForGameEnd() {
         for (int team = 0; team < getInfo().getTeamCount(); ++team) {
             if (currentEtherCount[team] >= etherCaptureInfo.getEtherToWin()) {
-                int finalTeam = team;
                 World world = Minigame.getInstance().getWorld();
                 world.playSound(getInfo().getLobbyPosition().toLocation(world).add(0, 30, 0),
                         Sound.ENTITY_ENDERDRAGON_DEATH, 300, 1);
-                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> finish(finalTeam), 1);
+                finish(team);
                 return;
             }
         }

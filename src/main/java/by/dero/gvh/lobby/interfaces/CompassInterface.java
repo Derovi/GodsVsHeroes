@@ -2,7 +2,8 @@ package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
-import by.dero.gvh.model.*;
+import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.ServerInfo;
 import by.dero.gvh.utils.BridgeUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

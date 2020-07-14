@@ -1,13 +1,9 @@
 package by.dero.gvh.commands;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.utils.GameUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class BugCommand implements CommandExecutor {
     @Override

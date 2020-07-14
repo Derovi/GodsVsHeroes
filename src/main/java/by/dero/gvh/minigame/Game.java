@@ -50,7 +50,7 @@ public abstract class Game implements Listener {
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private MapManager mapManager;
-    private boolean loaded = false;
+    protected boolean loaded = false;
 
     public Stats getStats() {
         return stats;
@@ -275,6 +275,7 @@ public abstract class Game implements Listener {
         }
 
         state = State.FINISHING;
+        this.unload();
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
         if (Plugin.getInstance().getSettings().isCristalix()) {
@@ -302,7 +303,6 @@ public abstract class Game implements Listener {
             }
         }
 
-        this.unload();
         afterParty = new AfterParty(this, winnerTeam);
         afterParty.start();
         final BukkitRunnable runnable = new BukkitRunnable() {
@@ -563,5 +563,9 @@ public abstract class Game implements Listener {
 
     public RewardManager getRewardManager () {
         return rewardManager;
+    }
+
+    protected void setState (State state) {
+        this.state = state;
     }
 }

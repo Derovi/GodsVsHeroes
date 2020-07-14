@@ -110,13 +110,13 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
 
     @Override
     public boolean unload () {
-        if (!super.unload()) {
+        if (!loaded) {
             return false;
         }
         for (final GamePlayer gp : getPlayers().values()) {
             gp.getBoard().clear();
         }
-        return true;
+        return super.unload();
     }
 
     private void checkForGameEnd() {

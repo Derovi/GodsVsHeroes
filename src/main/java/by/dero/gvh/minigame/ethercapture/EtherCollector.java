@@ -10,12 +10,12 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.nmcapi.MovingCrystal;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.IntPosition;
+import by.dero.gvh.utils.SafeRunnable;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class EtherCollector {
     private double currentHeight = 0;
     private int captureStatus = 0; // 0 to 36
     private int owner = 0;
-    private BukkitRunnable etherAdd;
+    private SafeRunnable etherAdd;
     private final int etherDelay;
     private final int etherMineValue;
     private boolean loaded = false;
@@ -113,14 +113,14 @@ public class EtherCollector {
         if (loaded) {
             return;
         }
-        loaded = false;
+        loaded = true;
         crystal = new MovingCrystal(location.clone().add(0, 2, 0));
         crystal.setMaxHeight(maxHeight);
         crystal.spawn();
 
         captureIndicator = new FlyingText(location.clone().add(-0.5, 3.5, 0.5), "||||||||||||||||||");
         CollectorStructure.build(location);
-        etherAdd = new BukkitRunnable() {
+        etherAdd = new SafeRunnable() {
             double progress = 0;
             @Override
             public void run () {
