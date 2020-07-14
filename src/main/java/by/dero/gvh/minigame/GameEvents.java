@@ -387,6 +387,13 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
+    public void removeTrampling(PlayerInteractEvent event) {
+        if (event.getAction().equals(Action.PHYSICAL) && event.getClickedBlock().getType().equals(Material.SOIL)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     public void removeSwapHand(PlayerSwapHandItemsEvent event) {
         event.setCancelled(true);
     }
