@@ -22,6 +22,7 @@ public class GamePlayer extends GameObject {
     private Item lastUsed;
     private boolean actionBarBlocked = false;
     private ItemStack[] contents = null;
+    private boolean disabled = false;
 
     private Board board;
 
@@ -283,5 +284,13 @@ public class GamePlayer extends GameObject {
         }
         setTeam(preferredTeam);
         return true;
+    }
+
+    public boolean isDisabled () {
+        return disabled;
+    }
+
+    public void setDisabled (boolean disabled) {
+        this.disabled = disabled;
     }
 }

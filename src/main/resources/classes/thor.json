@@ -1,7 +1,7 @@
 {
   "name": "thor",
   "maxHP": 40,
-  "cost": 0,
+  "cost": 10,
   "itemNames": [
     "axethrow",
     "chainlightning",
@@ -10,6 +10,7 @@
     "magnetizeorb",
     "stunall",
 
+    "skyrise",
     "resistancebuf",
 
     "speedbuf",

@@ -1,5 +1,7 @@
 package by.dero.gvh;
 
+import by.dero.gvh.commands.AdviceCommand;
+import by.dero.gvh.commands.BugCommand;
 import by.dero.gvh.commands.TestCommand;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Minigame;
@@ -20,11 +22,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
-import ru.cristalix.core.permissions.PermissionService;
 import ru.cristalix.core.pvp.CPSLimiter;
 import ru.cristalix.core.realm.IRealmService;
 import ru.cristalix.core.scoreboard.IScoreboardService;
@@ -39,6 +39,7 @@ public class Plugin extends JavaPlugin implements Listener {
     private Data data;
     private PlayerData playerData;
     private ServerData serverData;
+    private ReportData reportData;
     private PluginMode pluginMode;
     private Settings settings;
     private Lang lang;
@@ -58,6 +59,8 @@ public class Plugin extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
+        Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
+        Bukkit.getPluginCommand("advice").setExecutor(new AdviceCommand());
         lang = new Lang(new LocalStorage());
         lang.load(settings.getLocale());
         StorageInterface dataStorage = null;
@@ -82,6 +85,12 @@ public class Plugin extends JavaPlugin implements Listener {
         }
         serverData = new ServerData(serverDataStorage);
         serverData.load();
+        StorageInterface reportDataStorage = new LocalStorage();
+        if (settings.getReportDataStorageType().equals("mongodb")) {
+            reportDataStorage = new MongoDBStorage(
+                    settings.getReportDataMongodbConnection(), settings.getReportDataMongodbDatabase());
+        }
+        reportData = new ReportData(reportDataStorage);
         World world;
         if (settings.getMode().equals("minigame")) {
             pluginMode = new Minigame();
@@ -138,6 +147,14 @@ public class Plugin extends JavaPlugin implements Listener {
 
     public Data getData() {
         return data;
+    }
+
+    public ReportData getReportData() {
+        return reportData;
+    }
+
+    public PluginMode getPluginMode() {
+        return pluginMode;
     }
 
     @EventHandler

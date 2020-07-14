@@ -5,7 +5,7 @@ import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.ServerInfo;
 import by.dero.gvh.model.ServerType;
-import by.dero.gvh.utils.BungeeUtils;
+import by.dero.gvh.utils.BridgeUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -54,6 +54,6 @@ public class PortalManager implements Listener {
         if (serverName == null) {
             player.getPlayer().sendMessage(Lang.get("lobby.busy"));
         }
-        BungeeUtils.redirectPlayer(player.getPlayer(), serverName);
+        BridgeUtils.redirectPlayer(player.getPlayer(), serverName);
     }
 }

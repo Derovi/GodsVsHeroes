@@ -90,6 +90,7 @@ public class Minigame implements PluginMode {
         manager.registerEvents(new DoubleSpaceListener(), instance);
         manager.registerEvents(liftManager, instance);
         manager.registerEvents(game, instance);
+        manager.registerEvents(new CommandChat(), instance);
     }
 
     private void registerCommands() {

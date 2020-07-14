@@ -15,12 +15,97 @@
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
   },
+  "items": {
+    "suicidejump": "Суицид",
+    "exchange": "Обмен местами",
+    "swordthrow": "Меч",
+    "knifethrow": "Кинжал",
+    "smokes": "Дымовая шашка",
+    "eaglefly": "Орёл",
+    "lightningstorm": "Адский шторм",
+    "healall": "Исцеление",
+    "webthrow": "Паутина",
+    "teleportpearls": "Глаз дракона",
+    "axethrow": "Топор",
+    "hammerthrow": "Молот",
+    "magnetizeOrb": "Магнитный шар",
+    "stunall": "Клетка",
+    "chainlightning": "Цепная молния"
+  },
   "advices": {
     "unlockClass": "§6Разблокируйте любой класс, нажав на него §fПКМ",
     "startGame": "§c§l❕ §6Зайдите в §fпортал§6, чтобы начать игру!",
     "chooseTeam": "§6Выберите §fкоманду§6, используя §fшерсть§6!",
     "gameStarted": "§6Убивайте §fврагов §6и захватывайте§f коллекторы§6!",
-    "toWin": "§6Для победы нужно §f§l3000 эфира!"
+    "toWin": "§6Для победы нужно §f§l3000 эфира!",
+    "bug": "§6Сообщить о баге: §f§l/bug",
+    "advice": "§6Дать совет разработчикам: §f§l/advice"
+  },
+  "compass": {
+    "title": "§6Выбор сервера",
+    "waiting": "§aНажмите, чтобы войти",
+    "gameFull": "§cМест нет",
+    "finishing": "§eИгра завершается",
+    "game": "§bИгра идёт",
+    "preparing": "§7Подготовка"
+  },
+  "death": {
+    "all": {
+      "collectors": "§8§l⚔§6 коллекторов даёт §fопыт§6 вам и §fэфир§6 команде",
+      "upgrade": "§6За §fопыт§6 в лобби можно улучшать скилы",
+      "unlock": "§6Открывайте новые §fклассы §6в лобби",
+      "vk": "§6Новости режима §8» §f§lvk.com/etherwar",
+      "win": "§6За победу вы получите §fопыт",
+      "help": "§6Помогайте союзникам!",
+      "lift": "§6На карте есть §fлифты §8» §f[ПРОБЕЛ]",
+      "space": "§6Не забывайте про §f§lдвойной [ПРОБЕЛ]",
+      "bug": "§f/bug§6, чтобы сообщить о баге",
+      "advice": "§f/advice§6, чтобы дать совет разработчикам"
+    },
+    "lucifier": {
+      "swap": "§6Комбинируйте §f§lОбмен местами§6 с §f§lУльтимейтом",
+      "space": "§6Двойной §f[ПРОБЕЛ]§6 помогает убежать",
+      "sword": "§6Меч можно кинуть, нажав §f[ПКМ]",
+      "suicideJump": "§f§lСуицид §6наносит §lвам§6 урон"
+    },
+    "assassin": {
+      "ninjarope": "§f§lКрюк-кошка §6позволяет паркурить",
+      "ninjarope2": "§f§lКрюк-кошка §6может порваться",
+      "space": "§6Двойной §f[ПРОБЕЛ]§6 превратит вас в орла",
+      "dagger": "§6Кинжал можно кинуть, нажав §f[ПКМ]",
+      "smokes": "§f§lДымовая шашка§6 ослепляет врагов"
+    },
+    "warrior": {
+      "webthrow": "§f§lПаутина §6кидается во врагов и на землю",
+      "healall": "§f§lИсцеление §6хилит всех союзников рядом",
+      "space": "§6Двойной §f[ПРОБЕЛ]§6 ускорит вас",
+      "sword": "§6Меч можно кинуть, нажав §f[ПКМ]"
+    },
+    "dovahkiin": {
+      "dragon": "§6На §f§lдраконе §6можно кидать фаерболы",
+      "pearls": "§f§lГлаза дракона §6наносят вам урон",
+      "space": "§6Двойной §f[ПРОБЕЛ]§6 даст неуязвимость",
+      "sword": "§6Меч можно кинуть, нажав §f[ПКМ]"
+    },
+    "thor": {
+      "stunall": "§f§lКлетка §6оглушает врагов",
+      "hammer": "§6Молот можно метнуть, нажав §f[ПКМ]",
+      "space": "§6Двойной §f[ПРОБЕЛ]§6 поможет в драке",
+      "chainlightning": "§fЦепная молния §6отскакивает от цели к цели",
+      "chainlightning2": "§fЦепная молния §8» §61-ая цель получит больший урон"
+    },
+    "horseman": {
+      "bow": "§6Стрела вашего лука бьет врага, пролетая рядом",
+      "axe": "§6Топор можно метнуть, нажав §f[ПКМ]",
+      "space": "§6Двойной §f[ПРОБЕЛ]§6 вызовет коня",
+      "horse": "§6Коня можно убить",
+      "meteor": "§f§lМетеор§6 падает туда, куда указывает курсор"
+    }
+  },
+  "commandChat": {
+    "empty": "§cСообщение не должно быть пустым",
+    "locked": "§cКомандный чат работает только во время игры",
+    "formatMessage": "§8[§bКоманда§8]§f %sender% §a%msg%"
   },
   "hints": {
     "lift": "§8[§aПРОБЕЛ§8]§b чтобы подняться"
@@ -44,15 +129,20 @@
     "gameAlreadyStarted": "§4Игра началась!",
     "gamePrepairing": "§2Загружаемся",
     "gameFinished": "§4Игра окончена",
-    "killGlobalMessage": "§aИгрок %kilCode%[%kilClass%] %killer%§a убил игрока %tarCode%[%tarClass%] %target%§a!",
+    "killGlobalMessage": "§f%kilCode%[%kilClass%] %killer%§8§l ⚔ %tarCode%[%tarClass%] %target%",
     "deathMessage": "Вы были убиты игроком %name%",
     "deathTime": "§aДо возрождения осталось§8: §9%time%",
     "livesNotLeft": "§cУ вашей команды не осталось жизней",
     "dead": "§4Вы мертвы",
     "stunMessage": "§cВы в стане!",
-    "desertionMessage": "§cНа фронте дезертирству нет места!",
-    "ether": "Эфира",
-    "collectorCaptureInform": "§aКоллектор §c%num%§a захвачен командой %com%§a!"
+    "cantUse": "§cВы не можете этого сделать сейчас!",
+    "desertionMessage": "§cНельзя покидать границу карты!",
+    "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
+    "ether": "EtherWar",
+    "classSelected": "§bВаш класс §8» §f%class%",
+    "expGained": "Опыт за игру §8» §b%exp%",
+    "kills": "Убийств §8» §a%kills%",
+    "deaths": "Смертей §8» §c%deaths%"
   },
   "loots": {
     "labelHeal": "§aГотово! %pts%§c❤",
@@ -61,10 +151,10 @@
   },
   "stats": {
     "label": "§aСтатистика",
-    "bestKills": "§aБольше всего убийств§8: §9%pl%",
-    "bestDamageDealt": "§aБольше всего нанесено урона§8: §9%pl%",
-    "bestDeaths": "§aМеньше всего смертей§8: §9%pl%",
-    "bestDamageTaken": "§aМеньше всего получил урона§8: §9%pl%"
+    "bestKills": "§aБольше всего убийств §8» §9%pl%",
+    "bestDamageDealt": "§aБольше всего нанесено урона §8» §9%pl%",
+    "bestDeaths": "§aМеньше всего смертей §8» §9%pl%",
+    "bestDamageTaken": "§aМеньше всего получил урона §8» §9%pl%"
   },
   "classes": {
     "alchemist": "Алхимик",
@@ -85,8 +175,8 @@
     "thor": "Тор"
   },
   "commands": {
-    "stat": "§%col%%com%§8: §9%pts%",
-    "playingFor": "§aВы играете за§8: §9%com%",
+    "stat": "§%col%%com% §8» §9%pts%",
+    "playingFor": "Вы за §8» %com%",
     "0": "§fСлучайная",
     "1": "§cКрасные",
     "2": "§aЗеленые",
@@ -100,21 +190,21 @@
   "gameLobby": {
     "cantSelect": "§cВ этой команде уже слишком много людей",
     "exit": "§cВыйти назад в лобби",
-    "boardPreferred": "§bВыбрано§8: %com%§a!",
-    "boardReady": "§bГотово к игре§8: §9%cur%/%max%",
-    "boardRequired": "§bНужно как минимум§8: §9%min%",
-    "boardTimeLeft": "§bОсталось времени§8: §9%time%",
+    "boardPreferred": "§bКоманда §8» %com%§a",
+    "boardReady": "§bГотово к игре §8» §9%cur%/%max%",
+    "boardRequired": "§bНужно как минимум §8» §9%min%",
+    "boardTimeLeft": "§bОсталось времени §8» §9%time%",
     "gameStarted": "§aИгра началась!",
-    "playerJoined": "§aИгрок %name% присоединился! §f%cur%/%max%",
-    "playerLeft": "§aИгрок %name% вышел! §f%cur%/%max%"
+    "playerJoined": "§f%name%§a присоединился! §f%cur%/%max%",
+    "playerLeft": "§f%name%§c вышел! §f%cur%/%max%"
   },
   "lobby": {
     "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",
     "heroLocked": "§cКласс §9%class%§c заблокирован",
-    "selectedClass": "§aВыбран класс: §9%class%",
+    "selectedClass": "Выбран §8» §b%class%",
     "heroSelected": "§6Класс §9%class%§6 выбран",
     "standTitle": "§bПКМ - выбрать§8 §9%class%",
-    "moneyBalance": "§6Ваш баланс§8: §9%money%",
+    "moneyBalance": "Ваш баланс §8» §b%money%",
     "busy": "§cНа всех серверах игра уже идет, подождите!",
     "locked": "§6Тестирование сегодня в §f16:30§6! Актуальная информация в группе §fВК §cvk.com/etherwar"
   }

@@ -45,7 +45,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
         if (!cooldown.isReady()) {
             return;
         }
-        GamePlayer gp = GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName()));
+        GamePlayer gp = GameUtils.getNearestEnemyPlayer(ownerGP);
         if (gp == null) {
             owner.sendMessage(Lang.get("game.noEnemyTarget"));
             return;

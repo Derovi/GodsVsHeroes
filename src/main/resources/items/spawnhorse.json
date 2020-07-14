@@ -4,7 +4,7 @@
   "invisible": true,
   "levels": [
     {
-      "cooldown": 0,
+      "cooldown": 200,
       "material": "FEATHER",
       "displayName": "",
       "lore": [],

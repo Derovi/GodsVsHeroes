@@ -8,7 +8,7 @@ import java.util.Map;
 public class PlayerInfo {
     private String name;
     private String selectedClass = "assassin";
-    private int balance = 7000;
+    private int balance = 100;
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
     public PlayerInfo(String name) {

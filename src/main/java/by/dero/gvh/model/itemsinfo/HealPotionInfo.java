@@ -5,6 +5,7 @@ import by.dero.gvh.model.ItemInfo;
 public class HealPotionInfo extends ItemInfo {
     private double radius;
     private int heal;
+    private int allyHeal;
 
     public double getRadius() {
         return radius;
@@ -20,5 +21,13 @@ public class HealPotionInfo extends ItemInfo {
 
     public void setHeal(int heal) {
         this.heal = heal;
+    }
+
+    public int getAllyHeal () {
+        return allyHeal;
+    }
+
+    public void setAllyHeal (int allyHeal) {
+        this.allyHeal = allyHeal;
     }
 }

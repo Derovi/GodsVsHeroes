@@ -38,14 +38,13 @@ public class EagleVision extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
-        final Location loc = player.getLocation().clone();
+        final Location loc = owner.getLocation().clone();
         owner.getWorld().playSound(loc, Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.07f, 1);
-        final int team = GameUtils.getPlayer(player.getName()).getTeam();
+        final int team = ownerGP.getTeam();
         for (final Entity obj : Objects.requireNonNull(loc.getWorld()).getNearbyEntities(loc, radius, 200, radius)) {
             final Location cur = obj.getLocation().clone();
             final double dst = loc.distance(new Location(cur.getWorld(), cur.getX(), loc.getY(), cur.getZ()));
@@ -58,7 +57,7 @@ public class EagleVision extends Item implements PlayerInteractInterface {
                 }
             }
         }
-        drawSign(player.getLocation().clone());
+        drawSign(owner.getLocation().clone());
     }
 
     public void drawSign(final Location loc) {

@@ -53,7 +53,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
             return;
         }
 
-        GamePlayer targetGP = GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName()));
+        GamePlayer targetGP = GameUtils.getNearestEnemyPlayer(ownerGP);
         if (targetGP == null) {
             owner.sendMessage(Lang.get("game.noEnemyTarget"));
             return;
@@ -73,10 +73,9 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         pig.goalSelector.a(0, new PathfinderFollow(pig, 1, 200));
 
         pig.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
-        Game.getInstance().getMobs().put(pig.uniqueID, new GameMob((LivingEntity) pig.getBukkitEntity(), getTeam(), owner));
-        pig.setCustomName(Lang.get("commands." + (char)('1' + getTeam())));
-        pig.setCustomNameVisible(true);
         pig.world.addEntity(pig, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        GameMob gm = new GameMob((LivingEntity) pig.getBukkitEntity(), getTeam(), owner);
+        gm.updateName();
         BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = duration;
             GamePlayer cur = targetGP;
@@ -98,7 +97,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
 
                 EntityLiving tar = pig.getGoalTarget();
 
-                if (ticks < 0 || (tar != null && tar.getBukkitEntity().getLocation().distance(loc) < radius)) {
+                if (pig.dead || ticks < 0 || (tar != null && tar.getBukkitEntity().getLocation().distance(loc) < radius)) {
                     explode(pig);
                     this.cancel();
                 }

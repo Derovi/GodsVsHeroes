@@ -18,6 +18,7 @@ public class InterfaceManager implements Listener {
     public void onCloseInventory(InventoryCloseEvent event) {
         String playerName = event.getPlayer().getName();
         if (isInterfaceOpened(playerName)) {
+            playerNameToInterface.get(playerName).onInventoryClosed();
             playerNameToInterface.remove(playerName);
         }
     }

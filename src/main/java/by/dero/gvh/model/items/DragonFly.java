@@ -9,7 +9,6 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.DragonFlyInfo;
 import by.dero.gvh.nmcapi.DFireball;
 import by.dero.gvh.nmcapi.dragon.ControlledDragon;
-import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -65,7 +64,7 @@ public class DragonFly extends Item implements PlayerInteractInterface, Interact
             Vector vector = new Vector(owner.getLocation().getDirection().getX(), 0,
                     owner.getLocation().getDirection().getZ()).normalize().multiply(4);
             DFireball fireball = new DFireball(owner.getEyeLocation().add(vector));
-            fireball.setOwner(GameUtils.getPlayer(owner.getName()));
+            fireball.setOwner(ownerGP);
             fireball.setDirection(owner.getLocation().getDirection().getX(),
                     owner.getLocation().getDirection().getY(),
                     owner.getLocation().getDirection().getZ());

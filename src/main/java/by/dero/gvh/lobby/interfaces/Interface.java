@@ -26,12 +26,23 @@ public class Interface {
         manager.register(player.getName(), this);
     }
 
+    public void onInventoryClosed() {}
+
     public void update() {
         player.updateInventory();
     }
 
     public void close() {
         player.closeInventory();
+    }
+
+    public void clear() {
+        for (int x = 0; x < 9; ++x) {
+            for (int y = 0; y < height; ++y) {
+                removeButton(x, y);
+            }
+        }
+        //update();
     }
 
     public void clicked(int pos) {

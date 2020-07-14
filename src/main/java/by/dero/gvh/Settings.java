@@ -4,6 +4,7 @@ public class Settings {
     private String mode;
     private boolean cristalix;
     private boolean overrideLang;
+    private boolean stopAfterGame;
     private String locale;
     private String serverName;
     private String dataStorageType;
@@ -18,6 +19,41 @@ public class Settings {
     private String serverDataStorageType;
     private String serverDataMongodbConnection;
     private String serverDataMongodbDatabase;
+    private String reportDataStorageType;
+    private String reportDataMongodbConnection;
+    private String reportDataMongodbDatabase;
+
+    public String getReportDataStorageType() {
+        return reportDataStorageType;
+    }
+
+    public void setReportDataStorageType(String reportDataStorageType) {
+        this.reportDataStorageType = reportDataStorageType;
+    }
+
+    public String getReportDataMongodbConnection() {
+        return reportDataMongodbConnection;
+    }
+
+    public void setReportDataMongodbConnection(String reportDataMongodbConnection) {
+        this.reportDataMongodbConnection = reportDataMongodbConnection;
+    }
+
+    public String getReportDataMongodbDatabase() {
+        return reportDataMongodbDatabase;
+    }
+
+    public void setReportDataMongodbDatabase(String reportDataMongodbDatabase) {
+        this.reportDataMongodbDatabase = reportDataMongodbDatabase;
+    }
+
+    public boolean isStopAfterGame() {
+        return stopAfterGame;
+    }
+
+    public void setStopAfterGame(boolean stopAfterGame) {
+        this.stopAfterGame = stopAfterGame;
+    }
 
     public boolean isCristalix() {
         return cristalix;

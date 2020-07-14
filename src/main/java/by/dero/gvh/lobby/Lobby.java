@@ -3,6 +3,7 @@ package by.dero.gvh.lobby;
 import by.dero.gvh.AdviceManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
+import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
@@ -33,9 +34,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.event.weather.ThunderChangeEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -173,6 +174,7 @@ public class Lobby implements PluginMode, Listener {
     }
 
     public void playerJoined(Player player) {
+        player.getInventory().setHeldItemSlot(0);
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
         lobbyPlayer.loadInfo();
         players.put(player.getName(), lobbyPlayer);
@@ -338,12 +340,19 @@ public class Lobby implements PluginMode, Listener {
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
             event.getAction().equals(Action.RIGHT_CLICK_BLOCK) &&
             event.getPlayer().getInventory().getHeldItemSlot() == 0) {
-            System.out.println("compass");
+            CompassInterface compassInterface = new CompassInterface(
+                    Lobby.getInstance().getInterfaceManager(), event.getPlayer());
+            compassInterface.open();
         }
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onDropItem(PlayerDropItemEvent event) {
         event.setCancelled(true);
     }
 
@@ -359,6 +368,25 @@ public class Lobby implements PluginMode, Listener {
 
     @EventHandler
     public void onBlockBreak (BlockBreakEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onThunderChange(ThunderChangeEvent e) {
+        if (e.toThunderState()) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onWeatherChange(WeatherChangeEvent e) {
+        if (e.toWeatherState()) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void removeSwapHand(PlayerSwapHandItemsEvent event) {
         event.setCancelled(true);
     }
 }

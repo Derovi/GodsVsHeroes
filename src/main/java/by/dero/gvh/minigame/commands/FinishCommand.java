@@ -8,7 +8,8 @@ import org.bukkit.command.CommandSender;
 public class FinishCommand implements PluginCommand {
     @Override
     public void execute(CommandSender sender, String[] arguments) {
-        if (Minigame.getInstance().getGame().getState() == Game.State.WAITING) {
+        if (Minigame.getInstance().getGame().getState() == Game.State.WAITING ||
+                Minigame.getInstance().getGame().getState() == Game.State.GAME_FULL) {
             sender.sendMessage("§cCan't finish game, not started yet!");
             return;
         }

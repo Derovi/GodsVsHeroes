@@ -3,6 +3,7 @@ package by.dero.gvh.minigame.deathmatch;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
@@ -17,8 +18,6 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 
-import static by.dero.gvh.model.Drawings.spawnFirework;
-
 public class DeathMatch extends Game implements DisplayInteractInterface {
     private final DeathMatchInfo deathMatchInfo;
 
@@ -32,13 +31,17 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void load() {
+    public boolean load() {
+        if (!super.load()) {
+            return false;
+        }
         final int teams = getInfo().getTeamCount();
         currentLivesCount = new int[teams];
         for (int index = 0; index < teams; ++index) {
             currentLivesCount[index] = this.deathMatchInfo.getLivesCount();
         }
         respawning = new int[teams];
+        return true;
     }
 
     @Override
@@ -106,11 +109,14 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void unload () {
-        super.unload();
+    public boolean unload () {
+        if (!loaded) {
+            return false;
+        }
         for (final GamePlayer gp : getPlayers().values()) {
             gp.getBoard().clear();
         }
+        return super.unload();
     }
 
     private void checkForGameEnd() {
@@ -155,7 +161,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         //player.leaveVehicle();
         final float exp = player.getExp();
 
-        spawnFirework(player.getLocation().clone().add(0,1,0), 1);
+        Drawings.spawnFirework(player.getLocation().clone().add(0,1,0), 1);
 
         final int team = getPlayers().get(player.getName()).getTeam();
         int respTime = -1;

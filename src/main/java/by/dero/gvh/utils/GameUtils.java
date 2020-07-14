@@ -228,9 +228,8 @@ public class GameUtils {
 
     public static LivingEntity spawnTeamEntity(Location loc, EntityType type, GamePlayer gp) {
         LivingEntity entity = (LivingEntity) spawnEntity(loc, type);
-        Game.getInstance().getMobs().put(entity.getUniqueId(), new GameMob(entity, gp.getTeam(), gp.getPlayer()));
-        entity.setCustomName(Lang.get("commands." + (char)('1' + gp.getTeam())));
-        entity.setCustomNameVisible(true);
+        GameMob gm = new GameMob(entity, gp.getTeam(), gp.getPlayer());
+        gm.updateName();
         return entity;
     }
 
@@ -264,6 +263,17 @@ public class GameUtils {
         potion.world.addEntity(potion, CreatureSpawnEvent.SpawnReason.CUSTOM);
 
         return (Projectile) potion.getBukkitEntity();
+    }
+
+    public static ArrayList<GameObject> getGameObjects() {
+        ArrayList<GameObject> list = new ArrayList<>();
+        for (Map.Entry<UUID, GameMob> obj : Game.getInstance().getMobs().entrySet()) {
+            if (!obj.getValue().getEntity().isDead()) {
+                list.add(obj.getValue());
+            }
+        }
+        list.addAll(Game.getInstance().getPlayers().values());
+        return list;
     }
 
     public static boolean isEnemy(final Entity ent, final int team) {

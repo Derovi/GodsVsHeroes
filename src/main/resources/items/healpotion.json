@@ -6,6 +6,7 @@
       "cooldown": 120,
       "radius": 5.0,
       "heal": 4,
+      "allyHeal": 2,
       "cost": 80,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
@@ -19,7 +20,8 @@
       "cooldown": 115,
       "radius": 5.0,
       "heal": 4,
-      "cost": 100,
+      "allyHeal": 2,
+      "cost": 140,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
       "lore": [
@@ -32,7 +34,8 @@
       "cooldown": 110,
       "radius": 5.0,
       "heal": 4,
-      "cost": 120,
+      "allyHeal": 2,
+      "cost": 180,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
       "lore": [
@@ -45,7 +48,8 @@
       "cooldown": 105,
       "radius": 5.0,
       "heal": 4,
-      "cost": 120,
+      "allyHeal": 2,
+      "cost": 240,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
       "lore": [
@@ -55,10 +59,11 @@
       "amount": 2
     },
     {
-      "cooldown": 120,
+      "cooldown": 180,
       "radius": 5.0,
       "heal": 4,
-      "cost": 120,
+      "allyHeal": 2,
+      "cost": 280,
       "material": "SPLASH_POTION",
       "displayName": "§cHeal Potion",
       "lore": [

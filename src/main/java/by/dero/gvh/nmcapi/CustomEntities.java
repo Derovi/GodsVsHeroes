@@ -16,10 +16,10 @@ public enum CustomEntities {
     PASSIVE_CHICKEN("PassiveChicken", 93, EntityType.CHICKEN, EntityChicken.class, ChickenAvatar.class),
     SMART_FALLING_BLOCK("SmartFallingBlock", 21, EntityType.FALLING_BLOCK, EntityFallingBlock.class, SmartFallingBlock.class),
     SMART_DRAGON("SmartDragon", 63, EntityType.ENDER_DRAGON, EntityEnderDragon.class, RotatingDragon.class),
-    CUSTOM_LEASH("CustomLeash", 83, EntityType.LEASH_HITCH, EntityLeash.class, CustomLeash.class),
-    INFINITE_FISH_HOOK("InfiniteFishHook", 83, EntityType.FISHING_HOOK, EntityFishingHook.class, InfiniteFishHook.class),
+//    CUSTOM_LEASH("CustomLeash", -1, EntityType.LEASH_HITCH, EntityLeash.class, CustomLeash.class),
+//    INFINITE_FISH_HOOK("InfiniteFishHook", -1, EntityType.FISHING_HOOK, EntityFishingHook.class, InfiniteFishHook.class),
     CASTRATED_ENDER_CRYSTAL("CastratedEnderCrystal", 200, EntityType.ENDER_CRYSTAL, EntityEnderCrystal.class, CastratedEnderCrystal.class),
-    CUSTOM_LIGHTNING("CustomLightning", 86, EntityType.LIGHTNING, CustomLightning.class, EntityLightning.class),
+//    CUSTOM_LIGHTNING("CustomLightning", -1, EntityType.LIGHTNING, CustomLightning.class, EntityLightning.class),
     DRAGON_EGG("DragonEgg", 21, EntityType.FALLING_BLOCK, EntityFallingBlock.class, DragonEggEntity.class),
     D_FIREBALL("DFireball", 26, EntityType.DRAGON_FIREBALL, EntityDragonFireball.class, DFireball.class);
 
@@ -51,6 +51,7 @@ public enum CustomEntities {
 
     private void unregister() {
         EntityTypes.d.remove(key);
+//        if ()
         EntityTypes.b.a(id, oldKey, nmsClass);
     }
 

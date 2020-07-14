@@ -17,7 +17,7 @@
     },
     {
       "cooldown": 120,
-      "damage" : 10,
+      "damage" : 9,
       "radius" : 5,
       "cost": 100,
       "material": "SNOW_BALL",
@@ -30,7 +30,7 @@
     },
     {
       "cooldown": 120,
-      "damage" : 10,
+      "damage" : 7,
       "radius" : 5,
       "cost": 120,
       "material": "SNOW_BALL",

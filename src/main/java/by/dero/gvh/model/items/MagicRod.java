@@ -28,7 +28,6 @@ public class MagicRod extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
         if (!cooldown.isReady()) {
             return;
         }
@@ -42,7 +41,7 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                     Math.random(),
                     Math.random()
             ).normalize();
-            final Location start = player.getLocation().clone().add(player.getLocation().getDirection().multiply(2));
+            final Location start = owner.getLocation().clone().add(owner.getLocation().getDirection().multiply(2));
             final HashSet<UUID> stroke = new HashSet<>();
             @Override
             public void run() {

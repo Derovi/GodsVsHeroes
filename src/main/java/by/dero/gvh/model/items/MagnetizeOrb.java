@@ -43,8 +43,8 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Projectile proj = GameUtils.spawnProjectile(event.getPlayer().getEyeLocation(),
-                1.2, EntityType.SNOWBALL, event.getPlayer());
+        final Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(),
+                1.2, EntityType.SNOWBALL, owner);
         summonedEntityIds.add(proj.getUniqueId());
     }
 }

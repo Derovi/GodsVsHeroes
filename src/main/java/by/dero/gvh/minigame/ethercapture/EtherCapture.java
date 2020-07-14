@@ -1,14 +1,12 @@
 package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -38,14 +36,14 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void load() {
-
+    public boolean load() {
+        return super.load();
     }
 
     @Override
     public void setDisplays() {
         for (final GamePlayer gp : getPlayers().values()) {
-            final Board board = new Board(Lang.get("game.ether"),getInfo().getTeamCount() + 1);
+            final Board board = new Board(Lang.get("game.ether"), getInfo().getTeamCount() + 5);
             final Scoreboard sb = board.getScoreboard();
             for (int team = 0; team < getInfo().getTeamCount(); team++) {
                 final String t = team + "hp";
@@ -67,13 +65,14 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
 
     @Override
     public void updateDisplays() {
+        int cnt = getInfo().getTeamCount();
         ArrayList<Integer> idxs = new ArrayList<>();
-        for (int i = 0; i < getInfo().getTeamCount(); i++) {
+        for (int i = 0; i < cnt; i++) {
             idxs.add(i);
         }
         idxs.sort((a, b) -> currentEtherCount[b] - currentEtherCount[a]);
-        String[] str = new String[getInfo().getTeamCount() + 1];
-        for (int i = 0; i < getInfo().getTeamCount(); ++i) {
+        String[] str = new String[cnt + 5];
+        for (int i = 0; i < cnt; ++i) {
             final int team = idxs.get(i);
             final String com = Lang.get("commands." + (char)('1' + team));
             str[i] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
@@ -82,8 +81,15 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
                             " (" + (int) ((double) currentEtherCount[team] / etherCaptureInfo.getEtherToWin() * 100) + "%)");
         }
         for (final GamePlayer gp : getPlayers().values()) {
-            str[getInfo().getTeamCount()] = Lang.get("commands.playingFor").
+            str[cnt] = Lang.get("commands.playingFor").
                     replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
+            str[cnt+1] = " ";
+//            str[cnt+2] = Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()));
+            String name = gp.getPlayer().getName();
+            str[cnt+2] = Lang.get("game.expGained").replace("%exp%", String.valueOf(stats.getExpGained(name)));
+            str[cnt+3] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills(name)));
+            str[cnt+4] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths(name)));
+
             gp.getBoard().update(str);
         }
     }
@@ -109,17 +115,15 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void finish(int winnerTeam) {
-        super.finish(winnerTeam);
-    }
-
-    @Override
-    public void unload () {
+    public boolean unload () {
+        if (!loaded) {
+            return false;
+        }
         collectorsManager.unload();
         for (final GamePlayer gp : getPlayers().values()) {
             gp.getBoard().clear();
         }
-        super.unload();
+        return super.unload();
     }
 
     public void addEther(int team, int count) {
@@ -131,11 +135,10 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     private void checkForGameEnd() {
         for (int team = 0; team < getInfo().getTeamCount(); ++team) {
             if (currentEtherCount[team] >= etherCaptureInfo.getEtherToWin()) {
-                int finalTeam = team;
                 World world = Minigame.getInstance().getWorld();
                 world.playSound(getInfo().getLobbyPosition().toLocation(world).add(0, 30, 0),
                         Sound.ENTITY_ENDERDRAGON_DEATH, 300, 1);
-                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> finish(finalTeam), 100);
+                finish(team);
                 return;
             }
         }

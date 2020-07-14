@@ -44,14 +44,11 @@ public class UpgradeInterface extends Interface {
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade"));
                 addButton(position, currentLevel + 1, itemStack, () -> {
                     LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(getPlayer().getName());
-                    lobbyPlayer.getPlayer().sendMessage("§cСегодня улучшения отключены!");
-                    return;
-                    /*
                     lobbyPlayer.getPlayerInfo().upgradeItem(className, itemName);
                     lobbyPlayer.saveInfo();
                     updateAll(lobbyPlayer.getPlayerInfo());
                     Lobby.getInstance().updateDisplays(getPlayer());
-                    update();*/
+                    update();
                 });
             } else {
                 ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);

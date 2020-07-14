@@ -5,14 +5,11 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.Board;
-import by.dero.gvh.utils.BungeeUtils;
+import by.dero.gvh.utils.BridgeUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MessagingUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -61,8 +58,10 @@ public class GameLobby implements Listener {
                                     replace("%min%", String.valueOf(game.getInfo().getMinPlayerCount())),
                             Lang.get("gameLobby.boardTimeLeft").
                                     replace("%time%", String.valueOf(timeLeft)),
+                            " ",
                             Lang.get("gameLobby.boardPreferred").
-                                    replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())))
+                                    replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam()))),
+                            Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()))
                     }
             );
         }
@@ -77,7 +76,7 @@ public class GameLobby implements Listener {
         int slot = player.getInventory().getHeldItemSlot();
         GamePlayer gp = GameUtils.getPlayer(player.getName());
         if (slot == 8) {
-            BungeeUtils.redirectPlayer(player.getPlayer(), Plugin.getInstance().getServerData().getLobbyServer().getName());
+            BridgeUtils.redirectPlayer(player.getPlayer(), Plugin.getInstance().getServerData().getLobbyServer().getName());
         } else if (!gp.setPreferredTeam(slot)) {
             player.sendMessage(Lang.get("gameLobby.cantSelect"));
         } else {
@@ -111,7 +110,7 @@ public class GameLobby implements Listener {
                     updateDisplays();
                     return;
                 }
-                if (timeLeft <= 10) {
+                if (0 < timeLeft && timeLeft <= 10) {
                     World world = Minigame.getInstance().getWorld();
                     world.playSound(game.getInfo().getLobbyPosition().toLocation(world),
                            Sound.BLOCK_NOTE_PLING, 100, 1);
@@ -136,8 +135,10 @@ public class GameLobby implements Listener {
     }
 
     public void onPlayerJoined(GamePlayer gamePlayer) {
-        gamePlayer.setBoard(new Board("Lobby", 4));
+        gamePlayer.getPlayer().setGameMode(GameMode.SURVIVAL);
+        gamePlayer.setBoard(new Board("Lobby", 6));
 
+        gamePlayer.getPlayer().getInventory().setHeldItemSlot(0);
         final int players = game.getPlayers().size();
         final int needed = game.getInfo().getMaxPlayerCount();
 

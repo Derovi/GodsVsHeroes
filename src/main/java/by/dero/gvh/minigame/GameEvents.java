@@ -1,10 +1,14 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.GameMob;
+import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,6 +23,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.VehicleExitEvent;
+import org.bukkit.event.weather.ThunderChangeEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -101,6 +107,11 @@ public class GameEvents implements Listener {
             event.setCancelled(true);
         }
         gamePlayer.setLastUsed(itemInHand);
+        if (gamePlayer.isDisabled()) {
+            gamePlayer.getPlayer().sendMessage(Lang.get("game.cantUse"));
+            event.setCancelled(true);
+            return;
+        }
         if (itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof InfiniteReplenishInterface) {
                 if (!itemInHand.getCooldown().isReady() || !gamePlayer.consume(itemInHand)) {
@@ -151,20 +162,26 @@ public class GameEvents implements Listener {
         if (!player.isSneaking()) {
             return;
         }
-        for (SneakInterface item : GameUtils.selectItems(GameUtils.getPlayer(player.getName()), SneakInterface.class)) {
+        GamePlayer gp = GameUtils.getPlayer(player.getName());
+        if (gp.isDisabled()) {
+            gp.getPlayer().sendMessage(Lang.get("game.cantUse"));
+            event.setCancelled(true);
+            return;
+        }
+        for (SneakInterface item : GameUtils.selectItems(gp, SneakInterface.class)) {
             item.onPlayerSneak();
         }
     }
 
     @EventHandler
-    public void onPlayerUnmount(VehicleExitEvent event) {
+    public void onPlayerUnmount (VehicleExitEvent event) {
         for (VehicleExitInterface item : GameUtils.selectItems(GameUtils.getPlayer(event.getExited().getName()), VehicleExitInterface.class)) {
             item.onPlayerUnmount(event);
         }
     }
 
     @EventHandler
-    public void onEntityTakeUnregisteredDamage(EntityDamageEvent event) {
+    public void onEntityTakeUnregisteredDamage (EntityDamageEvent event) {
         if (!Game.getInstance().getState().equals(Game.State.GAME)) {
             event.setCancelled(true);
             return;
@@ -175,7 +192,8 @@ public class GameEvents implements Listener {
         if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) ||
                 event.getCause().equals(EntityDamageEvent.DamageCause.FALLING_BLOCK) ||
                 event.getCause().equals(EntityDamageEvent.DamageCause.FALL) ||
-                event.getCause().equals(EntityDamageEvent.DamageCause.FLY_INTO_WALL)) {
+                event.getCause().equals(EntityDamageEvent.DamageCause.FLY_INTO_WALL) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.SUFFOCATION)) {
             event.setCancelled(true);
             return;
         }
@@ -204,7 +222,7 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
-    public void onPlayerTakeRegisteredDamage(EntityDamageByEntityEvent event) {
+    public void onEntityTakeRegisteredDamage (EntityDamageByEntityEvent event) {
         if (!Game.getInstance().getState().equals(Game.State.GAME)) {
             event.setCancelled(true);
             return;
@@ -227,9 +245,15 @@ public class GameEvents implements Listener {
         if (!(damager instanceof Player)) {
             damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
         }
-        if (GameUtils.isEnemy(entity, damager)) {
+        GameObject gm = GameUtils.getObject(entity);
+        if (gm != null && GameUtils.isEnemy(damager, gm.getTeam())) {
             game.getStats().addDamage(entity, damager, event.getDamage());
             damageCause.put(entity, damager);
+            Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+                if (!entity.isDead() && gm instanceof GameMob) {
+                    ((GameMob) gm).updateName();
+                }
+            }, 1);
         } else {
             event.setCancelled(true);
         }
@@ -259,6 +283,7 @@ public class GameEvents implements Listener {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
     public void onInteractEntity(PlayerInteractAtEntityEvent event) {
         event.setCancelled(true);
@@ -357,6 +382,32 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void removePotions(PotionSplashEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onThunderChange(ThunderChangeEvent e) {
+        if (e.toThunderState()) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onWeatherChange(WeatherChangeEvent e) {
+        if (e.toWeatherState()) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void removeTrampling(PlayerInteractEvent event) {
+        if (event.getAction().equals(Action.PHYSICAL) && event.getClickedBlock().getType().equals(Material.SOIL)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void removeSwapHand(PlayerSwapHandItemsEvent event) {
         event.setCancelled(true);
     }
 }

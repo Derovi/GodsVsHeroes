@@ -30,9 +30,9 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Location loc = event.getPlayer().getEyeLocation().clone();
-        final Vector dlt = event.getPlayer().getLocation().toVector().subtract(
-                Minigame.getInstance().getGameEvents().getLastPos(event.getPlayer()).toVector()).multiply(4);
+        final Location loc = owner.getEyeLocation().clone();
+        final Vector dlt = owner.getLocation().toVector().subtract(
+                Minigame.getInstance().getGameEvents().getLastPos(owner).toVector()).multiply(4);
         dlt.y = Math.min(dlt.y, 1);
         dlt.y = Math.max(dlt.y, -1);
 
@@ -44,7 +44,7 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
             at = MathUtils.rotateAroundAxis(at, MathUtils.getRightVector(at), x);
             at = MathUtils.rotateAroundAxis(at, new Vector(0,1,0), y);
             loc.getWorld().spawnParticle(Particle.FLAME, loc.clone().add(dlt), 0,
-                    at.getX() / 20, at.getY() / 20, at.getZ() / 20, 7);
+                    at.getX() / 20, at.getY() / 20, at.getZ() / 20, 11);
         }
         for (final LivingEntity entity : GameUtils.getNearby(loc, radius)) {
             final Vector a = entity.getLocation().toVector().clone().subtract(loc.toVector()).normalize();

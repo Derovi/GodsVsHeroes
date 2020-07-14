@@ -25,12 +25,11 @@ public class HealAll extends Item implements PlayerInteractInterface, InfiniteRe
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final Player p = event.getPlayer();
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
-        for (final LivingEntity ent : GameUtils.getNearby(p.getLocation(), radius)) {
+        for (final LivingEntity ent : GameUtils.getNearby(owner.getLocation(), radius)) {
             if (GameUtils.isAlly(ent, getTeam())) {
                 final double hp = Math.min(ent.getHealth() + heal,
                         ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());

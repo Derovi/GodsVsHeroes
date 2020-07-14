@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Drawings;
@@ -69,7 +68,6 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
         cooldown.reload();
         drawSign(owner.getLocation().clone());
 
-        GamePlayer ownerGM = GameUtils.getPlayer(owner.getName());
         final BukkitRunnable runnable = new BukkitRunnable() {
             int times = 0;
             final Location center = owner.getLocation().clone();
@@ -78,7 +76,7 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
                 for (final LivingEntity obj : GameUtils.getNearby(center, radius)) {
                     if (GameUtils.isEnemy(obj, getTeam())) {
                         Location at = obj.getLocation();
-                        GameUtils.spawnLightning(at, damage, 2.5, ownerGM);
+                        GameUtils.spawnLightning(at, damage, 2.5, ownerGP);
                     }
                 }
 

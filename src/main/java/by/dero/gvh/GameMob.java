@@ -1,5 +1,7 @@
 package by.dero.gvh;
 
+import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.Lang;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -9,8 +11,14 @@ public class GameMob extends GameObject {
 
 	public GameMob(LivingEntity entity, int team, Player owner) {
 		super(entity);
+		Game.getInstance().getMobs().put(entity.getUniqueId(), this);
 		this.team = team;
 		this.owner = owner;
+	}
+
+	public void updateName() {
+		entity.setCustomNameVisible(true);
+		entity.setCustomName(Lang.get("commands." + (char)('1' + team)).substring(0, 2) + (int)entity.getHealth() + " ❤");
 	}
 
 	public int getTeam () {

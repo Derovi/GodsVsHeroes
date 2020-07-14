@@ -30,13 +30,12 @@ public class FireSplash extends Item implements PlayerInteractInterface, Infinit
     final HashSet<UUID> stroke = new HashSet<>();
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.07f, 1);
-        final Location[] locs = Drawings.drawSector(player.getEyeLocation(), 0,
+        final Location[] locs = Drawings.drawSector(owner.getEyeLocation(), 0,
                 radius, Math.PI / 2, Particle.FLAME);
         stroke.clear();
         for (final Player otherPlayer : Bukkit.getOnlinePlayers()) {

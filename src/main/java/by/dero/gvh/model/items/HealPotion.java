@@ -21,12 +21,14 @@ public class HealPotion extends Item implements ProjectileHitInterface,
         InfiniteReplenishInterface, PlayerInteractInterface {
     private final double radius;
     private final int heal;
+    private final int allyHeal;
 
     public HealPotion(final String name, final int level, final Player owner) {
         super(name, level, owner);
         final HealPotionInfo info = (HealPotionInfo)getInfo();
         radius = info.getRadius();
         heal = info.getHeal();
+        allyHeal = info.getAllyHeal();
     }
 
     @Override
@@ -39,7 +41,7 @@ public class HealPotion extends Item implements ProjectileHitInterface,
         final Entity at = event.getEntity();
         for (final LivingEntity ent : GameUtils.getNearby(at.getLocation(), radius)) {
             if (GameUtils.isAlly(ent, getTeam())) {
-                final double hp = Math.min(ent.getHealth() + heal,
+                final double hp = Math.min(ent.getHealth() + (ent.equals(owner) ? heal : allyHeal),
                         ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 ent.setHealth(hp);
             }

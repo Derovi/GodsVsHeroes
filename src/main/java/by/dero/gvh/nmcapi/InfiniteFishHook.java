@@ -14,7 +14,11 @@ public class InfiniteFishHook extends EntityFishingHook {
 	}
 
 	public void B_() {
-		super.B_();
+		if (!this.world.isClientSide) {
+			this.setFlag(6, this.aW());
+		}
+
+		this.Y();
 		if (this.owner == null) {
 			this.die();
 		} else if (this.world.isClientSide || !this.p()) {
