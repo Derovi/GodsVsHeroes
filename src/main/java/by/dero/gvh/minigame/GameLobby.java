@@ -110,7 +110,7 @@ public class GameLobby implements Listener {
                     updateDisplays();
                     return;
                 }
-                if (timeLeft <= 10) {
+                if (0 < timeLeft && timeLeft <= 10) {
                     World world = Minigame.getInstance().getWorld();
                     world.playSound(game.getInfo().getLobbyPosition().toLocation(world),
                            Sound.BLOCK_NOTE_PLING, 100, 1);
