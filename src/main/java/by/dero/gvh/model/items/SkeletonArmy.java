@@ -1,6 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
@@ -66,10 +65,9 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
     public void onPlayerInteract(PlayerInteractEvent event) {
         cooldown.reload();
 
-        GamePlayer player = GameUtils.getPlayer(owner.getName());
         for (int i = 0; i < melee; i++) {
             CraftWitherSkeleton skeleton = (CraftWitherSkeleton) GameUtils.spawnTeamEntity(
-                    MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), EntityType.WITHER_SKELETON, player);
+                    MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), EntityType.WITHER_SKELETON, ownerGP);
             Drawings.drawCircle(skeleton.getLocation(), 2, Particle.DRAGON_BREATH);
             initAttributes(skeleton, true);
             GameUtils.getMob(skeleton.getUniqueId()).updateName();
@@ -77,7 +75,7 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
         }
         for (int i = 0; i < range; i++) {
             CraftSkeleton skeleton = (CraftSkeleton) GameUtils.spawnTeamEntity(
-                    MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), EntityType.SKELETON, player);
+                    MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), EntityType.SKELETON, ownerGP);
             Drawings.drawCircle(skeleton.getLocation(), 2, Particle.DRAGON_BREATH);
             owner.getWorld().playSound(skeleton.getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.07f, 1);
             GameUtils.getMob(skeleton.getUniqueId()).updateName();

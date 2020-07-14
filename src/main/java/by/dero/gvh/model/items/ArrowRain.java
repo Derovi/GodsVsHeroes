@@ -40,19 +40,18 @@ public class ArrowRain extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        Player player = event.getPlayer();
         if (!cooldown.isReady()) {
             event.setCancelled(true);
             return;
         }
         cooldown.reload();
-        final Location center = player.getLocation().clone().add(0, height, 0);
+        final Location center = owner.getLocation().clone().add(0, height, 0);
         new BukkitRunnable() {
             int times = 0;
             @Override
             public void run() {
                 final Location shooter = MathUtils.randomCylinder(center, radius, 0);
-                player.getWorld().playSound(player.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1.07f, 1);
+                owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1.07f, 1);
                 final List<Location> targets = new ArrayList<>();
                 for (LivingEntity obj : GameUtils.getNearby(center, radius)) {
                     if (GameUtils.isEnemy(obj, getTeam())) {
@@ -89,7 +88,7 @@ public class ArrowRain extends Item implements PlayerInteractInterface {
         }.runTaskTimer(Plugin.getInstance(), 0, 1);
         new BukkitRunnable() {
             double times = 0;
-            final Location center = player.getLocation().clone();
+            final Location center = owner.getLocation().clone();
             @Override
             public void run() {
                 drawSign(center);

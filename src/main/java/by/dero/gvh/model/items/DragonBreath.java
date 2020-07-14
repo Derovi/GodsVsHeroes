@@ -30,9 +30,9 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Location loc = event.getPlayer().getEyeLocation().clone();
-        final Vector dlt = event.getPlayer().getLocation().toVector().subtract(
-                Minigame.getInstance().getGameEvents().getLastPos(event.getPlayer()).toVector()).multiply(4);
+        final Location loc = owner.getEyeLocation().clone();
+        final Vector dlt = owner.getLocation().toVector().subtract(
+                Minigame.getInstance().getGameEvents().getLastPos(owner).toVector()).multiply(4);
         dlt.y = Math.min(dlt.y, 1);
         dlt.y = Math.max(dlt.y, -1);
 

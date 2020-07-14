@@ -30,24 +30,23 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
 
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 1.07f, 1);
-        Drawings.drawCircleInFront(player.getEyeLocation(), 2, 3, Particle.END_ROD);
-        final LivingEntity entity = GameUtils.getTargetEntity(player, 40, (e) -> GameUtils.isEnemy(e, getTeam()));
+        Drawings.drawCircleInFront(owner.getEyeLocation(), 2, 3, Particle.END_ROD);
+        final LivingEntity entity = GameUtils.getTargetEntity(owner, 40, (e) -> GameUtils.isEnemy(e, getTeam()));
         if (!GameUtils.isEnemy(entity, getTeam())) {
-            Drawings.drawLine(player.getEyeLocation(),
-                    player.getEyeLocation().clone().add(player.getLocation().getDirection().multiply(40)),
+            Drawings.drawLine(owner.getEyeLocation(),
+                    owner.getEyeLocation().clone().add(owner.getLocation().getDirection().multiply(40)),
                     Particle.END_ROD);
             return;
         }
         new BukkitRunnable() {
             final HashSet<UUID> hit = new HashSet<>();
-            LivingEntity cur = player;
+            LivingEntity cur = owner;
             LivingEntity next = entity;
             double curDamage = damage;
             @Override

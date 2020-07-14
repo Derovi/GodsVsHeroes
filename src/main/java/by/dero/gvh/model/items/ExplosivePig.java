@@ -53,7 +53,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
             return;
         }
 
-        GamePlayer targetGP = GameUtils.getNearestEnemyPlayer(GameUtils.getPlayer(owner.getName()));
+        GamePlayer targetGP = GameUtils.getNearestEnemyPlayer(ownerGP);
         if (targetGP == null) {
             owner.sendMessage(Lang.get("game.noEnemyTarget"));
             return;

@@ -38,7 +38,7 @@ public class FireSpear extends Item implements PlayerInteractInterface, Infinite
         }
         cooldown.reload();
 
-        final Location loc = event.getPlayer().getEyeLocation().clone();
+        final Location loc = owner.getEyeLocation().clone();
         loc.add(loc.getDirection().multiply(2));
         final Vector dlt = loc.getDirection().multiply(0.05 * speed);
         final HashSet<LivingEntity> left = new HashSet<>();

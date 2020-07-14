@@ -38,12 +38,11 @@ public class WebThrow extends Item implements PlayerInteractInterface, InfiniteR
             return;
         }
         cooldown.reload();
-        Player player = event.getPlayer();
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
-        SmartFallingBlock smartFallingBlock = new SmartFallingBlock(player.getLocation().add(0,1,0), Material.WEB);
-        smartFallingBlock.setVelocity(player.getLocation().getDirection().multiply(force));
+        SmartFallingBlock smartFallingBlock = new SmartFallingBlock(owner.getLocation().add(0,1,0), Material.WEB);
+        smartFallingBlock.setVelocity(owner.getLocation().getDirection().multiply(force));
         smartFallingBlock.spawn();
-        smartFallingBlock.setOwner(player);
+        smartFallingBlock.setOwner(owner);
         smartFallingBlock.setOnHitGround(() -> {
             smartFallingBlock.setStopped(true);
             smartFallingBlock.dieLater(100);
@@ -71,7 +70,7 @@ public class WebThrow extends Item implements PlayerInteractInterface, InfiniteR
             }.runTaskLater(Plugin.getInstance(), duration);
         });
 
-        int playerTeam = GameUtils.getPlayer(player.getName()).getTeam();
+        int playerTeam = ownerGP.getTeam();
         smartFallingBlock.setOnEnter((Entity entity) -> {
             if (entity instanceof LivingEntity && GameUtils.isEnemy(entity, playerTeam)) {
                 GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, duration, level));

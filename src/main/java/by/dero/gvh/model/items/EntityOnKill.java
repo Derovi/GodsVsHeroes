@@ -23,7 +23,7 @@ public class EntityOnKill extends Item implements PlayerKillInterface {
 	@Override
 	public void onPlayerKill (Player target) {
 		CraftZombie entity = (CraftZombie) GameUtils.spawnTeamEntity(target.getLocation(),
-				EntityType.ZOMBIE, GameUtils.getPlayer(owner.getName()));
+				EntityType.ZOMBIE, ownerGP);
 		
 		EntityZombie zombie = entity.getHandle();
 		zombie.targetSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
