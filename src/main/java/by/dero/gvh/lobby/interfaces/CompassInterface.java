@@ -22,7 +22,7 @@ public class CompassInterface extends Interface {
                 updateItems();
             }
         };
-        interfaceUpdater.runTaskTimer(Plugin.getInstance(), 0, 20);
+        interfaceUpdater.runTaskTimer(Plugin.getInstance(), 0, 2);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class CompassInterface extends Interface {
     private void updateItems() {
         clear();
         int index = 0;
-        for (ServerInfo info : Plugin.getInstance().getServerData().getGameServers()) {
+        for (ServerInfo info : Plugin.getInstance().getServerData().getSavedGameServers()) {
             ItemStack itemStack = null;
             int count = info.getOnline();
             if (count == 0) {

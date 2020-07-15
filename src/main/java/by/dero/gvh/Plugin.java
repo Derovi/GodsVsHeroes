@@ -14,8 +14,10 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
+import net.minecraft.server.v1_12_R1.PacketPlayOutResourcePackSend;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -72,19 +74,10 @@ public class Plugin extends JavaPlugin implements Listener {
         }
         data = new Data(dataStorage);
         data.load();
-        StorageInterface playerDataStorage = new LocalStorage();
-        if (settings.getPlayerDataStorageType().equals("mongodb")) {
-            playerDataStorage = new MongoDBStorage(
-                    settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase());
-        }
-        playerData = new PlayerData(playerDataStorage);
-        StorageInterface serverDataStorage = new LocalStorage();
-        if (settings.getServerDataStorageType().equals("mongodb")) {
-            serverDataStorage = new MongoDBStorage(
-                    settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase());
-        }
-        serverData = new ServerData(serverDataStorage);
-        serverData.load();
+        playerData = new PlayerData(new MongoDBStorage(
+                settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase()));
+        serverData = new ServerData(new MongoDBStorage(
+                settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
         StorageInterface reportDataStorage = new LocalStorage();
         if (settings.getReportDataStorageType().equals("mongodb")) {
             reportDataStorage = new MongoDBStorage(

@@ -5,6 +5,7 @@ public class ServerInfo {
     private ServerType type;
     private String status = "NO_STATUS";
     private int online;
+    private int maxOnline = 24;
 
     public ServerInfo() {
     }
@@ -12,6 +13,14 @@ public class ServerInfo {
     public ServerInfo(String name, ServerType type) {
         this.name = name;
         this.type = type;
+    }
+
+    public int getMaxOnline() {
+        return maxOnline;
+    }
+
+    public void setMaxOnline(int maxOnline) {
+        this.maxOnline = maxOnline;
     }
 
     public String getName() {

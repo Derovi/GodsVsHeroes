@@ -10,18 +10,34 @@ public class Settings {
     private String dataStorageType;
     private String dataMongodbConnection;
     private String dataMongodbDatabase;
-    private String playerDataStorageType;
     private String playerDataMongodbConnection;
     private String playerDataMongodbDatabase;
     private String lobbyDataStorageType;
     private String lobbyDataMongodbConnection;
     private String lobbyDataMongodbDatabase;
-    private String serverDataStorageType;
     private String serverDataMongodbConnection;
     private String serverDataMongodbDatabase;
     private String reportDataStorageType;
     private String reportDataMongodbConnection;
     private String reportDataMongodbDatabase;
+    private String resourcePackUrl;
+    private String resourcePackSha1Sum;
+
+    public String getResourcePackUrl() {
+        return resourcePackUrl;
+    }
+
+    public void setResourcePackUrl(String resourcePackUrl) {
+        this.resourcePackUrl = resourcePackUrl;
+    }
+
+    public String getResourcePackSha1Sum() {
+        return resourcePackSha1Sum;
+    }
+
+    public void setResourcePackSha1Sum(String resourcePackSha1Sum) {
+        this.resourcePackSha1Sum = resourcePackSha1Sum;
+    }
 
     public String getReportDataStorageType() {
         return reportDataStorageType;
@@ -103,14 +119,6 @@ public class Settings {
         this.dataMongodbDatabase = dataMongodbDatabase;
     }
 
-    public String getPlayerDataStorageType() {
-        return playerDataStorageType;
-    }
-
-    public void setPlayerDataStorageType(String playerDataStorageType) {
-        this.playerDataStorageType = playerDataStorageType;
-    }
-
     public String getPlayerDataMongodbConnection() {
         return playerDataMongodbConnection;
     }
@@ -149,14 +157,6 @@ public class Settings {
 
     public void setLobbyDataMongodbDatabase(String lobbyDataMongodbDatabase) {
         this.lobbyDataMongodbDatabase = lobbyDataMongodbDatabase;
-    }
-
-    public String getServerDataStorageType() {
-        return serverDataStorageType;
-    }
-
-    public void setServerDataStorageType(String serverDataStorageType) {
-        this.serverDataStorageType = serverDataStorageType;
     }
 
     public String getServerDataMongodbConnection() {

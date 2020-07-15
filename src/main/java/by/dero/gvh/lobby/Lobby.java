@@ -42,6 +42,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.formatting.Colors;
 import ru.cristalix.core.realm.IRealmService;
 import ru.cristalix.core.realm.RealmInfo;
 import ru.cristalix.core.realm.RealmStatus;
@@ -67,7 +68,7 @@ public class Lobby implements PluginMode, Listener {
     public void onEnable() {
         instance = this;
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
-                ServerType.LOBBY);
+                ServerType.LOBBY, 300);
         try {
             info = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(), "lobby", "lobby",
                     ResourceUtils.readResourceFile("/lobby/lobby.json")), LobbyInfo.class);
@@ -94,7 +95,7 @@ public class Lobby implements PluginMode, Listener {
             obj.remove();
         }
         StorageInterface dataStorage = new LocalStorage();
-        if (Plugin.getInstance().getSettings().getPlayerDataStorageType().equals("mongodb")) {
+        if (Plugin.getInstance().getSettings().getLobbyDataStorageType().equals("mongodb")) {
             dataStorage = new MongoDBStorage(
                     Plugin.getInstance().getSettings().getLobbyDataMongodbConnection(),
                     Plugin.getInstance().getSettings().getLobbyDataMongodbDatabase());

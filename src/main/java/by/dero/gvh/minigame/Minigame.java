@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
+import ru.cristalix.core.realm.IRealmService;
 
 public class Minigame implements PluginMode {
     private static Minigame instance;
@@ -42,8 +43,6 @@ public class Minigame implements PluginMode {
         instance = this;
         startTime = System.currentTimeMillis();
 
-        Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
-                ServerType.GAME);
         gameData = new GameData(new LocalStorage());
         gameData.load();
         if (gameData.getGameInfo().getMode().equals("deathMatch")) {
@@ -51,6 +50,8 @@ public class Minigame implements PluginMode {
         } else {
             game = new EtherCapture(gameData.getGameInfo(), gameData.getEtherCaptureInfo());
         }
+        Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
+                ServerType.GAME, game.getInfo().getMaxPlayerCount());
 
         world = Bukkit.getWorld(game.getInfo().getWorld());
         world.setTime(1000);
@@ -63,6 +64,9 @@ public class Minigame implements PluginMode {
         game.prepare();
         registerEvents();
         registerCommands();
+        if (Plugin.getInstance().getSettings().isCristalix()) {
+            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(game.getInfo().getMaxPlayerCount());
+        }
     }
 
     public static Long getLastTicks() {

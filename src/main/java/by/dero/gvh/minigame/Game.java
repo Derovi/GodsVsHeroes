@@ -324,7 +324,7 @@ public abstract class Game implements Listener {
                 afterParty.stop();
                 afterParty = null;
                 runnable.cancel();
-                ServerInfo lobbyServer = Plugin.getInstance().getServerData().getLobbyServer();
+                ServerInfo lobbyServer = Plugin.getInstance().getServerData().getSavedLobbyServer();
                 Set<String> playerNames = new HashSet<>(players.keySet());
                 for (String playerName : playerNames) {
                     Player player = players.get(playerName).getPlayer();
@@ -337,7 +337,7 @@ public abstract class Game implements Listener {
                 }
                 stats.unload();
                 if (Plugin.getInstance().getSettings().isStopAfterGame()) {
-                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "stop");
+                    Bukkit.shutdown();
                     return;
                 }
                 state = State.PREPARING;
@@ -395,15 +395,18 @@ public abstract class Game implements Listener {
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {
-            BridgeUtils.toLobby(player, Lang.get("game.gameAlreadyStarted"));
+            //BridgeUtils.toLobby(player, Lang.get("game.gameAlreadyStarted"));
+            player.kickPlayer(Lang.get("game.gameAlreadyStarted"));
             return;
         }
         if (state == State.PREPARING) {
-            BridgeUtils.toLobby(player, Lang.get("game.gamePrepairing"));
+            //BridgeUtils.toLobby(player, Lang.get("game.gamePrepairing"));
+            player.kickPlayer(Lang.get("game.gamePrepairing"));
             return;
         }
         if (getInfo().getMaxPlayerCount() <= getPlayers().size()) {
-            BridgeUtils.toLobby(player, Lang.get("game.overflow"));
+            //BridgeUtils.toLobby(player, Lang.get("game.overflow"));
+            player.kickPlayer(Lang.get("game.overflow"));
             return;
         }
         if (getPlayers().size() >= info.getMaxPlayerCount()) {
