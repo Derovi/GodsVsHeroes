@@ -293,6 +293,7 @@ public class Lobby implements PluginMode, Listener {
     @EventHandler
     public void onPlayerMove(final PlayerMoveEvent event) {
         final Player p = event.getPlayer();
+
         if (!p.getAllowFlight()) {
             groundUpdate(p);
         }

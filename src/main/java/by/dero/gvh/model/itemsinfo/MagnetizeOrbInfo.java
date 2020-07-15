@@ -1,9 +1,14 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class MagnetizeOrbInfo extends ItemInfo {
     private double radius;
+
+    public MagnetizeOrbInfo(ItemDescription description) {
+        super(description);
+    }
 
     public double getRadius() {
         return radius;

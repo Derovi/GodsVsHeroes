@@ -1,11 +1,16 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class WebThrowInfo extends ItemInfo {
     private int level;
     private int duration;
     private float force;
+
+    public WebThrowInfo(ItemDescription description) {
+        super(description);
+    }
 
     public int getDuration() {
         return duration;

@@ -154,8 +154,7 @@ public abstract class Game implements Listener {
                     }
                     if (newVelocity != null) {
                         if (!entity.isInsideVehicle()) {
-                            entity.teleport(lastPos.get(entity.getUniqueId()).toLocation(entity.getWorld()));
-//                            entity.setVelocity(newVelocity);
+                            entity.setVelocity(newVelocity);
                         } else {
                             newVelocity = newVelocity.multiply(0.5);
                             if (entity.getVehicle() instanceof Chicken) {

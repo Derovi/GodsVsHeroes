@@ -1,10 +1,15 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class ExplosiveBowInfo extends ItemInfo {
     private double multiplier;
     private double reclining;
+
+    public ExplosiveBowInfo(ItemDescription description) {
+        super(description);
+    }
 
     public double getMultiplier() {
         return multiplier;

@@ -1,5 +1,6 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 import org.bukkit.Particle;
 
@@ -10,6 +11,10 @@ public class LightningStormInfo extends ItemInfo {
     private double[] signRadius;
     private long delayStrikes;
     private Particle drawParticle;
+
+    public LightningStormInfo(ItemDescription description) {
+        super(description);
+    }
 
     public double getRadius() {
         return radius;

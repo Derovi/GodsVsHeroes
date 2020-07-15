@@ -1,8 +1,17 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class SuicideJumpInfo extends ItemInfo {
+    private double radius;
+    private double selfDamage;
+    private double damage;
+
+    public SuicideJumpInfo(ItemDescription description) {
+        super(description);
+    }
+
     public double getRadius() {
         return radius;
     }
@@ -26,8 +35,4 @@ public class SuicideJumpInfo extends ItemInfo {
     public void setDamage(double damage) {
         this.damage = damage;
     }
-
-    private double radius;
-    private double selfDamage;
-    private double damage;
 }

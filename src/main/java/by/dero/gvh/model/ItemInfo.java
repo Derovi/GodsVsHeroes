@@ -1,5 +1,6 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.Plugin;
 import com.google.gson.GsonBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -34,19 +35,20 @@ public class ItemInfo {
         private final boolean visible;
     }
 
-    private Material material = Material.BEDROCK;
+    private Material material = null;
     private final List<EnchantInfo> enchantments = new LinkedList<>();
-    private String displayName = "§cNot found";
-    private List<String> lore = Arrays.asList("First line", "Second line");
+    private String displayName = null;
+    private List<String> lore = null;
     private int amount = 1;
     private int cooldown = 5;
     private int cost = 5;
+    private ItemDescription description;
+
+    public ItemInfo(ItemDescription description) {
+        this.description = description;
+    }
 
     public static void main(String[] args) throws IOException {
-        ItemInfo info = new ItemInfo();
-        info.getEnchantments().add(new EnchantInfo(Enchantment.LUCK.getName(), 7, true));
-        info.getEnchantments().add(new EnchantInfo(Enchantment.ARROW_FIRE.getName(), 4, false));
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(info));
     }
 
     public List<EnchantInfo> getEnchantments() {
@@ -62,7 +64,7 @@ public class ItemInfo {
     }
 
     public Material getMaterial() {
-        return material;
+        return material == null ? description.getMaterial() : material;
     }
 
     public void setMaterial(Material material) {
@@ -70,7 +72,7 @@ public class ItemInfo {
     }
 
     public String getDisplayName() {
-        return displayName;
+        return displayName == null ? description.getDisplayName() : displayName;
     }
 
     public void setDisplayName(String displayName) {
@@ -78,7 +80,7 @@ public class ItemInfo {
     }
 
     public List<String> getLore() {
-        return lore;
+        return lore == null ? description.getLore() : lore;
     }
 
     public void setLore(List<String> lore) {
@@ -99,5 +101,13 @@ public class ItemInfo {
 
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
+    }
+
+    public ItemDescription getDescription() {
+        return description;
+    }
+
+    public void setDescription(ItemDescription description) {
+        this.description = description;
     }
 }

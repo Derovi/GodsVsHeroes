@@ -1,10 +1,15 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class PoisonPotionInfo extends ItemInfo {
     private double radius;
     private int latency;
+
+    public PoisonPotionInfo(ItemDescription description) {
+        super(description);
+    }
 
     public double getRadius() {
         return radius;

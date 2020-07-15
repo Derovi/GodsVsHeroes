@@ -1,10 +1,15 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class SwordThrowInfo extends ItemInfo {
     private double damage;
     private int meleeDamage;
+
+    public SwordThrowInfo(ItemDescription description) {
+        super(description);
+    }
 
     public double getDamage() {
         return damage;

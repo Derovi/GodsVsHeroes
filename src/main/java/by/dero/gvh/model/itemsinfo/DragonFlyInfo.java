@@ -1,5 +1,6 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class DragonFlyInfo extends ItemInfo {
@@ -7,6 +8,10 @@ public class DragonFlyInfo extends ItemInfo {
     private int duration;
     private int damage;
     private double speed;
+
+    public DragonFlyInfo(ItemDescription description) {
+        super(description);
+    }
 
     public int getFireballCoolDown() {
         return fireballCoolDown;
