@@ -64,7 +64,9 @@ public class Minigame implements PluginMode {
         game.prepare();
         registerEvents();
         registerCommands();
-        IRealmService.get().getCurrentRealmInfo().setMaxPlayers(game.getInfo().getMaxPlayerCount());
+        if (Plugin.getInstance().getSettings().isCristalix()) {
+            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(game.getInfo().getMaxPlayerCount());
+        }
     }
 
     public static Long getLastTicks() {

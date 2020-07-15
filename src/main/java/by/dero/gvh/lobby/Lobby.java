@@ -177,7 +177,6 @@ public class Lobby implements PluginMode, Listener {
     public void playerJoined(Player player) {
         player.getInventory().setHeldItemSlot(0);
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
-        lobbyPlayer.getPlayer().sendMessage(Colors.custom(40, 40, 40) + "kekkk");
         lobbyPlayer.loadInfo();
         players.put(player.getName(), lobbyPlayer);
         new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1).apply(player);
