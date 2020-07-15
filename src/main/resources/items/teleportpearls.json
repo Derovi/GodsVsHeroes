@@ -1,16 +1,15 @@
 {
   "name": "teleportpearls",
   "slot": 0,
+  "lore": [
+    "§fУрон по себе §8» §b2.5§c❤",
+    "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 600,
       "cost": 80,
       "material": "ENDER_PEARL",
-      "displayName": "§cTeleport pearls",
-      "lore": [
-        "§fУрон по себе §8» §b3§c❤",
-        "§fКулдаун заряда §8» §b%cooldown% §fсек."
-      ],
       "amount": 2
     }
   ]

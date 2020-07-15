@@ -2,17 +2,16 @@
   "name": "dragonegg",
   "invisible": true,
   "slot": 0,
+  "lore": [
+    "§fДлительность §8» §b%%duration,0.05%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 340,
       "duration": 40,
       "cost": 80,
       "material": "FEATHER",
-      "displayName": "§cDragon egg",
-      "lore": [
-        "§fДлительность §8» §b%duration% §fсек.",
-        "§fКулдаун §8» §b%cooldown% §fсек."
-      ],
       "amount": 1
     },
     {
@@ -20,8 +19,6 @@
       "duration": 45,
       "cost": 100,
       "material": "FEATHER",
-      "displayName": "§cDragon egg",
-      "lore": [],
       "amount": 1
     },
     {
@@ -29,8 +26,6 @@
       "duration": 50,
       "cost": 120,
       "material": "FEATHER",
-      "displayName": "§cDragon egg",
-      "lore": [],
       "amount": 1
     },
     {
@@ -38,8 +33,6 @@
       "duration": 55,
       "cost": 140,
       "material": "FEATHER",
-      "displayName": "§cDragon egg",
-      "lore": [],
       "amount": 1
     },
     {
@@ -47,8 +40,6 @@
       "duration": 60,
       "cost": 160,
       "material": "FEATHER",
-      "displayName": "§cDragon egg",
-      "lore": [],
       "amount": 1
     }
   ]

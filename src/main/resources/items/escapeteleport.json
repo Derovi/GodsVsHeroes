@@ -21,11 +21,6 @@
       "minRadius": 8.0,
       "cooldown": 520,
       "cost": 100,
-      "material": "FEATHER",
-      "lore": [
-        "§aНажмите, чтобы сбежать от врага.",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
@@ -33,11 +28,6 @@
       "minRadius": 8.0,
       "cooldown": 440,
       "cost": 120,
-      "material": "FEATHER",
-      "lore": [
-        "§aНажмите, чтобы сбежать от врага.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

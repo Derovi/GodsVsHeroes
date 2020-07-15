@@ -1,6 +1,14 @@
 {
   "name": "skeletonarmy",
   "slot": 0,
+  "lore": [
+    "§fКол-во скелетов §8» §7%%melee%%§8/§f%%range%%",
+    "§fУрон визер скелета §8» §b%%meleeDamage,0.5%%§c❤",
+    "§fЗдоровье визер скелета §8» §b%%meleeHealth,0.5%%§c❤",
+    "§fЗдоровье обычного скелета §8» §b10§c❤",
+    "§fДлительность жизни §8» §b%%duration,0.05%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 1200,
@@ -11,14 +19,6 @@
       "meleeHealth": 35,
       "cost": 80,
       "material": "NETHER_STAR",
-      "displayName": "§cSkeleton army",
-      "lore": [
-        "§fКол-во скелетов §8» §7%melee%§8/§f%range%",
-        "§fУрон визер скелета §8» §b%meleeDamage%§c❤",
-        "§fЗдоровье визер скелета §8» §b%meleeHealth%§c❤",
-        "§fДлительность жизни §8» §b%duration% §fсек.",
-        "§fКулдаун §8» §b%cooldown% §fсек."
-      ],
       "amount": 1
     },
     {
@@ -30,8 +30,6 @@
       "meleeHealth": 40,
       "cost": 80,
       "material": "NETHER_STAR",
-      "displayName": "§cSkeleton army",
-      "lore": [""],
       "amount": 1
     },
     {
@@ -43,8 +41,6 @@
       "meleeHealth": 40,
       "cost": 80,
       "material": "NETHER_STAR",
-      "displayName": "§cSkeleton army",
-      "lore": [""],
       "amount": 1
     }
   ]

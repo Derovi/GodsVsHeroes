@@ -1,18 +1,17 @@
 {
   "name": "stunrocks",
   "slot": 0,
+  "lore": [
+    "§fРадиус §8» §b%%radius%% §b1.5 §fблока.",
+    "§fДлительность §8» §b%%duration,0.05%% §fсек.",
+    "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 200,
       "duration": 40,
       "cost": 80,
       "material": "SNOW_BALL",
-      "displayName": "§cStun Rocks",
-      "lore": [
-        "§fРадиус §8» §b%radius% §f1.5 блока.",
-        "§fДлительность §8» §b%duration% §fсек.",
-        "§fКулдаун заряда §8» §b%cooldown% §fсек."
-      ],
       "amount": 2
     },
     {
@@ -20,11 +19,6 @@
       "duration": 40,
       "cost": 100,
       "material": "SNOW_BALL",
-      "displayName": "§cStun Rocks",
-      "lore": [
-        "§aОтомсти буржуям",
-        "§6Уровень 2"
-      ],
       "amount": 2
     },
     {
@@ -32,11 +26,6 @@
       "duration": 40,
       "cost": 120,
       "material": "SNOW_BALL",
-      "displayName": "§cStun Rocks",
-      "lore": [
-        "§aОтомсти буржуям",
-        "§6Уровень 3"
-      ],
       "amount": 2
     }
   ]

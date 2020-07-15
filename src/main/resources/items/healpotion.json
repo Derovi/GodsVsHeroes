@@ -1,6 +1,12 @@
 {
   "name": "healpotion",
   "slot": 0,
+  "lore": [
+    "§fХил себя §8» §b%%heal,0.5%%§c❤",
+    "§fХил союзников §8» §b%%allyHeal,0.5%%§c❤",
+    "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 120,
@@ -9,13 +15,6 @@
       "allyHeal": 2,
       "cost": 80,
       "material": "SPLASH_POTION",
-      "displayName": "§cHeal Potion",
-      "lore": [
-        "§fХил себя §8» §b%heal%§c❤",
-        "§fХил союзников §8» §b%allyHeal%§c❤",
-        "§fРадиус §8» §b%radius% §fблоков",
-        "§fКулдаун заряда §8» §b%cooldown% §fсек."
-      ],
       "amount": 2
     },
     {
@@ -25,11 +24,6 @@
       "allyHeal": 2,
       "cost": 140,
       "material": "SPLASH_POTION",
-      "displayName": "§cHeal Potion",
-      "lore": [
-        "§aЛечите своих сопартийцев!",
-        "§6Уровень 2"
-      ],
       "amount": 2
     },
     {
@@ -39,11 +33,6 @@
       "allyHeal": 2,
       "cost": 180,
       "material": "SPLASH_POTION",
-      "displayName": "§cHeal Potion",
-      "lore": [
-        "§aЛечите своих сопартийцев!",
-        "§6Уровень 3"
-      ],
       "amount": 2
     },
     {
@@ -53,11 +42,6 @@
       "allyHeal": 2,
       "cost": 240,
       "material": "SPLASH_POTION",
-      "displayName": "§cHeal Potion",
-      "lore": [
-        "§aЛечите своих сопартийцев!",
-        "§6Уровень 4"
-      ],
       "amount": 2
     },
     {
@@ -67,11 +51,6 @@
       "allyHeal": 2,
       "cost": 280,
       "material": "SPLASH_POTION",
-      "displayName": "§cHeal Potion",
-      "lore": [
-        "§aЛечите своих сопартийцев!",
-        "§6Уровень 5"
-      ],
       "amount": 3
     }
   ]
