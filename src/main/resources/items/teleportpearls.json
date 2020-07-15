@@ -9,7 +9,7 @@
       "displayName": "§cTeleport pearls",
       "lore": [
         "§fУрон по себе §8» §b3§c❤",
-        "§fКулдаун §8» §b%cooldown% §fсек."
+        "§fКулдаун заряда §8» §b%cooldown% §fсек."
       ],
       "amount": 2
     }
