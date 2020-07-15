@@ -10,8 +10,7 @@
       "material": "STICK",
       "displayName": "§cNinja rope",
       "lore": [
-        "§aНажмите, чтобы совершить рывок.",
-        "§6Уровень 1"
+        "§fДальность для разрыва §8» §7%distance% §fблоков."
       ],
       "amount": 1
     }

@@ -21,13 +21,13 @@ import org.bukkit.potion.PotionType;
 public class PoisonPotion extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, PlayerInteractInterface {
     private final double radius;
-    private final int latency;
+    private final int duration;
 
     public PoisonPotion(final String name, final int level, final Player owner) {
         super(name, level, owner);
         final PoisonPotionInfo info = (PoisonPotionInfo) getInfo();
         radius = info.getRadius();
-        latency = info.getLatency();
+        duration = info.getDuration();
     }
 
 
@@ -40,7 +40,7 @@ public class PoisonPotion extends Item implements InfiniteReplenishInterface,
         final Entity at = event.getEntity();
         for (final LivingEntity ent : GameUtils.getNearby(at.getLocation(), radius)) {
             if (GameUtils.isEnemy(ent, getTeam())) {
-                new PotionEffect(PotionEffectType.POISON, latency, 1).apply(ent);
+                new PotionEffect(PotionEffectType.POISON, duration, 1).apply(ent);
             }
         }
     }

@@ -6,7 +6,7 @@ import by.dero.gvh.model.ItemInfo;
 public class DragonFlyInfo extends ItemInfo {
     private int fireballCoolDown;
     private int duration;
-    private int damage;
+    private double damage;
     private double speed;
 
     public DragonFlyInfo(ItemDescription description) {
@@ -29,11 +29,11 @@ public class DragonFlyInfo extends ItemInfo {
         this.duration = duration;
     }
 
-    public int getDamage() {
+    public double getDamage() {
         return damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(double damage) {
         this.damage = damage;
     }
 

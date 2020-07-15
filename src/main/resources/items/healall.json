@@ -10,8 +10,9 @@
       "material": "END_CRYSTAL",
       "displayName": "§cHeal All",
       "lore": [
-        "§aЛечите своих сопартийцев!",
-        "§6Уровень 1"
+        "§fХил §8» §b%heal%§c❤",
+        "§fРадиус §8» §b%radius% §fблоков",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 1
     },

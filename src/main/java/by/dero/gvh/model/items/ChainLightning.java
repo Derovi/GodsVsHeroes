@@ -3,6 +3,7 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChainLightningInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -17,15 +18,17 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ChainLightning extends Item implements PlayerInteractInterface {
+public class ChainLightning extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
     private final double damage;
+    private final double otherDamage;
 
     public ChainLightning(final String name, final int level, final Player owner) {
         super(name, level, owner);
         final ChainLightningInfo info = (ChainLightningInfo) getInfo();
         damage = info.getDamage();
         radius = info.getRadius();
+        otherDamage = info.getOtherDamage();
     }
 
     @Override
@@ -66,7 +69,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
                     }
                 }
                 if (curDamage == damage) {
-                    curDamage /= 2;
+                    curDamage = otherDamage;
                 }
                 if (next == null) {
                     this.cancel();

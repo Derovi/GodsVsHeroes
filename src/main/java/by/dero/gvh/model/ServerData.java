@@ -6,20 +6,14 @@ import by.dero.gvh.model.storages.MongoDBStorage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
-import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
-import org.bukkit.Server;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.print.Doc;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Filter;
 
 public class ServerData {
     private final MongoCollection<Document> collection;

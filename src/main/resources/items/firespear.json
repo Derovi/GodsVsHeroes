@@ -9,8 +9,10 @@
       "material": "IRON_SPADE",
       "displayName": "§cFire spear",
       "lore": [
-        "§aРаньте своих врагов!",
-        "§6Уровень 1"
+        "§fУрон §8» §b%damage%§c❤",
+        "§fВремя жизни копья §8» §b1.5 §fсек.",
+        "§fВремя поджога §8» §b3 §fсек.",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 1
     }

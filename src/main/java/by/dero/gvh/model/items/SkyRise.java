@@ -6,7 +6,6 @@ import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.SkyRiseInfo;
-import by.dero.gvh.nmcapi.PlayerUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
@@ -15,6 +14,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 
@@ -35,11 +35,12 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 	@Override
 	public void onDoubleSpace () {
 		if (!cooldown.isReady()) {
+			GameUtils.doubleSpaceCooldownMessage(this);
 			return;
 		}
 		cooldown.reload();
 
-		PlayerUtils.jumpUp(owner, 23);
+		owner.setVelocity(new Vector(0, 1.2, 0));
 		for (GameObject go : GameUtils.getGameObjects()) {
 			LivingEntity ent = go.getEntity();
 			Location loc = new Location(owner.getWorld(),

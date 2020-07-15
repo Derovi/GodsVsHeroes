@@ -43,8 +43,8 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
     private void setAttributes(EntityPig pig) {
         pig.getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(1000);
         pig.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.5);
-        pig.getAttributeInstance(GenericAttributes.maxHealth).setValue(10);
-        pig.setHealth(10);
+        pig.getAttributeInstance(GenericAttributes.maxHealth).setValue(20);
+        pig.setHealth(20);
     }
 
     @Override

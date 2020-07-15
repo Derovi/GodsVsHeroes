@@ -22,24 +22,28 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class SkeletonArmy extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final int melee;
     private final int range;
+    private final int meleeDamage;
+    private final int meleeHealth;
     private final int duration;
 
     public SkeletonArmy(String name, int level, Player owner) {
         super(name, level, owner);
         SkeletonArmyInfo info = (SkeletonArmyInfo) getInfo();
         melee = info.getMelee();
+        meleeDamage = info.getMeleeDamage();
+        meleeHealth = info.getMeleeHealth();
         range = info.getRange();
         duration = info.getDuration();
     }
 
     private void initAttributes(CraftSkeleton monster, boolean isMelee) {
         EntitySkeletonAbstract handle = monster.getHandle();
-        handle.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(6);
+        handle.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(meleeDamage);
         //armor
         handle.getAttributeInstance(GenericAttributes.i).setValue(20);
         handle.getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(100);
-        handle.getAttributeInstance(GenericAttributes.maxHealth).setValue(40);
-        handle.setHealth(40);
+        handle.getAttributeInstance(GenericAttributes.maxHealth).setValue(meleeHealth);
+        handle.setHealth(meleeHealth);
         handle.fireProof = true;
 
         handle.goalSelector = new PathfinderGoalSelector(handle.world.methodProfiler);

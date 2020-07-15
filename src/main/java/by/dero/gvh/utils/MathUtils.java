@@ -3,7 +3,6 @@ package by.dero.gvh.utils;
 import by.dero.gvh.minigame.Game;
 import net.minecraft.server.v1_12_R1.MathHelper;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 public class MathUtils {
@@ -54,6 +53,10 @@ public class MathUtils {
         );
     }
 
+    public static Location randomCylinder(final Location center, final double minRadius, final double maxRadius, final double depth) {
+        final double dst = Math.random() * (maxRadius - minRadius) + minRadius;
+        return randomCylinderWall(center, dst, depth);
+    }
     public static Location randomCylinder(final Location center, final double radius, final double depth) {
         final double dst = Math.random() * radius;
         return randomCylinderWall(center, dst, depth);
@@ -113,24 +116,11 @@ public class MathUtils {
     }
 
     public static Location getGoodInCylinder(Location loc, double minradius, double radius) {
-        final Location startLoc = loc.clone();
         final DirectedPosition[] poses = Game.getInstance().getInfo().getMapBorders();
-        do {
-            loc = MathUtils.randomCylinder(loc.clone(), radius, 0);
-        } while (poses[0].getX() > loc.getX() || poses[0].getZ() > loc.getZ() ||
-                poses[1].getX() < loc.getX() || poses[1].getZ() < loc.getZ() ||
-                startLoc.distance(loc) < minradius);
-
-        while (loc.getBlock().getType().equals(Material.AIR) &&
-                loc.clone().add(0, 1,0 ).getBlock().getType().equals(Material.AIR) &&
-                loc.clone().add(0, 2,0 ).getBlock().getType().equals(Material.AIR)) {
-            loc.add(0, -1, 0);
-        }
-        while (!loc.getBlock().getType().equals(Material.AIR) ||
-                !loc.clone().add(0, 1,0 ).getBlock().getType().equals(Material.AIR) ||
-                !loc.clone().add(0, 2,0 ).getBlock().getType().equals(Material.AIR)) {
-            loc.add(0, 1, 0);
-        }
+        loc = MathUtils.randomCylinder(loc.clone(), minradius, radius, 0);
+        loc.x = Math.max(poses[0].x, Math.min(loc.x, poses[1].x));
+        loc.z = Math.max(poses[0].z, Math.min(loc.z, poses[1].z));
+        loc.y = loc.getWorld().getHighestBlockYAt((int)loc.x, (int)loc.z) + 1;
         return loc;
     }
 

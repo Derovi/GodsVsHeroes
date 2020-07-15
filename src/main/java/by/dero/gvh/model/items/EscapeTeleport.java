@@ -28,7 +28,7 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
 
     @Override
     public void onDoubleSpace() {
-        final Location loc = MathUtils.getGoodInCylinder(owner.getLocation().clone(), minRadius, radius);
+        final Location loc = MathUtils.getGoodInCylinder(owner.getLocation(), minRadius, radius);
         if (!cooldown.isReady()) {
             GameUtils.doubleSpaceCooldownMessage(this);
             return;

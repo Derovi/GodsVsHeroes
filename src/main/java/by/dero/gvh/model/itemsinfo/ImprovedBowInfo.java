@@ -4,17 +4,17 @@ import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class ImprovedBowInfo extends ItemInfo {
-    private int damage;
+    private double damage;
 
     public ImprovedBowInfo(ItemDescription description) {
         super(description);
     }
 
-    public int getDamage() {
+    public double getDamage() {
         return damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(double damage) {
         this.damage = damage;
     }
 }

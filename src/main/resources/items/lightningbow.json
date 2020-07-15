@@ -10,8 +10,9 @@
       "material": "BOW",
       "displayName": "§cLightning bow",
       "lore": [
-        "§aРаньте своих врагов!",
-        "§6Уровень 1"
+        "§fУрон от отскока §8» §b%damage%§c❤",
+        "§fРадиус отскока §8» §b%radius% §fсек.",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 1
     },

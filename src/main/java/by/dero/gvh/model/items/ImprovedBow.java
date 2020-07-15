@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 public class ImprovedBow extends Item implements ProjectileHitInterface {
-    private final int damage;
+    private final double damage;
     public ImprovedBow(final String name, final int level, final Player owner) {
         super(name, level, owner);
         damage = ((ImprovedBowInfo) getInfo()).getDamage();

@@ -4,34 +4,35 @@
   "levels": [
     {
       "damage": 14,
+      "otherDamage": 6,
       "radius": 6.0,
-      "cooldown": 40,
+      "cooldown": 60,
       "cost": 80,
       "material": "STICK",
-      "displayName": "§cChain Lightning",
+      "displayName": "§cЦепная молния I",
       "lore": [
-        "§aНажмите, чтобы пустить цепную молнию по вашим врагам.",
-        "§6Уровень 1"
+        "§fУрон по первой цели §8» §b%damage%§c❤",
+        "§fУрон по следующим целям §8» §b%otherDamage%§c❤",
+        "§fРадиус отскока §8» §b%radius% §fблоков",
+        "§fКулдаун молнии §8» §b%cooldown% сек."
       ],
       "amount": 1
     },
     {
       "damage": 15,
+      "otherDamage": 6,
       "radius": 7.0,
-      "cooldown": 40,
+      "cooldown": 60,
       "cost": 100,
       "material": "STICK",
-      "displayName": "§cChain Lightning",
-      "lore": [
-        "§aНажмите, чтобы пустить цепную молнию по вашим врагам.",
-        "§6Уровень 2"
-      ],
+      "displayName": "§cЦепная молния II",
+      "lore": [""],
       "amount": 1
     },
     {
       "damage": 15,
       "radius": 8.0,
-      "cooldown": 40,
+      "cooldown": 60,
       "cost": 120,
       "material": "STICK",
       "displayName": "§cChain Lightning",

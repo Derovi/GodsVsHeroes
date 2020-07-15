@@ -137,7 +137,6 @@ public abstract class Game implements Listener {
         SafeRunnable borderChecker = new SafeRunnable() {
             final DirectedPosition[] borders = getInfo().getMapBorders();
             final String desMsg = Lang.get("game.desertionMessage");
-            final HashMap<UUID, Vector> lastPos = new HashMap<>();
             @Override
             public void run() {
                 for (LivingEntity entity : Minigame.getInstance().getWorld().getLivingEntities()) {
@@ -188,13 +187,11 @@ public abstract class Game implements Listener {
                         if (entity instanceof Player) {
                             entity.sendMessage(desMsg);
                         }
-                    } else {
-                        lastPos.put(entity.getUniqueId(), entity.getLocation().toVector());
                     }
                 }
             }
         };
-        borderChecker.runTaskTimer(Plugin.getInstance(), 5, 10);
+        borderChecker.runTaskTimer(Plugin.getInstance(), 0, 10);
         runnables.add(borderChecker);
         stats = new Stats();
 

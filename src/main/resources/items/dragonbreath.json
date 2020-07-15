@@ -10,8 +10,10 @@
       "material": "BLAZE_ROD",
       "displayName": "§cDragon breath",
       "lore": [
-        "§aСожгите всех своим дыханием!",
-        "§6Уровень 1"
+        "§fУрон за заряд §8» §b%damage%§c❤",
+        "§fВремя горения §8» §b5 §fсек.",
+        "§fРадиус §8» §b%radius% §fблоков",
+        "§fКулдаун заряда §8» §b%cooldown% §fсек."
       ],
       "amount": 10
     },

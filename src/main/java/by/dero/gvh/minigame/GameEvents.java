@@ -208,16 +208,6 @@ public class GameEvents implements Listener {
             return;
         }
 
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
-                GameUtils.getLastLightningTime() + 1000 > System.currentTimeMillis()) {
-            final Player player = GameUtils.getLastUsedLightning();
-            if (GameUtils.isEnemy(entity, GameUtils.getPlayer(player.getName()).getTeam())) {
-                game.getStats().addDamage(entity, player, event.getDamage());
-                damageCause.put(entity, player);
-            } else {
-                event.setCancelled(true);
-            }
-        }
         ((LivingEntity) event.getEntity()).setNoDamageTicks(5);
     }
 

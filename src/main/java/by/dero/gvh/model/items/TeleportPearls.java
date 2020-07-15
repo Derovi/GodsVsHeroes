@@ -37,7 +37,7 @@ public class TeleportPearls extends Item implements PlayerInteractInterface,
 			return;
 		}
 		owner.getWorld().playSound(loc, Sound.ENTITY_ENDERMEN_TELEPORT, 1.07f, 1);
-		GameUtils.damage(6, owner, owner);
+		GameUtils.damage(5, owner, owner);
 		owner.teleport(loc);
 		int parts = 4;
 		for (double angle = 0; angle < MathUtils.PI2; angle += MathUtils.PI2 / parts) {

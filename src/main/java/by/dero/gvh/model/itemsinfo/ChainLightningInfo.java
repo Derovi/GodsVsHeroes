@@ -4,8 +4,9 @@ import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class ChainLightningInfo extends ItemInfo {
-    private double radius = 5;
-    private int damage = 4;
+    private double radius;
+    private double damage;
+    private int otherDamage;
 
     public ChainLightningInfo(ItemDescription description) {
         super(description);
@@ -19,11 +20,19 @@ public class ChainLightningInfo extends ItemInfo {
         this.radius = radius;
     }
 
-    public int getDamage() {
+    public double getDamage() {
         return damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(double damage) {
         this.damage = damage;
+    }
+
+    public int getOtherDamage () {
+        return otherDamage;
+    }
+
+    public void setOtherDamage (int otherDamage) {
+        this.otherDamage = otherDamage;
     }
 }

@@ -5,7 +5,7 @@ import by.dero.gvh.model.ItemInfo;
 
 public class StunAllInfo extends ItemInfo {
     private double radius;
-    private int latency;
+    private int duration;
 
     public StunAllInfo(ItemDescription description) {
         super(description);
@@ -19,11 +19,11 @@ public class StunAllInfo extends ItemInfo {
         this.radius = radius;
     }
 
-    public int getLatency() {
-        return latency;
+    public int getDuration () {
+        return duration;
     }
 
-    public void setLatency(int latency) {
-        this.latency = latency;
+    public void setDuration (int duration) {
+        this.duration = duration;
     }
 }
