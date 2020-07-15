@@ -1,6 +1,12 @@
 {
   "name": "meteor",
   "slot": 0,
+  "lore": [
+    "§fУрон §8» §b%%damage,0.5%%§c❤",
+    "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fРадиус каста §8» §b%%range%% §fблоков",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "damage": 12,
@@ -9,13 +15,6 @@
       "cooldown": 300,
       "cost": 80,
       "material": "FIREBALL",
-      "displayName": "§cMeteor",
-      "lore": [
-        "§fУрон §8» §b%damage%§c❤",
-        "§fРадиус §8» §b%radius% §fблоков",
-        "§fРадиус каста §8» §b%range% §fблоков",
-        "§fКулдаун §8» §b%cooldown% §fсек."
-      ],
       "amount": 1
     },
     {
@@ -25,11 +24,6 @@
       "cooldown": 300,
       "cost": 80,
       "material": "FIREBALL",
-      "displayName": "§cMeteor",
-      "lore": [
-        "§aМетеорит.",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
@@ -39,11 +33,6 @@
       "cooldown": 300,
       "cost": 80,
       "material": "FIREBALL",
-      "displayName": "§cMeteor",
-      "lore": [
-        "§aМетеорит.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

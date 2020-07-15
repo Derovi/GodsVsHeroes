@@ -1,17 +1,16 @@
 {
   "name": "exchange",
   "slot": 0,
+  "lore": [
+    "§fМакс. расстояние §8» §b%%maxRange%% §fблоков",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 300,
       "maxRange": 20,
       "cost": 80,
       "material": "STICK",
-      "displayName": "§cExchange",
-      "lore": [
-        "§fМакс. расстояние §8» §b%maxRange% §fблоков",
-        "§fКулдаун §8» §b%cooldown% §fсек."
-      ],
       "amount": 1
     },
     {
@@ -19,11 +18,6 @@
       "maxRange": 25,
       "cost": 100,
       "material": "STICK",
-      "displayName": "§cExchange",
-      "lore": [
-        "§aПоменяйтесь местами с тем, на кого смотрите.",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
@@ -31,11 +25,6 @@
       "maxRange": 30,
       "cost": 120,
       "material": "STICK",
-      "displayName": "§cExchange",
-      "lore": [
-        "§aПоменяйтесь местами с тем, на кого смотрите.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

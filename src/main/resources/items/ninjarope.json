@@ -1,6 +1,9 @@
 {
   "name": "ninjarope",
   "slot": 0,
+  "lore": [
+    "§fДальность для разрыва §8» §7%%distance%% §fблоков."
+  ],
   "levels": [
     {
       "forceMultiplier": 0.25,
@@ -8,10 +11,6 @@
       "cooldown": 60,
       "cost": 80,
       "material": "STICK",
-      "displayName": "§cNinja rope",
-      "lore": [
-        "§fДальность для разрыва §8» §7%distance% §fблоков."
-      ],
       "amount": 1
     }
   ]

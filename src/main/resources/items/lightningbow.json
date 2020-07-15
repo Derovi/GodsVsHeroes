@@ -1,5 +1,10 @@
 {
   "name": "lightningbow",
+  "lore": [
+    "§fУрон от отскока §8» §b%%damage,0.5%%§c❤",
+    "§fРадиус отскока §8» §b%%radius%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "slot": 0,
   "levels": [
     {
@@ -8,12 +13,6 @@
       "damage": 12,
       "cost": 80,
       "material": "BOW",
-      "displayName": "§cLightning bow",
-      "lore": [
-        "§fУрон от отскока §8» §b%damage%§c❤",
-        "§fРадиус отскока §8» §b%radius% §fсек.",
-        "§fКулдаун §8» §b%cooldown% §fсек."
-      ],
       "amount": 1
     },
     {
@@ -22,11 +21,6 @@
       "damage": 12,
       "cost": 100,
       "material": "BOW",
-      "displayName": "§cLightning bow",
-      "lore": [
-        "§aРаньте своих врагов!",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
@@ -35,11 +29,6 @@
       "damage": 12,
       "cost": 120,
       "material": "BOW",
-      "displayName": "§cLightning bow",
-      "lore": [
-        "§aРаньте своих врагов!",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

@@ -1,6 +1,13 @@
 {
   "name": "explosivepig",
   "slot": 0,
+  "lore": [
+    "§fУрон от взрыва §8» §b%%damage,0.5%%§c❤",
+    "§fРадиус взрыва §8» §b%%radius%% §fблоков",
+    "§fВремя жизни свиньи §8» §b%%duration,0.05%% §fсек.",
+    "§fЗдоровье свиньи §8» §b10§c❤",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 200,
@@ -9,14 +16,6 @@
       "duration": 200,
       "cost": 80,
       "material": "TNT",
-      "displayName": "§cExplosive pig",
-      "lore": [
-        "§fУрон от взрыва §8» §b%damage%§c❤",
-        "§fРадиус взрыва §8» §b%radius% §fблоков",
-        "§fВремя жизни свиньи §8» §b%duration% §fсек.",
-        "§fЗдоровье свиньи §8» §b10§c❤",
-        "§fКулдаун §8» §b%cooldown% §fсек."
-      ],
       "amount": 1
     }
   ]

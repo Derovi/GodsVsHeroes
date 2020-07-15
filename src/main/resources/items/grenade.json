@@ -1,6 +1,11 @@
 {
   "name": "grenade",
   "slot": 0,
+  "lore": [
+    "§fУрон §8» §b%%damage,0.5%%§c❤",
+    "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 120,
@@ -8,12 +13,6 @@
       "radius" : 5,
       "cost": 80,
       "material": "SNOW_BALL",
-      "displayName": "§cGrenade",
-      "lore": [
-        "§fУрон §8» §b%damage%§c❤",
-        "§fРадиус §8» §b%radius% §fблоков",
-        "§fКулдаун заряда §8» §b%cooldown% §fсек."
-      ],
       "amount": 2
     },
     {
@@ -22,11 +21,6 @@
       "radius" : 5,
       "cost": 100,
       "material": "SNOW_BALL",
-      "displayName": "§cGrenade",
-      "lore": [
-        "§aИскусство это взрыв!",
-        "§6Уровень 2"
-      ],
       "amount": 2
     },
     {
@@ -35,11 +29,6 @@
       "radius" : 5,
       "cost": 120,
       "material": "SNOW_BALL",
-      "displayName": "§cGrenade",
-      "lore": [
-        "§aИскусство это взрыв!",
-        "§6Уровень 3"
-      ],
       "amount": 3
     }
   ]

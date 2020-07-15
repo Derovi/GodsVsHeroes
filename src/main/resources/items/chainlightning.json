@@ -1,6 +1,12 @@
 {
   "name": "chainlightning",
   "slot": 0,
+  "lore": [
+    "§fУрон по первой цели §8» §b%%damage,0.5%%§c❤",
+    "§fУрон по следующим целям §8» §b%%otherDamage,0.5%%§c❤",
+    "§fРадиус отскока §8» §b%%radius%% §fблоков",
+    "§fКулдаун молнии §8» §b%%cooldown,0.05%% сек."
+  ],
   "levels": [
     {
       "damage": 14,
@@ -9,13 +15,6 @@
       "cooldown": 60,
       "cost": 80,
       "material": "STICK",
-      "displayName": "§cЦепная молния I",
-      "lore": [
-        "§fУрон по первой цели §8» §b%damage%§c❤",
-        "§fУрон по следующим целям §8» §b%otherDamage%§c❤",
-        "§fРадиус отскока §8» §b%radius% §fблоков",
-        "§fКулдаун молнии §8» §b%cooldown% сек."
-      ],
       "amount": 1
     },
     {
@@ -25,8 +24,6 @@
       "cooldown": 60,
       "cost": 100,
       "material": "STICK",
-      "displayName": "§cЦепная молния II",
-      "lore": [""],
       "amount": 1
     },
     {
@@ -35,11 +32,6 @@
       "cooldown": 60,
       "cost": 120,
       "material": "STICK",
-      "displayName": "§cChain Lightning",
-      "lore": [
-        "§aНажмите, чтобы пустить цепную молнию по вашим врагам.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

@@ -1,6 +1,11 @@
 {
   "name": "magicrod",
   "slot": 0,
+  "lore": [
+    "§fУрон §8» §b%%damage,0.5%%§c❤",
+    "§fДлительность §8» §b%%duration,0.05%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 60,
@@ -8,12 +13,6 @@
       "duration": 60,
       "cost": 80,
       "material": "BLAZE_ROD",
-      "displayName": "§cMagic Rod",
-      "lore": [
-        "§fУрон §8» §b%damage%§c❤",
-        "§fДлительность §8» §b%duration% §fсек.",
-        "§fКулдаун §8» §b%cooldown% §fсек."
-      ],
       "amount": 1
     },
     {
@@ -22,11 +21,6 @@
       "duration": 60,
       "cost": 100,
       "material": "BLAZE_ROD",
-      "displayName": "§cMagic Rod",
-      "lore": [
-        "§aИспользуйте, чтобы пустить волну темной энергии по вашим врагам.",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
@@ -35,11 +29,6 @@
       "duration": 60,
       "cost": 120,
       "material": "BLAZE_ROD",
-      "displayName": "§cMagic Rod",
-      "lore": [
-        "§aИспользуйте, чтобы пустить волну темной энергии по вашим врагам.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     },
     {
@@ -48,11 +37,6 @@
       "duration": 60,
       "cost": 140,
       "material": "BLAZE_ROD",
-      "displayName": "§cMagic Rod",
-      "lore": [
-        "§aИспользуйте, чтобы пустить волну темной энергии по вашим врагам.",
-        "§6Уровень 4"
-      ],
       "amount": 1
     },
     {
@@ -61,11 +45,6 @@
       "duration": 60,
       "cost": 140,
       "material": "BLAZE_ROD",
-      "displayName": "§cMagic Rod",
-      "lore": [
-        "§aИспользуйте, чтобы пустить волну темной энергии по вашим врагам.",
-        "§6Уровень 4"
-      ],
       "amount": 1
     },
     {
@@ -74,11 +53,6 @@
       "duration": 60,
       "cost": 140,
       "material": "BLAZE_ROD",
-      "displayName": "§cMagic Rod",
-      "lore": [
-        "§aИспользуйте, чтобы пустить волну темной энергии по вашим врагам.",
-        "§6Уровень 5"
-      ],
       "amount": 1
     }
   ]

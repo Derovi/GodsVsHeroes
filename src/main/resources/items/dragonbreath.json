@@ -1,6 +1,12 @@
 {
   "name": "dragonbreath",
   "slot": 0,
+  "lore": [
+    "§fУрон за заряд §8» §b%%damage,0.5%%§c❤",
+    "§fВремя горения §8» §b5 §fсек.",
+    "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 25,
@@ -8,13 +14,6 @@
       "damage": 4,
       "cost": 80,
       "material": "BLAZE_ROD",
-      "displayName": "§cDragon breath",
-      "lore": [
-        "§fУрон за заряд §8» §b%damage%§c❤",
-        "§fВремя горения §8» §b5 §fсек.",
-        "§fРадиус §8» §b%radius% §fблоков",
-        "§fКулдаун заряда §8» §b%cooldown% §fсек."
-      ],
       "amount": 10
     },
     {
@@ -23,11 +22,6 @@
       "damage": 4,
       "cost": 100,
       "material": "BLAZE_ROD",
-      "displayName": "§cDragon breath",
-      "lore": [
-        "§aСожгите всех своим дыханием!",
-        "§6Уровень 2"
-      ],
       "amount": 13
     },
     {
@@ -36,11 +30,6 @@
       "damage": 4,
       "cost": 120,
       "material": "BLAZE_ROD",
-      "displayName": "§cDragon breath",
-      "lore": [
-        "§aСожгите всех своим дыханием!",
-        "§6Уровень 3"
-      ],
       "amount": 16
     }
   ]

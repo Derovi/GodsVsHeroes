@@ -1,17 +1,16 @@
 {
   "name": "magnetizeorb",
   "slot": 0,
+  "lore": [
+    "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 120,
       "radius": 7,
       "cost": 80,
       "material": "SNOW_BALL",
-      "displayName": "§cMagnetize orb",
-      "lore": [
-        "§fРадиус §8» §b%radius% §fблоков",
-        "§fКулдаун §8» §b%cooldown% §fсек."
-      ],
       "amount": 2
     },
     {
@@ -19,11 +18,6 @@
       "radius": 7.5,
       "cost": 100,
       "material": "SNOW_BALL",
-      "displayName": "§cMagnetize orb",
-      "lore": [
-        "§aВ точку падения этой сферы притянутся окружающие существа",
-        "§6Уровень 2"
-      ],
       "amount": 2
     },
     {
@@ -31,11 +25,6 @@
       "radius": 8,
       "cost": 120,
       "material": "SNOW_BALL",
-      "displayName": "§cMagnetize orb",
-      "lore": [
-        "§aВ точку падения этой сферы притянутся окружающие существа",
-        "§6Уровень 3"
-      ],
       "amount": 2
     }
   ]

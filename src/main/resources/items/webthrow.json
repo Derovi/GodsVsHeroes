@@ -1,6 +1,11 @@
 {
   "name": "webthrow",
   "slot": 0,
+  "lore": [
+    "§fУровень эффекта §8» §b4",
+    "§fДлительность §8» §b%%duration,0.05%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "force": 0.8,
@@ -8,12 +13,6 @@
       "cooldown": 160,
       "cost": 80,
       "material": "WEB",
-      "displayName": "§cWeb throw",
-      "lore": [
-        "§fУровень эффекта §8» §b4",
-        "§fДлительность §8» §b%duration% §fсек.",
-        "§fКулдаун §8» §b%cooldown% §fсек."
-      ],
       "amount": 1
     },
     {
@@ -22,11 +21,6 @@
       "cooldown": 160,
       "cost": 100,
       "material": "WEB",
-      "displayName": "§cWeb throw",
-      "lore": [
-        "§aНажмите, чтобы кинуть паутину.",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
@@ -35,11 +29,6 @@
       "cooldown": 160,
       "cost": 120,
       "material": "WEB",
-      "displayName": "§cWeb throw",
-      "lore": [
-        "§aНажмите, чтобы кинуть паутину.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     },
     {
@@ -48,11 +37,6 @@
       "cooldown": 160,
       "cost": 140,
       "material": "WEB",
-      "displayName": "§cWeb throw",
-      "lore": [
-        "§aНажмите, чтобы кинуть паутину.",
-        "§6Уровень 4"
-      ],
       "amount": 1
     },
     {
@@ -61,11 +45,6 @@
       "cooldown": 160,
       "cost": 160,
       "material": "WEB",
-      "displayName": "§cWeb throw",
-      "lore": [
-        "§aНажмите, чтобы кинуть паутину.",
-        "§6Уровень 5"
-      ],
       "amount": 1
     }
   ]

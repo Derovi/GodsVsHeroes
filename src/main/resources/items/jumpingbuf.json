@@ -10,22 +10,6 @@
       "displayName": "§cJumping buf",
       "lore": [],
       "amount": 1
-    },
-    {
-      "cooldown": 0,
-      "cost": 80,
-      "material": "FEATHER",
-      "displayName": "§cJumping buf",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 0,
-      "cost": 80,
-      "material": "FEATHER",
-      "displayName": "§cJumping buf",
-      "lore": [],
-      "amount": 1
     }
   ]
 }

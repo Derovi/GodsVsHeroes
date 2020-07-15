@@ -1,6 +1,14 @@
 {
   "name": "lightningstorm",
   "slot": 0,
+  "lore": [
+    "§fУрон от молнии §8» §b%%damage,0.5%%§c❤",
+    "§fКоличество зарядов §8» §b%%strikes%%",
+    "§fЗадержка перед ультой §8» §b1.5 §fсек.",
+    "§fПромежуток между зарядами §8» §b%%delayStrikes,0.05%% §fсек.",
+    "§fРадиус отскока §8» §b%%radius%% §fблоков.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 1200,
@@ -12,15 +20,6 @@
       "cost": 80,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
-      "displayName": "§cLightning Storm",
-      "lore": [
-        "§fУрон от молнии §8» §b%damage%§c❤",
-        "§fКоличество зарядов §8» §b%strikes%",
-        "§fЗадержка перед ультой §8» §b1.5 §fсек.",
-        "§fПромежуток между зарядами §8» §b%delayStrikes% §fсек.",
-        "§fРадиус отскока §8» §b%radius% §fсек.",
-        "§fКулдаун §8» §b%cooldown% §fсек."
-      ],
       "amount": 1
     },
     {
@@ -33,12 +32,7 @@
       "cost": 100,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
-      "displayName": "§cLightning Storm",
-      "lore": [
-        "§aУльтимативная. Нажмите, чтобы обрушить шторм на ваших врагов.",
-        "§6Уровень 2"
-      ],
-      "amount": 4
+      "amount": 1
     },
     {
       "cooldown": 1200,
@@ -50,11 +44,6 @@
       "cost": 120,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
-      "displayName": "§cLightning Storm",
-      "lore": [
-        "§aУльтимативная. Нажмите, чтобы обрушить шторм на ваших врагов.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

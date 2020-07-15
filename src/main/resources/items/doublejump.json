@@ -6,8 +6,6 @@
     {
       "cooldown": 0,
       "material": "FEATHER",
-      "displayName": "§cDouble jump",
-      "lore": [],
       "amount": 1
     }
   ]
