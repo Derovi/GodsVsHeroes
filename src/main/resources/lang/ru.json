@@ -129,7 +129,8 @@
   "commandChat": {
     "empty": "§cСообщение не должно быть пустым",
     "locked": "§cКомандный чат работает только во время игры",
-    "formatMessage": "§8[§bКоманда§8]§f %sender% §a%msg%"
+    "formatMessage": "§8[§bКоманда§8]§f %sender% §8» §a%msg%",
+    "formatMessageAll": "§8[§bВсем§8]§f %sender% §8» §a%msg%"
   },
   "hints": {
     "lift": "§8[§aПРОБЕЛ§8]§b чтобы подняться"

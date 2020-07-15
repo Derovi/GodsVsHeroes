@@ -32,7 +32,7 @@ public class MessagingUtils {
                 c, d, e);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(titlePacket);
         final PacketPlayOutTitle subtitlePacket = new PacketPlayOutTitle(
-                PacketPlayOutTitle.EnumTitleAction.TITLE,
+                PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
                 IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + subtitle + "\"}"),
                 c, d, e);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(subtitlePacket);
