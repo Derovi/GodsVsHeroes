@@ -19,7 +19,7 @@
     },
     {
       "damage": 15,
-      "otherDamage": 6,
+      "otherDamage": 7,
       "radius": 7.0,
       "cooldown": 60,
       "cost": 100,
@@ -27,8 +27,9 @@
       "amount": 1
     },
     {
-      "damage": 15,
+      "damage": 16,
       "radius": 8.0,
+      "otherDamage": 8,
       "cooldown": 60,
       "cost": 120,
       "material": "STICK",
