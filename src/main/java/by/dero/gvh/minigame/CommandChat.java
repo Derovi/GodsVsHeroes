@@ -16,7 +16,7 @@ public class CommandChat implements Listener {
 		if (!global) {
 			return Lang.get("commandChat.formatMessage").
 					replace("%sender%", player.getDisplayName()).
-					replace("%msg%", text.substring(1));
+					replace("%msg%", text);
 		} else {
 			return Lang.get("commandChat.formatMessageAll").
 					replace("%sender%", player.getDisplayName()).
@@ -32,19 +32,15 @@ public class CommandChat implements Listener {
 			return;
 		}
 		Player sender = event.getPlayer();
-		if (!msg.startsWith("!") || !(Plugin.getInstance().getPluginMode() instanceof Minigame)) {
+		if (msg.startsWith("!") || !(Plugin.getInstance().getPluginMode() instanceof Minigame) ||
+				!Game.getInstance().getState().equals(Game.State.GAME)) {
+			if (msg.startsWith("!")) {
+				msg = msg.substring(1);
+			}
 			msg = getMessageText(sender, msg, true);
 			for (Player ot : Bukkit.getOnlinePlayers()) {
 				ot.sendMessage(msg);
 			}
-			return;
-		}
-		if (!Game.getInstance().getState().equals(Game.State.GAME)) {
-			sender.sendMessage(Lang.get("commandChat.locked"));
-			return;
-		}
-		if (msg.length() == 1) {
-			sender.sendMessage(Lang.get("commandChat.empty"));
 			return;
 		}
 		GamePlayer cur = GameUtils.getPlayer(sender.getName());

@@ -1,15 +1,14 @@
 package by.dero.gvh.model;
 
-import by.dero.gvh.Plugin;
-import com.google.gson.GsonBuilder;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 
 public class ItemInfo {
     static class EnchantInfo {
@@ -100,7 +99,6 @@ public class ItemInfo {
                     dataBuilder.append(string.charAt(j));
                 }
                 String data = dataBuilder.toString();
-                System.out.println("Data: " + data);
                 if (data.contains(",")) {
                     try {
                         int comaPos = data.indexOf(',');
