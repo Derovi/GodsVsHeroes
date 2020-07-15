@@ -6,6 +6,8 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,13 +44,79 @@ public class ItemInfo {
     private int amount = 1;
     private int cooldown = 5;
     private int cost = 5;
-    private ItemDescription description;
+    private final ItemDescription description;
 
     public ItemInfo(ItemDescription description) {
         this.description = description;
     }
 
-    public static void main(String[] args) throws IOException {
+    public void prepare() {
+        if (material == null) {
+            material = description.getMaterial();
+        }
+        if (displayName == null) {
+            displayName = parseString(description.getDisplayName());
+        }
+        if (lore == null) {
+            lore = new ArrayList<>();
+            for (String string : description.getLore()) {
+                lore.add(parseString(string));
+            }
+        }
+    }
+
+    public String parseString(String string) {
+        StringBuilder result = new StringBuilder();
+        for (int idx = 0; idx < string.length(); ++idx) {
+            if (idx + 1 != string.length() && string.charAt(idx) == '%' && string.charAt(idx + 1) == '%') {
+                int second = 0;
+                StringBuilder dataBuilder = new StringBuilder();
+                for (int j = idx + 2; j < string.length() - 1; ++j) {
+                    if (string.charAt(j) == '%' && string.charAt(j + 1) == '%') {
+                        second = j;
+                        break;
+                    }
+                    dataBuilder.append(string.charAt(j));
+                }
+                String data = dataBuilder.toString();
+                System.out.println("Data: " + data);
+                if (data.contains(",")) {
+                    try {
+                        int comaPos = data.indexOf(',');
+                        String fieldName = data.substring(0, comaPos);
+                        double multiplier = Double.parseDouble(data.substring(comaPos + 1, data.length()));
+                        double fieldValue = getField(fieldName).getDouble(this);
+                        result.append(fieldValue * multiplier);
+                    } catch (Exception ex) {
+                        System.out.println("Field with multiplier not found: " + data + " in " + description.getName());
+                        ex.printStackTrace();
+                    }
+                } else {
+                    try {
+                        result.append(getField(data).get(this));
+                    } catch (Exception ex) {
+                        System.out.println("Field not found: " + data + " in " + description.getName());
+                    }
+                }
+                if (second != 0) {
+                    idx = second + 1;
+                    continue;
+                }
+            }
+            result.append(string.charAt(idx));
+        }
+        return result.toString();
+    }
+
+    private Field getField(String name) throws Exception {
+        Field field = null;
+        try {
+            field = getClass().getDeclaredField(name);
+        } catch (Exception ex) {
+            field = ItemInfo.class.getDeclaredField(name);
+        }
+        field.setAccessible(true);
+        return field;
     }
 
     public List<EnchantInfo> getEnchantments() {
@@ -105,9 +173,5 @@ public class ItemInfo {
 
     public ItemDescription getDescription() {
         return description;
-    }
-
-    public void setDescription(ItemDescription description) {
-        this.description = description;
     }
 }
