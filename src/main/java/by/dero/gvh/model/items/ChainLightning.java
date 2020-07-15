@@ -3,6 +3,7 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChainLightningInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -17,7 +18,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ChainLightning extends Item implements PlayerInteractInterface {
+public class ChainLightning extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
     private final double damage;
     private final double otherDamage;

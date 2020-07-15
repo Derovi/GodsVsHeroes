@@ -4,6 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.MagicRodInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -19,7 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashSet;
 import java.util.UUID;
 
-public class MagicRod extends Item implements PlayerInteractInterface {
+public class MagicRod extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double damage;
     private final int duration;
     public MagicRod(final String name, final int level, final Player owner) {
