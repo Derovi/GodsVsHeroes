@@ -10,6 +10,7 @@
       "material": "STICK",
       "displayName": "§cNinja rope",
       "lore": [
+        "§fДальность для разрыва §8» §7%distance% §fблоков."
       ],
       "amount": 1
     }

@@ -13,7 +13,7 @@
       "material": "NETHER_STAR",
       "displayName": "§cSkeleton army",
       "lore": [
-        "§fКол-во скелетов §8» §f%melee%§8/§0%range%",
+        "§fКол-во скелетов §8» §7%melee%§8/§f%range%",
         "§fУрон визер скелета §8» §b%meleeDamage%§c❤",
         "§fЗдоровье визер скелета §8» §b%meleeHealth%§c❤",
         "§fДлительность жизни §8» §b%duration% §fсек.",
