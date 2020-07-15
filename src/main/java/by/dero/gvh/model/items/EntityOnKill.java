@@ -23,7 +23,7 @@ public class EntityOnKill extends Item implements PlayerKillInterface {
 	@Override
 	public void onPlayerKill (Player target) {
 		CraftZombie entity = (CraftZombie) GameUtils.spawnTeamEntity(target.getLocation(),
-				EntityType.ZOMBIE, GameUtils.getPlayer(owner.getName()));
+				EntityType.ZOMBIE, ownerGP);
 		
 		EntityZombie zombie = entity.getHandle();
 		zombie.targetSelector = new PathfinderGoalSelector(zombie.world.methodProfiler);
@@ -39,7 +39,7 @@ public class EntityOnKill extends Item implements PlayerKillInterface {
 		zombie.targetSelector.a(0, new PathfinderAttackEnemies<>(
 				zombie, EntityLiving.class, 50, true, false, GameUtils.getTargetPredicate(getTeam())));
 
-		zombie.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(5);
+		zombie.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(6);
 		entity.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1), true);
 		zombie.setBaby(false);
 		BukkitRunnable runnable = new BukkitRunnable() {

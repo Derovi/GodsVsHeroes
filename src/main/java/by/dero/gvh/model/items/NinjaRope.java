@@ -14,6 +14,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -69,6 +70,9 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
 
     @Override
     public void onProjectileHit (ProjectileHitEvent event) {
+        for (Entity ent : event.getEntity().getPassengers()) {
+            ent.remove();
+        }
         event.getEntity().remove();
         Location at = event.getEntity().getLocation();
 

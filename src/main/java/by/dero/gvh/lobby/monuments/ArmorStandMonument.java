@@ -16,9 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static by.dero.gvh.model.Drawings.spawnMovingCircle;
 
 public class ArmorStandMonument extends Monument {
@@ -26,14 +23,15 @@ public class ArmorStandMonument extends Monument {
     private final double radius = 0.8;
     private int unlocktime = 0;
     private ArmorStand armorStand;
-    private final List<BukkitRunnable> runnables = new ArrayList<>();
+    private BukkitRunnable particles;
+    private boolean loaded = false;
 
     public ArmorStandMonument(DirectedPosition position, String className, Player owner) {
         super(position, className, owner);
     }
 
     private void drawParticles() {
-        final BukkitRunnable runnable = new BukkitRunnable() {
+        particles = new BukkitRunnable() {
             final Location st = armorStand.getLocation().clone();
             double angle = 0;
             @Override
@@ -80,13 +78,16 @@ public class ArmorStandMonument extends Monument {
                 angle += Math.PI * turnPerSec / 5;
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 2);
-        runnables.add(runnable);
+        particles.runTaskTimer(Plugin.getInstance(), 0, 2);
     }
 
 
     @Override
     public void load() {
+        if (loaded) {
+            return;
+        }
+        loaded = true;
         final World at = Lobby.getInstance().getWorld();
         armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
         armorStand.setCustomNameVisible(true);
@@ -124,9 +125,11 @@ public class ArmorStandMonument extends Monument {
 
     @Override
     public void unload() {
-        for (BukkitRunnable runnable : runnables) {
-            runnable.cancel();
+        if (!loaded) {
+            return;
         }
+        loaded = false;
+        particles.cancel();
         armorStand.remove();
     }
 

@@ -28,8 +28,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class LootsManager implements Listener {
-    private final long cooldown = 1200;
+    private final long cooldown = 400;
     private final ArrayList<LootsNode> loots = new ArrayList<>();
+    private boolean loaded = false;
 
     public class LootsNode {
         private final CraftArmorStand stand;
@@ -106,6 +107,10 @@ public class LootsManager implements Listener {
     }
 
     public void load() {
+        if (loaded) {
+            return;
+        }
+        loaded = true;
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
@@ -127,7 +132,7 @@ public class LootsManager implements Listener {
                     "speed", Lang.get("loots.labelReady")));
         }
         for (final DirectedPosition pos : info.getResistancePoints()) {
-            loots.add(new LootsNode(pos.toLocation(info.getWorld()), new PotionEffect(PotionEffectType.HEAL, 240, 1),
+            loots.add(new LootsNode(pos.toLocation(info.getWorld()), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 240, 1),
                     "resistance", Lang.get("loots.labelReady")));
         }
     }
@@ -170,6 +175,10 @@ public class LootsManager implements Listener {
     }
 
     public void unload() {
+        if (!loaded) {
+            return;
+        }
+        loaded = false;
         for (LootsNode node : loots) {
             node.unload();
         }

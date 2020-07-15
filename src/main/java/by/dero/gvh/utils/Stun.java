@@ -1,5 +1,6 @@
 package by.dero.gvh.utils;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Lang;
@@ -16,6 +17,13 @@ public class Stun {
     public static void stunEntity(LivingEntity p, int latency) {
         new PotionEffect(PotionEffectType.BLINDNESS, latency, 3).apply(p);
         p.sendMessage(Lang.get("game.stunMessage"));
+        boolean isPlayer = p instanceof Player;
+        GamePlayer gp = null;
+        if (isPlayer) {
+            gp = GameUtils.getPlayer(p.getName());
+            gp.setDisabled(true);
+        }
+        GamePlayer finalGp = gp;
         final BukkitRunnable runnable = new BukkitRunnable() {
             final Location loc = p.getLocation().clone();
             int ticks = 0;
@@ -28,8 +36,10 @@ public class Stun {
                             0, 0, 0, 0);
                 }
                 ticks += 2;
-                if (ticks >= latency ||
-                        (p instanceof Player && ((Player) p).getGameMode().equals(GameMode.SPECTATOR))) {
+                if (ticks >= latency || (isPlayer && ((Player) p).getGameMode().equals(GameMode.SPECTATOR))) {
+                    if (isPlayer) {
+                        finalGp.setDisabled(false);
+                    }
                     this.cancel();
                 }
             }

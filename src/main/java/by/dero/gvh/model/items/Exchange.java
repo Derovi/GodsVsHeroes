@@ -37,20 +37,19 @@ public class Exchange extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
-        final LivingEntity target = GameUtils.getTargetEntity(player, maxRange, (e) -> GameUtils.isEnemy(e, getTeam()));
+        final LivingEntity target = GameUtils.getTargetEntity(owner, maxRange, (e) -> GameUtils.isEnemy(e, getTeam()));
 
-        final Location zxc = player.getLocation().clone();
+        final Location zxc = owner.getLocation().clone();
         if (target != null) {
             if (!cooldown.isReady()) {
                 return;
             }
             cooldown.reload();
-            drawSign(player);
+            drawSign(owner);
             drawSign(target);
-            player.teleport(target);
+            owner.teleport(target);
             target.teleport(zxc);
-            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ILLUSION_ILLAGER_MIRROR_MOVE, 1.07f, 1);
+            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ILLUSION_ILLAGER_MIRROR_MOVE, 1.07f, 1);
             target.getWorld().playSound(target.getLocation(), Sound.ENTITY_ILLUSION_ILLAGER_MIRROR_MOVE, 1.07f, 1);
         }
     }

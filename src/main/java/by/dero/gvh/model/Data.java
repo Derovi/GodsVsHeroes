@@ -76,7 +76,7 @@ public class Data {
         registerItem("eaglefly", EagleFlyInfo.class, EagleFly.class);
         registerItem("teleportpearls", ItemInfo.class, TeleportPearls.class);
         registerItem("entityonkill", EntityOnKillInfo.class, EntityOnKill.class);
-        registerItem("firebow", ItemInfo.class, FireBow.class);
+        registerItem("firebow", FireBowInfo.class, FireBow.class);
         registerItem("lightningbow", LightningBowInfo.class, LightningBow.class);
         registerItem("smokes", SmokesInfo.class, Smokes.class);
         registerItem("dragonfly", DragonFlyInfo.class, DragonFly.class);

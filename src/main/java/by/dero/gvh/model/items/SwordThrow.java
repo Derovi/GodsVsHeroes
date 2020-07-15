@@ -17,6 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -35,6 +36,9 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
         damage = info.getDamage();
         material = info.getMaterial();
         meleeDamage = info.getMeleeDamage();
+
+        owner.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024.0D);
+        owner.saveData();
     }
 
     @Override

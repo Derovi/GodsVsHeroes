@@ -50,6 +50,7 @@ public abstract class Game implements Listener {
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private MapManager mapManager;
+    protected boolean loaded = false;
 
     public Stats getStats() {
         return stats;
@@ -111,7 +112,7 @@ public abstract class Game implements Listener {
             info.setStatus(RealmStatus.GAME_STARTED_RESTRICTED);
         }
         lobby = null;
-        BukkitRunnable cooldownMessageUpdater = new BukkitRunnable() {
+        SafeRunnable cooldownMessageUpdater = new SafeRunnable() {
             @Override
             public void run() {
                 for (GamePlayer player : getPlayers().values()) {
@@ -133,10 +134,10 @@ public abstract class Game implements Listener {
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
         runnables.add(cooldownMessageUpdater);
 
-        BukkitRunnable borderChecker = new BukkitRunnable() {
+        SafeRunnable borderChecker = new SafeRunnable() {
             final DirectedPosition[] borders = getInfo().getMapBorders();
             final String desMsg = Lang.get("game.desertionMessage");
-
+            final HashMap<UUID, Vector> lastPos = new HashMap<>();
             @Override
             public void run() {
                 for (LivingEntity entity : Minigame.getInstance().getWorld().getLivingEntities()) {
@@ -153,7 +154,8 @@ public abstract class Game implements Listener {
                     }
                     if (newVelocity != null) {
                         if (!entity.isInsideVehicle()) {
-                            entity.setVelocity(newVelocity);
+                            entity.teleport(lastPos.get(entity.getUniqueId()).toLocation(entity.getWorld()));
+//                            entity.setVelocity(newVelocity);
                         } else {
                             newVelocity = newVelocity.multiply(0.5);
                             if (entity.getVehicle() instanceof Chicken) {
@@ -187,6 +189,8 @@ public abstract class Game implements Listener {
                         if (entity instanceof Player) {
                             entity.sendMessage(desMsg);
                         }
+                    } else {
+                        lastPos.put(entity.getUniqueId(), entity.getLocation().toVector());
                     }
                 }
             }
@@ -226,11 +230,6 @@ public abstract class Game implements Listener {
 
     private void chooseTeams() {
         final int cnt = getInfo().getTeamCount();
-//        int zxc = 0;
-//        for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
-//            gp.setTeam(zxc % cnt);
-//            zxc++;
-//        }
         int[] teams = new int[cnt];
 
         final Stack<GamePlayer> left = new Stack<>();
@@ -276,6 +275,7 @@ public abstract class Game implements Listener {
         }
 
         state = State.FINISHING;
+        this.unload();
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
         if (Plugin.getInstance().getSettings().isCristalix()) {
@@ -283,14 +283,16 @@ public abstract class Game implements Listener {
             info.setStatus(RealmStatus.GAME_ENDING);
         }
 
-        for (GamePlayer player : players.values()) {
-            player.getPlayer().leaveVehicle();
-            if (player.getTeam() == winnerTeam) {
-                rewardManager.give("winGame", player.getPlayer());
+        for (GamePlayer gp : players.values()) {
+            Player player = gp.getPlayer();
+            player.setGameMode(GameMode.SURVIVAL);
+            player.leaveVehicle();
+            if (gp.getTeam() == winnerTeam) {
+                rewardManager.give("winGame", player);
             } else {
-                rewardManager.give("loseGame", player.getPlayer());
+                rewardManager.give("loseGame", player);
             }
-            player.getPlayer().setFireTicks(0);
+            player.setFireTicks(0);
         }
 
         for (LivingEntity entity: Bukkit.getWorld(getInfo().getWorld()).getLivingEntities()) {
@@ -301,7 +303,6 @@ public abstract class Game implements Listener {
             }
         }
 
-        this.unload();
         afterParty = new AfterParty(this, winnerTeam);
         afterParty.start();
         final BukkitRunnable runnable = new BukkitRunnable() {
@@ -365,18 +366,31 @@ public abstract class Game implements Listener {
         Plugin.getInstance().getData().loadRewards(rewardManager);
     }
 
-    public abstract void load();
+    public boolean load() {
+        if (loaded) {
+            return false;
+        }
+        loaded = true;
+        return true;
+    }
 
-    public void unload() {
+    public boolean unload() {
+        if (!loaded) {
+            return false;
+        }
+        loaded = false;
         for (final BukkitRunnable runnable : runnables) {
             runnable.cancel();
         }
-        mapManager.finish();
+        runnables.clear();
+        if (mapManager != null) {
+            mapManager.finish();
+        }
         Minigame.getInstance().getLiftManager().unload();
         Minigame.getInstance().getLootsManager().unload();
-        runnables.clear();
 
         Minigame.getInstance().getGameEvents().getDamageCause().clear();
+        return true;
     }
 
     public void addPlayer(Player player) {
@@ -499,7 +513,7 @@ public abstract class Game implements Listener {
         }
         MessagingUtils.sendTitle(Lang.get("game.dead"), player, 0, 20, 0);
 
-        new BukkitRunnable() {
+        SafeRunnable runnable = new SafeRunnable() {
             int counter = respawnTime;
             @Override
             public void run() {
@@ -517,7 +531,9 @@ public abstract class Game implements Listener {
                         replace("%time%", MessagingUtils.getTimeString(counter / 20, false)), player.getPlayer());
                 counter -= 20;
             }
-        }.runTaskTimer(Plugin.getInstance(), 0, 20);
+        };
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
+        runnables.add(runnable);
     }
 
     public MapManager getMapManager() {
@@ -550,5 +566,9 @@ public abstract class Game implements Listener {
 
     public RewardManager getRewardManager () {
         return rewardManager;
+    }
+
+    protected void setState (State state) {
+        this.state = state;
     }
 }

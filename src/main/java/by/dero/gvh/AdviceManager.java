@@ -5,7 +5,6 @@ import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class AdviceManager {

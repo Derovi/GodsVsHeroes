@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -23,6 +24,9 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
     public KnifeThrow(String name, int level, Player owner) {
         super(name, level, owner);
         info = (KnifeThrowInfo) getInfo();
+
+        owner.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024.0D);
+        owner.saveData();
     }
 
     @Override

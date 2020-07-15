@@ -1,6 +1,5 @@
 package by.dero.gvh.lobby.interfaces;
 
-import com.sk89q.worldedit.util.gson.GsonUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

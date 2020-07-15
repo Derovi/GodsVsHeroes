@@ -1,7 +1,9 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Cooldown;
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -14,6 +16,7 @@ import java.util.*;
 
 public class Item {
     protected final Player owner;
+    protected GamePlayer ownerGP = null;
     protected final String name;
     private final int level;
     private int team = -1;
@@ -39,6 +42,9 @@ public class Item {
         this.name = name;
         this.level = level;
         this.owner = owner;
+        if (Game.getInstance() != null) {
+            this.ownerGP = GameUtils.getPlayer(owner.getName());
+        }
 
         cooldown = new Cooldown(getInfo().getCooldown());
         cooldown.makeReady();

@@ -45,7 +45,8 @@ public class Stats {
     public void addExp(String name, Integer value) {
         expGained.put(name, expGained.getOrDefault(name, 0) + value);
 
-        if (Game.getInstance() instanceof DisplayInteractInterface) {
+        if (Game.getInstance().getState().equals(Game.State.GAME) &&
+                Game.getInstance() instanceof DisplayInteractInterface) {
             ((DisplayInteractInterface) Game.getInstance()).updateDisplays();
         }
     }

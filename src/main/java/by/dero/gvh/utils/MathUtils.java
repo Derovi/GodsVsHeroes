@@ -115,12 +115,11 @@ public class MathUtils {
     public static Location getGoodInCylinder(Location loc, double minradius, double radius) {
         final Location startLoc = loc.clone();
         final DirectedPosition[] poses = Game.getInstance().getInfo().getMapBorders();
-        int zxc = 0;
         do {
             loc = MathUtils.randomCylinder(loc.clone(), radius, 0);
         } while (poses[0].getX() > loc.getX() || poses[0].getZ() > loc.getZ() ||
                 poses[1].getX() < loc.getX() || poses[1].getZ() < loc.getZ() ||
-                startLoc.distance(loc) < minradius || ++zxc < 10);
+                startLoc.distance(loc) < minradius);
 
         while (loc.getBlock().getType().equals(Material.AIR) &&
                 loc.clone().add(0, 1,0 ).getBlock().getType().equals(Material.AIR) &&
