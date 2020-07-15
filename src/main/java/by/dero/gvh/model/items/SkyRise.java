@@ -15,6 +15,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 		}
 		cooldown.reload();
 
-		PlayerUtils.jumpUp(owner, 23);
+		owner.setVelocity(new Vector(0, 1.4, 0));
 		for (GameObject go : GameUtils.getGameObjects()) {
 			LivingEntity ent = go.getEntity();
 			Location loc = new Location(owner.getWorld(),

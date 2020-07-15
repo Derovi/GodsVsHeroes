@@ -9,8 +9,9 @@
       "material": "SNOW_BALL",
       "displayName": "§cStun Rocks",
       "lore": [
-        "§aОтомсти буржуям",
-        "§6Уровень 1"
+        "§fРадиус §8» §b%radius% §f1.5 блока.",
+        "§fДлительность §8» §b%duration% §fсек.",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 2
     },

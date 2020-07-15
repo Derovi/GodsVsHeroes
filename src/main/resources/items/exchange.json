@@ -9,8 +9,8 @@
       "material": "STICK",
       "displayName": "§cExchange",
       "lore": [
-        "§aПоменяйтесь местами с тем, на кого смотрите.",
-        "§6Уровень 1"
+        "§fМакс. расстояние §8» §b%maxRange% §fблоков",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 1
     },

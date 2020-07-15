@@ -22,14 +22,12 @@ import org.bukkit.util.Vector;
 public class WebThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final float force;
     private final int duration;
-    private final int level;
 
     public WebThrow(String name, int level, Player owner) {
         super(name, level, owner);
         WebThrowInfo info = ((WebThrowInfo) getInfo());
         force = info.getForce();
         duration = info.getDuration();
-        this.level = info.getLevel();
     }
 
     @Override
@@ -60,7 +58,7 @@ public class WebThrow extends Item implements PlayerInteractInterface, InfiniteR
             smartFallingBlock.setVelocity(new Vector(0,0,0));
             GameObject go = GameUtils.getObject((LivingEntity) entity);
             if (go != null) {
-                go.addEffect(new PotionEffect(PotionEffectType.SLOW, duration, level));
+                go.addEffect(new PotionEffect(PotionEffectType.SLOW, duration, 3));
             }
             new BukkitRunnable() {
                 @Override
@@ -73,7 +71,7 @@ public class WebThrow extends Item implements PlayerInteractInterface, InfiniteR
         int playerTeam = ownerGP.getTeam();
         smartFallingBlock.setOnEnter((Entity entity) -> {
             if (entity instanceof LivingEntity && GameUtils.isEnemy(entity, playerTeam)) {
-                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, duration, level));
+                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, duration, 3));
             }
         });
     }

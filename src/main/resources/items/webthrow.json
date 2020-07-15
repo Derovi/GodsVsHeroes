@@ -4,22 +4,21 @@
   "levels": [
     {
       "force": 0.8,
-      "level": 3,
       "duration": 80,
       "cooldown": 160,
       "cost": 80,
       "material": "WEB",
       "displayName": "§cWeb throw",
       "lore": [
-        "§aНажмите, что кинуть паутину.",
-        "§6Уровень 1"
+        "§fУровень эффекта §8» §b4",
+        "§fДлительность §8» §b%duration% §fсек.",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 1
     },
     {
       "force": 0.8,
-      "level": 3,
-      "duration": 80,
+      "duration": 100,
       "cooldown": 160,
       "cost": 100,
       "material": "WEB",
@@ -32,8 +31,7 @@
     },
     {
       "force": 0.8,
-      "level": 2,
-      "duration": 80,
+      "duration": 120,
       "cooldown": 160,
       "cost": 120,
       "material": "WEB",
@@ -46,7 +44,6 @@
     },
     {
       "force": 0.8,
-      "multiplier": 0.35,
       "duration": 80,
       "cooldown": 160,
       "cost": 140,
@@ -60,7 +57,6 @@
     },
     {
       "force": 0.8,
-      "multiplier": 0.3,
       "duration": 80,
       "cooldown": 160,
       "cost": 160,

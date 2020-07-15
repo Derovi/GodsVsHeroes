@@ -1,6 +1,7 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
@@ -14,16 +15,18 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.UUID;
 
 public class MagicRod extends Item implements PlayerInteractInterface {
     private final double damage;
+    private final int duration;
     public MagicRod(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        damage = ((MagicRodInfo) getInfo()).getDamage();
+        MagicRodInfo info = (MagicRodInfo) getInfo();
+        damage = info.getDamage();
+        duration = info.getDuration();
     }
 
     @Override
@@ -34,13 +37,9 @@ public class MagicRod extends Item implements PlayerInteractInterface {
         cooldown.reload();
 
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 1.07f, 1);
-        new BukkitRunnable() {
+        BukkitRunnable runnable = new BukkitRunnable() {
             double ticks = 0;
-            final Vector st = new Vector(
-                    Math.random(),
-                    Math.random(),
-                    Math.random()
-            ).normalize();
+            int time = 0;
             final Location start = owner.getLocation().clone().add(owner.getLocation().getDirection().multiply(2));
             final HashSet<UUID> stroke = new HashSet<>();
             @Override
@@ -56,10 +55,13 @@ public class MagicRod extends Item implements PlayerInteractInterface {
                 }
                 Drawings.drawCircleInFront(start, MathUtils.sin(ticks) * 3,0, Particle.SPELL_WITCH);
                 ticks += Math.PI / 10;
-                if (ticks >= 10000) {
+                time++;
+                if (time >= duration) {
                     this.cancel();
                 }
             }
-        }.runTaskTimer(Plugin.getInstance(), 0, 1);
+        };
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 1);
+        Game.getInstance().getRunnables().add(runnable);
     }
 }

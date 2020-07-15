@@ -9,7 +9,10 @@
       "cost": 80,
       "material": "FEATHER",
       "displayName": "§cDragon egg",
-      "lore": [],
+      "lore": [
+        "§fДлительность §8» §b%duration% §fсек.",
+        "§fКулдаун §8» §b%cooldown% §fсек."
+      ],
       "amount": 1
     },
     {

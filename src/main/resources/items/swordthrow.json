@@ -10,8 +10,9 @@
       "material": "IRON_SWORD",
       "displayName": "§cSword throw",
       "lore": [
-        "§aРаньте своих врагов!",
-        "§6Уровень 1"
+        "§fУрон от атаки §8» §b%meleeDamage%§c❤",
+        "§fУрон от броска §8» §b%damage%§c❤",
+        "§fКулдаун броска §8» §b%cooldown% §fсек."
       ],
       "amount": 1
     },

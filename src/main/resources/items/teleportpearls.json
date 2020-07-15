@@ -8,8 +8,8 @@
       "material": "ENDER_PEARL",
       "displayName": "§cTeleport pearls",
       "lore": [
-        "§aТелепорт!",
-        "§6Уровень 1"
+        "§fУрон по себе §8» §b3§c❤",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 2
     }

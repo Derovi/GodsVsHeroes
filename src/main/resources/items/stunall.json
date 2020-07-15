@@ -5,20 +5,22 @@
     {
       "cooldown": 1200,
       "radius": 5.0,
-      "latency": 70,
+      "duration": 70,
       "cost": 80,
       "material": "NETHER_STAR",
       "displayName": "§cStun!!!",
       "lore": [
-        "§aОбездвижьте и ослепите врагов !",
-        "§6Уровень 1"
+        "§fРадиус §8» §b%radius% §fблоков.",
+        "§fВысота §8» §b%radius% §fблоков.",
+        "§fДлительность §8» §b%duration% §fсек.",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 1
     },
     {
       "cooldown": 1200,
       "radius": 5.0,
-      "latency": 80,
+      "duration": 80,
       "cost": 100,
       "material": "NETHER_STAR",
       "displayName": "§cStun!!!",
@@ -31,7 +33,7 @@
     {
       "cooldown": 1200,
       "radius": 5.0,
-      "latency": 90,
+      "duration": 90,
       "cost": 120,
       "material": "NETHER_STAR",
       "displayName": "§cStun!!!",

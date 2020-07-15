@@ -20,12 +20,14 @@ import java.util.UUID;
 public class ChainLightning extends Item implements PlayerInteractInterface {
     private final double radius;
     private final double damage;
+    private final double otherDamage;
 
     public ChainLightning(final String name, final int level, final Player owner) {
         super(name, level, owner);
         final ChainLightningInfo info = (ChainLightningInfo) getInfo();
         damage = info.getDamage();
         radius = info.getRadius();
+        otherDamage = info.getOtherDamage();
     }
 
     @Override
@@ -66,7 +68,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface {
                     }
                 }
                 if (curDamage == damage) {
-                    curDamage /= 2;
+                    curDamage = otherDamage;
                 }
                 if (next == null) {
                     this.cancel();

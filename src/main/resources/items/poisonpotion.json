@@ -5,20 +5,22 @@
     {
       "cooldown": 200,
       "radius": 4.0,
-      "latency": 80,
+      "duration": 80,
       "cost": 80,
       "material": "SPLASH_POTION",
       "displayName": "§cPoison Potion",
       "lore": [
-        "§aТравите своих врагов!",
-        "§6Уровень 1"
+        "§fУровень эффекта §8» §b2",
+        "§fРадиус §8» §b%radius% §fблоков.",
+        "§fДлительность §8» §b%duration% §fсек.",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 1
     },
     {
       "cooldown": 180,
       "radius": 4.0,
-      "latency": 80,
+      "duration": 80,
       "cost": 100,
       "material": "SPLASH_POTION",
       "displayName": "§cPoison Potion",
@@ -31,7 +33,7 @@
     {
       "cooldown": 160,
       "radius": 4.0,
-      "latency": 80,
+      "duration": 80,
       "cost": 120,
       "material": "SPLASH_POTION",
       "displayName": "§cPoison Potion",

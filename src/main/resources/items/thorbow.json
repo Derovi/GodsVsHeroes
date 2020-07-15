@@ -9,8 +9,8 @@
       "material": "BOW",
       "displayName": "§cThor bow",
       "lore": [
-        "§aЛук тора",
-        "§6Уровень 1"
+        "§fУрон молнии §8» §b%damage%§c❤",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 1
     },

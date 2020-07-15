@@ -4,7 +4,7 @@ import by.dero.gvh.model.ItemInfo;
 
 public class PoisonPotionInfo extends ItemInfo {
     private double radius;
-    private int latency;
+    private int duration;
 
     public double getRadius() {
         return radius;
@@ -14,11 +14,11 @@ public class PoisonPotionInfo extends ItemInfo {
         this.radius = radius;
     }
 
-    public int getLatency() {
-        return latency;
+    public int getDuration () {
+        return duration;
     }
 
-    public void setLatency(int latency) {
-        this.latency = latency;
+    public void setDuration (int duration) {
+        this.duration = duration;
     }
 }

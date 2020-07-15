@@ -11,8 +11,10 @@
       "material": "FIREBALL",
       "displayName": "§cMeteor",
       "lore": [
-        "§aМетеорит.",
-        "§6Уровень 1"
+        "§fУрон §8» §b%damage%§c❤",
+        "§fРадиус §8» §b%radius% §fблоков",
+        "§fРадиус каста §8» §b%range% §fблоков",
+        "§fКулдаун §8» §b%cooldown% §fсек."
       ],
       "amount": 1
     },
