@@ -17,7 +17,7 @@ public class BridgeUtils {
     }
 
     public static void toLobby(Player player, String message) {
-        ServerInfo lobbyServer = Plugin.getInstance().getServerData().getLobbyServer();
+        ServerInfo lobbyServer = Plugin.getInstance().getServerData().getSavedLobbyServer();
         if (lobbyServer != null) {
             if (message != null) {
                 player.sendMessage(message);

@@ -323,7 +323,7 @@ public abstract class Game implements Listener {
                 afterParty.stop();
                 afterParty = null;
                 runnable.cancel();
-                ServerInfo lobbyServer = Plugin.getInstance().getServerData().getLobbyServer();
+                ServerInfo lobbyServer = Plugin.getInstance().getServerData().getSavedLobbyServer();
                 Set<String> playerNames = new HashSet<>(players.keySet());
                 for (String playerName : playerNames) {
                     Player player = players.get(playerName).getPlayer();

@@ -80,7 +80,6 @@ public class Plugin extends JavaPlugin implements Listener {
                 settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase()));
         serverData = new ServerData(new MongoDBStorage(
                 settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
-        serverData.load();
         StorageInterface reportDataStorage = new LocalStorage();
         if (settings.getReportDataStorageType().equals("mongodb")) {
             reportDataStorage = new MongoDBStorage(

@@ -32,7 +32,7 @@ public class CompassInterface extends Interface {
     private void updateItems() {
         clear();
         int index = 0;
-        for (ServerInfo info : Plugin.getInstance().getServerData().getGameServers()) {
+        for (ServerInfo info : Plugin.getInstance().getServerData().getSavedGameServers()) {
             ItemStack itemStack = null;
             int count = info.getOnline();
             if (count == 0) {

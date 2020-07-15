@@ -45,7 +45,7 @@ public class PortalManager implements Listener {
 
     private void playerEnteredPortal(LobbyPlayer player) {
         String serverName = null;
-        for (ServerInfo info : Plugin.getInstance().getServerData().getGameServers()) {
+        for (ServerInfo info : Plugin.getInstance().getServerData().getSavedGameServers()) {
             if (info.getType() == ServerType.GAME && info.getStatus().equals(Game.State.WAITING.toString())) {
                 serverName = info.getName();
                 break;
