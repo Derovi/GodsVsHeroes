@@ -7,10 +7,9 @@ import org.bukkit.enchantments.Enchantment;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.*;
 
 public class ItemInfo {
     static class EnchantInfo {
@@ -50,12 +49,16 @@ public class ItemInfo {
         this.description = description;
     }
 
-    public void prepare() {
+    public void prepare(int level) {
         if (material == null) {
             material = description.getMaterial();
         }
         if (displayName == null) {
-            displayName = parseString(description.getDisplayName());
+            if (description.getDisplayName() != null) {
+                displayName = parseString(description.getDisplayName());
+            } else {
+                displayName = "§c" + Lang.get("items." + description.getName()) + " §9" + romeNumber(level);
+            }
         }
         if (lore == null) {
             lore = new ArrayList<>();
@@ -63,6 +66,24 @@ public class ItemInfo {
                 lore.add(parseString(string));
             }
         }
+    }
+
+    public String romeNumber(int number) {
+        switch (number) {
+            case 1:
+                return "I";
+            case 2:
+                return "II";
+            case 3:
+                return "III";
+            case 4:
+                return "IV";
+            case 5:
+                return "V";
+            case 6:
+                return "VI";
+        }
+        return Integer.toString(number);
     }
 
     public String parseString(String string) {
@@ -86,13 +107,14 @@ public class ItemInfo {
                         String fieldName = data.substring(0, comaPos);
                         double multiplier = Double.parseDouble(data.substring(comaPos + 1, data.length()));
                         double fieldValue = getField(fieldName).getDouble(this);
-                        result.append(fieldValue * multiplier);
+                        result.append(new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.ENGLISH)).format(fieldValue * multiplier));
                     } catch (Exception ex) {
                         System.out.println("Field with multiplier not found: " + data + " in " + description.getName());
                         ex.printStackTrace();
                     }
                 } else {
                     try {
+                        if (getField(data).)
                         result.append(getField(data).get(this));
                     } catch (Exception ex) {
                         System.out.println("Field not found: " + data + " in " + description.getName());

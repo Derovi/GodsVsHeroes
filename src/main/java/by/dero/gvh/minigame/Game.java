@@ -1,9 +1,6 @@
 package by.dero.gvh.minigame;
 
-import by.dero.gvh.AdviceManager;
-import by.dero.gvh.GameMob;
-import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Plugin;
+import by.dero.gvh.*;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.*;
@@ -50,6 +47,7 @@ public abstract class Game implements Listener {
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private MapManager mapManager;
+    private DeathAdviceManager deathAdviceManager;
     protected boolean loaded = false;
 
     public Stats getStats() {
@@ -68,6 +66,7 @@ public abstract class Game implements Listener {
 
     public void start() {
         mapManager = new MapManager(Bukkit.getWorld(getInfo().getWorld()));
+        deathAdviceManager = new DeathAdviceManager();
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
             return;
@@ -439,6 +438,7 @@ public abstract class Game implements Listener {
         }
         players.remove(playerName);
         if (state == State.GAME) {
+            deathAdviceManager.forgetPlayer(player.getPlayer().getUniqueId());
             int tt = -1;
             for (GamePlayer gp : players.values()) {
                 if (tt == -1) {
@@ -504,15 +504,20 @@ public abstract class Game implements Listener {
         player.teleport(playerDeathLocations.get(player.getName()));
         player.setVelocity(new Vector(0,4,0));
         if (respawnTime == -1) {
-            MessagingUtils.sendTitle(Lang.get("game.livesNotLeft"), player, 0, 20, 0);
+            MessagingUtils.sendTitle(Lang.get("game.livesNotLeft"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
             return;
+        } else {
+            MessagingUtils.sendTitle(Lang.get("game.dead"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
         }
-        MessagingUtils.sendTitle(Lang.get("game.dead"), player, 0, 20, 0);
 
         SafeRunnable runnable = new SafeRunnable() {
             int counter = respawnTime;
             @Override
             public void run() {
+                if (counter < respawnTime && (respawnTime - counter) % 80 == 0) {
+                    MessagingUtils.sendSubtitle(deathAdviceManager.nextAdvice(gp), gp.getPlayer(), 0, 80, 0);
+                }
+
                 if (state == State.FINISHING) {
                     this.cancel();
                     return;

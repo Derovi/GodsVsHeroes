@@ -15,7 +15,7 @@ public class ItemDescription {
     private int slot = 0;
     private boolean invisible = false;
     private Material material = Material.BEDROCK;
-    private String displayName = "§fEmpty name";
+    private String displayName = null;
     private List<String> lore = new LinkedList<>();
     private List<ItemInfo> levels = new LinkedList<>();
 
@@ -62,7 +62,7 @@ public class ItemDescription {
             Gson gson = builder.create();
             for (JsonElement entry : object.get("levels").getAsJsonArray()) {
                 ItemInfo itemInfo = (ItemInfo) gson.fromJson(entry, itemInfoClass);
-                itemInfo.prepare();
+                itemInfo.prepare(result.getLevels().size() + 1);
                 result.getLevels().add(itemInfo);
             }
             return result;
