@@ -22,7 +22,7 @@ public class CompassInterface extends Interface {
                 updateItems();
             }
         };
-        interfaceUpdater.runTaskTimer(Plugin.getInstance(), 0, 20);
+        interfaceUpdater.runTaskTimer(Plugin.getInstance(), 0, 2);
     }
 
     @Override

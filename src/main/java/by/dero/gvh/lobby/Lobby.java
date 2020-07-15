@@ -68,7 +68,7 @@ public class Lobby implements PluginMode, Listener {
     public void onEnable() {
         instance = this;
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
-                ServerType.LOBBY);
+                ServerType.LOBBY, 300);
         try {
             info = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(), "lobby", "lobby",
                     ResourceUtils.readResourceFile("/lobby/lobby.json")), LobbyInfo.class);

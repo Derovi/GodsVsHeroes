@@ -89,8 +89,9 @@ public class ServerData {
         return gson.fromJson(document.toJson(), ServerInfo.class);
     }
 
-    public void register(String serverName, ServerType type) {
+    public void register(String serverName, ServerType type, int maxOnline) {
         ServerInfo serverInfo = new ServerInfo(serverName, type);
+        serverInfo.setMaxOnline(maxOnline);
         BasicDBObject dbObject = BasicDBObject.parse(gson.toJson(serverInfo));
         dbObject.put("_id", serverName);
         ReplaceOptions options = new ReplaceOptions();

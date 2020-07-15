@@ -28,6 +28,21 @@ public class BridgeUtils {
     }
 
     public static void redirectPlayer(Player player, String serverName) {
+        ServerInfo lobbyServer = Plugin.getInstance().getServerData().getSavedLobbyServer();
+        if (lobbyServer.getName().equals(serverName)) {
+            if (lobbyServer.getOnline() >= lobbyServer.getMaxOnline()) {
+                return;
+            }
+            lobbyServer.setOnline(lobbyServer.getOnline() + 1);
+        } else
+        for (ServerInfo info : Plugin.getInstance().getServerData().getSavedGameServers()) {
+            if (info.getName().equals(serverName)) {
+                if (info.getOnline() >= info.getMaxOnline()) {
+                    return;
+                }
+                info.setOnline(info.getOnline() + 1);
+            }
+        }
         if (Plugin.getInstance().getSettings().isCristalix()) {
             if (IRealmService.get().getRealmById(RealmId.of(serverName)).getStatus().equals(RealmStatus.WAITING_FOR_PLAYERS)) {
                 ITransferService.get().transfer(player.getUniqueId(), RealmId.of(serverName));
