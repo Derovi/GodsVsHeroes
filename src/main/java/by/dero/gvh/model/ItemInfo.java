@@ -114,7 +114,6 @@ public class ItemInfo {
                     }
                 } else {
                     try {
-                        if (getField(data).)
                         result.append(getField(data).get(this));
                     } catch (Exception ex) {
                         System.out.println("Field not found: " + data + " in " + description.getName());
