@@ -168,7 +168,8 @@
     "classSelected": "§bВаш класс §8» §f%class%",
     "expGained": "Опыт за игру §8» §b%exp%",
     "kills": "Убийств §8» §a%kills%",
-    "deaths": "Смертей §8» §c%deaths%"
+    "deaths": "Смертей §8» §c%deaths%",
+    "assists": "Помощей §8» §a%assists%"
   },
   "loots": {
     "labelHeal": "§aГотово! %pts%§c❤",

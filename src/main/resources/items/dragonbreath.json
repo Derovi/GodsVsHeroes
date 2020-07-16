@@ -11,14 +11,14 @@
     {
       "cooldown": 25,
       "radius": 7.0,
-      "damage": 4,
+      "damage": 3,
       "cost": 80,
       "amount": 8
     },
     {
       "cooldown": 25,
       "radius": 7.0,
-      "damage": 4,
+      "damage": 3,
       "cost": 100,
       "amount": 9
     },

@@ -201,7 +201,7 @@ public abstract class Game implements Listener {
         }
     }
 
-    public void onPlayerKilled(Player player, Player killer) {
+    public void onPlayerKilled(Player player, Player killer, Collection<Player> assists) {
         try {
             if (!player.equals(killer)) {
                 rewardManager.give("killEnemy", killer,
@@ -216,7 +216,13 @@ public abstract class Game implements Listener {
                         replace("%kilCode%", kilCode).replace("%kilClass%", kilClass).replace("%killer%", killer.getName()).
                         replace("%tarCode%", tarCode).replace("%tarClass%", tarClass).replace("%target%", player.getName()));
 
-                stats.addKill(player, killer);
+                if (assists != null) {
+                    String msg = rewardManager.getMessage("assist").replace("%enemy%", player.getName());
+                    for (Player pl : assists) {
+                        rewardManager.give("assist", pl, msg);
+                    }
+                }
+                stats.addKill(player, killer, assists);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

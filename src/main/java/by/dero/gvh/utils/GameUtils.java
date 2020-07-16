@@ -111,7 +111,6 @@ public class GameUtils {
     }
 
     public static void damage(double damage, LivingEntity target, LivingEntity killer, boolean hasDelay) {
-        Minigame.getInstance().getGameEvents().getDamageCause().put(target, killer);
         if (!hasDelay) {
             target.setNoDamageTicks(0);
         }

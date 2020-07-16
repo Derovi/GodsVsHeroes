@@ -6,6 +6,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ExchangeInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -37,18 +38,20 @@ public class Exchange extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(final PlayerInteractEvent event) {
-        final LivingEntity target = GameUtils.getTargetEntity(owner, maxRange, (e) -> GameUtils.isEnemy(e, getTeam()));
+        final LivingEntity target = GameUtils.getTargetEntity(owner, maxRange,
+                (e) -> e.getVehicle() == null && e.getPassengers().isEmpty() && GameUtils.isEnemy(e, getTeam()));
 
-        final Location zxc = owner.getLocation().clone();
         if (target != null) {
             if (!cooldown.isReady()) {
                 return;
             }
             cooldown.reload();
+            Bukkit.getServer().broadcastMessage(target.getName() + "");
+            Location oLoc = owner.getLocation(), tLoc = target.getLocation();
             drawSign(owner);
             drawSign(target);
-            owner.teleport(target);
-            target.teleport(zxc);
+            owner.teleport(new Location(tLoc.world, tLoc.x, tLoc.y, tLoc.z, oLoc.yaw, oLoc.pitch));
+            target.teleport(new Location(oLoc.world, oLoc.x, oLoc.y, oLoc.z, tLoc.yaw, tLoc.pitch));
             owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ILLUSION_ILLAGER_MIRROR_MOVE, 1.07f, 1);
             target.getWorld().playSound(target.getLocation(), Sound.ENTITY_ILLUSION_ILLAGER_MIRROR_MOVE, 1.07f, 1);
         }

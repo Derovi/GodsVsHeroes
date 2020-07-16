@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import ru.cristalix.core.permissions.IPermissionService;
 
 public class CommandChat implements Listener {
 	private String getMessageText(Player player, String text, boolean global) {
