@@ -5,11 +5,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class ThrowingSword extends ThrowingItem {
-    public ThrowingSword(Player player, ItemStack itemStack) {
+public class ThrowingMjolnir extends ThrowingItem {
+    public ThrowingMjolnir(Player player, ItemStack itemStack) {
         super(player.getLocation(), itemStack);
         setOwner(player);
-        setItemLength(0.8);
+        setItemLength(0.55);
         setPhysicsSpin(true);
         setRightArmPose(new Vector3f(player.getLocation().getPitch(),11, 0));
         setLiveTimeAfterStop(120);

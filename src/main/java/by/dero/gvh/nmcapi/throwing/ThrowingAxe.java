@@ -1,13 +1,13 @@
 package by.dero.gvh.nmcapi.throwing;
 
 import net.minecraft.server.v1_12_R1.Vector3f;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class ThrowingAxe extends ThrowingItem {
-    public ThrowingAxe(Player player, Material material) {
-        super(player.getLocation(), material);
+    public ThrowingAxe(Player player, ItemStack itemStack) {
+        super(player.getLocation(), itemStack);
         setOwner(player);
         setItemLength(0.55);
         setCenter(0.25);

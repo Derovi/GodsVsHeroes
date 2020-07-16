@@ -20,7 +20,7 @@ public class CommandChat implements Listener {
 		} else {
 			return Lang.get("commandChat.formatMessageAll").
 					replace("%sender%", player.getDisplayName()).
-					replace("%msg%", text.substring(1));
+					replace("%msg%", text);
 		}
 	}
 

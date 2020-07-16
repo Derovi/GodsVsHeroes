@@ -3,6 +3,7 @@ package by.dero.gvh.lobby.monuments;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.DirectedPosition;
@@ -99,25 +100,17 @@ public class ArmorStandMonument extends Monument {
             if (!name.startsWith("default")) {
                 continue;
             }
-            final Item item;
-            try {
-                item = Plugin.getInstance().getData().getItemNameToClass().
-                        get(name).getConstructor(String.class, int.class, Player.class).
-                        newInstance(name, 0, getOwner());
-            } catch (Exception e) {
-                e.printStackTrace();
+            final ItemInfo info = Plugin.getInstance().getData().getItems().get(name).getLevels().get(0);
+            if (info.getDescription().isInvisible()) {
                 continue;
             }
-            if (item.getDescription().isInvisible()) {
-                continue;
-            }
-            final int slot = item.getDescription().getSlot();
+            final int slot = info.getDescription().getSlot();
             final EntityEquipment eq = armorStand.getEquipment();
             switch (slot) {
-                case -1: eq.setHelmet(item.getItemStack()); break;
-                case -2: eq.setChestplate(item.getItemStack()); break;
-                case -3: eq.setLeggings(item.getItemStack()); break;
-                case -4: eq.setBoots(item.getItemStack()); break;
+                case -1: eq.setHelmet(info.getItemStack()); break;
+                case -2: eq.setChestplate(info.getItemStack()); break;
+                case -3: eq.setLeggings(info.getItemStack()); break;
+                case -4: eq.setBoots(info.getItemStack()); break;
             }
         }
         drawParticles();

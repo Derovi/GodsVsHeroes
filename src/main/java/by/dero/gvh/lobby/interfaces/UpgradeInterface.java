@@ -30,8 +30,7 @@ public class UpgradeInterface extends Interface {
     public void updateItemLine(int position, String itemName, PlayerInfo info) {
         int currentLevel = info.getItemLevel(className, itemName);
         addItem(position, 0,
-                Item.getItemStack(itemName,
-                        Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(currentLevel)));
+                Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(currentLevel).getItemStack());
         for (int index = 1; index <= currentLevel; ++index) {
             ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgraded"));

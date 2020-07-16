@@ -41,7 +41,8 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
         owner.saveData();
     }
 
-    @Override
+    // TODO damage
+    /*@Override
     public ItemStack getItemStack () {
         ItemStack axe = new ItemStack(material, 1);
 
@@ -63,7 +64,7 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
         axe = CraftItemStack.asBukkitCopy(nmsStack);
 
         return axe;
-    }
+    }*/
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -71,7 +72,7 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
             return;
         }
         cooldown.reload();
-        final ThrowingAxe axe = new ThrowingAxe(owner, material);
+        final ThrowingAxe axe = new ThrowingAxe(owner, getItemStack());
 
         final int slot = owner.getInventory().getHeldItemSlot();
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);

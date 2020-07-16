@@ -1,0 +1,33 @@
+{
+  "name": "mjolnir",
+  "slot": 0,
+  "material": "IRON_AXE",
+  "lore": [
+    "§fУрон от атаки §8» §b%%meleeDamage,0.5%%§c❤",
+    "§fУрон от броска §8» §b%%damage,0.5%%§c❤",
+    "§fКулдаун броска §8» §b%%cooldown,0.05%% §fсек."
+  ],
+  "levels": [
+    {
+      "cooldown": 100,
+      "damage": 15,
+      "meleeDamage": 8,
+      "cost": 80,
+      "amount": 1
+    },
+    {
+      "cooldown": 100,
+      "damage": 17,
+      "meleeDamage": 8,
+      "cost": 100,
+      "amount": 1
+    },
+    {
+      "cooldown": 100,
+      "damage": 20,
+      "meleeDamage": 8,
+      "cost": 120,
+      "amount": 1
+    }
+  ]
+}

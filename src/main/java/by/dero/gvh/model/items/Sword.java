@@ -17,6 +17,8 @@ public class Sword extends Item {
         owner.saveData();
     }
 
+    //TODO damage
+    /*
     @Override
     public ItemStack getItemStack () {
         ItemStack sword = new ItemStack(getInfo().getMaterial(), 1);
@@ -40,4 +42,6 @@ public class Sword extends Item {
 
         return sword;
     }
+
+     */
 }

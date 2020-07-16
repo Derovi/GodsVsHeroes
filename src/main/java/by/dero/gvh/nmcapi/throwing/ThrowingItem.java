@@ -45,7 +45,7 @@ public class ThrowingItem extends EntityArmorStand {
     private double expZ;
     private double sizeMultiplier = 1.0;
 
-    public ThrowingItem(Location loc, Material material) {
+    public ThrowingItem(Location loc, ItemStack itemStack) {
         super(((CraftWorld) loc.getWorld()).getHandle());
         armorStand = (ArmorStand) getBukkitEntity();
         xDir = loc.getDirection().getX();
@@ -58,7 +58,7 @@ public class ThrowingItem extends EntityArmorStand {
         this.setInvisible(true);
         this.setInvulnerable(true);
         this.noclip = true;
-        setItem(new ItemStack(material));
+        setItem(itemStack);
         expX = locX;
         expY = locY;
         expZ = locZ;

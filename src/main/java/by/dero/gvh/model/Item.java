@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class Item {
@@ -50,33 +51,6 @@ public class Item {
         cooldown.makeReady();
     }
 
-    public ItemStack getItemStack() {
-        return getItemStack(name, getInfo());
-    }
-
-    public static ItemStack getItemStack(String name, ItemInfo info) {
-        ItemStack itemStack = new ItemStack(info.getMaterial(), info.getAmount());
-
-        return setItemMeta(itemStack, name, info);
-    }
-
-    public static ItemStack setItemMeta(ItemStack itemStack, String name, ItemInfo info) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        for (ItemInfo.EnchantInfo enchantInfo : info.getEnchantments()) {
-            itemMeta.addEnchant(Enchantment.getByName(enchantInfo.getName()), enchantInfo.getLevel(), enchantInfo.isVisible());
-        }
-        itemMeta.setDisplayName(info.getDisplayName());
-        List<String> lore = new LinkedList<>(info.getLore());
-        lore.add(Plugin.getInstance().getData().getItemNameToTag().get(name));
-        itemMeta.setLore(lore);
-        itemMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
-        itemMeta.addEnchant(Enchantment.DURABILITY, Integer.MAX_VALUE, true);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.setUnbreakable(true);
-        itemStack.setItemMeta(itemMeta);
-        return itemStack;
-    }
-
     public static String getTag(String name) {
         StringBuilder tag = new StringBuilder();
         int hashcode = Math.abs(name.hashCode());
@@ -97,6 +71,10 @@ public class Item {
             description = Plugin.getInstance().getData().getItemDescription(name);
         }
         return description;
+    }
+
+    public ItemStack getItemStack() {
+        return getInfo().getItemStack();
     }
 
     public ItemInfo getInfo() {

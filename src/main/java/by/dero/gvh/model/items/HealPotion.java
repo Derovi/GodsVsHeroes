@@ -31,10 +31,12 @@ public class HealPotion extends Item implements ProjectileHitInterface,
         allyHeal = info.getAllyHeal();
     }
 
+    //TODO damage
+    /*
     @Override
     public ItemStack getItemStack () {
         return setItemMeta(new Potion(PotionType.INSTANT_HEAL, 1, true).toItemStack(getInfo().getAmount()), name, getInfo());
-    }
+    }*/
 
     @Override
     public void onProjectileHit(final ProjectileHitEvent event) {

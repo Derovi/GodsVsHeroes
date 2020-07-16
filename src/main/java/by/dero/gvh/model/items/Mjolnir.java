@@ -3,10 +3,14 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.ItemInfo;
+import by.dero.gvh.model.NbtAddition;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
-import by.dero.gvh.model.itemsinfo.SwordThrowInfo;
-import by.dero.gvh.nmcapi.throwing.ThrowingSword;
+import by.dero.gvh.model.itemsinfo.AxeThrowInfo;
+import by.dero.gvh.model.itemsinfo.MjolnirInfo;
+import by.dero.gvh.nmcapi.throwing.ThrowingAxe;
+import by.dero.gvh.nmcapi.throwing.ThrowingMjolnir;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
@@ -26,13 +30,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class SwordThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class Mjolnir extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final Material material;
     private final double damage;
     private final int meleeDamage;
-    public SwordThrow(String name, int level, Player owner) {
+    public Mjolnir(String name, int level, Player owner) {
         super(name, level, owner);
-        final SwordThrowInfo info = (SwordThrowInfo) getInfo();
+        final MjolnirInfo info = (MjolnirInfo) getInfo();
         damage = info.getDamage();
         material = info.getMaterial();
         meleeDamage = info.getMeleeDamage();
@@ -41,30 +45,26 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
         owner.saveData();
     }
 
-    // TODO damage
-    /*@Override
-    public ItemStack getItemStack () {
-        ItemStack sword = new ItemStack(material, 1);
-
-        sword = setItemMeta(sword, name, getInfo());
-        net.minecraft.server.v1_12_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(sword);
+    @NbtAddition
+    public static void addNbt(ItemInfo info, ItemStack itemStack) {
+        System.out.println("addNbt");
+        net.minecraft.server.v1_12_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);
         NBTTagCompound compound = nmsStack.hasTag() ? nmsStack.getTag() : new NBTTagCompound();
         NBTTagList modifiers = new NBTTagList();
         NBTTagCompound damage = new NBTTagCompound();
         damage.set("AttributeName", new NBTTagString("generic.attackDamage"));
         damage.set("Name", new NBTTagString("generic.attackDamage"));
-        damage.set("Amount", new NBTTagInt(meleeDamage));
+        damage.set("Amount", new NBTTagInt(((MjolnirInfo) info).getMeleeDamage()));
         damage.set("Operation", new NBTTagInt(0));
         damage.set("UUIDLeast", new NBTTagInt(894654));
         damage.set("UUIDMost", new NBTTagInt(2872));
         damage.set("Slot", new NBTTagString("mainhand"));
         modifiers.add(damage);
         compound.set("AttributeModifiers", modifiers);
+        compound.set("aether", new NBTTagString("thor"));
         nmsStack.setTag(compound);
-        sword = CraftItemStack.asBukkitCopy(nmsStack);
-
-        return sword;
-    }*/
+        itemStack.setItemMeta(CraftItemStack.asBukkitCopy(nmsStack).getItemMeta());
+    }
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -72,54 +72,54 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
             return;
         }
         cooldown.reload();
-        final ThrowingSword sword = new ThrowingSword(owner, getItemStack());
+        final ThrowingMjolnir axe = new ThrowingMjolnir(owner, getItemStack());
 
         final int slot = owner.getInventory().getHeldItemSlot();
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
-        sword.spawn();
-        sword.setOnHitEntity(() -> {
-            if (GameUtils.isEnemy(sword.getHoldEntity(), getTeam())) {
-                GameUtils.damage(damage, (LivingEntity) sword.getHoldEntity(), owner);
-                Location at = sword.getItemPosition().toLocation(owner.getWorld());
-                at.getWorld().spawnParticle(Particle.BLOCK_CRACK, at.clone().add(0,0,0), 20,
+        axe.spawn();
+        axe.setOnHitEntity(() -> {
+            if (GameUtils.isEnemy(axe.getHoldEntity(), getTeam())) {
+                Location at = axe.getItemPosition().toLocation(owner.getWorld());
+                at.getWorld().spawnParticle(Particle.BLOCK_CRACK, at, 50,
                         new MaterialData(Material.REDSTONE_BLOCK));
+                GameUtils.damage(damage, (LivingEntity) axe.getHoldEntity(), owner);
             }
         });
-        sword.setOnHitBlock(() -> {
+        axe.setOnHitBlock(() -> {
             new BukkitRunnable() {
                 double angle = 0;
                 @Override
                 public void run () {
-                    if (sword.isRemoved()) {
+                    if (axe.isRemoved()) {
                         this.cancel();
                         return;
                     }
                     angle += Math.PI / 10;
                     for (int i = 0; i < 2; i++) {
                         double al = angle + Math.PI * i;
-                        Location at = sword.getItemPosition().toLocation(owner.getWorld()).
+                        Location at = axe.getItemPosition().toLocation(owner.getWorld()).
                                 add(MathUtils.cos(al)*0.5, 1, MathUtils.sin(al)*0.5);
                         owner.spawnParticle(Particle.VILLAGER_HAPPY, at, 0, 0, 0, 0);
                     }
                 }
             }.runTaskTimer(Plugin.getInstance(), 0, 5);
-            owner.getWorld().playSound(sword.getItemPosition().toLocation(owner.getWorld()),
+            owner.getWorld().playSound(axe.getItemPosition().toLocation(owner.getWorld()),
                     Sound.BLOCK_SHULKER_BOX_OPEN, 1.07f, 1);
         });
-        sword.setOnOwnerPickUp(() -> {
+        axe.setOnOwnerPickUp(() -> {
             if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
-                owner.getInventory().setItem(slot, getItemStack());
+                owner.getInventory().setItem(slot, getInfo().getItemStack());
                 owner.getInventory().getItem(slot).setAmount(1);
             }
-            sword.remove();
+            axe.remove();
         });
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                sword.remove();
+                axe.remove();
             }
         };
-        runnable.runTaskLater(Plugin.getInstance(), cooldown.getDuration()-1);
+        runnable.runTaskLater(Plugin.getInstance(), cooldown.getDuration());
         Game.getInstance().getRunnables().add(runnable);
     }
 }

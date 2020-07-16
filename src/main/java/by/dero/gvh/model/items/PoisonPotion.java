@@ -30,11 +30,12 @@ public class PoisonPotion extends Item implements InfiniteReplenishInterface,
         duration = info.getDuration();
     }
 
-
+    //TODO damage
+    /*
     @Override
     public ItemStack getItemStack () {
         return setItemMeta(new Potion(PotionType.POISON, 1, true).toItemStack(getInfo().getAmount()), name, getInfo());
-    }
+    }*/
     @Override
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();

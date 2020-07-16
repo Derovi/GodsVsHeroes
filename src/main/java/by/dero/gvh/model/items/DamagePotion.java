@@ -27,10 +27,12 @@ public class DamagePotion extends Item implements ProjectileHitInterface,
         damage = info.getDamage();
     }
 
+    // TODO damage
+    /*
     @Override
     public ItemStack getItemStack () {
         return setItemMeta(new Potion(PotionType.INSTANT_DAMAGE, 1, true).toItemStack(getInfo().getAmount()), name, getInfo());
-    }
+    }*/
 
     @Override
     public void onProjectileHit(final ProjectileHitEvent event) {

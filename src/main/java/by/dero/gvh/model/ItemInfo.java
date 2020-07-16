@@ -1,8 +1,14 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.Plugin;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -43,6 +49,7 @@ public class ItemInfo {
     private int cooldown = 5;
     private int cost = 5;
     private final ItemDescription description;
+    private ItemStack itemStack;
 
     public ItemInfo(ItemDescription description) {
         this.description = description;
@@ -65,6 +72,30 @@ public class ItemInfo {
                 lore.add(parseString(string));
             }
         }
+
+        itemStack = new ItemStack(material, amount);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        for (ItemInfo.EnchantInfo enchantInfo : enchantments) {
+            itemMeta.addEnchant(Enchantment.getByName(enchantInfo.getName()), enchantInfo.getLevel(), enchantInfo.isVisible());
+        }
+        itemMeta.setDisplayName(displayName);
+        List<String> lore = new LinkedList<>(getLore());
+        lore.add(Plugin.getInstance().getData().getItemNameToTag().get(description.getName()));
+        itemMeta.setLore(lore);
+        itemMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+        itemMeta.addEnchant(Enchantment.DURABILITY, Integer.MAX_VALUE, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.setUnbreakable(true);
+        itemStack.setItemMeta(itemMeta);
+        for (Method method : Plugin.getInstance().getData().getItemNameToClass().get(description.getName()).getMethods()) {
+            if (method.isAnnotationPresent(NbtAddition.class)) {
+                try {
+                    method.invoke(null, this, itemStack);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
 
     public String romeNumber(int number) {
@@ -85,6 +116,10 @@ public class ItemInfo {
         return Integer.toString(number);
     }
 
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
+
     public String parseString(String string) {
         StringBuilder result = new StringBuilder();
         for (int idx = 0; idx < string.length(); ++idx) {
@@ -103,9 +138,10 @@ public class ItemInfo {
                     try {
                         int comaPos = data.indexOf(',');
                         String fieldName = data.substring(0, comaPos);
-                        double multiplier = Double.parseDouble(data.substring(comaPos + 1, data.length()));
+                        double multiplier = Double.parseDouble(data.substring(comaPos + 1));
                         double fieldValue = getField(fieldName).getDouble(this);
-                        result.append(new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.ENGLISH)).format(fieldValue * multiplier));
+                        result.append(new DecimalFormat("#.##",
+                                DecimalFormatSymbols.getInstance(Locale.ENGLISH)).format(fieldValue * multiplier));
                     } catch (Exception ex) {
                         System.out.println("Field with multiplier not found: " + data + " in " + description.getName());
                         ex.printStackTrace();

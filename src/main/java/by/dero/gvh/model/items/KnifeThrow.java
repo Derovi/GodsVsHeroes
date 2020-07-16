@@ -41,7 +41,8 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
         owner.saveData();
     }
 
-
+    //TODO damage
+    /*
     @Override
     public ItemStack getItemStack () {
         ItemStack sword = new ItemStack(material, 1);
@@ -64,7 +65,7 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
         sword = CraftItemStack.asBukkitCopy(nmsStack);
 
         return sword;
-    }
+    }*/
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -72,7 +73,7 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
-        final ThrowingKnife knife = new ThrowingKnife(owner, material);
+        final ThrowingKnife knife = new ThrowingKnife(owner, getItemStack());
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         knife.spawn();
         knife.setOnHitEntity(() -> {
