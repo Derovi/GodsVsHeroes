@@ -1,28 +1,39 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.Plugin;
+import by.dero.gvh.nmcapi.dragon.EmptyArmorStand;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.EulerAngle;
+import org.bukkit.util.Vector;
 
 public class TestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] args) {
-
-
-        try {
-            Player p = (Player) commandSender;
-//            Sound sound = Sound.values()[Integer.parseInt(strings[0])];
-//            Bukkit.getServer().broadcastMessage(sound.toString());
-//            p.getWorld().playSound(p.getLocation(), sound, 1.07f, 1);
-            GameUtils.getPlayer(p.getName()).addEffect(new PotionEffect(PotionEffectType.SPEED,
-                    Integer.parseInt(args[0]), Integer.parseInt(args[1])));
-        } catch (NumberFormatException ignored) {
-        }
+        System.out.println("Stand");
+        Player player = (Player) commandSender;
+        ArmorStand stand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
+        stand.setVelocity(new Vector(0, 0.49, 0));
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.setVelocity(new Vector(0, 1.4, 0));
+                player.addPassenger(stand);
+            }
+        }.runTaskLater(Plugin.getInstance(), 10);
+        System.out.println(player.getInventory().getItemInMainHand().getType());
+        stand.setItemInHand(player.getInventory().getItemInMainHand());
+        stand.setVisible(false);
+        stand.setRightArmPose(new EulerAngle(Math.PI * 1.5, 0, 0));
         return true;
     }
 }
