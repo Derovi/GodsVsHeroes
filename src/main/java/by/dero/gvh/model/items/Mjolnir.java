@@ -75,7 +75,7 @@ public class Mjolnir extends Item implements PlayerInteractInterface, InfiniteRe
         });
         axe.setOnOwnerPickUp(() -> {
             if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
-                owner.getInventory().setItem(slot, getInfo().getItemStack());
+                owner.getInventory().setItem(slot, getInfo().getItemStack(getOwner()));
                 owner.getInventory().getItem(slot).setAmount(1);
             }
             axe.remove();

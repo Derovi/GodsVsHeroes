@@ -107,10 +107,10 @@ public class ArmorStandMonument extends Monument {
             final int slot = info.getDescription().getSlot();
             final EntityEquipment eq = armorStand.getEquipment();
             switch (slot) {
-                case -1: eq.setHelmet(info.getItemStack()); break;
-                case -2: eq.setChestplate(info.getItemStack()); break;
-                case -3: eq.setLeggings(info.getItemStack()); break;
-                case -4: eq.setBoots(info.getItemStack()); break;
+                case -1: eq.setHelmet(info.getItemStack(getOwner())); break;
+                case -2: eq.setChestplate(info.getItemStack(getOwner())); break;
+                case -3: eq.setLeggings(info.getItemStack(getOwner())); break;
+                case -4: eq.setBoots(info.getItemStack(getOwner())); break;
             }
         }
         drawParticles();

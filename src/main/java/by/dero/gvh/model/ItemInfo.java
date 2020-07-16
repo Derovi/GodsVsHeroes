@@ -1,8 +1,10 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.annotations.CustomDamage;
-import by.dero.gvh.model.annotations.NbtAddition;
+import by.dero.gvh.model.annotations.DynamicCustomization;
+import by.dero.gvh.model.annotations.StaticCustomization;
 import by.dero.gvh.model.annotations.PotionItem;
 import by.dero.gvh.nmcapi.NMCUtils;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
@@ -11,13 +13,13 @@ import net.minecraft.server.v1_12_R1.NBTTagList;
 import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionType;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -62,6 +64,7 @@ public class ItemInfo {
     private int cost = 5;
     private final ItemDescription description;
     private ItemStack itemStack;
+    private Method dynamicCustomizer = null;
 
     public ItemInfo(ItemDescription description) {
         this.description = description;
@@ -99,22 +102,24 @@ public class ItemInfo {
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.setUnbreakable(true);
         itemStack.setItemMeta(itemMeta);
-        Class<? extends ItemInfo> itemInfoClass = Plugin.getInstance().getData().getItemNameToInfo().get(description.getName());
-        if (itemInfoClass.isAnnotationPresent(PotionItem.class)) {
+        if (getClass().isAnnotationPresent(PotionItem.class)) {
             PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
-            potionMeta.setBasePotionData(new PotionData(itemInfoClass.getAnnotation(PotionItem.class).potionType()));
+            potionMeta.setBasePotionData(new PotionData(getClass().getAnnotation(PotionItem.class).potionType()));
             itemStack.setItemMeta(potionMeta);
         }
-        for (Method method : itemInfoClass.getMethods()) {
-            if (method.isAnnotationPresent(NbtAddition.class)) {
+        for (Method method : getClass().getMethods()) {
+            if (method.isAnnotationPresent(StaticCustomization.class)) {
                 try {
-                    method.invoke(null, this, itemStack);
+                    method.invoke(null, itemStack, this);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
+            if (method.isAnnotationPresent(DynamicCustomization.class)) {
+                dynamicCustomizer = method;
+            }
         }
-        for (Field field : itemInfoClass.getDeclaredFields()) {
+        for (Field field : getClass().getDeclaredFields()) {
             field.setAccessible(true);
             if (field.isAnnotationPresent(CustomDamage.class)) {
                 try {
@@ -156,7 +161,16 @@ public class ItemInfo {
         return Integer.toString(number);
     }
 
-    public ItemStack getItemStack() {
+    public ItemStack getItemStack(Player owner) {
+        if (dynamicCustomizer != null) {
+            try {
+                ItemStack result = itemStack.clone();
+                dynamicCustomizer.invoke(null, result, this, owner);
+                return result;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         return itemStack;
     }
 

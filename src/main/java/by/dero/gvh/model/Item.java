@@ -74,7 +74,7 @@ public class Item {
     }
 
     public ItemStack getItemStack() {
-        return getInfo().getItemStack();
+        return getInfo().getItemStack(owner);
     }
 
     public ItemInfo getInfo() {
