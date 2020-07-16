@@ -7,9 +7,9 @@ import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -17,13 +17,14 @@ import java.util.Map;
 public class Stats {
     private final HashMap<String, Integer> kills = new HashMap<>();
     private final HashMap<String, Integer> deaths = new HashMap<>();
+    private final HashMap<String, Integer> assists = new HashMap<>();
     private final HashMap<String, Double> damageDealt = new HashMap<>();
     private final HashMap<String, Double> damageTaken = new HashMap<>();
     private final HashMap<String, Integer> expGained = new HashMap<>();
 
-    public void addKill(final LivingEntity target, final LivingEntity killer) {
-        if (target instanceof Player) {
-            if (killer instanceof Player && !target.equals(killer)) {
+    public void addKill(Player target, Player killer) {
+        if (target != null) {
+            if (killer != null && !target.equals(killer)) {
                 kills.put(killer.getName(), kills.getOrDefault(killer.getName(), 0) + 1);
             }
             deaths.put(target.getName(), deaths.getOrDefault(target.getName(), 0) + 1);
@@ -33,9 +34,18 @@ public class Stats {
         }
     }
 
-    public void addDamage(final LivingEntity target, final LivingEntity killer, final double damage) {
-        if (target instanceof Player) {
-            if (killer instanceof Player && !target.equals(killer)) {
+    public void addKill(Player target, Player killer, Collection<Player> assists) {
+        if (assists != null) {
+            for (Player player : assists) {
+                this.assists.put(player.getName(), this.assists.getOrDefault(player.getName(), 0) + 1);
+            }
+        }
+        addKill(target, killer);
+    }
+
+    public void addDamage(Player target, Player killer, double damage) {
+        if (target != null) {
+            if (killer != null && !target.equals(killer)) {
                 damageDealt.put(killer.getName(), damageDealt.getOrDefault(killer.getName(), 0.0) + damage);
             }
             damageTaken.put(target.getName(), damageTaken.getOrDefault(target.getName(), 0.0) + damage);
@@ -142,6 +152,10 @@ public class Stats {
 
     public Integer getDeaths(String name) {
         return deaths.getOrDefault(name, 0);
+    }
+    
+    public Integer getAssists(String name) {
+        return assists.getOrDefault(name, 0);
     }
 
     public Integer getExpGained(String name) {

@@ -11,7 +11,7 @@
     {
       "cooldown": 25,
       "radius": 7.0,
-      "damage": 4,
+      "damage": 3,
       "cost": 80,
       "material": "BLAZE_ROD",
       "amount": 10
@@ -19,10 +19,10 @@
     {
       "cooldown": 25,
       "radius": 7.0,
-      "damage": 4,
+      "damage": 3,
       "cost": 100,
       "material": "BLAZE_ROD",
-      "amount": 13
+      "amount": 12
     },
     {
       "cooldown": 25,
@@ -30,7 +30,7 @@
       "damage": 4,
       "cost": 120,
       "material": "BLAZE_ROD",
-      "amount": 16
+      "amount": 10
     }
   ]
 }

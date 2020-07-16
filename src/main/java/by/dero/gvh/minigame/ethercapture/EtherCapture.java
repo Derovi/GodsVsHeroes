@@ -18,6 +18,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
 
@@ -43,7 +44,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     @Override
     public void setDisplays() {
         for (final GamePlayer gp : getPlayers().values()) {
-            final Board board = new Board(Lang.get("game.ether"), getInfo().getTeamCount() + 5);
+            final Board board = new Board(Lang.get("game.ether"), getInfo().getTeamCount() + 6);
             final Scoreboard sb = board.getScoreboard();
             for (int team = 0; team < getInfo().getTeamCount(); team++) {
                 final String t = team + "hp";
@@ -71,7 +72,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             idxs.add(i);
         }
         idxs.sort((a, b) -> currentEtherCount[b] - currentEtherCount[a]);
-        String[] str = new String[cnt + 5];
+        String[] str = new String[cnt + 6];
         for (int i = 0; i < cnt; ++i) {
             final int team = idxs.get(i);
             final String com = Lang.get("commands." + (char)('1' + team));
@@ -88,7 +89,8 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             String name = gp.getPlayer().getName();
             str[cnt+2] = Lang.get("game.expGained").replace("%exp%", String.valueOf(stats.getExpGained(name)));
             str[cnt+3] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills(name)));
-            str[cnt+4] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths(name)));
+            str[cnt+4] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists(name)));
+            str[cnt+5] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths(name)));
 
             gp.getBoard().update(str);
         }
@@ -145,8 +147,8 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void onPlayerKilled(Player player, Player killer) {
-        super.onPlayerKilled(player, killer);
+    public void onPlayerKilled(Player player, Player killer, Collection<Player> assists) {
+        super.onPlayerKilled(player, killer, assists);
         addEther(getPlayers().get(killer.getName()).getTeam(), etherCaptureInfo.getEtherForKill());
     }
 
