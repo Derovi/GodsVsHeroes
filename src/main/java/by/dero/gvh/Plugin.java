@@ -4,6 +4,7 @@ import by.dero.gvh.commands.AdviceCommand;
 import by.dero.gvh.commands.BugCommand;
 import by.dero.gvh.commands.TestCommand;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
@@ -14,6 +15,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
+import net.royawesome.jlibnoise.module.combiner.Min;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -27,6 +29,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
+import ru.cristalix.core.karma.IKarmaService;
+import ru.cristalix.core.karma.KarmaService;
 import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
 import ru.cristalix.core.pvp.CPSLimiter;
@@ -37,6 +41,8 @@ import ru.cristalix.core.transfer.ITransferService;
 import ru.cristalix.core.transfer.TransferService;
 
 import java.io.IOException;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 public class Plugin extends JavaPlugin implements Listener {
     private static Plugin instance;
@@ -94,6 +100,10 @@ public class Plugin extends JavaPlugin implements Listener {
             world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getWorld());
             for (final LivingEntity ent : world.getLivingEntities()) {
                 ent.remove();
+            }
+            if (settings.isCristalix()) {
+                CoreApi.get().registerService(IKarmaService.class, new KarmaService(ISocketClient.get()));
+                IKarmaService.get().enableGG(uuid -> Minigame.getInstance().getGame().getState().equals(Game.State.FINISHING));
             }
         } else {
             pluginMode = new Lobby();
