@@ -43,11 +43,9 @@ public class GamePlayer extends GameObject {
     }
 
     public Item getSelectedItem() {
-        System.out.println("item");
         ItemStack selectedItem = player.getInventory().getItemInMainHand();
-        System.out.println("custom");
-        System.out.println(NMCUtils.getNBT(selectedItem).hasKey("custom"));
-        System.out.println(NMCUtils.getNBT(selectedItem).getString("custom"));
+//        System.out.println(NMCUtils.getNBT(selectedItem).hasKey("custom"));
+//        System.out.println(NMCUtils.getNBT(selectedItem).getString("custom"));
         return items.getOrDefault(NMCUtils.getNBT(selectedItem).getString("custom"), null);
     }
 
@@ -104,6 +102,10 @@ public class GamePlayer extends GameObject {
     private final HashMap<String, Integer> charges = new HashMap<>();
     private final HashMap<Item, Integer> itemsSlots = new HashMap<>();
 
+    public boolean isCharged(String item) {
+        return charges.getOrDefault(item, 1) > 0;
+    }
+    
     public boolean consume(final Item item) {
         Player player = getPlayer();
 

@@ -6,14 +6,13 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class Item {
     protected final Player owner;
@@ -22,9 +21,12 @@ public class Item {
     private final int level;
     private int team = -1;
 
+    private static ItemStack pane = null;
     public static ItemStack getPane(String name) {
-        ItemStack pane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
-        pane.setAmount(1);
+        if (pane == null) {
+            pane = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
+            pane.setAmount(1);
+        }
         final ItemMeta meta = pane.getItemMeta();
         meta.setDisplayName(name);
         pane.setItemMeta(meta);

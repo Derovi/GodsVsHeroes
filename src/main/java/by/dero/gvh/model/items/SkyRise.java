@@ -4,24 +4,27 @@ import by.dero.gvh.GameObject;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.SkyRiseInfo;
 import by.dero.gvh.utils.GameUtils;
-import by.dero.gvh.utils.MathUtils;
+import by.dero.gvh.utils.SafeRunnable;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
-
-import java.util.ArrayList;
 
 public class SkyRise extends Item implements DoubleSpaceInterface {
 	private final double radius;
 	private final double damage;
-	private final int explosions;
 
 	public SkyRise (String name, int level, Player owner) {
 		super(name, level, owner);
@@ -29,18 +32,70 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 		SkyRiseInfo info = (SkyRiseInfo) getInfo();
 		radius = info.getRadius();
 		damage = info.getDamage();
-		explosions = info.getExplosions();
 	}
 
 	@Override
 	public void onDoubleSpace () {
+		if (!ownerGP.isCharged("mjolnir")) {
+			if (!ownerGP.isActionBarBlocked()) {
+				ownerGP.setActionBarBlocked(true);
+				owner.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.cantUse")));
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						ownerGP.setActionBarBlocked(false);
+					}
+				}.runTaskLater(Plugin.getInstance(), 30);
+			}
+			return;
+		}
 		if (!cooldown.isReady()) {
 			GameUtils.doubleSpaceCooldownMessage(this);
 			return;
 		}
 		cooldown.reload();
-
-		owner.setVelocity(new Vector(0, 1.2, 0));
+		ArmorStand stand = (ArmorStand) owner.getWorld().spawnEntity(owner.getLocation(), EntityType.ARMOR_STAND);
+		stand.setVelocity(new Vector(0, 0.49, 0));
+		BukkitRunnable runnable = new BukkitRunnable() {
+			@Override
+			public void run() {
+				owner.setVelocity(new Vector(0, 1.4, 0));
+				owner.addPassenger(stand);
+			}
+		};
+		runnable.runTaskLater(Plugin.getInstance(), 10);
+		Game.getInstance().getRunnables().add(runnable);
+		Mjolnir mjolnir = (Mjolnir) ownerGP.getItems().get("mjolnir");
+		owner.getInventory().setItem(0, Item.getPane(mjolnir.getDescription().getDisplayName()));
+		SafeRunnable runnable1 = new SafeRunnable() {
+			int ticks = 0;
+			@Override
+			public void run() {
+				if (owner.getLocation().y * 2 == (int) owner.getLocation().y * 2 || ticks > 80) {
+					owner.getInventory().setItem(0, mjolnir.getItemStack());
+					this.cancel();
+					stand.remove();
+					owner.getInventory().setItem(0, mjolnir.getItemStack());
+					for (GameObject go : GameUtils.getGameObjects()) {
+						LivingEntity ent = go.getEntity();
+						if (ent.getLocation().distance(owner.getLocation()) < radius && go.getTeam() != getTeam()) {
+							GameUtils.damage(damage, ent, owner, false);
+							ent.setVelocity(ent.getLocation().subtract(owner.getLocation()).toVector().normalize().multiply(1.2));
+							Location at = ent.getLocation();
+							at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+							at.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, at, 1);
+							break;
+						}
+					}
+				}
+				ticks += 2;
+			}
+		};
+		runnable1.runTaskTimer(Plugin.getInstance(), 11, 2);
+		Game.getInstance().getRunnables().add(runnable1);
+		stand.setItemInHand(mjolnir.getItemStack());
+		stand.setVisible(false);
+		stand.setRightArmPose(new EulerAngle(Math.PI * 1.5, 0, 0));
 		for (GameObject go : GameUtils.getGameObjects()) {
 			LivingEntity ent = go.getEntity();
 			Location loc = new Location(owner.getWorld(),
@@ -49,29 +104,5 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 				ent.setVelocity(owner.getLocation().subtract(loc).toVector().normalize().multiply(1.2));
 			}
 		}
-		BukkitRunnable activate = new BukkitRunnable() {
-			@Override
-			public void run () {
-				ArrayList<Location> list = new ArrayList<>(explosions);
-				for (int i = 0; i < explosions; i++) {
-					Location at = MathUtils.randomCylinder(owner.getLocation().subtract(0, 1, 0), radius, 0);
-					list.add(at);
-					at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
-					at.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, at, 1);
-				}
-				for (GameObject go : GameUtils.getGameObjects()) {
-					LivingEntity ent = go.getEntity();
-					for (Location loc : list) {
-						if (go.getTeam() != getTeam() && loc.distance(owner.getLocation()) < 4) {
-							GameUtils.damage(damage, ent, owner, false);
-							ent.setVelocity(ent.getLocation().subtract(loc).toVector().normalize().multiply(0.5));
-							break;
-						}
-					}
-				}
-			}
-		};
-		activate.runTaskLater(Plugin.getInstance(), 28);
-		Game.getInstance().getRunnables().add(activate);
 	}
 }
