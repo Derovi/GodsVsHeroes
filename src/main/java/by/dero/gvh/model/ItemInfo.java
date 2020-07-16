@@ -1,11 +1,23 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.annotations.CustomDamage;
+import by.dero.gvh.model.annotations.NbtAddition;
+import by.dero.gvh.model.annotations.PotionItem;
+import by.dero.gvh.nmcapi.NMCUtils;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.NBTTagInt;
+import net.minecraft.server.v1_12_R1.NBTTagList;
+import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -87,10 +99,38 @@ public class ItemInfo {
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.setUnbreakable(true);
         itemStack.setItemMeta(itemMeta);
-        for (Method method : Plugin.getInstance().getData().getItemNameToClass().get(description.getName()).getMethods()) {
+        Class<? extends ItemInfo> itemInfoClass = Plugin.getInstance().getData().getItemNameToInfo().get(description.getName());
+        if (itemInfoClass.isAnnotationPresent(PotionItem.class)) {
+            PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
+            potionMeta.setBasePotionData(new PotionData(itemInfoClass.getAnnotation(PotionItem.class).potionType()));
+            itemStack.setItemMeta(potionMeta);
+        }
+        for (Method method : itemInfoClass.getMethods()) {
             if (method.isAnnotationPresent(NbtAddition.class)) {
                 try {
                     method.invoke(null, this, itemStack);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        for (Field field : itemInfoClass.getDeclaredFields()) {
+            field.setAccessible(true);
+            if (field.isAnnotationPresent(CustomDamage.class)) {
+                try {
+                    NBTTagCompound compound = NMCUtils.getNBT(itemStack);
+                    NBTTagList modifiers = new NBTTagList();
+                    NBTTagCompound damage = new NBTTagCompound();
+                    damage.set("AttributeName", new NBTTagString("generic.attackDamage"));
+                    damage.set("Name", new NBTTagString("generic.attackDamage"));
+                    damage.set("Amount", new NBTTagInt(field.getInt(this)));
+                    damage.set("Operation", new NBTTagInt(0));
+                    damage.set("UUIDLeast", new NBTTagInt(894654));
+                    damage.set("UUIDMost", new NBTTagInt(2872));
+                    damage.set("Slot", new NBTTagString("mainhand"));
+                    modifiers.add(damage);
+                    compound.set("AttributeModifiers", modifiers);
+                    NMCUtils.setNBT(itemStack, compound);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

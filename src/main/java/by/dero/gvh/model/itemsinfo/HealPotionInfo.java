@@ -2,7 +2,10 @@ package by.dero.gvh.model.itemsinfo;
 
 import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
+import by.dero.gvh.model.annotations.PotionItem;
+import org.bukkit.potion.PotionType;
 
+@PotionItem(potionType = PotionType.INSTANT_HEAL)
 public class HealPotionInfo extends ItemInfo {
     private double radius;
     private int heal;

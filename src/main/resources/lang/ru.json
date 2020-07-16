@@ -54,7 +54,8 @@
     "magnetizeOrb": "Магнитный шар",
     "stunall": "Клетка",
     "thorbow": "Лук Тора",
-    "webthrow": "Паутина"
+    "webthrow": "Паутина",
+    "mjolnir": "Мьёльнир"
   },
   "advices": {
     "unlockClass": "§6Разблокируйте любой класс, нажав на него §fПКМ",
