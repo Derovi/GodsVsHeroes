@@ -51,16 +51,6 @@ public class Item {
         cooldown.makeReady();
     }
 
-    public static String getTag(String name) {
-        StringBuilder tag = new StringBuilder();
-        int hashcode = Math.abs(name.hashCode());
-        while (hashcode > 0) {
-            tag.append('§').append(hashcode % 10);
-            hashcode /= 10;
-        }
-        return tag.toString();
-    }
-
     public Set<UUID> getSummonedEntityIds() {
         return summonedEntityIds;
     }

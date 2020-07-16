@@ -3,6 +3,7 @@ package by.dero.gvh;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.nmcapi.NMCUtils;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
@@ -42,16 +43,12 @@ public class GamePlayer extends GameObject {
     }
 
     public Item getSelectedItem() {
+        System.out.println("item");
         ItemStack selectedItem = player.getInventory().getItemInMainHand();
-        if (!selectedItem.hasItemMeta()) {
-            return null;
-        }
-        if (!selectedItem.getItemMeta().hasLore() || selectedItem.getItemMeta().getLore().isEmpty()) {
-            return  null;
-        }
-        String tag = selectedItem.getItemMeta().getLore().get(selectedItem.getItemMeta().getLore().size() - 1);
-        String itemName = Plugin.getInstance().getData().getTagToItemName().get(tag);
-        return items.getOrDefault(itemName, null);
+        System.out.println("custom");
+        System.out.println(NMCUtils.getNBT(selectedItem).hasKey("custom"));
+        System.out.println(NMCUtils.getNBT(selectedItem).getString("custom"));
+        return items.getOrDefault(NMCUtils.getNBT(selectedItem).getString("custom"), null);
     }
 
     public void selectClass(String className) {

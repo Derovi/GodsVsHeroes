@@ -93,10 +93,8 @@ public class ItemInfo {
         for (ItemInfo.EnchantInfo enchantInfo : enchantments) {
             itemMeta.addEnchant(Enchantment.getByName(enchantInfo.getName()), enchantInfo.getLevel(), enchantInfo.isVisible());
         }
-        itemMeta.setDisplayName(displayName);
-        List<String> lore = new LinkedList<>(getLore());
-        lore.add(Plugin.getInstance().getData().getItemNameToTag().get(description.getName()));
         itemMeta.setLore(lore);
+        itemMeta.setDisplayName(displayName);
         itemMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         itemMeta.addEnchant(Enchantment.DURABILITY, Integer.MAX_VALUE, true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -119,11 +117,12 @@ public class ItemInfo {
                 dynamicCustomizer = method;
             }
         }
+        NBTTagCompound compound = NMCUtils.getNBT(itemStack);
+        compound.set("custom", new NBTTagString(description.getName()));
         for (Field field : getClass().getDeclaredFields()) {
             field.setAccessible(true);
             if (field.isAnnotationPresent(CustomDamage.class)) {
                 try {
-                    NBTTagCompound compound = NMCUtils.getNBT(itemStack);
                     NBTTagList modifiers = new NBTTagList();
                     NBTTagCompound damage = new NBTTagCompound();
                     damage.set("AttributeName", new NBTTagString("generic.attackDamage"));
@@ -135,12 +134,12 @@ public class ItemInfo {
                     damage.set("Slot", new NBTTagString("mainhand"));
                     modifiers.add(damage);
                     compound.set("AttributeModifiers", modifiers);
-                    NMCUtils.setNBT(itemStack, compound);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         }
+        NMCUtils.setNBT(itemStack, compound);
     }
 
     public String romeNumber(int number) {
