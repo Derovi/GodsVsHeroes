@@ -43,11 +43,7 @@ public class GamePlayer extends GameObject {
     }
 
     public Item getSelectedItem() {
-        System.out.println("item");
         ItemStack selectedItem = player.getInventory().getItemInMainHand();
-        System.out.println("custom");
-        System.out.println(NMCUtils.getNBT(selectedItem).hasKey("custom"));
-        System.out.println(NMCUtils.getNBT(selectedItem).getString("custom"));
         return items.getOrDefault(NMCUtils.getNBT(selectedItem).getString("custom"), null);
     }
 

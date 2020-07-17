@@ -155,14 +155,30 @@ public class ThrowingItem extends EntityArmorStand {
             Vector dist = new Vector(owner.getLocation().getX() - locX,
                     owner.getLocation().getY() - locY,
                     owner.getLocation().getZ() - locZ);
-            if (dist.length() < 0.3) {
+            float curRot = rightArmPose.x;
+            while (curRot < 270) {
+                curRot += 360;
+            }
+            double length = dist.length();
+            float speed = 1.5f;
+            if (length < 8) {
+                speed = 0.12f + 1.38f * (float) (Math.sqrt(Math.max(0, (float) length - 0.3f)) / Math.sqrt(2.775));
+            }
+            curRot -= (curRot - 270) / (length / speed);
+            setRightArmPose(new Vector3f(curRot, 0, 0));
+            System.out.println(curRot);
+            if (length < 0.1) {
                 if (onReturned != null) {
                     onReturned.run();
                 }
                 die();
                 return;
             }
-            dist.normalize();
+            dist.normalize().multiply(speed);
+            motX = (float) dist.x;
+            motY = (float) dist.y;
+            motZ = (float) dist.z;
+            velocityChanged = true;
             locX += dist.x;
             locY += dist.y;
             locZ += dist.z;

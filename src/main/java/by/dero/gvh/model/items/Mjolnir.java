@@ -50,6 +50,18 @@ public class Mjolnir extends Item implements PlayerInteractInterface, InfiniteRe
                         new MaterialData(Material.REDSTONE_BLOCK));
                 GameUtils.damage(damage, (LivingEntity) mjolnir.getHoldEntity(), owner);
             }
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    mjolnir.backToOwner();
+                }
+            }.runTaskLater(Plugin.getInstance(), 3);
+        });
+        mjolnir.setOnReturned(() -> {
+            if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+                owner.getInventory().setItem(slot, getInfo().getItemStack(getOwner()));
+                owner.getInventory().getItem(slot).setAmount(1);
+            }
         });
         mjolnir.setOnHitBlock(() -> {
             new BukkitRunnable() {
@@ -59,12 +71,12 @@ public class Mjolnir extends Item implements PlayerInteractInterface, InfiniteRe
                         this.cancel();
                         return;
                     }
-                    mjolnir.backToOwner();
-                    /*if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
-                        owner.getInventory().setItem(slot, getInfo().getItemStack(getOwner()));
-                        owner.getInventory().getItem(slot).setAmount(1);
-                    }
-                    mjolnir.remove();*/
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            mjolnir.backToOwner();
+                        }
+                    }.runTaskLater(Plugin.getInstance(), 3);
                 }
             }.runTaskTimer(Plugin.getInstance(), 0, 5);
             owner.getWorld().playSound(mjolnir.getItemPosition().toLocation(owner.getWorld()),
