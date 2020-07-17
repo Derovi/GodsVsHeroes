@@ -1,0 +1,23 @@
+{
+  "name": "paladinarmor",
+  "slot": 0,
+  "lore": [
+    "§fДальность для разрыва §8» §b%%distance%% §fблоков."
+  ],
+  "levels": [
+    {
+      "helmet": "DIAMOND_HELMET",
+      "chestplate": "DIAMOND_CHESTPLATE",
+      "leggings": "DIAMOND_LEGGINGS",
+      "boots": "DIAMOND_BOOTS",
+      "sword": "DIAMOND_SWORD",
+      "speed": 0.4,
+      "swordDamage": 11,
+      "duration": 200,
+      "cooldown": 1200,
+      "cost": 80,
+      "material": "END_CRYSTAL",
+      "amount": 1
+    }
+  ]
+}
