@@ -97,6 +97,7 @@ public class Data {
         registerItem("defaultbootschainmail", ItemInfo.class, Item.class);
         registerItem("skyrise", SkyRiseInfo.class, SkyRise.class);
         registerItem("mjolnir", MjolnirInfo.class, Mjolnir.class);
+        registerItem("paladinarmor", PaladinArmorInfo.class, PaladinArmor.class);
     }
 
     private void registerClasses() {

@@ -11,9 +11,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.SafeRunnable;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -36,7 +34,7 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 
 	@Override
 	public void onDoubleSpace () {
-		if (!ownerGP.isCharged("mjolnir")) {
+		if (owner.getInventory().getItem(0).getType().equals(Material.STAINED_GLASS_PANE)) {
 			if (!ownerGP.isActionBarBlocked()) {
 				ownerGP.setActionBarBlocked(true);
 				owner.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.cantUse")));
@@ -66,7 +64,7 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 		runnable.runTaskLater(Plugin.getInstance(), 10);
 		Game.getInstance().getRunnables().add(runnable);
 		Mjolnir mjolnir = (Mjolnir) ownerGP.getItems().get("mjolnir");
-		owner.getInventory().setItem(0, Item.getPane(mjolnir.getDescription().getDisplayName()));
+		owner.getInventory().setItem(0, Item.getPane(owner.getInventory().getItem(0).getI18NDisplayName()));
 		SafeRunnable runnable1 = new SafeRunnable() {
 			int ticks = 0;
 			@Override

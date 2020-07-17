@@ -10,6 +10,7 @@ import org.bukkit.entity.EntityType;
 public enum CustomEntities {
 
     SMART_ARMOR_STAND("ThrowingItem", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingItem.class),
+    CHASING_STAND("ChasingStand", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, ChasingStand.class),
     EMPTY_ARMOR_STAND("EmptyArmorStand", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, EmptyArmorStand.class),
     GRAVITY_FIRE_BALL("GravityFireBall", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, GravityFireball.class),
     CORRECT_FIREWORK("CorrectFirework", 22, EntityType.FIREWORK, EntityFireworks.class, InstantFirework.class),

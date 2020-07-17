@@ -73,8 +73,18 @@ public class GameEvents implements Listener {
         }
     }
 
+    private final List<Material> inventoryBlocks = Arrays.asList(
+            Material.CHEST, Material.ENDER_CHEST, Material.TRAPPED_CHEST, Material.HOPPER,
+            Material.HOPPER_MINECART, Material.STORAGE_MINECART
+    );
+    
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
+        Block clicked = event.getClickedBlock();
+        if (clicked != null && inventoryBlocks.contains(clicked.getType())) {
+            event.setCancelled(true);
+            return;
+        }
         if (!Game.getInstance().getState().equals(Game.State.GAME)) {
             event.setCancelled(true);
             return;
