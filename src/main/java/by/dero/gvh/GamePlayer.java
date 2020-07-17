@@ -100,6 +100,10 @@ public class GamePlayer extends GameObject {
     private final HashMap<String, Integer> charges = new HashMap<>();
     private final HashMap<Item, Integer> itemsSlots = new HashMap<>();
 
+    public boolean isCharged(String item) {
+        return charges.getOrDefault(item, 1) > 0;
+    }
+    
     public boolean consume(final Item item) {
         Player player = getPlayer();
 

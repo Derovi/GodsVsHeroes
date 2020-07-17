@@ -169,7 +169,8 @@
     "expGained": "Опыт за игру §8» §b%exp%",
     "kills": "Убийств §8» §a%kills%",
     "deaths": "Смертей §8» §c%deaths%",
-    "assists": "Помощей §8» §a%assists%"
+    "assists": "Помощей §8» §a%assists%",
+    "progressReach": "§aКоманда %command% §aнабрала %pts%%"
   },
   "loots": {
     "labelHeal": "§aГотово! %pts%§c❤",
