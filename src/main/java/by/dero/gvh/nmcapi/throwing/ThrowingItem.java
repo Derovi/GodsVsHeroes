@@ -39,13 +39,15 @@ public class ThrowingItem extends EntityArmorStand {
     private Runnable onHitBlock = null;
     private Runnable onDisappear = null;
     private Runnable onOwnerPickUp = null;
+    private Runnable onReturned = null;
     private boolean physicsSpin = false;
     private double expX;
     private double expY;
     private double expZ;
     private double sizeMultiplier = 1.0;
+    private boolean returning = false;
 
-    public ThrowingItem(Location loc, Material material) {
+    public ThrowingItem(Location loc, ItemStack itemStack) {
         super(((CraftWorld) loc.getWorld()).getHandle());
         armorStand = (ArmorStand) getBukkitEntity();
         xDir = loc.getDirection().getX();
@@ -58,7 +60,7 @@ public class ThrowingItem extends EntityArmorStand {
         this.setInvisible(true);
         this.setInvulnerable(true);
         this.noclip = true;
-        setItem(new ItemStack(material));
+        setItem(itemStack);
         expX = locX;
         expY = locY;
         expZ = locZ;
@@ -145,6 +147,44 @@ public class ThrowingItem extends EntityArmorStand {
 
     public void setItemLength(double itemLength) {
         this.itemLength = itemLength;
+    }
+
+    @Override
+    public void B_() {
+        if (returning) {
+            Vector dist = new Vector(owner.getLocation().getX() - locX,
+                    owner.getLocation().getY() - locY,
+                    owner.getLocation().getZ() - locZ);
+            float curRot = rightArmPose.x;
+            while (curRot < 270) {
+                curRot += 360;
+            }
+            double length = dist.length();
+            float speed = 1.5f;
+            if (length < 8) {
+                speed = 0.12f + 1.38f * (float) (Math.sqrt(Math.max(0, (float) length - 0.3f)) / Math.sqrt(2.775));
+            }
+            curRot -= (curRot - 270) / (length / speed);
+            setRightArmPose(new Vector3f(curRot, 0, 0));
+            System.out.println(curRot);
+            if (length < 0.1) {
+                if (onReturned != null) {
+                    onReturned.run();
+                }
+                die();
+                return;
+            }
+            dist.normalize().multiply(speed);
+            motX = (float) dist.x;
+            motY = (float) dist.y;
+            motZ = (float) dist.z;
+            velocityChanged = true;
+            locX += dist.x;
+            locY += dist.y;
+            locZ += dist.z;
+        } else {
+            super.B_();
+        }
     }
 
     @Override
@@ -261,6 +301,10 @@ public class ThrowingItem extends EntityArmorStand {
         super.setSmall(flag);
     }
 
+    public void backToOwner() {
+        returning = true;
+    }
+
     public void setHoldEntity(Entity holdEntity) {
         this.holdEntity = holdEntity;
     }
@@ -355,5 +399,13 @@ public class ThrowingItem extends EntityArmorStand {
 
     public void setCenter(double center) {
         this.center = center;
+    }
+
+    public Runnable getOnReturned() {
+        return onReturned;
+    }
+
+    public void setOnReturned(Runnable onReturned) {
+        this.onReturned = onReturned;
     }
 }

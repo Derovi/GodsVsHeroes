@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class LightningStorm extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
-    private final int damage;
+    private final double damage;
     private final int strikes;
     private final double[] signRadius;
     private final long delayStrikes;

@@ -4,6 +4,7 @@ import by.dero.gvh.commands.AdviceCommand;
 import by.dero.gvh.commands.BugCommand;
 import by.dero.gvh.commands.TestCommand;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
@@ -14,15 +15,22 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
+import net.royawesome.jlibnoise.module.combiner.Min;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
+import ru.cristalix.core.karma.IKarmaService;
+import ru.cristalix.core.karma.KarmaService;
 import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
 import ru.cristalix.core.pvp.CPSLimiter;
@@ -33,6 +41,8 @@ import ru.cristalix.core.transfer.ITransferService;
 import ru.cristalix.core.transfer.TransferService;
 
 import java.io.IOException;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 public class Plugin extends JavaPlugin implements Listener {
     private static Plugin instance;
@@ -72,19 +82,10 @@ public class Plugin extends JavaPlugin implements Listener {
         }
         data = new Data(dataStorage);
         data.load();
-        StorageInterface playerDataStorage = new LocalStorage();
-        if (settings.getPlayerDataStorageType().equals("mongodb")) {
-            playerDataStorage = new MongoDBStorage(
-                    settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase());
-        }
-        playerData = new PlayerData(playerDataStorage);
-        StorageInterface serverDataStorage = new LocalStorage();
-        if (settings.getServerDataStorageType().equals("mongodb")) {
-            serverDataStorage = new MongoDBStorage(
-                    settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase());
-        }
-        serverData = new ServerData(serverDataStorage);
-        serverData.load();
+        playerData = new PlayerData(new MongoDBStorage(
+                settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase()));
+        serverData = new ServerData(new MongoDBStorage(
+                settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
         StorageInterface reportDataStorage = new LocalStorage();
         if (settings.getReportDataStorageType().equals("mongodb")) {
             reportDataStorage = new MongoDBStorage(
@@ -99,6 +100,10 @@ public class Plugin extends JavaPlugin implements Listener {
             world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getWorld());
             for (final LivingEntity ent : world.getLivingEntities()) {
                 ent.remove();
+            }
+            if (settings.isCristalix()) {
+                CoreApi.get().registerService(IKarmaService.class, new KarmaService(ISocketClient.get()));
+                IKarmaService.get().enableGG(uuid -> Minigame.getInstance().getGame().getState().equals(Game.State.FINISHING));
             }
         } else {
             pluginMode = new Lobby();

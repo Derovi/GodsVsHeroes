@@ -2,44 +2,32 @@
   "name": "escapeteleport",
   "slot": 0,
   "invisible": true,
+  "material": "FEATHER",
+  "lore": [
+    "§fМакс. радиус §8» §b%%radius%% §fблоков",
+    "§fМин. радиус §8» §b%%minRadius%% §fблоков",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "radius": 18.0,
       "minRadius": 8.0,
       "cooldown": 600,
       "cost": 80,
-      "material": "FEATHER",
-      "displayName": "§cEscape teleport",
-      "lore": [
-        "§aНажмите, чтобы сбежать от врага.",
-        "§6Уровень 1"
-      ],
       "amount": 1
     },
     {
       "radius": 18.0,
       "minRadius": 8.0,
-      "cooldown": 540,
+      "cooldown": 520,
       "cost": 100,
-      "material": "FEATHER",
-      "displayName": "§cEscape teleport",
-      "lore": [
-        "§aНажмите, чтобы сбежать от врага.",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
       "radius": 18.0,
       "minRadius": 8.0,
-      "cooldown": 480,
+      "cooldown": 440,
       "cost": 120,
-      "material": "FEATHER",
-      "displayName": "§cEscape teleport",
-      "lore": [
-        "§aНажмите, чтобы сбежать от врага.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

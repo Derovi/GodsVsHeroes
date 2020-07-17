@@ -1,11 +1,16 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class MeteorInfo extends ItemInfo {
     private double damage;
     private double radius;
     private int range;
+
+    public MeteorInfo(ItemDescription description) {
+        super(description);
+    }
 
     public double getDamage() {
         return damage;

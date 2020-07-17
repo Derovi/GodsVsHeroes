@@ -6,24 +6,6 @@
       "cooldown": 0,
       "cost": 80,
       "material": "IRON_SWORD",
-      "displayName": "§cIron Sword",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 0,
-      "cost": 80,
-      "material": "IRON_SWORD",
-      "displayName": "§cIron Sword",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 0,
-      "cost": 80,
-      "material": "IRON_SWORD",
-      "displayName": "§cIron Sword",
-      "lore": [],
       "amount": 1
     }
   ]

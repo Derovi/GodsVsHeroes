@@ -2,6 +2,9 @@
   "name": "eaglefly",
   "invisible": true,
   "slot": 0,
+  "lore": [
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 800,
@@ -9,48 +12,38 @@
       "duration": 200,
       "cost": 80,
       "material": "FEATHER",
-      "displayName": "§cEagle fly",
-      "lore": [],
       "amount": 1
     },
     {
-      "cooldown": 600,
+      "cooldown": 740,
       "speed": 0.52,
       "duration": 220,
       "cost": 100,
       "material": "FEATHER",
-      "displayName": "§cEagle fly",
-      "lore": [],
       "amount": 1
     },
     {
-      "cooldown": 600,
+      "cooldown": 680,
       "speed": 0.54,
       "duration": 240,
       "cost": 120,
       "material": "FEATHER",
-      "displayName": "§cEagle fly",
-      "lore": [],
       "amount": 1
     },
     {
-      "cooldown": 600,
+      "cooldown": 620,
       "speed": 0.56,
       "duration": 260,
       "cost": 140,
       "material": "FEATHER",
-      "displayName": "§cEagle fly",
-      "lore": [],
       "amount": 1
     },
     {
-      "cooldown": 600,
+      "cooldown": 560,
       "speed": 0.58,
       "duration": 280,
       "cost": 160,
       "material": "FEATHER",
-      "displayName": "§cEagle fly",
-      "lore": [],
       "amount": 1
     }
   ]

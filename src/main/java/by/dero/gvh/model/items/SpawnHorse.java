@@ -23,12 +23,16 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, VehicleExi
 
     @Override
     public void onDoubleSpace() {
-        if (!cooldown.isReady() || horse != null) {
+        if (!cooldown.isReady()) {
+            GameUtils.doubleSpaceCooldownMessage(this);
+            return;
+        }
+        if (horse != null) {
             return;
         }
         horse = (SkeletonHorse) GameUtils.spawnTeamEntity(owner.getLocation(), EntityType.SKELETON_HORSE, ownerGP);
         horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(30);
-        horse.setHealth(15);
+        horse.setHealth(30);
         horse.setAdult();
         horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));
         horse.setOwner(owner);

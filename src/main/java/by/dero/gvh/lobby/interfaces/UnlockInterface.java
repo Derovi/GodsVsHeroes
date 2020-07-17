@@ -46,8 +46,7 @@ public class UnlockInterface extends Interface {
         }
         for (String itemName : itemNames) {
             addItem(index++, 0,
-                    Item.getItemStack(itemName,
-                            Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(0)));
+                            Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(0).getItemStack(player));
         }
         for (; index < 9; ++index) {
             addItem(index, 0, emptySlot);

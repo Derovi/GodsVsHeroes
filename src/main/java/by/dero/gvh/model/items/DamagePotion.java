@@ -12,8 +12,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
 public class DamagePotion extends Item implements ProjectileHitInterface,
@@ -25,11 +23,6 @@ public class DamagePotion extends Item implements ProjectileHitInterface,
         final DamagePotionInfo info = (DamagePotionInfo) getInfo();
         radius = info.getRadius();
         damage = info.getDamage();
-    }
-
-    @Override
-    public ItemStack getItemStack () {
-        return setItemMeta(new Potion(PotionType.INSTANT_DAMAGE, 1, true).toItemStack(getInfo().getAmount()), name, getInfo());
     }
 
     @Override

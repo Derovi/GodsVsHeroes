@@ -1,10 +1,15 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class NinjaRopeInfo extends ItemInfo {
     private double distance;
     private double forceMultiplier;
+
+    public NinjaRopeInfo(ItemDescription description) {
+        super(description);
+    }
 
     public double getForceMultiplier () {
         return forceMultiplier;

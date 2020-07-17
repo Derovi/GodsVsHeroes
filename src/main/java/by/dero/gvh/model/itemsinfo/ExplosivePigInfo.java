@@ -1,11 +1,16 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class ExplosivePigInfo extends ItemInfo {
     private int duration;
     private double radius;
     private double damage;
+
+    public ExplosivePigInfo(ItemDescription description) {
+        super(description);
+    }
 
     public int getDuration() {
         return duration;

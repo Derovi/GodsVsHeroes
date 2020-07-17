@@ -30,8 +30,6 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 public class GameUtils {
-    private static Player lastUsedLightning;
-    private static Long lastLightningTime = 0L;
     public static final double eyeHeight = 1.7775;
 
     public static HashMap<Character, Byte> codeToData = null;
@@ -113,7 +111,6 @@ public class GameUtils {
     }
 
     public static void damage(double damage, LivingEntity target, LivingEntity killer, boolean hasDelay) {
-        Minigame.getInstance().getGameEvents().getDamageCause().put(target, killer);
         if (!hasDelay) {
             target.setNoDamageTicks(0);
         }
@@ -350,20 +347,6 @@ public class GameUtils {
                 Game.getInstance().getMobs().get(other.getUniqueId());
         return o1 != null && o2 != null && o1.getTeam() == o2.getTeam();
     }
-
-    public static Player getLastUsedLightning() {
-        return lastUsedLightning;
-    }
-
-    public static void setLastUsedLightning(Player lastUsedLightning) {
-        GameUtils.lastUsedLightning = lastUsedLightning;
-        GameUtils.lastLightningTime = System.currentTimeMillis();
-    }
-
-    public static Long getLastLightningTime() {
-        return lastLightningTime;
-    }
-
 
     public static LivingEntity getTargetEntity(final Player entity, final double maxRange,
                                                java.util.function.Predicate<LivingEntity> pred) {

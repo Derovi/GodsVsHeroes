@@ -18,13 +18,13 @@ import org.bukkit.util.Vector;
 
 public class StunAll extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
     private final double radius;
-    private final int latency;
+    private final int duration;
 
     public StunAll(final String name, final int level, final Player owner) {
         super(name, level, owner);
         final StunAllInfo info = (StunAllInfo) getInfo();
         radius = info.getRadius();
-        latency = info.getLatency();
+        duration = info.getDuration();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class StunAll extends Item implements PlayerInteractInterface, InfiniteRe
                 continue;
             }
             if (dst < radius && GameUtils.isEnemy(ot, getTeam())) {
-                Stun.stunEntity((LivingEntity) ot, latency);
+                Stun.stunEntity((LivingEntity) ot, duration);
             }
         }
     }

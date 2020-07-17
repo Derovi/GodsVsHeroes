@@ -13,7 +13,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public class DFireball extends EntityDragonFireball {
     private GamePlayer owner;
-    private int explodeDamage;
+    private double explodeDamage;
 
     public DFireball(Location loc) {
         super(((CraftWorld) loc.getWorld()).getHandle());
@@ -40,11 +40,11 @@ public class DFireball extends EntityDragonFireball {
         getWorld().addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
     }
 
-    public int getExplodeDamage() {
+    public double getExplodeDamage() {
         return explodeDamage;
     }
 
-    public void setExplodeDamage(int explodeDamage) {
+    public void setExplodeDamage(double explodeDamage) {
         this.explodeDamage = explodeDamage;
     }
 

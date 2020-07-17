@@ -1,50 +1,41 @@
 {
   "name": "dragonfly",
+  "lore": [
+    "§fУрон фаербола §8» §b%%damage,0.5%%§c❤",
+    "§fКулдаун фаербола §8» §b%%fireballCoolDown,0.05%% §fсек.",
+    "§fВремя жизни дракона §8» §b%%duration,0.05%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "slot": 0,
   "levels": [
     {
-      "fireballCoolDown": 30,
+      "fireballCoolDown": 40,
       "cooldown": 1600,
       "duration": 400,
-      "damage": 12,
+      "damage": 20,
       "speed": 0.55,
       "cost": 80,
       "material": "SKULL_ITEM",
-      "displayName": "§cDragon fly",
-      "lore": [
-        "§aНажмите, чтобы оседлать дракона.",
-        "§6Уровень 1"
-      ],
       "amount": 1
     },
     {
-      "fireballCoolDown": 30,
+      "fireballCoolDown": 35,
       "cooldown": 1600,
       "duration": 400,
-      "damage": 13,
+      "damage": 21,
       "speed": 0.55,
       "cost": 100,
       "material": "SKULL_ITEM",
-      "displayName": "§cDragon fly",
-      "lore": [
-        "§aНажмите, чтобы оседлать дракона.",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
-      "fireballCoolDown": 30,
+      "fireballCoolDown": 35,
       "cooldown": 1600,
       "duration": 400,
-      "damage": 14,
+      "damage": 23,
       "speed": 0.55,
       "cost": 120,
       "material": "SKULL_ITEM",
-      "displayName": "§cDragon fly",
-      "lore": [
-        "§aНажмите, чтобы оседлать дракона.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     },
     {
@@ -52,29 +43,19 @@
       "cooldown": 1600,
       "duration": 400,
       "cost": 120,
-      "damage": 15,
+      "damage": 24,
       "speed": 0.55,
       "material": "SKULL_ITEM",
-      "displayName": "§cDragon fly",
-      "lore": [
-        "§aНажмите, чтобы оседлать дракона.",
-        "§6Уровень 4"
-      ],
       "amount": 1
     },
     {
       "fireballCoolDown": 30,
       "cooldown": 1600,
       "duration": 400,
-      "damage": 16,
+      "damage": 26,
       "speed": 0.55,
       "cost": 140,
       "material": "SKULL_ITEM",
-      "displayName": "§cDragon fly",
-      "lore": [
-        "§aНажмите, чтобы оседлать дракона.",
-        "§6Уровень 5"
-      ],
       "amount": 1
     }
   ]

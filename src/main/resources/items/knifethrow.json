@@ -1,50 +1,50 @@
 {
   "name": "knifethrow",
   "slot": 0,
+  "lore": [
+    "§fУрон от атаки §8» §b%%meleeDamage,0.5%%§c❤",
+    "§fУрон от броска §8» §b%%damage,0.5%%§c❤",
+    "§fКулдаун броска §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 14,
       "damage": 8,
+      "meleeDamage": 8,
       "cost": 0,
       "material": "IRON_SWORD",
-      "displayName": "§cКинжал",
-      "lore": [],
       "amount": 1
     },
     {
       "cooldown": 14,
-      "damage": 8,
+      "damage": 9,
+      "meleeDamage": 8,
       "cost": 80,
       "material": "IRON_SWORD",
-      "displayName": "§cКинжал",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 14,
-      "damage": 9,
-      "cost": 100,
-      "material": "IRON_SWORD",
-      "displayName": "§cКинжал",
-      "lore": [],
-      "amount": 1
-    },
-    {
-      "cooldown": 14,
-      "damage": 9,
-      "cost": 120,
-      "material": "IRON_SWORD",
-      "displayName": "§cКинжал",
-      "lore": [],
       "amount": 1
     },
     {
       "cooldown": 14,
       "damage": 10,
+      "meleeDamage": 9,
+      "cost": 100,
+      "material": "IRON_SWORD",
+      "amount": 1
+    },
+    {
+      "cooldown": 14,
+      "damage": 11,
+      "meleeDamage": 9,
+      "cost": 120,
+      "material": "IRON_SWORD",
+      "amount": 1
+    },
+    {
+      "cooldown": 14,
+      "damage": 12,
+      "meleeDamage": 9,
       "cost": 140,
       "material": "IRON_SWORD",
-      "displayName": "§cКинжал",
-      "lore": [],
       "amount": 1
     }
   ]

@@ -76,7 +76,7 @@ public class GameLobby implements Listener {
         int slot = player.getInventory().getHeldItemSlot();
         GamePlayer gp = GameUtils.getPlayer(player.getName());
         if (slot == 8) {
-            BridgeUtils.redirectPlayer(player.getPlayer(), Plugin.getInstance().getServerData().getLobbyServer().getName());
+            BridgeUtils.redirectPlayer(player.getPlayer(), Plugin.getInstance().getServerData().getSavedLobbyServer().getName());
         } else if (!gp.setPreferredTeam(slot)) {
             player.sendMessage(Lang.get("gameLobby.cantSelect"));
         } else {

@@ -1,58 +1,50 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.storages.MongoDBStorage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.ReplaceOptions;
+import org.bson.Document;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ServerData {
-    private final StorageInterface storage;
+    private final MongoCollection<Document> collection;
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private List<ServerInfo> savedGameServers;
+    private ServerInfo savedLobbyServer;
 
-    public ServerData(StorageInterface storage) {
-        this.storage = storage;
-    }
-
-    public void load() {
-        try {
-            if (!storage.exists("servers", "info")) {
-                storage.save("servers", "info", new GsonBuilder().setPrettyPrinting().create().toJson(
-                        new ServersInfo()
-                ));
+    public ServerData(MongoDBStorage storage) {
+        collection = storage.getDatabase().getCollection("servers");
+        new BukkitRunnable() {  // updater
+            @Override
+            public void run() {
+                savedLobbyServer = getLobbyServer();
+                savedGameServers = getGameServers();
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        }.runTaskTimer(Plugin.getInstance(), 5, 2);
+    }
+
+    private ServerInfo getLobbyServer() {
+        Document document = collection.find(Filters.eq("type", "LOBBY")).first();
+        if (document == null) {
+            return null;
         }
+        return gson.fromJson(document.toJson(), ServerInfo.class);
     }
 
-    public ServersInfo getServersInfo() {
-        return new Gson().fromJson(storage.load("servers", "info"), ServersInfo.class);
-    }
-
-    public void saveServersInfo(ServersInfo info) {
-        try {
-            storage.save("servers", "info", new GsonBuilder().setPrettyPrinting().create().toJson(info));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public ServerInfo getLobbyServer() {
-        for (ServerInfo info : getServersInfo().getServers().values()) {
-            if (info.getType() == ServerType.LOBBY) {
-                return info;
-            }
-        }
-        return null;
-    }
-
-    public List<ServerInfo> getGameServers() {
+    private List<ServerInfo> getGameServers() {
         List<ServerInfo> servers = new LinkedList<>();
-        for (ServerInfo info : getServersInfo().getServers().values()) {
-            if (info.getType().equals(ServerType.GAME)) {
-                servers.add(info);
-            }
+        for (Document document : collection.find(
+                Filters.and(Filters.eq("type", "GAME")))) {
+            servers.add(gson.fromJson(document.toJson(), ServerInfo.class));
         }
         servers.sort((info1, info2) -> {
             int status1 = 0;
@@ -84,37 +76,43 @@ public class ServerData {
     }
 
     public ServerInfo getServerInfo(String serverName) {
-        return getServersInfo().get(serverName);
+        Document document = collection.find(Filters.eq("_id", serverName)).first();
+        if (document == null) {
+            return null;
+        }
+        return gson.fromJson(document.toJson(), ServerInfo.class);
     }
 
-    public void updateServerInfo(ServerInfo info) {
-        ServersInfo globalInfo = getServersInfo();
-        globalInfo.updateServerInfo(info);
-        saveServersInfo(globalInfo);
-    }
-
-    public void register(String serverName, ServerType type) {
-        ServersInfo globalInfo = getServersInfo();
-        globalInfo.register(serverName, type);
-        saveServersInfo(globalInfo);
+    public void register(String serverName, ServerType type, int maxOnline) {
+        ServerInfo serverInfo = new ServerInfo(serverName, type);
+        serverInfo.setMaxOnline(maxOnline);
+        BasicDBObject dbObject = BasicDBObject.parse(gson.toJson(serverInfo));
+        dbObject.put("_id", serverName);
+        ReplaceOptions options = new ReplaceOptions();
+        options.upsert(true);
+        collection.replaceOne(Filters.eq("_id", serverName), new Document(dbObject), options);
     }
 
     public void unregister(String serverName) {
-        ServersInfo globalInfo = getServersInfo();
-        globalInfo.getServers().remove(serverName);
-        saveServersInfo(globalInfo);
+        collection.deleteOne(Filters.eq("_id", serverName));
     }
 
 
     public void updateStatus(String serverName, String status) {
-        ServersInfo globalInfo = getServersInfo();
-        globalInfo.updateStatus(serverName, status);
-        saveServersInfo(globalInfo);
+        collection.updateOne(Filters.eq("_id", serverName),
+                new Document("$set", new Document("status", status)));
     }
 
     public void updateOnline(String serverName, int online) {
-        ServersInfo globalInfo = getServersInfo();
-        globalInfo.updateOnline(serverName, online);
-        saveServersInfo(globalInfo);
+        collection.updateOne(Filters.eq("_id", serverName),
+                new Document("$set", new Document("online", online)));
+    }
+
+    public List<ServerInfo> getSavedGameServers() {
+        return savedGameServers;
+    }
+
+    public ServerInfo getSavedLobbyServer() {
+        return savedLobbyServer;
     }
 }

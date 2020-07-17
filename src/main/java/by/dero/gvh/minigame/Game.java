@@ -1,9 +1,6 @@
 package by.dero.gvh.minigame;
 
-import by.dero.gvh.AdviceManager;
-import by.dero.gvh.GameMob;
-import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Plugin;
+import by.dero.gvh.*;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.*;
@@ -50,6 +47,7 @@ public abstract class Game implements Listener {
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
     private RewardManager rewardManager;
     private MapManager mapManager;
+    private DeathAdviceManager deathAdviceManager;
     protected boolean loaded = false;
 
     public Stats getStats() {
@@ -68,6 +66,7 @@ public abstract class Game implements Listener {
 
     public void start() {
         mapManager = new MapManager(Bukkit.getWorld(getInfo().getWorld()));
+        deathAdviceManager = new DeathAdviceManager();
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
             return;
@@ -137,7 +136,6 @@ public abstract class Game implements Listener {
         SafeRunnable borderChecker = new SafeRunnable() {
             final DirectedPosition[] borders = getInfo().getMapBorders();
             final String desMsg = Lang.get("game.desertionMessage");
-            final HashMap<UUID, Vector> lastPos = new HashMap<>();
             @Override
             public void run() {
                 for (LivingEntity entity : Minigame.getInstance().getWorld().getLivingEntities()) {
@@ -154,8 +152,7 @@ public abstract class Game implements Listener {
                     }
                     if (newVelocity != null) {
                         if (!entity.isInsideVehicle()) {
-                            entity.teleport(lastPos.get(entity.getUniqueId()).toLocation(entity.getWorld()));
-//                            entity.setVelocity(newVelocity);
+                            entity.setVelocity(newVelocity);
                         } else {
                             newVelocity = newVelocity.multiply(0.5);
                             if (entity.getVehicle() instanceof Chicken) {
@@ -189,13 +186,11 @@ public abstract class Game implements Listener {
                         if (entity instanceof Player) {
                             entity.sendMessage(desMsg);
                         }
-                    } else {
-                        lastPos.put(entity.getUniqueId(), entity.getLocation().toVector());
                     }
                 }
             }
         };
-        borderChecker.runTaskTimer(Plugin.getInstance(), 5, 10);
+        borderChecker.runTaskTimer(Plugin.getInstance(), 0, 10);
         runnables.add(borderChecker);
         stats = new Stats();
 
@@ -206,7 +201,7 @@ public abstract class Game implements Listener {
         }
     }
 
-    public void onPlayerKilled(Player player, Player killer) {
+    public void onPlayerKilled(Player player, Player killer, Collection<Player> assists) {
         try {
             if (!player.equals(killer)) {
                 rewardManager.give("killEnemy", killer,
@@ -221,7 +216,13 @@ public abstract class Game implements Listener {
                         replace("%kilCode%", kilCode).replace("%kilClass%", kilClass).replace("%killer%", killer.getName()).
                         replace("%tarCode%", tarCode).replace("%tarClass%", tarClass).replace("%target%", player.getName()));
 
-                stats.addKill(player, killer);
+                if (assists != null) {
+                    String msg = rewardManager.getMessage("assist").replace("%enemy%", player.getName());
+                    for (Player pl : assists) {
+                        rewardManager.give("assist", pl, msg);
+                    }
+                }
+                stats.addKill(player, killer, assists);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -324,7 +325,7 @@ public abstract class Game implements Listener {
                 afterParty.stop();
                 afterParty = null;
                 runnable.cancel();
-                ServerInfo lobbyServer = Plugin.getInstance().getServerData().getLobbyServer();
+                ServerInfo lobbyServer = Plugin.getInstance().getServerData().getSavedLobbyServer();
                 Set<String> playerNames = new HashSet<>(players.keySet());
                 for (String playerName : playerNames) {
                     Player player = players.get(playerName).getPlayer();
@@ -337,7 +338,7 @@ public abstract class Game implements Listener {
                 }
                 stats.unload();
                 if (Plugin.getInstance().getSettings().isStopAfterGame()) {
-                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "stop");
+                    Bukkit.shutdown();
                     return;
                 }
                 state = State.PREPARING;
@@ -395,15 +396,18 @@ public abstract class Game implements Listener {
 
     public void addPlayer(Player player) {
         if (state == State.GAME) {
-            BridgeUtils.toLobby(player, Lang.get("game.gameAlreadyStarted"));
+            //BridgeUtils.toLobby(player, Lang.get("game.gameAlreadyStarted"));
+            player.kickPlayer(Lang.get("game.gameAlreadyStarted"));
             return;
         }
         if (state == State.PREPARING) {
-            BridgeUtils.toLobby(player, Lang.get("game.gamePrepairing"));
+            //BridgeUtils.toLobby(player, Lang.get("game.gamePrepairing"));
+            player.kickPlayer(Lang.get("game.gamePrepairing"));
             return;
         }
         if (getInfo().getMaxPlayerCount() <= getPlayers().size()) {
-            BridgeUtils.toLobby(player, Lang.get("game.overflow"));
+            //BridgeUtils.toLobby(player, Lang.get("game.overflow"));
+            player.kickPlayer(Lang.get("game.overflow"));
             return;
         }
         if (getPlayers().size() >= info.getMaxPlayerCount()) {
@@ -440,6 +444,7 @@ public abstract class Game implements Listener {
         }
         players.remove(playerName);
         if (state == State.GAME) {
+            deathAdviceManager.forgetPlayer(player.getPlayer().getUniqueId());
             int tt = -1;
             for (GamePlayer gp : players.values()) {
                 if (tt == -1) {
@@ -505,15 +510,20 @@ public abstract class Game implements Listener {
         player.teleport(playerDeathLocations.get(player.getName()));
         player.setVelocity(new Vector(0,4,0));
         if (respawnTime == -1) {
-            MessagingUtils.sendTitle(Lang.get("game.livesNotLeft"), player, 0, 20, 0);
+            MessagingUtils.sendTitle(Lang.get("game.livesNotLeft"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
             return;
+        } else {
+            MessagingUtils.sendTitle(Lang.get("game.dead"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
         }
-        MessagingUtils.sendTitle(Lang.get("game.dead"), player, 0, 20, 0);
 
         SafeRunnable runnable = new SafeRunnable() {
             int counter = respawnTime;
             @Override
             public void run() {
+                if (counter < respawnTime && (respawnTime - counter) % 80 == 0) {
+                    MessagingUtils.sendSubtitle(deathAdviceManager.nextAdvice(gp), gp.getPlayer(), 0, 80, 0);
+                }
+
                 if (state == State.FINISHING) {
                     this.cancel();
                     return;

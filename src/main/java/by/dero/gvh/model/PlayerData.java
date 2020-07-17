@@ -1,14 +1,15 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.model.storages.MongoDBStorage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class PlayerData {
-    public PlayerData(StorageInterface storage) {
+    public PlayerData(MongoDBStorage storage) {
         this.storage = storage;
     }
 
-    private final StorageInterface storage;
+    private final MongoDBStorage storage;
 
     public void registerPlayer(String playerName) {
         try {

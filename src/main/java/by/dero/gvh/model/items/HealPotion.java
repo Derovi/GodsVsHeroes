@@ -32,11 +32,6 @@ public class HealPotion extends Item implements ProjectileHitInterface,
     }
 
     @Override
-    public ItemStack getItemStack () {
-        return setItemMeta(new Potion(PotionType.INSTANT_HEAL, 1, true).toItemStack(getInfo().getAmount()), name, getInfo());
-    }
-
-    @Override
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity at = event.getEntity();
         for (final LivingEntity ent : GameUtils.getNearby(at.getLocation(), radius)) {

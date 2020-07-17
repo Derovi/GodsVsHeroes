@@ -1,6 +1,12 @@
 {
   "name": "suicidejump",
   "slot": 0,
+  "lore": [
+    "§fУрон §8» §b%%damage,0.5%%§c❤",
+    "§fУрон по себе §8» §b%%selfDamage,0.5%%§c❤",
+    "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 260,
@@ -9,11 +15,6 @@
       "selfDamage": 14,
       "cost": 80,
       "material": "FIREBALL",
-      "displayName": "§cSuicide jump",
-      "lore": [
-        "§aЗаберите врагов за собой в ад!",
-        "§6Уровень 1"
-      ],
       "amount": 1
     },
     {
@@ -23,11 +24,6 @@
       "selfDamage": 15,
       "cost": 100,
       "material": "STICK",
-      "displayName": "§cSuicide jump",
-      "lore": [
-        "§aЗаберите врагов за собой в ад!",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
@@ -37,11 +33,6 @@
       "selfDamage": 16,
       "cost": 120,
       "material": "STICK",
-      "displayName": "§cSuicide jump",
-      "lore": [
-        "§aЗаберите врагов за собой в ад!",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

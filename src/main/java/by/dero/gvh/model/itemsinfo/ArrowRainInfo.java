@@ -1,11 +1,16 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 
 public class ArrowRainInfo extends ItemInfo {
     private double radius = 20;
     private int arrowCycles = 100;
     private int cycleDelay = 5;
+
+    public ArrowRainInfo(ItemDescription description) {
+        super(description);
+    }
 
     public int getArrowCycles() {
         return arrowCycles;

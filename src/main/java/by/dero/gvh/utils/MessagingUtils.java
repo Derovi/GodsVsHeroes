@@ -25,6 +25,19 @@ public class MessagingUtils {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(title);
     }
 
+    public static void sendTitle(final String title, String subtitle, final Player player, int c, int d, int e) {
+        final PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(
+                PacketPlayOutTitle.EnumTitleAction.TITLE,
+                IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + title + "\"}"),
+                c, d, e);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(titlePacket);
+        final PacketPlayOutTitle subtitlePacket = new PacketPlayOutTitle(
+                PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
+                IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + subtitle + "\"}"),
+                c, d, e);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(subtitlePacket);
+    }
+
     public static void sendSubtitle(final String text, final Player player, int c, int d, int e) {
         final PacketPlayOutTitle title = new PacketPlayOutTitle(
                 PacketPlayOutTitle.EnumTitleAction.TITLE,

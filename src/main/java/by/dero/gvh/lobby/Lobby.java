@@ -14,10 +14,7 @@ import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
-import by.dero.gvh.utils.DataUtils;
-import by.dero.gvh.utils.Position;
-import by.dero.gvh.utils.ResourceUtils;
-import by.dero.gvh.utils.VoidGenerator;
+import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -67,7 +64,7 @@ public class Lobby implements PluginMode, Listener {
     public void onEnable() {
         instance = this;
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
-                ServerType.LOBBY);
+                ServerType.LOBBY, 300);
         try {
             info = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(), "lobby", "lobby",
                     ResourceUtils.readResourceFile("/lobby/lobby.json")), LobbyInfo.class);
@@ -94,7 +91,7 @@ public class Lobby implements PluginMode, Listener {
             obj.remove();
         }
         StorageInterface dataStorage = new LocalStorage();
-        if (Plugin.getInstance().getSettings().getPlayerDataStorageType().equals("mongodb")) {
+        if (Plugin.getInstance().getSettings().getLobbyDataStorageType().equals("mongodb")) {
             dataStorage = new MongoDBStorage(
                     Plugin.getInstance().getSettings().getLobbyDataMongodbConnection(),
                     Plugin.getInstance().getSettings().getLobbyDataMongodbDatabase());
@@ -292,6 +289,7 @@ public class Lobby implements PluginMode, Listener {
     @EventHandler
     public void onPlayerMove(final PlayerMoveEvent event) {
         final Player p = event.getPlayer();
+
         if (!p.getAllowFlight()) {
             groundUpdate(p);
         }

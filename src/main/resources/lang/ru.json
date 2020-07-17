@@ -16,21 +16,46 @@
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
   },
   "items": {
-    "suicidejump": "Суицид",
-    "exchange": "Обмен местами",
-    "swordthrow": "Меч",
-    "knifethrow": "Кинжал",
-    "smokes": "Дымовая шашка",
-    "eaglefly": "Орёл",
-    "lightningstorm": "Адский шторм",
-    "healall": "Исцеление",
-    "webthrow": "Паутина",
-    "teleportpearls": "Глаз дракона",
     "axethrow": "Топор",
+    "chainlightning": "Цепная молния",
+    "chaseenemy": "Погоня",
+    "damagepotion": "Зелье урона",
+    "dragonbreath": "Огненное дыхание",
+    "dragonegg": "Яйцо дракона",
+    "dragonfly": "Призыв дракона",
+    "eaglefly": "Полёт орла",
+    "escapeteleport": "Побег",
+    "exchange": "Обмен местами",
+    "explosivepig": "Баллистическая свинья",
+    "firebow": "Лук огня",
+    "firespear": "Огненное копьё",
+    "firesplash": "Огненный порыв",
+    "grenade": "Граната",
     "hammerthrow": "Молот",
+    "healpotion": "Зелье здоровья",
+    "healall": "Исцеление",
+    "knifethrow": "Кинжал",
+    "lightningbow": "Лук молний",
+    "lightningstorm": "Адский шторм",
+    "magnetizeorb": "Магнитный шар",
+    "magicrod": "Посох силы",
+    "meteor": "Призыв метеора",
+    "ninjarope": "Крюк-кошка",
+    "poisonousbow": "Отравляющий лук",
+    "poisonpotion": "Зелье отравления",
+    "skeletonarmy": "Армия тьмы",
+    "skyrise": "Побег в небеса",
+    "smokes": "Дымовая шашка",
+    "spurt": "Рывок",
+    "stunrocks": "Камни",
+    "suicidejump": "Суицид",
+    "swordthrow": "Меч",
+    "teleportpearls": "Глаз дракона",
     "magnetizeOrb": "Магнитный шар",
-    "stunall": "Клетка",
-    "chainlightning": "Цепная молния"
+    "stunall": "Клетка гнева",
+    "thorbow": "Лук Тора",
+    "webthrow": "Паутина",
+    "mjolnir": "Мьёльнир"
   },
   "advices": {
     "unlockClass": "§6Разблокируйте любой класс, нажав на него §fПКМ",
@@ -62,7 +87,7 @@
       "bug": "§f/bug§6, чтобы сообщить о баге",
       "advice": "§f/advice§6, чтобы дать совет разработчикам"
     },
-    "lucifier": {
+    "lucifer": {
       "swap": "§6Комбинируйте §f§lОбмен местами§6 с §f§lУльтимейтом",
       "space": "§6Двойной §f[ПРОБЕЛ]§6 помогает убежать",
       "sword": "§6Меч можно кинуть, нажав §f[ПКМ]",
@@ -105,7 +130,8 @@
   "commandChat": {
     "empty": "§cСообщение не должно быть пустым",
     "locked": "§cКомандный чат работает только во время игры",
-    "formatMessage": "§8[§bКоманда§8]§f %sender% §a%msg%"
+    "formatMessage": "§8[§bКоманда§8]§f %sender% §8» §a%msg%",
+    "formatMessageAll": "§8[§bВсем§8]§f %sender% §8» §a%msg%"
   },
   "hints": {
     "lift": "§8[§aПРОБЕЛ§8]§b чтобы подняться"
@@ -142,7 +168,9 @@
     "classSelected": "§bВаш класс §8» §f%class%",
     "expGained": "Опыт за игру §8» §b%exp%",
     "kills": "Убийств §8» §a%kills%",
-    "deaths": "Смертей §8» §c%deaths%"
+    "deaths": "Смертей §8» §c%deaths%",
+    "assists": "Помощей §8» §a%assists%",
+    "progressReach": "§aКоманда %command% §aнабрала %pts%%"
   },
   "loots": {
     "labelHeal": "§aГотово! %pts%§c❤",

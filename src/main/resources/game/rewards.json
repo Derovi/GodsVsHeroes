@@ -3,6 +3,10 @@
     "message": "§aВы получили §6%count%§a опыта за убийство §c%enemy%§a!. Всего за игру заработано §6%allcount%§c.",
     "count": 4
   },
+  "assist": {
+    "message": "§aВы получили §6%count%§a опыта за помощь в убийстве §c%enemy%§a!. Всего за игру заработано §6%allcount%§c.",
+    "count": 1
+  },
   "winGame": {
     "message": "§aВы выиграли игру, за что получили §c%count%§a опыта. Всего за игру заработано §c%allcount%§a.",
     "count": 100

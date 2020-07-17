@@ -8,6 +8,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.utils.GameUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -27,20 +28,18 @@ import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
 
 public class GameEvents implements Listener {
     public static void setGame(Game game) {
         GameEvents.game = game;
     }
 
-    public HashMap<LivingEntity, LivingEntity> getDamageCause() {
+    public HashMap<Player, Stack<Pair<Player, Long>>> getDamageCause() {
         return damageCause;
     }
 
-    private final HashMap<LivingEntity, LivingEntity> damageCause = new HashMap<>();
+    private final HashMap<Player, Stack<Pair<Player, Long> > > damageCause = new HashMap<>();
 
     public HashSet<UUID> getProjectiles() {
         return projectiles;
@@ -74,8 +73,18 @@ public class GameEvents implements Listener {
         }
     }
 
+    private final List<Material> inventoryBlocks = Arrays.asList(
+            Material.CHEST, Material.ENDER_CHEST, Material.TRAPPED_CHEST, Material.HOPPER,
+            Material.HOPPER_MINECART, Material.STORAGE_MINECART
+    );
+    
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
+        Block clicked = event.getClickedBlock();
+        if (clicked != null && inventoryBlocks.contains(clicked.getType())) {
+            event.setCancelled(true);
+            return;
+        }
         if (!Game.getInstance().getState().equals(Game.State.GAME)) {
             event.setCancelled(true);
             return;
@@ -205,20 +214,7 @@ public class GameEvents implements Listener {
                 event.getCause().equals(EntityDamageEvent.DamageCause.WITHER)) &&
                 entity.getHealth() <= event.getFinalDamage()) {
             event.setCancelled(true);
-            return;
         }
-
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING) &&
-                GameUtils.getLastLightningTime() + 1000 > System.currentTimeMillis()) {
-            final Player player = GameUtils.getLastUsedLightning();
-            if (GameUtils.isEnemy(entity, GameUtils.getPlayer(player.getName()).getTeam())) {
-                game.getStats().addDamage(entity, player, event.getDamage());
-                damageCause.put(entity, player);
-            } else {
-                event.setCancelled(true);
-            }
-        }
-        ((LivingEntity) event.getEntity()).setNoDamageTicks(5);
     }
 
     @EventHandler
@@ -241,19 +237,25 @@ public class GameEvents implements Listener {
             return;
         }
         LivingEntity entity = (LivingEntity) event.getEntity();
-        LivingEntity damager = (LivingEntity) ent;
-        if (!(damager instanceof Player)) {
-            damager = GameUtils.getMob(damager.getUniqueId()).getOwner();
+        Player damager;
+        if (!(ent instanceof Player)) {
+            damager = GameUtils.getMob(ent.getUniqueId()).getOwner();
+        } else {
+            damager = (Player) ent;
         }
         GameObject gm = GameUtils.getObject(entity);
         if (gm != null && GameUtils.isEnemy(damager, gm.getTeam())) {
-            game.getStats().addDamage(entity, damager, event.getDamage());
-            damageCause.put(entity, damager);
-            Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
-                if (!entity.isDead() && gm instanceof GameMob) {
-                    ((GameMob) gm).updateName();
-                }
-            }, 1);
+            if (entity instanceof Player) {
+                damageCause.putIfAbsent((Player) entity, new Stack<>());
+                damageCause.get(entity).add(Pair.of(damager, System.currentTimeMillis()));
+                game.getStats().addDamage((Player) entity, damager, event.getDamage());
+            } else {
+                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+                    if (!entity.isDead()) {
+                        ((GameMob) gm).updateName();
+                    }
+                }, 1);
+            }
         } else {
             event.setCancelled(true);
         }
@@ -294,21 +296,33 @@ public class GameEvents implements Listener {
         event.getDrops().clear();
     }
 
+    private final HashSet<Player> assists = new HashSet<>();
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        final HashMap<LivingEntity, LivingEntity> damageCause = Minigame.getInstance().getGameEvents().getDamageCause();
-        LivingEntity kil = damageCause.getOrDefault(player, player);
+        Player kil = player;
+        assists.clear();
+        Stack<Pair<Player, Long> > cause = damageCause.getOrDefault(player, null);
+        if (cause != null && !cause.isEmpty()) {
+            kil = cause.pop().getKey();
+            Long time = System.currentTimeMillis();
+            while (!cause.isEmpty()) {
+                Pair<Player, Long> cur = cause.pop();
+                if (time - cur.getValue() > 5000) {
+                    break;
+                } else {
+                    assists.add(cur.getKey());
+                }
+            }
+        }
         if (player.getKiller() != null) {
             kil = player.getKiller();
         }
-        if (!(kil instanceof Player)) {
-            kil = GameUtils.getMob(kil.getUniqueId()).getOwner();
-        }
+        assists.remove(kil);
         for (PlayerKillInterface item : GameUtils.selectItems(GameUtils.getPlayer(kil.getName()), PlayerKillInterface.class)) {
             item.onPlayerKill(player);
         }
-        game.onPlayerKilled(player, (Player) kil);
+        game.onPlayerKilled(player, kil, new ArrayList<>(assists));
         damageCause.remove(player);
     }
 

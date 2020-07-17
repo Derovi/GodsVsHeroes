@@ -1,15 +1,20 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 import org.bukkit.Particle;
 
 public class LightningStormInfo extends ItemInfo {
     private double radius;
-    private int damage;
+    private double damage;
     private int strikes;
     private double[] signRadius;
     private long delayStrikes;
     private Particle drawParticle;
+
+    public LightningStormInfo(ItemDescription description) {
+        super(description);
+    }
 
     public double getRadius() {
         return radius;
@@ -51,11 +56,11 @@ public class LightningStormInfo extends ItemInfo {
         this.drawParticle = drawParticle;
     }
 
-    public int getDamage () {
+    public double getDamage () {
         return damage;
     }
 
-    public void setDamage (int damage) {
+    public void setDamage (double damage) {
         this.damage = damage;
     }
 }

@@ -1,17 +1,16 @@
 {
   "name": "firebow",
   "slot": 0,
+  "lore": [
+    "§fРадиус поджога §8» §b%%radius%% §fблоков",
+    "§fВремя поджога §8» §b6 §fсек."
+  ],
   "levels": [
     {
       "cooldown": 0,
       "radius": 3,
       "cost": 80,
       "material": "BOW",
-      "displayName": "§cFire bow",
-      "lore": [
-        "§aТеперь ваши стрелы подожгут врагов!",
-        "§6Уровень 1"
-      ],
       "amount": 1
     },
     {
@@ -19,11 +18,6 @@
       "radius": 4,
       "cost": 80,
       "material": "BOW",
-      "displayName": "§cFire bow",
-      "lore": [
-        "§aТеперь ваши стрелы подожгут врагов!",
-        "§6Уровень 1"
-      ],
       "amount": 1
     },
     {
@@ -31,11 +25,6 @@
       "radius": 5,
       "cost": 80,
       "material": "BOW",
-      "displayName": "§cFire bow",
-      "lore": [
-        "§aТеперь ваши стрелы подожгут врагов!",
-        "§6Уровень 1"
-      ],
       "amount": 1
     }
   ]

@@ -2,6 +2,11 @@
   "name": "spurt",
   "invisible": true,
   "slot": 0,
+  "lore": [
+    "§fУсиление §8» §b%%power%%",
+    "§fУскорение §8» §b%%speedTime,0.05%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "levels": [
     {
       "cooldown": 400,
@@ -9,8 +14,6 @@
       "cost": 80,
       "speedTime": 40,
       "material": "FEATHER",
-      "displayName": "",
-      "lore": [],
       "amount": 1
     },
     {
@@ -19,8 +22,6 @@
       "speedTime": 45,
       "cost": 100,
       "material": "FEATHER",
-      "displayName": "",
-      "lore": [],
       "amount": 1
     },
     {
@@ -29,8 +30,6 @@
       "speedTime": 50,
       "cost": 120,
       "material": "FEATHER",
-      "displayName": "",
-      "lore": [],
       "amount": 1
     },
     {
@@ -39,8 +38,6 @@
       "speedTime": 55,
       "cost": 140,
       "material": "FEATHER",
-      "displayName": "",
-      "lore": [],
       "amount": 1
     },
     {
@@ -49,8 +46,6 @@
       "speedTime": 60,
       "cost": 160,
       "material": "FEATHER",
-      "displayName": "",
-      "lore": [],
       "amount": 1
     }
   ]
