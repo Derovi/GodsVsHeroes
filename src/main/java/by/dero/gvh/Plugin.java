@@ -31,6 +31,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.karma.IKarmaService;
 import ru.cristalix.core.karma.KarmaService;
+import ru.cristalix.core.map.*;
 import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
 import ru.cristalix.core.pvp.CPSLimiter;
@@ -115,10 +116,12 @@ public class Plugin extends JavaPlugin implements Listener {
         if (settings.isCristalix()) {
             CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
             CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
+            CoreApi.get().registerService(IMapService.class, new MapService());
             IPermissionService.get().enableTablePermissions();
             new CPSLimiter(this, 10);
             IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
             IRealmService.get().getCurrentRealmInfo().setMaxPlayers(100);
+            settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());
         }
         Bukkit.getPluginManager().registerEvents(this, this);
         new MathUtils();
