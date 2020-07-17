@@ -1,6 +1,7 @@
 package by.dero.gvh.commands;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.bookapi.BookGUI;
 import by.dero.gvh.nmcapi.dragon.EmptyArmorStand;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.command.Command;
@@ -19,21 +20,9 @@ public class TestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] args) {
-        System.out.println("Stand");
         Player player = (Player) commandSender;
-        ArmorStand stand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
-        stand.setVelocity(new Vector(0, 0.49, 0));
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.setVelocity(new Vector(0, 1.4, 0));
-                player.addPassenger(stand);
-            }
-        }.runTaskLater(Plugin.getInstance(), 10);
-        System.out.println(player.getInventory().getItemInMainHand().getType());
-        stand.setItemInHand(player.getInventory().getItemInMainHand());
-        stand.setVisible(false);
-        stand.setRightArmPose(new EulerAngle(Math.PI * 1.5, 0, 0));
+        BookGUI gui = new BookGUI(player);
+        gui.open();
         return true;
     }
 }
