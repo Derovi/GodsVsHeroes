@@ -2,7 +2,8 @@
   "name": "paladinarmor",
   "slot": 0,
   "lore": [
-    "§fДальность для разрыва §8» §b%%distance%% §fблоков."
+    "§fДлительность §8» §b%%duration,0.05%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
