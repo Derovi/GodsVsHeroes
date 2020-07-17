@@ -1,14 +1,11 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.MjolnirInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingMjolnir;
 import by.dero.gvh.utils.GameUtils;
-import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -20,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Mjolnir extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class Mjolnir extends Item implements PlayerInteractInterface {
     private final double damage;
 
     public Mjolnir(String name, int level, Player owner) {
@@ -41,6 +38,7 @@ public class Mjolnir extends Item implements PlayerInteractInterface, InfiniteRe
         final ThrowingMjolnir mjolnir = new ThrowingMjolnir(owner, getItemStack());
 
         final int slot = owner.getInventory().getHeldItemSlot();
+        owner.getInventory().setItem(slot, Item.getPane(getInfo().getDisplayName()));
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         mjolnir.spawn();
         mjolnir.setOnHitEntity(() -> {
