@@ -7,6 +7,7 @@ import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.LightningStrikeInfo;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -50,7 +51,7 @@ public class LightningStrike extends Item implements PlayerInteractInterface, In
 		if (at == null) {
 			return;
 		}
-		GameUtils.spawnLightning(at, lightningDamage, 1, ownerGP);
+		SpawnUtils.spawnLightning(at, lightningDamage, 1, ownerGP);
 		for (LivingEntity ent : at.getWorld().getLivingEntities()) {
 			GameObject obj = GameUtils.getObject(ent);
 			if (ent.getLocation().getY() - 4 - radius > at.getY()) {

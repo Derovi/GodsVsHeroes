@@ -9,6 +9,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.LightningStormInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
@@ -76,7 +77,7 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
                 for (final LivingEntity obj : GameUtils.getNearby(center, radius)) {
                     if (GameUtils.isEnemy(obj, getTeam())) {
                         Location at = obj.getLocation();
-                        GameUtils.spawnLightning(at, damage, 2.5, ownerGP);
+                        SpawnUtils.spawnLightning(at, damage, 2.5, ownerGP);
                     }
                 }
 

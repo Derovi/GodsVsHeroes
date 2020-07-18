@@ -55,23 +55,23 @@ public class ArmorStandMonument extends Monument {
                     } else if (info.getSelectedClass().equals(getClassName())) {
                         player.spawnParticle(Particle.DRAGON_BREATH,
                                 st.clone().add(MathUtils.cos(angle) * radius,
-                                        0,
+                                        2,
                                         MathUtils.sin(angle) * radius),
                                 0, 0, -0.04, 0);
                         player.spawnParticle(Particle.DRAGON_BREATH,
                                 st.clone().add(MathUtils.cos(angle + Math.PI) * radius,
-                                        0,
+                                        2,
                                         MathUtils.sin(angle + Math.PI) * radius),
                                 0, 0, -0.04, 0);
                     } else {
                         player.spawnParticle(Particle.FIREWORKS_SPARK,
                                 st.clone().add(MathUtils.cos(angle) * radius,
-                                        0,
+                                        2,
                                         MathUtils.sin(angle) * radius),
                                 0, 0, 0, 0);
                         player.spawnParticle(Particle.FIREWORKS_SPARK,
                                 st.clone().add(MathUtils.cos(angle + Math.PI) * radius,
-                                        0,
+                                        2,
                                         MathUtils.sin(angle + Math.PI) * radius),
                                 0, 0, 0, 0);
                     }

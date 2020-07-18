@@ -6,6 +6,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.HealPotionInfo;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
@@ -13,8 +14,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
 public class HealPotion extends Item implements ProjectileHitInterface,
@@ -51,7 +50,7 @@ public class HealPotion extends Item implements ProjectileHitInterface,
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
-        summonedEntityIds.add(GameUtils.spawnSplashPotion(owner.getEyeLocation(), 1,
+        summonedEntityIds.add(SpawnUtils.spawnSplashPotion(owner.getEyeLocation(), 1,
                 PotionType.INSTANT_HEAL, owner).getUniqueId());
     }
 }

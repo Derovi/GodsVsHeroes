@@ -7,25 +7,21 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.Lang;
 import com.google.common.base.Predicate;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_R1.EntityArmorStand;
+import net.minecraft.server.v1_12_R1.EntityLiving;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.*;
-import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -70,17 +66,6 @@ public class GameUtils {
             codeToData.put('e', (byte) 4);
             codeToData.put('f', (byte) 0);
         }
-    }
-
-    private static DirectedPosition[] borders = null;
-    public static boolean insideMap(Location loc) {
-        if (borders == null) {
-            borders = Game.getInstance().getInfo().getMapBorders();
-        }
-        final String desMsg = Lang.get("game.desertionMessage");
-
-        return loc.getX() >= borders[0].getX() && loc.getX() <= borders[1].getX() &&
-                loc.getZ() >= borders[0].getZ() && loc.getZ() <= borders[1].getZ();
     }
 
     public static void changeColor(Location loc, char code) {
@@ -194,75 +179,6 @@ public class GameUtils {
                 }
             }.runTaskLater(Plugin.getInstance(), 30);
         }
-    }
-
-    public static void spawnLightning(Location at, double damage, double sound, GamePlayer owner) {
-        EntityLightning entity = new EntityLightning(((CraftWorld)at.getWorld()).world,
-                at.getX(), at.getY(), at.getZ(), false);
-
-        at.getWorld().playSound(at, Sound.ENTITY_LIGHTNING_THUNDER, (float) sound, 1);
-        for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
-            Player player = gp.getPlayer();
-            if (player.getLocation().distance(at) <= 2 && owner.getTeam() != gp.getTeam()) {
-                GameUtils.damage(damage, player, owner.getPlayer());
-            }
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntityWeather(entity));
-        }
-        for (GameMob gm : Game.getInstance().getMobs().values()) {
-            if (gm.getEntity().isDead()) {
-                continue;
-            }
-            if (gm.getEntity().getLocation().distance(at) <= 2 && owner.getTeam() != gm.getTeam()) {
-                GameUtils.damage(damage, gm.getEntity(), owner.getPlayer());
-            }
-        }
-    }
-
-    public static Entity spawnEntity(final Location loc, final EntityType type) {
-        CraftWorld wrld = ((CraftWorld) loc.getWorld());
-        net.minecraft.server.v1_12_R1.Entity entity = wrld.createEntity(loc, type.getEntityClass());
-        entity.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
-        wrld.addEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        return entity.getBukkitEntity();
-    }
-
-    public static LivingEntity spawnTeamEntity(Location loc, EntityType type, GamePlayer gp) {
-        LivingEntity entity = (LivingEntity) spawnEntity(loc, type);
-        GameMob gm = new GameMob(entity, gp.getTeam(), gp.getPlayer());
-        gm.updateName();
-        return entity;
-    }
-
-    public static Projectile spawnProjectile(final Location at, final double speed,
-                                             final EntityType type, final Player player) {
-        final Vector dir = at.getDirection().clone();
-
-        final Location loc = at.clone().add(dir.clone().multiply(1.8));
-        Projectile obj = (Projectile) spawnEntity(loc, type);
-        obj.setVelocity(dir.multiply(speed));
-        obj.setShooter(player);
-
-        return obj;
-    }
-
-    public static Projectile spawnSplashPotion(Location at, double speed, PotionType type, Player player) {
-        Potion instance = new Potion(type, 1, true);
-
-        EntityPlayer pl = ((CraftPlayer) player).getHandle();
-        EntityPotion potion = new EntityPotion(pl.world, pl, CraftItemStack.asCraftCopy(instance.toItemStack(1)).handle);
-        potion.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(),""));
-        Vector dir = at.getDirection();
-        Location loc = at.clone().add(dir.clone().multiply(2));
-        potion.locX = loc.x;
-        potion.locY = loc.y;
-        potion.locZ = loc.z;
-        potion.motX = dir.x * speed;
-        potion.motY = dir.y * speed;
-        potion.motZ = dir.z * speed;
-
-        potion.world.addEntity(potion, CreatureSpawnEvent.SpawnReason.CUSTOM);
-
-        return (Projectile) potion.getBukkitEntity();
     }
 
     public static ArrayList<GameObject> getGameObjects() {

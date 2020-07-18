@@ -7,7 +7,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.NinjaRopeInfo;
 import by.dero.gvh.nmcapi.InfiniteFishHook;
-import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -43,7 +43,7 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
         cooldown.reload();
         EntityPlayer player = ((CraftPlayer) owner).getHandle();
         InfiniteFishHook fishingHook = new InfiniteFishHook(player.world, player);
-        Arrow arrow = (Arrow) GameUtils.spawnProjectile(owner.getEyeLocation(), 2, EntityType.ARROW, owner);
+        Arrow arrow = (Arrow) SpawnUtils.spawnProjectile(owner.getEyeLocation(), 2, EntityType.ARROW, owner);
         fishingHook.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         arrow.addPassenger(fishingHook.getBukkitEntity());
         player.world.addEntity(fishingHook, CreatureSpawnEvent.SpawnReason.CUSTOM);
@@ -56,7 +56,7 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
                     this.cancel();
                     return;
                 }
-                if (arrow.getLocation().distance(owner.getLocation()) > distance || !GameUtils.insideMap(arrow.getLocation())) {
+                if (arrow.getLocation().distance(owner.getLocation()) > distance) {
                     owner.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, arrow.getLocation(), 0, 0, 0, 0);
                     owner.getWorld().playSound(arrow.getLocation(), Sound.ITEM_SHIELD_BREAK, 1.07f, 1);
                     fishingHook.die();

@@ -7,6 +7,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.MagnetizeOrbInfo;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -46,7 +47,7 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(),
+        final Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(),
                 1.2, EntityType.SNOWBALL, owner);
         summonedEntityIds.add(proj.getUniqueId());
     }

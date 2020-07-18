@@ -6,6 +6,7 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.StunRocksInfo;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import by.dero.gvh.utils.Stun;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -47,7 +48,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(),
+        final Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(),
                 1.2, EntityType.SNOWBALL, owner);
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
         summonedEntityIds.add(proj.getUniqueId());

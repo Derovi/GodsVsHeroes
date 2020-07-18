@@ -10,6 +10,7 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.SmokesInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -39,7 +40,7 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 
 	@Override
 	public void onPlayerInteract (PlayerInteractEvent event) {
-		final Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(),
+		final Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(),
 				1.2, EntityType.SNOWBALL, owner);
 		owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
 		summonedEntityIds.add(proj.getUniqueId());

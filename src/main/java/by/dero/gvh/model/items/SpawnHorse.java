@@ -4,6 +4,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.interfaces.VehicleExitInterface;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
@@ -30,7 +31,7 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, VehicleExi
         if (horse != null) {
             return;
         }
-        horse = (SkeletonHorse) GameUtils.spawnTeamEntity(owner.getLocation(), EntityType.SKELETON_HORSE, ownerGP);
+        horse = (SkeletonHorse) SpawnUtils.spawnTeamEntity(owner.getLocation(), EntityType.SKELETON_HORSE, ownerGP);
         horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(30);
         horse.setHealth(30);
         horse.setAdult();

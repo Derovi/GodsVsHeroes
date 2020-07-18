@@ -1,6 +1,5 @@
 package by.dero.gvh.utils;
 
-import by.dero.gvh.minigame.Game;
 import net.minecraft.server.v1_12_R1.MathHelper;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
@@ -116,10 +115,7 @@ public class MathUtils {
     }
 
     public static Location getGoodInCylinder(Location loc, double minradius, double radius) {
-        final DirectedPosition[] poses = Game.getInstance().getInfo().getMapBorders();
         loc = MathUtils.randomCylinder(loc.clone(), minradius, radius, 0);
-        loc.x = Math.max(poses[0].x, Math.min(loc.x, poses[1].x));
-        loc.z = Math.max(poses[0].z, Math.min(loc.z, poses[1].z));
         loc.y = loc.getWorld().getHighestBlockYAt((int)loc.x, (int)loc.z) + 1;
         return loc;
     }

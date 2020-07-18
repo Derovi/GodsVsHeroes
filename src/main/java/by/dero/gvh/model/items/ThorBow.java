@@ -5,7 +5,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.ThorBowInfo;
-import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
@@ -47,7 +47,7 @@ public class ThorBow extends Item implements PlayerShootBowInterface, Projectile
 	@Override
 	public void onProjectileHit (ProjectileHitEvent event) {
 		Location at = event.getEntity().getLocation();
-		GameUtils.spawnLightning(at, damage, 1.25, ownerGP);
+		SpawnUtils.spawnLightning(at, damage, 1.25, ownerGP);
 	}
 
 	@Override

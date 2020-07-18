@@ -1,0 +1,35 @@
+{
+  "name": "summongunsmith",
+  "slot": 0,
+  "lore": [
+    "§fЗдоровье §8» §b%%health,0.5%%§c❤",
+    "§fДлительность жизни §8» §b%%duration,0.05%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
+  "levels": [
+    {
+      "cooldown": 1200,
+      "duration": 400,
+      "health": 30,
+      "cost": 80,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 1000,
+      "duration": 400,
+      "health": 30,
+      "cost": 80,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 800,
+      "duration": 400,
+      "health": 30,
+      "cost": 80,
+      "material": "NETHER_STAR",
+      "amount": 1
+    }
+  ]
+}
