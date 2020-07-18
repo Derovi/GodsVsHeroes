@@ -1,11 +1,13 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChargedFistsInfo;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,8 +30,14 @@ public class ChargedFists extends Item implements PlayerInteractInterface, Infin
 	
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
+		if (!cooldown.isReady()) {
+			return;
+		}
+		cooldown.reload();
 		DoubleFist item = (DoubleFist) ownerGP.getItems().get("doublefist");
 		int was = item.getDamage();
+		
+		Drawings.drawCircle(owner.getLocation().add(0, 2, 0), 1.5, Particle.DRAGON_BREATH, 8);
 		
 		item.setDamage(damage);
 		item.setOnHit(() -> {

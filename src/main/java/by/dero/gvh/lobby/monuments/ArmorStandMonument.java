@@ -2,7 +2,6 @@ package by.dero.gvh.lobby.monuments;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.model.Item;
 import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
@@ -42,13 +41,13 @@ public class ArmorStandMonument extends Monument {
                     final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
                     if (!info.isClassUnlocked(getClassName())) {
                         final double zxc = MathUtils.cos(Math.toRadians(70)) * 1.5;
-                        spawnMovingCircle(st.clone().add(0, -0.15, 0),
+                        spawnMovingCircle(st.clone().add(0, 1.85, 0),
                                 1, zxc, 3, 0, Particle.FLAME, player);
 
-                        spawnMovingCircle(st.clone().add(0, -1, 0),
+                        spawnMovingCircle(st.clone().add(0, 1, 0),
                                 1, zxc, 3, 0, Particle.FLAME, player);
 
-                        spawnMovingCircle(st.clone().add(0, -1.85, 0),
+                        spawnMovingCircle(st.clone().add(0, 0.15, 0),
                                 1, zxc, 3, 0, Particle.FLAME, player);
                         unlocktime = 240;
                     } else if (unlocktime > 0) {

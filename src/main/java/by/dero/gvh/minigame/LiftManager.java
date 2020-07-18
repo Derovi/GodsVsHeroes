@@ -4,10 +4,8 @@ import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.nmcapi.CustomLeash;
-import by.dero.gvh.utils.Position;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftChicken;
@@ -22,10 +20,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.UUID;
+import java.util.*;
 
 public class LiftManager implements Listener {
 	private final HashMap<UUID, LinkedList<Entity>> lifting = new HashMap<>();
@@ -41,17 +36,33 @@ public class LiftManager implements Listener {
 			new Vector(-1, 0, 0), new Vector(0, 0, -1), new Vector(0, 0, 1), new Vector(1, 0, 0),
 	};
 
+	public static class Lift {
+		private final Vector from;
+		private final Vector to;
+		private final double radius;
+		
+		public Lift(Vector from, Vector to, double radius) {
+			this.from = from;
+			this.to = to;
+			this.radius = radius;
+		}
+		
+		public boolean isInside(Location loc) {
+			return loc.toVector().distance(from) <= radius;
+		}
+	}
+	
 	private FlyingText[] hints = null;
+	private final ArrayList<Lift> lifts = new ArrayList<>();
 	public void load() {
 		if (loaded) {
 			return;
 		}
 		loaded = true;
-		Position[] poses = Game.getInstance().getInfo().getLiftHints();
 		World world = Minigame.getInstance().getGame().getWorld();
-		hints = new FlyingText[poses.length];
-		for (int i = 0; i < poses.length; i++) {
-			hints[i] = new FlyingText(poses[i].toLocation(world), Lang.get("hints.lift"));
+		hints = new FlyingText[lifts.size()];
+		for (int i = 0; i < lifts.size(); i++) {
+			hints[i] = new FlyingText(lifts.get(i).from.toLocation(world).add(0, 1, 0), Lang.get("hints.lift"));
 		}
 	}
 
@@ -60,6 +71,7 @@ public class LiftManager implements Listener {
 			return;
 		}
 		loaded = false;
+		lifts.clear();
 		for (FlyingText hint : hints) {
 			hint.unload();
 		}
@@ -84,50 +96,46 @@ public class LiftManager implements Listener {
 			Location loc = player.getLocation();
 			player.setVelocity(new Vector(ent.locX - loc.x, (ent.locY - loc.y) / 2, ent.locZ - loc.z).multiply(0.5));
 		}
-		if (event.getFrom().getY() != event.getTo().getY() &&
-				event.getFrom().getY() - (int)event.getFrom().getY() < 0.1 &&
-				player.getLocation().add(0, -1, 0).getBlock().getType().equals(Material.SEA_LANTERN)) {
-
-			Location loc = player.getLocation();
-			Location good = loc;
-			boolean hasAny = true;
-			while (hasAny) {
-				hasAny = false;
-				for (Vector add : adds) {
-					Location cur = loc.clone().add(add);
-					if (!cur.getBlock().getType().equals(Material.AIR)) {
-						hasAny = true;
-						good = cur;
-					}
-				}
-				loc.add(0, 1, 0);
-			}
-			good = good.toBlockLocation().add(0, 1, 0);
-			EntityPlayer pl = ((CraftPlayer) player).getHandle();
-			EntityChicken chicken = new EntityChicken(pl.world);
-
-			chicken.setNoAI(true);
-			chicken.setNoGravity(true);
-			chicken.setInvisible(true);
-			chicken.noclip = true;
-			chicken.collides = false;
-			chicken.invulnerable = true;
-			((CraftChicken) chicken.getBukkitEntity()).addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000, 0));
-
-			chicken.setPosition(good.x + 0.5, good.y, good.z + 0.5);
-			chicken.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
-
-			CustomLeash leash = CustomLeash.a(pl.world, new BlockPosition(good.x, good.y, good.z));
-
-			chicken.world.addEntity(chicken, CreatureSpawnEvent.SpawnReason.CUSTOM);
-			pl.playerConnection.sendPacket(new PacketPlayOutAttachEntity(chicken, pl));
-			LinkedList<Entity> list = lifting.get(uuid);
-			list.add(chicken);
-			list.add(leash);
-			player.setVelocity(new Vector(0, Math.cbrt(good.y - player.getLocation().y) * 0.7, 0));
-
-			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.07f, 1);
+		if (event.getFrom().getY() == event.getTo().getY() ||
+				event.getFrom().getY() - (int)event.getFrom().getY() >= 0.1) {
+			return;
 		}
+		Location loc = player.getLocation();
+		Location good = null;
+		for (Lift lift : lifts) {
+			if (lift.isInside(loc)) {
+				good = lift.to.toLocation(loc.getWorld());
+				break;
+			}
+		}
+		if (good == null) {
+			return;
+		}
+		EntityPlayer pl = ((CraftPlayer) player).getHandle();
+		EntityChicken chicken = new EntityChicken(pl.world);
+
+		chicken.setNoAI(true);
+		chicken.setNoGravity(true);
+		chicken.setInvisible(true);
+		chicken.noclip = true;
+		chicken.collides = false;
+		chicken.invulnerable = true;
+		((CraftChicken) chicken.getBukkitEntity()).addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000, 0));
+
+		chicken.setPosition(good.x + 0.5, good.y, good.z + 0.5);
+		chicken.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
+
+		CustomLeash leash = CustomLeash.a(pl.world, new BlockPosition(good.x, good.y, good.z));
+
+		chicken.world.addEntity(chicken, CreatureSpawnEvent.SpawnReason.CUSTOM);
+		pl.playerConnection.sendPacket(new PacketPlayOutAttachEntity(chicken, pl));
+		LinkedList<Entity> list = lifting.get(uuid);
+		list.add(chicken);
+		list.add(leash);
+		player.setVelocity(new Vector(0, Math.cbrt(good.y - player.getLocation().y) * 0.7, 0));
+
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.07f, 1);
+	
 	}
 
 	public void removeRopes(UUID uuid) {
@@ -138,5 +146,9 @@ public class LiftManager implements Listener {
 			e.die();
 			list.removeFirst();
 		}
+	}
+	
+	public ArrayList<Lift> getLifts() {
+		return lifts;
 	}
 }
