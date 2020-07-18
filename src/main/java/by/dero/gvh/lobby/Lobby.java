@@ -245,7 +245,7 @@ public class Lobby implements PluginMode, Listener {
         if (p.isOnGround()) {
             onGround.put(p.getUniqueId(), p.getLocation());
             if (p.getLocation().clone().subtract(0,1,0).getBlock().getType() == Material.GOLD_BLOCK) {
-                p.setVelocity(new Vector(0,0,2));
+                p.setVelocity(new Vector(-2,0,0));
             }
         } else {
             if (p.getLocation().getY() < 30) {
