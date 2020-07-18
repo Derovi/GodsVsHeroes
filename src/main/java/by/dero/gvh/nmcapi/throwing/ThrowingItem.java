@@ -7,7 +7,6 @@ import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
 import net.minecraft.server.v1_12_R1.Vector3f;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -166,7 +165,6 @@ public class ThrowingItem extends EntityArmorStand {
             }
             curRot -= (curRot - 270) / (length / speed);
             setRightArmPose(new Vector3f(curRot, 0, 0));
-            System.out.println(curRot);
             if (length < 0.1) {
                 if (onReturned != null) {
                     onReturned.run();

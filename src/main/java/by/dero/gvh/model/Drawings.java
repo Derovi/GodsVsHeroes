@@ -75,6 +75,19 @@ public class Drawings {
                     ), 1, 0, 0, 0, 0);
         }
     }
+    
+    public static void drawCircle(Location loc, double radius, Particle obj, int parts) {
+        for (double angle = 0; angle < MathUtils.PI2; angle += MathUtils.PI2 / parts) {
+            loc.getWorld().spawnParticle(
+                    obj,
+                    new Location(
+                            loc.getWorld(),
+                            loc.getX() + MathUtils.cos(angle) * radius,
+                            loc.getY(),
+                            loc.getZ() + MathUtils.sin(angle) * radius
+                    ), 1, 0, 0, 0, 0);
+        }
+    }
 
     private static final Color[] colors = new Color[] {
         Color.AQUA, Color.BLUE, Color.FUCHSIA, Color.LIME, Color.MAROON, Color.NAVY,
