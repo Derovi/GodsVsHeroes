@@ -70,8 +70,10 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 			@Override
 			public void run() {
 				if (owner.getLocation().y * 2 == (int) owner.getLocation().y * 2 || ticks > 80) {
-					owner.getInventory().setItem(0, mjolnir.getItemStack());
 					this.cancel();
+					owner.getInventory().setItem(0, mjolnir.getItemStack());
+					owner.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, owner.getLocation(), 1);
+					owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
 					stand.remove();
 					owner.getInventory().setItem(0, mjolnir.getItemStack());
 					for (GameObject go : GameUtils.getGameObjects()) {

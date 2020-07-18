@@ -7,11 +7,11 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.*;
+import by.dero.gvh.nmcapi.NMCUtils;
+import by.dero.gvh.utils.Dwelling;
 import by.dero.gvh.utils.GameUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -26,6 +26,8 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.AuthorNagException;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -77,7 +79,7 @@ public class GameEvents implements Listener {
             Material.CHEST, Material.ENDER_CHEST, Material.TRAPPED_CHEST, Material.HOPPER,
             Material.HOPPER_MINECART, Material.STORAGE_MINECART
     );
-    
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Block clicked = event.getClickedBlock();
@@ -91,7 +93,23 @@ public class GameEvents implements Listener {
         }
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
-
+    
+        ItemStack offItem = event.getPlayer().getInventory().getItemInOffHand();
+        Item itemInHand = gamePlayer.getSelectedItem();
+        if (offItem != null && !offItem.getType().equals(Material.AIR) && itemInHand instanceof DoubleHanded) {
+            if ((event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+                drawOffhandAnimation(event.getPlayer());
+                if (itemInHand instanceof DoubleHandInteractInterface) {
+                    ((DoubleHandInteractInterface) itemInHand).interactOffHand(event);
+                }
+            } else if (event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+                if (itemInHand instanceof DoubleHandInteractInterface) {
+                    ((DoubleHandInteractInterface) itemInHand).interactMainHand(event);
+                }
+            }
+            return;
+        }
+        
         for (Item item : gamePlayer.getItems().values()) {
             if (item instanceof InteractAnyItem) {
                 InteractAnyItem in = (InteractAnyItem) item;
@@ -102,7 +120,6 @@ public class GameEvents implements Listener {
             }
         }
 
-        Item itemInHand = gamePlayer.getSelectedItem();
         if (itemInHand == null) {
             return;
         }
@@ -121,13 +138,28 @@ public class GameEvents implements Listener {
             event.setCancelled(true);
             return;
         }
-        if (itemInHand instanceof PlayerInteractInterface) {
+        if (!event.getAction().equals(Action.PHYSICAL) && itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof InfiniteReplenishInterface) {
                 if (!itemInHand.getCooldown().isReady() || !gamePlayer.consume(itemInHand)) {
                     return;
                 }
             }
             ((PlayerInteractInterface) itemInHand).onPlayerInteract(event);
+        }
+    }
+    
+    public void drawOffhandAnimation(Player player) {
+        ItemStack item = player.getInventory().getItemInOffHand();
+        if (item != null) {
+            if (item.getType() != Material.AIR) {
+                try {
+                    ItemStack mh = player.getInventory().getItemInMainHand();
+                    if (mh == null || (mh.getType() != Material.BOW && mh.getType() != Material.SHIELD && !mh.getType().name().matches("TRIDENT"))) {
+                        Dwelling.sendPacket(player, Dwelling.prepareVanillaPacket("PacketPlayOutAnimation", player.getEntityId(), 3));
+                    }
+                } catch (IllegalArgumentException | NullPointerException | AuthorNagException ignored) {
+                }
+            }
         }
     }
 
@@ -419,7 +451,20 @@ public class GameEvents implements Listener {
             event.setCancelled(true);
         }
     }
-
+    
+    @EventHandler
+    public void checkDoubleHanded(PlayerItemHeldEvent event) {
+        Player player = event.getPlayer();
+    
+        ItemStack is = player.getInventory().getItem(event.getNewSlot());
+        if (is != null && GameUtils.getPlayer(player.getName()).getItems().
+                getOrDefault(NMCUtils.getNBT(is).getString("custom"), null) instanceof DoubleHanded) {
+            player.getInventory().setItemInOffHand(is);
+        } else {
+            player.getInventory().setItemInOffHand(GameUtils.clearItem);
+        }
+    }
+    
     @EventHandler
     public void removeSwapHand(PlayerSwapHandItemsEvent event) {
         event.setCancelled(true);

@@ -21,6 +21,7 @@ import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
@@ -33,6 +34,7 @@ public class GameUtils {
     public static final double eyeHeight = 1.7775;
 
     public static HashMap<Character, Byte> codeToData = null;
+    public static final ItemStack clearItem = new ItemStack(Material.AIR);
     public static Sound[] notes = new Sound[] {
             Sound.BLOCK_NOTE_BASEDRUM,
             Sound.BLOCK_NOTE_BASS,

@@ -1,5 +1,6 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
@@ -7,6 +8,7 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.MagnetizeOrbInfo;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -27,6 +29,7 @@ public class MagnetizeOrb extends Item implements ProjectileHitInterface,
     public void onProjectileHit(final ProjectileHitEvent event) {
         final Entity proj = event.getEntity();
         final Location loc = proj.getLocation();
+        Drawings.drawCircle(loc, radius, Particle.EXPLOSION_LARGE, 5);
         for (final Entity obj : GameUtils.getNearby(proj.getLocation(), radius)) {
             if (GameUtils.isEnemy(obj, getTeam())) {
                 final Vector add = loc.toVector().subtract(obj.getLocation().toVector());

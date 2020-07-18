@@ -98,6 +98,8 @@ public class Data {
         registerItem("skyrise", SkyRiseInfo.class, SkyRise.class);
         registerItem("mjolnir", MjolnirInfo.class, Mjolnir.class);
         registerItem("paladinarmor", PaladinArmorInfo.class, PaladinArmor.class);
+        registerItem("energyfist", EnergyFistInfo.class, EnergyFist.class);
+        registerItem("doublefist", DoubleFistInfo.class, DoubleFist.class);
     }
 
     private void registerClasses() {
