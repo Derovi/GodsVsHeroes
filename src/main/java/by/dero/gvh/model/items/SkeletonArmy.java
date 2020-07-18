@@ -1,7 +1,6 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.GameMob;
-import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
@@ -9,7 +8,6 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.SkeletonArmyInfo;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.SpawnUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -42,28 +40,12 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
         for (int i = 0; i < melee; i++) {
             GameMob gm = SpawnUtils.spawnAISkeleton(MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), meleeHealth,
                     meleeDamage, true, duration, ownerGP);
-            int finalI = i;
-            Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
-                if (gm.getEntity().isDead()) {
-                    Bukkit.getServer().broadcastMessage("1." + finalI + ". dead");
-                } else {
-                    Bukkit.getServer().broadcastMessage("1." + finalI + "." + gm.getEntity().getLocation().toVector());
-                }
-            }, 1);
             Drawings.drawCircle(gm.getEntity().getLocation(), 2, Particle.DRAGON_BREATH);
             owner.getWorld().playSound(gm.getEntity().getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.07f, 1);
         }
         for (int i = 0; i < range; i++) {
             GameMob gm = SpawnUtils.spawnAISkeleton(MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), meleeHealth,
                     meleeDamage, false, duration, ownerGP);
-            int finalI = i;
-            Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
-                if (gm.getEntity().isDead()) {
-                    Bukkit.getServer().broadcastMessage("2." + finalI + ". dead");
-                } else {
-                    Bukkit.getServer().broadcastMessage("2." + finalI + "." + gm.getEntity().getLocation().toVector());
-                }
-            }, 1);
             Drawings.drawCircle(gm.getEntity().getLocation(), 2, Particle.DRAGON_BREATH);
             owner.getWorld().playSound(gm.getEntity().getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.07f, 1);
         }
