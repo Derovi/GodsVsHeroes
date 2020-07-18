@@ -64,11 +64,25 @@ public class Plugin extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (settings.isCristalix()) {
+            CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
+            CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
+            CoreApi.get().registerService(IRenderService.class, new BukkitRenderService(Bukkit.getServer()));
+            CoreApi.get().registerService(IMapService.class, new MapService());
+            IPermissionService.get().enableTablePermissions();
+            new CPSLimiter(this, 10);
+            IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
+            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(100);
+            System.out.println("Name set to: " + IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());
+            settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());
+        }
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
         Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
         Bukkit.getPluginCommand("advice").setExecutor(new AdviceCommand());
         lang = new Lang(new LocalStorage());
         lang.load(settings.getLocale());
+
         StorageInterface dataStorage = null;
         if (settings.getDataStorageType().equals("local")) {
             dataStorage = new LocalStorage();
@@ -108,17 +122,7 @@ public class Plugin extends JavaPlugin implements Listener {
             Bukkit.getPluginManager().registerEvents((Listener) pluginMode, this);
         }
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(Plugin.getInstance(), "BungeeCord");
-        if (settings.isCristalix()) {
-            CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
-            CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
-            CoreApi.get().registerService(IRenderService.class, new BukkitRenderService(Bukkit.getServer()));
-            CoreApi.get().registerService(IMapService.class, new MapService());
-            IPermissionService.get().enableTablePermissions();
-            new CPSLimiter(this, 10);
-            IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
-            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(100);
-            settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());
-        }
+
         Bukkit.getPluginManager().registerEvents(this, this);
         new MathUtils();
     }
