@@ -1,0 +1,64 @@
+{
+  "name": "lightningstorm",
+  "slot": 0,
+  "lore": [
+    "§fУрон от молнии §8» §b%%lightningDamage,0.5%%§c❤",
+    "§fУрон от отскока §8» §b%%damage,0.5%%§c❤",
+    "§fРадиус отскока §8» §b%%radius%% §fблоков.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
+  "levels": [
+    {
+      "cooldown": 800,
+      "radius": 5,
+      "lightningDamage": 15,
+      "damage": 15,
+      "cost": 80,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 750,
+      "radius": 5,
+      "lightningDamage": 15,
+      "damage": 15,
+      "cost": 100,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },{
+      "cooldown": 700,
+      "radius": 5,
+      "lightningDamage": 15,
+      "damage": 15,
+      "cost": 100,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },{
+      "cooldown": 650,
+      "radius": 5,
+      "lightningDamage": 15,
+      "damage": 15,
+      "cost": 100,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 600,
+      "radius": 5,
+      "lightningDamage": 15,
+      "damage": 15,
+      "cost": 100,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 800,
+      "radius": 7,
+      "lightningDamage": 15,
+      "damage": 15,
+      "cost": 120,
+      "material": "NETHER_STAR",
+      "amount": 1
+    }
+  ]
+}
