@@ -43,14 +43,11 @@ import ru.cristalix.core.realm.IRealmService;
 import ru.cristalix.core.realm.RealmInfo;
 import ru.cristalix.core.realm.RealmStatus;
 
-import java.io.File;
 import java.util.*;
 
 public class Lobby implements PluginMode, Listener {
     private static Lobby instance;
     private LobbyInfo info;
-    private LobbyData data;
-    private File lobbySchematicFile;
     private final String worldName = "Lobby";
     private World world;
     private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
@@ -96,12 +93,9 @@ public class Lobby implements PluginMode, Listener {
                     Plugin.getInstance().getSettings().getLobbyDataMongodbConnection(),
                     Plugin.getInstance().getSettings().getLobbyDataMongodbDatabase());
         }
-        data = new LobbyData(dataStorage);
-        data.load();
         monumentManager = new MonumentManager();
         interfaceManager = new InterfaceManager();
         portalManager = new PortalManager();
-        loadSchematic();
         registerEvents();
         if (Plugin.getInstance().getSettings().isCristalix()) {
             RealmInfo info = IRealmService.get().getCurrentRealmInfo();
@@ -135,36 +129,27 @@ public class Lobby implements PluginMode, Listener {
         Plugin.getInstance().getServerData().unregister(Plugin.getInstance().getSettings().getServerName());
     }
 
-    private void loadSchematic() {
-        lobbySchematicFile = new File(LocalStorage.getPrefix() + "lobby/lobby.schem");
-        try {
-            ResourceUtils.exportResource("/lobby/lobby.schem", LocalStorage.getPrefix() + "lobby/lobby.schem");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
     public void updateDisplays(Player player) {
         final PlayerLobby lobby = activeLobbies.get(player.getName());
         lobby.getScoreboardUpdater().run();
-        lobby.getSelectedClass().setText(Lang.get("lobby.selectedClass")
-                .replace("%class%", Lang.get("classes." + players.get(player.getName()).getPlayerInfo().getSelectedClass())));
+        //lobby.getSelectedClass().setText(Lang.get("lobby.selectedClass")
+        //        .replace("%class%", Lang.get("classes." + players.get(player.getName()).getPlayerInfo().getSelectedClass())));
         final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
-        for (final Monument monument : lobby.getMonuments().values()) {
+        for (final Monument monument : Lobby.getInstance().getMonumentManager().getMonuments().values()) {
             if (monument instanceof ArmorStandMonument) {
                 final ArmorStand armorStand = ((ArmorStandMonument) monument).getArmorStand();
                 final String clname = Lang.get("classes." + monument.getClassName());
-
+                final String customName;
                 if (info.getSelectedClass().equals(monument.getClassName())) {
-                    armorStand.setCustomName(Lang.get("lobby.heroSelected").
-                            replace("%class%", clname));
+                    customName = Lang.get("lobby.heroSelected").
+                            replace("%class%", clname);
                 } else
                 if (info.isClassUnlocked(monument.getClassName())) {
-                    armorStand.setCustomName(Lang.get("lobby.standTitle").
-                            replace("%class%", clname));
+                    customName = Lang.get("lobby.standTitle").
+                            replace("%class%", clname);
                 } else {
-                    armorStand.setCustomName(Lang.get("lobby.heroLocked").
-                            replace("%class%", clname));
+                    customName = Lang.get("lobby.heroLocked").
+                            replace("%class%", clname);
                 }
             }
         }
@@ -177,26 +162,9 @@ public class Lobby implements PluginMode, Listener {
         players.put(player.getName(), lobbyPlayer);
         new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1).apply(player);
         new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 0).apply(player);
-        LobbyRecord record;
-        PlayerLobby playerLobby;
-        if (!data.recordExists(player.getName())) {
-            // if record not exists (player is new), create record and loby
-            record = generateNewRecord(player.getName());
-            playerLobby = new PlayerLobby(record);
-            playerLobby.create();
-        } else {
-            record = data.getRecord(player.getName());
-            playerLobby = new PlayerLobby(record);
-        }
+        PlayerLobby playerLobby = new PlayerLobby(player);
 
-        if (record.getVersion() != info.getVersion()) {
-            // if player lobby is old, update
-            playerLobby.destroy();
-            playerLobby.create();
-            record.setVersion(info.getVersion());
-            data.saveRecord(player.getName(), record);
-        }
-        player.teleport(playerLobby.transformFromLobbyCord(info.getSpawnPosition()).toLocation(world));
+        player.teleport(info.getSpawnPosition().toLocation(world));
         playerLobby.load();
         activeLobbies.put(player.getName(), playerLobby);
         Lobby.getInstance().updateDisplays(player);
@@ -215,17 +183,6 @@ public class Lobby implements PluginMode, Listener {
         activeLobbies.remove(player.getName());
         players.remove(player.getName());
     }
-
-    public LobbyRecord generateNewRecord(String playerName) {
-        LobbyRecord record = new LobbyRecord();
-        record.setOwner(playerName);
-        record.setPosition(getNextLobbyPosition(data.getLastLobbyPosition()));
-        record.setVersion(info.getVersion());
-        data.saveRecord(playerName, record);
-        data.updateLastLobbyPosition(record.getPosition());
-        return record;
-    }
-
 
     private Position getNextLobbyPosition(Position position) {
         int xIdx = (int) position.getX() / 96;
@@ -264,10 +221,6 @@ public class Lobby implements PluginMode, Listener {
         return players;
     }
 
-    public LobbyData getData() {
-        return data;
-    }
-
     public LobbyInfo getInfo() {
         return info;
     }
@@ -279,11 +232,6 @@ public class Lobby implements PluginMode, Listener {
     public World getWorld() {
         return world;
     }
-
-    public File getLobbySchematicFile() {
-        return lobbySchematicFile;
-    }
-
 
     private final HashMap<UUID, Location> onGround = new HashMap<>();
     @EventHandler
@@ -375,6 +323,8 @@ public class Lobby implements PluginMode, Listener {
             e.setCancelled(true);
         }
     }
+
+
 
     @EventHandler
     public void onWeatherChange(WeatherChangeEvent e) {

@@ -38,7 +38,6 @@ public class DFireball extends EntityDragonFireball {
     }
 
     public void setDirection(double d0, double d1, double d2) {
-        System.out.println("Direction!");
         double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
         this.dirX = d0 / d3 * 0.1D;
         this.dirY = d1 / d3 * 0.1D;

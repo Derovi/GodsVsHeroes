@@ -26,6 +26,7 @@ public class UnlockInterface extends Interface {
         super(manager, player, 6,
                 (Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().canUnlock(className)
                 ? Lang.get("interfaces.unlockTitle") : Lang.get("interfaces.unlockNETitle")));
+        System.out.println("unlock");
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
 
         ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
@@ -60,7 +61,7 @@ public class UnlockInterface extends Interface {
                 lobbyPlayer.getPlayerInfo().unlockClass(className);
                 lobbyPlayer.saveInfo();
                 final PlayerLobby lobby = Lobby.getInstance().getActiveLobbies().get(player.getName());
-                final ArmorStand stand = ((ArmorStandMonument) lobby.
+                final ArmorStand stand = ((ArmorStandMonument) Lobby.getInstance().getMonumentManager().
                         getMonuments().get(className)).getArmorStand();
                 stand.setCustomNameVisible(false);
                 final BukkitRunnable zxc = new BukkitRunnable() {

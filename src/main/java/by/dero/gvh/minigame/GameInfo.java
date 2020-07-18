@@ -3,7 +3,7 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.utils.DirectedPosition;
 
 public class GameInfo {
-    private String world = "World";
+    private String lobbyWorld = "World";
     private String mode;
     private int teamCount = 2;
     private int respawnTime = 200;
@@ -60,12 +60,12 @@ public class GameInfo {
         this.respawnTime = respawnTime;
     }
 
-    public String getWorld() {
-        return world;
+    public String getLobbyWorld() {
+        return lobbyWorld;
     }
 
-    public void setWorld(String world) {
-        this.world = world;
+    public void setLobbyWorld(String lobbyWorld) {
+        this.lobbyWorld = lobbyWorld;
     }
 
     public int getTeamCount() {

@@ -1,5 +1,5 @@
 {
-  "world": "World",
+  "lobbyWorld": "World",
   "mode": "etherCapture",
   "teamCount": 2,
   "minPlayerCount": 12,

@@ -15,19 +15,14 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
-import net.royawesome.jlibnoise.module.combiner.Min;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.karma.IKarmaService;
 import ru.cristalix.core.karma.KarmaService;
@@ -36,14 +31,14 @@ import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
 import ru.cristalix.core.pvp.CPSLimiter;
 import ru.cristalix.core.realm.IRealmService;
+import ru.cristalix.core.render.BukkitRenderService;
+import ru.cristalix.core.render.IRenderService;
 import ru.cristalix.core.scoreboard.IScoreboardService;
 import ru.cristalix.core.scoreboard.ScoreboardService;
 import ru.cristalix.core.transfer.ITransferService;
 import ru.cristalix.core.transfer.TransferService;
 
 import java.io.IOException;
-import java.util.UUID;
-import java.util.function.Predicate;
 
 public class Plugin extends JavaPlugin implements Listener {
     private static Plugin instance;
@@ -98,7 +93,7 @@ public class Plugin extends JavaPlugin implements Listener {
             pluginMode = new Minigame();
             pluginMode.onEnable();
 
-            world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getWorld());
+            world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getLobbyWorld());
             for (final LivingEntity ent : world.getLivingEntities()) {
                 ent.remove();
             }
@@ -116,6 +111,7 @@ public class Plugin extends JavaPlugin implements Listener {
         if (settings.isCristalix()) {
             CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
             CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
+            CoreApi.get().registerService(IRenderService.class, new BukkitRenderService(Bukkit.getServer()));
             CoreApi.get().registerService(IMapService.class, new MapService());
             IPermissionService.get().enableTablePermissions();
             new CPSLimiter(this, 10);

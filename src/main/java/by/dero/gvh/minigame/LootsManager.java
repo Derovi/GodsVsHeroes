@@ -124,15 +124,15 @@ public class LootsManager implements Listener {
 
         GameInfo info = Game.getInstance().getInfo();
         for (final DirectedPosition pos : info.getHealPoints()) {
-            loots.add(new LootsNode(pos.toLocation(info.getWorld()), new PotionEffect(PotionEffectType.HEAL, 1, 10),
+            loots.add(new LootsNode(pos.toLocation(info.getLobbyWorld()), new PotionEffect(PotionEffectType.HEAL, 1, 10),
                     "heal", Lang.get("loots.labelHeal").replace("%pts%",  "10")));
         }
         for (final DirectedPosition pos : info.getSpeedPoints()) {
-            loots.add(new LootsNode(pos.toLocation(info.getWorld()), new PotionEffect(PotionEffectType.SPEED, 240, 2),
+            loots.add(new LootsNode(pos.toLocation(info.getLobbyWorld()), new PotionEffect(PotionEffectType.SPEED, 240, 2),
                     "speed", Lang.get("loots.labelReady")));
         }
         for (final DirectedPosition pos : info.getResistancePoints()) {
-            loots.add(new LootsNode(pos.toLocation(info.getWorld()), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 240, 1),
+            loots.add(new LootsNode(pos.toLocation(info.getLobbyWorld()), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 240, 1),
                     "resistance", Lang.get("loots.labelReady")));
         }
     }

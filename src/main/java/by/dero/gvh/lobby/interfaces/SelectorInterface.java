@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 public class SelectorInterface extends Interface {
     public SelectorInterface(InterfaceManager manager, Player player, String className) {
         super(manager, player, 6, Lang.get("lobby.selectHero").replace("%class%", Lang.get("classes." + className)));
+        System.out.println("select");
         Runnable select = () -> {
             LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
             lobbyPlayer.getPlayerInfo().selectClass(className);

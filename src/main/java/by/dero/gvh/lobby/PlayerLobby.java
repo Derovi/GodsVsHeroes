@@ -2,7 +2,6 @@ package by.dero.gvh.lobby;
 
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.DirectedPosition;
@@ -12,37 +11,38 @@ import by.dero.gvh.utils.WorldEditUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import ru.cristalix.core.display.data.DataDrawData;
+import ru.cristalix.core.display.data.StringDrawData;
+import ru.cristalix.core.math.V2;
+import ru.cristalix.core.math.V3;
+import ru.cristalix.core.render.IRenderService;
+import ru.cristalix.core.render.VisibilityTarget;
+import ru.cristalix.core.render.WorldRenderData;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static by.dero.gvh.utils.Board.setText;
 
 public class PlayerLobby {
-    private final LobbyRecord record;
     private final Player player;
-    private final HashMap<String, Monument> monuments = new HashMap<>();
-    private FlyingText selectedClass;
+    private DataDrawData data;
     private Runnable scoreboardUpdater;
 
     private final List<BukkitRunnable> runnables = new ArrayList<>();
 
-    public PlayerLobby(LobbyRecord record) {
-        this.record = record;
-        this.player = Bukkit.getPlayer(record.getOwner());
+    public PlayerLobby(Player player) {
+        this.player = player;
     }
 
     public void create() {
-        WorldEditUtils.pasteSchematic(Lobby.getInstance().getLobbySchematicFile(),
-                Lobby.getInstance().getWorld(), record.getPosition());
+        // TODO create lobby
     }
 
     public void destroy() {
@@ -50,7 +50,7 @@ public class PlayerLobby {
     }
 
     public boolean isInPortal() {
-        final Position pos = transformToLobbyCord(new Position(player.getLocation()));
+        final Position pos = new Position(player.getLocation());
         final Position portal = Lobby.getInstance().getInfo().getPortalPosition();
         return pos.distance(portal) < 2 &&
                 Math.abs(pos.getZ() - portal.getZ()) < 1;
@@ -60,26 +60,32 @@ public class PlayerLobby {
         loadPortal();
         loadBoard();
         loadSelectedClass();
-
-        for (Map.Entry<String, DirectedPosition> entry :
-                Lobby.getInstance().getInfo().getClassNameToMonumentPosition().entrySet()) {
-            try {
-                String monumentName = entry.getKey();
-                Monument monument = Lobby.getInstance().getMonumentManager().getClassNameToMonument().
-                        get(monumentName).getConstructor(DirectedPosition.class, String.class, Player.class).
-                        newInstance(transformFromLobbyCord(entry.getValue()), monumentName, player);
-                monument.load();
-                monuments.put(monumentName, monument);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
     }
 
     private void loadSelectedClass() {
-        final Position recPos = record.getPosition();
-        selectedClass = new FlyingText(
-                new Location(getPlayer().getWorld(),recPos.getX() + 15.5, recPos.getY()+1, recPos.getZ()+26.5), "");
+        //selectedClass = new FlyingText(
+        //        Lobby.getInstance().getInfo().getPortalPosition().toLocation(Lobby.getInstance().getWorld()).add(0,2,0), "");
+        World world = Lobby.getInstance().getWorld();
+        Position pos = Lobby.getInstance().getInfo().getPortalPosition();
+        String name = UUID.randomUUID().toString();
+        DataDrawData data = DataDrawData.builder().rotation(180).position(new V3(pos.getX(), pos.getY(), pos.getZ())).scale(1).
+                dimensions(new V2(3, 2)).name(name).strings(getStrings("Board")).build();
+        IRenderService.get().createGlobalWorldRenderData(world.getUID(), name, WorldRenderData.builder().dataDrawData(data).name(name).visibilityTarget(VisibilityTarget.BLACKLIST).build());
+        IRenderService.get().setRenderVisible(world.getUID(), name, true);
+
+        Bukkit.getScheduler().runTaskTimer(Plugin.getInstance(), () -> {
+            data.setStrings(getStrings("kek"));
+            IRenderService.get().setRenderVisible(world.getUID(), name, false);
+            IRenderService.get().setRenderVisible(world.getUID(), name, true);
+        }, 20, 20);
+    }
+
+    private static List<StringDrawData> getStrings(String title) {
+        return Arrays.asList(
+                StringDrawData.builder().align(1).scale(4).string(title).position(new V2(135, 10)).build(),
+                StringDrawData.builder().align(1).scale(3).string(Integer.toString(10) + " игроков").position(new V2(135, 80)).build(),
+                StringDrawData.builder().align(1).scale(2).string("Доступно серверов: " + 20).position(new V2(135, 140)).build()
+        );
     }
 
     private void loadBoard() {
@@ -110,18 +116,17 @@ public class PlayerLobby {
     }
 
     private void loadPortal() {
-        final Position recPos = record.getPosition();
         BukkitRunnable runnable = new BukkitRunnable() {
             double angle = 0;
             final double turnsPerSec = 0.25;
             final double radius = 1.2;
             final int parts = 3;
-            final Location center = recPos.toLocation(Lobby.getInstance().getWorld()).clone().add(15.5,1.5,29.5);
+            final Location center = Lobby.getInstance().getInfo().getPortalPosition().toLocation(Lobby.getInstance().getWorld());
             @Override
             public void run() {
                 for (int i = 0; i < parts; i++) {
                     final double cur = angle + MathUtils.PI2 * i / parts;
-                    final Location at = center.clone().add(MathUtils.cos(cur) * radius, MathUtils.sin(cur) * radius,0);
+                    final Location at = center.clone().add(0, MathUtils.sin(cur) * radius,MathUtils.cos(cur) * radius);
                     player.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
                 }
                 angle += MathUtils.PI2 * turnsPerSec / 20;
@@ -135,50 +140,15 @@ public class PlayerLobby {
         for (BukkitRunnable runnable : runnables) {
             runnable.cancel();
         }
-        selectedClass.unload();
-        for (Monument monument : monuments.values()) {
-            monument.unload();
-        }
-    }
-
-    public LobbyRecord getRecord() {
-        return record;
+        //selectedClass.unload();
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public Position transformToLobbyCord(Position position) {
-        return new Position(position.getX() - record.getPosition().getX(),
-                position.getY() - record.getPosition().getY(),
-                position.getZ() - record.getPosition().getZ());
-    }
-
-    public DirectedPosition transformToLobbyCord(DirectedPosition position) {
-        return new DirectedPosition(position.getX() - record.getPosition().getX(),
-                position.getY() - record.getPosition().getY(),
-                position.getZ() - record.getPosition().getZ(),
-                   position.getDirection());
-    }
-
-    public DirectedPosition transformFromLobbyCord(DirectedPosition position) {
-        return new DirectedPosition(position.getX() + record.getPosition().getX(),
-                position.getY() + record.getPosition().getY(),
-                position.getZ() + record.getPosition().getZ(),
-                   position.getDirection());
-    }
-
     public Runnable getScoreboardUpdater() {
         return scoreboardUpdater;
-    }
-
-    public FlyingText getSelectedClass() {
-        return selectedClass;
-    }
-
-    public HashMap<String, Monument> getMonuments() {
-        return monuments;
     }
 
     public List<BukkitRunnable> getRunnables() {

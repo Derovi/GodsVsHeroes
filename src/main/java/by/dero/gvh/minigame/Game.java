@@ -65,7 +65,7 @@ public abstract class Game implements Listener {
     protected void onPlayerRespawned(final GamePlayer gp) { }
 
     public void start() {
-        mapManager = new MapManager(Bukkit.getWorld(getInfo().getWorld()));
+        mapManager = new MapManager(Bukkit.getWorld(getInfo().getLobbyWorld()));
         deathAdviceManager = new DeathAdviceManager();
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
@@ -296,7 +296,7 @@ public abstract class Game implements Listener {
             player.setFireTicks(0);
         }
 
-        for (LivingEntity entity: Bukkit.getWorld(getInfo().getWorld()).getLivingEntities()) {
+        for (LivingEntity entity: Bukkit.getWorld(getInfo().getLobbyWorld()).getLivingEntities()) {
             if (!(entity instanceof Player)) {
                 entity.remove();
             } else {
@@ -311,7 +311,7 @@ public abstract class Game implements Listener {
             public void run() {
                 if (needFireworks) {
                     Drawings.spawnFirework(MathUtils.randomCylinder(
-                            getInfo().getLobbyPosition().toLocation(getInfo().getWorld()),
+                            getInfo().getLobbyPosition().toLocation(getInfo().getLobbyWorld()),
                             13, -10
                     ), 2);
                 }
@@ -467,7 +467,7 @@ public abstract class Game implements Listener {
     }
 
     private void teleportToLobby(Player player) {
-        player.teleport(getInfo().getLobbyPosition().toLocation(getInfo().getWorld()));
+        player.teleport(getInfo().getLobbyPosition().toLocation(getInfo().getLobbyWorld()));
     }
 
     private void addItems(GamePlayer player) {
@@ -488,7 +488,7 @@ public abstract class Game implements Listener {
 
         final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[gp.getTeam()].length);
         final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[gp.getTeam()][locationIndex];
-        player.teleport(spawnPosition.toLocation(getInfo().getWorld()));
+        player.teleport(spawnPosition.toLocation(getInfo().getLobbyWorld()));
         final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(gp.getClassName()).getMaxHP();
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
         player.setHealth(maxHealth);
