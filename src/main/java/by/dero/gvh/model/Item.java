@@ -79,7 +79,7 @@ public class Item {
 
     public int getTeam() {
         if (team == -1) {
-            team = GameUtils.getPlayer(owner.getName()).getTeam();
+            team = ownerGP.getTeam();
         }
         return team;
     }

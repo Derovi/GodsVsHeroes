@@ -1,7 +1,5 @@
 package by.dero.gvh.model.items;
 
-import by.dero.gvh.Plugin;
-import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
@@ -20,8 +18,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class PaladinArmor extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
@@ -69,7 +65,7 @@ public class PaladinArmor extends Item implements PlayerInteractInterface, Infin
 		}
 		cooldown.reload();
 		
-		for (int type = 0; type < 5; type++) {
+		for (int type = -4; type <= 0; type++) {
 			Location oLoc = owner.getLocation();
 			Vector dir = oLoc.getDirection();
 			Location at = oLoc.clone().add(dir.x * 3, 0, dir.z * 3);
@@ -83,51 +79,20 @@ public class PaladinArmor extends Item implements PlayerInteractInterface, Infin
 			handle.setNoGravity(false);
 			
 			EntityEquipment eq = stand.equipment;
+			ItemStack item;
 			switch (type) {
-				case 0 : eq.setHelmet(helmet); break;
-				case 1 : eq.setChestplate(chestplate); break;
-				case 2 : eq.setLeggings(leggings); break;
-				case 3 : eq.setBoots(boots); break;
-				case 4 : eq.setItemInMainHand(sword); break;
+				case -1 : eq.setHelmet(helmet); item = helmet; break;
+				case -2 : eq.setChestplate(chestplate); item = chestplate; break;
+				case -3 : eq.setLeggings(leggings); item = leggings; break;
+				case -4 : eq.setBoots(boots); item = boots; break;
+				default : eq.setItemInMainHand(sword); item = sword; break;
 			}
 			
 			int finalType = type;
 			handle.onReach = new SafeRunnable() {
 				@Override
 				public void run() {
-					final ItemStack saved;
-					final PlayerInventory inv = owner.getInventory();
-					switch (finalType) {
-						case 0 : saved = inv.getHelmet(); inv.setHelmet(helmet); break;
-						case 1 : saved = inv.getChestplate(); inv.setChestplate(chestplate); break;
-						case 2 : saved = inv.getLeggings(); inv.setLeggings(leggings); break;
-						case 3 : saved = inv.getBoots(); inv.setBoots(boots); break;
-						default : saved = inv.getItem(0); inv.setItem(0, sword); break;
-					}
-					BukkitRunnable restoreInv = new BukkitRunnable() {
-						int timeRes = 0;
-						@Override
-						public void run() {
-							if (GameUtils.isDeadPlayer(owner)) {
-								this.cancel();
-								return;
-							}
-							if (timeRes > duration) {
-								this.cancel();
-								switch (finalType) {
-									case 0 : inv.setHelmet(saved); break;
-									case 1 : inv.setChestplate(saved); break;
-									case 2 : inv.setLeggings(saved); break;
-									case 3 : inv.setBoots(saved); break;
-									case 4: inv.setItem(0, saved); break;
-								}
-								return;
-							}
-							timeRes += 5;
-						}
-					};
-					restoreInv.runTaskTimer(Plugin.getInstance(), 0, 5);
-					Game.getInstance().getRunnables().add(restoreInv);
+					GameUtils.changeEquipment(owner, finalType, duration, item);
 				}
 			};
 			world.addEntity(handle, CreatureSpawnEvent.SpawnReason.CUSTOM);

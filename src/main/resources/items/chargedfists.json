@@ -1,0 +1,41 @@
+{
+  "name": "chargedfists",
+  "slot": 0,
+  "lore": [
+    "§fУрон от атаки §8» §b%%damage,0.5%%§c❤",
+    "§fДлительность §8» §b%%duration,0.05%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
+  "levels": [
+    {
+      "forceDistance": 5,
+      "force": 1,
+      "damage": 13,
+      "duration": 200,
+      "cooldown": 1200,
+      "cost": 80,
+      "material": "END_CRYSTAL",
+      "amount": 1
+    },
+    {
+      "forceDistance": 5,
+      "force": 1,
+      "damage": 14,
+      "duration": 200,
+      "cooldown": 1200,
+      "cost": 80,
+      "material": "END_CRYSTAL",
+      "amount": 1
+    },
+    {
+      "forceDistance": 5,
+      "force": 1,
+      "damage": 15,
+      "duration": 200,
+      "cooldown": 1200,
+      "cost": 80,
+      "material": "END_CRYSTAL",
+      "amount": 1
+    }
+  ]
+}

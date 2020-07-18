@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.UUID;
 
 public class ChainLightning extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
@@ -55,7 +54,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface, Inf
             @Override
             public void run() {
                 Drawings.drawLine(cur.getEyeLocation(), next.getEyeLocation(), Particle.END_ROD);
-                Objects.requireNonNull(next.getEyeLocation().getWorld()).spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
+                next.getEyeLocation().getWorld().spawnParticle(Particle.EXPLOSION_LARGE, next.getEyeLocation(), 1);
                 hit.add(next.getUniqueId());
 
                 next.getWorld().playSound(next.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 1.07f, 1);

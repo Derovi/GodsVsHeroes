@@ -11,8 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteractInterface {
+	private Runnable onHit = null;
 	private final Cooldown cooldownOffhand;
-	private final int damage;
+	private int damage;
 	private long lastUsed;
 	public DoubleFist(String name, int level, Player owner) {
 		super(name, level, owner);
@@ -29,6 +30,9 @@ public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteract
 		}
 		cooldown.reload();
 		lastUsed = System.currentTimeMillis();
+		if (onHit != null) {
+			onHit.run();
+		}
 		LivingEntity ent = GameUtils.getTargetEntity(owner, 3.3, (e) -> GameUtils.isEnemy(e, getTeam()));
 		if (ent != null) {
 			GameUtils.damage(damage, ent, owner);
@@ -42,10 +46,28 @@ public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteract
 		}
 		cooldownOffhand.reload();
 		lastUsed = System.currentTimeMillis();
-		
+		if (onHit != null) {
+			onHit.run();
+		}
 		LivingEntity ent = GameUtils.getTargetEntity(owner, 3.3, (e) -> GameUtils.isEnemy(e, getTeam()));
 		if (ent != null) {
 			GameUtils.damage(damage, ent, owner);
 		}
+	}
+	
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	
+	public int getDamage() {
+		return damage;
+	}
+	
+	public Runnable getOnHit() {
+		return onHit;
+	}
+	
+	public void setOnHit(Runnable onHit) {
+		this.onHit = onHit;
 	}
 }
