@@ -100,6 +100,7 @@ public class Data {
         registerItem("paladinarmor", PaladinArmorInfo.class, PaladinArmor.class);
         registerItem("energyfist", EnergyFistInfo.class, EnergyFist.class);
         registerItem("doublefist", DoubleFistInfo.class, DoubleFist.class);
+        registerItem("chargedfists", ChargedFistsInfo.class, ChargedFists.class);
     }
 
     private void registerClasses() {

@@ -22,6 +22,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
@@ -355,6 +356,42 @@ public class GameUtils {
         return getTarget(entity, entity.getWorld().getLivingEntities(), maxRange, pred);
     }
 
+    public static void changeEquipment(Player player, int slot, int duration, ItemStack item) {
+        final ItemStack saved;
+        final PlayerInventory inv = player.getInventory();
+        switch (slot) {
+            case -1 : saved = inv.getHelmet(); inv.setHelmet(item); break;
+            case -2 : saved = inv.getChestplate(); inv.setChestplate(item); break;
+            case -3 : saved = inv.getLeggings(); inv.setLeggings(item); break;
+            case -4 : saved = inv.getBoots(); inv.setBoots(item); break;
+            default : saved = inv.getItem(slot); inv.setItem(0, item); break;
+        }
+        SafeRunnable restoreInv = new SafeRunnable() {
+            int timeRes = 0;
+            @Override
+            public void run() {
+                if (GameUtils.isDeadPlayer(player)) {
+                    this.cancel();
+                    return;
+                }
+                if (timeRes > duration) {
+                    this.cancel();
+                    switch (slot) {
+                        case -1 : inv.setHelmet(saved); break;
+                        case -2 : inv.setChestplate(saved); break;
+                        case -3 : inv.setLeggings(saved); break;
+                        case -4 : inv.setBoots(saved); break;
+                        default : inv.setItem(slot, saved); break;
+                    }
+                    return;
+                }
+                timeRes += 5;
+            }
+        };
+        restoreInv.runTaskTimer(Plugin.getInstance(), 0, 5);
+        Game.getInstance().getRunnables().add(restoreInv);
+    }
+    
     public static <T extends LivingEntity> T getTarget(Player entity, Iterable<T> entities, double maxRange,
                                                        java.util.function.Predicate<LivingEntity> pred) {
         if (entity == null)
@@ -416,6 +453,24 @@ public class GameUtils {
             }
         }
         assert ret != null;
+        return ret;
+    }
+    
+    
+    public static GameObject getNearestEnemy(GameObject gp) {
+        Location wh = gp.getEntity().getLocation();
+        GameObject ret = null;
+        double dst = 10000;
+        for (GameObject ot : getGameObjects()) {
+            if (ot.getTeam() == gp.getTeam() || isDeadPlayer(ot.getEntity())) {
+                continue;
+            }
+            double cur = wh.distance(ot.getEntity().getLocation());
+            if (cur < dst) {
+                dst = cur;
+                ret = ot;
+            }
+        }
         return ret;
     }
 

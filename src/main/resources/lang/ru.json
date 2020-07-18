@@ -18,8 +18,10 @@
   "items": {
     "axethrow": "Топор",
     "chainlightning": "Цепная молния",
+    "chargedfists": "Энергетики",
     "chaseenemy": "Погоня",
     "damagepotion": "Зелье урона",
+    "doublefist": "Боксерские перчатки",
     "dragonbreath": "Огненное дыхание",
     "dragonegg": "Яйцо дракона",
     "dragonfly": "Призыв дракона",
@@ -41,6 +43,7 @@
     "magicrod": "Посох силы",
     "meteor": "Призыв метеора",
     "ninjarope": "Крюк-кошка",
+    "paladinarmor": "Броня паладина",
     "poisonousbow": "Отравляющий лук",
     "poisonpotion": "Зелье отравления",
     "skeletonarmy": "Армия тьмы",
