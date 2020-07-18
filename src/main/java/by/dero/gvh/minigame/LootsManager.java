@@ -5,6 +5,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.Position;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
@@ -123,16 +124,16 @@ public class LootsManager implements Listener {
         Game.getInstance().getRunnables().add(runnable);
 
         GameInfo info = Game.getInstance().getInfo();
-        for (final DirectedPosition pos : info.getHealPoints()) {
-            loots.add(new LootsNode(pos.toLocation(info.getLobbyWorld()), new PotionEffect(PotionEffectType.HEAL, 1, 10),
+        for (final Position pos : info.getHealPoints()) {
+            loots.add(new LootsNode(pos.toLocation(Minigame.getInstance().getGame().getWorld()), new PotionEffect(PotionEffectType.HEAL, 1, 10),
                     "heal", Lang.get("loots.labelHeal").replace("%pts%",  "10")));
         }
-        for (final DirectedPosition pos : info.getSpeedPoints()) {
-            loots.add(new LootsNode(pos.toLocation(info.getLobbyWorld()), new PotionEffect(PotionEffectType.SPEED, 240, 2),
+        for (final Position pos : info.getSpeedPoints()) {
+            loots.add(new LootsNode(pos.toLocation(Minigame.getInstance().getGame().getWorld()), new PotionEffect(PotionEffectType.SPEED, 240, 2),
                     "speed", Lang.get("loots.labelReady")));
         }
-        for (final DirectedPosition pos : info.getResistancePoints()) {
-            loots.add(new LootsNode(pos.toLocation(info.getLobbyWorld()), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 240, 1),
+        for (final Position pos : info.getResistancePoints()) {
+            loots.add(new LootsNode(pos.toLocation(Minigame.getInstance().getGame().getWorld()), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 240, 1),
                     "resistance", Lang.get("loots.labelReady")));
         }
     }

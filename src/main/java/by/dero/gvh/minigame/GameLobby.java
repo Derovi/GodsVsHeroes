@@ -25,6 +25,7 @@ public class GameLobby implements Listener {
     private int timeLeft = 61;
     private BukkitRunnable prepairing;
     private final ItemStack[] chooseInv;
+    private String selectedMap = "Pro";
 
     public GameLobby(Game game) {
         this.game = game;
@@ -111,7 +112,7 @@ public class GameLobby implements Listener {
                     return;
                 }
                 if (0 < timeLeft && timeLeft <= 10) {
-                    World world = Minigame.getInstance().getWorld();
+                    World world = Minigame.getInstance().getLobbyWorld();
                     world.playSound(game.getInfo().getLobbyPosition().toLocation(world),
                            Sound.BLOCK_NOTE_PLING, 100, 1);
                     for (final Player player : Bukkit.getOnlinePlayers()) {
@@ -186,6 +187,10 @@ public class GameLobby implements Listener {
                 ready = false;
             }
         }, 2);
+    }
+
+    public String getSelectedMap() {
+        return selectedMap;
     }
 
     public Game getGame () {

@@ -166,7 +166,6 @@ public class ThrowingItem extends EntityArmorStand {
             }
             curRot -= (curRot - 270) / (length / speed);
             setRightArmPose(new Vector3f(curRot, 0, 0));
-            System.out.println(curRot);
             if (length < 0.1) {
                 if (onReturned != null) {
                     onReturned.run();

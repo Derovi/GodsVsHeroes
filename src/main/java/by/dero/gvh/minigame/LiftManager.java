@@ -4,7 +4,7 @@ import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.nmcapi.CustomLeash;
-import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.Position;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,11 +47,11 @@ public class LiftManager implements Listener {
 			return;
 		}
 		loaded = true;
-		DirectedPosition[] poses = Game.getInstance().getInfo().getLiftHints();
-		World wrld = Minigame.getInstance().getWorld();
+		Position[] poses = Game.getInstance().getInfo().getLiftHints();
+		World world = Minigame.getInstance().getGame().getWorld();
 		hints = new FlyingText[poses.length];
 		for (int i = 0; i < poses.length; i++) {
-			hints[i] = new FlyingText(poses[i].toLocation(wrld), Lang.get("hints.lift"));
+			hints[i] = new FlyingText(poses[i].toLocation(world), Lang.get("hints.lift"));
 		}
 	}
 

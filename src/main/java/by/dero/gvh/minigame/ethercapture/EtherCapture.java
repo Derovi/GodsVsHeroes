@@ -7,7 +7,10 @@ import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.MessagingUtils;
+import by.dero.gvh.utils.Position;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -17,9 +20,14 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import ru.cristalix.core.build.BuildWorldState;
+import ru.cristalix.core.build.models.Point;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
 
@@ -147,11 +155,21 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         checkForGameEnd();
     }
 
+    @Override
+    public void prepareMap(BuildWorldState state) {
+        getEtherCaptureInfo().setEtherCollectors(new IntPosition[state.getPoints().get("col").size()]);
+        for (Point point : state.getPoints().get("col")) {
+            getEtherCaptureInfo().getEtherCollectors()[Integer.parseInt(point.getTag()) - 1] =
+                    new IntPosition((int) point.getV3().getX(),
+                            (int) point.getV3().getY(),
+                            (int) point.getV3().getZ());
+        }
+    }
+
     private void checkForGameEnd() {
         for (int team = 0; team < getInfo().getTeamCount(); ++team) {
             if (currentEtherCount[team] >= etherCaptureInfo.getEtherToWin()) {
-                World world = Minigame.getInstance().getWorld();
-                world.playSound(getInfo().getLobbyPosition().toLocation(world).add(0, 30, 0),
+                getWorld().playSound(getInfo().getLobbyPosition().toLocation(getWorld()).add(0, 30, 0),
                         Sound.ENTITY_ENDERDRAGON_DEATH, 300, 1);
                 finish(team);
                 return;
@@ -175,7 +193,9 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         final float exp = player.getExp();
 
         spawnFirework(player.getLocation().clone().add(0, 1, 0), 1);
-        getPlayerDeathLocations().put(player.getName(), player.getLocation());
+        Location loc = player.getLocation();
+        loc.setWorld(Minigame.getInstance().getGame().getWorld());
+        getPlayerDeathLocations().put(player.getName(), loc);
         spawnPlayer(getPlayers().get(player.getName()), getInfo().getRespawnTime());
         player.spigot().respawn();
         player.setExp(exp);

@@ -4,11 +4,10 @@ import by.dero.gvh.*;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.*;
+import com.google.common.collect.Lists;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
@@ -16,10 +15,16 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.build.BuildWorldState;
+import ru.cristalix.core.build.models.Point;
+import ru.cristalix.core.map.BukkitWorldLoader;
+import ru.cristalix.core.map.IMapService;
+import ru.cristalix.core.map.LoadedMap;
 import ru.cristalix.core.realm.IRealmService;
 import ru.cristalix.core.realm.RealmInfo;
 import ru.cristalix.core.realm.RealmStatus;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public abstract class Game implements Listener {
@@ -42,6 +47,7 @@ public abstract class Game implements Listener {
     private AfterParty afterParty;
     private final GameInfo info;
     private State state;
+    private World world = null;
     private final HashMap<String, GamePlayer> players = new HashMap<>();
     private HashMap<UUID, GameMob> mobs;
     private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
@@ -64,8 +70,93 @@ public abstract class Game implements Listener {
 
     protected void onPlayerRespawned(final GamePlayer gp) { }
 
+    public void prepareMap(String mapName) {
+        LoadedMap<World> map = IMapService.get().
+                loadMap(IMapService.get().
+                        getMapByGameTypeAndMapName("EtherWar",mapName).get().getLatest(), BukkitWorldLoader.INSTANCE).join();
+        world = map.getWorld();
+
+        world.setTime(1000);
+        world.setDifficulty(Difficulty.NORMAL);
+        world.setGameRuleValue("keepInventory", "true");
+        world.setGameRuleValue("doDaylightCycle", "false");
+        world.setGameRuleValue("doMobLoot", "false");
+        world.setGameRuleValue("announceAdvancements", "false");
+        world.setGameRuleValue("randomTickSpeed", "0");
+
+        BuildWorldState state = map.getBuildWorldState();
+        List<List<DirectedPosition>> positions = new ArrayList<>();
+        for (int idx = 0; idx < info.getTeamCount(); ++idx) {
+            positions.add(new ArrayList<>());
+        }
+        for (Point point : state.getPoints().get("team")) {
+            String[] tag = point.getTag().split(",");
+            DirectedPosition position = new DirectedPosition(point.getV3().getX(), point.getV3().getY(), point.getV3().getZ(),
+                    new Vector(Double.parseDouble(tag[1]), Double.parseDouble(tag[2]), Double.parseDouble(tag[3])));
+            positions.get(Integer.parseInt(tag[0]) - 1).add(position);
+        }
+        info.setSpawnPoints(new DirectedPosition[info.getTeamCount()][]);
+        for (int idx = 0; idx < info.getTeamCount(); ++idx) {
+            info.getSpawnPoints()[idx] = new DirectedPosition[positions.get(idx).size()];
+            for (int i = 0; i < positions.get(idx).size(); ++i) {
+                info.getSpawnPoints()[idx][i] = positions.get(idx).get(i);
+            }
+        }
+        List<Position> speedPositions = new ArrayList<>();
+        List<Position> healPositions = new ArrayList<>();
+        List<Position> resPositions = new ArrayList<>();
+        for (Point point : state.getPoints().get("buff")) {
+            Position position = new Position(point.getV3().getX() + 0.5,
+                    point.getV3().getY(),
+                    point.getV3().getZ() + 0.5);
+            if (point.getTag().equals("speed")) {
+                speedPositions.add(position);
+            } else if (point.getTag().equals("res")) {
+                resPositions.add(position);
+            } else {
+                healPositions.add(position);
+            }
+        }
+        getInfo().setSpeedPoints(new Position[speedPositions.size()]);
+        for (int index = 0; index < speedPositions.size(); ++index) {
+            getInfo().getSpeedPoints()[index] = speedPositions.get(index);
+        }
+        getInfo().setResistancePoints(new Position[resPositions.size()]);
+        for (int index = 0; index < resPositions.size(); ++index) {
+            getInfo().getResistancePoints()[index] = resPositions.get(index);
+        }
+        getInfo().setHealPoints(new Position[healPositions.size()]);
+        for (int index = 0; index < healPositions.size(); ++index) {
+            getInfo().getHealPoints()[index] = healPositions.get(index);
+        }
+        List<Position> liftHints = new ArrayList<>();
+        for (Point point : state.getPoints().get("lift")) {
+            String[] tag = {"0","0","0"};
+            if (point.getTag() != null && !point.getTag().isEmpty()) {
+                tag = point.getTag().split(",");
+            }
+            liftHints.add(new Position(point.getV3().getX() + Double.parseDouble(tag[0]) + 0.5,
+                    point.getV3().getY() + Double.parseDouble(tag[1]) + 0.5,
+                    point.getV3().getZ() + Double.parseDouble(tag[2]) + 0.5));
+        }
+        getInfo().setLiftHints(new Position[liftHints.size()]);
+        for (int index = 0; index < liftHints.size(); ++index) {
+            getInfo().getLiftHints()[index] = liftHints.get(index);
+        }
+        prepareMap(state);
+    }
+
+    public boolean isMapPrepared() {
+        return world != null;
+    }
+
+    public void prepareMap(BuildWorldState state) {}
+
     public void start() {
-        mapManager = new MapManager(Bukkit.getWorld(getInfo().getLobbyWorld()));
+        if (!isMapPrepared()) {
+            prepareMap(lobby.getSelectedMap());
+        }
+        mapManager = new MapManager(world);
         deathAdviceManager = new DeathAdviceManager();
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
@@ -133,12 +224,12 @@ public abstract class Game implements Listener {
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
         runnables.add(cooldownMessageUpdater);
 
-        SafeRunnable borderChecker = new SafeRunnable() {
+        /*SafeRunnable borderChecker = new SafeRunnable() {
             final DirectedPosition[] borders = getInfo().getMapBorders();
             final String desMsg = Lang.get("game.desertionMessage");
             @Override
             public void run() {
-                for (LivingEntity entity : Minigame.getInstance().getWorld().getLivingEntities()) {
+                for (LivingEntity entity : world.getLivingEntities()) {
                     final Location loc = entity.getLocation();
                     Vector newVelocity = null;
                     if (loc.getX() < borders[0].getX()) {
@@ -191,7 +282,7 @@ public abstract class Game implements Listener {
             }
         };
         borderChecker.runTaskTimer(Plugin.getInstance(), 0, 10);
-        runnables.add(borderChecker);
+        runnables.add(borderChecker);*/
         stats = new Stats();
 
         Minigame.getInstance().getLootsManager().load();
@@ -296,7 +387,7 @@ public abstract class Game implements Listener {
             player.setFireTicks(0);
         }
 
-        for (LivingEntity entity: Bukkit.getWorld(getInfo().getLobbyWorld()).getLivingEntities()) {
+        for (LivingEntity entity: world.getLivingEntities()) {
             if (!(entity instanceof Player)) {
                 entity.remove();
             } else {
@@ -488,7 +579,7 @@ public abstract class Game implements Listener {
 
         final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[gp.getTeam()].length);
         final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[gp.getTeam()][locationIndex];
-        player.teleport(spawnPosition.toLocation(getInfo().getLobbyWorld()));
+        player.teleport(spawnPosition.toLocation(world));
         final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(gp.getClassName()).getMaxHP();
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
         player.setHealth(maxHealth);
@@ -541,6 +632,10 @@ public abstract class Game implements Listener {
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
         runnables.add(runnable);
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     public MapManager getMapManager() {

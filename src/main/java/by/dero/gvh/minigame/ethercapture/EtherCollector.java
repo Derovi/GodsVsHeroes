@@ -143,7 +143,7 @@ public class EtherCollector {
         Bukkit.getServer().broadcastMessage(Lang.get("game.collectorCaptureInform").
                 replace("%num%", "" + number).
                 replace("%com%", Lang.get("commands." + (char)('1' + owner))));
-        Minigame.getInstance().getWorld().playSound(location, Sound.ENTITY_ENDERDRAGON_GROWL, 100, 1);
+        Minigame.getInstance().getGame().getWorld().playSound(location, Sound.ENTITY_ENDERDRAGON_GROWL, 100, 1);
     }
 
     public void unload() {
@@ -180,7 +180,7 @@ public class EtherCollector {
     }
 
     public void setPosition(IntPosition pos) {
-        location = pos.toLocation(Minigame.getInstance().getWorld());
+        location = pos.toLocation(Minigame.getInstance().getGame().getWorld()).add(0,-1,0);
     }
 
     public int getOwner () {
