@@ -52,10 +52,10 @@ public class LightningStrike extends Item implements PlayerInteractInterface, In
 		if (at == null) {
 			return;
 		}
-		SpawnUtils.spawnLightning(at, lightningDamage, 1, ownerGP);
+		SpawnUtils.spawnLightning(at, lightningDamage, 2, ownerGP);
 		for (LivingEntity ent : at.getWorld().getLivingEntities()) {
 			GameObject obj = GameUtils.getObject(ent);
-			if (ent.getLocation().getY() - 4 - radius > at.getY()) {
+			if (obj == null || ent.getLocation().getY() - 4 - radius > at.getY()) {
 				continue;
 			}
 			Location to = ent.getEyeLocation();
@@ -66,7 +66,7 @@ public class LightningStrike extends Item implements PlayerInteractInterface, In
 				Drawings.drawLine(ent.getEyeLocation(), fr, Particle.END_ROD);
 				Stun.stunEntity(ent, 20);
 				to.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, to, 1);
-				to.getWorld().playSound(to, Sound.ENTITY_IRONGOLEM_DEATH, 1.07f, 1);
+				to.getWorld().playSound(to, Sound.ENTITY_IRONGOLEM_DEATH, 1.5f, 1);
 			}
 		}
 	}
