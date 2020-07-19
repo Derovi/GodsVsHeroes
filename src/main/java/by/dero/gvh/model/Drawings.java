@@ -4,9 +4,12 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.utils.MathUtils;
 import net.minecraft.server.v1_12_R1.EntityFireworks;
+import net.minecraft.server.v1_12_R1.PacketPlayOutEntityStatus;
+import net.minecraft.server.v1_12_R1.PacketPlayOutSpawnEntity;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftFirework;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -290,9 +293,8 @@ public class Drawings {
                         meta.addEffect(FireworkEffect.builder().withColor(
                                 colors[(int)(Math.random()*colors.length)]).flicker(true).build());
                         item.setItemMeta(meta);
-                
-//                        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntity(fw, 22));
-//                        (((CraftPlayer) player).getHandle()).playerConnection.sendPacket(new PacketPlayOutEntityStatus(fw, (byte) 17));
+                        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntity(fw, 17));
+                        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityStatus(fw, (byte) 17));
 //                        world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
                     }
                 }, duration);

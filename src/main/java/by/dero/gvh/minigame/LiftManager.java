@@ -112,9 +112,10 @@ public class LiftManager implements Listener {
 			Entity ent = lifting.get(uuid).getFirst();
 			Location loc = player.getLocation();
 			player.setVelocity(new Vector(ent.locX - loc.x, (ent.locY - loc.y) / 2, ent.locZ - loc.z).multiply(0.5));
+			return;
 		}
-		if (event.getFrom().getY() == event.getTo().getY() ||
-				event.getFrom().getY() - (int)event.getFrom().getY() >= 0.1) {
+		if (event.getFrom().getY() == event.getTo().getY() || event.getFrom().getY() - (int)event.getFrom().getY() >= 0.1 ||
+				!lifting.get(uuid).isEmpty()) {
 			return;
 		}
 		Location loc = player.getLocation();
@@ -128,6 +129,7 @@ public class LiftManager implements Listener {
 		if (good == null) {
 			return;
 		}
+		
 		EntityPlayer pl = ((CraftPlayer) player).getHandle();
 		EntityChicken chicken = new EntityChicken(pl.world);
 

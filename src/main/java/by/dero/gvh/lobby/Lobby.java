@@ -329,9 +329,13 @@ public class Lobby implements PluginMode, Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        System.out.println(event.getAction());
+        if (event.getAction().equals(Action.PHYSICAL)) {
+            event.setCancelled(true);
+            return;
+        }
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
-            event.getAction().equals(Action.RIGHT_CLICK_BLOCK) &&
-            player.getInventory().getHeldItemSlot() == 0) {
+            event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             switch (event.getPlayer().getInventory().getHeldItemSlot()) {
                 case 0:
                     CompassInterface compassInterface = new CompassInterface(
@@ -357,7 +361,8 @@ public class Lobby implements PluginMode, Listener {
             event.setCancelled(true);
         }
     }
-
+    
+    
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         event.setCancelled(true);
@@ -379,7 +384,7 @@ public class Lobby implements PluginMode, Listener {
     }
 
     @EventHandler
-    public void onBlockBreak (BlockBreakEvent event) {
+    public void onBlockBreak(BlockBreakEvent event) {
         event.setCancelled(true);
     }
 

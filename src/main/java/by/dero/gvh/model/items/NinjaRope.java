@@ -47,7 +47,7 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
         fishingHook.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         arrow.addPassenger(fishingHook.getBukkitEntity());
         player.world.addEntity(fishingHook, CreatureSpawnEvent.SpawnReason.CUSTOM);
-
+    
         summonedEntityIds.add(arrow.getUniqueId());
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
