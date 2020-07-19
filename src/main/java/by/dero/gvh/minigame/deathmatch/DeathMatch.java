@@ -158,7 +158,6 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         }
         event.setDeathMessage(null);
         final Player player = event.getEntity();
-        System.out.println("o3: " + player.getLocation().getWorld().getName());
         //player.leaveVehicle();
         final float exp = player.getExp();
 

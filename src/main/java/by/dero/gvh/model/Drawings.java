@@ -129,7 +129,7 @@ public class Drawings {
         }
     }
 
-    private static final Color[] colors = new Color[] {
+    public static final Color[] colors = new Color[] {
         Color.AQUA, Color.BLUE, Color.FUCHSIA, Color.LIME, Color.MAROON, Color.NAVY,
         Color.OLIVE, Color.ORANGE, Color.WHITE, Color.YELLOW, Color.SILVER, Color.RED, Color.PURPLE
     };

@@ -608,7 +608,7 @@ public abstract class Game implements Listener {
     }
 
     public void spawnPlayer(GamePlayer gp, int respawnTime) {
-        System.out.println("o1: " + gp.getPlayer().getLocation().getWorld().getName());
+        //System.out.println("o1: " + gp.getPlayer().getLocation().getWorld().getName());
         final Player player = gp.getPlayer();
         if (respawnTime == 0) {
             toSpawn(gp);
@@ -617,7 +617,7 @@ public abstract class Game implements Listener {
         player.setGameMode(GameMode.SPECTATOR);
         player.teleport(playerDeathLocations.get(player.getName()));
         player.setVelocity(new Vector(0,4,0));
-        System.out.println("o2: " + gp.getPlayer().getLocation().getWorld().getName());
+        //System.out.println("o2: " + gp.getPlayer().getLocation().getWorld().getName());
         if (respawnTime == -1) {
             MessagingUtils.sendTitle(Lang.get("game.livesNotLeft"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
             return;

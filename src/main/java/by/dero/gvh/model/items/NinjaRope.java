@@ -41,12 +41,11 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
             return;
         }
         cooldown.reload();
-        EntityPlayer player = ((CraftPlayer) owner).getHandle();
-        InfiniteFishHook fishingHook = new InfiniteFishHook(player.world, player);
+        InfiniteFishHook fishingHook = new InfiniteFishHook(owner);
         Arrow arrow = (Arrow) SpawnUtils.spawnProjectile(owner.getEyeLocation(), 2, EntityType.ARROW, owner);
         fishingHook.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         arrow.addPassenger(fishingHook.getBukkitEntity());
-        player.world.addEntity(fishingHook, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        fishingHook.spawn();
 
         summonedEntityIds.add(arrow.getUniqueId());
         BukkitRunnable runnable = new BukkitRunnable() {

@@ -1,16 +1,20 @@
 package by.dero.gvh.nmcapi;
 
 import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Fish;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 
 import java.util.List;
 
 public class InfiniteFishHook extends EntityFishingHook {
-	public InfiniteFishHook (World world, EntityHuman entityhuman) {
-		super(world, entityhuman);
+	public InfiniteFishHook (Player player) {
+		super(((CraftWorld) player.getWorld()).getHandle(), ((CraftPlayer) player).getHandle());
+		setPosition(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
 	}
 
 	public void B_() {
@@ -200,5 +204,9 @@ public class InfiniteFishHook extends EntityFishingHook {
 		} else {
 			return 0;
 		}
+	}
+
+	public void spawn() {
+		getWorld().addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
 	}
 }

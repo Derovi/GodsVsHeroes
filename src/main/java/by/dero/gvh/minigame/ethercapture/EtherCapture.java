@@ -190,6 +190,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         }
         event.setDeathMessage(null);
         final Player player = event.getEntity();
+        //System.out.println("o3: " + player.getLocation().getWorld().getName());
         final float exp = player.getExp();
 
         spawnFirework(player.getLocation().clone().add(0, 1, 0), 1);
