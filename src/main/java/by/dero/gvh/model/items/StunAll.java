@@ -33,13 +33,10 @@ public class StunAll extends Item implements PlayerInteractInterface, InfiniteRe
             return;
         }
         cooldown.reload();
-
         Location loc = owner.getLocation();
-        for (double hei = 0; hei < radius; hei += 0.4) {
-            Drawings.drawCircle(loc.clone(), radius, Particle.FLAME);
-            loc = loc.add(0, 0.4, 0);
-        }
-        loc = owner.getLocation();
+        double yaw = Math.toRadians(loc.getYaw());
+        loc.add(-Math.sin(yaw) * 1.2, 0, Math.cos(yaw) * 1.2);
+        Drawings.drawFist(loc, radius, Particle.FLAME);
         owner.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_GROWL, 1.07f, 1);
         for (final Entity ot : owner.getWorld().getNearbyEntities(loc, radius, 50, radius)) {
             Location otloc = ot.getLocation();
