@@ -173,7 +173,7 @@ public class Drawings {
                 for (double partAngle = 0; partAngle < MathUtils.PI2; partAngle += MathUtils.PI2 / parts) {
                     double resHor = horAngle + partAngle;
                     final Location at = MathUtils.getInCphere(center.toVector(), radius, resHor, vertAngle).toLocation(center.getWorld());
-                    player.getWorld().spawnParticle(particle, at, 0,0,0, 0);
+                    player.spawnParticle(particle, at, 0,0,0, 0);
                 }
 
                 horAngle += horAngleSpeed * dT;
@@ -277,7 +277,24 @@ public class Drawings {
 
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     player.playSound(loc, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 2, 1);
-                    spawnFirework(loc.clone().add(0,1,0), 2);
+                    for (int i = 0; i < 2; i++) {
+                        CraftWorld world = (CraftWorld) loc.getWorld();
+                        EntityFireworks fw = new EntityFireworks(world.world);
+                        fw.setPosition(loc.getX(), loc.getY(), loc.getZ());
+                        fw.expectedLifespan = 2;
+                        fw.noclip = true;
+                
+                        CraftItemStack item = ((CraftFirework) fw.getBukkitEntity()).item;
+                        FireworkMeta meta = (FireworkMeta) item.getItemMeta();
+                        meta.setPower(2);
+                        meta.addEffect(FireworkEffect.builder().withColor(
+                                colors[(int)(Math.random()*colors.length)]).flicker(true).build());
+                        item.setItemMeta(meta);
+                
+//                        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntity(fw, 22));
+//                        (((CraftPlayer) player).getHandle()).playerConnection.sendPacket(new PacketPlayOutEntityStatus(fw, (byte) 17));
+//                        world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
+                    }
                 }, duration);
     }
 

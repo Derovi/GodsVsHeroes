@@ -189,7 +189,7 @@ public class Lobby implements PluginMode, Listener {
         }
         
         player.getInventory().setItem(0, new ItemStack(Material.COMPASS, 1));
-        player.getInventory().setItem(1, new ItemStack(Material.EYE_OF_ENDER));
+        player.getInventory().setItem(8, new ItemStack(Material.EYE_OF_ENDER));
         AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
                 (pl) -> (!players.containsKey(pl.getName()) || players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
 
@@ -313,7 +313,7 @@ public class Lobby implements PluginMode, Listener {
                             Lobby.getInstance().getInterfaceManager(), player);
                     compassInterface.open();
                     break;
-                case 1:
+                case 8:
                     if (hidePlayers.contains(player.getUniqueId())) {
                         hidePlayers.remove(player.getUniqueId());
                         for (Player other : Bukkit.getOnlinePlayers()) {
