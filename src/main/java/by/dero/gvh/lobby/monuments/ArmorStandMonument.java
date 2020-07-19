@@ -91,7 +91,6 @@ public class ArmorStandMonument extends Monument {
         loaded = true;
         final World at = Lobby.getInstance().getWorld();
         armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
-        armorStand.setCustomNameVisible(true);
         armorStand.setInvulnerable(true);
         armorStand.setCustomNameVisible(false);
 
