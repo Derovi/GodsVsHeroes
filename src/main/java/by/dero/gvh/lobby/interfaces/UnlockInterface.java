@@ -64,11 +64,10 @@ public class UnlockInterface extends Interface {
                 final PlayerLobby lobby = Lobby.getInstance().getActiveLobbies().get(player.getName());
                 final ArmorStand stand = ((ArmorStandMonument) Lobby.getInstance().getMonumentManager().
                         getMonuments().get(className)).getArmorStand();
-                stand.setCustomNameVisible(false);
                 final BukkitRunnable zxc = new BukkitRunnable() {
                     @Override
                     public void run() {
-                        stand.setCustomNameVisible(true);
+                        // TODO hide title
                     }
                 };
                 zxc.runTaskLater(Plugin.getInstance(), 240);
