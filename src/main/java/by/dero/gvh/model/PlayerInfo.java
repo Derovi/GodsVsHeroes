@@ -46,6 +46,9 @@ public class PlayerInfo {
 
     public boolean canUpgradeItem(String className, String item) {
         Map<String, Integer> items = getItems(className);
+        if (!items.containsKey(item)) {
+            items.put(item, 0);
+        }
         int level = items.get(item);
         if (level + 1 >= Plugin.getInstance().getData().getItemDescription(item).getLevels().size()) {
             return false;

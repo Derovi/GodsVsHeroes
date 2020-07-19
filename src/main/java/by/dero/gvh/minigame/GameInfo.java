@@ -20,7 +20,6 @@ public class GameInfo {
     private Position[] healPoints;
     private Position[] speedPoints;
     private Position[] resistancePoints;
-    private Position[] liftHints;
 
     public int getFinishTime() {
         return finishTime;
@@ -140,21 +139,5 @@ public class GameInfo {
 
     public void setMode(String mode) {
         this.mode = mode;
-    }
-
-    public Position[] getLiftHints() {
-        return liftHints;
-    }
-
-    public void setLiftHints(Position[] liftHints) {
-        this.liftHints = liftHints;
-    }
-
-    public void addLift(Position start, Position destination, double radius) {
-        Minigame.getInstance().getLiftManager().getLifts().add(new LiftManager.Lift(
-                new Vector(start.getX(), start.getY(), start.getZ()),
-                new Vector(destination.getX(), destination.getY(), destination.getZ()),
-                radius
-        ));
     }
 }

@@ -4,6 +4,7 @@ import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.nmcapi.CustomLeash;
+import by.dero.gvh.utils.Position;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -78,6 +79,13 @@ public class LiftManager implements Listener {
 		hints = null;
 	}
 
+	public void addLift(by.dero.gvh.utils.Position start, Position destination, double radius) {
+		lifts.add(new LiftManager.Lift(
+				new Vector(start.getX(), start.getY(), start.getZ()),
+				new Vector(destination.getX(), destination.getY(), destination.getZ()),
+				radius
+		));
+	}
 
 	@EventHandler
 	public void activateLift(PlayerMoveEvent event) {

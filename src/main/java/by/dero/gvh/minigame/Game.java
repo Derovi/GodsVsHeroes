@@ -139,10 +139,10 @@ public abstract class Game implements Listener {
                     point.getV3().getY() + Double.parseDouble(tag[1]) + 0.5,
                     point.getV3().getZ() + Double.parseDouble(tag[2]) + 0.5));
         }
-        getInfo().setLiftHints(new Position[liftHints.size()]);
+        /*getInfo().setLiftHints(new Position[liftHints.size()]);
         for (int index = 0; index < liftHints.size(); ++index) {
             getInfo().getLiftHints()[index] = liftHints.get(index);
-        }
+        }*/
         prepareMap(state);
     }
 
