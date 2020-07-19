@@ -38,6 +38,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -161,6 +162,9 @@ public class Lobby implements PluginMode, Listener {
         }
     }
 
+    private static ItemStack compassitem;
+    private static ItemStack hideitem;
+    private static ItemStack showitem;
     public void playerJoined(Player player) {
         player.getInventory().setHeldItemSlot(0);
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
@@ -188,8 +192,29 @@ public class Lobby implements PluginMode, Listener {
             }
         }
         
-        player.getInventory().setItem(0, new ItemStack(Material.COMPASS, 1));
-        player.getInventory().setItem(8, new ItemStack(Material.EYE_OF_ENDER));
+        player.getInventory().clear();
+        if (compassitem == null) {
+            compassitem = new ItemStack(Material.COMPASS);
+            ItemMeta meta = compassitem.getItemMeta();
+            meta.setDisplayName(Lang.get("lobby.compass"));
+            compassitem.setItemMeta(meta);
+            
+            showitem = new ItemStack(Material.EYE_OF_ENDER);
+            ItemMeta meta1 = showitem.getItemMeta();
+            meta1.setDisplayName(Lang.get("lobby.showPlayers"));
+            showitem.setItemMeta(meta1);
+            
+            hideitem = new ItemStack(Material.ENDER_PEARL);
+            ItemMeta meta2 = hideitem.getItemMeta();
+            meta2.setDisplayName(Lang.get("lobby.hidePlayers"));
+            hideitem.setItemMeta(meta2);
+        }
+        player.getInventory().setItem(0, compassitem);
+        if (hidePlayers.contains(player.getUniqueId())) {
+            player.getInventory().setItem(8, showitem);
+        } else {
+            player.getInventory().setItem(8, hideitem);
+        }
         AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
                 (pl) -> (!players.containsKey(pl.getName()) || players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
 
@@ -316,11 +341,13 @@ public class Lobby implements PluginMode, Listener {
                 case 8:
                     if (hidePlayers.contains(player.getUniqueId())) {
                         hidePlayers.remove(player.getUniqueId());
+                        player.getInventory().setItem(8, hideitem);
                         for (Player other : Bukkit.getOnlinePlayers()) {
                             player.showPlayer(Plugin.getInstance(), other);
                         }
                     } else {
                         hidePlayers.add(player.getUniqueId());
+                        player.getInventory().setItem(8, showitem);
                         for (Player other : Bukkit.getOnlinePlayers()) {
                             player.hidePlayer(Plugin.getInstance(), other);
                         }

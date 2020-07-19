@@ -149,7 +149,7 @@ public class LiftManager implements Listener {
 		LinkedList<Entity> list = lifting.get(uuid);
 		list.add(chicken);
 		list.add(leash);
-		player.setVelocity(new Vector(0, (good.y - player.getLocation().y) * 0.2, 0));
+		player.setVelocity(new Vector(0, Math.pow(Math.abs(good.y - player.getLocation().y), 0.55) * 0.4, 0));
 
 		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1.07f, 1);
 	
