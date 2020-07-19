@@ -98,13 +98,5 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 		stand.setItemInHand(mjolnir.getItemStack());
 		stand.setVisible(false);
 		stand.setRightArmPose(new EulerAngle(Math.PI * 1.5, 0, 0));
-		for (GameObject go : GameUtils.getGameObjects()) {
-			LivingEntity ent = go.getEntity();
-			Location loc = new Location(owner.getWorld(),
-					ent.getLocation().getX(), owner.getLocation().getY(), ent.getLocation().getZ());
-			if (go.getTeam() != getTeam() && loc.distance(owner.getLocation()) < radius) {
-				ent.setVelocity(owner.getLocation().subtract(loc).toVector().normalize().multiply(1.2));
-			}
-		}
 	}
 }
