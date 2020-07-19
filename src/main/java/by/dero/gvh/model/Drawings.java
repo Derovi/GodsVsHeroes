@@ -36,7 +36,6 @@ public class Drawings {
         finger[4] = 0.8 * finger[2];
         finger[0] = 0.9 * finger[2];
         double startAngle = Math.toRadians(loc.getYaw()) + Math.PI * 0.6;
-        System.out.println("start: " + startAngle);
         for (double h = 0; ; ) {
             double rad = 2 * Math.pow((height - h) / height, 0.15);
             if (Double.isNaN(rad) || rad < 0.1) {

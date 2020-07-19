@@ -9,13 +9,13 @@
     "summongunsmith",
     "paladinarmor",
 
-    "spawnhorse",
+    "spawnarmoredhorse",
 
     "speedbuf",
     "resistancebuf",
     "defaultchestplate3",
     "defaultleggings3",
-    "defaulthelmet3",
-    "defaultboots"
+    "defaulthelmetchainmail",
+    "defaultboots3"
   ]
 }

@@ -53,8 +53,7 @@ public class SpawnUtils {
 	}
 	
 	public static GameMob spawnTeamEntity(Location loc, EntityType type, GamePlayer gp) {
-		loc = loc.getWorld().getHighestBlockAt(loc).getLocation().add(0, 1, 0);
-		LivingEntity entity = (LivingEntity) spawnEntity(loc, type);
+		LivingEntity entity = (LivingEntity) spawnEntity(loc.clone().add(0, 1, 0), type);
 		GameMob gm = new GameMob(entity, gp.getTeam(), gp.getPlayer());
 		gm.updateName();
 		return gm;
