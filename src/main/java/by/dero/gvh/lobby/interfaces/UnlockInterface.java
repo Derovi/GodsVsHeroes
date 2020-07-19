@@ -36,6 +36,7 @@ public class UnlockInterface extends Interface {
             if (itemNames.size() == 9) {
                 break;
             }
+            System.out.println("itemName:" + itemName);
             if (Plugin.getInstance().getData().getItems().get(itemName).getLevels().size() < 2) {
                 continue;
             }

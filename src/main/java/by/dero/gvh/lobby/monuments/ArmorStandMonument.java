@@ -119,6 +119,7 @@ public class ArmorStandMonument extends Monument {
 
     @Override
     public void unload() {
+        System.out.println("Unload mon!");
         if (!loaded) {
             return;
         }

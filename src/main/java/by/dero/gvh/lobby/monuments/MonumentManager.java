@@ -16,6 +16,9 @@ public class MonumentManager implements Listener {
 
     public MonumentManager() {
         registerMonuments();
+    }
+
+    public void load() {
         for (Map.Entry<String, DirectedPosition> entry :
                 Lobby.getInstance().getInfo().getClassNameToMonumentPosition().entrySet()) {
             try {
@@ -29,6 +32,13 @@ public class MonumentManager implements Listener {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public void unload() {
+        for (Monument monument : monuments.values()) {
+            monument.unload();
+        }
+        monuments.clear();
     }
 
     private void registerMonuments() {
