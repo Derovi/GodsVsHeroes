@@ -4,12 +4,9 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.utils.MathUtils;
 import net.minecraft.server.v1_12_R1.EntityFireworks;
-import net.minecraft.server.v1_12_R1.PacketPlayOutEntityStatus;
-import net.minecraft.server.v1_12_R1.PacketPlayOutSpawnEntity;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftFirework;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -280,22 +277,9 @@ public class Drawings {
 
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     player.playSound(loc, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 2, 1);
-                    for (int i = 0; i < 2; i++) {
-                        CraftWorld world = (CraftWorld) loc.getWorld();
-                        EntityFireworks fw = new EntityFireworks(world.world);
-                        fw.setPosition(loc.getX(), loc.getY(), loc.getZ());
-                        fw.expectedLifespan = 2;
-                        fw.noclip = true;
-                
-                        CraftItemStack item = ((CraftFirework) fw.getBukkitEntity()).item;
-                        FireworkMeta meta = (FireworkMeta) item.getItemMeta();
-                        meta.setPower(2);
-                        meta.addEffect(FireworkEffect.builder().withColor(
-                                colors[(int)(Math.random()*colors.length)]).flicker(true).build());
-                        item.setItemMeta(meta);
-                        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntity(fw, 17));
-                        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityStatus(fw, (byte) 17));
-//                        world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
+                    for (int i = 0; i < 400; i++) {
+                        player.spawnParticle(Particle.ENCHANTMENT_TABLE,
+                                MathUtils.randomCylinder(loc.clone(), 2, -2), 0);
                     }
                 }, duration);
     }
