@@ -25,7 +25,7 @@ public class GameLobby implements Listener {
     private int timeLeft = 61;
     private BukkitRunnable prepairing;
     private final ItemStack[] chooseInv;
-    private String selectedMap = "Pro";
+    private String selectedMap = "Castle";
 
     public GameLobby(Game game) {
         this.game = game;
