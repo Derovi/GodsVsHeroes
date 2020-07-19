@@ -136,9 +136,9 @@ public abstract class Game implements Listener {
             try {
                 if (tag.length != 1) {
                     radius = 2;
-                    position.add(Double.parseDouble(tag[1]),
+                    position.add(Double.parseDouble(tag[1] + 0.5),
                             Double.parseDouble(tag[2]),
-                            Double.parseDouble(tag[3]));
+                            Double.parseDouble(tag[3] + 0.5));
                 }
             } catch (Exception ex) {
                 System.out.println("Can't load lift at: " + point.getV3().getX() + ' ' + point.getV3().getY() + ' ' + point.getV3().getZ());
@@ -150,9 +150,9 @@ public abstract class Game implements Listener {
             String[] tag = point.getTag().split(",");
             Position position = new Position(point.getV3().getX(), point.getV3().getY(), point.getV3().getZ());
             if (tag.length != 1) {
-                position.add(Double.parseDouble(tag[1]),
+                position.add(Double.parseDouble(tag[1] + 0.5),
                         Double.parseDouble(tag[2]),
-                        Double.parseDouble(tag[3]));
+                        Double.parseDouble(tag[3] + 0.5));
             }
             lifts.get(tag[0]).setTo(position.toVector());
         }
