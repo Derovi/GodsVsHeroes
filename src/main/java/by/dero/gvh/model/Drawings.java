@@ -22,6 +22,47 @@ public class Drawings {
     public static final double dense = 1.5;
     public static final Vector randomVector = new Vector(Math.random(), Math.random(), Math.random()).normalize();
 
+    public static void drawFist(Location loc, double size, Particle particle) {
+        // drawing palm
+        double density = 10;
+        double height = size * 1.2;
+        double fingerWidth = 1;
+        double emptyWidth = 0.2;
+        int idx = 0;
+        double[] finger = new double[5];
+        finger[2] = 5;
+        finger[1] = 0.95 * finger[2];
+        finger[3] = 0.9575 * finger[2];
+        finger[4] = 0.8 * finger[2];
+        finger[0] = 0.9 * finger[2];
+        double startAngle = Math.toRadians(loc.getYaw()) + Math.PI * 0.6;
+        System.out.println("start: " + startAngle);
+        for (double h = 0; ; ) {
+            double rad = 2 * Math.pow((height - h) / height, 0.15);
+            if (Double.isNaN(rad) || rad < 0.1) {
+                break;
+            }
+            h += Math.pow((height - h) / height, 0.5) / 3.5;
+            for (double angle = 0; angle < Math.PI * 2 / 3; angle += Math.PI / density / 3) {
+                loc.getWorld().spawnParticle(particle, loc.clone().add(MathUtils.cos(startAngle + angle) * rad,
+                        h, MathUtils.sin(startAngle + angle) * rad), 1, 0, 0, 0, 0);
+            }
+            double H = h;
+            while (H > fingerWidth + emptyWidth) {
+                H -= fingerWidth + emptyWidth;
+            }
+            ++idx;
+            if (idx % 3 != 0) {
+                for (double angle = Math.PI / 3; angle < Math.PI / 3 + finger[(idx - 1) / 3]; angle += Math.PI / density / 3) {
+                    loc.getWorld().spawnParticle(particle, loc.clone().add(MathUtils.cos(startAngle + angle) * rad, h, MathUtils.sin(startAngle + angle) * rad), 1, 0, 0, 0, 0);
+                }
+            }
+            if (idx == 15) {
+                break;
+            }
+        }
+    }
+
     public static void drawLine(Location a, Location b, Particle obj) {
         Vector cur = a.toVector();
         Vector to = b.toVector();

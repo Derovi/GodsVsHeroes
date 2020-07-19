@@ -94,6 +94,7 @@ public class Lobby implements PluginMode, Listener {
                     Plugin.getInstance().getSettings().getLobbyDataMongodbDatabase());
         }
         monumentManager = new MonumentManager();
+        monumentManager.load();
         interfaceManager = new InterfaceManager();
         portalManager = new PortalManager();
         registerEvents();
@@ -126,6 +127,7 @@ public class Lobby implements PluginMode, Listener {
         for (final PlayerLobby playerLobby : activeLobbies.values()) {
             playerLobby.unload();
         }
+        monumentManager.unload();
         Plugin.getInstance().getServerData().unregister(Plugin.getInstance().getSettings().getServerName());
     }
 
