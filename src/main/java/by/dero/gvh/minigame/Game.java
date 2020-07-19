@@ -1,15 +1,14 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.*;
-import by.dero.gvh.model.Item;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.*;
-import com.google.common.collect.Lists;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -24,7 +23,6 @@ import ru.cristalix.core.realm.IRealmService;
 import ru.cristalix.core.realm.RealmInfo;
 import ru.cristalix.core.realm.RealmStatus;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public abstract class Game implements Listener {

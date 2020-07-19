@@ -1,13 +1,10 @@
 package by.dero.gvh.lobby;
 
-import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
-import by.dero.gvh.utils.WorldEditUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -26,7 +23,10 @@ import ru.cristalix.core.render.IRenderService;
 import ru.cristalix.core.render.VisibilityTarget;
 import ru.cristalix.core.render.WorldRenderData;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 import static by.dero.gvh.utils.Board.setText;
 
@@ -72,12 +72,12 @@ public class PlayerLobby {
                 dimensions(new V2(2.8, 0.5)).name(name).strings(getStrings("Board")).build();
         IRenderService.get().createGlobalWorldRenderData(world.getUID(), name, WorldRenderData.builder().dataDrawData(data).name(name).visibilityTarget(VisibilityTarget.BLACKLIST).build());
         IRenderService.get().setRenderVisible(world.getUID(), name, true);
-
-        Bukkit.getScheduler().runTaskTimer(Plugin.getInstance(), () -> {
-            data.setStrings(getStrings("lol"));
-            IRenderService.get().setRenderVisible(world.getUID(), name, false);
-            IRenderService.get().setRenderVisible(world.getUID(), name, true);
-        }, 20, 20);
+//
+//        Bukkit.getScheduler().runTaskTimer(Plugin.getInstance(), () -> {
+//            data.setStrings(getStrings("lol"));
+//            IRenderService.get().setRenderVisible(world.getUID(), name, false);
+//            IRenderService.get().setRenderVisible(world.getUID(), name, true);
+//        }, 20, 20);
     }
 
     private static List<StringDrawData> getStrings(String className) {
