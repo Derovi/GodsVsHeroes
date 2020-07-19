@@ -3,6 +3,8 @@
   "maxHP": 40,
   "cost": 10,
   "itemNames": [
+    "doublefist",
+    "chargedfists",
     "mjolnir",
     "chainlightning",
     "thorbow",

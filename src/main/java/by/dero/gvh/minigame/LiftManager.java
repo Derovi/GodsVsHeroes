@@ -39,7 +39,7 @@ public class LiftManager implements Listener {
 
 	public static class Lift {
 		private final Vector from;
-		private final Vector to;
+		private Vector to;
 		private final double radius;
 		
 		public Lift(Vector from, Vector to, double radius) {
@@ -47,7 +47,11 @@ public class LiftManager implements Listener {
 			this.to = to;
 			this.radius = radius;
 		}
-		
+
+		public void setTo(Vector to) {
+			this.to = to;
+		}
+
 		public boolean isInside(Location loc) {
 			return loc.toVector().distance(from) <= radius;
 		}
@@ -81,12 +85,12 @@ public class LiftManager implements Listener {
 		hints = null;
 	}
 
+	public void addLift(Lift lift) {
+		lifts.add(lift);
+	}
+
 	public void addLift(by.dero.gvh.utils.Position start, Position destination, double radius) {
-		lifts.add(new LiftManager.Lift(
-				new Vector(start.getX(), start.getY(), start.getZ()),
-				new Vector(destination.getX(), destination.getY(), destination.getZ()),
-				radius
-		));
+		lifts.add(new LiftManager.Lift(start.toVector(), destination.toVector(), radius));
 	}
 
 	@EventHandler

@@ -5,6 +5,7 @@ import by.dero.gvh.model.*;
 import by.dero.gvh.utils.*;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.royawesome.jlibnoise.module.combiner.Min;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
@@ -127,20 +128,37 @@ public abstract class Game implements Listener {
         for (int index = 0; index < healPositions.size(); ++index) {
             getInfo().getHealPoints()[index] = healPositions.get(index);
         }
-        List<Position> liftHints = new ArrayList<>();
+        HashMap<String, LiftManager.Lift> lifts = new HashMap<>();
         for (Point point : state.getPoints().get("lift")) {
-            String[] tag = {"0","0","0"};
-            if (point.getTag() != null && !point.getTag().isEmpty()) {
-                tag = point.getTag().split(",");
+            String[] tag = point.getTag().split(",");
+            Position position = new Position(point.getV3().getX(), point.getV3().getY(), point.getV3().getZ());
+            double radius = 1;
+            try {
+                if (tag.length != 1) {
+                    radius = 2;
+                    position.add(Double.parseDouble(tag[1]),
+                            Double.parseDouble(tag[2]),
+                            Double.parseDouble(tag[3]));
+                }
+            } catch (Exception ex) {
+                System.out.println("Can't load lift at: " + point.getV3().getX() + ' ' + point.getV3().getY() + ' ' + point.getV3().getZ());
+                ex.printStackTrace();
             }
-            liftHints.add(new Position(point.getV3().getX() + Double.parseDouble(tag[0]) + 0.5,
-                    point.getV3().getY() + Double.parseDouble(tag[1]) + 0.5,
-                    point.getV3().getZ() + Double.parseDouble(tag[2]) + 0.5));
+            lifts.put(tag[0], new LiftManager.Lift(position.toVector(), null, radius));
         }
-        /*getInfo().setLiftHints(new Position[liftHints.size()]);
-        for (int index = 0; index < liftHints.size(); ++index) {
-            getInfo().getLiftHints()[index] = liftHints.get(index);
-        }*/
+        for (Point point : state.getPoints().get("dest")) {
+            String[] tag = point.getTag().split(",");
+            Position position = new Position(point.getV3().getX(), point.getV3().getY(), point.getV3().getZ());
+            if (tag.length != 1) {
+                position.add(Double.parseDouble(tag[1]),
+                        Double.parseDouble(tag[2]),
+                        Double.parseDouble(tag[3]));
+            }
+            lifts.get(tag[0]).setTo(position.toVector());
+        }
+        for (LiftManager.Lift lift : lifts.values()) {
+            Minigame.getInstance().getLiftManager().addLift(lift);
+        }
         prepareMap(state);
     }
 

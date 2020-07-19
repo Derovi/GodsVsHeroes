@@ -3,6 +3,7 @@ package by.dero.gvh.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.util.Vector;
 
 public class Position {
     double x, y, z;
@@ -22,10 +23,20 @@ public class Position {
         this.z = z;
     }
 
+    public void add(double x, double y, double z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+    }
+
     public double distance(Position other) {
         return Math.sqrt((x - other.x) * (x - other.x) +
                         (y - other.y) * (y - other.y) +
                         (z - other.z) * (z - other.z));
+    }
+
+    public Vector toVector() {
+        return new Vector(x, y, z);
     }
 
     public Location toLocation(String worldName) {
