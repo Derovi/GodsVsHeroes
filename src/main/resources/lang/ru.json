@@ -47,6 +47,7 @@
     "paladinarmor": "Броня паладина",
     "poisonousbow": "Отравляющий лук",
     "poisonpotion": "Зелье отравления",
+    "summongunsmith": "Призыв оруженосца",
     "skeletonarmy": "Армия тьмы",
     "skyrise": "Побег в небеса",
     "smokes": "Дымовая шашка",
@@ -204,7 +205,8 @@
     "assassin": "Ассасин",
     "dovahkiin": "Довакин",
     "horseman": "Апокалипсис",
-    "thor": "Тор"
+    "thor": "Тор",
+    "hachick": "Кулак"
   },
   "commands": {
     "stat": "§%col%%com% §8» §9%pts%",
