@@ -68,23 +68,21 @@ public class PlayerLobby {
         World world = Lobby.getInstance().getWorld();
         Position pos = Lobby.getInstance().getInfo().getPortalPosition();
         String name = UUID.randomUUID().toString();
-        DataDrawData data = DataDrawData.builder().rotation(180).position(new V3(pos.getX(), pos.getY(), pos.getZ())).scale(1).
-                dimensions(new V2(3, 2)).name(name).strings(getStrings("Board")).build();
+        DataDrawData data = DataDrawData.builder().rotation(90).position(new V3(pos.getX() + 1.4, pos.getY() + 2.25, pos.getZ())).scale(1).
+                dimensions(new V2(2.8, 0.5)).name(name).strings(getStrings("Board")).build();
         IRenderService.get().createGlobalWorldRenderData(world.getUID(), name, WorldRenderData.builder().dataDrawData(data).name(name).visibilityTarget(VisibilityTarget.BLACKLIST).build());
         IRenderService.get().setRenderVisible(world.getUID(), name, true);
 
         Bukkit.getScheduler().runTaskTimer(Plugin.getInstance(), () -> {
-            data.setStrings(getStrings("kek"));
+            data.setStrings(getStrings("lol"));
             IRenderService.get().setRenderVisible(world.getUID(), name, false);
             IRenderService.get().setRenderVisible(world.getUID(), name, true);
         }, 20, 20);
     }
 
-    private static List<StringDrawData> getStrings(String title) {
+    private static List<StringDrawData> getStrings(String className) {
         return Arrays.asList(
-                StringDrawData.builder().align(1).scale(4).string(title).position(new V2(135, 10)).build(),
-                StringDrawData.builder().align(1).scale(3).string(Integer.toString(10) + " игроков").position(new V2(135, 80)).build(),
-                StringDrawData.builder().align(1).scale(2).string("Доступно серверов: " + 20).position(new V2(135, 140)).build()
+                StringDrawData.builder().align(1).scale(4).string(className).position(new V2(135, 10)).build()
         );
     }
 

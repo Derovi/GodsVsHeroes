@@ -74,7 +74,6 @@ public class Plugin extends JavaPlugin implements Listener {
             new CPSLimiter(this, 10);
             IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
             IRealmService.get().getCurrentRealmInfo().setMaxPlayers(100);
-            System.out.println("Name set to: " + IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());
             settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());
         }
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
