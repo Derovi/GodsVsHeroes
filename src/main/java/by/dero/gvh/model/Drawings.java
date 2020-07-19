@@ -1,6 +1,7 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.fireworks.FireworkSpawner;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.utils.MathUtils;
 import net.minecraft.server.v1_12_R1.EntityFireworks;
@@ -277,9 +278,9 @@ public class Drawings {
 
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     player.playSound(loc, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 2, 1);
-                    for (int i = 0; i < 400; i++) {
-                        player.spawnParticle(Particle.ENCHANTMENT_TABLE,
-                                MathUtils.randomCylinder(loc.clone(), 2, -2), 0);
+                    for (int i = 0; i < 2; i++) {
+                        FireworkSpawner.spawn(loc.clone().add(0, 1, 0), FireworkEffect.builder().withColor(
+                                colors[(int)(Math.random()*colors.length)]).flicker(true).build(), player);
                     }
                 }, duration);
     }
