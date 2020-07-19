@@ -173,7 +173,7 @@ public class Drawings {
                 for (double partAngle = 0; partAngle < MathUtils.PI2; partAngle += MathUtils.PI2 / parts) {
                     double resHor = horAngle + partAngle;
                     final Location at = MathUtils.getInCphere(center.toVector(), radius, resHor, vertAngle).toLocation(center.getWorld());
-                    player.getWorld().spawnParticle(particle, at, 0,0,0, 0);
+                    player.spawnParticle(particle, at, 0,0,0, 0);
                 }
 
                 horAngle += horAngleSpeed * dT;
@@ -277,7 +277,10 @@ public class Drawings {
 
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     player.playSound(loc, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 2, 1);
-                    spawnFirework(loc.clone().add(0,1,0), 2);
+                    for (int i = 0; i < 400; i++) {
+                        player.spawnParticle(Particle.ENCHANTMENT_TABLE,
+                                MathUtils.randomCylinder(loc.clone(), 2, -2), 0);
+                    }
                 }, duration);
     }
 

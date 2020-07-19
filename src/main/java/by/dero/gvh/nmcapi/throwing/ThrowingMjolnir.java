@@ -12,7 +12,7 @@ public class ThrowingMjolnir extends ThrowingItem {
         setItemLength(0.55);
         setPhysicsSpin(true);
         setRightArmPose(new Vector3f(player.getLocation().getPitch(),11, 0));
-        setLiveTimeAfterStop(120);
+        setLiveTimeAfterStop(20000);
         setVelocity(player.getLocation().getDirection().add(new Vector(0,0.13,0)).normalize().multiply(3));
     }
 }

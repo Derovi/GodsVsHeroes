@@ -2,6 +2,7 @@ package by.dero.gvh.lobby.monuments;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
@@ -17,12 +18,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import static by.dero.gvh.model.Drawings.spawnMovingCircle;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class ArmorStandMonument extends Monument {
     private final double turnPerSec = 0.3;
     private final double radius = 0.8;
-    private int unlocktime = 0;
+    private HashMap<UUID, Integer> unlocktime = new HashMap<>();
     private ArmorStand armorStand;
     private BukkitRunnable particles;
     private boolean loaded = false;
@@ -41,17 +43,18 @@ public class ArmorStandMonument extends Monument {
                     final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
                     if (!info.isClassUnlocked(getClassName())) {
                         final double zxc = MathUtils.cos(Math.toRadians(70)) * 1.5;
-                        spawnMovingCircle(st.clone().add(0, 1.85, 0),
+                        Drawings.spawnMovingCircle(st.clone().add(0, 1.85, 0),
                                 1, zxc, 3, 0, Particle.FLAME, player);
 
-                        spawnMovingCircle(st.clone().add(0, 1, 0),
+                        Drawings.spawnMovingCircle(st.clone().add(0, 1, 0),
                                 1, zxc, 3, 0, Particle.FLAME, player);
 
-                        spawnMovingCircle(st.clone().add(0, 0.15, 0),
+                        Drawings.spawnMovingCircle(st.clone().add(0, 0.15, 0),
                                 1, zxc, 3, 0, Particle.FLAME, player);
-                        unlocktime = 240;
-                    } else if (unlocktime > 0) {
-                        unlocktime -= 2;
+                        unlocktime.put(player.getUniqueId(), 240);
+                    } else if (unlocktime.getOrDefault(player.getUniqueId(), 0) > 0) {
+                        int cur = unlocktime.get(player.getUniqueId()) - 2;
+                        unlocktime.put(player.getUniqueId(), cur);
                     } else if (info.getSelectedClass().equals(getClassName())) {
                         player.spawnParticle(Particle.DRAGON_BREATH,
                                 st.clone().add(MathUtils.cos(angle) * radius,

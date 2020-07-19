@@ -17,6 +17,8 @@ import org.bukkit.entity.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -115,7 +117,7 @@ public class SpawnUtils {
 		zombie.targetSelector.a(0, new PathfinderAttackEnemies<>(
 				zombie, EntityLiving.class, 100, true, false, GameUtils.getTargetPredicate(ownerGP.getTeam())));
 		
-		zombie.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(6);
+		entity.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 2000, 1), true);
 		zombie.setBaby(isBaby);
 		BukkitRunnable runnable = new BukkitRunnable() {
 			@Override

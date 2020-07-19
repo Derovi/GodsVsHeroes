@@ -150,6 +150,10 @@ public class ThrowingItem extends EntityArmorStand {
 
     @Override
     public void B_() {
+        if (GameUtils.isDeadPlayer(owner)) {
+            remove();
+            return;
+        }
         if (returning) {
             Vector dist = new Vector(owner.getLocation().getX() - locX,
                     owner.getLocation().getY() - locY,
