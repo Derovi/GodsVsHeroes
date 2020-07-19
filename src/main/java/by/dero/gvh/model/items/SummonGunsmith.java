@@ -37,8 +37,7 @@ public class SummonGunsmith extends Item implements PlayerInteractInterface, Inf
 	
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		Location at = owner.getLocation().add(owner.getLocation().getDirection().multiply(2));
-		at = at.getWorld().getHighestBlockAt((int)at.x, (int)at.z).getLocation();
+		Location at = owner.getLocation();
 		Zombie zombie = (Zombie) SpawnUtils.spawnAIZombie(at, health, 0, duration, false, ownerGP).getEntity();
 		zombie.getEquipment().setHelmet(helmet);
 		zombie.getEquipment().setChestplate(chestplate);

@@ -1,5 +1,6 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.GameMob;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.interfaces.VehicleExitInterface;
@@ -31,7 +32,8 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, VehicleExi
         if (horse != null) {
             return;
         }
-        horse = (SkeletonHorse) SpawnUtils.spawnTeamEntity(owner.getLocation(), EntityType.SKELETON_HORSE, ownerGP);
+        GameMob gm = SpawnUtils.spawnTeamEntity(owner.getLocation(), EntityType.SKELETON_HORSE, ownerGP);
+        horse = (SkeletonHorse) gm.getEntity();
         horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(30);
         horse.setHealth(30);
         horse.setAdult();
@@ -40,7 +42,7 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, VehicleExi
         horse.addPassenger(owner);
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1.07f, 1);
         summonedEntityIds.add(horse.getUniqueId());
-        GameUtils.getMob(horse.getUniqueId()).updateName();
+        gm.updateName();
     }
 
     @Override
