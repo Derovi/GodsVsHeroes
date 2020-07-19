@@ -14,7 +14,10 @@ import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
-import by.dero.gvh.utils.*;
+import by.dero.gvh.utils.DataUtils;
+import by.dero.gvh.utils.Position;
+import by.dero.gvh.utils.ResourceUtils;
+import by.dero.gvh.utils.VoidGenerator;
 import com.google.gson.Gson;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -56,7 +59,8 @@ public class Lobby implements PluginMode, Listener {
     private PortalManager portalManager;
     private final List<BukkitRunnable> runnables = new ArrayList<>();
     private final HashMap<String, LobbyPlayer> players = new HashMap<>();
-
+    private final HashSet<UUID> hidePlayers = new HashSet<>();
+    
     @Override
     public void onEnable() {
         instance = this;
@@ -171,7 +175,21 @@ public class Lobby implements PluginMode, Listener {
         activeLobbies.put(player.getName(), playerLobby);
         Lobby.getInstance().updateDisplays(player);
 
+        for (Player other : Bukkit.getOnlinePlayers()) {
+            if (hidePlayers.contains(player.getUniqueId())) {
+                player.hidePlayer(Plugin.getInstance(), other);
+            } else {
+                player.showPlayer(Plugin.getInstance(), other);
+            }
+            if (hidePlayers.contains(other.getUniqueId())) {
+                other.hidePlayer(Plugin.getInstance(), player);
+            } else {
+                other.showPlayer(Plugin.getInstance(), player);
+            }
+        }
+        
         player.getInventory().setItem(0, new ItemStack(Material.COMPASS, 1));
+        player.getInventory().setItem(1, new ItemStack(Material.EYE_OF_ENDER));
         AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
                 (pl) -> (!players.containsKey(pl.getName()) || players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
 
@@ -285,12 +303,31 @@ public class Lobby implements PluginMode, Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
             event.getAction().equals(Action.RIGHT_CLICK_BLOCK) &&
-            event.getPlayer().getInventory().getHeldItemSlot() == 0) {
-            CompassInterface compassInterface = new CompassInterface(
-                    Lobby.getInstance().getInterfaceManager(), event.getPlayer());
-            compassInterface.open();
+            player.getInventory().getHeldItemSlot() == 0) {
+            switch (event.getPlayer().getInventory().getHeldItemSlot()) {
+                case 0:
+                    CompassInterface compassInterface = new CompassInterface(
+                            Lobby.getInstance().getInterfaceManager(), player);
+                    compassInterface.open();
+                    break;
+                case 1:
+                    if (hidePlayers.contains(player.getUniqueId())) {
+                        hidePlayers.remove(player.getUniqueId());
+                        for (Player other : Bukkit.getOnlinePlayers()) {
+                            player.showPlayer(Plugin.getInstance(), other);
+                        }
+                    } else {
+                        hidePlayers.add(player.getUniqueId());
+                        for (Player other : Bukkit.getOnlinePlayers()) {
+                            player.hidePlayer(Plugin.getInstance(), other);
+                        }
+                    }
+                    break;
+            }
+            event.setCancelled(true);
         }
     }
 

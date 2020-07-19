@@ -1,0 +1,19 @@
+{
+  "name": "hachick",
+  "maxHP": 40,
+  "cost": 0,
+  "itemNames": [
+    "doublefist",
+    "healpotion",
+    "chargedfists",
+    "stunall",
+    "speedbuf",
+
+    "spurt",
+
+    "defaulthelmet",
+    "defaultchestplatechainmail",
+    "defaultleggings3",
+    "defaultboots3"
+  ]
+}

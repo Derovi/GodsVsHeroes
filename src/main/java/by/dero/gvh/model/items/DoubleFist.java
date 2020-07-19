@@ -14,6 +14,7 @@ public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteract
 	private Runnable onHit = null;
 	private final Cooldown cooldownOffhand;
 	private int damage;
+	private double range = 4;
 	private long lastUsed;
 	public DoubleFist(String name, int level, Player owner) {
 		super(name, level, owner);
@@ -33,7 +34,7 @@ public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteract
 		if (onHit != null) {
 			onHit.run();
 		}
-		LivingEntity ent = GameUtils.getTargetEntity(owner, 3.3, (e) -> GameUtils.isEnemy(e, getTeam()));
+		LivingEntity ent = GameUtils.getTargetEntity(owner, range, (e) -> GameUtils.isEnemy(e, getTeam()));
 		if (ent != null) {
 			GameUtils.damage(damage, ent, owner);
 		}
@@ -69,5 +70,13 @@ public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteract
 	
 	public void setOnHit(Runnable onHit) {
 		this.onHit = onHit;
+	}
+	
+	public double getRange() {
+		return range;
+	}
+	
+	public void setRange(double range) {
+		this.range = range;
 	}
 }

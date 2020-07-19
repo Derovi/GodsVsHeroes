@@ -46,6 +46,8 @@ public class EtherCollectorsManager {
                 }
                 for (GamePlayer player : game.getPlayers().values()) {
                     for (int collectorIndex = 0; collectorIndex < collectors.size(); ++collectorIndex) {
+                        System.out.println("0 " + collectors.get(collectorIndex));
+                        System.out.println("1 " + player.getPlayer().getLocation());
                         if (collectors.get(collectorIndex).isInside(player.getPlayer().getLocation())) {
                             playersOnCollector.get(collectorIndex).add(player);
                         }

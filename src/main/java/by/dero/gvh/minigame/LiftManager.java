@@ -76,6 +76,8 @@ public class LiftManager implements Listener {
 		for (FlyingText hint : hints) {
 			hint.unload();
 		}
+		lifting.clear();
+		forced.clear();
 		hints = null;
 	}
 
@@ -89,6 +91,9 @@ public class LiftManager implements Listener {
 
 	@EventHandler
 	public void activateLift(PlayerMoveEvent event) {
+		if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+			return;
+		}
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
 		if (!lifting.containsKey(uuid)) {

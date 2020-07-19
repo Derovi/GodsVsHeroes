@@ -1,21 +1,21 @@
 {
   "name": "paladin",
   "maxHP": 40,
-  "cost": 0,
+  "cost": 10,
   "itemNames": [
     "swordthrow",
+    "grenade",
     "healpotion",
-    "airleap",
-    "improvedbow",
-    "eaglevision",
-    "stunall",
-    "defaultchestplate",
-    "defaultleggings",
-    "speedbuf",
+    "summongunsmith",
+    "paladinarmor",
 
-    "defaultarrow",
+    "spawnhorse",
+
+    "speedbuf",
     "resistancebuf",
-    "defaulthelmet",
+    "defaultchestplate3",
+    "defaultleggings3",
+    "defaulthelmet3",
     "defaultboots"
   ]
 }
