@@ -4,6 +4,7 @@ import by.dero.gvh.model.annotations.CustomDamage;
 import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.annotations.DynamicCustomization;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +17,11 @@ public class SwordThrowInfo extends ItemInfo {
 
     @DynamicCustomization
     public void customize(ItemStack itemStack, ItemInfo info, Player player) {
-        itemStack.setType(Material.DIAMOND_SWORD);
+        if (GameUtils.getPlayer(player.getName()).isUltimateBuf()) {
+            itemStack.setType(Material.DIAMOND_SWORD);
+        } else {
+            itemStack.setType(info.getMaterial());
+        }
     }
 
     public SwordThrowInfo(ItemDescription description) {

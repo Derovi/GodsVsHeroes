@@ -281,7 +281,7 @@ public class GameUtils {
             case -2 : saved = inv.getChestplate(); inv.setChestplate(item); break;
             case -3 : saved = inv.getLeggings(); inv.setLeggings(item); break;
             case -4 : saved = inv.getBoots(); inv.setBoots(item); break;
-            default : saved = inv.getItem(slot); inv.setItem(0, item); break;
+            default : saved = inv.getItem(slot); inv.setItem(slot, item); break;
         }
         SafeRunnable restoreInv = new SafeRunnable() {
             int timeRes = 0;
