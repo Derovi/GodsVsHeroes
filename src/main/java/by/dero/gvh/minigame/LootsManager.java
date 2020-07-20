@@ -3,7 +3,6 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
-import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.Position;
 import com.mojang.authlib.GameProfile;
@@ -183,6 +182,7 @@ public class LootsManager implements Listener {
         for (LootsNode node : loots) {
             node.unload();
         }
+        loots.clear();
     }
 
     @EventHandler
