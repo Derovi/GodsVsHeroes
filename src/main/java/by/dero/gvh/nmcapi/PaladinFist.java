@@ -29,7 +29,7 @@ public class PaladinFist extends EntityArmorStand {
 		super(((CraftWorld) loc.getWorld()).getHandle());
 		this.dir = loc.getDirection().multiply(speed);
 		this.stand = (ArmorStand) getBukkitEntity();
-		this.setPositionRotation(loc.x, loc.y, loc.z, loc.yaw, loc.pitch);
+		this.setPositionRotation(loc.x, loc.y, loc.z, loc.yaw - 90, loc.pitch);
 		this.stand.setRightArmPose(new EulerAngle(270, 0, 0));
 		this.stand.setItemInHand(itemStack);
 		this.damage = damage;
