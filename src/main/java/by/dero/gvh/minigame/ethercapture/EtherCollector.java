@@ -156,7 +156,7 @@ public class EtherCollector {
     }
 
     public boolean isInside(Location location) {
-        return location.distance(this.location) < 4;
+        return location.getWorld().equals(this.location.getWorld()) && location.distance(this.location) < 4;
     }
 
     public double getCurrentHeight () {

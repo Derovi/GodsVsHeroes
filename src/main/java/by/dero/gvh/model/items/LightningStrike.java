@@ -3,7 +3,6 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.GameObject;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.LightningStrikeInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -19,10 +18,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.BlockIterator;
 
-public class LightningStrike extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class LightningStrike extends Item implements PlayerInteractInterface {
 	private final double damage;
 	private final double radius;
 	private final double lightningDamage;
+	private final Material material;
 	
 	public LightningStrike(String name, int level, Player owner) {
 		super(name, level, owner);
@@ -31,6 +31,7 @@ public class LightningStrike extends Item implements PlayerInteractInterface, In
 		damage = info.getDamage();
 		radius = info.getRadius();
 		lightningDamage = info.getLightningDamage();
+		material = info.getMaterial();
 	}
 	
 	@Override
@@ -39,6 +40,7 @@ public class LightningStrike extends Item implements PlayerInteractInterface, In
 			return;
 		}
 		cooldown.reload();
+		owner.setCooldown(material, (int) cooldown.getDuration());
 		BlockIterator it = new BlockIterator(owner.getEyeLocation(), 0, 100);
 		Location at = null;
 		while (it.hasNext()) {

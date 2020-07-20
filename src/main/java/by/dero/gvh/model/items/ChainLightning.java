@@ -3,10 +3,10 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChainLightningInfo;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
@@ -17,10 +17,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashSet;
 import java.util.UUID;
 
-public class ChainLightning extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class ChainLightning extends Item implements PlayerInteractInterface {
     private final double radius;
     private final double damage;
     private final double otherDamage;
+    private final Material material;
 
     public ChainLightning(final String name, final int level, final Player owner) {
         super(name, level, owner);
@@ -28,6 +29,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface, Inf
         damage = info.getDamage();
         radius = info.getRadius();
         otherDamage = info.getOtherDamage();
+        material = info.getMaterial();
     }
 
     @Override
@@ -36,6 +38,7 @@ public class ChainLightning extends Item implements PlayerInteractInterface, Inf
             return;
         }
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
 
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_IRONGOLEM_DEATH, 1.07f, 1);
         Drawings.drawCircleInFront(owner.getEyeLocation(), 2, 3, Particle.END_ROD);

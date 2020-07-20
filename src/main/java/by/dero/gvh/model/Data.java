@@ -105,6 +105,7 @@ public class Data {
         registerItem("summongunsmith", SummonGunsmithInfo.class, SummonGunsmith.class);
         registerItem("spawnarmoredhorse", ItemInfo.class, SpawnArmoredHorse.class);
         registerItem("diamondswordthrow", SwordThrowInfo.class, SwordThrow.class);
+        registerItem("hachickjump", HachickJumpInfo.class, HachickJump.class);
     }
 
     private void registerClasses() {

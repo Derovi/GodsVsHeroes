@@ -8,22 +8,22 @@
   ],
   "levels": [
     {
-      "cooldown": 20,
-      "damage": 7,
-      "cost": 80,
-      "material": "CLAY_BALL",
-      "amount": 1
-    },
-    {
-      "cooldown": 20,
-      "damage": 8,
-      "cost": 80,
-      "material": "CLAY_BALL",
-      "amount": 1
-    },
-    {
-      "cooldown": 20,
+      "cooldown": 30,
       "damage": 9,
+      "cost": 80,
+      "material": "CLAY_BALL",
+      "amount": 1
+    },
+    {
+      "cooldown": 30,
+      "damage": 10,
+      "cost": 80,
+      "material": "CLAY_BALL",
+      "amount": 1
+    },
+    {
+      "cooldown": 30,
+      "damage": 11,
       "cost": 80,
       "material": "CLAY_BALL",
       "amount": 1

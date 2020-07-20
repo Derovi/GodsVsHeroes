@@ -3,22 +3,23 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.GameMob;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.SkeletonArmyInfo;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.SpawnUtils;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class SkeletonArmy extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class SkeletonArmy extends Item implements PlayerInteractInterface {
     private final int melee;
     private final int range;
     private final int meleeDamage;
     private final int meleeHealth;
     private final int duration;
+    private final Material material;
 
     public SkeletonArmy(String name, int level, Player owner) {
         super(name, level, owner);
@@ -28,6 +29,7 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
         meleeHealth = info.getMeleeHealth();
         range = info.getRange();
         duration = info.getDuration();
+        material = info.getMaterial();
     }
     
     @Override
@@ -36,6 +38,7 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
             return;
         }
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
     
         for (int i = 0; i < melee; i++) {
             GameMob gm = SpawnUtils.spawnAISkeleton(MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), meleeHealth,

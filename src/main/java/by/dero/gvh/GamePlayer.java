@@ -25,6 +25,7 @@ public class GamePlayer extends GameObject {
     private boolean actionBarBlocked = false;
     private ItemStack[] contents = null;
     private boolean disabled = false;
+    private boolean ultimateBuf = false;
 
     private Board board;
 
@@ -293,5 +294,13 @@ public class GamePlayer extends GameObject {
 
     public void setDisabled (boolean disabled) {
         this.disabled = disabled;
+    }
+    
+    public boolean isUltimateBuf() {
+        return ultimateBuf;
+    }
+    
+    public void setUltimateBuf(boolean ultimateBuf) {
+        this.ultimateBuf = ultimateBuf;
     }
 }

@@ -29,11 +29,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ChaseEnemy extends Item implements PlayerInteractInterface {
     private final int duration;
+    private final Material material;
 
     public ChaseEnemy(String name, int level, Player owner) {
         super(name, level, owner);
         ChaseEnemyInfo info = (ChaseEnemyInfo) getInfo();
         duration = info.getDuration();
+        material = info.getMaterial();
     }
 
     private void setAttributes(EntityZombie zombie) {
@@ -57,6 +59,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
         CraftPlayer target = (CraftPlayer) gp.getPlayer();
 
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
         Location loc = owner.getLocation();
 
         EntityZombie zombie = new EntityZombie(((CraftWorld) owner.getWorld()).world);

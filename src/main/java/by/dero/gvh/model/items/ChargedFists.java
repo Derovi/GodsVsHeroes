@@ -4,21 +4,22 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChargedFistsInfo;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class ChargedFists extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class ChargedFists extends Item implements PlayerInteractInterface {
 	private final double forceDistance;
 	private final int damage;
 	private final int duration;
 	private final double force;
 	private final double range = 6;
+	private final Material material;
 	
 	public ChargedFists(String name, int level, Player owner) {
 		super(name, level, owner);
@@ -28,6 +29,7 @@ public class ChargedFists extends Item implements PlayerInteractInterface, Infin
 		duration = info.getDuration();
 		force = info.getForce();
 		forceDistance = info.getForceDistance();
+		material = info.getMaterial();
 	}
 	
 	@Override
@@ -36,6 +38,7 @@ public class ChargedFists extends Item implements PlayerInteractInterface, Infin
 			return;
 		}
 		cooldown.reload();
+		owner.setCooldown(material, (int) cooldown.getDuration());
 		DoubleFist item = (DoubleFist) ownerGP.getItems().get("doublefist");
 		int was = item.getDamage();
 		double wasRange = item.getRange();

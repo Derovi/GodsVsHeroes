@@ -9,6 +9,7 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.FireBowInfo;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -18,16 +19,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class FireBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
 	private final double radius;
+	private final Material material;
 
 	public FireBow (String name, int level, Player owner) {
 		super(name, level, owner);
 
 		FireBowInfo info = (FireBowInfo) getInfo();
 		radius = info.getRadius();
+		material = info.getMaterial();
 	}
 
 	@Override
 	public void onPlayerShootBow (EntityShootBowEvent event) {
+		owner.setCooldown(material, (int) cooldown.getDuration());
 		Entity proj = event.getProjectile();
 		BukkitRunnable runnable = new BukkitRunnable() {
 			@Override

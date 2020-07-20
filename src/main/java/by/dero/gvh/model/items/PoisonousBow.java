@@ -15,7 +15,8 @@ public class PoisonousBow extends Item implements ProjectileHitInterface {
 
     public PoisonousBow(String name, int level, Player owner) {
         super(name, level, owner);
-        duration = ((PoisonousBowInfo) getInfo()).getDuration();
+        PoisonousBowInfo info = (PoisonousBowInfo) getInfo();
+        duration = info.getDuration();
     }
 
     @Override

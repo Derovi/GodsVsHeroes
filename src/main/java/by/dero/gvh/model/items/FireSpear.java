@@ -6,11 +6,11 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.FireSpearInfo;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
@@ -22,13 +22,17 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class FireSpear extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class FireSpear extends Item implements PlayerInteractInterface {
     private final double speed = 30;
     private final int time = 30;
     private final double damage;
+    private final Material material;
+    
     public FireSpear(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        damage = ((FireSpearInfo) getInfo()).getDamage();
+        FireSpearInfo info = (FireSpearInfo) getInfo();
+        damage = info.getDamage();
+        material = info.getMaterial();
     }
 
     @Override
@@ -37,6 +41,7 @@ public class FireSpear extends Item implements PlayerInteractInterface, Infinite
             return;
         }
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
 
         final Location loc = owner.getEyeLocation().clone();
         loc.add(loc.getDirection().multiply(2));
