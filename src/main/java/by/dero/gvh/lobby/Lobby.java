@@ -135,7 +135,8 @@ public class Lobby implements PluginMode, Listener {
 
         IPlatformEventExecutor<Object, Object, Object> eventExecutor = IServerPlatform.get().getPlatformEventExecutor();
         eventExecutor.registerListener(PlayerJoinEvent.class, this, (e) -> {
-            for (Player p : Bukkit.getOnlinePlayers()) {
+            //for (Player p : Bukkit.getOnlinePlayers()) {
+            Player p = e.getPlayer();
                 if (p.isOnline()) {
                     Position pos = new Position(p.getLocation());
                     pos.add(0, 2, 0);
@@ -150,10 +151,11 @@ public class Lobby implements PluginMode, Listener {
                             .build());
                     IDisplayService.get().sendWorld(p.getUniqueId(), new WorldRenderMessage(dataList));
                 }
-            }
+            //}
         }, EventPriority.MONITOR, false);
         eventExecutor.registerListener(PlayerChangedWorldEvent.class, this, (e) -> {
-            for (Player p : Bukkit.getOnlinePlayers()) {
+            //for (Player p : Bukkit.getOnlinePlayers()) {
+            Player p = e.getPlayer();
                 Position pos = new Position(p.getLocation());
                 pos.add(0, 2, 0);
                 List<DataDrawData> dataList = new ArrayList<>();
@@ -166,7 +168,7 @@ public class Lobby implements PluginMode, Listener {
                         .scale(1.7)
                         .build());
                 IDisplayService.get().sendWorld(p.getUniqueId(), new WorldRenderMessage(dataList));
-            }
+           // }
         }, EventPriority.MONITOR, true);
     }
 

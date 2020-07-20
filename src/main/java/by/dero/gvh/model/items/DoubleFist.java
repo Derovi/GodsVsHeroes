@@ -32,13 +32,6 @@ public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteract
 		damage = info.getDamage();
 	}
 
-	@DynamicCustomization
-	public void customize(ItemStack itemStack, ItemInfo info, Player player) {
-		NBTTagCompound nbt = NMCUtils.getNBT(itemStack);
-		nbt.set("ether", new NBTTagString("glove"));
-		NMCUtils.setNBT(itemStack, nbt);
-	}
-
 	public ItemStack getItemStack(boolean rightHand) {
 		ItemStack itemStack = getItemStack();
 		NBTTagCompound nbt = NMCUtils.getNBT(itemStack);
