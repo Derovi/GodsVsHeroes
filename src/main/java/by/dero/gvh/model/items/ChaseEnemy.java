@@ -10,16 +10,20 @@ import by.dero.gvh.model.itemsinfo.ChaseEnemyInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.PathfinderFollow;
 import net.minecraft.server.v1_12_R1.EntityZombie;
+import net.minecraft.server.v1_12_R1.EnumItemSlot;
 import net.minecraft.server.v1_12_R1.GenericAttributes;
 import net.minecraft.server.v1_12_R1.PathfinderGoalSelector;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -67,6 +71,7 @@ public class ChaseEnemy extends Item implements PlayerInteractInterface {
         zombie.getBukkitEntity().addPassenger(owner);
         zombie.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
         zombie.world.addEntity(zombie, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        zombie.setEquipment(EnumItemSlot.CHEST, CraftItemStack.asNMSCopy(new ItemStack(Material.IRON_CHESTPLATE)));
         BukkitRunnable runnable = new BukkitRunnable() {
             int ticks = duration;
             @Override

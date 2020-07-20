@@ -44,7 +44,7 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface, Infin
             owner.getWorld().playSound(gm.getEntity().getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.07f, 1);
         }
         for (int i = 0; i < range; i++) {
-            GameMob gm = SpawnUtils.spawnAISkeleton(MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), meleeHealth,
+            GameMob gm = SpawnUtils.spawnAISkeleton(MathUtils.getGoodInCylinder(owner.getLocation(), 0, 10), 20,
                     meleeDamage, false, duration, ownerGP);
             Drawings.drawCircle(gm.getEntity().getLocation(), 2, Particle.DRAGON_BREATH);
             owner.getWorld().playSound(gm.getEntity().getLocation(), Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON, 1.07f, 1);

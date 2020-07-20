@@ -91,7 +91,7 @@ public class PaladinFist extends EntityArmorStand {
 			return;
 		}
 		
-		Collection<LivingEntity> enemies = at.getNearbyLivingEntities(2, (e) -> GameUtils.isEnemy(e, owner.getTeam()));
+		Collection<LivingEntity> enemies = at.getNearbyLivingEntities(1.5, (e) -> GameUtils.isEnemy(e, owner.getTeam()));
 		if (!enemies.isEmpty() || !GameUtils.isVoid(at.getBlock().getType())) {
 			explode(enemies);
 			this.die();

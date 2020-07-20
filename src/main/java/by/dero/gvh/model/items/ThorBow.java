@@ -47,7 +47,7 @@ public class ThorBow extends Item implements PlayerShootBowInterface, Projectile
 	@Override
 	public void onProjectileHit (ProjectileHitEvent event) {
 		Location at = event.getEntity().getLocation();
-		SpawnUtils.spawnLightning(at, damage, 1.25, ownerGP);
+		SpawnUtils.spawnLightning(at, damage, 2, ownerGP);
 	}
 
 	@Override
