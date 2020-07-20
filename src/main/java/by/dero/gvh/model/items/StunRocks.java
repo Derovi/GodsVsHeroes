@@ -9,6 +9,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.SpawnUtils;
 import by.dero.gvh.utils.Stun;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -21,9 +22,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class StunRocks extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, PlayerInteractInterface {
     private final int duration;
+    private final Material material;
     public StunRocks(final String name, final int level, final Player owner) {
         super(name, level, owner);
-        duration = ((StunRocksInfo) getInfo()).getDuration();
+        StunRocksInfo info = (StunRocksInfo) getInfo();
+        duration = info.getDuration();
+        material = info.getMaterial();
     }
 
     @Override
@@ -48,6 +52,9 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (!ownerGP.isCharged(getName())) {
+            owner.setCooldown(material, (int) cooldown.getDuration());
+        }
         final Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(),
                 1.2, EntityType.SNOWBALL, owner);
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);

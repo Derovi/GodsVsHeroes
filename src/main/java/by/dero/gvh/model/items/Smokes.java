@@ -13,6 +13,7 @@ import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.SpawnUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -29,6 +30,7 @@ import java.util.HashSet;
 public class Smokes extends Item implements InfiniteReplenishInterface, PlayerInteractInterface, ProjectileHitInterface {
 	private final double radius;
 	private final int duration;
+	private final Material material;
 
 	public Smokes (String name, int level, Player owner) {
 		super(name, level, owner);
@@ -36,10 +38,14 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 		SmokesInfo info = (SmokesInfo) getInfo();
 		radius = info.getRadius();
 		duration = info.getDuration();
+		material = info.getMaterial();
 	}
 
 	@Override
 	public void onPlayerInteract (PlayerInteractEvent event) {
+		if (!ownerGP.isCharged(getName())) {
+			owner.setCooldown(material, (int) cooldown.getDuration());
+		}
 		final Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(),
 				1.2, EntityType.SNOWBALL, owner);
 		owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);

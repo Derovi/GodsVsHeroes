@@ -9,6 +9,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -20,12 +21,18 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class TeleportPearls extends Item implements PlayerInteractInterface,
 		InfiniteReplenishInterface, ProjectileHitInterface {
 
+	private final Material material;
 	public TeleportPearls (String name, int level, Player owner) {
 		super(name, level, owner);
+		
+		material = getInfo().getMaterial();
 	}
 
 	@Override
 	public void onPlayerInteract (PlayerInteractEvent event) {
+		if (!ownerGP.isCharged(getName())) {
+			owner.setCooldown(material, (int) cooldown.getDuration());
+		}
 		Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(), 1.2, EntityType.SNOWBALL, owner);
 		summonedEntityIds.add(proj.getUniqueId());
 	}

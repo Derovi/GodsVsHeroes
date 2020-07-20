@@ -80,7 +80,7 @@ public class GamePlayer extends GameObject {
             }
             charges.putIfAbsent(item.getName(), item.getInfo().getAmount());
         } catch (Exception ex) {
-            System.err.println("Can't add item! " + name + ":" + String.valueOf(level) + " to " + getPlayer().getName());
+            System.err.println("Can't add item! " + name + ":" + level + " to " + getPlayer().getName());
             ex.printStackTrace();
         }
     }
@@ -171,8 +171,9 @@ public class GamePlayer extends GameObject {
         int need = charges.get(item.getName());
 
         PlayerInventory inv = player.getInventory();
+        need = Math.max(need, 1);
         if (need == 0) {
-            inv.setItem(slot, Item.getPane(item.getInfo().getDisplayName()));
+//            inv.setItem(slot, Item.getPane(item.getInfo().getDisplayName()));
         } else if (inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE) ||
                 inv.getItem(slot).getAmount() != need) {
             ItemStack zxc = item.getItemStack();
@@ -191,6 +192,7 @@ public class GamePlayer extends GameObject {
         for (Map.Entry<Item, Integer> obj : itemsSlots.entrySet()) {
             int slot = obj.getValue();
             int need = charges.get(obj.getKey().getName());
+            need = Math.max(need, 1);
             if (need == 0) {
                 inv.setItem(slot, Item.getPane(obj.getKey().getInfo().getDisplayName()));
             } else if (inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE) ||

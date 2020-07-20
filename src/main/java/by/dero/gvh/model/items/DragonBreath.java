@@ -8,6 +8,7 @@ import by.dero.gvh.model.itemsinfo.DragonBreathInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
@@ -20,16 +21,21 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
     private final double damage;
     private final double spread = Math.toRadians(20);
     private final double cosSpread = MathUtils.cos(spread)*0.9;
+    private final Material material;
 
     public DragonBreath(String name, int level, Player owner) {
         super(name, level, owner);
         DragonBreathInfo info = (DragonBreathInfo) getInfo();
         radius = info.getRadius();
         damage = info.getDamage();
+        material = info.getMaterial();
     }
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (!ownerGP.isCharged(getName())) {
+            owner.setCooldown(material, (int) cooldown.getDuration());
+        }
         final Location loc = owner.getEyeLocation().clone();
         final Vector dlt = owner.getLocation().toVector().subtract(
                 Minigame.getInstance().getGameEvents().getLastPos(owner).toVector()).multiply(4);
