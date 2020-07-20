@@ -4,26 +4,27 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.LightningStormInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class LightningStorm extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class LightningStorm extends Item implements PlayerInteractInterface {
     private final double radius;
     private final double damage;
     private final int strikes;
     private final double[] signRadius;
     private final long delayStrikes;
     private final Particle drawParticle;
+    private final Material material;
 
     public LightningStorm(final String name, final int level, final Player owner) {
         super(name, level, owner);
@@ -34,6 +35,7 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
         signRadius = info.getSignRadius();
         delayStrikes = info.getDelayStrikes();
         drawParticle = info.getDrawParticle();
+        material = info.getMaterial();
     }
 
     public void drawSign(final Location loc) {
@@ -67,6 +69,7 @@ public class LightningStorm extends Item implements PlayerInteractInterface, Inf
             return;
         }
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
         drawSign(owner.getLocation().clone());
 
         final BukkitRunnable runnable = new BukkitRunnable() {

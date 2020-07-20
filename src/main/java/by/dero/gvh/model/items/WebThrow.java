@@ -3,7 +3,6 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.GameObject;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.WebThrowInfo;
 import by.dero.gvh.nmcapi.SmartFallingBlock;
@@ -19,15 +18,17 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class WebThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class WebThrow extends Item implements PlayerInteractInterface {
     private final float force;
     private final int duration;
+    private final Material material;
 
     public WebThrow(String name, int level, Player owner) {
         super(name, level, owner);
         WebThrowInfo info = ((WebThrowInfo) getInfo());
         force = info.getForce();
         duration = info.getDuration();
+        material = info.getMaterial();
     }
 
     @Override
@@ -36,6 +37,7 @@ public class WebThrow extends Item implements PlayerInteractInterface, InfiniteR
             return;
         }
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
         SmartFallingBlock smartFallingBlock = new SmartFallingBlock(owner.getLocation().add(0,1,0), Material.WEB);
         smartFallingBlock.setVelocity(owner.getLocation().getDirection().multiply(force));

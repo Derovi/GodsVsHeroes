@@ -3,27 +3,21 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.ItemInfo;
-import by.dero.gvh.model.annotations.DynamicCustomization;
-import by.dero.gvh.model.annotations.StaticCustomization;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.NinjaRopeInfo;
 import by.dero.gvh.nmcapi.InfiniteFishHook;
 import by.dero.gvh.utils.SpawnUtils;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -31,12 +25,14 @@ import org.bukkit.util.Vector;
 public class NinjaRope extends Item implements PlayerInteractInterface, ProjectileHitInterface {
     private final double forceMultiplier;
     private final double distance;
+    private final Material material;
 
     public NinjaRope(String name, int level, Player owner) {
         super(name, level, owner);
         NinjaRopeInfo info = (NinjaRopeInfo) getInfo();
         forceMultiplier = info.getForceMultiplier();
         distance = info.getDistance();
+        material = info.getMaterial();
     }
 
     @Override
@@ -45,6 +41,7 @@ public class NinjaRope extends Item implements PlayerInteractInterface, Projecti
             return;
         }
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
         InfiniteFishHook fishingHook = new InfiniteFishHook(owner);
         Arrow arrow = (Arrow) SpawnUtils.spawnProjectile(owner.getEyeLocation(), 2, EntityType.ARROW, owner);
         fishingHook.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));

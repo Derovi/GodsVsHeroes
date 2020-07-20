@@ -9,6 +9,7 @@ import by.dero.gvh.model.interfaces.PlayerShootBowInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.LightningBowInfo;
 import by.dero.gvh.utils.GameUtils;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -24,6 +25,7 @@ import java.util.UUID;
 public class LightningBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
 	private final double radius;
 	private final double damage;
+	private final Material material;
 
 	public LightningBow (String name, int level, Player owner) {
 		super(name, level, owner);
@@ -31,6 +33,7 @@ public class LightningBow extends Item implements PlayerShootBowInterface, Proje
 		LightningBowInfo info = (LightningBowInfo) getInfo();
 		radius = info.getRadius();
 		damage = info.getDamage();
+		material = info.getMaterial();
 	}
 
 	@Override
@@ -41,6 +44,7 @@ public class LightningBow extends Item implements PlayerShootBowInterface, Proje
 			return;
 		}
 		cooldown.reload();
+		owner.setCooldown(material, (int) cooldown.getDuration());
 		Arrow arrow = (Arrow) event.getProjectile();
 
 		BukkitRunnable runnable = new BukkitRunnable() {

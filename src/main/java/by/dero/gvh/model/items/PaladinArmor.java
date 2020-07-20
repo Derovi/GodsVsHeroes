@@ -1,7 +1,6 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.PaladinArmorInfo;
 import by.dero.gvh.nmcapi.ChasingStand;
@@ -10,6 +9,7 @@ import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.SafeRunnable;
 import net.minecraft.server.v1_12_R1.World;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class PaladinArmor extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class PaladinArmor extends Item implements PlayerInteractInterface {
 	private final int duration;
 	private final double speed;
 	private final ItemStack helmet;
@@ -27,6 +27,7 @@ public class PaladinArmor extends Item implements PlayerInteractInterface, Infin
 	private final ItemStack leggings;
 	private final ItemStack boots;
 	private final ItemStack sword;
+	private final Material material;
 	
 	public PaladinArmor(String name, int level, Player owner) {
 		super(name, level, owner);
@@ -39,6 +40,7 @@ public class PaladinArmor extends Item implements PlayerInteractInterface, Infin
 		leggings = new ItemStack(info.getLeggings());
 		boots = new ItemStack(info.getBoots());
 		sword = new ItemStack(info.getSword());
+		material = info.getMaterial();
 	}
 	
 	@Override
@@ -47,6 +49,7 @@ public class PaladinArmor extends Item implements PlayerInteractInterface, Infin
 			return;
 		}
 		cooldown.reload();
+		owner.setCooldown(material, (int) cooldown.getDuration());
 		
 		for (int type = -4; type <= 0; type++) {
 			Location oLoc = owner.getLocation();

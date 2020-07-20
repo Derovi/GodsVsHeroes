@@ -15,6 +15,7 @@ import net.minecraft.server.v1_12_R1.EntityPig;
 import net.minecraft.server.v1_12_R1.GenericAttributes;
 import net.minecraft.server.v1_12_R1.PathfinderGoalSelector;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
@@ -31,6 +32,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
     private final int duration;
     private final double radius;
     private final double damage;
+    private final Material material;
 
     public ExplosivePig(String name, int level, Player owner) {
         super(name, level, owner);
@@ -38,6 +40,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
         duration = info.getDuration();
         radius = info.getRadius();
         damage = info.getDamage();
+        material = info.getMaterial();
     }
 
     private void setAttributes(EntityPig pig) {
@@ -59,6 +62,7 @@ public class ExplosivePig extends Item implements PlayerInteractInterface {
             return;
         }
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
 
         EntityPig pig = new EntityPig(((CraftWorld) owner.getWorld()).world);
         Location pLoc = owner.getLocation();

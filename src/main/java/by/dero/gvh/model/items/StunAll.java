@@ -2,12 +2,12 @@ package by.dero.gvh.model.items;
 
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.StunAllInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.Stun;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -16,15 +16,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-public class StunAll extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class StunAll extends Item implements PlayerInteractInterface {
     private final double radius;
     private final int duration;
+    private final Material material;
 
     public StunAll(final String name, final int level, final Player owner) {
         super(name, level, owner);
         final StunAllInfo info = (StunAllInfo) getInfo();
         radius = info.getRadius();
         duration = info.getDuration();
+        material = info.getMaterial();
     }
 
     @Override
@@ -33,6 +35,7 @@ public class StunAll extends Item implements PlayerInteractInterface, InfiniteRe
             return;
         }
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
         Location loc = owner.getLocation();
         double yaw = Math.toRadians(loc.getYaw());
         loc.add(-Math.sin(yaw) * 1.2, 0, Math.cos(yaw) * 1.2);
