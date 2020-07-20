@@ -65,13 +65,6 @@ public class PlayerLobby {
     private void loadSelectedClass() {
         //selectedClass = new FlyingText(
         //        Lobby.getInstance().getInfo().getPortalPosition().toLocation(Lobby.getInstance().getWorld()).add(0,2,0), "");
-        World world = Lobby.getInstance().getWorld();
-        Position pos = Lobby.getInstance().getInfo().getPortalPosition();
-        String name = UUID.randomUUID().toString();
-        DataDrawData data = DataDrawData.builder().rotation(90).position(new V3(pos.getX() + 1.4, pos.getY() + 2.25, pos.getZ())).scale(1).
-                dimensions(new V2(2.8, 0.5)).name(name).strings(getStrings("Board")).build();
-        IRenderService.get().createGlobalWorldRenderData(world.getUID(), name, WorldRenderData.builder().dataDrawData(data).name(name).visibilityTarget(VisibilityTarget.BLACKLIST).build());
-        IRenderService.get().setRenderVisible(world.getUID(), name, true);
 //
 //        Bukkit.getScheduler().runTaskTimer(Plugin.getInstance(), () -> {
 //            data.setStrings(getStrings("lol"));
