@@ -7,6 +7,7 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.DamagePotionInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.SpawnUtils;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -43,6 +44,9 @@ public class DamagePotion extends Item implements ProjectileHitInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (ownerGP.isCharged(getName())) {
+            owner.setCooldown(Material.SPLASH_POTION, (int) cooldown.getDuration());
+        }
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
         summonedEntityIds.add(SpawnUtils.spawnSplashPotion(owner.getEyeLocation(), 1,
                 PotionType.INSTANT_DAMAGE, owner).getUniqueId());
