@@ -134,7 +134,7 @@ public class Lobby implements PluginMode, Listener {
         }.runTaskTimer(Plugin.getInstance(), 6000, 6000);
 
         IPlatformEventExecutor<Object, Object, Object> eventExecutor = IServerPlatform.get().getPlatformEventExecutor();
-        eventExecutor.registerListener(PlayerJoinEvent.class, this, (e) -> {
+        /*eventExecutor.registerListener(PlayerJoinEvent.class, this, (e) -> {
             //for (Player p : Bukkit.getOnlinePlayers()) {
             Player p = e.getPlayer();
                 if (p.isOnline()) {
@@ -152,22 +152,22 @@ public class Lobby implements PluginMode, Listener {
                     IDisplayService.get().sendWorld(p.getUniqueId(), new WorldRenderMessage(dataList));
                 }
             //}
-        }, EventPriority.MONITOR, false);
+        }, EventPriority.MONITOR, false);*/
         eventExecutor.registerListener(PlayerChangedWorldEvent.class, this, (e) -> {
-            //for (Player p : Bukkit.getOnlinePlayers()) {
             Player p = e.getPlayer();
-                Position pos = new Position(p.getLocation());
-                pos.add(0, 2, 0);
-                List<DataDrawData> dataList = new ArrayList<>();
-                dataList.add(DataDrawData.builder()
-                        .strings(
-                                Collections.singletonList(StringDrawData.builder().string(p.getName()).position(new V2(10, 1)).scale(4).build())
-                        ).position(new V3(pos.getX(), pos.getY(), pos.getZ()))
-                        .dimensions(new V2(10, 1))
-                        .rotation(90)
-                        .scale(1.7)
-                        .build());
-                IDisplayService.get().sendWorld(p.getUniqueId(), new WorldRenderMessage(dataList));
+            updateHolograms(p);
+            Position pos = new Position(p.getLocation());
+            pos.add(0, 2, 0);
+            List<DataDrawData> dataList = new ArrayList<>();
+            dataList.add(DataDrawData.builder()
+                    .strings(
+                            Collections.singletonList(StringDrawData.builder().string(p.getName()).position(new V2(10, 1)).scale(4).build())
+                    ).position(new V3(pos.getX(), pos.getY(), pos.getZ()))
+                    .dimensions(new V2(10, 1))
+                    .rotation(90)
+                    .scale(1.7)
+                    .build());
+            IDisplayService.get().sendWorld(p.getUniqueId(), new WorldRenderMessage(dataList));
            // }
         }, EventPriority.MONITOR, true);
     }
@@ -193,9 +193,14 @@ public class Lobby implements PluginMode, Listener {
         Plugin.getInstance().getServerData().unregister(Plugin.getInstance().getSettings().getServerName());
     }
 
+    public void updateHolograms(Player player) {
+
+    }
+
     public void updateDisplays(Player player) {
         final PlayerLobby lobby = activeLobbies.get(player.getName());
         lobby.getScoreboardUpdater().run();
+        updateHolograms(player);
         //lobby.getSelectedClass().setText(Lang.get("lobby.selectedClass")
         //        .replace("%class%", Lang.get("classes." + players.get(player.getName()).getPlayerInfo().getSelectedClass())));
         final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
