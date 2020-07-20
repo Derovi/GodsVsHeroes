@@ -164,7 +164,7 @@ public class ItemInfo {
         if (dynamicCustomizer != null) {
             try {
                 ItemStack result = itemStack.clone();
-                dynamicCustomizer.invoke(null, result, this, owner);
+                dynamicCustomizer.invoke(this, result, this, owner);
                 return result;
             } catch (Exception ex) {
                 ex.printStackTrace();

@@ -43,9 +43,28 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.CoreApi;
+import ru.cristalix.core.IPlatformEventExecutor;
+import ru.cristalix.core.IServerPlatform;
+import ru.cristalix.core.display.IDisplayService;
+import ru.cristalix.core.display.data.DataDrawData;
+import ru.cristalix.core.display.data.StringDrawData;
+import ru.cristalix.core.display.enums.EnumUpdateType;
+import ru.cristalix.core.display.messages.MoneyMessage;
+import ru.cristalix.core.display.messages.OpenUrl;
+import ru.cristalix.core.display.messages.ProgressMessage;
+import ru.cristalix.core.display.messages.WorldRenderMessage;
+import ru.cristalix.core.formatting.Color;
+import ru.cristalix.core.math.V2;
+import ru.cristalix.core.math.V3;
+import ru.cristalix.core.minecraft.DimensionData;
+import ru.cristalix.core.minecraft.DimensionType;
 import ru.cristalix.core.realm.IRealmService;
 import ru.cristalix.core.realm.RealmInfo;
 import ru.cristalix.core.realm.RealmStatus;
+import ru.cristalix.core.render.IRenderService;
+import ru.cristalix.core.render.VisibilityTarget;
+import ru.cristalix.core.render.WorldRenderData;
 
 import java.util.*;
 
@@ -113,6 +132,42 @@ public class Lobby implements PluginMode, Listener {
                 world.save();
             }
         }.runTaskTimer(Plugin.getInstance(), 6000, 6000);
+
+        IPlatformEventExecutor<Object, Object, Object> eventExecutor = IServerPlatform.get().getPlatformEventExecutor();
+        eventExecutor.registerListener(PlayerJoinEvent.class, this, (e) -> {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p.isOnline()) {
+                    Position pos = new Position(p.getLocation());
+                    pos.add(0, 2, 0);
+                    List<DataDrawData> dataList = new ArrayList<>();
+                    dataList.add(DataDrawData.builder()
+                            .strings(
+                                    Collections.singletonList(StringDrawData.builder().string(p.getName()).position(new V2(10, 1)).scale(4).build())
+                            ).position(new V3(pos.getX(), pos.getY(), pos.getZ()))
+                            .dimensions(new V2(10, 1))
+                            .rotation(90)
+                            .scale(1.7)
+                            .build());
+                    IDisplayService.get().sendWorld(p.getUniqueId(), new WorldRenderMessage(dataList));
+                }
+            }
+        }, EventPriority.MONITOR, false);
+        eventExecutor.registerListener(PlayerChangedWorldEvent.class, this, (e) -> {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                Position pos = new Position(p.getLocation());
+                pos.add(0, 2, 0);
+                List<DataDrawData> dataList = new ArrayList<>();
+                dataList.add(DataDrawData.builder()
+                        .strings(
+                                Collections.singletonList(StringDrawData.builder().string(p.getName()).position(new V2(10, 1)).scale(4).build())
+                        ).position(new V3(pos.getX(), pos.getY(), pos.getZ()))
+                        .dimensions(new V2(10, 1))
+                        .rotation(90)
+                        .scale(1.7)
+                        .build());
+                IDisplayService.get().sendWorld(p.getUniqueId(), new WorldRenderMessage(dataList));
+            }
+        }, EventPriority.MONITOR, true);
     }
 
     private void registerEvents() {
@@ -160,6 +215,60 @@ public class Lobby implements PluginMode, Listener {
                 }
             }
         }
+
+        /*IPlatformEventExecutor<Object, Object, Object> eventExecutor = IServerPlatform.get().getPlatformEventExecutor();
+        eventExecutor.registerListener(PlayerJoinEvent.class, this, (e) -> {
+            Player p = e.getPlayer();
+            if (p.isOnline()) {
+                System.out.println("Render: " + dataList.size());
+                IDisplayService.get().sendWorld(p.getUniqueId(), new WorldRenderMessage(dataList));
+            }
+
+        }, EventPriority.MONITOR, false);
+        eventExecutor.registerListener(PlayerChangedWorldEvent.class, this, (e) -> {
+            System.out.println("Remder: " + dataList.size());
+            Player p = e.getPlayer();
+            IDisplayService.get().sendWorld(p.getUniqueId(), new WorldRenderMessage(dataList));
+        }, EventPriority.MONITOR, true);
+*/
+
+        /*for (Player pl : Bukkit.getOnlinePlayers()) {
+            IDisplayService.get().sendWorld(player.getUniqueId(), new WorldRenderMessage(dataList));
+        }*/
+        /*new BukkitRunnable() {
+            @Override
+            public void run() {
+
+            }
+        }.runTaskLater(Plugin.getInstance(), 1);*/
+
+
+        //createText(player.getLocation().add(0, 2, 0), "Лесопилка",
+        //        90, 10, 1, 1.7);
+    }
+
+    public static void createText(Location loc, String text, int rotation, double x, double y, double scale){
+        String name = UUID.randomUUID().toString();
+        IRenderService render = CoreApi.get().getService(IRenderService.class);
+        render.createGlobalWorldRenderData(loc.getWorld().getUID(), name, WorldRenderData.builder()
+                .name("SomeTextHologram").visibilityTarget(VisibilityTarget.BLACKLIST).dataDrawData(
+                        DataDrawData.builder()
+                                .strings(
+                                        Collections.singletonList(StringDrawData.builder().string(text).position(new V2(x, y)).scale(4).build())
+                                ).position(new V3(loc.getX(), loc.getY(), loc.getZ()))
+                                .dimensions(new V2(x,y))
+                                .rotation(rotation)
+                                .scale(scale)
+                                .build()
+                )
+                .build());
+        render.setRenderVisible(loc.getWorld().getUID(), name, true);
+    }
+
+    private static List<StringDrawData> getStrings() {
+        return Collections.singletonList(
+                StringDrawData.builder().align(1).scale(4).string("test").position(new V2(135, 10)).build()
+        );
     }
 
     private static ItemStack compassitem;
@@ -375,12 +484,12 @@ public class Lobby implements PluginMode, Listener {
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
-        event.setCancelled(true);
+        //event.setCancelled(true);
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        event.setCancelled(true);
+        //event.setCancelled(true);
     }
 
     @EventHandler
@@ -404,6 +513,6 @@ public class Lobby implements PluginMode, Listener {
 
     @EventHandler
     public void removeSwapHand(PlayerSwapHandItemsEvent event) {
-        event.setCancelled(true);
+        //event.setCancelled(true);
     }
 }
