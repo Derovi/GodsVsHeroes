@@ -89,7 +89,9 @@ public class DeathAdviceManager {
         Advice result = null;
         List<Advice> suitable = new ArrayList<>();
         suitable.addAll(advices.get("all"));
-        suitable.addAll(advices.get(player.getClassName()));
+        if (advices.containsKey(player.getClassName())) {
+            suitable.addAll(advices.get(player.getClassName()));
+        }
         int summaryChance = 0;
         for (Advice advice : suitable) {
             summaryChance += advice.chance;
