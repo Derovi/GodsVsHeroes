@@ -395,8 +395,6 @@ public class Lobby implements PluginMode, Listener {
         }
     }
 
-
-
     @EventHandler
     public void onWeatherChange(WeatherChangeEvent e) {
         if (e.toWeatherState()) {

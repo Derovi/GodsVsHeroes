@@ -29,7 +29,8 @@ import java.util.*;
 
 public class GameUtils {
     public static final double eyeHeight = 1.7775;
-
+    public static final Vector zeroVelocity = new Vector(0, -0.0784000015258789, 0);
+    
     public static HashMap<Character, Byte> codeToData = null;
     public static final ItemStack clearItem = new ItemStack(Material.AIR);
     public static Sound[] notes = new Sound[] {
