@@ -44,6 +44,7 @@ public class ChargedFists extends Item implements PlayerInteractInterface, Infin
 		
 		item.setRange(range);
 		item.setDamage(damage);
+		item.setRed(true);
 		item.setOnHit(() -> {
 			if (GameUtils.getTargetEntity(owner, forceDistance + 0.5, (e) -> GameUtils.isEnemy(e, getTeam())) != null) {
 				owner.setVelocity(owner.getLocation().getDirection().multiply(force));
@@ -52,6 +53,7 @@ public class ChargedFists extends Item implements PlayerInteractInterface, Infin
 		BukkitRunnable runnable = new BukkitRunnable() {
 			@Override
 			public void run() {
+				item.setRed(false);
 				item.setDamage(was);
 				item.setRange(wasRange);
 				item.setOnHit(null);

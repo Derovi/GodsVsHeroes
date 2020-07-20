@@ -24,6 +24,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.cristalix.core.CoreApi;
+import ru.cristalix.core.display.BukkitDisplayService;
+import ru.cristalix.core.display.IDisplayService;
 import ru.cristalix.core.karma.IKarmaService;
 import ru.cristalix.core.karma.KarmaService;
 import ru.cristalix.core.map.*;
