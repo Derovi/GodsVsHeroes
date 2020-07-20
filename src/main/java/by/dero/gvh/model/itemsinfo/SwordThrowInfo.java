@@ -1,5 +1,6 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.annotations.CustomDamage;
 import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
@@ -17,7 +18,8 @@ public class SwordThrowInfo extends ItemInfo {
 
     @DynamicCustomization
     public void customize(ItemStack itemStack, ItemInfo info, Player player) {
-        if (GameUtils.getPlayer(player.getName()).isUltimateBuf()) {
+        GamePlayer gp = GameUtils.getPlayer(player.getName());
+        if (gp != null && gp.isUltimateBuf()) {
             itemStack.setType(Material.DIAMOND_SWORD);
         } else {
             itemStack.setType(info.getMaterial());
