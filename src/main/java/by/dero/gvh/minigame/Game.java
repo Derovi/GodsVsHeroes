@@ -615,7 +615,6 @@ public abstract class Game implements Listener {
             return;
         }
         player.setGameMode(GameMode.SPECTATOR);
-        player.teleport(playerDeathLocations.get(player.getName()));
         player.setVelocity(new Vector(0,4,0));
         //System.out.println("o2: " + gp.getPlayer().getLocation().getWorld().getName());
         if (respawnTime == -1) {

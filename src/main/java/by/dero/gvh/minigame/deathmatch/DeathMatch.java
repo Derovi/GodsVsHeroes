@@ -171,7 +171,6 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
             respawning[team]++;
             respTime = getInfo().getRespawnTime();
         }
-        getPlayerDeathLocations().put(player.getName(), player.getLocation());
         player.spigot().respawn();
         spawnPlayer(getPlayers().get(player.getName()), respTime);
         player.setExp(exp);

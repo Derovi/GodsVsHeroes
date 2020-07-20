@@ -16,6 +16,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -196,10 +197,18 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         spawnFirework(player.getLocation().clone().add(0, 1, 0), 1);
         Location loc = player.getLocation();
         loc.setWorld(Minigame.getInstance().getGame().getWorld());
-        getPlayerDeathLocations().put(player.getName(), loc);
+        player.setBedSpawnLocation(loc, true);
+
+        getPlayerDeathLocations().put(player.getName(), player.getLocation());
         spawnPlayer(getPlayers().get(player.getName()), getInfo().getRespawnTime());
+
         player.spigot().respawn();
         player.setExp(exp);
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        event.setRespawnLocation(getPlayerDeathLocations().get(event.getPlayer().getName()));
     }
 
     public EtherCaptureInfo getEtherCaptureInfo() {
