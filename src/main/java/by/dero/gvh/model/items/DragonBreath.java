@@ -33,7 +33,7 @@ public class DragonBreath extends Item implements PlayerInteractInterface, Infin
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (ownerGP.isCharged(getName())) {
+        if (!ownerGP.isCharged(getName())) {
             owner.setCooldown(material, (int) cooldown.getDuration());
         }
         final Location loc = owner.getEyeLocation().clone();

@@ -47,7 +47,7 @@ public class PoisonPotion extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (ownerGP.isCharged(getName())) {
+        if (!ownerGP.isCharged(getName())) {
             owner.setCooldown(Material.SPLASH_POTION, (int) cooldown.getDuration());
         }
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);

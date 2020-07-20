@@ -43,7 +43,7 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 
 	@Override
 	public void onPlayerInteract (PlayerInteractEvent event) {
-		if (ownerGP.isCharged(getName())) {
+		if (!ownerGP.isCharged(getName())) {
 			owner.setCooldown(material, (int) cooldown.getDuration());
 		}
 		final Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(),

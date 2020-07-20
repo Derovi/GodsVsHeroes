@@ -30,7 +30,7 @@ public class TeleportPearls extends Item implements PlayerInteractInterface,
 
 	@Override
 	public void onPlayerInteract (PlayerInteractEvent event) {
-		if (ownerGP.isCharged(getName())) {
+		if (!ownerGP.isCharged(getName())) {
 			owner.setCooldown(material, (int) cooldown.getDuration());
 		}
 		Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(), 1.2, EntityType.SNOWBALL, owner);
