@@ -76,13 +76,7 @@ public abstract class Game implements Listener {
                         getMapByGameTypeAndMapName("EtherWar",mapName).get().getLatest(), BukkitWorldLoader.INSTANCE).join();
         world = map.getWorld();
 
-        world.setTime(1000);
-        world.setDifficulty(Difficulty.NORMAL);
-        world.setGameRuleValue("keepInventory", "true");
-        world.setGameRuleValue("doDaylightCycle", "false");
-        world.setGameRuleValue("doMobLoot", "false");
-        world.setGameRuleValue("announceAdvancements", "false");
-        world.setGameRuleValue("randomTickSpeed", "0");
+        WorldUtils.prepareWorld(world);
 
         BuildWorldState state = map.getBuildWorldState();
         List<List<DirectedPosition>> positions = new ArrayList<>();
