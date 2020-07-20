@@ -32,7 +32,7 @@ public class SummonGunsmith extends Item implements PlayerInteractInterface, Inf
 		chestplate = new ItemStack(Material.IRON_CHESTPLATE);
 		leggings = new ItemStack(Material.IRON_LEGGINGS);
 		boots = new ItemStack(Material.IRON_BOOTS);
-		sword = new ItemStack(Material.IRON_SWORD);
+		sword = new ItemStack(Material.DIAMOND_SWORD);
 	}
 	
 	@Override

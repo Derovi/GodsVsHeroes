@@ -414,7 +414,7 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        event.getPlayer().sendMessage(event.getPlayer().getLocation().getWorld().getName());
+//        event.getPlayer().sendMessage(event.getPlayer().getLocation().getWorld().getName());
         lastPos.put(event.getPlayer().getUniqueId(), event.getFrom());
     }
 

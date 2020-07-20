@@ -3,6 +3,7 @@ package by.dero.gvh;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.model.interfaces.DoubleHanded;
 import by.dero.gvh.nmcapi.NMCUtils;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.GameUtils;
@@ -71,6 +72,9 @@ public class GamePlayer extends GameObject {
                     player.getInventory().setBoots(item.getItemStack());
                 } else {
                     player.getInventory().addItem(item.getItemStack());
+                }
+                if (item instanceof DoubleHanded) {
+                    player.getInventory().setItemInOffHand(item.getItemStack());
                 }
             }
             charges.putIfAbsent(item.getName(), item.getInfo().getAmount());

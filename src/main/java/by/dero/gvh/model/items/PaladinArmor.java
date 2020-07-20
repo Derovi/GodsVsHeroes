@@ -8,11 +8,10 @@ import by.dero.gvh.nmcapi.ChasingStand;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.SafeRunnable;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_R1.World;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -27,7 +26,7 @@ public class PaladinArmor extends Item implements PlayerInteractInterface, Infin
 	private final ItemStack chestplate;
 	private final ItemStack leggings;
 	private final ItemStack boots;
-	private ItemStack sword;
+	private final ItemStack sword;
 	
 	public PaladinArmor(String name, int level, Player owner) {
 		super(name, level, owner);
@@ -40,22 +39,6 @@ public class PaladinArmor extends Item implements PlayerInteractInterface, Infin
 		leggings = new ItemStack(info.getLeggings());
 		boots = new ItemStack(info.getBoots());
 		sword = new ItemStack(info.getSword());
-		
-		net.minecraft.server.v1_12_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(sword);
-		NBTTagCompound compound = nmsStack.hasTag() ? nmsStack.getTag() : new NBTTagCompound();
-		NBTTagList modifiers = new NBTTagList();
-		NBTTagCompound damage = new NBTTagCompound();
-		damage.set("AttributeName", new NBTTagString("generic.attackDamage"));
-		damage.set("Name", new NBTTagString("generic.attackDamage"));
-		damage.set("Amount", new NBTTagInt(info.getSwordDamage()));
-		damage.set("Operation", new NBTTagInt(0));
-		damage.set("UUIDLeast", new NBTTagInt(894654));
-		damage.set("UUIDMost", new NBTTagInt(2872));
-		damage.set("Slot", new NBTTagString("mainhand"));
-		modifiers.add(damage);
-		compound.set("AttributeModifiers", modifiers);
-		nmsStack.setTag(compound);
-		sword = CraftItemStack.asBukkitCopy(nmsStack);
 	}
 	
 	@Override

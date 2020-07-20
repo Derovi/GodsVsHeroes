@@ -54,7 +54,7 @@ public class LightningStrike extends Item implements PlayerInteractInterface, In
 		}
 		SpawnUtils.spawnLightning(at, lightningDamage, 2, ownerGP);
 		at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 1.07f, 1);
-		at.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, at, 1);
+		at.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, at, 1);
 		for (LivingEntity ent : at.getWorld().getLivingEntities()) {
 			GameObject obj = GameUtils.getObject(ent);
 			if (obj == null || ent.getLocation().getY() - 4 - radius > at.getY()) {

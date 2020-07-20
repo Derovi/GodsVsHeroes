@@ -307,24 +307,22 @@ public class GameUtils {
         restoreInv.runTaskTimer(Plugin.getInstance(), 0, 5);
         Game.getInstance().getRunnables().add(restoreInv);
     }
-    
     public static <T extends LivingEntity> T getTarget(Player entity, Iterable<T> entities, double maxRange,
                                                        java.util.function.Predicate<LivingEntity> pred) {
         if (entity == null)
             return null;
         T target = null;
-        final double threshold = 1;
         for (final T other : entities) {
-            if (other.getLocation().distance(entity.getLocation()) > maxRange || !pred.test(other)) {
+            Location otLoc = other.getLocation().add(0, other.getHeight() / 2, 0);
+            if (otLoc.distance(entity.getEyeLocation()) > maxRange || !pred.test(other)) {
                 continue;
             }
-            final Vector n = other.getLocation().toVector().subtract(entity.getLocation().toVector());
-            if (entity.getLocation().getDirection().normalize().crossProduct(n).lengthSquared() < threshold &&
-                    n.normalize().dot(entity.getLocation().getDirection().normalize()) >= 0) {
-                if (target == null || (target.getLocation().distanceSquared(
-                        entity.getLocation()) > other.getLocation()
-                        .distanceSquared(entity.getLocation())) &&
-                        isEnemy(target, getPlayer(entity.getName()).getTeam())) {
+            final Vector n = otLoc.toVector().subtract(entity.getEyeLocation().toVector());
+            if (entity.getEyeLocation().getDirection().normalize().crossProduct(n).lengthSquared() <
+                    entity.getHeight() * entity.getHeight() / 4 + 0.1 &&
+                    n.normalize().dot(entity.getEyeLocation().getDirection().normalize()) >= 0) {
+                if (target == null || target.getLocation().add(0, target.getHeight() / 2, 0).
+                        distanceSquared(entity.getEyeLocation()) > otLoc.distanceSquared(entity.getEyeLocation())) {
                     target = other;
                 }
             }
