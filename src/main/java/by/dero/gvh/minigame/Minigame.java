@@ -14,6 +14,7 @@ import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.AreaManager;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;
+import by.dero.gvh.utils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
@@ -54,12 +55,7 @@ public class Minigame implements PluginMode {
                 ServerType.GAME, game.getInfo().getMaxPlayerCount());
 
         lobbyWorld = Bukkit.getWorld(game.getInfo().getLobbyWorld());
-        lobbyWorld.setTime(1000);
-        lobbyWorld.setDifficulty(Difficulty.NORMAL);
-        lobbyWorld.setGameRuleValue("keepInventory", "true");
-        lobbyWorld.setGameRuleValue("doDaylightCycle", "false");
-        lobbyWorld.setGameRuleValue("doMobLoot", "false");
-        lobbyWorld.setGameRuleValue("announceAdvancements", "false");
+        WorldUtils.prepareWorld(lobbyWorld);
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "weather clear 100000");
         game.prepare();
         registerEvents();

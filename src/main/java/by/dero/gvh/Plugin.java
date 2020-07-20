@@ -10,10 +10,7 @@ import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
-import by.dero.gvh.utils.DataUtils;
-import by.dero.gvh.utils.GameUtils;
-import by.dero.gvh.utils.MathUtils;
-import by.dero.gvh.utils.ResourceUtils;
+import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -109,6 +106,7 @@ public class Plugin extends JavaPlugin implements Listener {
             pluginMode.onEnable();
 
             world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getLobbyWorld());
+
             for (final LivingEntity ent : world.getLivingEntities()) {
                 ent.remove();
             }
