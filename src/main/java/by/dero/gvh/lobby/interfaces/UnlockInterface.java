@@ -5,7 +5,6 @@ import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.lobby.PlayerLobby;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
-import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.InterfaceUtils;
@@ -26,9 +25,21 @@ public class UnlockInterface extends Interface {
         super(manager, player, 6,
                 (Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().canUnlock(className)
                 ? Lang.get("interfaces.unlockTitle") : Lang.get("interfaces.unlockNETitle")));
+        
+//        String[] pattern =  {
+//                "RRRRRRRRR",
+//                "REEEEEEER",
+//                "REEGGGEER",
+//                "REEGGGEER",
+//                "REEGGGEER",
+//                "RREEHEERR",
+//        };
+        
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
 
         ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
+//        ItemStack returnSlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
+//        InterfaceUtils.changeName(returnSlot, Lang.get(""));
         InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
         List<String> itemNames = new LinkedList<>();
         for (String itemName : classDescription.getItemNames()) {

@@ -82,6 +82,10 @@ public class AxeThrow extends Item implements PlayerInteractInterface {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
+                if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+                    owner.getInventory().setItem(slot, getItemStack());
+                    owner.getInventory().getItem(slot).setAmount(1);
+                }
                 axe.remove();
             }
         };
