@@ -2,6 +2,7 @@ package by.dero.gvh.utils;
 
 import net.minecraft.server.v1_12_R1.MathHelper;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 public class MathUtils {
@@ -116,7 +117,17 @@ public class MathUtils {
 
     public static Location getGoodInCylinder(Location loc, double minradius, double radius) {
         loc = MathUtils.randomCylinder(loc.clone(), minradius, radius, 0);
-        loc.y = loc.getWorld().getHighestBlockYAt((int)loc.x, (int)loc.z) + 1;
+//        loc.y = loc.getWorld().getHighestBlockYAt((int)loc.x, (int)loc.z) + 1;
+        while (loc.getBlock().getType().equals(Material.AIR) &&
+                loc.clone().add(0, -1, 0).getBlock().getType().equals(Material.AIR) &&
+                loc.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR)) {
+            loc = loc.subtract(0, 1, 0);
+        }
+        while (!loc.getBlock().getType().equals(Material.AIR) ||
+                !loc.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR) ||
+                !loc.clone().add(0, 2, 0).getBlock().getType().equals(Material.AIR) ) {
+            loc = loc.add(0, 1, 0);
+        }
         return loc;
     }
 
