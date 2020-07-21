@@ -185,7 +185,7 @@ public class GameLobby implements Listener {
             startPrepairing();
         }
         if (players >= game.getInfo().getMaxPlayerCount()) {
-            timeLeft = 10;
+            timeLeft = Math.min(timeLeft, 10);
         }
         AdviceManager.sendAdvice(gamePlayer.getPlayer(), "chooseTeam", 20, 240,
                 (pl) -> (!game.getState().equals(Game.State.WAITING) ||
