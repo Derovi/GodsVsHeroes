@@ -1,6 +1,7 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.*;
+import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.*;
 import net.md_5.bungee.api.ChatMessageType;
@@ -308,6 +309,12 @@ public abstract class Game implements Listener {
             if (!player.equals(killer)) {
                 rewardManager.give("killEnemy", killer,
                         rewardManager.getMessage("killEnemy").replace("%enemy%", player.getName()));
+
+                MessagingUtils.sendSubtitle(Lang.get("rewmes.kill").
+                                replace("%exp%", Integer.toString(rewardManager.get("killEnemy").getCount()))
+                                .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
+                        killer, 0, 20, 0);
+
                 GamePlayer gpKiller = GameUtils.getPlayer(killer.getName());
                 GamePlayer gpTarget = GameUtils.getPlayer(player.getName());
                 String kilCode = GameUtils.getTeamColor(gpKiller.getTeam());
@@ -322,6 +329,10 @@ public abstract class Game implements Listener {
                     String msg = rewardManager.getMessage("assist").replace("%enemy%", player.getName());
                     for (Player pl : assists) {
                         rewardManager.give("assist", pl, msg);
+                        MessagingUtils.sendSubtitle(Lang.get("rewmes.assist").
+                                        replace("%exp%", Integer.toString(rewardManager.get("assist").getCount()))
+                                .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
+                                pl, 0, 20, 0);
                     }
                 }
                 stats.addKill(player, killer, assists);

@@ -71,8 +71,6 @@ public class Plugin extends JavaPlugin implements Listener {
         if (settings.isCristalix()) {
             CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
             CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
-            CoreApi.get().registerService(ITabService.class, new TabService(IServerPlatform.get(), IPermissionService.get()));
-           // CoreApi.get().registerService(IRenderService.class, new BukkitRenderService(Bukkit.getServer()));
             CoreApi.get().registerService(IMapService.class, new MapService());
             IPermissionService.get().enableTablePermissions();
             new CPSLimiter(this, 10);

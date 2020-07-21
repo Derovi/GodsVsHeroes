@@ -29,7 +29,7 @@ public class DFireball extends EntityDragonFireball {
                 loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1.07f, 1);
                 for (final LivingEntity ent : GameUtils.getNearby(loc, 3)) {
                     if (GameUtils.isEnemy(ent, owner.getPlayer())) {
-                        GameUtils.damage(10, ent, owner.getPlayer());
+                        GameUtils.damage(explodeDamage, ent, owner.getPlayer());
                     }
                 }
                 this.die();
