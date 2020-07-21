@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.cristalix.core.CoreApi;
+import ru.cristalix.core.IServerPlatform;
 import ru.cristalix.core.display.BukkitDisplayService;
 import ru.cristalix.core.display.IDisplayService;
 import ru.cristalix.core.karma.IKarmaService;
@@ -35,6 +36,8 @@ import ru.cristalix.core.render.BukkitRenderService;
 import ru.cristalix.core.render.IRenderService;
 import ru.cristalix.core.scoreboard.IScoreboardService;
 import ru.cristalix.core.scoreboard.ScoreboardService;
+import ru.cristalix.core.tab.ITabService;
+import ru.cristalix.core.tab.TabService;
 import ru.cristalix.core.transfer.ITransferService;
 import ru.cristalix.core.transfer.TransferService;
 
@@ -68,13 +71,14 @@ public class Plugin extends JavaPlugin implements Listener {
         if (settings.isCristalix()) {
             CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
             CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
+            CoreApi.get().registerService(ITabService.class, new TabService(IServerPlatform.get(), IPermissionService.get()));
            // CoreApi.get().registerService(IRenderService.class, new BukkitRenderService(Bukkit.getServer()));
             CoreApi.get().registerService(IMapService.class, new MapService());
             IPermissionService.get().enableTablePermissions();
             new CPSLimiter(this, 10);
             IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
             IRealmService.get().getCurrentRealmInfo().setMaxPlayers(100);
-            settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());
+            settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());;
         }
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
         Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
