@@ -35,7 +35,7 @@ public class SpawnArmoredHorse extends Item implements DoubleSpaceInterface, Veh
 		horse = (Horse) gm.getEntity();
 		horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(30);
 		horse.setHealth(30);
-		horse.getInventory().setArmor(new ItemStack(Material.DIAMOND_BARDING));
+		horse.getInventory().setArmor(new ItemStack(Material.IRON_BARDING));
 		horse.setStyle(Horse.Style.WHITE);
 		horse.setAdult();
 		horse.getInventory().setSaddle(new ItemStack(Material.SADDLE));

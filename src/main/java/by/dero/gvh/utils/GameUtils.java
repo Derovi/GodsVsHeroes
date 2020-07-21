@@ -12,10 +12,7 @@ import com.google.common.base.Predicate;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EntityLiving;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -23,6 +20,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -394,6 +392,15 @@ public class GameUtils {
         return ret;
     }
 
+    public static ItemStack getHead(Player player) {
+        SkullMeta skullMeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
+        skullMeta.setOwningPlayer(player);
+        skullMeta.setDisplayName(Lang.get("interfaces.stats"));
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+        skull.setItemMeta(skullMeta);
+        return skull;
+    }
+    
     public static Predicate<EntityLiving> getTargetPredicate(int team) {
         return (entity) -> entity != null && isEnemy(entity.getBukkitEntity(), team);
     }

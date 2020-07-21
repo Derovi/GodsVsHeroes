@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -52,6 +53,20 @@ public class PaladinArmor extends Item implements PlayerInteractInterface {
 		cooldown.reload();
 		owner.setCooldown(material, (int) cooldown.getDuration());
 		SwordThrow swordThrow = (SwordThrow) ownerGP.getItems().get("swordthrow");
+		
+		if (owner.getVehicle() != null && owner.getVehicle() instanceof Horse) {
+			((Horse) owner.getVehicle()).getInventory().setArmor(new ItemStack(Material.DIAMOND_BARDING));
+			BukkitRunnable runnable = new BukkitRunnable() {
+				@Override
+				public void run() {
+					if (owner.getVehicle() != null && owner.getVehicle() instanceof Horse) {
+						((Horse) owner.getVehicle()).getInventory().setArmor(new ItemStack(Material.IRON_BARDING));
+					}
+				}
+			};
+			runnable.runTaskLater(Plugin.getInstance(), duration);
+			Game.getInstance().getRunnables().add(runnable);
+		}
 		
 		for (int type = -4; type <= 0; type++) {
 			Location oLoc = owner.getLocation();

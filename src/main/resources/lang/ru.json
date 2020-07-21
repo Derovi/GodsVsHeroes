@@ -2,14 +2,15 @@
   "interfaces": {
     "empty": "§8Пусто",
     "back": "§dНазад",
+    "stats": "§cСкоро",
     "select": "§aВыбрать",
     "upgradeSelect": "§9Улучшить",
     "notAvailable": "§cНе доступно",
     "upgrade": "§aУлучшить",
     "upgraded": "§9Улучшено",
-    "upgradeNE": "§cУлучшить",
+    "upgradeNE": "§cНужно §6%cost% опыта",
     "unlock": "§aРазблокировать",
-    "unlockNE": "§cРазблокировать",
+    "unlockNE": "§cРазблокировать за §6%cost% §cопыта!",
     "unlockTitle": "§aНажмите, чтобы открыть",
     "unlockNETitle": "§cНедостаточно опыта",
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
@@ -253,6 +254,7 @@
     "moneyBalance": "Ваш баланс §8» §b%money%",
     "busy": "§cНа всех серверах игра уже идет, подождите!",
     "locked": "§6Тестирование сегодня в §f16:30§6! Актуальная информация в группе §fВК §cvk.com/etherwar",
+<<<<<<< HEAD
     "compass": "Выбор сервера",
     "hidePlayers": "Спрятать игроков",
     "showPlayers": "Показать игроков",
@@ -262,5 +264,10 @@
     "kill": "§6§lУбийство§a +%exp% опыта §8|§a +%eth% эфира",
     "assist": "§9§lПомощь§a +%exp% опыта",
     "capture": "§4§lЗахват§a +%exp% опыта"
+=======
+    "compass": "§6Выбор сервера",
+    "hidePlayers": "§bСпрятать игроков",
+    "showPlayers": "§bПоказать игроков"
+>>>>>>> e0182aa0fa1c1ff5ca2832c553e19df96590bf8a
   }
 }

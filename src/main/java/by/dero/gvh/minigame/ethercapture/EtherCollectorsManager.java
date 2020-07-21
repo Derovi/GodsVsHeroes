@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.SafeRunnable;
+import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -46,7 +47,8 @@ public class EtherCollectorsManager {
                 }
                 for (GamePlayer player : game.getPlayers().values()) {
                     for (int collectorIndex = 0; collectorIndex < collectors.size(); ++collectorIndex) {
-                        if (collectors.get(collectorIndex).isInside(player.getPlayer().getLocation())) {
+                        if (player.getPlayer().getGameMode().equals(GameMode.SURVIVAL) &&
+                                collectors.get(collectorIndex).isInside(player.getPlayer().getLocation())) {
                             playersOnCollector.get(collectorIndex).add(player);
                         }
                     }

@@ -1,20 +1,25 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.DragonEggInfo;
 import by.dero.gvh.nmcapi.DragonEggEntity;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.SafeRunnable;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class DragonEgg extends Item implements DoubleSpaceInterface {
-    private final DragonEggInfo info;
+    private final int duration;
 
     public DragonEgg(String name, int level, Player owner) {
         super(name, level, owner);
-        info = (DragonEggInfo) getInfo();
+        DragonEggInfo info = (DragonEggInfo) getInfo();
+        duration = info.getDuration();
     }
 
     @Override
@@ -25,14 +30,33 @@ public class DragonEgg extends Item implements DoubleSpaceInterface {
         }
         cooldown.reload();
         DragonEggEntity egg = new DragonEggEntity(owner);
-        // TODO add sound
-        // TODO add status bar
+        owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
+        String def = "||||||||||";
+        FlyingText text = new FlyingText(owner.getEyeLocation(), def);
+        SafeRunnable textRun = new SafeRunnable() {
+            int ticks = 0;
+            @Override
+            public void run() {
+                if (ticks >= duration) {
+                    this.cancel();
+                } else {
+                    int prog = ticks * 10 / duration;
+                    text.setText("§a" + def.substring(0, prog) + "§f" + def.substring(prog+1));
+                    ticks += 5;
+                }
+            }
+        };
+        textRun.runTaskTimer(Plugin.getInstance(), 5, 5);
+        Game.getInstance().getRunnables().add(textRun);
         egg.spawn();
-        new BukkitRunnable() {
+        BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 egg.finish();
+                text.unload();
             }
-        }.runTaskLater(Plugin.getInstance(), info.getDuration());
+        };
+        runnable.runTaskLater(Plugin.getInstance(), duration);
+        Game.getInstance().getRunnables().add(runnable);
     }
 }

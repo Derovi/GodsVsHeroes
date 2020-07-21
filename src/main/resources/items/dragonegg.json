@@ -9,35 +9,35 @@
   "levels": [
     {
       "cooldown": 340,
-      "duration": 40,
+      "duration": 60,
       "cost": 80,
       "material": "DRAGON_EGG",
       "amount": 1
     },
     {
       "cooldown": 320,
-      "duration": 45,
+      "duration": 65,
       "cost": 100,
       "material": "DRAGON_EGG",
       "amount": 1
     },
     {
       "cooldown": 300,
-      "duration": 50,
+      "duration": 70,
       "cost": 130,
       "material": "DRAGON_EGG",
       "amount": 1
     },
     {
       "cooldown": 280,
-      "duration": 55,
+      "duration": 75,
       "cost": 160,
       "material": "DRAGON_EGG",
       "amount": 1
     },
     {
       "cooldown": 260,
-      "duration": 60,
+      "duration": 80,
       "cost": 200,
       "material": "DRAGON_EGG",
       "amount": 1
