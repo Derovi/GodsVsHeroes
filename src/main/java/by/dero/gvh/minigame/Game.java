@@ -310,8 +310,8 @@ public abstract class Game implements Listener {
                         rewardManager.getMessage("killEnemy").replace("%enemy%", player.getName()));
                 GamePlayer gpKiller = GameUtils.getPlayer(killer.getName());
                 GamePlayer gpTarget = GameUtils.getPlayer(player.getName());
-                String kilCode = Lang.get("commands." + (char)('1' + gpKiller.getTeam())).substring(0, 2);
-                String tarCode = Lang.get("commands." + (char)('1' + gpTarget.getTeam())).substring(0, 2);
+                String kilCode = GameUtils.getTeamColor(gpKiller.getTeam());
+                String tarCode = GameUtils.getTeamColor(gpTarget.getTeam());
                 String kilClass = Lang.get("classes." + gpKiller.getClassName());
                 String tarClass = Lang.get("classes." + gpTarget.getClassName());
                 Bukkit.getServer().broadcastMessage(Lang.get("game.killGlobalMessage").
@@ -386,7 +386,6 @@ public abstract class Game implements Listener {
             info.setStatus(RealmStatus.GAME_ENDING);
         }
         for (GamePlayer gp : players.values()) {
-            System.out.println("1: " + gp.getPlayer().isDead());
             Player player = gp.getPlayer();
             player.setGameMode(GameMode.SURVIVAL);
             player.leaveVehicle();
@@ -396,7 +395,6 @@ public abstract class Game implements Listener {
                 rewardManager.give("loseGame", player);
             }
             player.setFireTicks(0);
-            System.out.println("2: " + gp.getPlayer().isDead());
         }
 
         for (LivingEntity entity: world.getLivingEntities()) {
@@ -407,25 +405,8 @@ public abstract class Game implements Listener {
             }
         }
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            System.out.println("3: " + player.isDead());
-        }
-
         afterParty = new AfterParty(this, winnerTeam);
         afterParty.start();
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            System.out.println("4: " + player.isDead());
-        }
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    System.out.println("5: " + player.isDead());
-                }
-            }
-        }.runTaskTimer(Plugin.getInstance(), 20, 20);
 
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override

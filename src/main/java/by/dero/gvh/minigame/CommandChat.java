@@ -9,17 +9,31 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import ru.cristalix.core.display.IDisplayService;
+import ru.cristalix.core.permissions.IGroup;
+import ru.cristalix.core.permissions.IPermissionService;
+import ru.cristalix.core.scoreboard.IScoreboardService;
 
 public class CommandChat implements Listener {
 	private String getMessageText(Player player, String text, boolean global) {
+		if (!Minigame.getInstance().getGame().getState().equals(Game.State.GAME)) {
+			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+			return iGroup.getPrefixColor() + iGroup.getPrefix() + " " + iGroup.getNameColor() +
+					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
+		}
+		GamePlayer gp = GameUtils.getPlayer(player.getName());
 		if (!global) {
-			return Lang.get("commandChat.formatMessage").
-					replace("%sender%", player.getDisplayName()).
-					replace("%msg%", text);
+			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+			return GameUtils.getTeamColor(gp.getTeam()) + "T §8|" + GameUtils.getTeamColor(gp.getTeam()) +
+					Lang.get("classes." + gp.getClassName()) +
+					"§8| " + iGroup.getPrefixColor() + iGroup.getPrefix() + " " + iGroup.getNameColor() +
+					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		} else {
-			return Lang.get("commandChat.formatMessageAll").
-					replace("%sender%", player.getDisplayName()).
-					replace("%msg%", text);
+			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+			return GameUtils.getTeamColor(gp.getTeam()) + "G §8|" + GameUtils.getTeamColor(gp.getTeam()) +
+					Lang.get("classes." + gp.getClassName()) +
+					"§8| " + iGroup.getPrefixColor() + iGroup.getPrefix() + " " + iGroup.getNameColor() +
+					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		}
 	}
 

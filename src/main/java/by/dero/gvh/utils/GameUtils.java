@@ -7,6 +7,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.Lang;
 import com.google.common.base.Predicate;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EntityLiving;
@@ -67,6 +68,10 @@ public class GameUtils {
             codeToData.put('e', (byte) 4);
             codeToData.put('f', (byte) 0);
         }
+    }
+
+    public static String getTeamColor(int team) {
+        return Lang.get("commands." + (char)('1' + team)).substring(0, 2);
     }
 
     public static void changeColor(Location loc, char code) {

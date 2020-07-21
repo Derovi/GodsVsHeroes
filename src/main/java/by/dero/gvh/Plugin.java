@@ -12,6 +12,7 @@ import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
 import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
+import net.minecraft.server.v1_12_R1.AdvancementDataWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
@@ -124,6 +125,8 @@ public class Plugin extends JavaPlugin implements Listener {
 
         Bukkit.getPluginManager().registerEvents(this, this);
         new MathUtils();
+        AdvancementDataWorld.REGISTRY.advancements.clear();
+        AdvancementDataWorld.REGISTRY.c.clear();
     }
 
     @Override
