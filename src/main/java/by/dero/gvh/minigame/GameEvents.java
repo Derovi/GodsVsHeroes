@@ -338,6 +338,7 @@ public class GameEvents implements Listener {
     private final HashSet<Player> assists = new HashSet<>();
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
+        System.out.println("Death: " + event.getEntity().getName());
         Player player = event.getEntity();
         Player kil = player;
         assists.clear();

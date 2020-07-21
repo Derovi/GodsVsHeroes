@@ -385,8 +385,8 @@ public abstract class Game implements Listener {
             RealmInfo info = IRealmService.get().getCurrentRealmInfo();
             info.setStatus(RealmStatus.GAME_ENDING);
         }
-
         for (GamePlayer gp : players.values()) {
+            System.out.println("1: " + gp.getPlayer().isDead());
             Player player = gp.getPlayer();
             player.setGameMode(GameMode.SURVIVAL);
             player.leaveVehicle();
@@ -396,6 +396,7 @@ public abstract class Game implements Listener {
                 rewardManager.give("loseGame", player);
             }
             player.setFireTicks(0);
+            System.out.println("2: " + gp.getPlayer().isDead());
         }
 
         for (LivingEntity entity: world.getLivingEntities()) {
@@ -406,8 +407,26 @@ public abstract class Game implements Listener {
             }
         }
 
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            System.out.println("3: " + player.isDead());
+        }
+
         afterParty = new AfterParty(this, winnerTeam);
         afterParty.start();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            System.out.println("4: " + player.isDead());
+        }
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    System.out.println("5: " + player.isDead());
+                }
+            }
+        }.runTaskTimer(Plugin.getInstance(), 20, 20);
+
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {

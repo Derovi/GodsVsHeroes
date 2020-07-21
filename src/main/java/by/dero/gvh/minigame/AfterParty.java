@@ -30,8 +30,8 @@ public class AfterParty {
             gp.getItems().clear();
             player.setGameMode(GameMode.SURVIVAL);
             player.getInventory().clear();
+            player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
             player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
-            player.setHealth(10);
             MessagingUtils.sendActionBar("", player);
             if (gp.getTeam() == winnerTeam) {
                 final int locationIndex = new Random().nextInt(game.getInfo().getWinnerPositions().length);
