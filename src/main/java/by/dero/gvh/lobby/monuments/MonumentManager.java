@@ -54,7 +54,6 @@ public class MonumentManager implements Listener {
 
     @EventHandler
     public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
-        System.out.println("Interact!");
         event.setCancelled(true);
         UUID entityId = event.getRightClicked().getUniqueId();
         Player player = event.getPlayer();
@@ -66,7 +65,6 @@ public class MonumentManager implements Listener {
             ArmorStandMonument standMonument = (ArmorStandMonument) monument;
             ArmorStand armorStand = standMonument.getArmorStand();
             if (armorStand.getUniqueId().equals(entityId)) {
-                System.out.println("equals");
                 standMonument.onSelect(player);
                 Lobby.getInstance().updateDisplays(player);
             }

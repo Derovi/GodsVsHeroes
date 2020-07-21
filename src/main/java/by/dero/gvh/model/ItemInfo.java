@@ -81,7 +81,9 @@ public class ItemInfo {
         if (lore == null) {
             lore = new ArrayList<>();
             for (String string : description.getLore()) {
-                lore.add(parseString(string));
+                if (string != null) {
+                    lore.add(parseString(string));
+                }
             }
         }
 
