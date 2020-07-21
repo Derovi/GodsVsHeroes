@@ -40,6 +40,7 @@ public class UpgradeInterface extends Interface {
         if (currentLevel != maxLevel) {
             if (info.canUpgradeItem(className, itemName)) {
                 ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
+                // ADD lore
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade"));
                 addButton(position, currentLevel + 1, itemStack, () -> {
                     LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(getPlayer().getName());

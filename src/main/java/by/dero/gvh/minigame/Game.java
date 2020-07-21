@@ -311,8 +311,8 @@ public abstract class Game implements Listener {
                         rewardManager.getMessage("killEnemy").replace("%enemy%", player.getName()));
                 GamePlayer gpKiller = GameUtils.getPlayer(killer.getName());
                 GamePlayer gpTarget = GameUtils.getPlayer(player.getName());
-                String kilCode = Lang.get("commands." + (char)('1' + gpKiller.getTeam())).substring(0, 2);
-                String tarCode = Lang.get("commands." + (char)('1' + gpTarget.getTeam())).substring(0, 2);
+                String kilCode = GameUtils.getTeamColor(gpKiller.getTeam());
+                String tarCode = GameUtils.getTeamColor(gpTarget.getTeam());
                 String kilClass = Lang.get("classes." + gpKiller.getClassName());
                 String tarClass = Lang.get("classes." + gpTarget.getClassName());
                 Bukkit.getServer().broadcastMessage(Lang.get("game.killGlobalMessage").
@@ -386,7 +386,6 @@ public abstract class Game implements Listener {
             RealmInfo info = IRealmService.get().getCurrentRealmInfo();
             info.setStatus(RealmStatus.GAME_ENDING);
         }
-
         for (GamePlayer gp : players.values()) {
             Player player = gp.getPlayer();
             player.setGameMode(GameMode.SURVIVAL);
@@ -412,6 +411,7 @@ public abstract class Game implements Listener {
 
         afterParty = new AfterParty(this, winnerTeam);
         afterParty.start();
+
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
