@@ -1,5 +1,7 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.GameMob;
+import by.dero.gvh.GameObject;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
@@ -10,8 +12,6 @@ import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -33,12 +33,14 @@ public class HealPotion extends Item implements ProjectileHitInterface,
 
     @Override
     public void onProjectileHit(final ProjectileHitEvent event) {
-        final Entity at = event.getEntity();
-        for (final LivingEntity ent : GameUtils.getNearby(at.getLocation(), radius)) {
-            if (GameUtils.isAlly(ent, getTeam())) {
-                final double hp = Math.min(ent.getHealth() + (ent.equals(owner) ? heal : allyHeal),
-                        ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-                ent.setHealth(hp);
+        for (final GameObject ent : GameUtils.getGameObjects()) {
+            if (ent.getTeam() == getTeam() && ent.getEntity().getLocation().distance(owner.getLocation()) <= radius) {
+                final double hp = Math.min(ent.getEntity().getHealth() + (ent.getEntity().equals(owner) ? heal : allyHeal),
+                        ent.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+                ent.getEntity().setHealth(hp);
+                if (ent instanceof GameMob) {
+                    ((GameMob) ent).updateName();
+                }
             }
         }
     }

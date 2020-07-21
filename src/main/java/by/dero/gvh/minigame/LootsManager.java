@@ -190,7 +190,8 @@ public class LootsManager implements Listener {
         Player player = event.getPlayer();
         if (player.getGameMode().equals(GameMode.SURVIVAL)) {
             for (LootsNode node : loots) {
-                if (node.isReady() && node.loc.distance(player.getLocation()) <= 1) {
+                if (node.isReady() && (node.loc.distance(player.getLocation()) <= 1 ||
+                        (player.getVehicle() != null && node.loc.distance(player.getVehicle().getLocation()) <= 1))) {
                     node.use(player);
                 }
             }

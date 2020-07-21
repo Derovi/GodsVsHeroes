@@ -2,7 +2,6 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.model.Lang;
-import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -35,12 +34,12 @@ public class AfterParty {
             MessagingUtils.sendActionBar("", player);
             if (gp.getTeam() == winnerTeam) {
                 final int locationIndex = new Random().nextInt(game.getInfo().getWinnerPositions().length);
-                final DirectedPosition spawnPosition = game.getInfo().getWinnerPositions()[locationIndex];
+//                final DirectedPosition spawnPosition = game.getInfo().getWinnerPositions()[locationIndex];
 //                player.teleport(spawnPosition.toLocation(game.getInfo().getWorld()));
                 MessagingUtils.sendTitle(Lang.get("game.won"), player, 0, 40, 0);
             } else {
                 final int locationIndex = new Random().nextInt(game.getInfo().getLooserPositions().length);
-                final DirectedPosition spawnPosition = game.getInfo().getLooserPositions()[locationIndex];
+//                final DirectedPosition spawnPosition = game.getInfo().getLooserPositions()[locationIndex];
 //                player.teleport(spawnPosition.toLocation(game.getInfo().getWorld()));
                 MessagingUtils.sendTitle(Lang.get("game.lost"), player, 0, 40, 0);
             }

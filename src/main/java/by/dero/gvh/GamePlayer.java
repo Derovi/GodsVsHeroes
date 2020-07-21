@@ -283,7 +283,7 @@ public class GamePlayer extends GameObject {
             }
         }
 
-        if (preferredTeam == mx1 && val1 - val2 >= 2) {
+        if (preferredTeam == mx1 && val1 - val2 >= 1) {
             return false;
         }
         setTeam(preferredTeam);

@@ -46,10 +46,8 @@ import org.bukkit.util.Vector;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.IPlatformEventExecutor;
 import ru.cristalix.core.IServerPlatform;
-import ru.cristalix.core.display.IDisplayService;
 import ru.cristalix.core.display.data.DataDrawData;
 import ru.cristalix.core.display.data.StringDrawData;
-import ru.cristalix.core.display.messages.WorldRenderMessage;
 import ru.cristalix.core.math.V2;
 import ru.cristalix.core.math.V3;
 import ru.cristalix.core.realm.IRealmService;
@@ -251,7 +249,7 @@ public class Lobby implements PluginMode, Listener {
 
 
         //createText(player.getLocation().add(0, 2, 0), "Лесопилка",
-        //        90, 10, 1, 1.7);
+//                90, 10, 1, 1.7);
     }
 
     public static void createText(Location loc, String text, int rotation, double x, double y, double scale){
@@ -283,6 +281,7 @@ public class Lobby implements PluginMode, Listener {
     private static ItemStack showitem;
     public void playerJoined(Player player) {
         player.getInventory().setHeldItemSlot(0);
+        player.setGameMode(GameMode.ADVENTURE);
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
         lobbyPlayer.loadInfo();
         players.put(player.getName(), lobbyPlayer);
@@ -406,7 +405,7 @@ public class Lobby implements PluginMode, Listener {
         if (p.isOnGround()) {
             onGround.put(p.getUniqueId(), p.getLocation());
             if (p.getLocation().clone().subtract(0,1,0).getBlock().getType() == Material.GOLD_BLOCK) {
-                p.setVelocity(new Vector(-2,0,0));
+                p.setVelocity(p.getLocation().getDirection().multiply(2).setY(0));
             }
         } else {
             if (p.getLocation().getY() < 30) {
@@ -435,7 +434,7 @@ public class Lobby implements PluginMode, Listener {
     @EventHandler (priority = EventPriority.HIGH)
     public void onPlayerToggleFlight (final PlayerToggleFlightEvent event) {
         final Player p = event.getPlayer();
-        if (p.getGameMode () == GameMode.SURVIVAL) {
+        if (p.getGameMode () != GameMode.CREATIVE) {
             p.setAllowFlight (false);
             p.setVelocity(p.getVelocity().add(new Vector(0,1,0)));
             event.setCancelled (true);
@@ -490,12 +489,12 @@ public class Lobby implements PluginMode, Listener {
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
-        //event.setCancelled(true);
+        event.setCancelled(true);
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        //event.setCancelled(true);
+        event.setCancelled(true);
     }
 
     @EventHandler
@@ -519,6 +518,6 @@ public class Lobby implements PluginMode, Listener {
 
     @EventHandler
     public void removeSwapHand(PlayerSwapHandItemsEvent event) {
-        //event.setCancelled(true);
+        event.setCancelled(true);
     }
 }

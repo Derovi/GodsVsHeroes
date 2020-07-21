@@ -5,13 +5,14 @@ import by.dero.gvh.model.*;
 import by.dero.gvh.utils.*;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.royawesome.jlibnoise.module.combiner.Min;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -390,6 +391,9 @@ public abstract class Game implements Listener {
             Player player = gp.getPlayer();
             player.setGameMode(GameMode.SURVIVAL);
             player.leaveVehicle();
+            for (PotionEffect effect : player.getActivePotionEffects()) {
+                player.removePotionEffect(effect.getType());
+            }
             if (gp.getTeam() == winnerTeam) {
                 rewardManager.give("winGame", player);
             } else {

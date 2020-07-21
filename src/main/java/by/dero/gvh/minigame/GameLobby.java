@@ -15,10 +15,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class GameLobby implements Listener {
     private final Game game;
@@ -86,7 +92,19 @@ public class GameLobby implements Listener {
         }
     }
 
+    private final HashMap<UUID, Vector> lastPos = new HashMap<>();
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        if (player.getLocation().subtract(0, 1, 0).getBlock().getType().isSolid()) {
+            lastPos.put(player.getUniqueId(), player.getLocation().toVector());
+        } else if (player.getLocation().getY() < 30) {
+            player.teleport(lastPos.get(player.getUniqueId()).toLocation(player.getWorld()));
+        }
+    }
+    
     public void startGame() {
+        PlayerMoveEvent.getHandlerList().unregister(this);
         PlayerInteractEvent.getHandlerList().unregister(this);
         timeLeft = 61;
         if (prepairing != null) {
@@ -138,6 +156,9 @@ public class GameLobby implements Listener {
     public void onPlayerJoined(GamePlayer gamePlayer) {
         gamePlayer.getPlayer().setGameMode(GameMode.SURVIVAL);
         gamePlayer.setBoard(new Board("Lobby", 6));
+        for (PotionEffect effect : gamePlayer.getPlayer().getActivePotionEffects()) {
+            gamePlayer.getPlayer().removePotionEffect(effect.getType());
+        }
 
         gamePlayer.getPlayer().getInventory().setHeldItemSlot(0);
         final int players = game.getPlayers().size();

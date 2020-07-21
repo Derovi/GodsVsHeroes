@@ -31,7 +31,6 @@ public class EtherCollector {
     private MovingCrystal crystal;
     private FlyingText captureIndicator;
     private final double maxHeight = 16;
-    private double currentHeight = 0;
     private int captureStatus = 0; // 0 to 36
     private int owner = 0;
     private SafeRunnable etherAdd;
@@ -151,6 +150,7 @@ public class EtherCollector {
             return;
         }
         loaded = false;
+        crystal.die();
         captureIndicator.unload();
         etherAdd.cancel();
     }
@@ -158,23 +158,7 @@ public class EtherCollector {
     public boolean isInside(Location location) {
         return location.getWorld().equals(this.location.getWorld()) && location.distance(this.location) < 4;
     }
-
-    public double getCurrentHeight () {
-        return currentHeight;
-    }
-
-    public void setCurrentHeight (double currentHeight) {
-        this.currentHeight = currentHeight;
-    }
-
-    public int getCaptureStatus () {
-        return captureStatus;
-    }
-
-    public void setCaptureStatus (int captureStatus) {
-        this.captureStatus = captureStatus;
-    }
-
+    
     public IntPosition getPosition() {
         return new IntPosition(location);
     }
