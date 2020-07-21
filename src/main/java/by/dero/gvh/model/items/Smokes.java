@@ -62,6 +62,7 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 				if (gp.getTeam() != pose.getValue() && pose.getKey().distance(player.getLocation()) < radius) {
 					if (!player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
 						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 4), true);
+						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 0), true);
 					}
 					inside = true;
 					break;
@@ -69,6 +70,7 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 			}
 			if (!inside) {
 				player.removePotionEffect(PotionEffectType.BLINDNESS);
+				player.removePotionEffect(PotionEffectType.SLOW);
 			}
 		}
 	}
