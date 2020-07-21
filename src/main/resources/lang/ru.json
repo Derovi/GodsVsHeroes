@@ -2,6 +2,7 @@
   "interfaces": {
     "empty": "§8Пусто",
     "back": "§dНазад",
+    "stats": "§cСкоро",
     "select": "§aВыбрать",
     "upgradeSelect": "§9Улучшить",
     "notAvailable": "§cНе доступно",
@@ -9,7 +10,7 @@
     "upgraded": "§9Улучшено",
     "upgradeNE": "§cУлучшить",
     "unlock": "§aРазблокировать",
-    "unlockNE": "§cРазблокировать",
+    "unlockNE": "§cРазблокировать за §6%cost% §cопыта!",
     "unlockTitle": "§aНажмите, чтобы открыть",
     "unlockNETitle": "§cНедостаточно опыта",
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",

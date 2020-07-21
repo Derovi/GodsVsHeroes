@@ -3,7 +3,6 @@ package by.dero.gvh.lobby.interfaces;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
-import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
@@ -56,13 +55,13 @@ public class UpgradeInterface extends Interface {
                 addItem(position, currentLevel + 1, itemStack);
             }
             for (int index = currentLevel + 2; index <= maxLevel; ++index) {
-                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
+                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.notAvailable"));
                 addItem(position, index, itemStack);
             }
         }
         for (int index = maxLevel + 1; index < 6; ++index) {
-            ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
+            ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.back"));
             addButton(position, index, itemStack, () -> {
                 close();
@@ -97,7 +96,7 @@ public class UpgradeInterface extends Interface {
     }
 
     public void fillEmptyLine(int position) {
-        ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
+        ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
         InterfaceUtils.changeName(itemStack, Lang.get("interfaces.back"));
         for (int idx = 0; idx < 6; ++idx) {
             addButton(position, idx, itemStack, () -> {

@@ -7,6 +7,7 @@ import by.dero.gvh.lobby.PlayerLobby;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.UnitClassDescription;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,27 +27,28 @@ public class UnlockInterface extends Interface {
                 (Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().canUnlock(className)
                 ? Lang.get("interfaces.unlockTitle") : Lang.get("interfaces.unlockNETitle")));
         
-//        String[] pattern =  {
-//                "RRRRRRRRR",
-//                "REEEEEEER",
-//                "REEGGGEER",
-//                "REEGGGEER",
-//                "REEGGGEER",
-//                "RREEHEERR",
-//        };
+        String[] pattern =  {
+                "RRRRRRRRR",
+                "REEEEEEER",
+                "REEGGGEER",
+                "REEGGGEER",
+                "REEGGGEER",
+                "RREEHEERR",
+        };
         
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
 
-        ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
-//        ItemStack returnSlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
-//        InterfaceUtils.changeName(returnSlot, Lang.get(""));
+        ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
+        ItemStack returnSlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
+        ItemStack skull = GameUtils.getHead(player);
+        
+        InterfaceUtils.changeName(returnSlot, Lang.get("interfaces.back"));
         InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
         List<String> itemNames = new LinkedList<>();
         for (String itemName : classDescription.getItemNames()) {
             if (itemNames.size() == 9) {
                 break;
             }
-            System.out.println("itemName:" + itemName);
             if (Plugin.getInstance().getData().getItems().get(itemName).getLevels().size() < 2) {
                 continue;
             }
@@ -54,18 +56,18 @@ public class UnlockInterface extends Interface {
         }
         int index = 0;
         for (; index < Math.max(0, (9 - itemNames.size()) / 2); ++index) {
-            addItem(index, 0, emptySlot);
+            addButton(index, 0, returnSlot, this::close);
         }
         for (String itemName : itemNames) {
-            addItem(index++, 0,
-                            Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(0).getItemStack(player));
+            addItem(index++, 0, Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(0).getItemStack(player));
         }
         for (; index < 9; ++index) {
-            addItem(index, 0, emptySlot);
+            addButton(index, 0, returnSlot, this::close);
         }
+        
         boolean canUnlock = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().canUnlock(className);
         if (canUnlock) {
-            Runnable action = () -> {
+            Runnable unlockAction = () -> {
                 player.sendMessage(Lang.get("interfaces.unlocked").replace("%className%", Lang.get("classes." + className)).
                         replace("%cost%", String.valueOf(classDescription.getCost())));
                 LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
@@ -93,11 +95,21 @@ public class UnlockInterface extends Interface {
             ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
             System.out.println("Lang: " + Lang.get("interfaces.unlock"));
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlock"));
-            for (int x = 0; x < 9; ++x) {
-                for (int y = 1; y < 6; ++y) {
-                    addButton(x, y, itemStack, action);
+            for (int x = 0; x < 9; x++) {
+                for (int y = 1; y < 6; y++) {
+                    switch (pattern[y].charAt(x)) {
+                        case 'R' : addButton(x, y, returnSlot, this::close); break;
+                        case 'E' : addItem(x, y, emptySlot); break;
+                        case 'G' : addButton(x, y, itemStack, unlockAction); break;
+                        case 'H' : addItem(x, y, skull); break;
+                    }
                 }
             }
+//            for (int x = 0; x < 9; ++x) {
+//                for (int y = 1; y < 6; ++y) {
+//                    addButton(x, y, itemStack, unlockAction);
+//                }
+//            }
         } else {
             Runnable action = () -> {
                 LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
@@ -107,7 +119,8 @@ public class UnlockInterface extends Interface {
                 close();
             };
             ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
-            InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlockNE"));
+            InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlockNE").
+                    replace("%cost%", String.valueOf(classDescription.getCost())));
             for (int x = 0; x < 9; ++x) {
                 for (int y = 1; y < 6; ++y) {
                     addButton(x, y, itemStack, action);
