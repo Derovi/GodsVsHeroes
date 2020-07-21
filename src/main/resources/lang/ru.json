@@ -8,7 +8,7 @@
     "notAvailable": "§cНе доступно",
     "upgrade": "§aУлучшить",
     "upgraded": "§9Улучшено",
-    "upgradeNE": "§cУлучшить",
+    "upgradeNE": "§cНужно §6%cost% опыта",
     "unlock": "§aРазблокировать",
     "unlockNE": "§cРазблокировать за §6%cost% §cопыта!",
     "unlockTitle": "§aНажмите, чтобы открыть",
