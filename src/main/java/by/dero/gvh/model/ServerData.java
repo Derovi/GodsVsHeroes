@@ -9,9 +9,16 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
+import org.bson.BsonDocument;
+import org.bson.BsonInt32;
+import org.bson.BsonValue;
 import org.bson.Document;
 import org.bukkit.scheduler.BukkitRunnable;
+import ru.cristalix.core.realm.IRealmService;
+import ru.cristalix.core.scoreboard.IScoreboardService;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +27,7 @@ public class ServerData {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private List<ServerInfo> savedGameServers;
     private ServerInfo savedLobbyServer;
+    private int savedOnline;
 
     public ServerData(MongoDBStorage storage) {
         collection = storage.getDatabase().getCollection("servers");
@@ -28,6 +36,7 @@ public class ServerData {
             public void run() {
                 savedLobbyServer = getLobbyServer();
                 savedGameServers = getGameServers();
+                savedOnline = getSummaryOnline();
             }
         }.runTaskTimer(Plugin.getInstance(), 5, 2);
     }
@@ -38,6 +47,14 @@ public class ServerData {
             return null;
         }
         return gson.fromJson(document.toJson(), ServerInfo.class);
+    }
+
+    public int getSummaryOnline() {
+        int result = 0;
+        for (Document document : collection.find()) {
+            result += gson.fromJson(document.toJson(), ServerInfo.class).getOnline();
+        }
+        return result;
     }
 
     private List<ServerInfo> getGameServers() {
@@ -114,5 +131,9 @@ public class ServerData {
 
     public ServerInfo getSavedLobbyServer() {
         return savedLobbyServer;
+    }
+
+    public int getSavedOnline() {
+        return savedOnline;
     }
 }

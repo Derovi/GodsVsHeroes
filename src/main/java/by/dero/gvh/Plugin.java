@@ -21,6 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.IServerPlatform;
 import ru.cristalix.core.display.BukkitDisplayService;
@@ -75,7 +76,7 @@ public class Plugin extends JavaPlugin implements Listener {
             IPermissionService.get().enableTablePermissions();
             new CPSLimiter(this, 10);
             IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
-            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(100);
+            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(1000);
             settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());;
         }
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());

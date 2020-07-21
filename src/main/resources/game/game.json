@@ -7,11 +7,11 @@
   "respawnTime": 200,
   "lobbyPosition": {
     "x": 0.5,
-    "y": 90,
-    "z": 1.5,
+    "y": 91,
+    "z": -5.5,
     "dx": 0,
     "dy": 0,
-    "dz": 1
+    "dz": -1
   },
   "mapBorders": [
     {
