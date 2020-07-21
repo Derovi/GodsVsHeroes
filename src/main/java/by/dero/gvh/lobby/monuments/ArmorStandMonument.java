@@ -2,10 +2,7 @@ package by.dero.gvh.lobby.monuments;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.model.Drawings;
-import by.dero.gvh.model.ItemInfo;
-import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.model.UnitClassDescription;
+import by.dero.gvh.model.*;
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Bukkit;
@@ -95,7 +92,8 @@ public class ArmorStandMonument extends Monument {
         final World at = Lobby.getInstance().getWorld();
         armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
         armorStand.setInvulnerable(true);
-        armorStand.setCustomNameVisible(false);
+        armorStand.setCustomNameVisible(true);
+        armorStand.setCustomName("§6" + Lang.get("classes." + getClassName()));
 
         final UnitClassDescription classDescription =
                 Plugin.getInstance().getData().getClassNameToDescription().get(getClassName());

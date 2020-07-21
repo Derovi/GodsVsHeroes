@@ -1,6 +1,7 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Cooldown;
+import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.annotations.DynamicCustomization;
@@ -15,6 +16,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteractInterface {
 	private Runnable onHit = null;
@@ -62,10 +64,22 @@ public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteract
 	
 	@Override
 	public void interactMainHand(PlayerInteractEvent event) {
-		if (!cooldown.isReady() || System.currentTimeMillis() - lastUsed < 100) {
+		if (!cooldown.isReady() || System.currentTimeMillis() - lastUsed < 3000) {
 			return;
 		}
+		System.out.println("Interact Main");
 		cooldown.reload();
+		event.getPlayer().getInventory().setItem(0, getItemStack(true));
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (cooldown.isReady()) {
+					return;
+				}
+				cooldown.makeReady();
+				event.getPlayer().getInventory().setItem(0, getItemStack(true));
+			}
+		}.runTaskLater(Plugin.getInstance(), cooldown.getDuration());
 		lastUsed = System.currentTimeMillis();
 		if (onHit != null) {
 			onHit.run();
@@ -78,10 +92,21 @@ public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteract
 	
 	@Override
 	public void interactOffHand(PlayerInteractEvent event) {
-		if (!cooldownOffhand.isReady() || System.currentTimeMillis() - lastUsed < 100) {
+		if (!cooldownOffhand.isReady() || System.currentTimeMillis() - lastUsed < 3000) {
 			return;
 		}
+		System.out.println("Interact Off");
 		cooldownOffhand.reload();
+		event.getPlayer().getInventory().setItemInOffHand(getItemStack(false));
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (cooldownOffhand.isReady()) {
+					cooldownOffhand.makeReady();
+				}
+				event.getPlayer().getInventory().setItemInOffHand(getItemStack(false));
+			}
+		}.runTaskLater(Plugin.getInstance(), cooldownOffhand.getDuration());
 		lastUsed = System.currentTimeMillis();
 		if (onHit != null) {
 			onHit.run();
