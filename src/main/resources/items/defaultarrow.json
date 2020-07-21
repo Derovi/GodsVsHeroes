@@ -5,8 +5,6 @@
     {
       "cooldown": 0,
       "material": "ARROW",
-      "displayName": "§cСтрела",
-      "lore": [],
       "amount": 1
     }
   ]

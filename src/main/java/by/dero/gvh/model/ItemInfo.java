@@ -1,11 +1,9 @@
 package by.dero.gvh.model;
 
-import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Plugin;
 import by.dero.gvh.model.annotations.CustomDamage;
 import by.dero.gvh.model.annotations.DynamicCustomization;
-import by.dero.gvh.model.annotations.StaticCustomization;
 import by.dero.gvh.model.annotations.PotionItem;
+import by.dero.gvh.model.annotations.StaticCustomization;
 import by.dero.gvh.nmcapi.NMCUtils;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagInt;
@@ -14,7 +12,6 @@ import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

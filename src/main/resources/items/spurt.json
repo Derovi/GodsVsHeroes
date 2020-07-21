@@ -28,7 +28,7 @@
       "cooldown": 400,
       "power": 1.2,
       "speedTime": 50,
-      "cost": 120,
+      "cost": 130,
       "material": "FEATHER",
       "amount": 1
     },
@@ -36,7 +36,7 @@
       "cooldown": 400,
       "power": 1.3,
       "speedTime": 55,
-      "cost": 140,
+      "cost": 160,
       "material": "FEATHER",
       "amount": 1
     },
@@ -44,7 +44,7 @@
       "cooldown": 400,
       "power": 1.4,
       "speedTime": 60,
-      "cost": 160,
+      "cost": 200,
       "material": "FEATHER",
       "amount": 1
     }

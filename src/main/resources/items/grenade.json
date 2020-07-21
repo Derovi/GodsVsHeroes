@@ -4,30 +4,47 @@
   "lore": [
     "§fУрон §8» §b%%damage,0.5%%§c❤",
     "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fЗарядов §8» §b%%amount%%",
     "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
       "cooldown": 120,
-      "damage" : 8,
-      "radius" : 5,
+      "damage" : 7,
+      "radius" : 4,
       "cost": 80,
       "material": "SNOW_BALL",
       "amount": 2
     },
     {
-      "cooldown": 120,
-      "damage" : 9,
-      "radius" : 5,
+      "cooldown": 110,
+      "damage" : 8,
+      "radius" : 4,
       "cost": 100,
       "material": "SNOW_BALL",
       "amount": 2
     },
     {
-      "cooldown": 120,
-      "damage" : 7,
+      "cooldown": 100,
+      "damage" : 9,
       "radius" : 5,
-      "cost": 120,
+      "cost": 130,
+      "material": "SNOW_BALL",
+      "amount": 2
+    },
+    {
+      "cooldown": 120,
+      "damage" : 8,
+      "radius" : 5,
+      "cost": 160,
+      "material": "SNOW_BALL",
+      "amount": 3
+    },
+    {
+      "cooldown": 110,
+      "damage" : 9,
+      "radius" : 6,
+      "cost": 200,
       "material": "SNOW_BALL",
       "amount": 3
     }

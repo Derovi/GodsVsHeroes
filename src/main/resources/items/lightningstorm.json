@@ -4,7 +4,7 @@
   "lore": [
     "§fУрон от молнии §8» §b%%damage,0.5%%§c❤",
     "§fКоличество зарядов §8» §b%%strikes%%",
-    "§fЗадержка перед ультой §8» §b1.5 §fсек.",
+    "§fЗадержка перед ультой §8» §b1 §fсек.",
     "§fПромежуток между зарядами §8» §b%%delayStrikes,0.05%% §fсек.",
     "§fРадиус отскока §8» §b%%radius%% §fблоков.",
     "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
@@ -13,8 +13,8 @@
     {
       "cooldown": 1200,
       "radius": 7,
-      "strikes": 4,
       "damage": 8,
+      "strikes": 4,
       "signRadius": [7, 11],
       "delayStrikes": 13,
       "cost": 80,
@@ -24,7 +24,7 @@
     },
     {
       "cooldown": 1200,
-      "radius": 7,
+      "radius": 8,
       "damage": 9,
       "strikes": 4,
       "signRadius": [7, 11],
@@ -37,11 +37,35 @@
     {
       "cooldown": 1200,
       "radius": 9,
+      "damage": 10,
+      "strikes": 4,
+      "signRadius": [7, 11],
+      "delayStrikes": 13,
+      "cost": 130,
+      "drawParticle": "FLAME",
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 1200,
+      "radius": 7,
       "damage": 8,
       "strikes": 5,
       "signRadius": [7, 11],
       "delayStrikes": 10,
-      "cost": 120,
+      "cost": 160,
+      "drawParticle": "FLAME",
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 1200,
+      "radius": 8,
+      "damage": 9,
+      "strikes": 5,
+      "signRadius": [7, 11],
+      "delayStrikes": 10,
+      "cost": 200,
       "drawParticle": "FLAME",
       "material": "NETHER_STAR",
       "amount": 1

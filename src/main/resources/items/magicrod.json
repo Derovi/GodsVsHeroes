@@ -9,7 +9,7 @@
   "levels": [
     {
       "cooldown": 60,
-      "damage": 11,
+      "damage": 12,
       "duration": 60,
       "cost": 80,
       "material": "BLAZE_ROD",
@@ -17,7 +17,7 @@
     },
     {
       "cooldown": 55,
-      "damage": 11,
+      "damage": 12,
       "duration": 60,
       "cost": 100,
       "material": "BLAZE_ROD",
@@ -25,17 +25,9 @@
     },
     {
       "cooldown": 55,
-      "damage": 12,
+      "damage": 13,
       "duration": 60,
-      "cost": 120,
-      "material": "BLAZE_ROD",
-      "amount": 1
-    },
-    {
-      "cooldown": 50,
-      "damage": 12,
-      "duration": 60,
-      "cost": 140,
+      "cost": 130,
       "material": "BLAZE_ROD",
       "amount": 1
     },
@@ -43,15 +35,15 @@
       "cooldown": 50,
       "damage": 13,
       "duration": 60,
-      "cost": 140,
+      "cost": 160,
       "material": "BLAZE_ROD",
       "amount": 1
     },
     {
-      "cooldown": 45,
-      "damage": 13,
+      "cooldown": 50,
+      "damage": 14,
       "duration": 60,
-      "cost": 140,
+      "cost": 200,
       "material": "BLAZE_ROD",
       "amount": 1
     }

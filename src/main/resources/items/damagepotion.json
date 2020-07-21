@@ -4,30 +4,47 @@
   "lore": [
     "§fУрон §8» §b%%damage,0.5%%§c❤",
     "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fЗарядов §8» §b%%amount%%",
     "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
       "cooldown": 100,
-      "radius": 4.0,
-      "damage": 8,
+      "radius": 3.5,
+      "damage": 9,
       "cost": 80,
+      "material": "SPLASH_POTION",
+      "amount": 2
+    },
+    {
+      "cooldown": 90,
+      "radius": 4.0,
+      "damage": 10,
+      "cost": 100,
+      "material": "SPLASH_POTION",
+      "amount": 2
+    },
+    {
+      "cooldown": 80,
+      "radius": 4.5,
+      "damage": 11,
+      "cost": 130,
+      "material": "SPLASH_POTION",
+      "amount": 2
+    },
+    {
+      "cooldown": 100,
+      "radius": 3.5,
+      "damage": 9,
+      "cost": 160,
       "material": "SPLASH_POTION",
       "amount": 3
     },
     {
       "cooldown": 90,
       "radius": 4.0,
-      "damage": 8,
-      "cost": 100,
-      "material": "SPLASH_POTION",
-      "amount": 3
-    },
-    {
-      "cooldown": 80,
-      "radius": 4.0,
-      "damage": 8,
-      "cost": 120,
+      "damage": 10,
+      "cost": 190,
       "material": "SPLASH_POTION",
       "amount": 3
     }

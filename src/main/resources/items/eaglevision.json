@@ -23,11 +23,6 @@
       "cost": 100,
       "searchParticle": "DRAGON_BREATH",
       "material": "GLOWSTONE_DUST",
-      "displayName": "§cEagle Vision",
-      "lore": [
-        "§aУльтимативная. Найдите всех своих врагов.",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
@@ -37,11 +32,6 @@
       "cost": 120,
       "searchParticle": "DRAGON_BREATH",
       "material": "GLOWSTONE_DUST",
-      "displayName": "§cEagle Vision",
-      "lore": [
-        "§aУльтимативная. Найдите всех своих врагов.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

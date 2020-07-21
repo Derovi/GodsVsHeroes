@@ -3,13 +3,15 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.SwordThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingSword;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -17,7 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class SwordThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class SwordThrow extends Item implements PlayerInteractInterface {
     private final double damage;
 
     public SwordThrow(String name, int level, Player owner) {
@@ -38,6 +40,7 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
         final ThrowingSword sword = new ThrowingSword(owner, getItemStack());
 
         final int slot = owner.getInventory().getHeldItemSlot();
+        owner.getInventory().setItem(slot, Item.getPane(getInfo().getDisplayName()));
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         sword.spawn();
         sword.setOnHitEntity(() -> {

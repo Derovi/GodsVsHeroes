@@ -4,31 +4,47 @@
   "slot": 0,
   "lore": [
     "§fУрон от взрыва §8» §b%%damage,0.5%%§c❤",
-    "§fОбласть появления §8» §b16 §fблоков",
+    "§fРадиус поражения §8» §b16 §fблоков",
     "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
-      "radius": 16,
-      "damage": 14,
+      "radius": 10,
+      "damage": 15,
       "cooldown": 500,
       "cost": 80,
       "material": "FEATHER",
       "amount": 1
     },
     {
-      "radius": 16,
+      "radius": 10,
       "damage": 16,
-      "cooldown": 500,
-      "cost": 80,
+      "cooldown": 480,
+      "cost": 100,
       "material": "FEATHER",
       "amount": 1
     },
     {
-      "radius": 16,
-      "damage": 18,
-      "cooldown": 500,
-      "cost": 80,
+      "radius": 11,
+      "damage": 16,
+      "cooldown": 460,
+      "cost": 130,
+      "material": "FEATHER",
+      "amount": 1
+    },
+    {
+      "radius": 11,
+      "damage": 17,
+      "cooldown": 440,
+      "cost": 160,
+      "material": "FEATHER",
+      "amount": 1
+    },
+    {
+      "radius": 12,
+      "damage": 17,
+      "cooldown": 420,
+      "cost": 200,
       "material": "FEATHER",
       "amount": 1
     }

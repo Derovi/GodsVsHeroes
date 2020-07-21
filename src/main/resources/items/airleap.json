@@ -7,11 +7,6 @@
       "cooldown": 60,
       "cost": 80,
       "material": "FEATHER",
-      "displayName": "§cAir leap",
-      "lore": [
-        "§aНажмите, чтобы совершить рывок.",
-        "§6Уровень 1"
-      ],
       "amount": 1
     },
     {
@@ -19,11 +14,6 @@
       "cooldown": 50,
       "cost": 100,
       "material": "FEATHER",
-      "displayName": "§cAir leap",
-      "lore": [
-        "§aНажмите, чтобы совершить рывок.",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
@@ -31,11 +21,6 @@
       "cooldown": 40,
       "cost": 120,
       "material": "FEATHER",
-      "displayName": "§cAir leap",
-      "lore": [
-        "§aНажмите, чтобы совершить рывок.",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class FireBow extends Item implements PlayerShootBowInterface, ProjectileHitInterface {
 	private final double radius;
+	private final int duration;
 	private final Material material;
 
 	public FireBow (String name, int level, Player owner) {
@@ -26,6 +27,7 @@ public class FireBow extends Item implements PlayerShootBowInterface, Projectile
 
 		FireBowInfo info = (FireBowInfo) getInfo();
 		radius = info.getRadius();
+		duration = info.getDuration();
 		material = info.getMaterial();
 	}
 
@@ -52,7 +54,7 @@ public class FireBow extends Item implements PlayerShootBowInterface, Projectile
 		for (GameObject go : GameUtils.getGameObjects()) {
 			Location cur = go.getEntity().getLocation();
 			if (cur.distance(loc) < radius && go.getTeam() != getTeam()) {
-				go.getEntity().setFireTicks(120);
+				go.getEntity().setFireTicks(duration);
 				Location at = cur.toVector().getMidpoint(loc.toVector()).toLocation(loc.getWorld());
 				at.getWorld().spawnParticle(Particle.LAVA, at, 1);
 			}

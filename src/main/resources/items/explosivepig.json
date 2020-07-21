@@ -11,10 +11,46 @@
   "levels": [
     {
       "cooldown": 200,
-      "radius": 4,
+      "radius": 4.5,
       "damage": 12,
       "duration": 200,
       "cost": 80,
+      "material": "TNT",
+      "amount": 1
+    },
+    {
+      "cooldown": 200,
+      "radius": 5.5,
+      "damage": 12,
+      "duration": 200,
+      "cost": 100,
+      "material": "TNT",
+      "amount": 1
+    },
+    {
+      "cooldown": 200,
+      "radius": 4.5,
+      "damage": 13,
+      "duration": 200,
+      "cost": 130,
+      "material": "TNT",
+      "amount": 1
+    },
+    {
+      "cooldown": 200,
+      "radius": 5.5,
+      "damage": 13,
+      "duration": 200,
+      "cost": 160,
+      "material": "TNT",
+      "amount": 1
+    },
+    {
+      "cooldown": 200,
+      "radius": 5.5,
+      "damage": 14,
+      "duration": 200,
+      "cost": 200,
       "material": "TNT",
       "amount": 1
     }

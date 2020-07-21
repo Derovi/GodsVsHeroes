@@ -16,17 +16,33 @@
       "amount": 1
     },
     {
-      "cooldown": 1000,
+      "cooldown": 1100,
       "duration": 400,
-      "health": 30,
+      "health": 32,
       "cost": 80,
       "material": "NETHER_STAR",
       "amount": 1
     },
     {
-      "cooldown": 800,
+      "cooldown": 1000,
       "duration": 400,
-      "health": 30,
+      "health": 34,
+      "cost": 80,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 900,
+      "duration": 400,
+      "health": 36,
+      "cost": 80,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 900,
+      "duration": 400,
+      "health": 40,
       "cost": 80,
       "material": "NETHER_STAR",
       "amount": 1

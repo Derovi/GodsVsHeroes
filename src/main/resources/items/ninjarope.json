@@ -2,7 +2,8 @@
   "name": "ninjarope",
   "slot": 0,
   "lore": [
-    "§fДальность для разрыва §8» §b%%distance%% §fблоков."
+    "§fДальность для разрыва §8» §b%%distance%% §fблоков.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
@@ -10,7 +11,39 @@
       "distance": 15,
       "cooldown": 60,
       "cost": 80,
-      "material": "STICK",
+      "material": "FISHING_ROD",
+      "amount": 1
+    },
+    {
+      "forceMultiplier": 0.25,
+      "distance": 16,
+      "cooldown": 60,
+      "cost": 100,
+      "material": "FISHING_ROD",
+      "amount": 1
+    },
+    {
+      "forceMultiplier": 0.25,
+      "distance": 17,
+      "cooldown": 60,
+      "cost": 130,
+      "material": "FISHING_ROD",
+      "amount": 1
+    },
+    {
+      "forceMultiplier": 0.25,
+      "distance": 18,
+      "cooldown": 60,
+      "cost": 160,
+      "material": "FISHING_ROD",
+      "amount": 1
+    },
+    {
+      "forceMultiplier": 0.25,
+      "distance": 20,
+      "cooldown": 60,
+      "cost": 200,
+      "material": "FISHING_ROD",
       "amount": 1
     }
   ]

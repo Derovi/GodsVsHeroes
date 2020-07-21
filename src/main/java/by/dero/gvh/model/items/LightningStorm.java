@@ -89,7 +89,7 @@ public class LightningStorm extends Item implements PlayerInteractInterface {
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 30, delayStrikes);
+        runnable.runTaskTimer(Plugin.getInstance(), 20, delayStrikes);
         Minigame.getInstance().getGame().getRunnables().add(runnable);
     }
 }

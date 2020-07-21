@@ -49,16 +49,9 @@ import ru.cristalix.core.IServerPlatform;
 import ru.cristalix.core.display.IDisplayService;
 import ru.cristalix.core.display.data.DataDrawData;
 import ru.cristalix.core.display.data.StringDrawData;
-import ru.cristalix.core.display.enums.EnumUpdateType;
-import ru.cristalix.core.display.messages.MoneyMessage;
-import ru.cristalix.core.display.messages.OpenUrl;
-import ru.cristalix.core.display.messages.ProgressMessage;
 import ru.cristalix.core.display.messages.WorldRenderMessage;
-import ru.cristalix.core.formatting.Color;
 import ru.cristalix.core.math.V2;
 import ru.cristalix.core.math.V3;
-import ru.cristalix.core.minecraft.DimensionData;
-import ru.cristalix.core.minecraft.DimensionType;
 import ru.cristalix.core.realm.IRealmService;
 import ru.cristalix.core.realm.RealmInfo;
 import ru.cristalix.core.realm.RealmStatus;
@@ -445,7 +438,6 @@ public class Lobby implements PluginMode, Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        System.out.println(event.getAction());
         if (event.getAction().equals(Action.PHYSICAL)) {
             event.setCancelled(true);
             return;

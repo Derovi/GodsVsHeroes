@@ -7,9 +7,37 @@
   ],
   "levels": [
     {
-      "duration": 120,
+      "duration": 80,
       "cooldown": 520,
       "cost": 80,
+      "material": "EYE_OF_ENDER",
+      "amount": 1
+    },
+    {
+      "duration": 90,
+      "cooldown": 490,
+      "cost": 100,
+      "material": "EYE_OF_ENDER",
+      "amount": 1
+    },
+    {
+      "duration": 100,
+      "cooldown": 460,
+      "cost": 130,
+      "material": "EYE_OF_ENDER",
+      "amount": 1
+    },
+    {
+      "duration": 110,
+      "cooldown": 430,
+      "cost": 160,
+      "material": "EYE_OF_ENDER",
+      "amount": 1
+    },
+    {
+      "duration": 120,
+      "cooldown": 400,
+      "cost": 200,
       "material": "EYE_OF_ENDER",
       "amount": 1
     }

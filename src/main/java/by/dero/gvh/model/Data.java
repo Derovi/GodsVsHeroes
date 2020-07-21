@@ -104,7 +104,6 @@ public class Data {
         registerItem("lightningstrike", LightningStrikeInfo.class, LightningStrike.class);
         registerItem("summongunsmith", SummonGunsmithInfo.class, SummonGunsmith.class);
         registerItem("spawnarmoredhorse", ItemInfo.class, SpawnArmoredHorse.class);
-        registerItem("diamondswordthrow", SwordThrowInfo.class, SwordThrow.class);
         registerItem("hachickjump", HachickJumpInfo.class, HachickJump.class);
     }
 
@@ -121,7 +120,7 @@ public class Data {
         registerClass("dovahkiin");
         registerClass("horseman");
         registerClass("paladin");
-        registerClass("hachick");
+//        registerClass("hachick");
     }
 
     public void load() {

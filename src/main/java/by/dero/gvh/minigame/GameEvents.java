@@ -66,12 +66,19 @@ public class GameEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
+        if (!(event.getEntity().getShooter() instanceof Player)) {
+            return;
+        }
         Projectile proj = event.getEntity();
-        if (!(proj instanceof Arrow) && (proj.getShooter() instanceof Player) &&
+        if (!(proj instanceof Arrow || proj instanceof FishHook) && (proj.getShooter() instanceof Player) &&
                 !(proj.hasMetadata("custom"))) {
             event.setCancelled(true);
         } else {
-            projectiles.add(proj.getUniqueId());
+            GamePlayer gp = GameUtils.getPlayer(((Player) event.getEntity().getShooter()).getName());
+            if (gp.getSelectedItem() instanceof ProjectileLaunchInterface) {
+                ((ProjectileLaunchInterface) gp.getSelectedItem()).onProjectileLaunch(event);
+                projectiles.add(proj.getUniqueId());
+            }
         }
     }
 
@@ -129,7 +136,7 @@ public class GameEvents implements Listener {
             return;
         }
 
-        if (itemInHand.getInfo().getMaterial() != Material.BOW) {
+        if (itemInHand.getInfo().getMaterial() != Material.BOW && itemInHand.getInfo().getMaterial() != Material.FISHING_ROD) {
             event.setCancelled(true);
         }
         gamePlayer.setLastUsed(itemInHand);

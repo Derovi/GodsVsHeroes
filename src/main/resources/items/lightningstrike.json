@@ -4,6 +4,7 @@
   "lore": [
     "§fУрон от молнии §8» §b%%lightningDamage,0.5%%§c❤",
     "§fУрон от отскока §8» §b%%damage,0.5%%§c❤",
+    "§fДлительность оглушения §8» §b1 §fсек.",
     "§fРадиус отскока §8» §b%%radius%% §fблоков.",
     "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
   ],
@@ -18,45 +19,36 @@
       "amount": 1
     },
     {
-      "cooldown": 750,
-      "radius": 5,
+      "cooldown": 760,
+      "radius": 5.25,
       "lightningDamage": 15,
       "damage": 15,
       "cost": 100,
       "material": "NETHER_STAR",
       "amount": 1
     },{
-      "cooldown": 700,
-      "radius": 5,
+      "cooldown": 720,
+      "radius": 5.5,
       "lightningDamage": 15,
       "damage": 15,
-      "cost": 100,
+      "cost": 130,
       "material": "NETHER_STAR",
       "amount": 1
     },{
-      "cooldown": 650,
-      "radius": 5,
+      "cooldown": 680,
+      "radius": 5.75,
       "lightningDamage": 15,
       "damage": 15,
-      "cost": 100,
+      "cost": 160,
       "material": "NETHER_STAR",
       "amount": 1
     },
     {
-      "cooldown": 600,
-      "radius": 5,
+      "cooldown": 640,
+      "radius": 6,
       "lightningDamage": 15,
       "damage": 15,
-      "cost": 100,
-      "material": "NETHER_STAR",
-      "amount": 1
-    },
-    {
-      "cooldown": 800,
-      "radius": 7,
-      "lightningDamage": 15,
-      "damage": 15,
-      "cost": 120,
+      "cost": 200,
       "material": "NETHER_STAR",
       "amount": 1
     }

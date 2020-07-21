@@ -6,24 +6,18 @@
       "cooldown": 0,
       "cost": 80,
       "material": "GOLD_AXE",
-      "displayName": "§cТопор",
-      "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
       "cost": 100,
       "material": "IRON_AXE",
-      "displayName": "§cТопор",
-      "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
       "cost": 120,
       "material": "DIAMOND_AXE",
-      "displayName": "§cТопор",
-      "lore": [],
       "amount": 1
     }
   ]

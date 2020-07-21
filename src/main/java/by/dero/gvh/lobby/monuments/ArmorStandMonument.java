@@ -103,6 +103,7 @@ public class ArmorStandMonument extends Monument {
             if (!name.startsWith("default")) {
                 continue;
             }
+            System.out.println(name + " " + classDescription.getName());
             final ItemInfo info = Plugin.getInstance().getData().getItems().get(name).getLevels().get(0);
             if (info.getDescription().isInvisible()) {
                 continue;

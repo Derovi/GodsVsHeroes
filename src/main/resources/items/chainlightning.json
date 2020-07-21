@@ -9,7 +9,7 @@
   ],
   "levels": [
     {
-      "damage": 14,
+      "damage": 13,
       "otherDamage": 6,
       "radius": 6.0,
       "cooldown": 60,
@@ -18,11 +18,29 @@
       "amount": 1
     },
     {
-      "damage": 15,
-      "otherDamage": 7,
-      "radius": 7.0,
+      "damage": 13,
+      "otherDamage": 6,
+      "radius": 8.0,
       "cooldown": 60,
       "cost": 100,
+      "material": "STICK",
+      "amount": 1
+    },
+    {
+      "damage": 15,
+      "radius": 6.0,
+      "otherDamage": 7,
+      "cooldown": 60,
+      "cost": 130,
+      "material": "STICK",
+      "amount": 1
+    },
+    {
+      "damage": 15,
+      "radius": 8.0,
+      "otherDamage": 7,
+      "cooldown": 60,
+      "cost": 160,
       "material": "STICK",
       "amount": 1
     },
@@ -31,7 +49,7 @@
       "radius": 8.0,
       "otherDamage": 8,
       "cooldown": 60,
-      "cost": 120,
+      "cost": 200,
       "material": "STICK",
       "amount": 1
     }

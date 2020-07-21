@@ -13,48 +13,48 @@
       "cooldown": 1600,
       "duration": 400,
       "damage": 20,
-      "speed": 0.55,
+      "speed": 0.4,
       "cost": 80,
       "material": "SKULL_ITEM",
       "amount": 1
     },
     {
-      "fireballCoolDown": 35,
-      "cooldown": 1600,
+      "fireballCoolDown": 40,
+      "cooldown": 1500,
       "duration": 400,
-      "damage": 21,
-      "speed": 0.55,
+      "damage": 20,
+      "speed": 0.4,
       "cost": 100,
       "material": "SKULL_ITEM",
       "amount": 1
     },
     {
       "fireballCoolDown": 35,
-      "cooldown": 1600,
+      "cooldown": 1500,
       "duration": 400,
+      "damage": 21,
+      "speed": 0.4,
+      "cost": 130,
+      "material": "SKULL_ITEM",
+      "amount": 1
+    },
+    {
+      "fireballCoolDown": 35,
+      "cooldown": 1400,
+      "duration": 400,
+      "cost": 160,
+      "damage": 22,
+      "speed": 0.4,
+      "material": "SKULL_ITEM",
+      "amount": 1
+    },
+    {
+      "fireballCoolDown": 30,
+      "cooldown": 1400,
+      "duration": 400,
+      "cost": 200,
       "damage": 23,
-      "speed": 0.55,
-      "cost": 120,
-      "material": "SKULL_ITEM",
-      "amount": 1
-    },
-    {
-      "fireballCoolDown": 30,
-      "cooldown": 1600,
-      "duration": 400,
-      "cost": 120,
-      "damage": 24,
-      "speed": 0.55,
-      "material": "SKULL_ITEM",
-      "amount": 1
-    },
-    {
-      "fireballCoolDown": 30,
-      "cooldown": 1600,
-      "duration": 400,
-      "damage": 26,
-      "speed": 0.55,
-      "cost": 140,
+      "speed": 0.4,
       "material": "SKULL_ITEM",
       "amount": 1
     }

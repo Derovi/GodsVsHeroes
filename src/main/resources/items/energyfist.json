@@ -1,10 +1,15 @@
 {
   "name": "energyfist",
-  "lore": [],
+  "lore": [
+    "§fУрон §8» §b%%damage,0.5%%§c❤",
+    "§fРадиус взрыва §8» §b2 §fблоков",
+    "§fДлительность полета §8» §b%%duration,0.05%% §fсек.",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+  ],
   "slot": 0,
   "levels": [
     {
-      "damage": 12,
+      "damage": 13,
       "duration": 40,
       "speed": 1,
       "cooldown": 80,
@@ -16,7 +21,7 @@
       "damage": 13,
       "duration": 40,
       "speed": 1,
-      "cooldown": 70,
+      "cooldown": 75,
       "cost": 100,
       "material": "SHIELD",
       "amount": 1
@@ -25,8 +30,26 @@
       "damage": 14,
       "duration": 60,
       "speed": 1,
-      "cooldown": 40,
-      "cost": 120,
+      "cooldown": 70,
+      "cost": 130,
+      "material": "SHIELD",
+      "amount": 1
+    },
+    {
+      "damage": 14,
+      "duration": 60,
+      "speed": 1,
+      "cooldown": 65,
+      "cost": 160,
+      "material": "SHIELD",
+      "amount": 1
+    },
+    {
+      "damage": 15,
+      "duration": 60,
+      "speed": 1,
+      "cooldown": 60,
+      "cost": 200,
       "material": "SHIELD",
       "amount": 1
     }

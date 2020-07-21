@@ -24,10 +24,26 @@
       "amount": 1
     },
     {
-      "cooldown": 100,
-      "damage": 20,
-      "meleeDamage": 8,
-      "cost": 120,
+      "cooldown": 90,
+      "damage": 17,
+      "meleeDamage": 9,
+      "cost": 130,
+      "material": "IRON_AXE",
+      "amount": 1
+    },
+    {
+      "cooldown": 90,
+      "damage": 19,
+      "meleeDamage": 9,
+      "cost": 160,
+      "material": "IRON_AXE",
+      "amount": 1
+    },
+    {
+      "cooldown": 80,
+      "damage": 19,
+      "meleeDamage": 10,
+      "cost": 200,
       "material": "IRON_AXE",
       "amount": 1
     }

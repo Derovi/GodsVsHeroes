@@ -48,7 +48,7 @@ public class MonumentManager implements Listener {
         registerMonument("assassin", ArmorStandMonument.class);
         registerMonument("dovahkiin", ArmorStandMonument.class);
         registerMonument("horseman", ArmorStandMonument.class);
-        registerMonument("hachick", ArmorStandMonument.class);
+//        registerMonument("hachick", ArmorStandMonument.class);
         registerMonument("paladin", ArmorStandMonument.class);
     }
 

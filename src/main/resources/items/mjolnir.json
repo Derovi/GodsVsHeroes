@@ -11,36 +11,36 @@
     {
       "cooldown": 35,
       "damage": 12,
-      "meleeDamage": 8,
+      "meleeDamage": 9,
       "cost": 80,
       "amount": 1
     },
     {
       "cooldown": 35,
       "damage": 13,
-      "meleeDamage": 8,
+      "meleeDamage": 9,
       "cost": 100,
       "amount": 1
     },
     {
       "cooldown": 35,
       "damage": 13,
-      "meleeDamage": 8,
-      "cost": 100,
+      "meleeDamage": 10,
+      "cost": 130,
       "amount": 1
     },
     {
       "cooldown": 35,
       "damage": 14,
-      "meleeDamage": 8,
-      "cost": 100,
+      "meleeDamage": 10,
+      "cost": 160,
       "amount": 1
     },
     {
       "cooldown": 35,
-      "damage": 15,
-      "meleeDamage": 8,
-      "cost": 100,
+      "damage": 14,
+      "meleeDamage": 11,
+      "cost": 200,
       "amount": 1
     }
   ]
