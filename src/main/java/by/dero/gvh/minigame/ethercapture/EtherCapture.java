@@ -197,7 +197,6 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         spawnFirework(player.getLocation().clone().add(0, 1, 0), 1);
         Location loc = player.getLocation();
         loc.setWorld(Minigame.getInstance().getGame().getWorld());
-        player.setBedSpawnLocation(loc, true);
 
         getPlayerDeathLocations().put(player.getName(), player.getLocation());
         spawnPlayer(getPlayers().get(player.getName()), getInfo().getRespawnTime());

@@ -156,18 +156,6 @@ public class Lobby implements PluginMode, Listener {
         eventExecutor.registerListener(PlayerChangedWorldEvent.class, this, (e) -> {
             Player p = e.getPlayer();
             updateHolograms(p);
-            Position pos = new Position(p.getLocation());
-            pos.add(0, 2, 0);
-            List<DataDrawData> dataList = new ArrayList<>();
-            dataList.add(DataDrawData.builder()
-                    .strings(
-                            Collections.singletonList(StringDrawData.builder().string(p.getName()).position(new V2(10, 1)).scale(4).build())
-                    ).position(new V3(pos.getX(), pos.getY(), pos.getZ()))
-                    .dimensions(new V2(10, 1))
-                    .rotation(90)
-                    .scale(1.7)
-                    .build());
-            IDisplayService.get().sendWorld(p.getUniqueId(), new WorldRenderMessage(dataList));
            // }
         }, EventPriority.MONITOR, true);
     }
@@ -194,7 +182,26 @@ public class Lobby implements PluginMode, Listener {
     }
 
     public void updateHolograms(Player player) {
+        /*List<DataDrawData> dataList = new ArrayList<>();
+        LobbyPlayer lp = players.get(player.getName());
+        {   // title under portal
+            Position pos = info.getPortalPosition().clone();
+            pos.add(0, 2.5, 1);
+            //"Выбран: " + Lang.get("classes." + lp.getPlayerInfo().getSelectedClass())
+            dataList.add(DataDrawData.builder()
+                    .rotation(270)
+                    .strings(
+                            Arrays.asList(StringDrawData.builder().align(2).string("Выбран класс:").scale(2).
+                                    position(new V2(60, 10)).build(),
+                                    StringDrawData.builder().align(2).string("§6" + Lang.get("classes." + lp.getPlayerInfo().getSelectedClass())).scale(2).
+                                            position(new V2(100, 50)).build())
+                    ).position(new V3(pos.getX(), pos.getY(), pos.getZ()))
+                    .dimensions(new V2(2, 1))
+                    .scale(1)
+                    .build());
+        }
 
+        IDisplayService.get().sendWorld(player.getUniqueId(), new WorldRenderMessage(dataList));*/
     }
 
     public void updateDisplays(Player player) {

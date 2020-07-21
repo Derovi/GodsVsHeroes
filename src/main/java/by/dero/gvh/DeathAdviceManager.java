@@ -50,6 +50,11 @@ public class DeathAdviceManager {
         register("horseman", Lang.get("death.horseman.space"), 100);
         register("horseman", Lang.get("death.horseman.horse"), 100);
         register("horseman", Lang.get("death.horseman.meteor"), 100);
+        // paladin
+        register("paladin", Lang.get("death.paladin.energyfist"), 100);
+        register("paladin", Lang.get("death.paladin.sword"), 100);
+        register("paladin", Lang.get("death.paladin.paladinarmor"), 100);
+        register("paladin", Lang.get("death.paladin.spawnarmoredhorse"), 100);
     }
 
     public static class Advice {

@@ -4,13 +4,19 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.ItemInfo;
+import by.dero.gvh.model.annotations.StaticCustomization;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ChargedFistsInfo;
+import by.dero.gvh.nmcapi.NMCUtils;
 import by.dero.gvh.utils.GameUtils;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ChargedFists extends Item implements PlayerInteractInterface {
@@ -31,7 +37,7 @@ public class ChargedFists extends Item implements PlayerInteractInterface {
 		forceDistance = info.getForceDistance();
 		material = info.getMaterial();
 	}
-	
+
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		if (!cooldown.isReady()) {
@@ -53,6 +59,8 @@ public class ChargedFists extends Item implements PlayerInteractInterface {
 				owner.setVelocity(owner.getLocation().getDirection().multiply(force));
 			}
 		});
+		item.getOwner().getInventory().setItem(0, item.getItemStack(true));
+		item.getOwner().getInventory().setItemInOffHand(item.getItemStack(false));
 		BukkitRunnable runnable = new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -60,6 +68,8 @@ public class ChargedFists extends Item implements PlayerInteractInterface {
 				item.setDamage(was);
 				item.setRange(wasRange);
 				item.setOnHit(null);
+				item.getOwner().getInventory().setItem(0, item.getItemStack(true));
+				item.getOwner().getInventory().setItemInOffHand(item.getItemStack(false));
 			}
 		};
 		runnable.runTaskLater(Plugin.getInstance(), duration);
