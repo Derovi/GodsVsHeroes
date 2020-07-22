@@ -17,7 +17,7 @@
     }
   ],
   "etherMineDelay": 200,
-  "etherToWin": 150,
+  "etherToWin": 4500,
   "etherForKill": 50,
   "etherForCollector": 50
 }

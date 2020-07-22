@@ -4,6 +4,7 @@ import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.DragonEggInfo;
 import by.dero.gvh.nmcapi.DragonEggEntity;
@@ -41,7 +42,8 @@ public class DragonEgg extends Item implements DoubleSpaceInterface {
                     this.cancel();
                 } else {
                     int prog = ticks * 10 / duration;
-                    text.setText("§a" + def.substring(0, prog) + "§f" + def.substring(prog+1));
+                    String pref = Lang.get("commands." + (char)('1' + ownerGP.getTeam())).substring(0, 2);
+                    text.setText(pref + def.substring(0, prog) + "§f" + def.substring(prog+1));
                     ticks += 5;
                 }
             }

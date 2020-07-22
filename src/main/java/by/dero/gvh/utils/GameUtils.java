@@ -172,7 +172,7 @@ public class GameUtils {
     }
 
     public static void doubleSpaceCooldownMessage(Item item) {
-        GamePlayer player = GameUtils.getPlayer(item.getOwner().getName());
+        GamePlayer player = item.getOwnerGP();
         if (!player.isActionBarBlocked()) {
             player.setActionBarBlocked(true);
             MessagingUtils.sendCooldownMessage(player.getPlayer(), item.getName(), item.getCooldown().getSecondsRemaining());
@@ -183,6 +183,18 @@ public class GameUtils {
                 }
             }.runTaskLater(Plugin.getInstance(), 30);
         }
+    }
+    
+    public static void stunMessage(GamePlayer player, int duration) {
+        player.setActionBarBlocked(true);
+        MessagingUtils.sendSubtitle(Lang.get("game.stunMessage"), player.getPlayer(), 0, duration, 0);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.setActionBarBlocked(false);
+            }
+        }.runTaskLater(Plugin.getInstance(), duration);
+    
     }
 
     public static ArrayList<GameObject> getGameObjects() {

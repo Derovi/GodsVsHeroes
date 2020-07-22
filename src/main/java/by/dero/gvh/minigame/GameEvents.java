@@ -5,13 +5,14 @@ import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.nmcapi.NMCUtils;
 import by.dero.gvh.utils.Dwelling;
 import by.dero.gvh.utils.GameUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -141,7 +142,6 @@ public class GameEvents implements Listener {
         }
         gamePlayer.setLastUsed(itemInHand);
         if (gamePlayer.isDisabled()) {
-            gamePlayer.getPlayer().sendMessage(Lang.get("game.cantUse"));
             event.setCancelled(true);
             return;
         }
@@ -211,8 +211,8 @@ public class GameEvents implements Listener {
             return;
         }
         GamePlayer gp = GameUtils.getPlayer(player.getName());
+    
         if (gp.isDisabled()) {
-            gp.getPlayer().sendMessage(Lang.get("game.cantUse"));
             event.setCancelled(true);
             return;
         }

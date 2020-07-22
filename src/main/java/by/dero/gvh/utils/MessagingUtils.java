@@ -12,6 +12,10 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 
 public class MessagingUtils {
+//    public static void sendStunned(Player player, int duration) {
+//        sendSubtitle(Lang.get("game.stunMessage"), player, 0, duration, 0);
+//    }
+    
     public static void sendCooldownMessage(final Player player, final String itemName, final long time) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.itemReloadingActionBar").
                         replace("%itemname%", itemName).replace("%time%", getTimeString((int) time, true))));

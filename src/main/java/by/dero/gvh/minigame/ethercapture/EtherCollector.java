@@ -140,7 +140,7 @@ public class EtherCollector {
             manager.give("collectorCaptured", gp.getPlayer(), manager.getMessage("collectorCaptured"));
         }
         Bukkit.getServer().broadcastMessage(Lang.get("game.collectorCaptureInform").
-                replace("%num%", "" + number).
+                replace("%num%", "" + (number + 1)).
                 replace("%com%", Lang.get("commands." + (char)('1' + owner))));
         Minigame.getInstance().getGame().getWorld().playSound(location, Sound.ENTITY_ENDERDRAGON_GROWL, 100, 1);
     }
