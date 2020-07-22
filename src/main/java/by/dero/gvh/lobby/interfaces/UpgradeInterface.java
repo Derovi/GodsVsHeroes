@@ -3,13 +3,18 @@ package by.dero.gvh.lobby.interfaces;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
-import by.dero.gvh.model.*;
+import by.dero.gvh.model.ItemInfo;
+import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.InterfaceUtils;
+import by.dero.gvh.utils.Pair;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,23 +32,29 @@ public class UpgradeInterface extends Interface {
 
     public void updateItemLine(int position, String itemName, PlayerInfo info) {
         int currentLevel = info.getItemLevel(className, itemName);
-        addItem(position, 0,
-                Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(currentLevel).getItemStack(getPlayer()));
+        List<ItemInfo> infos = Plugin.getInstance().getData().getItems().get(itemName).getLevels();
+        addItem(position, 0, infos.get(currentLevel).getItemStack(getPlayer()));
         for (int index = 1; index <= currentLevel; ++index) {
             ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgraded"));
             addItem(position, index, itemStack);
         }
-        int maxLevel = Plugin.getInstance().getData().getItems().get(itemName).getLevels().size() - 1;
+        int maxLevel = infos.size() - 1;
         if (currentLevel != maxLevel) {
-            ItemInfo itemInfo = Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(currentLevel+1);
+            ItemInfo itemInfo = infos.get(currentLevel+1);
+            List<String> lore = new ArrayList<>(itemInfo.getLore());
+            List<Pair<String, String>> diff = InterfaceUtils.getDifference(infos.get(currentLevel).getLore(), lore);
+            for (int i = 0; i < lore.size(); i++) {
+                lore.set(i, InterfaceUtils.replaceLast(lore.get(i),
+                        diff.get(i).getKey(), diff.get(i).getValue()));
+            }
             if (info.canUpgradeItem(className, itemName)) {
                 ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
-                // ADD lore
                 ItemMeta meta = itemStack.getItemMeta();
-                meta.setLore(itemInfo.getLore());
+                meta.setLore(lore);
                 itemStack.setItemMeta(meta);
-                InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade"));
+                InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade").
+                        replace("%cost%", String.valueOf(itemInfo.getCost())));
                 addButton(position, currentLevel + 1, itemStack, () -> {
                     LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(getPlayer().getName());
                     lobbyPlayer.getPlayerInfo().upgradeItem(className, itemName);
@@ -55,7 +66,7 @@ public class UpgradeInterface extends Interface {
             } else {
                 ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
                 ItemMeta meta = itemStack.getItemMeta();
-                meta.setLore(itemInfo.getLore());
+                meta.setLore(lore);
                 itemStack.setItemMeta(meta);
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgradeNE").
                         replace("%cost%", String.valueOf(itemInfo.getCost())));

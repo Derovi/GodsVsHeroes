@@ -26,13 +26,13 @@
       "amount": 1
     },
     {
-      "cooldown": 540,
+      "cooldown": 440,
       "cost": 160,
       "material": "ENDER_PEARL",
       "amount": 2
     },
     {
-      "cooldown": 480,
+      "cooldown": 400,
       "cost": 200,
       "material": "ENDER_PEARL",
       "amount": 2
