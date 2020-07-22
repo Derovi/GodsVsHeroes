@@ -5,7 +5,6 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.SpurtInfo;
-import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -27,7 +26,6 @@ public class Spurt extends Item implements DoubleSpaceInterface {
     @Override
     public void onDoubleSpace() {
         if (!cooldown.isReady()) {
-            GameUtils.doubleSpaceCooldownMessage(this);
             return;
         }
         cooldown.reload();

@@ -4,7 +4,6 @@ import by.dero.gvh.GameMob;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.interfaces.VehicleExitInterface;
-import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -26,7 +25,6 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, VehicleExi
     @Override
     public void onDoubleSpace() {
         if (!cooldown.isReady()) {
-            GameUtils.doubleSpaceCooldownMessage(this);
             return;
         }
         if (horse != null) {
@@ -47,6 +45,7 @@ public class SpawnHorse extends Item implements DoubleSpaceInterface, VehicleExi
 
     @Override
     public void onPlayerUnmount (VehicleExitEvent event) {
+        owner.setExp(0);
         cooldown.reload();
         horse.remove();
         horse = null;

@@ -12,7 +12,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class PortalManager implements Listener {
     private final int timeout = 1500;
@@ -22,11 +21,7 @@ public class PortalManager implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (Map.Entry<String, Long> entry : playersInPortal.entrySet()) {
-                    if (System.currentTimeMillis() - entry.getValue() > timeout) {
-                        playersInPortal.remove(entry.getKey());
-                    }
-                }
+                playersInPortal.entrySet().removeIf(e -> System.currentTimeMillis() - e.getValue() > timeout);
             }
         }.runTaskTimer(Plugin.getInstance(), 20, 20);
     }

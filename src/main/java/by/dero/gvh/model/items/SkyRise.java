@@ -48,7 +48,6 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 			return;
 		}
 		if (!cooldown.isReady()) {
-			GameUtils.doubleSpaceCooldownMessage(this);
 			return;
 		}
 		cooldown.reload();

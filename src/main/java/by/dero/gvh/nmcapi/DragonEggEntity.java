@@ -24,7 +24,7 @@ public class DragonEggEntity extends EntityFallingBlock {
                 CraftMagicNumbers.getBlock(Material.DRAGON_EGG).fromLegacyData(0));
         setInvulnerable(true);
         setNoGravity(true);
-        player.setInvulnerable(false);
+        player.setInvulnerable(true);
         PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0);
         player.addPotionEffect(effect);
         ((CraftPlayer) player).getHandle().a(this, true);

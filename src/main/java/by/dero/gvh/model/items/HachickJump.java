@@ -7,7 +7,6 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.HachickJumpInfo;
 import by.dero.gvh.utils.GameUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -32,7 +31,6 @@ public class HachickJump extends Item implements DoubleSpaceInterface {
 	@Override
 	public void onDoubleSpace() {
 		if (!cooldown.isReady()) {
-			GameUtils.doubleSpaceCooldownMessage(this);
 			return;
 		}
 		cooldown.reload();

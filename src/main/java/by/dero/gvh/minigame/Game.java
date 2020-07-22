@@ -3,6 +3,7 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.*;
 import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.*;
+import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.utils.*;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -222,8 +223,15 @@ public abstract class Game implements Listener {
                         player.isActionBarBlocked()) {
                         continue;
                     }
+                    
+                    for (DoubleSpaceInterface cur : GameUtils.selectItems(player, DoubleSpaceInterface.class)) {
+                        Item c = (Item) cur;
+                        player.getPlayer().setLevel((int) c.getCooldown().getSecondsRemaining());
+                        player.getPlayer().setExp(1.0f - (float)c.getCooldown().getSecondsRemaining() * 20 / c.getCooldown().getDuration());
+                    }
+                    
                     Item item = player.getSelectedItem();
-                    if (item == null || item.getCooldown().getDuration() == 0) {
+                    if (item == null || item.getCooldown().getDuration() == 0 || item instanceof DoubleSpaceInterface) {
                         player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
                     } else if (item.getCooldown().isReady()) {
                         player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.itemReady")));

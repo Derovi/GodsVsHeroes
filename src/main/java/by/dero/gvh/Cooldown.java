@@ -10,7 +10,8 @@ public class Cooldown {
     }
 
     public long getSecondsRemaining() {
-        return (long) (Math.ceil((double) duration / 20) - (System.currentTimeMillis() - startTime) / 1000);
+        long left = startTime + duration * 50 - System.currentTimeMillis();
+        return (long) Math.max(Math.ceil((double)left / 1000), 0);
     }
 
     // true if finished at last second
