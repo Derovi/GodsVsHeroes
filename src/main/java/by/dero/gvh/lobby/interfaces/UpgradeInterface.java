@@ -45,15 +45,16 @@ public class UpgradeInterface extends Interface {
             List<String> lore = new ArrayList<>(itemInfo.getLore());
             List<Pair<String, String>> diff = InterfaceUtils.getDifference(infos.get(currentLevel).getLore(), lore);
             for (int i = 0; i < lore.size(); i++) {
-                System.out.println(lore.get(i) + " " + diff.get(i).getKey() + " " + diff.get(i).getValue());
-                lore.set(i, lore.get(i).replace(diff.get(i).getKey(), diff.get(i).getValue()));
+                lore.set(i, InterfaceUtils.replaceLast(lore.get(i),
+                        diff.get(i).getKey(), diff.get(i).getValue()));
             }
             if (info.canUpgradeItem(className, itemName)) {
                 ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
                 ItemMeta meta = itemStack.getItemMeta();
                 meta.setLore(lore);
                 itemStack.setItemMeta(meta);
-                InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade"));
+                InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade").
+                        replace("%cost%", String.valueOf(itemInfo.getCost())));
                 addButton(position, currentLevel + 1, itemStack, () -> {
                     LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(getPlayer().getName());
                     lobbyPlayer.getPlayerInfo().upgradeItem(className, itemName);

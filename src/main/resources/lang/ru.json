@@ -6,11 +6,11 @@
     "select": "§aВыбрать",
     "upgradeSelect": "§9Улучшить",
     "notAvailable": "§cНе доступно",
-    "upgrade": "§aУлучшить",
+    "upgrade": "§aУлучшить за §6%cost% §aопыта",
     "upgraded": "§9Улучшено",
     "upgradeNE": "§cНужно §6%cost% §cопыта",
-    "unlock": "§aРазблокировать",
-    "unlockNE": "§cРазблокировать за §6%cost% §cопыта!",
+    "unlock": "§aРазблокировать за §6%cost% §aопыта",
+    "unlockNE": "§cНужно §6%cost% §cопыта!",
     "unlockTitle": "§aНажмите, чтобы открыть",
     "unlockNETitle": "§cНедостаточно опыта",
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
@@ -188,7 +188,7 @@
     "kills": "Убийств §8» §a%kills%",
     "deaths": "Смертей §8» §c%deaths%",
     "assists": "Помощей §8» §a%assists%",
-    "progressReach": "§aКоманда %command% §aнабрала %pts%%"
+    "progressReach": "%command% §aнабрали %pts%%"
   },
   "loots": {
     "labelHeal": "§aГотово! %pts%§c❤",

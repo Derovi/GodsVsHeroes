@@ -137,7 +137,6 @@ public abstract class Game implements Listener {
                             Double.parseDouble(tag[3]) + 0.5);
                 }
             } catch (Exception ex) {
-                System.out.println("Can't load lift at: " + point.getV3().getX() + ' ' + point.getV3().getY() + ' ' + point.getV3().getZ());
                 ex.printStackTrace();
             }
             lifts.put(tag[0], new LiftManager.Lift(position.toVector(), null, radius));

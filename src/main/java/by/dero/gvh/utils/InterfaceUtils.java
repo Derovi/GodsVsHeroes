@@ -28,10 +28,10 @@ public class InterfaceUtils {
     public static List<Pair<String, String>> getDifference(List<String> first, List<String> second) {
         List<Pair<String, String>> ans = new ArrayList<>(first.size());
         for (int i = 0; i < first.size(); i++) {
-            String cop = removeColors(first.get(i));
+            String cop = first.get(i);
             int f = -1, s = -1;
             for (int j = 0; j < cop.length(); j++) {
-                if (Character.isDigit(cop.charAt(j))) {
+                if ((j == 0 || cop.charAt(j-1) != '§') && Character.isDigit(cop.charAt(j))) {
                     f = f == -1 ? j : f;
                     s = j;
                 }
@@ -44,19 +44,35 @@ public class InterfaceUtils {
             ans.add(Pair.of(cop, cop));
             f = -1;
             s = -1;
-            cop = removeColors(second.get(i));
+            cop = second.get(i);
             for (int j = 0; j < cop.length(); j++) {
-                if (Character.isDigit(cop.charAt(j))) {
+                if ((j == 0 || cop.charAt(j-1) != '§') && Character.isDigit(cop.charAt(j))) {
                     f = f == -1 ? j : f;
                     s = j;
                 }
             }
             String ss = cop.substring(f, s + 1);
             if (!ans.get(i).getKey().equals(ss)) {
-//                ans.get(i).setValue("§f" + ans.get(i).getKey() + "§8->§b" + ss);
-                ans.set(i, Pair.of(ss, "§f" + ans.get(i).getKey() + "§8->§b" + ss));
+                ans.set(i, Pair.of(ss, "§f" + ans.get(i).getKey() + "§8->§b" + removeColors(ss)));
             }
         }
         return ans;
+    }
+    
+    public static String replaceLast(String from, String was, String will) {
+        boolean good;
+        for (int i = from.length() - was.length(); i >= 0; i--) {
+            good = true;
+            for (int j = i; j < i + was.length(); j++) {
+                if (from.charAt(j) != was.charAt(j-i)) {
+                    good = false;
+                    break;
+                }
+            }
+            if (good) {
+                return from.substring(0, i) + will + from.substring(i + was.length());
+            }
+        }
+        return from;
     }
 }

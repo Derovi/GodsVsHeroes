@@ -94,7 +94,8 @@ public class UnlockInterface extends Interface {
             };
             ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
             System.out.println("Lang: " + Lang.get("interfaces.unlock"));
-            InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlock"));
+            InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlock").
+                    replace("%cost%", String.valueOf(classDescription.getCost())));
             for (int x = 0; x < 9; x++) {
                 for (int y = 1; y < 6; y++) {
                     switch (pattern[y].charAt(x)) {
