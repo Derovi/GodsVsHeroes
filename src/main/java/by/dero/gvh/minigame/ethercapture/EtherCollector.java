@@ -10,6 +10,7 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.nmcapi.MovingCrystal;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.IntPosition;
+import by.dero.gvh.utils.MessagingUtils;
 import by.dero.gvh.utils.SafeRunnable;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
@@ -138,6 +139,9 @@ public class EtherCollector {
         RewardManager manager = Game.getInstance().getRewardManager();
         for (GamePlayer gp : offenders) {
             manager.give("collectorCaptured", gp.getPlayer(), manager.getMessage("collectorCaptured"));
+            MessagingUtils.sendSubtitle(Lang.get("rewmes.capture").
+                            replace("%exp%", Integer.toString(manager.get("collectorCaptured").getCount())),
+                    gp.getPlayer(), 0, 20, 0);
         }
         Bukkit.getServer().broadcastMessage(Lang.get("game.collectorCaptureInform").
                 replace("%num%", "" + (number + 1)).

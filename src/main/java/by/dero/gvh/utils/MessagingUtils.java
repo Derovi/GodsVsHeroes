@@ -59,6 +59,12 @@ public class MessagingUtils {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(text));
     }
 
+    public static void sendSubtitle(final String text, final Collection<GamePlayer> players) {
+        for (final GamePlayer player : players) {
+            sendSubtitle(text, player.getPlayer(), 0, 20, 0);
+        }
+    }
+
     public static void sendTitle(final String text, final Collection<GamePlayer> players) {
         final PacketPlayOutTitle title = new PacketPlayOutTitle(
                 PacketPlayOutTitle.EnumTitleAction.TITLE,

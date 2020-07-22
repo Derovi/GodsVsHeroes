@@ -141,13 +141,13 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     public void addEther(int team, int count) {
         if (currentEtherCount[team] * 100 / etherCaptureInfo.getEtherToWin() < 80 &&
                 (currentEtherCount[team] + count) * 100 / etherCaptureInfo.getEtherToWin() >= 80) {
-            MessagingUtils.sendTitle(Lang.get("game.progressReach").
+            MessagingUtils.sendSubtitle(Lang.get("game.progressReach").
                     replace("%command%", Lang.get("commands." + (char)('1' + team)))
                     .replace("%pts%", "80"), getPlayers().values());
         }
         if (currentEtherCount[team] * 100 / etherCaptureInfo.getEtherToWin() < 95 &&
                 (currentEtherCount[team] + count) * 100 / etherCaptureInfo.getEtherToWin() >= 95) {
-            MessagingUtils.sendTitle(Lang.get("game.progressReach").
+            MessagingUtils.sendSubtitle(Lang.get("game.progressReach").
                     replace("%command%", Lang.get("commands." + (char)('1' + team)))
                     .replace("%pts%", "95"), getPlayers().values());
         }

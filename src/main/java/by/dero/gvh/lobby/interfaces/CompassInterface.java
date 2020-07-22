@@ -15,7 +15,7 @@ public class CompassInterface extends Interface {
     private final BukkitRunnable interfaceUpdater;
 
     public CompassInterface(InterfaceManager manager, Player player) {
-        super(manager, player, 1, Lang.get("compass.title"));
+        super(manager, player, calculateHeight(), Lang.get("compass.title"));
         interfaceUpdater = new BukkitRunnable() {
             @Override
             public void run() {
@@ -23,6 +23,11 @@ public class CompassInterface extends Interface {
             }
         };
         interfaceUpdater.runTaskTimer(Plugin.getInstance(), 0, 2);
+    }
+
+    private static int calculateHeight() {
+        int count = Plugin.getInstance().getServerData().getSavedGameServers().size();
+        return (count / 9) + ((count % 9 != 0) ? 1 : 0);
     }
 
     @Override
@@ -60,9 +65,9 @@ public class CompassInterface extends Interface {
             meta.setDisplayName(name);
             itemStack.setItemMeta(meta);
             if (!info.getStatus().equals(Game.State.WAITING.toString())) {
-                addItem(index % 9, index / 9, itemStack);
+                addItem(index % 9, getHeight() - 1 - index / 9, itemStack);
             } else {
-                addButton(index % 9, index / 9, itemStack, () -> BridgeUtils.redirectPlayer(getPlayer(), info.getName()));
+                addButton(index % 9, getHeight() - 1 - index / 9, itemStack, () -> BridgeUtils.redirectPlayer(getPlayer(), info.getName()));
             }
             ++index;
         }

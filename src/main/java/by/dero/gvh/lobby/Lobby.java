@@ -148,7 +148,7 @@ public class Lobby implements PluginMode, Listener {
             Player p = e.getPlayer();
             updateHolograms(p);
            // }
-        }, EventPriority.MONITOR, true);
+        }, EventPriority.MONITOR, true);;
     }
 
     private void registerEvents() {

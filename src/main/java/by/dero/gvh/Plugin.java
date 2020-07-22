@@ -24,6 +24,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.karma.IKarmaService;
 import ru.cristalix.core.karma.KarmaService;
@@ -68,12 +69,11 @@ public class Plugin extends JavaPlugin implements Listener {
         if (settings.isCristalix()) {
             CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
             CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
-           // CoreApi.get().registerService(IRenderService.class, new BukkitRenderService(Bukkit.getServer()));
             CoreApi.get().registerService(IMapService.class, new MapService());
             IPermissionService.get().enableTablePermissions();
             new CPSLimiter(this, 10);
             IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
-            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(100);
+            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(1000);
             settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());;
         }
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());

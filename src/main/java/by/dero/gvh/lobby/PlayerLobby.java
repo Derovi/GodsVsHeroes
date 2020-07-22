@@ -85,16 +85,16 @@ public class PlayerLobby {
         final Objective obj = scoreboard.registerNewObjective("Lobby", "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        final Team[] teams = new Team[2];
-        for (int i = 0; i < 2; i++) {
+        final Team[] teams = new Team[3];
+        for (int i = 0; i < 3; i++) {
             teams[i] = scoreboard.registerNewTeam("" + i);
             final String x = "§" + (char)('a' + i);
             teams[i].addEntry(x);
-            obj.getScore(x).setScore(2-i);
+            obj.getScore(x).setScore(3-i);
         }
 
         player.setScoreboard(scoreboard);
-        scoreboardUpdater = new BukkitRunnable() {
+        scoreboardUpdater = new Runnable() {
             final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
             @Override
             public void run() {
@@ -102,8 +102,19 @@ public class PlayerLobby {
                         .replace("%class%", Lang.get("classes." + info.getSelectedClass())));
                 setText(teams[1], Lang.get("lobby.moneyBalance")
                         .replace("%money%", String.valueOf(info.getBalance())));
+                setText(teams[2], Lang.get("lobby.online")
+                        .replace("%online%", String.valueOf(Plugin.getInstance().getServerData().getSavedOnline())));
             }
         };
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!player.isOnline()) {
+                    cancel();
+                }
+                scoreboardUpdater.run();
+            }
+        }.runTaskTimer(Plugin.getInstance(), 20, 20);
     }
 
     private void loadPortal() {

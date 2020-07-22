@@ -87,4 +87,8 @@ public class Interface {
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
+
+    public int getHeight() {
+        return height;
+    }
 }

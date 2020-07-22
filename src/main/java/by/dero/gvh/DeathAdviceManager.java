@@ -39,7 +39,6 @@ public class DeathAdviceManager {
         register("dovahkiin", Lang.get("death.dovahkiin.space"), 100);
         register("dovahkiin", Lang.get("death.dovahkiin.sword"), 100);
         // thor
-        register("thor", Lang.get("death.thor.stunall"), 100);
         register("thor", Lang.get("death.thor.hammer"), 100);
         register("thor", Lang.get("death.thor.space"), 100);
         register("thor", Lang.get("death.thor.chainlightning"), 100);
