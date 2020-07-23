@@ -70,7 +70,7 @@ public class LootsManager implements Listener {
             GameUtils.setInvisibleFlags(stand);
             ent.getWorld().addEntity(ent, CreatureSpawnEvent.SpawnReason.CUSTOM);
             ent.setCustomNameVisible(false);
-            stand.getEquipment().setHelmet(getHead(headName));
+            stand.getEquipment().setHelmet(Heads.getHead(headName));
 
             for (int i = 0; i < text.length(); i++) {
                 if (text.charAt(i) == '%') {
@@ -155,18 +155,6 @@ public class LootsManager implements Listener {
                     "resistance", Lang.get("loots.labelReady"),
                     Lang.get("loots.statusResistance").replace("%amount%", "8")));
         }
-    }
-
-    public static ItemStack getHead(String name)
-    {
-        for (Heads head : Heads.values())
-        {
-            if (head.getName().equalsIgnoreCase(name))
-            {
-                return head.getItemStack();
-            }
-        }
-        return null;
     }
 
 

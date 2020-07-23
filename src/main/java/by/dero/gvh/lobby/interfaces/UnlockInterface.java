@@ -6,9 +6,9 @@ import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.lobby.PlayerLobby;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
+import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.UnitClassDescription;
-import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,7 +28,7 @@ public class UnlockInterface extends Interface {
                 (Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().canUnlock(className)
                 ? Lang.get("interfaces.unlockTitle") : Lang.get("interfaces.unlockNETitle")));
         
-        String[] pattern =  {
+        String[] pattern = {
                 "RRRRRRRRR",
                 "REEEEEEER",
                 "REEGGGEER",
@@ -41,7 +41,7 @@ public class UnlockInterface extends Interface {
 
         ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
         ItemStack returnSlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
-        ItemStack skull = GameUtils.getHead(player);
+        ItemStack skull = Heads.getHead(className);
         
         InterfaceUtils.changeName(returnSlot, Lang.get("interfaces.back"));
         InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
