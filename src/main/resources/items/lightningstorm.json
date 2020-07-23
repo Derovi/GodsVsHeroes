@@ -13,7 +13,7 @@
     {
       "cooldown": 1200,
       "radius": 7,
-      "damage": 8,
+      "damage": 9,
       "strikes": 4,
       "signRadius": [7, 11],
       "delayStrikes": 13,
@@ -25,7 +25,7 @@
     {
       "cooldown": 1200,
       "radius": 8,
-      "damage": 9,
+      "damage": 10,
       "strikes": 4,
       "signRadius": [7, 11],
       "delayStrikes": 13,
@@ -37,7 +37,7 @@
     {
       "cooldown": 1200,
       "radius": 9,
-      "damage": 10,
+      "damage": 11,
       "strikes": 4,
       "signRadius": [7, 11],
       "delayStrikes": 13,
@@ -49,7 +49,7 @@
     {
       "cooldown": 1200,
       "radius": 7,
-      "damage": 8,
+      "damage": 9,
       "strikes": 5,
       "signRadius": [7, 11],
       "delayStrikes": 10,
@@ -61,7 +61,7 @@
     {
       "cooldown": 1200,
       "radius": 8,
-      "damage": 9,
+      "damage": 10,
       "strikes": 5,
       "signRadius": [7, 11],
       "delayStrikes": 10,

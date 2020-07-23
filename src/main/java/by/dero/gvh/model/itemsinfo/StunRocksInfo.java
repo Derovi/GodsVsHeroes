@@ -5,7 +5,8 @@ import by.dero.gvh.model.ItemInfo;
 
 public class StunRocksInfo extends ItemInfo {
     private int duration;
-
+    private int damage;
+    
     public StunRocksInfo(ItemDescription description) {
         super(description);
     }
@@ -16,5 +17,13 @@ public class StunRocksInfo extends ItemInfo {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+    
+    public int getDamage() {
+        return damage;
+    }
+    
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 }

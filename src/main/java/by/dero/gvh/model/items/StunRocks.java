@@ -23,11 +23,14 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, PlayerInteractInterface {
     private final int duration;
     private final Material material;
+    private final int damage;
+    
     public StunRocks(final String name, final int level, final Player owner) {
         super(name, level, owner);
         StunRocksInfo info = (StunRocksInfo) getInfo();
         duration = info.getDuration();
         material = info.getMaterial();
+        damage = info.getDamage();
     }
 
     @Override
@@ -45,6 +48,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
         loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 1);
         for (final LivingEntity entity : GameUtils.getNearby(event.getEntity().getLocation(), 2)) {
             if (GameUtils.isEnemy(entity, getTeam())) {
+                GameUtils.damage(damage, entity, owner);
                 Stun.stunEntity(entity, duration);
             }
         }
