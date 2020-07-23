@@ -26,7 +26,7 @@ public class ItemDescriptionBook extends BookGUI {
                 .newLine().newLine()
                 .add(Lang.get("desc." + itemName));
 
-        ItemInfo info = Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(
+       /* ItemInfo info = Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(
                 Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName()).getItemLevel(className, itemName));
         if (info.getLore() != null) {
             for (String line : info.getLore()) {
@@ -44,7 +44,7 @@ public class ItemDescriptionBook extends BookGUI {
                 // TODO improve
             })).build());
         }
-
+*/
         builder.newLine().add(BookUtil.TextBuilder.of("§5[НАЗАД]").onClick(new BookButton(this, () -> {
             if (backAction != null) {
                 backAction.run();
