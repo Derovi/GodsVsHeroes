@@ -18,6 +18,7 @@ public class CustomizationInfo {
 
     @Getter
     @Setter
+    @Builder.Default
     ItemStackCustomizer customizer = null;
 
     @Getter
@@ -30,22 +31,27 @@ public class CustomizationInfo {
 
     @Getter
     @Setter
+    @Builder.Default
     private String hero = "all";
 
     @Getter
     @Setter
+    @Builder.Default
     private String displayName = "Empty";
 
     @Getter
     @Setter
+    @Builder.Default
     private Material material = Material.BEDROCK;
 
     @Getter
     @Setter
+    @Builder.Default
     private List<String> description = new ArrayList<>();
 
     @Getter
     @Setter
+    @Builder.Default
     private int cost = 0;
 
     public ItemStack getItemStack() {

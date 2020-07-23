@@ -23,8 +23,8 @@ public class ItemDescriptionBook extends BookGUI {
     public void build() {
         BookUtil.PageBuilder builder = new BookUtil.PageBuilder()
                 .add(BookUtil.TextBuilder.of("§6§l" + Lang.get("items." + itemName)).build())
-                .newLine().newLine()
-                .add(Lang.get("desc." + itemName));
+                /*.newLine().newLine()
+                .add(Lang.get("desc." + itemName))*/;
 
        /* ItemInfo info = Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(
                 Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName()).getItemLevel(className, itemName));

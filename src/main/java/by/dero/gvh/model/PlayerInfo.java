@@ -8,7 +8,7 @@ import java.util.Map;
 public class PlayerInfo {
     private String name;
     private String selectedClass = "assassin";
-    private HashMap<String, Customization> customizations = new HashMap<>();
+    private final HashMap<String, Customization> customizations = new HashMap<>();
     private int balance = 100;
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
@@ -78,6 +78,10 @@ public class PlayerInfo {
             items.put(item, newLevel);
             balance -= Plugin.getInstance().getData().getItems().get(item).getLevels().get(newLevel).getCost();
         }
+    }
+
+    public HashMap<String, Customization> getCustomizations() {
+        return customizations;
     }
 
     public boolean isClassUnlocked(String className) {
