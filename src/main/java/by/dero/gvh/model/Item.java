@@ -87,7 +87,11 @@ public class Item {
     public Player getOwner() {
         return owner;
     }
-
+    
+    public GamePlayer getOwnerGP() {
+        return ownerGP;
+    }
+    
     public int getLevel() {
         return level;
     }

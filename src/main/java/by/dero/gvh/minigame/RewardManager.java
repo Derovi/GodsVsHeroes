@@ -21,8 +21,10 @@ public class RewardManager {
         String name = player.getName();
         Game.getInstance().getStats().addExp(name, count);
         Plugin.getInstance().getPlayerData().increaseBalance(name, count);
-        player.sendMessage(message.replace("%count%", String.valueOf(count)).replace(
-                "%allcount%", String.valueOf(Game.getInstance().getStats().getExpGained(name))));
+        if (!message.isEmpty()) {
+            player.sendMessage(message.replace("%count%", String.valueOf(count)).replace(
+                    "%allcount%", String.valueOf(Game.getInstance().getStats().getExpGained(name))));
+        }
     }
 
     public String getMessage(String reward) {

@@ -3,6 +3,7 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.*;
 import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.*;
+import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.utils.*;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -222,8 +223,15 @@ public abstract class Game implements Listener {
                         player.isActionBarBlocked()) {
                         continue;
                     }
+                    
+                    for (DoubleSpaceInterface cur : GameUtils.selectItems(player, DoubleSpaceInterface.class)) {
+                        Item c = (Item) cur;
+                        player.getPlayer().setLevel((int) c.getCooldown().getSecondsRemaining());
+                        player.getPlayer().setExp(1.0f - (float)c.getCooldown().getSecondsRemaining() * 20 / c.getCooldown().getDuration());
+                    }
+                    
                     Item item = player.getSelectedItem();
-                    if (item == null || item.getCooldown().getDuration() == 0) {
+                    if (item == null || item.getCooldown().getDuration() == 0 || item instanceof DoubleSpaceInterface) {
                         player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
                     } else if (item.getCooldown().isReady()) {
                         player.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.itemReady")));
@@ -307,8 +315,7 @@ public abstract class Game implements Listener {
     public void onPlayerKilled(Player player, Player killer, Collection<Player> assists) {
         try {
             if (!player.equals(killer)) {
-                rewardManager.give("killEnemy", killer,
-                        rewardManager.getMessage("killEnemy").replace("%enemy%", player.getName()));
+                rewardManager.give("killEnemy", killer, "");
 
                 MessagingUtils.sendSubtitle(Lang.get("rewmes.kill").
                                 replace("%exp%", Integer.toString(rewardManager.get("killEnemy").getCount()))
@@ -326,9 +333,8 @@ public abstract class Game implements Listener {
                         replace("%tarCode%", tarCode).replace("%tarClass%", tarClass).replace("%target%", player.getName()));
 
                 if (assists != null) {
-                    String msg = rewardManager.getMessage("assist").replace("%enemy%", player.getName());
                     for (Player pl : assists) {
-                        rewardManager.give("assist", pl, msg);
+                        rewardManager.give("assist", pl, "");
                         MessagingUtils.sendSubtitle(Lang.get("rewmes.assist").
                                         replace("%exp%", Integer.toString(rewardManager.get("assist").getCount()))
                                 .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),

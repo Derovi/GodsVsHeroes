@@ -9,10 +9,9 @@ import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.MessagingUtils;
-import by.dero.gvh.utils.Position;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -24,11 +23,8 @@ import org.bukkit.scoreboard.Team;
 import ru.cristalix.core.build.BuildWorldState;
 import ru.cristalix.core.build.models.Point;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 import static by.dero.gvh.model.Drawings.spawnFirework;
 
@@ -54,7 +50,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     @Override
     public void setDisplays() {
         for (final GamePlayer gp : getPlayers().values()) {
-            final Board board = new Board(Lang.get("game.ether"), getInfo().getTeamCount() + 6);
+            final Board board = new Board(Lang.get("game.ether"), getInfo().getTeamCount() + 8);
             final Scoreboard sb = board.getScoreboard();
             for (int team = 0; team < getInfo().getTeamCount(); team++) {
                 final String t = team + "hp";
@@ -82,7 +78,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             idxs.add(i);
         }
         idxs.sort((a, b) -> currentEtherCount[b] - currentEtherCount[a]);
-        String[] str = new String[cnt + 6];
+        String[] str = new String[cnt + 8];
         for (int i = 0; i < cnt; ++i) {
             final int team = idxs.get(i);
             final String com = Lang.get("commands." + (char)('1' + team));
@@ -101,6 +97,8 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             str[cnt+3] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills(name)));
             str[cnt+4] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists(name)));
             str[cnt+5] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths(name)));
+            str[cnt+6] = " ";
+            str[cnt+7] = Lang.get("game.online").replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
 
             gp.getBoard().update(str);
         }

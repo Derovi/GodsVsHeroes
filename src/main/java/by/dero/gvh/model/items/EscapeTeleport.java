@@ -7,7 +7,6 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.model.itemsinfo.EscapeTeleportInfo;
 import by.dero.gvh.nmcapi.PlayerUtils;
-import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -30,7 +29,6 @@ public class EscapeTeleport extends Item implements DoubleSpaceInterface {
     public void onDoubleSpace() {
         final Location loc = MathUtils.getGoodInCylinder(owner.getLocation(), minRadius, radius);
         if (!cooldown.isReady()) {
-            GameUtils.doubleSpaceCooldownMessage(this);
             return;
         }
         cooldown.reload();

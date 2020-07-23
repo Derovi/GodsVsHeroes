@@ -172,7 +172,7 @@ public class GameUtils {
     }
 
     public static void doubleSpaceCooldownMessage(Item item) {
-        GamePlayer player = GameUtils.getPlayer(item.getOwner().getName());
+        GamePlayer player = item.getOwnerGP();
         if (!player.isActionBarBlocked()) {
             player.setActionBarBlocked(true);
             MessagingUtils.sendCooldownMessage(player.getPlayer(), item.getName(), item.getCooldown().getSecondsRemaining());
@@ -183,6 +183,18 @@ public class GameUtils {
                 }
             }.runTaskLater(Plugin.getInstance(), 30);
         }
+    }
+    
+    public static void stunMessage(GamePlayer player, int duration) {
+        MessagingUtils.sendSubtitle(Lang.get("game.stunMessage"), player.getPlayer(), 0, duration, 0);
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                MessagingUtils.sendSubtitle(" ", player.getPlayer(), 0, 20, 0);
+            }
+        };
+        runnable.runTaskLater(Plugin.getInstance(), duration);
+        Game.getInstance().getRunnables().add(runnable);
     }
 
     public static ArrayList<GameObject> getGameObjects() {
@@ -273,9 +285,14 @@ public class GameUtils {
 
     public static LivingEntity getTargetEntity(final Player entity, final double maxRange,
                                                java.util.function.Predicate<LivingEntity> pred) {
-        return getTarget(entity, entity.getWorld().getLivingEntities(), maxRange, pred);
+        return getTarget(entity, entity.getWorld().getLivingEntities(), maxRange, 1, pred);
     }
-
+    
+    public static LivingEntity getTargetEntity(final Player entity, final double maxRange, final double prec,
+                                               java.util.function.Predicate<LivingEntity> pred) {
+        return getTarget(entity, entity.getWorld().getLivingEntities(), maxRange, prec, pred);
+    }
+    
     public static void changeEquipment(Player player, int slot, int duration, ItemStack item) {
         final ItemStack saved;
         final PlayerInventory inv = player.getInventory();
@@ -311,7 +328,8 @@ public class GameUtils {
         restoreInv.runTaskTimer(Plugin.getInstance(), 0, 5);
         Game.getInstance().getRunnables().add(restoreInv);
     }
-    public static <T extends LivingEntity> T getTarget(Player entity, Iterable<T> entities, double maxRange,
+    
+    public static <T extends LivingEntity> T getTarget(Player entity, Iterable<T> entities, double maxRange, double prec,
                                                        java.util.function.Predicate<LivingEntity> pred) {
         if (entity == null)
             return null;
@@ -323,7 +341,7 @@ public class GameUtils {
             }
             final Vector n = otLoc.toVector().subtract(entity.getEyeLocation().toVector());
             if (entity.getEyeLocation().getDirection().normalize().crossProduct(n).lengthSquared() <
-                    entity.getHeight() * entity.getHeight() / 4 + 0.1 &&
+                    entity.getHeight() * entity.getHeight() / 4 * prec * prec &&
                     n.normalize().dot(entity.getEyeLocation().getDirection().normalize()) >= 0) {
                 if (target == null || target.getLocation().add(0, target.getHeight() / 2, 0).
                         distanceSquared(entity.getEyeLocation()) > otLoc.distanceSquared(entity.getEyeLocation())) {
@@ -396,7 +414,7 @@ public class GameUtils {
         SkullMeta skullMeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
         skullMeta.setOwningPlayer(player);
         skullMeta.setDisplayName(Lang.get("interfaces.stats"));
-        ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte)3);
         skull.setItemMeta(skullMeta);
         return skull;
     }

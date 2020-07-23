@@ -46,6 +46,9 @@ public class DoubleSpaceListener implements Listener {
             if (gp.isInventoryHided()) {
                 return;
             }
+            if (gp.isDisabled()) {
+                return;
+            }
             final ArrayList<DoubleSpaceInterface> items = GameUtils.selectItems(gp, DoubleSpaceInterface.class);
             if (!items.isEmpty() && p.getGameMode() == GameMode.SURVIVAL) {
                 p.setAllowFlight(false);
