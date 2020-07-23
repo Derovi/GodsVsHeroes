@@ -1,9 +1,6 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.Plugin;
-import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.lobby.interfaces.cosmetic.AllCosmetic;
-import by.dero.gvh.lobby.interfaces.BuyCosmeticInterface;
+import by.dero.gvh.minigame.Game;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,10 +11,12 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] args) {
         Player player = (Player) commandSender;
-        AllCosmetic cosmeticInterface = new AllCosmetic(Lobby.getInstance().getInterfaceManager(),
-                player, "all");
-        cosmeticInterface.update();
-        cosmeticInterface.open();
+        player.sendMessage(Game.getInstance().getStats().getCapturePoints(player.getName()) + " " +
+                Game.getInstance().getStats().getDuration());
+//        AllCosmetic cosmeticInterface = new AllCosmetic(Lobby.getInstance().getInterfaceManager(),
+//                player, "all");
+//        cosmeticInterface.update();
+//        cosmeticInterface.open();
         /*ItemDescriptionBook book = new ItemDescriptionBook(Plugin.getInstance().getBookManager(),
                 player, "paladin", "swordthrow");
         book.build();

@@ -3,13 +3,14 @@ package by.dero.gvh.nmcapi;
 import by.dero.gvh.nmcapi.dragon.EmptyArmorStand;
 import by.dero.gvh.nmcapi.dragon.RotatingDragon;
 import by.dero.gvh.nmcapi.throwing.GravityFireball;
+import by.dero.gvh.nmcapi.throwing.ThrowingHead;
 import by.dero.gvh.nmcapi.throwing.ThrowingItem;
 import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.entity.EntityType;
 
 public enum CustomEntities {
-
     SMART_ARMOR_STAND("ThrowingItem", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingItem.class),
+    THROWING_HEAD("ThrowingHead", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, ThrowingHead.class),
     CHASING_STAND("ChasingStand", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, ChasingStand.class),
     PALADIN_FIST("PaladinFist", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, PaladinFist.class),
     EMPTY_ARMOR_STAND("EmptyArmorStand", 30, EntityType.ARMOR_STAND, EntityArmorStand.class, EmptyArmorStand.class),
