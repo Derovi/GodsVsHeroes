@@ -268,7 +268,8 @@
     "compass": "Выбор сервера",
     "hidePlayers": "Спрятать игроков",
     "showPlayers": "Показать игроков",
-    "online": "Онлайн §8» §b%online%"
+    "online": "Онлайн §8» §b%online%",
+    "cosmetics": "§6Косметика"
   },
   "rewmes": {
     "kill": "§6§lУбийство§a +%exp% опыта §8|§a +%eth% эфира",
