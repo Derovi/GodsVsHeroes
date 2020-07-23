@@ -2,8 +2,8 @@ package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
+import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.Lang;
-import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -41,7 +41,7 @@ public class SelectorInterface extends Interface {
         InterfaceUtils.changeName(upgradeItemStack, Lang.get("interfaces.upgradeSelect"));
         ItemStack returnItemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
         InterfaceUtils.changeName(returnItemStack, Lang.get("interfaces.back"));
-        ItemStack skull = GameUtils.getHead(player);
+        ItemStack skull = Heads.getHead(className);
         InterfaceUtils.changeName(skull, Lang.get("interfaces.stats"));
         ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
         InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
