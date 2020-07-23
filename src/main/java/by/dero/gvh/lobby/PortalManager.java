@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class PortalManager implements Listener {

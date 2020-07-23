@@ -1,6 +1,7 @@
 package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.bookapi.ItemDescriptionBook;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.model.ItemInfo;
@@ -33,7 +34,13 @@ public class UpgradeInterface extends Interface {
     public void updateItemLine(int position, String itemName, PlayerInfo info) {
         int currentLevel = info.getItemLevel(className, itemName);
         List<ItemInfo> infos = Plugin.getInstance().getData().getItems().get(itemName).getLevels();
-        addItem(position, 0, infos.get(currentLevel).getItemStack(getPlayer()));
+        addButton(position, 0, infos.get(currentLevel).getItemStack(getPlayer()), () -> {
+                    ItemDescriptionBook book =
+                            new ItemDescriptionBook(Plugin.getInstance().getBookManager(), getPlayer(), className, itemName);
+                    book.setBackAction(this::open);
+                    book.build();
+                    book.open();
+                });
         for (int index = 1; index <= currentLevel; ++index) {
             ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgraded"));

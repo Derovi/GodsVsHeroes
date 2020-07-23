@@ -1,6 +1,7 @@
 package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.bookapi.ItemDescriptionBook;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.lobby.PlayerLobby;
@@ -59,7 +60,14 @@ public class UnlockInterface extends Interface {
             addButton(index, 0, returnSlot, this::close);
         }
         for (String itemName : itemNames) {
-            addItem(index++, 0, Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(0).getItemStack(player));
+            addButton(index++, 0, Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(0).getItemStack(player),
+                    () -> {
+                        ItemDescriptionBook book =
+                                new ItemDescriptionBook(Plugin.getInstance().getBookManager(), getPlayer(), className, itemName);
+                        book.setBackAction(this::open);
+                        book.build();
+                        book.open();
+                    });
         }
         for (; index < 9; ++index) {
             addButton(index, 0, returnSlot, this::close);

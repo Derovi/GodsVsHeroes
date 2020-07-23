@@ -41,6 +41,9 @@ public class PlayerInfo {
     }
 
     public int getItemLevel(String className, String item) {
+        if (!classes.containsKey(className)) {
+            return 0;
+        }
         return classes.get(className).getOrDefault(item, 0);
     }
 

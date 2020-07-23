@@ -12,3 +12,4 @@ commands:
   bug:
     aliases: [bugreport]
   advice:
+  bookapi:

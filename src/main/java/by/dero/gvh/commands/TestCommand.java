@@ -1,5 +1,7 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.Plugin;
+import by.dero.gvh.bookapi.ItemDescriptionBook;
 import by.dero.gvh.fireworks.FireworkSpawner;
 import by.dero.gvh.model.Drawings;
 import org.bukkit.FireworkEffect;
@@ -13,8 +15,12 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] args) {
         Player player = (Player) commandSender;
-        FireworkSpawner.spawn(player.getLocation(), FireworkEffect.builder().withColor(
-                Drawings.colors[(int)(Math.random()*Drawings.colors.length)]).flicker(true).build(), player);
+        ItemDescriptionBook book = new ItemDescriptionBook(Plugin.getInstance().getBookManager(),
+                player, "paladin", "swordthrow");
+        book.build();
+        book.open();
+        //FireworkSpawner.spawn(player.getLocation(), FireworkEffect.builder().withColor(
+        //        Drawings.colors[(int)(Math.random()*Drawings.colors.length)]).flicker(true).build(), player);
         //Location location = player.getLocation();
         //double yaw = Math.toRadians(location.getYaw());
         //location.add(-Math.sin(yaw) * 1.2, 0, Math.cos(yaw) * 1.2);

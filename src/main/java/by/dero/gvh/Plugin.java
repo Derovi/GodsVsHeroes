@@ -1,5 +1,6 @@
 package by.dero.gvh;
 
+import by.dero.gvh.bookapi.BookManager;
 import by.dero.gvh.commands.AdviceCommand;
 import by.dero.gvh.commands.BugCommand;
 import by.dero.gvh.commands.TestCommand;
@@ -48,6 +49,7 @@ public class Plugin extends JavaPlugin implements Listener {
     private ServerData serverData;
     private ReportData reportData;
     private PluginMode pluginMode;
+    private BookManager bookManager;
     private Settings settings;
     private Lang lang;
 
@@ -127,6 +129,7 @@ public class Plugin extends JavaPlugin implements Listener {
         new MathUtils();
         AdvancementDataWorld.REGISTRY.advancements.clear();
         AdvancementDataWorld.REGISTRY.c.clear();
+        bookManager = new BookManager();
     }
 
     @Override
@@ -165,6 +168,10 @@ public class Plugin extends JavaPlugin implements Listener {
 
     public PluginMode getPluginMode() {
         return pluginMode;
+    }
+
+    public BookManager getBookManager() {
+        return bookManager;
     }
 
     @EventHandler

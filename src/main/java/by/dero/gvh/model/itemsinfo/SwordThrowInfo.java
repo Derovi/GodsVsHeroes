@@ -7,10 +7,17 @@ import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.annotations.CustomDamage;
 import by.dero.gvh.model.annotations.DynamicCustomization;
+import by.dero.gvh.nmcapi.NMCUtils;
 import by.dero.gvh.utils.GameUtils;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.NBTTagInt;
+import net.minecraft.server.v1_12_R1.NBTTagList;
+import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.lang.reflect.Field;
 
 public class SwordThrowInfo extends ItemInfo {
     private double damage;
@@ -23,7 +30,19 @@ public class SwordThrowInfo extends ItemInfo {
         if (Plugin.getInstance().getPluginMode() instanceof Minigame &&
                 Game.getInstance().getState().equals(Game.State.GAME) &&
                 GameUtils.getPlayer(player.getName()).isUltimateBuf()) {
-            itemStack.setType(Material.DIAMOND_SWORD);
+                itemStack.setType(Material.DIAMOND_SWORD);
+                NBTTagCompound compound = NMCUtils.getNBT(itemStack);
+                NBTTagList modifiers = new NBTTagList();
+                NBTTagCompound damage = new NBTTagCompound();
+                damage.set("AttributeName", new NBTTagString("generic.attackDamage"));
+                damage.set("Name", new NBTTagString("generic.attackDamage"));
+                damage.set("Amount", new NBTTagInt(getMeleeDamage()));
+                damage.set("Operation", new NBTTagInt(0));
+                damage.set("UUIDLeast", new NBTTagInt(894654));
+                damage.set("UUIDMost", new NBTTagInt(2872));
+                damage.set("Slot", new NBTTagString("mainhand"));
+                modifiers.add(damage);
+                compound.set("AttributeModifiers", modifiers);
         } else {
             itemStack.setType(info.getMaterial());
         }
