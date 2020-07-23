@@ -12,6 +12,12 @@ public class InterfaceUtils {
         meta.setDisplayName(name);
         itemStack.setItemMeta(meta);
     }
+
+    public static void changeLore(ItemStack itemStack, List<String> lore) {
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.setLore(lore);
+        itemStack.setItemMeta(meta);
+    }
     
     public static String removeColors(String str) {
         StringBuilder builder = new StringBuilder();

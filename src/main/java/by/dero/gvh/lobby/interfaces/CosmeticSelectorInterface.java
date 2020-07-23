@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class CosmeticSelectorInterface extends Interface {
 	public CosmeticSelectorInterface(InterfaceManager manager, Player player) {
@@ -26,20 +27,27 @@ public class CosmeticSelectorInterface extends Interface {
 		ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
 		InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
 		ItemStack common = GameUtils.getHead(player);
-		InterfaceUtils.changeName(common, Lang.get("cosmetic.common"));
+		InterfaceUtils.changeName(common, "§9" + Lang.get("classes.all"));
+		InterfaceUtils.changeLore(common, Collections.singletonList("§aНажмите, чтобы открыть"));
 
 
 		addButton(0, getHeight() - 1, common, () -> {
 			CosmeticInterface interfaceObject = new AllCosmetic(Lobby.getInstance().getInterfaceManager(),
 					getPlayer(), "all");
+			interfaceObject.setOnBackButton(() -> {
+				interfaceObject.close();
+				open();
+			});
 			interfaceObject.open();
 		});
 		int x = 2, y = getHeight() - 1;
 		for (UnitClassDescription desc : classes) {
 			ItemStack head = Heads.getHead(desc.getName());
-			InterfaceUtils.changeName(head, "§a" + Lang.get("classes." + desc.getName()));
+			InterfaceUtils.changeName(head, "§9" + Lang.get("classes." + desc.getName()));
+			InterfaceUtils.changeLore(head, Collections.singletonList("§aОткрыть"));
 			if (!CosmeticInterfaces.exists(desc.getName())) {
-				InterfaceUtils.changeName(head, Lang.get("interfaces.soon"));
+				InterfaceUtils.changeName(head, "§9" + Lang.get("classes." + desc.getName()));
+				InterfaceUtils.changeLore(head, Collections.singletonList("§cСкоро"));
 				addItem(x, y, head);
 			} else addButton(x, y, head, () -> {
 				try {
@@ -47,6 +55,10 @@ public class CosmeticSelectorInterface extends Interface {
 					CosmeticInterface interfaceObject = interfaceClass.getConstructor(InterfaceManager.class,
 							Player.class, String.class).newInstance(Lobby.getInstance().getInterfaceManager(),
 							getPlayer(), desc.getName());
+					interfaceObject.setOnBackButton(() -> {
+						interfaceObject.close();
+						open();
+					});
 					interfaceObject.open();
 				} catch (Exception ex) {
 					ex.printStackTrace();
