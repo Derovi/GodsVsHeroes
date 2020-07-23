@@ -17,10 +17,9 @@
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
   },
   "cosmetic": {
-    "title" : {
-      "selector": "§aМеню косметики",
-      "common": "§aОбщее"
-    }
+    "common": "§aОбщее",
+    "try": "§aПопробовать",
+    "buy": "§aКупить"
   },
   "items": {
     "axethrow": "Топор",
