@@ -73,18 +73,21 @@ public class SwordThrow extends Item implements PlayerInteractInterface {
                     Sound.BLOCK_SHULKER_BOX_OPEN, 1.07f, 1);
         });
         sword.setOnOwnerPickUp(() -> {
+            if (ownerGP.isInventoryHided()) {
+                ownerGP.getContents()[0] = getItemStack();
+            } else
             if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
                 owner.getInventory().setItem(slot, getItemStack());
-                owner.getInventory().getItem(slot).setAmount(1);
             }
             sword.remove();
         });
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+                if (ownerGP.isInventoryHided()) {
+                    ownerGP.getContents()[0] = getItemStack();
+                } else if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
                     owner.getInventory().setItem(slot, getItemStack());
-                    owner.getInventory().getItem(slot).setAmount(1);
                 }
                 sword.remove();
             }

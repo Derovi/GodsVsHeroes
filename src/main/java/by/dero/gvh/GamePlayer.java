@@ -7,6 +7,8 @@ import by.dero.gvh.model.interfaces.DoubleHanded;
 import by.dero.gvh.nmcapi.NMCUtils;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.GameUtils;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,6 +25,8 @@ public class GamePlayer extends GameObject {
     private final HashMap<String, Item> items = new HashMap<>();
     private Item lastUsed;
     private boolean actionBarBlocked = false;
+    @Getter
+    @Setter
     private ItemStack[] contents = null;
     private boolean disabled = false;
     private boolean ultimateBuf = false;

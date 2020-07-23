@@ -73,6 +73,9 @@ public class AxeThrow extends Item implements PlayerInteractInterface {
                     Sound.BLOCK_SHULKER_BOX_OPEN, 1.07f, 1);
         });
         axe.setOnOwnerPickUp(() -> {
+            if (ownerGP.isInventoryHided()) {
+                ownerGP.getContents()[0] = getItemStack();
+            } else
             if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
                 owner.getInventory().setItem(slot, getItemStack());
                 owner.getInventory().getItem(slot).setAmount(1);
@@ -82,6 +85,9 @@ public class AxeThrow extends Item implements PlayerInteractInterface {
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
+                if (ownerGP.isInventoryHided()) {
+                    ownerGP.getContents()[0] = getItemStack();
+                } else
                 if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
                     owner.getInventory().setItem(slot, getItemStack());
                     owner.getInventory().getItem(slot).setAmount(1);
