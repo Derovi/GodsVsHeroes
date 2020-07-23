@@ -16,6 +16,6 @@ public class CosmeticInterfaces {
     }
 
     static {
-        interfaces.put("horseman", AllCosmetic.class);
+        interfaces.put("horseman", HorsemanCosmetic.class);
     }
 }

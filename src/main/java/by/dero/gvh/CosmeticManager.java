@@ -20,6 +20,7 @@ public class CosmeticManager {
         register(CosmeticInfo.builder()
                 .name("headDrop")
                 .hero("all")
+                .rarity(CosmeticInfo.Rarity.MYTHICAL)
                 .material(Material.DIAMOND)
                 .displayName("Падающие головы")
                 .cost(50)

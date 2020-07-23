@@ -16,6 +16,14 @@ public class CosmeticInfo {
         void customize(ItemStack itemStack);
     }
 
+    public enum Rarity {
+        UNCOMMON, RARE, MYTHICAL, LEGENDARY, IMMORTAL;
+
+        public String getName() {
+            return Lang.get("rarity." + toString().toLowerCase());
+        }
+    }
+
     @Getter
     @Setter
     @Builder.Default
@@ -54,6 +62,11 @@ public class CosmeticInfo {
     @Builder.Default
     private int cost = 0;
 
+    @Getter
+    @Setter
+    @Builder.Default
+    private Rarity rarity = Rarity.UNCOMMON;
+
     public ItemStack getItemStack() {
         return getItemStack(false);
     }
@@ -63,8 +76,9 @@ public class CosmeticInfo {
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(name);
         List<String> lore = new ArrayList<>(description);
+        lore.add("");
+        lore.add("§fРедкость: " + rarity.getName());
         if (addCost) {
-            lore.add("");
             lore.add("§fЦена: §b%cost% кристалликов".replace("%cost%", Integer.toString(cost)));
         }
         meta.setLore(lore);
