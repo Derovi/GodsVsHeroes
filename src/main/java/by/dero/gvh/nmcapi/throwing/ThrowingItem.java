@@ -115,6 +115,7 @@ public class ThrowingItem extends EntityArmorStand {
             return;
         }
         stopped = true;
+        setMarker(true);
         new BukkitRunnable() {
             @Override
             public void run() {

@@ -1,9 +1,11 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.FlyingText;
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.MessagingUtils;
 import by.dero.gvh.utils.Position;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -39,6 +41,7 @@ public class LootsManager implements Listener {
         private final String updateText;
         private final Location loc;
         private Long lastUsed = 0L;
+        private final String statusMsg;
 
         private final ArrayList<Integer> updateIdxs = new ArrayList<>();
         public void update(String... args) {
@@ -54,11 +57,12 @@ public class LootsManager implements Listener {
             text.setText(result);
         }
 
-        public LootsNode(Location loc, PotionEffect effect, String headName, String text) {
+        public LootsNode(Location loc, PotionEffect effect, String headName, String text, String statusMsg) {
             this.updateText = text;
             this.loc = loc.clone();
             this.text = new FlyingText(loc.clone().add(0, 1.5, 0), "");
             this.effect = effect;
+            this.statusMsg = statusMsg;
             EntityArmorStand ent = new EntityArmorStand(((CraftWorld) loc.getWorld()).getHandle(),
                     loc.x, loc.y - GameUtils.eyeHeight + 0.3, loc.z);
             stand = (CraftArmorStand) ent.getBukkitEntity();
@@ -94,6 +98,16 @@ public class LootsManager implements Listener {
             };
             runnable.runTaskLater(Plugin.getInstance(), cooldown);
             Game.getInstance().getRunnables().add(runnable);
+            GamePlayer gp = GameUtils.getPlayer(player.getName());
+            gp.setActionBarBlocked(true);
+            MessagingUtils.sendActionBar(statusMsg, player);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    gp.setActionBarBlocked(false);
+                }
+            }.runTaskLater(Plugin.getInstance(), 40);
+        
         }
 
         public void unload() {
@@ -124,16 +138,22 @@ public class LootsManager implements Listener {
 
         GameInfo info = Game.getInstance().getInfo();
         for (final Position pos : info.getHealPoints()) {
-            loots.add(new LootsNode(pos.toLocation(Minigame.getInstance().getGame().getWorld()), new PotionEffect(PotionEffectType.HEAL, 1, 10),
-                    "heal", Lang.get("loots.labelHeal").replace("%pts%",  "10")));
+            loots.add(new LootsNode(pos.toLocation(Minigame.getInstance().getGame().getWorld()),
+                    new PotionEffect(PotionEffectType.HEAL, 1, 2),
+                    "heal", Lang.get("loots.labelHeal").replace("%pts%",  "8"),
+                    Lang.get("loots.statusHeal").replace("%amount%", "8")));
         }
         for (final Position pos : info.getSpeedPoints()) {
-            loots.add(new LootsNode(pos.toLocation(Minigame.getInstance().getGame().getWorld()), new PotionEffect(PotionEffectType.SPEED, 240, 2),
-                    "speed", Lang.get("loots.labelReady")));
+            loots.add(new LootsNode(pos.toLocation(Minigame.getInstance().getGame().getWorld()),
+                    new PotionEffect(PotionEffectType.SPEED, 240, 2),
+                    "speed", Lang.get("loots.labelReady"),
+                    Lang.get("loots.statusSpeed").replace("%amount%", "12")));
         }
         for (final Position pos : info.getResistancePoints()) {
-            loots.add(new LootsNode(pos.toLocation(Minigame.getInstance().getGame().getWorld()), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 240, 1),
-                    "resistance", Lang.get("loots.labelReady")));
+            loots.add(new LootsNode(pos.toLocation(Minigame.getInstance().getGame().getWorld()),
+                    new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 160, 1),
+                    "resistance", Lang.get("loots.labelReady"),
+                    Lang.get("loots.statusResistance").replace("%amount%", "8")));
         }
     }
 
