@@ -9,46 +9,46 @@
   "slot": 0,
   "levels": [
     {
-      "damage": 13,
+      "damage": 8,
       "duration": 40,
       "speed": 1,
-      "cooldown": 120,
+      "cooldown": 80,
       "cost": 80,
       "material": "SHIELD",
       "amount": 1
     },
     {
-      "damage": 13,
+      "damage": 8,
       "duration": 40,
       "speed": 1,
-      "cooldown": 115,
+      "cooldown": 75,
       "cost": 100,
       "material": "SHIELD",
       "amount": 1
     },
     {
-      "damage": 14,
+      "damage": 9,
       "duration": 60,
       "speed": 1,
-      "cooldown": 110,
+      "cooldown": 70,
       "cost": 130,
       "material": "SHIELD",
       "amount": 1
     },
     {
-      "damage": 14,
+      "damage": 9,
       "duration": 60,
       "speed": 1,
-      "cooldown": 105,
+      "cooldown": 65,
       "cost": 160,
       "material": "SHIELD",
       "amount": 1
     },
     {
-      "damage": 15,
+      "damage": 10,
       "duration": 60,
       "speed": 1,
-      "cooldown": 100,
+      "cooldown": 60,
       "cost": 200,
       "material": "SHIELD",
       "amount": 1

@@ -246,7 +246,8 @@ public class GameUtils {
     public static List<LivingEntity> getNearby(final Location wh, final double radius) {
         final List<LivingEntity> buf = new ArrayList<>();
         for (Entity ent : Objects.requireNonNull(wh.getWorld()).getNearbyEntities(wh, radius, radius, radius)) {
-            if (ent instanceof LivingEntity && ent.getLocation().distance(wh) <= radius && !isDeadPlayer(ent)) {
+            if (ent instanceof LivingEntity && ent.getLocation().add(0, ent.getHeight() / 2, 0).distance(wh) <= radius &&
+                    !isDeadPlayer(ent)) {
                 buf.add((LivingEntity) ent);
             }
         }
