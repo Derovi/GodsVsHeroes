@@ -133,6 +133,7 @@ public class Plugin extends JavaPlugin implements Listener {
         AdvancementDataWorld.REGISTRY.advancements.clear();
         AdvancementDataWorld.REGISTRY.c.clear();
         bookManager = new BookManager();
+        customizationManager = new CustomizationManager();
     }
 
     @Override
