@@ -7,6 +7,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.nmcapi.NMCUtils;
+import by.dero.gvh.utils.CosmeticsUtils;
 import by.dero.gvh.utils.Dwelling;
 import by.dero.gvh.utils.GameUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -359,9 +360,13 @@ public class GameEvents implements Listener {
             kil = player.getKiller();
         }
         assists.remove(kil);
-        for (PlayerKillInterface item : GameUtils.selectItems(GameUtils.getPlayer(kil.getName()), PlayerKillInterface.class)) {
-            item.onPlayerKill(player);
+        if (!kil.equals(player)) {
+            CosmeticsUtils.dropHead(player, kil);
+            for (PlayerKillInterface item : GameUtils.selectItems(GameUtils.getPlayer(kil.getName()), PlayerKillInterface.class)) {
+                item.onPlayerKill(player);
+            }
         }
+        
         game.onPlayerKilled(player, kil, new ArrayList<>(assists));
         damageCause.remove(player);
     }

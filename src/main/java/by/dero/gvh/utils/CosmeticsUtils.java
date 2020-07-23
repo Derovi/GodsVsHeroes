@@ -10,8 +10,12 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CosmeticsUtils {
-	public static void dropHead(Player target) {
-		float speed = 540.0f;
+	public static final float speed = 540.0f;
+	
+	public static void dropHead(Player target, Player killer) {
+		if (!Plugin.getInstance().getCosmeticManager().isEnabled(killer, "headDrop")) {
+			return;
+		}
 		EntityArmorStand stand = new EntityArmorStand(((CraftWorld) target.getWorld()).getHandle(),
 				target.getLocation().getX(), target.getLocation().getY(), target.getLocation().getZ());
 		
