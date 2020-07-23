@@ -16,6 +16,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
+import lombok.Getter;
 import net.minecraft.server.v1_12_R1.AdvancementDataWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -50,6 +51,8 @@ public class Plugin extends JavaPlugin implements Listener {
     private ReportData reportData;
     private PluginMode pluginMode;
     private BookManager bookManager;
+    @Getter
+    private CustomizationManager customizationManager;
     private Settings settings;
     private Lang lang;
 

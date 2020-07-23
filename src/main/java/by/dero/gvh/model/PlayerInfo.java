@@ -8,6 +8,7 @@ import java.util.Map;
 public class PlayerInfo {
     private String name;
     private String selectedClass = "assassin";
+    private HashMap<String, Customization> customizations = new HashMap<>();
     private int balance = 100;
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
@@ -38,6 +39,16 @@ public class PlayerInfo {
 
     public void setItemLevel(String className, String item, int level) {
         classes.get(className).put(item, level);
+    }
+
+    public void unlockCustomization(String name) {
+    }
+
+    public void enableCustomization(String name) {
+        if (!customizations.containsKey(name)) {
+            return;
+        }
+        customizations.get(name).setEnabled(true);
     }
 
     public int getItemLevel(String className, String item) {
