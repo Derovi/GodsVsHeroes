@@ -1,9 +1,8 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.lobby.interfaces.CosmeticInterface;
 import by.dero.gvh.lobby.interfaces.cosmetic.AllCosmetic;
+import by.dero.gvh.lobby.interfaces.BuyCosmeticInterface;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
