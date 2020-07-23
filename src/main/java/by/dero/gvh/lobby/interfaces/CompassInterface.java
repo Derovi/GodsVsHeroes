@@ -67,7 +67,9 @@ public class CompassInterface extends Interface {
             if (!info.getStatus().equals(Game.State.WAITING.toString())) {
                 addItem(index % 9, getHeight() - 1 - index / 9, itemStack);
             } else {
-                addButton(index % 9, getHeight() - 1 - index / 9, itemStack, () -> BridgeUtils.redirectPlayer(getPlayer(), info.getName()));
+                if (getHeight() - 1 - index / 9 < height) {
+                    addButton(index % 9, getHeight() - 1 - index / 9, itemStack, () -> BridgeUtils.redirectPlayer(getPlayer(), info.getName()));
+                }
             }
             ++index;
         }

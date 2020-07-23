@@ -20,7 +20,9 @@
   "cosmetic": {
     "common": "§aОбщее",
     "try": "§aПопробовать",
-    "buy": "§aКупить"
+    "buy": "§aКупить",
+    "title": "§6Косметика",
+    "titleHero": "§6Косметика §8» §f%hero%"
   },
   "items": {
     "axethrow": "Топор",
@@ -283,6 +285,7 @@
   },
   "cosmetic": {
     "title": "§6Косметика",
-    "titleHero": "§6Косметика §8» §9%hero%"
+    "titleHero": "§6Косметика §8» §9%hero%",
+    "titleItem": "§6Косметика §8» §9%item%"
   }
 }

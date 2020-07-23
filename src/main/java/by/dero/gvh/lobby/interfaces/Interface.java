@@ -91,4 +91,8 @@ public class Interface {
     public int getHeight() {
         return height;
     }
+
+    public InterfaceManager getManager() {
+        return manager;
+    }
 }

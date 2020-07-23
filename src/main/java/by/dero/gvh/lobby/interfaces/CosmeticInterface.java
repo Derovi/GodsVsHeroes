@@ -78,10 +78,15 @@ public class CosmeticInterface extends Interface {
             if (state == 0) {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3);
                 runnable = () -> {
-                    playerInfo.unlockCosmetic(name);
-                    playerInfo.enableCosmetic(name);
-                    Plugin.getInstance().getPlayerData().savePlayerInfo(getPlayer().getName(), playerInfo);
-                    update();
+                    BuyCosmeticInterface buyCosmetic = new BuyCosmeticInterface(getManager(), getPlayer(), name);
+                    buyCosmetic.setOnBackButton(() -> {
+                        buyCosmetic.close();
+                        open();
+                    });
+                    buyCosmetic.open();
+                    //playerInfo.unlockCosmetic(name);
+                    //playerInfo.enableCosmetic(name);
+                    //Plugin.getInstance().getPlayerData().savePlayerInfo(getPlayer().getName(), playerInfo);
                 };
             } else if (state == 1) {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 7);

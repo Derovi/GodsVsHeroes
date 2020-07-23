@@ -1,5 +1,6 @@
 package by.dero.gvh.lobby.interfaces;
 
+import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Material;
@@ -7,8 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class BuyCosmeticInterface extends Interface {
+	private Runnable onBackButton = null;
+
 	public BuyCosmeticInterface(InterfaceManager manager, Player player, String cosmeticName) {
-		super(manager, player, 6, " ");
+		super(manager, player, 6,  Lang.get("cosmetic.titleItem").replace("%item%",
+				Plugin.getInstance().getCosmeticManager().getCustomizations().get(cosmeticName).getDisplayName()));
 		
 		String[] pattern = {
 				"EEEEIEEEE",
@@ -32,12 +36,26 @@ public class BuyCosmeticInterface extends Interface {
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 6; y++) {
 				switch (pattern[y].charAt(x)) {
-					case 'I' : addItem(x, y, new ItemStack(Material.DIAMOND_SWORD)); break;
-					case 'R' : addButton(x, y, returnItem, this::close); break;
+					case 'I' : addItem(x, y, Plugin.getInstance().getCosmeticManager()
+							.getCustomizations().get(cosmeticName).getItemStack(true)); break;
+					case 'R' : addButton(x, y, returnItem, () -> {
+						if (onBackButton != null) {
+							onBackButton.run();
+						}
+					}); break;
 					case 'G' : addButton(x, y, buyItem, onBuy); break;
 					case 'V' : addButton(x, y, tryItem, onTry); break;
 				}
 			}
 		}
+	}
+
+	public Runnable getOnBackButton() {
+		return onBackButton;
+	}
+
+	public BuyCosmeticInterface setOnBackButton(Runnable onBackButton) {
+		this.onBackButton = onBackButton;
+		return this;
 	}
 }
