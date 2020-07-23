@@ -169,6 +169,9 @@ public abstract class Game implements Listener {
         if (!isMapPrepared()) {
             prepareMap(lobby.getSelectedMap());
         }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Plugin.getInstance().getCustomizationManager().loadPlayer(player);
+        }
         mapManager = new MapManager(world);
         deathAdviceManager = new DeathAdviceManager();
         if (state == State.GAME) {

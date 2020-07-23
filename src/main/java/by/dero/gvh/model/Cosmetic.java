@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Customization {
+public class Cosmetic {
     @Getter
     @Setter
     @SerializedName("_id")
     private String name;
 
-    public Customization(String name) {
+    public Cosmetic(String name) {
         this.name = name;
     }
 

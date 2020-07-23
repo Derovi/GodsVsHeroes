@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Builder
-public class CustomizationInfo {
+public class CosmeticInfo {
     public interface ItemStackCustomizer {
         void customize(ItemStack itemStack);
     }
@@ -55,12 +55,18 @@ public class CustomizationInfo {
     private int cost = 0;
 
     public ItemStack getItemStack() {
+        return getItemStack(false);
+    }
+
+    public ItemStack getItemStack(boolean addCost) {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(name);
         List<String> lore = new ArrayList<>(description);
-        lore.add("");
-        lore.add("§fЦена: §b%cost% кристалликов".replace("%cost%", Integer.toString(cost)));
+        if (addCost) {
+            lore.add("");
+            lore.add("§fЦена: §b%cost% кристалликов".replace("%cost%", Integer.toString(cost)));
+        }
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
         if (customizer != null) {

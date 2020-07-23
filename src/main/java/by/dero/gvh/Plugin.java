@@ -26,7 +26,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.karma.IKarmaService;
 import ru.cristalix.core.karma.KarmaService;
@@ -52,7 +51,7 @@ public class Plugin extends JavaPlugin implements Listener {
     private PluginMode pluginMode;
     private BookManager bookManager;
     @Getter
-    private CustomizationManager customizationManager;
+    private CosmeticManager customizationManager;
     private Settings settings;
     private Lang lang;
 
@@ -133,7 +132,7 @@ public class Plugin extends JavaPlugin implements Listener {
         AdvancementDataWorld.REGISTRY.advancements.clear();
         AdvancementDataWorld.REGISTRY.c.clear();
         bookManager = new BookManager();
-        customizationManager = new CustomizationManager();
+        customizationManager = new CosmeticManager();
     }
 
     @Override

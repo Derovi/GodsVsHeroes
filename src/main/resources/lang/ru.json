@@ -213,6 +213,7 @@
     "bestDamageTaken": "§aМеньше всего получил урона §8» §9%pl%"
   },
   "classes": {
+    "all": "Общее",
     "alchemist": "Алхимик",
     "archer": "Лучник",
     "eyre": "Эйр",
