@@ -16,6 +16,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
+import lombok.Getter;
 import net.minecraft.server.v1_12_R1.AdvancementDataWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -25,7 +26,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.karma.IKarmaService;
 import ru.cristalix.core.karma.KarmaService;
@@ -50,6 +50,8 @@ public class Plugin extends JavaPlugin implements Listener {
     private ReportData reportData;
     private PluginMode pluginMode;
     private BookManager bookManager;
+    @Getter
+    private CosmeticManager cosmeticManager;
     private Settings settings;
     private Lang lang;
 
@@ -130,6 +132,7 @@ public class Plugin extends JavaPlugin implements Listener {
         AdvancementDataWorld.REGISTRY.advancements.clear();
         AdvancementDataWorld.REGISTRY.c.clear();
         bookManager = new BookManager();
+        cosmeticManager = new CosmeticManager();
     }
 
     @Override
