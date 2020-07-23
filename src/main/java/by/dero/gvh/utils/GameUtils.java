@@ -186,15 +186,15 @@ public class GameUtils {
     }
     
     public static void stunMessage(GamePlayer player, int duration) {
-        player.setActionBarBlocked(true);
         MessagingUtils.sendSubtitle(Lang.get("game.stunMessage"), player.getPlayer(), 0, duration, 0);
-        new BukkitRunnable() {
+        BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                player.setActionBarBlocked(false);
+                MessagingUtils.sendSubtitle(" ", player.getPlayer(), 0, 20, 0);
             }
-        }.runTaskLater(Plugin.getInstance(), duration);
-    
+        };
+        runnable.runTaskLater(Plugin.getInstance(), duration);
+        Game.getInstance().getRunnables().add(runnable);
     }
 
     public static ArrayList<GameObject> getGameObjects() {

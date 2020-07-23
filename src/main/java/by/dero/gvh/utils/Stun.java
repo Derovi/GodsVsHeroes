@@ -20,7 +20,7 @@ public class Stun {
         GamePlayer gp = null;
         if (isPlayer) {
             gp = GameUtils.getPlayer(p.getName());
-            GameUtils.stunMessage(gp, latency - 20);
+            GameUtils.stunMessage(gp, latency);
             gp.setDisabled(true);
         }
         IDisplayService.get().sendMovementInput(p.getUniqueId(), MovementInput.builder().

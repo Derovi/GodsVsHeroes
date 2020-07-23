@@ -315,8 +315,7 @@ public abstract class Game implements Listener {
     public void onPlayerKilled(Player player, Player killer, Collection<Player> assists) {
         try {
             if (!player.equals(killer)) {
-                rewardManager.give("killEnemy", killer,
-                        rewardManager.getMessage("killEnemy").replace("%enemy%", player.getName()));
+                rewardManager.give("killEnemy", killer, "");
 
                 MessagingUtils.sendSubtitle(Lang.get("rewmes.kill").
                                 replace("%exp%", Integer.toString(rewardManager.get("killEnemy").getCount()))
@@ -334,9 +333,8 @@ public abstract class Game implements Listener {
                         replace("%tarCode%", tarCode).replace("%tarClass%", tarClass).replace("%target%", player.getName()));
 
                 if (assists != null) {
-                    String msg = rewardManager.getMessage("assist").replace("%enemy%", player.getName());
                     for (Player pl : assists) {
-                        rewardManager.give("assist", pl, msg);
+                        rewardManager.give("assist", pl, "");
                         MessagingUtils.sendSubtitle(Lang.get("rewmes.assist").
                                         replace("%exp%", Integer.toString(rewardManager.get("assist").getCount()))
                                 .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
