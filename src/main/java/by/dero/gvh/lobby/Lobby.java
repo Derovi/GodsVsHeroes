@@ -4,6 +4,7 @@ import by.dero.gvh.AdviceManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
+import by.dero.gvh.lobby.interfaces.CosmeticSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
@@ -38,6 +39,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -65,12 +67,18 @@ public class Lobby implements PluginMode, Listener {
     private final String worldName = "Lobby";
     private World world;
     private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
+    private final static ItemFunc[] activates = new ItemFunc[9];
     private MonumentManager monumentManager;
     private InterfaceManager interfaceManager;
     private PortalManager portalManager;
     private final List<BukkitRunnable> runnables = new ArrayList<>();
     private final HashMap<String, LobbyPlayer> players = new HashMap<>();
     private final HashSet<UUID> hidePlayers = new HashSet<>();
+    
+    @FunctionalInterface
+    private interface ItemFunc {
+        void run(Player player);
+    }
     
     @Override
     public void onEnable() {
@@ -148,7 +156,9 @@ public class Lobby implements PluginMode, Listener {
             Player p = e.getPlayer();
             updateHolograms(p);
            // }
-        }, EventPriority.MONITOR, true);;
+        }, EventPriority.MONITOR, true);
+        
+        initItems();
     }
 
     private void registerEvents() {
@@ -275,12 +285,62 @@ public class Lobby implements PluginMode, Listener {
                 StringDrawData.builder().align(1).scale(4).string("test").position(new V2(135, 10)).build()
         );
     }
-
-    private static ItemStack compassitem;
-    private static ItemStack hideitem;
-    private static ItemStack showitem;
+    
+    private static ItemStack compassitem = null;
+    private static ItemStack cosmeticitem = null;
+    private static ItemStack hideitem = null;
+    private static ItemStack showitem = null;
+    
+    private void initItems() {
+        compassitem = new ItemStack(Material.COMPASS);
+        ItemMeta meta = compassitem.getItemMeta();
+        meta.setDisplayName(Lang.get("lobby.compass"));
+        compassitem.setItemMeta(meta);
+        activates[0] = player -> {
+            CompassInterface compassInterface = new CompassInterface(
+                    Lobby.getInstance().getInterfaceManager(), player);
+            compassInterface.open();
+        };
+    
+        showitem = new ItemStack(Material.EYE_OF_ENDER);
+        meta = showitem.getItemMeta();
+        meta.setDisplayName(Lang.get("lobby.showPlayers"));
+        showitem.setItemMeta(meta);
+    
+        hideitem = new ItemStack(Material.ENDER_PEARL);
+        meta = hideitem.getItemMeta();
+        meta.setDisplayName(Lang.get("lobby.hidePlayers"));
+        hideitem.setItemMeta(meta);
+        activates[8] = player -> {
+            if (hidePlayers.contains(player.getUniqueId())) {
+                hidePlayers.remove(player.getUniqueId());
+                player.getInventory().setItem(8, hideitem);
+                for (Player other : Bukkit.getOnlinePlayers()) {
+                    player.showPlayer(Plugin.getInstance(), other);
+                }
+            } else {
+                hidePlayers.add(player.getUniqueId());
+                player.getInventory().setItem(8, showitem);
+                for (Player other : Bukkit.getOnlinePlayers()) {
+                    player.hidePlayer(Plugin.getInstance(), other);
+                }
+            }
+        };
+        
+        cosmeticitem = new ItemStack(Material.EMERALD);
+        meta = cosmeticitem.getItemMeta();
+        meta.setDisplayName(Lang.get("lobby.cosmetics"));
+        cosmeticitem.setItemMeta(meta);
+        
+        activates[4] = player -> {
+            CosmeticSelectorInterface inter = new CosmeticSelectorInterface(interfaceManager, player);
+            inter.open();
+        };
+    }
+    
     public void playerJoined(Player player) {
-        player.getInventory().setHeldItemSlot(0);
+        PlayerInventory inv = player.getInventory();
+        inv.setHeldItemSlot(0);
         player.setGameMode(GameMode.ADVENTURE);
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
         lobbyPlayer.loadInfo();
@@ -307,28 +367,13 @@ public class Lobby implements PluginMode, Listener {
             }
         }
         
-        player.getInventory().clear();
-        if (compassitem == null) {
-            compassitem = new ItemStack(Material.COMPASS);
-            ItemMeta meta = compassitem.getItemMeta();
-            meta.setDisplayName(Lang.get("lobby.compass"));
-            compassitem.setItemMeta(meta);
-            
-            showitem = new ItemStack(Material.EYE_OF_ENDER);
-            ItemMeta meta1 = showitem.getItemMeta();
-            meta1.setDisplayName(Lang.get("lobby.showPlayers"));
-            showitem.setItemMeta(meta1);
-            
-            hideitem = new ItemStack(Material.ENDER_PEARL);
-            ItemMeta meta2 = hideitem.getItemMeta();
-            meta2.setDisplayName(Lang.get("lobby.hidePlayers"));
-            hideitem.setItemMeta(meta2);
-        }
-        player.getInventory().setItem(0, compassitem);
+        inv.clear();
+        inv.setItem(0, compassitem);
+        inv.setItem(4, cosmeticitem);
         if (hidePlayers.contains(player.getUniqueId())) {
-            player.getInventory().setItem(8, showitem);
+            inv.setItem(8, showitem);
         } else {
-            player.getInventory().setItem(8, hideitem);
+            inv.setItem(8, hideitem);
         }
         AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
                 (pl) -> (!players.containsKey(pl.getName()) || players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
@@ -343,7 +388,7 @@ public class Lobby implements PluginMode, Listener {
         activeLobbies.remove(player.getName());
         players.remove(player.getName());
     }
-
+    
     private Position getNextLobbyPosition(Position position) {
         int xIdx = (int) position.getX() / 96;
         int yIdx = (int) position.getZ() / 96;
@@ -450,27 +495,9 @@ public class Lobby implements PluginMode, Listener {
         }
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
             event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            switch (event.getPlayer().getInventory().getHeldItemSlot()) {
-                case 0:
-                    CompassInterface compassInterface = new CompassInterface(
-                            Lobby.getInstance().getInterfaceManager(), player);
-                    compassInterface.open();
-                    break;
-                case 8:
-                    if (hidePlayers.contains(player.getUniqueId())) {
-                        hidePlayers.remove(player.getUniqueId());
-                        player.getInventory().setItem(8, hideitem);
-                        for (Player other : Bukkit.getOnlinePlayers()) {
-                            player.showPlayer(Plugin.getInstance(), other);
-                        }
-                    } else {
-                        hidePlayers.add(player.getUniqueId());
-                        player.getInventory().setItem(8, showitem);
-                        for (Player other : Bukkit.getOnlinePlayers()) {
-                            player.hidePlayer(Plugin.getInstance(), other);
-                        }
-                    }
-                    break;
+            int slot = player.getInventory().getHeldItemSlot();
+            if (activates[slot] != null) {
+                activates[slot].run(player);
             }
             event.setCancelled(true);
         }
