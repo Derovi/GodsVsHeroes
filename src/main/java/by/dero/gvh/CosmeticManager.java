@@ -18,7 +18,7 @@ public class CosmeticManager {
     public CosmeticManager() {
         // register heads
         register(CosmeticInfo.builder()
-                .name("heads")
+                .name("head_drop")
                 .hero("all")
                 .material(Material.DIAMOND)
                 .displayName("Падающие головы")

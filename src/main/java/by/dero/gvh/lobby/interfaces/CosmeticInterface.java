@@ -64,7 +64,7 @@ public class CosmeticInterface extends Interface {
         Map<String, Cosmetic> customizations = playerInfo.getCosmetics();
         for (CosmeticButton button : cosmeticButtons) {
             String name = button.getCosmeticName();
-            CosmeticInfo info = Plugin.getInstance().getCustomizationManager().getCustomizations().get(name);
+            CosmeticInfo info = Plugin.getInstance().getCosmeticManager().getCustomizations().get(name);
             ItemStack item = info.getItemStack();
             ItemStack subItem;
             int state = 0;

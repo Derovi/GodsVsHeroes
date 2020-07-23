@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public class AllCosmetic extends CosmeticInterface {
     public AllCosmetic(InterfaceManager manager, Player player, String className) {
         super(manager, player, className);
-        registerCosmetic(new CosmeticButton(3, 3, "heads"));
+        registerCosmetic(new CosmeticButton(3, 3, "head_drop"));
         update();
     }
 }

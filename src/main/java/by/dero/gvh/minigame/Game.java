@@ -170,7 +170,7 @@ public abstract class Game implements Listener {
             prepareMap(lobby.getSelectedMap());
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
-            Plugin.getInstance().getCustomizationManager().loadPlayer(player);
+            Plugin.getInstance().getCosmeticManager().loadPlayer(player);
         }
         mapManager = new MapManager(world);
         deathAdviceManager = new DeathAdviceManager();

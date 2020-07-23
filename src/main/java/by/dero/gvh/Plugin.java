@@ -51,7 +51,7 @@ public class Plugin extends JavaPlugin implements Listener {
     private PluginMode pluginMode;
     private BookManager bookManager;
     @Getter
-    private CosmeticManager customizationManager;
+    private CosmeticManager cosmeticManager;
     private Settings settings;
     private Lang lang;
 
@@ -132,7 +132,7 @@ public class Plugin extends JavaPlugin implements Listener {
         AdvancementDataWorld.REGISTRY.advancements.clear();
         AdvancementDataWorld.REGISTRY.c.clear();
         bookManager = new BookManager();
-        customizationManager = new CosmeticManager();
+        cosmeticManager = new CosmeticManager();
     }
 
     @Override
