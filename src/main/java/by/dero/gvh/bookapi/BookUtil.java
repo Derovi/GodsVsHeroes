@@ -32,8 +32,7 @@ public final class BookUtil {
         }
         canTranslateDirectly = success;
     }
-
-
+    
     /**
      * Opens a book GUI to the player
      * @param p the player

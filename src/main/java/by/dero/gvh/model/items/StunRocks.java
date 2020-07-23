@@ -46,7 +46,7 @@ public class StunRocks extends Item implements InfiniteReplenishInterface,
         loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 1);
 
         loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 0.8f, 1);
-        for (final LivingEntity entity : GameUtils.getNearby(event.getEntity().getLocation(), 2)) {
+        for (final LivingEntity entity : GameUtils.getNearby(loc, 2)) {
             if (GameUtils.isEnemy(entity, getTeam())) {
                 GameUtils.damage(damage, entity, owner);
                 Stun.stunEntity(entity, duration);

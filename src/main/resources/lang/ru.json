@@ -192,6 +192,9 @@
     "progressReach": "%command% §aнабрали %pts%%"
   },
   "loots": {
+    "statusSpeed": "§aСкорость §8» §6%amount% §aсек.",
+    "statusHeal": "§aЛечение §8» §6%amount%§c❤",
+    "statusResistance": "§aСопротивление §8» §6%amount% §aсек.",
     "labelHeal": "§aГотово! %pts%§c❤",
     "labelCooldown": "§cПерезаряжается! Осталось %time%",
     "labelReady": "§aГотово!"

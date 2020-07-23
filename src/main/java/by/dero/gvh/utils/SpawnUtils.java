@@ -141,7 +141,7 @@ public class SpawnUtils {
 		EntitySkeletonAbstract handle = skeleton.getHandle();
 		handle.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(attackDamage);
 		//armor
-		handle.getAttributeInstance(GenericAttributes.i).setValue(10);
+		handle.getAttributeInstance(GenericAttributes.i).setValue(20);
 		handle.getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(100);
 		handle.getAttributeInstance(GenericAttributes.maxHealth).setValue(hp);
 		handle.setHealth(hp);
