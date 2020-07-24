@@ -6,6 +6,7 @@ import by.dero.gvh.minigame.GameInfo;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
+import by.dero.gvh.stats.GamePlayerStats;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.MessagingUtils;
@@ -88,15 +89,15 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
                             " (" + (int) ((double) currentEtherCount[team] / etherCaptureInfo.getEtherToWin() * 100) + "%)");
         }
         for (final GamePlayer gp : getPlayers().values()) {
+            GamePlayerStats stats = this.stats.getPlayers().get(gp.getPlayer().getName());
             str[cnt] = Lang.get("commands.playingFor").
                     replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
             str[cnt+1] = " ";
 //            str[cnt+2] = Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()));
-            String name = gp.getPlayer().getName();
-            str[cnt+2] = Lang.get("game.expGained").replace("%exp%", String.valueOf(stats.getExpGained(name)));
-            str[cnt+3] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills(name)));
-            str[cnt+4] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists(name)));
-            str[cnt+5] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths(name)));
+            str[cnt+2] = Lang.get("game.expGained").replace("%exp%", String.valueOf(stats.getExpGained()));
+            str[cnt+3] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills()));
+            str[cnt+4] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists()));
+            str[cnt+5] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths()));
             str[cnt+6] = " ";
             str[cnt+7] = Lang.get("game.online").replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
 
@@ -177,9 +178,9 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void onPlayerKilled(Player player, Player killer, Collection<Player> assists) {
+    public void onPlayerKilled(GamePlayer player, GamePlayer killer, Collection<GamePlayer> assists) {
         super.onPlayerKilled(player, killer, assists);
-        addEther(getPlayers().get(killer.getName()).getTeam(), etherCaptureInfo.getEtherForKill());
+        addEther(killer.getTeam(), etherCaptureInfo.getEtherForKill());
     }
 
     @EventHandler

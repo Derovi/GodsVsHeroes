@@ -1,7 +1,5 @@
 package by.dero.gvh.stats;
 
-import by.dero.gvh.GamePlayer;
-import by.dero.gvh.utils.GameUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,11 +11,10 @@ public class GamePlayerStats {
     @Setter
     private String className;
 
-    public GamePlayerStats(String name) {
+    public GamePlayerStats(String name, String className, int team) {
         this.name = name;
-        GamePlayer gp = GameUtils.getPlayer(name);
-        className = gp.getClassName();
-        team = gp.getTeam();
+        this.className = className;
+        this.team = team;
     }
 
     @Getter

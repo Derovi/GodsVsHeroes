@@ -4,7 +4,10 @@ import by.dero.gvh.*;
 import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
+import by.dero.gvh.stats.GameStats;
 import by.dero.gvh.utils.*;
+import lombok.Getter;
+import lombok.Setter;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -57,13 +60,8 @@ public abstract class Game implements Listener {
     private RewardManager rewardManager;
     private MapManager mapManager;
     private DeathAdviceManager deathAdviceManager;
+    @Getter @Setter protected GameStats stats;
     protected boolean loaded = false;
-
-    public Stats getStats() {
-        return stats;
-    }
-
-    protected Stats stats;
 
     public LinkedList<BukkitRunnable> getRunnables() {
         return runnables;
@@ -230,7 +228,9 @@ public abstract class Game implements Listener {
                     for (DoubleSpaceInterface cur : GameUtils.selectItems(player, DoubleSpaceInterface.class)) {
                         Item c = (Item) cur;
                         player.getPlayer().setLevel((int) c.getCooldown().getSecondsRemaining());
-                        player.getPlayer().setExp(1.0f - (float)c.getCooldown().getSecondsRemaining() * 20 / c.getCooldown().getDuration());
+                        float prog = 1.0f - (float)c.getCooldown().getSecondsRemaining() * 20 / c.getCooldown().getDuration();
+                        prog = Math.max(Math.min(prog, 1.0f), 0.0f);
+                        player.getPlayer().setExp(prog);
                     }
                     
                     Item item = player.getSelectedItem();
@@ -246,67 +246,7 @@ public abstract class Game implements Listener {
         };
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
         runnables.add(cooldownMessageUpdater);
-
-        /*SafeRunnable borderChecker = new SafeRunnable() {
-            final DirectedPosition[] borders = getInfo().getMapBorders();
-            final String desMsg = Lang.get("game.desertionMessage");
-            @Override
-            public void run() {
-                for (LivingEntity entity : world.getLivingEntities()) {
-                    final Location loc = entity.getLocation();
-                    Vector newVelocity = null;
-                    if (loc.getX() < borders[0].getX()) {
-                        newVelocity = new Vector(1.5, 0, 0);
-                    } else if (loc.getX() > borders[1].getX()) {
-                        newVelocity = new Vector(-1.5, 0, 0);
-                    } else if (loc.getZ() < borders[0].getZ()) {
-                        newVelocity = new Vector(0, 0, 1.5);
-                    } else if (loc.getZ() > borders[1].getZ()) {
-                        newVelocity = new Vector(0, 0, -1.5);
-                    }
-                    if (newVelocity != null) {
-                        if (!entity.isInsideVehicle()) {
-                            entity.setVelocity(newVelocity);
-                        } else {
-                            newVelocity = newVelocity.multiply(0.5);
-                            if (entity.getVehicle() instanceof Chicken) {
-                                new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        if (!entity.isDead()) {
-                                            entity.getVehicle().setVelocity(new Vector(0, 0, 0));
-                                        }
-                                    }
-                                }.runTaskLater(Plugin.getInstance(), 10);
-                            } else
-                            if (entity.getVehicle() instanceof SkeletonHorse) {
-                                ArmorStand armorStand = (ArmorStand) entity.getWorld().spawnEntity(entity.getLocation(),
-                                        EntityType.ARMOR_STAND);
-                                armorStand.setVisible(false);
-                                armorStand.setInvulnerable(true);
-                                armorStand.setSmall(true);
-                                armorStand.setVelocity(newVelocity);
-                                armorStand.addPassenger(entity.getVehicle());
-                                new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        armorStand.remove();
-                                    }
-                                }.runTaskLater(Plugin.getInstance(), 10);
-                            } else {
-                                entity.getVehicle().setVelocity(newVelocity);
-                            }
-                        }
-                        if (entity instanceof Player) {
-                            entity.sendMessage(desMsg);
-                        }
-                    }
-                }
-            }
-        };
-        borderChecker.runTaskTimer(Plugin.getInstance(), 0, 10);
-        runnables.add(borderChecker);*/
-        stats = new Stats();
+        stats = new GameStats();
 
         Minigame.getInstance().getLootsManager().load();
         Minigame.getInstance().getLiftManager().load();
@@ -315,33 +255,33 @@ public abstract class Game implements Listener {
         }
     }
 
-    public void onPlayerKilled(Player player, Player killer, Collection<Player> assists) {
+    public void onPlayerKilled(GamePlayer player, GamePlayer killer, Collection<GamePlayer> assists) {
         try {
             if (!player.equals(killer)) {
-                rewardManager.give("killEnemy", killer, "");
+                rewardManager.give("killEnemy", killer.getPlayer(), "");
 
                 MessagingUtils.sendSubtitle(Lang.get("rewmes.kill").
                                 replace("%exp%", Integer.toString(rewardManager.get("killEnemy").getCount()))
                                 .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
-                        killer, 0, 20, 0);
+                        killer.getPlayer(), 0, 20, 0);
 
-                GamePlayer gpKiller = GameUtils.getPlayer(killer.getName());
-                GamePlayer gpTarget = GameUtils.getPlayer(player.getName());
-                String kilCode = GameUtils.getTeamColor(gpKiller.getTeam());
-                String tarCode = GameUtils.getTeamColor(gpTarget.getTeam());
-                String kilClass = Lang.get("classes." + gpKiller.getClassName());
-                String tarClass = Lang.get("classes." + gpTarget.getClassName());
+                String kilCode = GameUtils.getTeamColor(killer.getTeam());
+                String tarCode = GameUtils.getTeamColor(player.getTeam());
+                String kilClass = Lang.get("classes." + killer.getClassName());
+                String tarClass = Lang.get("classes." + player.getClassName());
                 Bukkit.getServer().broadcastMessage(Lang.get("game.killGlobalMessage").
-                        replace("%kilCode%", kilCode).replace("%kilClass%", kilClass).replace("%killer%", killer.getName()).
-                        replace("%tarCode%", tarCode).replace("%tarClass%", tarClass).replace("%target%", player.getName()));
+                        replace("%kilCode%", kilCode).replace("%kilClass%", kilClass).
+                        replace("%killer%", killer.getPlayer().getName()).
+                        replace("%tarCode%", tarCode).replace("%tarClass%", tarClass).
+                        replace("%target%", player.getPlayer().getName()));
 
                 if (assists != null) {
-                    for (Player pl : assists) {
-                        rewardManager.give("assist", pl, "");
+                    for (GamePlayer pl : assists) {
+                        rewardManager.give("assist", pl.getPlayer(), "");
                         MessagingUtils.sendSubtitle(Lang.get("rewmes.assist").
                                         replace("%exp%", Integer.toString(rewardManager.get("assist").getCount()))
                                 .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
-                                pl, 0, 20, 0);
+                                pl.getPlayer(), 0, 20, 0);
                     }
                 }
                 stats.addKill(player, killer, assists);
@@ -398,14 +338,17 @@ public abstract class Game implements Listener {
         }
 
         state = State.FINISHING;
-        this.unload();
         Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                 state.toString());
         if (Plugin.getInstance().getSettings().isCristalix()) {
             RealmInfo info = IRealmService.get().getCurrentRealmInfo();
             info.setStatus(RealmStatus.GAME_ENDING);
         }
+        stats.setGameDurationSec((int) (System.currentTimeMillis() / 1000 - stats.getStartTime()));
         for (GamePlayer gp : players.values()) {
+            if (gp.getPlayer().isOnline()) {
+                stats.getPlayers().get(gp.getPlayer().getName()).setPlayTimeSec(stats.getGameDurationSec());
+            }
             Player player = gp.getPlayer();
             player.setGameMode(GameMode.SURVIVAL);
             player.leaveVehicle();
@@ -427,7 +370,8 @@ public abstract class Game implements Listener {
                 ((Player) entity).setAllowFlight(false);
             }
         }
-
+    
+        this.unload();
         afterParty = new AfterParty(this, winnerTeam);
         afterParty.start();
 

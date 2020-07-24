@@ -1,6 +1,8 @@
 package by.dero.gvh.minigame;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -19,11 +21,12 @@ public class RewardManager {
     public void give(String reward, Player player, String message) {
         int count = get(reward).getCount();
         String name = player.getName();
-        Game.getInstance().getStats().addExp(name, count);
+        GamePlayer gp = GameUtils.getPlayer(name);
+        Game.getInstance().getStats().addExp(gp, count);
         Plugin.getInstance().getPlayerData().increaseBalance(name, count);
         if (!message.isEmpty()) {
             player.sendMessage(message.replace("%count%", String.valueOf(count)).replace(
-                    "%allcount%", String.valueOf(Game.getInstance().getStats().getExpGained(name))));
+                    "%allcount%", String.valueOf(Game.getInstance().getStats().getPlayers().get(name).getExpGained())));
         }
     }
 

@@ -10,6 +10,7 @@ import by.dero.gvh.nmcapi.NMCUtils;
 import by.dero.gvh.utils.CosmeticsUtils;
 import by.dero.gvh.utils.Dwelling;
 import by.dero.gvh.utils.GameUtils;
+import lombok.Getter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -39,11 +40,7 @@ public class GameEvents implements Listener {
         GameEvents.game = game;
     }
 
-    public HashMap<Player, Stack<Pair<Player, Long>>> getDamageCause() {
-        return damageCause;
-    }
-
-    private final HashMap<Player, Stack<Pair<Player, Long> > > damageCause = new HashMap<>();
+    @Getter private final HashMap<GamePlayer, Stack<Pair<GamePlayer, Long> > > damageCause = new HashMap<>();
 
     public HashSet<UUID> getProjectiles() {
         return projectiles;
@@ -277,18 +274,21 @@ public class GameEvents implements Listener {
             return;
         }
         LivingEntity entity = (LivingEntity) event.getEntity();
-        Player damager;
+        GamePlayer damager;
         if (!(ent instanceof Player)) {
-            damager = GameUtils.getMob(ent.getUniqueId()).getOwner();
+            damager = GameUtils.getPlayer(GameUtils.getMob(ent.getUniqueId()).getOwner().getName());
         } else {
-            damager = (Player) ent;
+            damager = GameUtils.getPlayer(ent.getName());
         }
+        
         GameObject gm = GameUtils.getObject(entity);
-        if (gm != null && GameUtils.isEnemy(damager, gm.getTeam())) {
-            if (entity instanceof Player) {
-                damageCause.putIfAbsent((Player) entity, new Stack<>());
-                damageCause.get(entity).add(Pair.of(damager, System.currentTimeMillis()));
-                game.getStats().addDamage((Player) entity, damager, event.getDamage());
+        if (gm != null && damager.getTeam() != gm.getTeam()) {
+            if (gm instanceof GamePlayer) {
+                damageCause.putIfAbsent((GamePlayer) gm, new Stack<>());
+                damageCause.get(gm).add(Pair.of(damager, System.currentTimeMillis()));
+                if (!gm.equals(damager)) {
+                    game.getStats().addDamage((GamePlayer) gm, damager, event.getDamage());
+                }
             } else {
                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     if (!entity.isDead()) {
@@ -336,19 +336,20 @@ public class GameEvents implements Listener {
         event.getDrops().clear();
     }
 
-    private final HashSet<Player> assists = new HashSet<>();
+    private final HashSet<GamePlayer> assists = new HashSet<>();
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
         System.out.println("Death: " + event.getEntity().getName());
         Player player = event.getEntity();
-        Player kil = player;
+        GamePlayer playerGP = GameUtils.getPlayer(player.getName());
+        GamePlayer kilGP = playerGP;
         assists.clear();
-        Stack<Pair<Player, Long> > cause = damageCause.getOrDefault(player, null);
+        Stack<Pair<GamePlayer, Long> > cause = damageCause.getOrDefault(playerGP, null);
         if (cause != null && !cause.isEmpty()) {
-            kil = cause.pop().getKey();
+            kilGP = cause.pop().getKey();
             Long time = System.currentTimeMillis();
             while (!cause.isEmpty()) {
-                Pair<Player, Long> cur = cause.pop();
+                Pair<GamePlayer, Long> cur = cause.pop();
                 if (time - cur.getValue() > 5000) {
                     break;
                 } else {
@@ -357,18 +358,18 @@ public class GameEvents implements Listener {
             }
         }
         if (player.getKiller() != null) {
-            kil = player.getKiller();
+            kilGP = GameUtils.getPlayer(player.getKiller().getName());
         }
-        assists.remove(kil);
-        if (!kil.equals(player)) {
-            CosmeticsUtils.dropHead(player, kil);
-            for (PlayerKillInterface item : GameUtils.selectItems(GameUtils.getPlayer(kil.getName()), PlayerKillInterface.class)) {
+        assists.remove(kilGP);
+        if (!kilGP.equals(playerGP)) {
+            CosmeticsUtils.dropHead(player, kilGP.getPlayer());
+            for (PlayerKillInterface item : GameUtils.selectItems(kilGP, PlayerKillInterface.class)) {
                 item.onPlayerKill(player);
             }
         }
         
-        game.onPlayerKilled(player, kil, new ArrayList<>(assists));
-        damageCause.remove(player);
+        game.onPlayerKilled(GameUtils.getPlayer(player.getName()), kilGP, new ArrayList<>(assists));
+        damageCause.remove(playerGP);
     }
 
     @EventHandler
@@ -386,6 +387,7 @@ public class GameEvents implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         event.setQuitMessage(null);
         Player p = event.getPlayer();
+        game.stats.getPlayers().get(p.getName()).setPlayTimeSec((int) (System.currentTimeMillis() / 1000 - game.stats.getStartTime()));
         Minigame.getInstance().getGame().removePlayer(p.getName());
     }
 
