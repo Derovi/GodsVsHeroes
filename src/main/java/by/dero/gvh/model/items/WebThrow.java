@@ -62,7 +62,12 @@ public class WebThrow extends Item implements PlayerInteractInterface {
                         block = blocks[i * 3 + j];
                         block.setOnEnter((Entity entity) -> {
                             if (GameUtils.isEnemy(entity, ownerGP.getTeam())) {
-                                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, duration, 3));
+                                IDisplayService.get().sendMovementInput(entity.getUniqueId(), MovementInput.builder().
+                                        allowJumps(false).allowSprint(false).build());
+                                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, 3, 3));
+                                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
+                                        IDisplayService.get().sendMovementInput(entity.getUniqueId(), MovementInput.builder().
+                                                allowJumps(true).allowSprint(true).build()), 3);
                             }
                         });
                         block.spawn();
@@ -85,13 +90,12 @@ public class WebThrow extends Item implements PlayerInteractInterface {
 
         smartFallingBlock.setOnEnter((Entity entity) -> {
             if (GameUtils.isEnemy(entity, ownerGP.getTeam())) {
-    
                 IDisplayService.get().sendMovementInput(entity.getUniqueId(), MovementInput.builder().
                         allowJumps(false).allowSprint(false).build());
-                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, duration, 3));
+                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, 3, 3));
                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
                         IDisplayService.get().sendMovementInput(entity.getUniqueId(), MovementInput.builder().
-                                allowJumps(true).allowSprint(true).build()), duration);
+                                allowJumps(true).allowSprint(true).build()), 3);
             }
         });
     }
