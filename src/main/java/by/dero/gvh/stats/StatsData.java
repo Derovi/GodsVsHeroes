@@ -1,20 +1,16 @@
 package by.dero.gvh.stats;
 
-import by.dero.gvh.minigame.Game;
-import by.dero.gvh.model.ServerInfo;
-import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.ReplaceOptions;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.LinkedList;
-import java.util.List;
+import javax.print.Doc;
 
 public class StatsData {
     private final MongoCollection<Document> collection;
@@ -22,5 +18,22 @@ public class StatsData {
 
     public StatsData(MongoDBStorage storage) {
         collection = storage.getDatabase().getCollection("stats");
+        for (int i = 0; i < 5; ++i) {
+            System.out.println(generateGameId());
+        }
+        UpdateOptions options = new UpdateOptions();
+        options.upsert(true);
+        //collection.updateOne(new Document("_id", "games"), new Document("lastID", "0"), options);
+    }
+
+    public int generateGameId() {
+        BasicDBObject find = new BasicDBObject();
+        find.put("_id", "games");
+        BasicDBObject update = new BasicDBObject();
+        FindOneAndUpdateOptions options = new FindOneAndUpdateOptions();
+        options.upsert(true);
+        update.put("$inc", new BasicDBObject("lastID", 1));
+        Document obj =  collection.findOneAndUpdate(new Document(find), new Document(update), options);
+        return obj.getInteger("lastID");
     }
 }

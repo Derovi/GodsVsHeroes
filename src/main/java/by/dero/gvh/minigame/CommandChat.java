@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,13 +27,13 @@ public class CommandChat implements Listener {
 			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
 			return GameUtils.getTeamColor(gp.getTeam()) + "T §8|" + GameUtils.getTeamColor(gp.getTeam()) +
 					Lang.get("classes." + gp.getClassName()) +
-					"§8| " + iGroup.getPrefixColor() + iGroup.getPrefix() + " " + iGroup.getNameColor() +
+					"§8| " + MessagingUtils.getPrefixAddition(iGroup) +
 					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		} else {
 			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
 			return GameUtils.getTeamColor(gp.getTeam()) + "G §8|" + GameUtils.getTeamColor(gp.getTeam()) +
 					Lang.get("classes." + gp.getClassName()) +
-					"§8| " + iGroup.getPrefixColor() + iGroup.getPrefix() + " " + iGroup.getNameColor() +
+					"§8| " + MessagingUtils.getPrefixAddition(iGroup) +
 					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		}
 	}

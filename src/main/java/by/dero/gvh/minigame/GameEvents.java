@@ -340,7 +340,6 @@ public class GameEvents implements Listener {
     private final HashSet<GamePlayer> assists = new HashSet<>();
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
-        System.out.println("Death: " + event.getEntity().getName());
         Player player = event.getEntity();
         GamePlayer playerGP = GameUtils.getPlayer(player.getName());
         GamePlayer kilGP = playerGP;
@@ -388,7 +387,10 @@ public class GameEvents implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         event.setQuitMessage(null);
         Player p = event.getPlayer();
-        game.stats.getPlayers().get(p.getName()).setPlayTimeSec((int) (System.currentTimeMillis() / 1000 - game.stats.getStartTime()));
+        if (game.getState() == Game.State.GAME && game.stats.getPlayers().containsKey(p.getName())) {
+            game.stats.getPlayers().get(p.getName()).setPlayTimeSec(
+                    (int) (System.currentTimeMillis() / 1000 - game.stats.getStartTime()));
+        }
         Minigame.getInstance().getGame().removePlayer(p.getName());
     }
 
