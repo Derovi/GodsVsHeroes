@@ -16,7 +16,7 @@ public class CosmeticInterfaces {
     }
 
     static {
-        interfaces.put("horseman", HorsemanCosmetic.class);
-        interfaces.put("warrior", WarriorCosmetic.class);
+        //interfaces.put("horseman", HorsemanCosmetic.class);
+        //interfaces.put("warrior", WarriorCosmetic.class);
     }
 }

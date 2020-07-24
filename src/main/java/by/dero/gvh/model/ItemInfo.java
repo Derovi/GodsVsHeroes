@@ -86,13 +86,16 @@ public class ItemInfo {
                 }
             }
         }
+        List<String> desc = new ArrayList<>(lore);
+        desc.add("");
+        desc.add("§8»§aОткрыть описание§8«");
 
         itemStack = new ItemStack(material, amount);
         ItemMeta itemMeta = itemStack.getItemMeta();
         for (ItemInfo.EnchantInfo enchantInfo : enchantments) {
             itemMeta.addEnchant(Enchantment.getByName(enchantInfo.getName()), enchantInfo.getLevel(), enchantInfo.isVisible());
         }
-        itemMeta.setLore(lore);
+        itemMeta.setLore(desc);
         itemMeta.setDisplayName(displayName);
         itemMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         itemMeta.addEnchant(Enchantment.DURABILITY, Integer.MAX_VALUE, true);

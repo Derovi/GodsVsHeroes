@@ -29,20 +29,10 @@ public class SwordThrowInfo extends ItemInfo {
 
     @DynamicCustomization
     public void customize(ItemStack itemStack, ItemInfo info, Player player) {
-        GamePlayer gp = GameUtils.getPlayer(player.getName());
-        String warriorBlade = Plugin.getInstance().getCosmeticManager().getByGroup(player, 1);
-        if (warriorBlade != null) {
-            if (warriorBlade.equals("bloodSword")) {
-                NBTTagCompound tagCompound = NMCUtils.getNBT(itemStack);
-                tagCompound.set("weapons", new NBTTagString("bloodyvengeance"));
-                NMCUtils.setNBT(itemStack, tagCompound);
-            }
-        }
-
         // paladin
         if (Plugin.getInstance().getPluginMode() instanceof Minigame &&
                 Game.getInstance().getState().equals(Game.State.GAME) &&
-                gp.isUltimateBuf()) {
+                GameUtils.getPlayer(player.getName()).isUltimateBuf()) {
                 itemStack.setType(Material.DIAMOND_SWORD);
                 NBTTagCompound compound = NMCUtils.getNBT(itemStack);
                 NBTTagList modifiers = new NBTTagList();
