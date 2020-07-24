@@ -15,13 +15,19 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class Stats {
+    private final long startTime;
     private final HashMap<String, Integer> kills = new HashMap<>();
     private final HashMap<String, Integer> deaths = new HashMap<>();
     private final HashMap<String, Integer> assists = new HashMap<>();
     private final HashMap<String, Double> damageDealt = new HashMap<>();
     private final HashMap<String, Double> damageTaken = new HashMap<>();
     private final HashMap<String, Integer> expGained = new HashMap<>();
-
+    private final HashMap<String, Integer> capturePoints = new HashMap<>();
+    
+    public Stats() {
+        this.startTime = System.currentTimeMillis();
+    }
+    
     public void addKill(Player target, Player killer) {
         if (target != null) {
             if (killer != null && !target.equals(killer)) {
@@ -59,6 +65,10 @@ public class Stats {
                 Game.getInstance() instanceof DisplayInteractInterface) {
             ((DisplayInteractInterface) Game.getInstance()).updateDisplays();
         }
+    }
+    
+    public void addCapturePoints(String name, Integer points) {
+        capturePoints.put(name, getCapturePoints(name) + points);
     }
 
     private String getBestDamageDealt() {
@@ -146,6 +156,10 @@ public class Stats {
         }
     }
 
+    public long getDuration() {
+        return (System.currentTimeMillis() - startTime) / 1000;
+    }
+    
     public Integer getKills(String name) {
         return kills.getOrDefault(name, 0);
     }
@@ -160,5 +174,9 @@ public class Stats {
 
     public Integer getExpGained(String name) {
         return expGained.getOrDefault(name, 0);
+    }
+    
+    public Integer getCapturePoints(String name) {
+        return capturePoints.getOrDefault(name, 0);
     }
 }

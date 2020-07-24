@@ -48,8 +48,8 @@ public class UpgradeInterface extends Interface {
         }
         int maxLevel = infos.size() - 1;
         if (currentLevel != maxLevel) {
-            ItemInfo itemInfo = infos.get(currentLevel+1);
-            List<String> lore = new ArrayList<>(itemInfo.getLore());
+            ItemInfo nextInfo = infos.get(currentLevel+1);
+            List<String> lore = new ArrayList<>(nextInfo.getLore());
             List<Pair<String, String>> diff = InterfaceUtils.getDifference(infos.get(currentLevel).getLore(), lore);
             for (int i = 0; i < lore.size(); i++) {
                 lore.set(i, InterfaceUtils.replaceLast(lore.get(i),
@@ -61,7 +61,7 @@ public class UpgradeInterface extends Interface {
                 meta.setLore(lore);
                 itemStack.setItemMeta(meta);
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade").
-                        replace("%cost%", String.valueOf(itemInfo.getCost())));
+                        replace("%cost%", String.valueOf(nextInfo.getCost())));
                 addButton(position, currentLevel + 1, itemStack, () -> {
                     LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(getPlayer().getName());
                     lobbyPlayer.getPlayerInfo().upgradeItem(className, itemName);
@@ -76,13 +76,23 @@ public class UpgradeInterface extends Interface {
                 meta.setLore(lore);
                 itemStack.setItemMeta(meta);
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgradeNE").
-                        replace("%cost%", String.valueOf(itemInfo.getCost())));
+                        replace("%cost%", String.valueOf(nextInfo.getCost())));
                 addItem(position, currentLevel + 1, itemStack);
             }
             for (int index = currentLevel + 2; index <= maxLevel; ++index) {
-                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
-                InterfaceUtils.changeName(itemStack, Lang.get("interfaces.notAvailable"));
+                nextInfo = infos.get(index);
+                lore = new ArrayList<>(nextInfo.getLore());
+                diff = InterfaceUtils.getDifference(infos.get(currentLevel).getLore(), lore);
+                for (int i = 0; i < lore.size(); i++) {
+                    lore.set(i, InterfaceUtils.replaceLast(lore.get(i),
+                            diff.get(i).getKey(), diff.get(i).getValue()));
+                }
                 
+                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
+                ItemMeta meta = itemStack.getItemMeta();
+                meta.setLore(lore);
+                itemStack.setItemMeta(meta);
+                InterfaceUtils.changeName(itemStack, Lang.get("interfaces.notAvailable"));
                 addItem(position, index, itemStack);
             }
         }

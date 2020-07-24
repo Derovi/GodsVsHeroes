@@ -1,6 +1,7 @@
 package by.dero.gvh.nmcapi;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.utils.GameUtils;
 import net.minecraft.server.v1_12_R1.EntityFallingBlock;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
 import org.bukkit.Location;
@@ -32,12 +33,18 @@ public class SmartFallingBlock extends EntityFallingBlock {
 
     private Runnable onHitGround = null;
 
+    int team = -1;
     public SmartFallingBlock(Location loc, Material material) {
         super(((CraftWorld) loc.getWorld()).getHandle(), loc.getX(), loc.getY(), loc.getZ(),
                 CraftMagicNumbers.getBlock(material).fromLegacyData(0));
         noclip = true;
     }
 
+    public SmartFallingBlock(Location loc, Material material, int team) {
+        this(loc, material);
+        this.team = team;
+    }
+    
     public void B_() {
         if (this.block.getMaterial() == net.minecraft.server.v1_12_R1.Material.AIR) {
             this.die();
@@ -54,6 +61,9 @@ public class SmartFallingBlock extends EntityFallingBlock {
                     continue;
                 }
                 if (holdEntity != null && holdEntity.getUniqueID().equals(entity.getUniqueId())) {
+                    continue;
+                }
+                if (team != -1 && !GameUtils.isEnemy(entity, team)) {
                     continue;
                 }
                 onEnter.run(entity);
@@ -89,6 +99,9 @@ public class SmartFallingBlock extends EntityFallingBlock {
                     if (owner != null && owner.getUniqueId().equals(entity.getUniqueId())) {
                         continue;
                     }
+                    if (team != -1 && !GameUtils.isEnemy(entity, team)) {
+                        continue;
+                    }
                     onHitEntity.run(entity);
                     break;
                 }
@@ -108,7 +121,12 @@ public class SmartFallingBlock extends EntityFallingBlock {
         }
     }
 
+    private boolean dying = false;
     public void dieLater(int delay) {
+        if (dying) {
+            return;
+        }
+        dying = true;
         new BukkitRunnable() {
             @Override
             public void run() {

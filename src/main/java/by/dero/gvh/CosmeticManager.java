@@ -24,6 +24,7 @@ public class CosmeticManager {
                 .material(Material.DIAMOND)
                 .displayName("Падающие головы")
                 .cost(50)
+                .groupID(0)
                 .build());
 
 

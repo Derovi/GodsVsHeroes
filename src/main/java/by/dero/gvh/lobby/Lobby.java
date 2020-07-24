@@ -312,6 +312,7 @@ public class Lobby implements PluginMode, Listener {
         meta.setDisplayName(Lang.get("lobby.hidePlayers"));
         hideitem.setItemMeta(meta);
         activates[8] = player -> {
+            player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
             if (hidePlayers.contains(player.getUniqueId())) {
                 hidePlayers.remove(player.getUniqueId());
                 player.getInventory().setItem(8, hideitem);
