@@ -1,11 +1,13 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.WebThrowInfo;
 import by.dero.gvh.nmcapi.SmartFallingBlock;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -16,6 +18,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.display.IDisplayService;
+import ru.cristalix.core.display.messages.MovementInput;
 
 public class WebThrow extends Item implements PlayerInteractInterface {
     private final float force;
@@ -72,16 +76,22 @@ public class WebThrow extends Item implements PlayerInteractInterface {
             owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_HOSTILE_DEATH, 1.07f, 1);
         });
         smartFallingBlock.setOnHitEntity((Entity entity) -> {
-            Vector at = entity.getLocation().toBlockLocation().toVector();
-            smartFallingBlock.locX = at.x;
+            Vector at = entity.getLocation().toVector();
+            smartFallingBlock.locX = at.x - 0.5;
             smartFallingBlock.locY = at.y;
-            smartFallingBlock.locZ = at.z;
+            smartFallingBlock.locZ = at.z - 0.5;
             smartFallingBlock.getOnHitGround().run();
         });
 
         smartFallingBlock.setOnEnter((Entity entity) -> {
             if (GameUtils.isEnemy(entity, ownerGP.getTeam())) {
+    
+                IDisplayService.get().sendMovementInput(entity.getUniqueId(), MovementInput.builder().
+                        allowJumps(false).allowSprint(false).build());
                 GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, duration, 3));
+                Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
+                        IDisplayService.get().sendMovementInput(entity.getUniqueId(), MovementInput.builder().
+                                allowJumps(true).allowSprint(true).build()), duration);
             }
         });
     }
