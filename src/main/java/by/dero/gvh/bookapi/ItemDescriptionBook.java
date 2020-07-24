@@ -22,9 +22,9 @@ public class ItemDescriptionBook extends BookGUI {
     @Override
     public void build() {
         BookUtil.PageBuilder builder = new BookUtil.PageBuilder()
-                .add(BookUtil.TextBuilder.of("§6§l" + Lang.get("items." + itemName)).build())
-                /*.newLine().newLine()
-                .add(Lang.get("desc." + itemName))*/;
+                .add(BookUtil.TextBuilder.of("§6§l" + Lang.get("items." + itemName).replace(" ", " §6§l")).build())
+                .newLine().newLine()
+                .add(Lang.get("desc." + itemName));
 
        /* ItemInfo info = Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(
                 Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName()).getItemLevel(className, itemName));
@@ -45,7 +45,15 @@ public class ItemDescriptionBook extends BookGUI {
             })).build());
         }
 */
-        builder.newLine().add(BookUtil.TextBuilder.of("§5[НАЗАД]").onClick(new BookButton(this, () -> {
+        builder.newLine().newLine().add(BookUtil.TextBuilder.of("§3§l[Характеристики]").onClick(new BookButton(this, () -> {
+            ItemCharacteristicsBook book = new ItemCharacteristicsBook(getManager(), getPlayer(), className, itemName,
+                    Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName()).getItemLevel(className, itemName));
+            book.setBackAction(this::open);
+            book.build();
+            book.open();
+        })).build());
+
+        builder.newLine().add(BookUtil.TextBuilder.of("§5§l[Назад]").onClick(new BookButton(this, () -> {
             if (backAction != null) {
                 backAction.run();
             }

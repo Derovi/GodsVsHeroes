@@ -15,12 +15,12 @@ public abstract class BookGUI {
     public BookGUI(BookManager manager, Player player) {
         this.manager = manager;
         this.player = player;
-        manager.registerBook(player, this);
     }
 
     abstract void build();
 
     public void open() {
+        manager.registerBook(player, this);
         BookUtil.openPlayer(player, book);
     }
 

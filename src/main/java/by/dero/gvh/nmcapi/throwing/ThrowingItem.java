@@ -3,6 +3,8 @@ package by.dero.gvh.nmcapi.throwing;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.Position;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
 import net.minecraft.server.v1_12_R1.Vector3f;
@@ -45,6 +47,15 @@ public class ThrowingItem extends EntityArmorStand {
     private double expZ;
     private double sizeMultiplier = 1.0;
     private boolean returning = false;
+    @Getter
+    @Setter
+    private double xCol = 0.15;
+    @Getter
+    @Setter
+    private double yCol = 0.15;
+    @Getter
+    @Setter
+    private double zCol = 0.15;
 
     public ThrowingItem(Location loc, ItemStack itemStack) {
         super(((CraftWorld) loc.getWorld()).getHandle());
@@ -264,7 +275,7 @@ public class ThrowingItem extends EntityArmorStand {
                 }
                 break;
             }
-            Collection<Entity> entities = itemLocation.getWorld().getNearbyEntities(itemLocation, 0.15, 0.15, 0.15);
+            Collection<Entity> entities = itemLocation.getWorld().getNearbyEntities(itemLocation, xCol, yCol, zCol);
             for (Entity entity : entities) {
                 if (entity.getUniqueId().equals(getUniqueID())) {
                     continue;
