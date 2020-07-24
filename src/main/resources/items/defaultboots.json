@@ -1,6 +1,7 @@
 {
   "name": "defaultboots",
   "slot": -4,
+  "displayName": "§cСапоги",
   "levels": [
     {
       "cooldown": 0,

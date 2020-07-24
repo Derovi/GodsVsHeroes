@@ -4,6 +4,7 @@ import by.dero.gvh.GameMob;
 import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.bookapi.ItemDescriptionBook;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.nmcapi.NMCUtils;
@@ -425,6 +426,22 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
+        if (event.getWhoClicked() instanceof Player) {
+            GamePlayer player = GameUtils.getPlayer(event.getWhoClicked().getName());
+            ItemStack itemStack = event.getCurrentItem();
+            if (itemStack == null || itemStack.getType().equals(Material.AIR)) {
+                return;
+            }
+            Item item = player.getItems().getOrDefault(NMCUtils.getNBT(itemStack).getString("custom"), null);
+            if (item == null || item.getName().startsWith("default")) {
+                return;
+            }
+            ItemDescriptionBook book =
+                    new ItemDescriptionBook(Plugin.getInstance().getBookManager(), player.getPlayer(),
+                            player.getClassName(), item.getName());
+            book.build();
+            book.open();
+        }
     }
 
     @EventHandler

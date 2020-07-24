@@ -87,8 +87,10 @@ public class ItemInfo {
             }
         }
         List<String> desc = new ArrayList<>(lore);
-        desc.add("");
-        desc.add("§8»§aОткрыть описание§8«");
+        if (!description.getName().startsWith("default")) {
+            desc.add("");
+            desc.add("§8»§aОткрыть описание§8«");
+        }
 
         itemStack = new ItemStack(material, amount);
         ItemMeta itemMeta = itemStack.getItemMeta();

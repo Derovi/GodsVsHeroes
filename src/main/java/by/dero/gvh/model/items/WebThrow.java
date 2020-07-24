@@ -64,7 +64,7 @@ public class WebThrow extends Item implements PlayerInteractInterface {
                             if (GameUtils.isEnemy(entity, ownerGP.getTeam())) {
                                 IDisplayService.get().sendMovementInput(entity.getUniqueId(), MovementInput.builder().
                                         allowJumps(false).allowSprint(false).build());
-                                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, 3, 3));
+                                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, 3, 4));
                                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
                                         IDisplayService.get().sendMovementInput(entity.getUniqueId(), MovementInput.builder().
                                                 allowJumps(true).allowSprint(true).build()), 3);
@@ -92,7 +92,7 @@ public class WebThrow extends Item implements PlayerInteractInterface {
             if (GameUtils.isEnemy(entity, ownerGP.getTeam())) {
                 IDisplayService.get().sendMovementInput(entity.getUniqueId(), MovementInput.builder().
                         allowJumps(false).allowSprint(false).build());
-                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, 3, 3));
+                GameUtils.getObject((LivingEntity) entity).addEffect(new PotionEffect(PotionEffectType.SLOW, 3, 4));
                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () ->
                         IDisplayService.get().sendMovementInput(entity.getUniqueId(), MovementInput.builder().
                                 allowJumps(true).allowSprint(true).build()), 3);

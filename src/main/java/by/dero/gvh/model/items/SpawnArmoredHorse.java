@@ -31,8 +31,8 @@ public class SpawnArmoredHorse extends Item implements DoubleSpaceInterface, Veh
 		}
 		GameMob gm = SpawnUtils.spawnTeamEntity(owner.getLocation(), EntityType.HORSE, ownerGP);
 		horse = (Horse) gm.getEntity();
-		horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(30);
-		horse.setHealth(30);
+		horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
+		horse.setHealth(20);
 		horse.getInventory().setArmor(new ItemStack(Material.IRON_BARDING));
 		horse.setStyle(Horse.Style.WHITE);
 		horse.setAdult();
