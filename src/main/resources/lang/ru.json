@@ -198,7 +198,7 @@
     "deaths": "Смертей §8» §c%deaths%",
     "assists": "Помощей §8» §a%assists%",
     "online": "Онлайн §8» §b%online%",
-    "collectorsStatus": "Захват ",
+    "collectorsStatus": "Захват §8» §f",
     "progressReach": "%command% §aнабрали %pts%%"
   },
   "loots": {

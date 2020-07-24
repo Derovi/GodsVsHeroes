@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
 import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.stats.GamePlayerStats;
@@ -89,32 +90,25 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
                     .replace("%pts%", currentEtherCount[team] +
                             " (" + (int) ((double) currentEtherCount[team] / etherCaptureInfo.getEtherToWin() * 100) + "%)");
         }
-        str[cnt+1] = Lang.get("game.collectorsStatus");
-        String[] kek = new String[collectorsManager.getCollectors().size()];
-        int zxc = 0;
+        StringBuilder builder = new StringBuilder(Lang.get("game.collectorsStatus"));
         for (EtherCollector col : collectorsManager.getCollectors()) {
-            if (col.getOwner() == 0) {
-                kek[zxc] = Colors.custom(255, 255 - col.getCaptureStatus(), 255 - col.getCaptureStatus()) + "❖";
-            } else {
-                kek[zxc] = Colors.custom(255 - col.getCaptureStatus(), 255, 255 - col.getCaptureStatus()) + "❖";
-            }
-            zxc ++;
+            int[] rgb = Drawings.CristMedian((char)('1' + col.getOwner() + 1), (double) col.getCaptureStatus() / 180);
+            builder.append(Colors.custom(rgb[0], rgb[1], rgb[2])).append("❖");
         }
+        str[cnt+1] = builder.toString();
+        str[cnt+2] = " ";
+        str[cnt+7] = " ";
+        str[cnt+8] = Lang.get("game.online").replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
         for (final GamePlayer gp : getPlayers().values()) {
             GamePlayerStats stats = this.stats.getPlayers().get(gp.getPlayer().getName());
             str[cnt] = Lang.get("commands.playingFor").
                     replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
-            str[cnt+2] = " ";
 //            str[cnt+2] = Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()));
             str[cnt+3] = Lang.get("game.expGained").replace("%exp%", String.valueOf(stats.getExpGained()));
             str[cnt+4] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills()));
             str[cnt+5] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists()));
             str[cnt+6] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths()));
-            str[cnt+7] = " ";
-            str[cnt+8] = Lang.get("game.online").replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
             gp.getBoard().update(str);
-            gp.getBoard().getTeams()[cnt+1].setPrefix(str[cnt+1] + kek[0]);
-            gp.getBoard().getTeams()[cnt+1].setSuffix(kek[1] + kek[2]);
         }
     }
 
