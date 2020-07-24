@@ -63,6 +63,24 @@ public class Drawings {
         }
     }
 
+    public static int[] chatColorToCrist(char code) {
+        switch (code) {
+            case '0' : return new int[] {255, 255, 255};
+            case '1' : return new int[] {0, 255, 0};
+            case '2' : return new int[] {255, 0, 0};
+            default : return new int[] {0, 125, 255};
+        }
+    }
+    
+    public static int[] CristMedian(char code, double prog) {
+        int[] tar = chatColorToCrist(code);
+        int[] def = chatColorToCrist('0');
+        for (int i = 0; i < tar.length; i++) {
+            tar[i] = (int) ((tar[i] - def[i]) * prog) + def[i];
+        }
+        return tar;
+    }
+    
     public static void drawLine(Location a, Location b, Particle obj) {
         Vector cur = a.toVector();
         Vector to = b.toVector();

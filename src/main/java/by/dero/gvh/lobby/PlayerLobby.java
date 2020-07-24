@@ -3,11 +3,13 @@ package by.dero.gvh.lobby;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.craftbukkit.v1_12_R1.scoreboard.CraftTeam;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -21,8 +23,6 @@ import ru.cristalix.core.math.V2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static by.dero.gvh.utils.Board.setText;
 
 public class PlayerLobby {
     private final Player player;
@@ -92,11 +92,11 @@ public class PlayerLobby {
             final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
             @Override
             public void run() {
-                setText(teams[0], Lang.get("lobby.selectedClass")
+                Board.setText((CraftTeam) teams[0], Lang.get("lobby.selectedClass")
                         .replace("%class%", Lang.get("classes." + info.getSelectedClass())));
-                setText(teams[1], Lang.get("lobby.moneyBalance")
+                Board.setText((CraftTeam) teams[1], Lang.get("lobby.moneyBalance")
                         .replace("%money%", String.valueOf(info.getBalance())));
-                setText(teams[2], Lang.get("lobby.online")
+                Board.setText((CraftTeam) teams[2], Lang.get("lobby.online")
                         .replace("%online%", String.valueOf(Plugin.getInstance().getServerData().getSavedOnline())));
             }
         };
