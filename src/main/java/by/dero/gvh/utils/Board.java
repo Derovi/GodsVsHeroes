@@ -1,6 +1,7 @@
 package by.dero.gvh.utils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_12_R1.scoreboard.CraftTeam;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -38,7 +39,7 @@ public class Board {
     }
 
     public static void setText(final Team team, final String str) {
-        team.setSuffix(" ");
+        ((CraftTeam) team).team.setSuffix(" ");
         if (str.length() > 16) {
             int idx = -1;
             for (int i = 0; i < 16; i++) {
@@ -47,18 +48,18 @@ public class Board {
                 }
             }
             if (idx == -1) {
-                team.setPrefix(str.substring(0, 16));
-                team.setSuffix(str.substring(16));
+                ((CraftTeam) team).team.setPrefix(str.substring(0, 16));
+                ((CraftTeam) team).team.setSuffix(str.substring(16));
             } else
             if (idx < 15) {
-                team.setPrefix(str.substring(0, 16));
-                team.setSuffix("§" + str.charAt(idx+1) + str.substring(16));
+                ((CraftTeam) team).team.setPrefix(str.substring(0, 16));
+                ((CraftTeam) team).team.setSuffix("§" + str.charAt(idx+1) + str.substring(16));
             } else {
-                team.setPrefix(str.substring(0, idx));
-                team.setSuffix(str.substring(idx));
+                ((CraftTeam) team).team.setPrefix(str.substring(0, idx));
+                ((CraftTeam) team).team.setSuffix(str.substring(idx));
             }
         } else {
-            team.setPrefix(str);
+            ((CraftTeam) team).team.setPrefix(str);
         }
     }
 
