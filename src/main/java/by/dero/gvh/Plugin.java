@@ -11,6 +11,7 @@ import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
+import by.dero.gvh.stats.GameStatsData;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
@@ -48,6 +49,7 @@ public class Plugin extends JavaPlugin implements Listener {
     private PlayerData playerData;
     private ServerData serverData;
     private ReportData reportData;
+    private GameStatsData statsData;
     private PluginMode pluginMode;
     private BookManager bookManager;
     @Getter
@@ -175,6 +177,10 @@ public class Plugin extends JavaPlugin implements Listener {
 
     public BookManager getBookManager() {
         return bookManager;
+    }
+
+    public GameStatsData getStatsData() {
+        return statsData;
     }
 
     @EventHandler
