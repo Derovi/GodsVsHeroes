@@ -10,7 +10,7 @@
   "levels": [
     {
       "radius": 10,
-      "damage": 15,
+      "damage": 12,
       "cooldown": 500,
       "cost": 80,
       "material": "FEATHER",
@@ -18,7 +18,7 @@
     },
     {
       "radius": 10,
-      "damage": 16,
+      "damage": 13,
       "cooldown": 480,
       "cost": 100,
       "material": "FEATHER",
@@ -26,15 +26,15 @@
     },
     {
       "radius": 11,
-      "damage": 16,
+      "damage": 13,
       "cooldown": 460,
       "cost": 130,
       "material": "FEATHER",
       "amount": 1
     },
     {
-      "radius": 11,
-      "damage": 17,
+      "radius": 12,
+      "damage": 13,
       "cooldown": 440,
       "cost": 160,
       "material": "FEATHER",
@@ -42,7 +42,7 @@
     },
     {
       "radius": 12,
-      "damage": 17,
+      "damage": 14,
       "cooldown": 420,
       "cost": 200,
       "material": "FEATHER",

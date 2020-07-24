@@ -23,15 +23,15 @@
       "amount": 1
     },
     {
-      "cooldown": 35,
+      "cooldown": 30,
       "damage": 13,
-      "meleeDamage": 10,
+      "meleeDamage": 9,
       "cost": 130,
       "amount": 1
     },
     {
       "cooldown": 35,
-      "damage": 14,
+      "damage": 13,
       "meleeDamage": 10,
       "cost": 160,
       "amount": 1
@@ -39,7 +39,7 @@
     {
       "cooldown": 35,
       "damage": 14,
-      "meleeDamage": 11,
+      "meleeDamage": 10,
       "cost": 200,
       "amount": 1
     }
