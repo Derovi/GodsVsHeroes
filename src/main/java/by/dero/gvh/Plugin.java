@@ -1,5 +1,6 @@
 package by.dero.gvh;
 
+import by.dero.gvh.bookapi.BookManager;
 import by.dero.gvh.commands.AdviceCommand;
 import by.dero.gvh.commands.BugCommand;
 import by.dero.gvh.commands.TestCommand;
@@ -10,27 +11,28 @@ import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
+import by.dero.gvh.stats.GameStatsData;
+import by.dero.gvh.stats.StatsData;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
-import net.royawesome.jlibnoise.module.combiner.Min;
+import lombok.Getter;
+import net.minecraft.server.v1_12_R1.AdvancementDataWorld;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.karma.IKarmaService;
 import ru.cristalix.core.karma.KarmaService;
+import ru.cristalix.core.map.IMapService;
+import ru.cristalix.core.map.MapService;
 import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
 import ru.cristalix.core.pvp.CPSLimiter;
@@ -41,8 +43,6 @@ import ru.cristalix.core.transfer.ITransferService;
 import ru.cristalix.core.transfer.TransferService;
 
 import java.io.IOException;
-import java.util.UUID;
-import java.util.function.Predicate;
 
 public class Plugin extends JavaPlugin implements Listener {
     private static Plugin instance;
@@ -50,7 +50,14 @@ public class Plugin extends JavaPlugin implements Listener {
     private PlayerData playerData;
     private ServerData serverData;
     private ReportData reportData;
+    @Getter
+    private GameStatsData gameStatsData;
+    @Getter
+    private StatsData statsData;
     private PluginMode pluginMode;
+    private BookManager bookManager;
+    @Getter
+    private CosmeticManager cosmeticManager;
     private Settings settings;
     private Lang lang;
 
@@ -68,11 +75,23 @@ public class Plugin extends JavaPlugin implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (settings.isCristalix()) {
+            CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
+            CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
+            CoreApi.get().registerService(IMapService.class, new MapService());
+            IPermissionService.get().enableTablePermissions();
+            new CPSLimiter(this, 10);
+            IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
+            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(1000);
+            settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());;
+        }
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
         Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
         Bukkit.getPluginCommand("advice").setExecutor(new AdviceCommand());
         lang = new Lang(new LocalStorage());
         lang.load(settings.getLocale());
+
         StorageInterface dataStorage = null;
         if (settings.getDataStorageType().equals("local")) {
             dataStorage = new LocalStorage();
@@ -86,6 +105,13 @@ public class Plugin extends JavaPlugin implements Listener {
                 settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase()));
         serverData = new ServerData(new MongoDBStorage(
                 settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
+
+        statsData = new StatsData(new MongoDBStorage(
+                settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
+
+        gameStatsData = new GameStatsData(new MongoDBStorage(
+                settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
+
         StorageInterface reportDataStorage = new LocalStorage();
         if (settings.getReportDataStorageType().equals("mongodb")) {
             reportDataStorage = new MongoDBStorage(
@@ -97,7 +123,8 @@ public class Plugin extends JavaPlugin implements Listener {
             pluginMode = new Minigame();
             pluginMode.onEnable();
 
-            world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getWorld());
+            world = Bukkit.getWorld(Minigame.getInstance().getGame().getInfo().getLobbyWorld());
+
             for (final LivingEntity ent : world.getLivingEntities()) {
                 ent.remove();
             }
@@ -112,16 +139,13 @@ public class Plugin extends JavaPlugin implements Listener {
             Bukkit.getPluginManager().registerEvents((Listener) pluginMode, this);
         }
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(Plugin.getInstance(), "BungeeCord");
-        if (settings.isCristalix()) {
-            CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
-            CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
-            IPermissionService.get().enableTablePermissions();
-            new CPSLimiter(this, 10);
-            IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
-            IRealmService.get().getCurrentRealmInfo().setMaxPlayers(100);
-        }
+
         Bukkit.getPluginManager().registerEvents(this, this);
         new MathUtils();
+        AdvancementDataWorld.REGISTRY.advancements.clear();
+        AdvancementDataWorld.REGISTRY.c.clear();
+        bookManager = new BookManager();
+        cosmeticManager = new CosmeticManager();
     }
 
     @Override
@@ -160,6 +184,10 @@ public class Plugin extends JavaPlugin implements Listener {
 
     public PluginMode getPluginMode() {
         return pluginMode;
+    }
+
+    public BookManager getBookManager() {
+        return bookManager;
     }
 
     @EventHandler

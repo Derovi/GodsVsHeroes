@@ -4,10 +4,14 @@ import by.dero.gvh.GameMob;
 import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.bookapi.ItemDescriptionBook;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.*;
+import by.dero.gvh.nmcapi.NMCUtils;
+import by.dero.gvh.utils.CosmeticsUtils;
+import by.dero.gvh.utils.Dwelling;
 import by.dero.gvh.utils.GameUtils;
+import lombok.Getter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,6 +30,8 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.AuthorNagException;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -35,11 +41,7 @@ public class GameEvents implements Listener {
         GameEvents.game = game;
     }
 
-    public HashMap<Player, Stack<Pair<Player, Long>>> getDamageCause() {
-        return damageCause;
-    }
-
-    private final HashMap<Player, Stack<Pair<Player, Long> > > damageCause = new HashMap<>();
+    @Getter private final HashMap<GamePlayer, Stack<Pair<GamePlayer, Long> > > damageCause = new HashMap<>();
 
     public HashSet<UUID> getProjectiles() {
         return projectiles;
@@ -64,12 +66,19 @@ public class GameEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
+        if (!(event.getEntity().getShooter() instanceof Player)) {
+            return;
+        }
         Projectile proj = event.getEntity();
-        if (!(proj instanceof Arrow) && (proj.getShooter() instanceof Player) &&
+        if (!(proj instanceof Arrow || proj instanceof FishHook) && (proj.getShooter() instanceof Player) &&
                 !(proj.hasMetadata("custom"))) {
             event.setCancelled(true);
         } else {
-            projectiles.add(proj.getUniqueId());
+            GamePlayer gp = GameUtils.getPlayer(((Player) event.getEntity().getShooter()).getName());
+            if (gp.getSelectedItem() instanceof ProjectileLaunchInterface) {
+                ((ProjectileLaunchInterface) gp.getSelectedItem()).onProjectileLaunch(event);
+                projectiles.add(proj.getUniqueId());
+            }
         }
     }
 
@@ -77,7 +86,7 @@ public class GameEvents implements Listener {
             Material.CHEST, Material.ENDER_CHEST, Material.TRAPPED_CHEST, Material.HOPPER,
             Material.HOPPER_MINECART, Material.STORAGE_MINECART
     );
-    
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Block clicked = event.getClickedBlock();
@@ -91,7 +100,23 @@ public class GameEvents implements Listener {
         }
         String shooterName = event.getPlayer().getName();
         GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
-
+    
+        ItemStack offItem = event.getPlayer().getInventory().getItemInOffHand();
+        Item itemInHand = gamePlayer.getSelectedItem();
+        if (offItem != null && !offItem.getType().equals(Material.AIR) && itemInHand instanceof DoubleHanded) {
+            if ((event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+                drawOffhandAnimation(event.getPlayer());
+                if (itemInHand instanceof DoubleHandInteractInterface) {
+                    ((DoubleHandInteractInterface) itemInHand).interactOffHand(event);
+                }
+            } else if (event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+                if (itemInHand instanceof DoubleHandInteractInterface) {
+                    ((DoubleHandInteractInterface) itemInHand).interactMainHand(event);
+                }
+            }
+            return;
+        }
+        
         for (Item item : gamePlayer.getItems().values()) {
             if (item instanceof InteractAnyItem) {
                 InteractAnyItem in = (InteractAnyItem) item;
@@ -102,7 +127,6 @@ public class GameEvents implements Listener {
             }
         }
 
-        Item itemInHand = gamePlayer.getSelectedItem();
         if (itemInHand == null) {
             return;
         }
@@ -112,22 +136,36 @@ public class GameEvents implements Listener {
             return;
         }
 
-        if (itemInHand.getInfo().getMaterial() != Material.BOW) {
+        if (itemInHand.getInfo().getMaterial() != Material.BOW && itemInHand.getInfo().getMaterial() != Material.FISHING_ROD) {
             event.setCancelled(true);
         }
         gamePlayer.setLastUsed(itemInHand);
         if (gamePlayer.isDisabled()) {
-            gamePlayer.getPlayer().sendMessage(Lang.get("game.cantUse"));
             event.setCancelled(true);
             return;
         }
-        if (itemInHand instanceof PlayerInteractInterface) {
+        if (!event.getAction().equals(Action.PHYSICAL) && itemInHand instanceof PlayerInteractInterface) {
             if (itemInHand instanceof InfiniteReplenishInterface) {
                 if (!itemInHand.getCooldown().isReady() || !gamePlayer.consume(itemInHand)) {
                     return;
                 }
             }
             ((PlayerInteractInterface) itemInHand).onPlayerInteract(event);
+        }
+    }
+    
+    public void drawOffhandAnimation(Player player) {
+        ItemStack item = player.getInventory().getItemInOffHand();
+        if (item != null) {
+            if (item.getType() != Material.AIR) {
+                try {
+                    ItemStack mh = player.getInventory().getItemInMainHand();
+                    if (mh == null || (mh.getType() != Material.BOW && mh.getType() != Material.SHIELD && !mh.getType().name().matches("TRIDENT"))) {
+                        Dwelling.sendPacket(player, Dwelling.prepareVanillaPacket("PacketPlayOutAnimation", player.getEntityId(), 3));
+                    }
+                } catch (IllegalArgumentException | NullPointerException | AuthorNagException ignored) {
+                }
+            }
         }
     }
 
@@ -172,8 +210,8 @@ public class GameEvents implements Listener {
             return;
         }
         GamePlayer gp = GameUtils.getPlayer(player.getName());
+    
         if (gp.isDisabled()) {
-            gp.getPlayer().sendMessage(Lang.get("game.cantUse"));
             event.setCancelled(true);
             return;
         }
@@ -237,18 +275,21 @@ public class GameEvents implements Listener {
             return;
         }
         LivingEntity entity = (LivingEntity) event.getEntity();
-        Player damager;
+        GamePlayer damager;
         if (!(ent instanceof Player)) {
-            damager = GameUtils.getMob(ent.getUniqueId()).getOwner();
+            damager = GameUtils.getPlayer(GameUtils.getMob(ent.getUniqueId()).getOwner().getName());
         } else {
-            damager = (Player) ent;
+            damager = GameUtils.getPlayer(ent.getName());
         }
+        
         GameObject gm = GameUtils.getObject(entity);
-        if (gm != null && GameUtils.isEnemy(damager, gm.getTeam())) {
-            if (entity instanceof Player) {
-                damageCause.putIfAbsent((Player) entity, new Stack<>());
-                damageCause.get(entity).add(Pair.of(damager, System.currentTimeMillis()));
-                game.getStats().addDamage((Player) entity, damager, event.getDamage());
+        if (gm != null && damager.getTeam() != gm.getTeam()) {
+            if (gm instanceof GamePlayer) {
+                damageCause.putIfAbsent((GamePlayer) gm, new Stack<>());
+                damageCause.get(gm).add(Pair.of(damager, System.currentTimeMillis()));
+                if (!gm.equals(damager)) {
+                    game.getStats().addDamage((GamePlayer) gm, damager, event.getDamage());
+                }
             } else {
                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     if (!entity.isDead()) {
@@ -296,18 +337,19 @@ public class GameEvents implements Listener {
         event.getDrops().clear();
     }
 
-    private final HashSet<Player> assists = new HashSet<>();
+    private final HashSet<GamePlayer> assists = new HashSet<>();
     @EventHandler
     public void onPlayerDie(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        Player kil = player;
+        GamePlayer playerGP = GameUtils.getPlayer(player.getName());
+        GamePlayer kilGP = playerGP;
         assists.clear();
-        Stack<Pair<Player, Long> > cause = damageCause.getOrDefault(player, null);
+        Stack<Pair<GamePlayer, Long> > cause = damageCause.getOrDefault(playerGP, null);
         if (cause != null && !cause.isEmpty()) {
-            kil = cause.pop().getKey();
+            kilGP = cause.pop().getKey();
             Long time = System.currentTimeMillis();
             while (!cause.isEmpty()) {
-                Pair<Player, Long> cur = cause.pop();
+                Pair<GamePlayer, Long> cur = cause.pop();
                 if (time - cur.getValue() > 5000) {
                     break;
                 } else {
@@ -316,14 +358,18 @@ public class GameEvents implements Listener {
             }
         }
         if (player.getKiller() != null) {
-            kil = player.getKiller();
+            kilGP = GameUtils.getPlayer(player.getKiller().getName());
         }
-        assists.remove(kil);
-        for (PlayerKillInterface item : GameUtils.selectItems(GameUtils.getPlayer(kil.getName()), PlayerKillInterface.class)) {
-            item.onPlayerKill(player);
+        assists.remove(kilGP);
+        if (!kilGP.equals(playerGP)) {
+            CosmeticsUtils.dropHead(player, kilGP.getPlayer());
+            for (PlayerKillInterface item : GameUtils.selectItems(kilGP, PlayerKillInterface.class)) {
+                item.onPlayerKill(player);
+            }
         }
-        game.onPlayerKilled(player, kil, new ArrayList<>(assists));
-        damageCause.remove(player);
+        
+        game.onPlayerKilled(GameUtils.getPlayer(player.getName()), kilGP, new ArrayList<>(assists));
+        damageCause.remove(playerGP);
     }
 
     @EventHandler
@@ -341,6 +387,10 @@ public class GameEvents implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         event.setQuitMessage(null);
         Player p = event.getPlayer();
+        if (game.getState() == Game.State.GAME && game.stats.getPlayers().containsKey(p.getName())) {
+            game.stats.getPlayers().get(p.getName()).setPlayTimeSec(
+                    (int) (System.currentTimeMillis() / 1000 - game.stats.getStartTime()));
+        }
         Minigame.getInstance().getGame().removePlayer(p.getName());
     }
 
@@ -378,6 +428,22 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
+        if (event.getWhoClicked() instanceof Player) {
+            GamePlayer player = GameUtils.getPlayer(event.getWhoClicked().getName());
+            ItemStack itemStack = event.getCurrentItem();
+            if (itemStack == null || itemStack.getType().equals(Material.AIR)) {
+                return;
+            }
+            Item item = player.getItems().getOrDefault(NMCUtils.getNBT(itemStack).getString("custom"), null);
+            if (item == null || item.getName().startsWith("default")) {
+                return;
+            }
+            ItemDescriptionBook book =
+                    new ItemDescriptionBook(Plugin.getInstance().getBookManager(), player.getPlayer(),
+                            player.getClassName(), item.getName());
+            book.build();
+            book.open();
+        }
     }
 
     @EventHandler
@@ -414,12 +480,32 @@ public class GameEvents implements Listener {
     }
 
     @EventHandler
-    public void removeTrampling(PlayerInteractEvent event) {
+    public void removeTramplingEntity(EntityInteractEvent event) {
+        if (event.getBlock() != null && event.getBlock().getType().equals(Material.SOIL)) {
+            event.setCancelled(true);
+        }
+    }
+    
+    @EventHandler
+    public void removeTramplingPlayer(PlayerInteractEvent event) {
         if (event.getAction().equals(Action.PHYSICAL) && event.getClickedBlock().getType().equals(Material.SOIL)) {
             event.setCancelled(true);
         }
     }
-
+    
+    @EventHandler
+    public void checkDoubleHanded(PlayerItemHeldEvent event) {
+        Player player = event.getPlayer();
+    
+        ItemStack is = player.getInventory().getItem(event.getNewSlot());
+        if (is != null && GameUtils.getPlayer(player.getName()).getItems().
+                getOrDefault(NMCUtils.getNBT(is).getString("custom"), null) instanceof DoubleHanded) {
+            player.getInventory().setItemInOffHand(is);
+        } else {
+            player.getInventory().setItemInOffHand(GameUtils.clearItem);
+        }
+    }
+    
     @EventHandler
     public void removeSwapHand(PlayerSwapHandItemsEvent event) {
         event.setCancelled(true);

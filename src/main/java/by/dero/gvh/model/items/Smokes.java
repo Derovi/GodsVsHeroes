@@ -10,8 +10,10 @@ import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.SmokesInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -28,6 +30,7 @@ import java.util.HashSet;
 public class Smokes extends Item implements InfiniteReplenishInterface, PlayerInteractInterface, ProjectileHitInterface {
 	private final double radius;
 	private final int duration;
+	private final Material material;
 
 	public Smokes (String name, int level, Player owner) {
 		super(name, level, owner);
@@ -35,11 +38,15 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 		SmokesInfo info = (SmokesInfo) getInfo();
 		radius = info.getRadius();
 		duration = info.getDuration();
+		material = info.getMaterial();
 	}
 
 	@Override
 	public void onPlayerInteract (PlayerInteractEvent event) {
-		final Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(),
+		if (!ownerGP.isCharged(getName())) {
+			owner.setCooldown(material, (int) cooldown.getDuration());
+		}
+		final Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(),
 				1.2, EntityType.SNOWBALL, owner);
 		owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
 		summonedEntityIds.add(proj.getUniqueId());
@@ -55,6 +62,7 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 				if (gp.getTeam() != pose.getValue() && pose.getKey().distance(player.getLocation()) < radius) {
 					if (!player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
 						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 4), true);
+						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 0), true);
 					}
 					inside = true;
 					break;
@@ -62,6 +70,7 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 			}
 			if (!inside) {
 				player.removePotionEffect(PotionEffectType.BLINDNESS);
+				player.removePotionEffect(PotionEffectType.SLOW);
 			}
 		}
 	}

@@ -3,7 +3,6 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.MeteorInfo;
@@ -23,10 +22,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.BlockIterator;
 
-public class Meteor extends Item implements PlayerInteractInterface, ProjectileHitInterface, InfiniteReplenishInterface {
+public class Meteor extends Item implements PlayerInteractInterface, ProjectileHitInterface {
     private final double damage;
     private final double radius;
     private final int range;
+    private final Material material;
 
     public Meteor(String name, int level, Player owner) {
         super(name, level, owner);
@@ -34,6 +34,7 @@ public class Meteor extends Item implements PlayerInteractInterface, ProjectileH
         damage = info.getDamage();
         radius = info.getRadius();
         range = info.getRange();
+        material = info.getMaterial();
     }
 
     @Override
@@ -42,6 +43,7 @@ public class Meteor extends Item implements PlayerInteractInterface, ProjectileH
             return;
         }
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
         BlockIterator it = new BlockIterator(owner.getEyeLocation(), 0, range);
         Location at = null;
         while (it.hasNext()) {

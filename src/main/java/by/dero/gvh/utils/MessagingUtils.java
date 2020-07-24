@@ -8,10 +8,28 @@ import net.minecraft.server.v1_12_R1.IChatBaseComponent;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import ru.cristalix.core.permissions.IGroup;
+import ru.cristalix.core.permissions.IPermissionService;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public class MessagingUtils {
+//    public static void sendStunned(Player player, int duration) {
+//        sendSubtitle(Lang.get("game.stunMessage"), player, 0, duration, 0);
+//    }
+
+    public static String getPrefixAddition(Player player) {
+        return getPrefixAddition(IPermissionService.get().getBestGroup(player.getUniqueId()).join());
+    }
+
+    public static String getPrefixAddition(IGroup group) {
+        if (group.getPrefix().isEmpty()) {
+            return group.getNameColor();
+        }
+        return group.getPrefixColor() + group.getPrefix() + ' ' + group.getNameColor();
+    }
+    
     public static void sendCooldownMessage(final Player player, final String itemName, final long time) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.itemReloadingActionBar").
                         replace("%itemname%", itemName).replace("%time%", getTimeString((int) time, true))));
@@ -53,6 +71,12 @@ public class MessagingUtils {
 
     public static void sendActionBar(final String text, final Player player) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(text));
+    }
+
+    public static void sendSubtitle(final String text, final Collection<GamePlayer> players) {
+        for (final GamePlayer player : players) {
+            sendSubtitle(text, player.getPlayer(), 0, 20, 0);
+        }
     }
 
     public static void sendTitle(final String text, final Collection<GamePlayer> players) {

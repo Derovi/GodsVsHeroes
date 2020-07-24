@@ -3,11 +3,12 @@ package by.dero.gvh.nmcapi.throwing;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.Position;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
 import net.minecraft.server.v1_12_R1.Vector3f;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -46,6 +47,15 @@ public class ThrowingItem extends EntityArmorStand {
     private double expZ;
     private double sizeMultiplier = 1.0;
     private boolean returning = false;
+    @Getter
+    @Setter
+    private double xCol = 0.15;
+    @Getter
+    @Setter
+    private double yCol = 0.15;
+    @Getter
+    @Setter
+    private double zCol = 0.15;
 
     public ThrowingItem(Location loc, ItemStack itemStack) {
         super(((CraftWorld) loc.getWorld()).getHandle());
@@ -116,6 +126,7 @@ public class ThrowingItem extends EntityArmorStand {
             return;
         }
         stopped = true;
+        setMarker(true);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -151,6 +162,10 @@ public class ThrowingItem extends EntityArmorStand {
 
     @Override
     public void B_() {
+        if (GameUtils.isDeadPlayer(owner)) {
+            remove();
+            return;
+        }
         if (returning) {
             Vector dist = new Vector(owner.getLocation().getX() - locX,
                     owner.getLocation().getY() - locY,
@@ -166,7 +181,6 @@ public class ThrowingItem extends EntityArmorStand {
             }
             curRot -= (curRot - 270) / (length / speed);
             setRightArmPose(new Vector3f(curRot, 0, 0));
-            System.out.println(curRot);
             if (length < 0.1) {
                 if (onReturned != null) {
                     onReturned.run();
@@ -209,7 +223,7 @@ public class ThrowingItem extends EntityArmorStand {
                 Collection<Entity> entities = armorStand.getLocation().getWorld().getNearbyEntities(
                         armorStand.getLocation(), 1.25, 1.25, 1.25);
                 for (Entity entity : entities) {
-                    if (entity.getUniqueId().equals(owner.getUniqueId())) {
+                    if (entity.getUniqueId().equals(owner.getUniqueId()) || entity.getPassengers().contains(owner)) {
                         onOwnerPickUp.run();
                         break;
                     }
@@ -261,7 +275,7 @@ public class ThrowingItem extends EntityArmorStand {
                 }
                 break;
             }
-            Collection<Entity> entities = itemLocation.getWorld().getNearbyEntities(itemLocation, 0.15, 0.15, 0.15);
+            Collection<Entity> entities = itemLocation.getWorld().getNearbyEntities(itemLocation, xCol, yCol, zCol);
             for (Entity entity : entities) {
                 if (entity.getUniqueId().equals(getUniqueID())) {
                     continue;

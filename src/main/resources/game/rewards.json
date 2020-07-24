@@ -17,6 +17,6 @@
   },
   "collectorCaptured":{
     "message": "§aЗа участие в захвате вы получаете §6%count%§a опыта. Всего за игру заработано §6%allcount%§c.",
-    "count": 5
+    "count": 20
   }
 }

@@ -5,11 +5,11 @@
     "§fУрон по первой цели §8» §b%%damage,0.5%%§c❤",
     "§fУрон по следующим целям §8» §b%%otherDamage,0.5%%§c❤",
     "§fРадиус отскока §8» §b%%radius%% §fблоков",
-    "§fКулдаун молнии §8» §b%%cooldown,0.05%% сек."
+    "§fКулдаун молнии §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
-      "damage": 14,
+      "damage": 11,
       "otherDamage": 6,
       "radius": 6.0,
       "cooldown": 60,
@@ -18,20 +18,38 @@
       "amount": 1
     },
     {
-      "damage": 15,
-      "otherDamage": 7,
-      "radius": 7.0,
+      "damage": 11,
+      "otherDamage": 6,
+      "radius": 8.0,
       "cooldown": 60,
       "cost": 100,
       "material": "STICK",
       "amount": 1
     },
     {
-      "damage": 16,
+      "damage": 13,
+      "radius": 6.0,
+      "otherDamage": 7,
+      "cooldown": 60,
+      "cost": 130,
+      "material": "STICK",
+      "amount": 1
+    },
+    {
+      "damage": 13,
+      "radius": 8.0,
+      "otherDamage": 7,
+      "cooldown": 60,
+      "cost": 160,
+      "material": "STICK",
+      "amount": 1
+    },
+    {
+      "damage": 14,
       "radius": 8.0,
       "otherDamage": 8,
       "cooldown": 60,
-      "cost": 120,
+      "cost": 200,
       "material": "STICK",
       "amount": 1
     }

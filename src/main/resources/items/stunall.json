@@ -10,25 +10,41 @@
   "levels": [
     {
       "cooldown": 1200,
-      "radius": 5.0,
+      "radius": 3.0,
       "duration": 70,
       "cost": 80,
       "material": "NETHER_STAR",
       "amount": 1
     },
     {
-      "cooldown": 1200,
-      "radius": 5.0,
-      "duration": 80,
+      "cooldown": 1100,
+      "radius": 3.0,
+      "duration": 70,
       "cost": 100,
       "material": "NETHER_STAR",
       "amount": 1
     },
     {
-      "cooldown": 1200,
-      "radius": 5.0,
-      "duration": 90,
-      "cost": 120,
+      "cooldown": 1000,
+      "radius": 3.0,
+      "duration": 70,
+      "cost": 130,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 950,
+      "radius": 3.0,
+      "duration": 70,
+      "cost": 160,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 900,
+      "radius": 3.0,
+      "duration": 70,
+      "cost": 200,
       "material": "NETHER_STAR",
       "amount": 1
     }

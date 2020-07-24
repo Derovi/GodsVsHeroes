@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.SafeRunnable;
+import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -46,7 +47,8 @@ public class EtherCollectorsManager {
                 }
                 for (GamePlayer player : game.getPlayers().values()) {
                     for (int collectorIndex = 0; collectorIndex < collectors.size(); ++collectorIndex) {
-                        if (collectors.get(collectorIndex).isInside(player.getPlayer().getLocation())) {
+                        if (player.getPlayer().getGameMode().equals(GameMode.SURVIVAL) &&
+                                collectors.get(collectorIndex).isInside(player.getPlayer().getLocation())) {
                             playersOnCollector.get(collectorIndex).add(player);
                         }
                     }
@@ -55,11 +57,17 @@ public class EtherCollectorsManager {
         };
         playersUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
         collectorsUpdater = new BukkitRunnable() {
+            int ticks = 0;
             @Override
             public void run() {
                 for (int index = 0; index < collectors.size(); ++index) {
                     collectors.get(index).update(playersOnCollector.get(index));
                 }
+                ticks++;
+                if (ticks % 10 == 0) {
+                    game.updateDisplays();
+                }
+                ticks %= 10;
             }
         };
         collectorsUpdater.runTaskTimer(Plugin.getInstance(), 5, 1);

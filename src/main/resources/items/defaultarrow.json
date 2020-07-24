@@ -1,12 +1,11 @@
 {
   "name": "defaultarrow",
+  "displayName": "§cСтрела",
   "slot": 17,
   "levels": [
     {
       "cooldown": 0,
       "material": "ARROW",
-      "displayName": "§cСтрела",
-      "lore": [],
       "amount": 1
     }
   ]

@@ -16,15 +16,29 @@
     },
     {
       "cooldown": 0,
-      "duration": 95,
-      "cost": 80,
+      "duration": 90,
+      "cost": 100,
+      "material": "BOW",
+      "amount": 1
+    },
+    {
+      "cooldown": 0,
+      "duration": 100,
+      "cost": 130,
       "material": "BOW",
       "amount": 1
     },
     {
       "cooldown": 0,
       "duration": 110,
-      "cost": 80,
+      "cost": 160,
+      "material": "BOW",
+      "amount": 1
+    },
+    {
+      "cooldown": 0,
+      "duration": 120,
+      "cost": 200,
       "material": "BOW",
       "amount": 1
     }

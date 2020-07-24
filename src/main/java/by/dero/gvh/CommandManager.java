@@ -22,6 +22,10 @@ public class CommandManager implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String commandString, String[] params) {
+        if (!commandSender.isOp()) {
+            commandSender.sendMessage("§4Опа у тебя нет опА");
+            return true;
+        }
         if (params.length == 0) {
             commandSender.sendMessage("§6====== Gods vs Heroes ======");
             for (Map.Entry<String, PluginCommand> entry : commands.entrySet()) {

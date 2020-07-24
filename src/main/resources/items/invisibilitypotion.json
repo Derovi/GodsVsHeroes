@@ -7,11 +7,6 @@
       "duration": 80,
       "cost": 80,
       "material": "GLASS_BOTTLE",
-      "displayName": "§cInvisibility Potion",
-      "lore": [
-        "§aСтаньте невидимым для окружающих",
-        "§6Уровень 1"
-      ],
       "amount": 1
     },
     {
@@ -19,11 +14,6 @@
       "duration": 80,
       "cost": 100,
       "material": "GLASS_BOTTLE",
-      "displayName": "§cInvisibility Potion",
-      "lore": [
-        "§aСтаньте невидимым для окружающих",
-        "§6Уровень 2"
-      ],
       "amount": 1
     },
     {
@@ -31,11 +21,6 @@
       "duration": 80,
       "cost": 120,
       "material": "GLASS_BOTTLE",
-      "displayName": "§cInvisibility Potion",
-      "lore": [
-        "§aСтаньте невидимым для окружающих",
-        "§6Уровень 3"
-      ],
       "amount": 1
     }
   ]

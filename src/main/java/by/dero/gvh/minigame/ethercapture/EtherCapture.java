@@ -6,17 +6,24 @@ import by.dero.gvh.minigame.GameInfo;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
+import by.dero.gvh.stats.GamePlayerStats;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.MessagingUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import ru.cristalix.core.build.BuildWorldState;
+import ru.cristalix.core.build.models.Point;
+import ru.cristalix.core.formatting.Colors;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +52,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     @Override
     public void setDisplays() {
         for (final GamePlayer gp : getPlayers().values()) {
-            final Board board = new Board(Lang.get("game.ether"), getInfo().getTeamCount() + 6);
+            final Board board = new Board(Lang.get("game.ether"), getInfo().getTeamCount() + 9);
             final Scoreboard sb = board.getScoreboard();
             for (int team = 0; team < getInfo().getTeamCount(); team++) {
                 final String t = team + "hp";
@@ -73,7 +80,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             idxs.add(i);
         }
         idxs.sort((a, b) -> currentEtherCount[b] - currentEtherCount[a]);
-        String[] str = new String[cnt + 6];
+        String[] str = new String[cnt + 9];
         for (int i = 0; i < cnt; ++i) {
             final int team = idxs.get(i);
             final String com = Lang.get("commands." + (char)('1' + team));
@@ -82,18 +89,32 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
                     .replace("%pts%", currentEtherCount[team] +
                             " (" + (int) ((double) currentEtherCount[team] / etherCaptureInfo.getEtherToWin() * 100) + "%)");
         }
+        str[cnt+1] = Lang.get("game.collectorsStatus");
+        String[] kek = new String[collectorsManager.getCollectors().size()];
+        int zxc = 0;
+        for (EtherCollector col : collectorsManager.getCollectors()) {
+            if (col.getOwner() == 0) {
+                kek[zxc] = Colors.custom(255, 255 - col.getCaptureStatus(), 255 - col.getCaptureStatus()) + "❖";
+            } else {
+                kek[zxc] = Colors.custom(255 - col.getCaptureStatus(), 255, 255 - col.getCaptureStatus()) + "❖";
+            }
+            zxc ++;
+        }
         for (final GamePlayer gp : getPlayers().values()) {
+            GamePlayerStats stats = this.stats.getPlayers().get(gp.getPlayer().getName());
             str[cnt] = Lang.get("commands.playingFor").
                     replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
-            str[cnt+1] = " ";
+            str[cnt+2] = " ";
 //            str[cnt+2] = Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()));
-            String name = gp.getPlayer().getName();
-            str[cnt+2] = Lang.get("game.expGained").replace("%exp%", String.valueOf(stats.getExpGained(name)));
-            str[cnt+3] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills(name)));
-            str[cnt+4] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists(name)));
-            str[cnt+5] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths(name)));
-
+            str[cnt+3] = Lang.get("game.expGained").replace("%exp%", String.valueOf(stats.getExpGained()));
+            str[cnt+4] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills()));
+            str[cnt+5] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists()));
+            str[cnt+6] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths()));
+            str[cnt+7] = " ";
+            str[cnt+8] = Lang.get("game.online").replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
             gp.getBoard().update(str);
+            gp.getBoard().getTeams()[cnt+1].setPrefix(str[cnt+1] + kek[0]);
+            gp.getBoard().getTeams()[cnt+1].setSuffix(kek[1] + kek[2]);
         }
     }
 
@@ -132,13 +153,13 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     public void addEther(int team, int count) {
         if (currentEtherCount[team] * 100 / etherCaptureInfo.getEtherToWin() < 80 &&
                 (currentEtherCount[team] + count) * 100 / etherCaptureInfo.getEtherToWin() >= 80) {
-            MessagingUtils.sendTitle(Lang.get("game.progressReach").
+            MessagingUtils.sendSubtitle(Lang.get("game.progressReach").
                     replace("%command%", Lang.get("commands." + (char)('1' + team)))
                     .replace("%pts%", "80"), getPlayers().values());
         }
         if (currentEtherCount[team] * 100 / etherCaptureInfo.getEtherToWin() < 95 &&
                 (currentEtherCount[team] + count) * 100 / etherCaptureInfo.getEtherToWin() >= 95) {
-            MessagingUtils.sendTitle(Lang.get("game.progressReach").
+            MessagingUtils.sendSubtitle(Lang.get("game.progressReach").
                     replace("%command%", Lang.get("commands." + (char)('1' + team)))
                     .replace("%pts%", "95"), getPlayers().values());
         }
@@ -147,11 +168,21 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         checkForGameEnd();
     }
 
+    @Override
+    public void prepareMap(BuildWorldState state) {
+        getEtherCaptureInfo().setEtherCollectors(new IntPosition[state.getPoints().get("col").size()]);
+        for (Point point : state.getPoints().get("col")) {
+            getEtherCaptureInfo().getEtherCollectors()[Integer.parseInt(point.getTag()) - 1] =
+                    new IntPosition((int) point.getV3().getX(),
+                            (int) point.getV3().getY(),
+                            (int) point.getV3().getZ());
+        }
+    }
+
     private void checkForGameEnd() {
         for (int team = 0; team < getInfo().getTeamCount(); ++team) {
             if (currentEtherCount[team] >= etherCaptureInfo.getEtherToWin()) {
-                World world = Minigame.getInstance().getWorld();
-                world.playSound(getInfo().getLobbyPosition().toLocation(world).add(0, 30, 0),
+                getWorld().playSound(getInfo().getLobbyPosition().toLocation(getWorld()).add(0, 30, 0),
                         Sound.ENTITY_ENDERDRAGON_DEATH, 300, 1);
                 finish(team);
                 return;
@@ -160,9 +191,9 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     }
 
     @Override
-    public void onPlayerKilled(Player player, Player killer, Collection<Player> assists) {
+    public void onPlayerKilled(GamePlayer player, GamePlayer killer, Collection<GamePlayer> assists) {
         super.onPlayerKilled(player, killer, assists);
-        addEther(getPlayers().get(killer.getName()).getTeam(), etherCaptureInfo.getEtherForKill());
+        addEther(killer.getTeam(), etherCaptureInfo.getEtherForKill());
     }
 
     @EventHandler
@@ -172,13 +203,23 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         }
         event.setDeathMessage(null);
         final Player player = event.getEntity();
+        //System.out.println("o3: " + player.getLocation().getWorld().getName());
         final float exp = player.getExp();
 
         spawnFirework(player.getLocation().clone().add(0, 1, 0), 1);
+        Location loc = player.getLocation();
+        loc.setWorld(Minigame.getInstance().getGame().getWorld());
+
         getPlayerDeathLocations().put(player.getName(), player.getLocation());
         spawnPlayer(getPlayers().get(player.getName()), getInfo().getRespawnTime());
+
         player.spigot().respawn();
         player.setExp(exp);
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        event.setRespawnLocation(getPlayerDeathLocations().get(event.getPlayer().getName()));
     }
 
     public EtherCaptureInfo getEtherCaptureInfo() {

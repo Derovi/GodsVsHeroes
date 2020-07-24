@@ -6,7 +6,9 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.model.itemsinfo.GrenadeInfo;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -20,12 +22,14 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
         ProjectileHitInterface, PlayerInteractInterface {
     private final double radius;
     private final double damage;
+    private final Material material;
 
     public Grenade(final String name, final int level, final Player owner) {
         super(name, level, owner);
         GrenadeInfo info = (GrenadeInfo) getInfo();
         radius = info.getRadius();
         damage = info.getDamage();
+        material = info.getMaterial();
     }
 
     @Override
@@ -47,7 +51,10 @@ public class Grenade extends Item implements InfiniteReplenishInterface,
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(),
+        if (!ownerGP.isCharged(getName())) {
+            owner.setCooldown(material, (int) cooldown.getDuration());
+        }
+        final Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(),
                 1.2, EntityType.SNOWBALL, owner);
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_EGG_THROW, 1.07f, 1);
         summonedEntityIds.add(proj.getUniqueId());

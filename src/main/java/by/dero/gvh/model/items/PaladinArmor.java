@@ -3,35 +3,34 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.PaladinArmorInfo;
 import by.dero.gvh.nmcapi.ChasingStand;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.SafeRunnable;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_R1.World;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class PaladinArmor extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class PaladinArmor extends Item implements PlayerInteractInterface {
 	private final int duration;
 	private final double speed;
 	private final ItemStack helmet;
 	private final ItemStack chestplate;
 	private final ItemStack leggings;
 	private final ItemStack boots;
-	private ItemStack sword;
+	private final Material material;
 	
 	public PaladinArmor(String name, int level, Player owner) {
 		super(name, level, owner);
@@ -43,23 +42,7 @@ public class PaladinArmor extends Item implements PlayerInteractInterface, Infin
 		chestplate = new ItemStack(info.getChestplate());
 		leggings = new ItemStack(info.getLeggings());
 		boots = new ItemStack(info.getBoots());
-		sword = new ItemStack(info.getSword());
-		
-		net.minecraft.server.v1_12_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(sword);
-		NBTTagCompound compound = nmsStack.hasTag() ? nmsStack.getTag() : new NBTTagCompound();
-		NBTTagList modifiers = new NBTTagList();
-		NBTTagCompound damage = new NBTTagCompound();
-		damage.set("AttributeName", new NBTTagString("generic.attackDamage"));
-		damage.set("Name", new NBTTagString("generic.attackDamage"));
-		damage.set("Amount", new NBTTagInt(info.getSwordDamage()));
-		damage.set("Operation", new NBTTagInt(0));
-		damage.set("UUIDLeast", new NBTTagInt(894654));
-		damage.set("UUIDMost", new NBTTagInt(2872));
-		damage.set("Slot", new NBTTagString("mainhand"));
-		modifiers.add(damage);
-		compound.set("AttributeModifiers", modifiers);
-		nmsStack.setTag(compound);
-		sword = CraftItemStack.asBukkitCopy(nmsStack);
+		material = info.getMaterial();
 	}
 	
 	@Override
@@ -68,8 +51,24 @@ public class PaladinArmor extends Item implements PlayerInteractInterface, Infin
 			return;
 		}
 		cooldown.reload();
+		owner.setCooldown(material, (int) cooldown.getDuration());
+		SwordThrow swordThrow = (SwordThrow) ownerGP.getItems().get("swordthrow");
 		
-		for (int type = 0; type < 5; type++) {
+		if (owner.getVehicle() != null && owner.getVehicle() instanceof Horse) {
+			((Horse) owner.getVehicle()).getInventory().setArmor(new ItemStack(Material.DIAMOND_BARDING));
+			BukkitRunnable runnable = new BukkitRunnable() {
+				@Override
+				public void run() {
+					if (owner.getVehicle() != null && owner.getVehicle() instanceof Horse) {
+						((Horse) owner.getVehicle()).getInventory().setArmor(new ItemStack(Material.IRON_BARDING));
+					}
+				}
+			};
+			runnable.runTaskLater(Plugin.getInstance(), duration);
+			Game.getInstance().getRunnables().add(runnable);
+		}
+		
+		for (int type = -4; type <= 0; type++) {
 			Location oLoc = owner.getLocation();
 			Vector dir = oLoc.getDirection();
 			Location at = oLoc.clone().add(dir.x * 3, 0, dir.z * 3);
@@ -83,51 +82,39 @@ public class PaladinArmor extends Item implements PlayerInteractInterface, Infin
 			handle.setNoGravity(false);
 			
 			EntityEquipment eq = stand.equipment;
+			ItemStack item;
 			switch (type) {
-				case 0 : eq.setHelmet(helmet); break;
-				case 1 : eq.setChestplate(chestplate); break;
-				case 2 : eq.setLeggings(leggings); break;
-				case 3 : eq.setBoots(boots); break;
-				case 4 : eq.setItemInMainHand(sword); break;
+				case -1 : eq.setHelmet(helmet); item = helmet; break;
+				case -2 : eq.setChestplate(chestplate); item = chestplate; break;
+				case -3 : eq.setLeggings(leggings); item = leggings; break;
+				case -4 : eq.setBoots(boots); item = boots; break;
+				default :
+					ownerGP.setUltimateBuf(true);
+					item = swordThrow.getItemStack();
+					eq.setItemInMainHand(swordThrow.getItemStack());
+					ownerGP.setUltimateBuf(false);
+					break;
 			}
 			
 			int finalType = type;
 			handle.onReach = new SafeRunnable() {
 				@Override
 				public void run() {
-					final ItemStack saved;
-					final PlayerInventory inv = owner.getInventory();
-					switch (finalType) {
-						case 0 : saved = inv.getHelmet(); inv.setHelmet(helmet); break;
-						case 1 : saved = inv.getChestplate(); inv.setChestplate(chestplate); break;
-						case 2 : saved = inv.getLeggings(); inv.setLeggings(leggings); break;
-						case 3 : saved = inv.getBoots(); inv.setBoots(boots); break;
-						default : saved = inv.getItem(0); inv.setItem(0, sword); break;
-					}
-					BukkitRunnable restoreInv = new BukkitRunnable() {
-						int timeRes = 0;
-						@Override
-						public void run() {
-							if (GameUtils.isDeadPlayer(owner)) {
-								this.cancel();
-								return;
+					if (finalType == 0) {
+						ownerGP.setUltimateBuf(true);
+						BukkitRunnable runnable = new BukkitRunnable() {
+							@Override
+							public void run() {
+								ownerGP.setUltimateBuf(false);
 							}
-							if (timeRes > duration) {
-								this.cancel();
-								switch (finalType) {
-									case 0 : inv.setHelmet(saved); break;
-									case 1 : inv.setChestplate(saved); break;
-									case 2 : inv.setLeggings(saved); break;
-									case 3 : inv.setBoots(saved); break;
-									case 4: inv.setItem(0, saved); break;
-								}
-								return;
-							}
-							timeRes += 5;
+						};
+						runnable.runTaskLater(Plugin.getInstance(), duration);
+						Game.getInstance().getRunnables().add(runnable);
+						if (owner.getInventory().getItem(0).getType().equals(Material.STAINED_GLASS_PANE)) {
+							return;
 						}
-					};
-					restoreInv.runTaskTimer(Plugin.getInstance(), 0, 5);
-					Game.getInstance().getRunnables().add(restoreInv);
+					}
+					GameUtils.changeEquipment(owner, finalType, duration, item);
 				}
 			};
 			world.addEntity(handle, CreatureSpawnEvent.SpawnReason.CUSTOM);

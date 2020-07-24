@@ -1,12 +1,11 @@
 {
   "name": "defaultboots",
   "slot": -4,
+  "displayName": "§cСапоги",
   "levels": [
     {
       "cooldown": 0,
       "material": "LEATHER_BOOTS",
-      "displayName": "§cСандали",
-      "lore": [],
       "amount": 1
     }
   ]

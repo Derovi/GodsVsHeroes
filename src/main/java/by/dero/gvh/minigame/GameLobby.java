@@ -15,16 +15,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import ru.cristalix.core.permissions.IPermissionService;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class GameLobby implements Listener {
     private final Game game;
     private int timeLeft = 61;
     private BukkitRunnable prepairing;
     private final ItemStack[] chooseInv;
+    private String selectedMap = "Castle";
 
     public GameLobby(Game game) {
         this.game = game;
@@ -85,7 +93,19 @@ public class GameLobby implements Listener {
         }
     }
 
+    private final HashMap<UUID, Vector> lastPos = new HashMap<>();
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        if (player.getLocation().subtract(0, 1, 0).getBlock().getType().isSolid()) {
+            lastPos.put(player.getUniqueId(), player.getLocation().toVector());
+        } else if (player.getLocation().getY() < 30) {
+            player.teleport(lastPos.get(player.getUniqueId()).toLocation(player.getWorld()));
+        }
+    }
+    
     public void startGame() {
+        PlayerMoveEvent.getHandlerList().unregister(this);
         PlayerInteractEvent.getHandlerList().unregister(this);
         timeLeft = 61;
         if (prepairing != null) {
@@ -111,7 +131,7 @@ public class GameLobby implements Listener {
                     return;
                 }
                 if (0 < timeLeft && timeLeft <= 10) {
-                    World world = Minigame.getInstance().getWorld();
+                    World world = Minigame.getInstance().getLobbyWorld();
                     world.playSound(game.getInfo().getLobbyPosition().toLocation(world),
                            Sound.BLOCK_NOTE_PLING, 100, 1);
                     for (final Player player : Bukkit.getOnlinePlayers()) {
@@ -135,25 +155,30 @@ public class GameLobby implements Listener {
     }
 
     public void onPlayerJoined(GamePlayer gamePlayer) {
-        gamePlayer.getPlayer().setGameMode(GameMode.SURVIVAL);
-        gamePlayer.setBoard(new Board("Lobby", 6));
+        Player player = gamePlayer.getPlayer();
 
-        gamePlayer.getPlayer().getInventory().setHeldItemSlot(0);
+        player.setGameMode(GameMode.SURVIVAL);
+        gamePlayer.setBoard(new Board("Lobby", 6));
+        for (PotionEffect effect : gamePlayer.getPlayer().getActivePotionEffects()) {
+            gamePlayer.getPlayer().removePotionEffect(effect.getType());
+        }
+
+        player.getInventory().setHeldItemSlot(0);
         final int players = game.getPlayers().size();
         final int needed = game.getInfo().getMaxPlayerCount();
 
         Bukkit.getServer().broadcastMessage(Lang.get("gameLobby.playerJoined")
-                .replace("%name%", gamePlayer.getPlayer().getName())
+                .replace("%name%", MessagingUtils.getPrefixAddition(player) + player.getName())
                 .replace("%cur%", String.valueOf(players))
                 .replace("%max%", String.valueOf(needed))
         );
         updateDisplays();
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.showPlayer(Plugin.getInstance(), gamePlayer.getPlayer());
-            gamePlayer.getPlayer().showPlayer(Plugin.getInstance(), p);
+            player.showPlayer(Plugin.getInstance(), p);
         }
 
-        PlayerInventory inv = gamePlayer.getPlayer().getInventory();
+        PlayerInventory inv = player.getInventory();
         inv.clear();
         for (int i = 0; i < 9; i++) {
             inv.setItem(i, chooseInv[i]);
@@ -163,7 +188,7 @@ public class GameLobby implements Listener {
             startPrepairing();
         }
         if (players >= game.getInfo().getMaxPlayerCount()) {
-            timeLeft = 10;
+            timeLeft = Math.min(timeLeft, 10);
         }
         AdviceManager.sendAdvice(gamePlayer.getPlayer(), "chooseTeam", 20, 240,
                 (pl) -> (!game.getState().equals(Game.State.WAITING) ||
@@ -175,7 +200,8 @@ public class GameLobby implements Listener {
         final int players = game.getPlayers().size() - 1;
         final int needed = game.getInfo().getMinPlayerCount();
         Bukkit.getServer().broadcastMessage(Lang.get("gameLobby.playerLeft")
-                .replace("%name%", gamePlayer.getPlayer().getName())
+                .replace("%name%", MessagingUtils.getPrefixAddition(gamePlayer.getPlayer())
+                        + gamePlayer.getPlayer().getName())
                 .replace("%cur%", String.valueOf(players))
                 .replace("%max%", String.valueOf(game.getInfo().getMaxPlayerCount()))
         );
@@ -186,6 +212,10 @@ public class GameLobby implements Listener {
                 ready = false;
             }
         }, 2);
+    }
+
+    public String getSelectedMap() {
+        return selectedMap;
     }
 
     public Game getGame () {

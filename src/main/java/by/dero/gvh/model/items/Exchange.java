@@ -6,8 +6,8 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.ExchangeInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
@@ -16,9 +16,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class Exchange extends Item implements PlayerInteractInterface {
     private final double maxRange;
+    private final Material material;
     public Exchange(String name, int level, Player owner) {
         super(name, level, owner);
-        maxRange = ((ExchangeInfo) getInfo()).getMaxRange();
+        ExchangeInfo info = (ExchangeInfo) getInfo();
+        maxRange = info.getMaxRange();
+        material = info.getMaterial();
     }
 
     final int parts = 300;
@@ -46,7 +49,7 @@ public class Exchange extends Item implements PlayerInteractInterface {
                 return;
             }
             cooldown.reload();
-            Bukkit.getServer().broadcastMessage(target.getName() + "");
+            owner.setCooldown(material, (int) cooldown.getDuration());
             Location oLoc = owner.getLocation(), tLoc = target.getLocation();
             drawSign(owner);
             drawSign(target);

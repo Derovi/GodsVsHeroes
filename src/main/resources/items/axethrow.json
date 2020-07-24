@@ -9,25 +9,41 @@
   "levels": [
     {
       "cooldown": 100,
-      "damage": 15,
-      "meleeDamage": 8,
+      "damage": 16,
+      "meleeDamage": 9,
       "cost": 80,
       "material": "IRON_AXE",
       "amount": 1
     },
     {
       "cooldown": 100,
-      "damage": 17,
-      "meleeDamage": 8,
+      "damage": 18,
+      "meleeDamage": 9,
       "cost": 100,
       "material": "IRON_AXE",
       "amount": 1
     },
     {
-      "cooldown": 100,
+      "cooldown": 90,
+      "damage": 18,
+      "meleeDamage": 10,
+      "cost": 130,
+      "material": "IRON_AXE",
+      "amount": 1
+    },
+    {
+      "cooldown": 90,
       "damage": 20,
-      "meleeDamage": 8,
-      "cost": 120,
+      "meleeDamage": 10,
+      "cost": 160,
+      "material": "IRON_AXE",
+      "amount": 1
+    },
+    {
+      "cooldown": 80,
+      "damage": 20,
+      "meleeDamage": 11,
+      "cost": 200,
       "material": "IRON_AXE",
       "amount": 1
     }

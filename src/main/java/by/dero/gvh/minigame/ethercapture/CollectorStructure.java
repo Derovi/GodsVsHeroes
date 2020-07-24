@@ -1,6 +1,6 @@
 package by.dero.gvh.minigame.ethercapture;
 
-import org.apache.commons.lang3.tuple.Pair;
+import by.dero.gvh.utils.Pair;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Stack;
 
 public class CollectorStructure {
-    private static final ArrayList<Pair<Material, Vector> > base = new ArrayList<>();
+    private static final ArrayList<Pair<Material, Vector>> base = new ArrayList<>();
     private static final ArrayList<Pair<Material, Vector> > changing = new ArrayList<>();
 
     private static final ArrayList<Pair<Material, Vector> > stages = new ArrayList<>();

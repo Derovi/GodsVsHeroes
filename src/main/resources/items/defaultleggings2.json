@@ -1,13 +1,12 @@
 {
   "name": "defaultleggings2",
+  "displayName": "§cШтаны",
   "slot": -3,
   "levels": [
     {
       "cooldown": 0,
       "cost": 80,
       "material": "GOLD_LEGGINGS",
-      "displayName": "§cПонтолоны",
-      "lore": [],
       "amount": 1
     }
   ]

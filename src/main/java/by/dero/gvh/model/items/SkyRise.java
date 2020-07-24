@@ -48,7 +48,6 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 			return;
 		}
 		if (!cooldown.isReady()) {
-			GameUtils.doubleSpaceCooldownMessage(this);
 			return;
 		}
 		cooldown.reload();
@@ -69,9 +68,13 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 			int ticks = 0;
 			@Override
 			public void run() {
-				if (owner.getLocation().y * 2 == (int) owner.getLocation().y * 2 || ticks > 80) {
-					owner.getInventory().setItem(0, mjolnir.getItemStack());
+				if ((owner.getVelocity().y < 0 && !owner.getLocation().add(0, -1, 0).
+						getBlock().getType().equals(Material.AIR)) || ticks > 80) {
 					this.cancel();
+					owner.getInventory().setItem(0, mjolnir.getItemStack());
+					Location loc = owner.getLocation().add(0, -1, 0);
+					loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
+					loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
 					stand.remove();
 					owner.getInventory().setItem(0, mjolnir.getItemStack());
 					for (GameObject go : GameUtils.getGameObjects()) {
@@ -79,7 +82,7 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 						if (ent.getLocation().distance(owner.getLocation()) < radius && go.getTeam() != getTeam()) {
 							GameUtils.damage(damage, ent, owner, false);
 							ent.setVelocity(ent.getLocation().subtract(owner.getLocation()).toVector().normalize().multiply(1.2));
-							Location at = ent.getLocation();
+							Location at = ent.getLocation().add(0, -1, 0);
 							at.getWorld().playSound(at, Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
 							at.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, at, 1);
 							break;
@@ -94,13 +97,5 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 		stand.setItemInHand(mjolnir.getItemStack());
 		stand.setVisible(false);
 		stand.setRightArmPose(new EulerAngle(Math.PI * 1.5, 0, 0));
-		for (GameObject go : GameUtils.getGameObjects()) {
-			LivingEntity ent = go.getEntity();
-			Location loc = new Location(owner.getWorld(),
-					ent.getLocation().getX(), owner.getLocation().getY(), ent.getLocation().getZ());
-			if (go.getTeam() != getTeam() && loc.distance(owner.getLocation()) < radius) {
-				ent.setVelocity(owner.getLocation().subtract(loc).toVector().normalize().multiply(1.2));
-			}
-		}
 	}
 }

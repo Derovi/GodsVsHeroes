@@ -8,26 +8,42 @@
   ],
   "levels": [
     {
-      "cooldown": 1200,
+      "cooldown": 800,
       "radius": 20.0,
-      "heal": 10,
+      "heal": 6,
       "cost": 80,
       "material": "END_CRYSTAL",
       "amount": 1
     },
     {
-      "cooldown": 1200,
+      "cooldown": 860,
       "radius": 20.0,
-      "heal": 12,
+      "heal": 7,
       "cost": 100,
       "material": "END_CRYSTAL",
       "amount": 1
     },
     {
-      "cooldown": 1200,
+      "cooldown": 920,
       "radius": 20.0,
-      "heal": 14,
-      "cost": 100,
+      "heal": 8,
+      "cost": 130,
+      "material": "END_CRYSTAL",
+      "amount": 1
+    },
+    {
+      "cooldown": 980,
+      "radius": 20.0,
+      "heal": 9,
+      "cost": 160,
+      "material": "END_CRYSTAL",
+      "amount": 1
+    },
+    {
+      "cooldown": 1040,
+      "radius": 20.0,
+      "heal": 10,
+      "cost": 200,
       "material": "END_CRYSTAL",
       "amount": 1
     }

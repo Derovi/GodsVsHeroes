@@ -1,13 +1,12 @@
 {
   "name": "defaultchestplate2",
+  "displayName": "§cКираса",
   "slot": -2,
   "levels": [
     {
       "cooldown": 0,
       "cost": 80,
       "material": "GOLD_CHESTPLATE",
-      "displayName": "§cНагрудник",
-      "lore": [],
       "amount": 1
     }
   ]

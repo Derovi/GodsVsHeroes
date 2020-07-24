@@ -3,9 +3,12 @@ package by.dero.gvh;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.model.interfaces.DoubleHanded;
 import by.dero.gvh.nmcapi.NMCUtils;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.GameUtils;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,8 +25,11 @@ public class GamePlayer extends GameObject {
     private final HashMap<String, Item> items = new HashMap<>();
     private Item lastUsed;
     private boolean actionBarBlocked = false;
+    @Getter
+    @Setter
     private ItemStack[] contents = null;
     private boolean disabled = false;
+    private boolean ultimateBuf = false;
 
     private Board board;
 
@@ -72,10 +78,13 @@ public class GamePlayer extends GameObject {
                 } else {
                     player.getInventory().addItem(item.getItemStack());
                 }
+                if (item instanceof DoubleHanded) {
+                    player.getInventory().setItemInOffHand(item.getItemStack());
+                }
             }
             charges.putIfAbsent(item.getName(), item.getInfo().getAmount());
         } catch (Exception ex) {
-            System.err.println("Can't add item! " + name + ":" + String.valueOf(level) + " to " + getPlayer().getName());
+            System.err.println("Can't add item! " + name + ":" + level + " to " + getPlayer().getName());
             ex.printStackTrace();
         }
     }
@@ -166,8 +175,9 @@ public class GamePlayer extends GameObject {
         int need = charges.get(item.getName());
 
         PlayerInventory inv = player.getInventory();
+        need = Math.max(need, 1);
         if (need == 0) {
-            inv.setItem(slot, Item.getPane(item.getInfo().getDisplayName()));
+//            inv.setItem(slot, Item.getPane(item.getInfo().getDisplayName()));
         } else if (inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE) ||
                 inv.getItem(slot).getAmount() != need) {
             ItemStack zxc = item.getItemStack();
@@ -186,6 +196,7 @@ public class GamePlayer extends GameObject {
         for (Map.Entry<Item, Integer> obj : itemsSlots.entrySet()) {
             int slot = obj.getValue();
             int need = charges.get(obj.getKey().getName());
+            need = Math.max(need, 1);
             if (need == 0) {
                 inv.setItem(slot, Item.getPane(obj.getKey().getInfo().getDisplayName()));
             } else if (inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.STAINED_GLASS_PANE) ||
@@ -276,7 +287,7 @@ public class GamePlayer extends GameObject {
             }
         }
 
-        if (preferredTeam == mx1 && val1 - val2 >= 2) {
+        if (preferredTeam == mx1 && val1 - val2 >= 1) {
             return false;
         }
         setTeam(preferredTeam);
@@ -289,5 +300,13 @@ public class GamePlayer extends GameObject {
 
     public void setDisabled (boolean disabled) {
         this.disabled = disabled;
+    }
+    
+    public boolean isUltimateBuf() {
+        return ultimateBuf;
+    }
+    
+    public void setUltimateBuf(boolean ultimateBuf) {
+        this.ultimateBuf = ultimateBuf;
     }
 }

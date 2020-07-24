@@ -14,6 +14,7 @@ import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.AreaManager;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;
+import by.dero.gvh.utils.WorldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
@@ -32,7 +33,7 @@ public class Minigame implements PluginMode {
 
     private GameEvents gameEvents;
     private CommandManager commandManager;
-    private World world;
+    private World lobbyWorld;
 
     private LootsManager lootsManager;
     private LiftManager liftManager;
@@ -53,13 +54,8 @@ public class Minigame implements PluginMode {
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
                 ServerType.GAME, game.getInfo().getMaxPlayerCount());
 
-        world = Bukkit.getWorld(game.getInfo().getWorld());
-        world.setTime(1000);
-        world.setDifficulty(Difficulty.NORMAL);
-        world.setGameRuleValue("keepInventory", "true");
-        world.setGameRuleValue("doDaylightCycle", "false");
-        world.setGameRuleValue("doMobLoot", "false");
-        world.setGameRuleValue("announceAdvancements", "false");
+        lobbyWorld = Bukkit.getWorld(game.getInfo().getLobbyWorld());
+        WorldUtils.prepareWorld(lobbyWorld);
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "weather clear 100000");
         game.prepare();
         registerEvents();
@@ -107,8 +103,8 @@ public class Minigame implements PluginMode {
         commandManager.getCommands().put("unlock", new UnlockClassCommand());
     }
 
-    public World getWorld() {
-        return world;
+    public World getLobbyWorld() {
+        return lobbyWorld;
     }
 
     public static Minigame getInstance() {

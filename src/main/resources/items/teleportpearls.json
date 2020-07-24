@@ -3,12 +3,37 @@
   "slot": 0,
   "lore": [
     "§fУрон по себе §8» §b2.5§c❤",
+    "§fЗарядов §8» §b%%amount%%",
     "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
       "cooldown": 600,
       "cost": 80,
+      "material": "ENDER_PEARL",
+      "amount": 1
+    },
+    {
+      "cooldown": 540,
+      "cost": 100,
+      "material": "ENDER_PEARL",
+      "amount": 1
+    },
+    {
+      "cooldown": 480,
+      "cost": 130,
+      "material": "ENDER_PEARL",
+      "amount": 1
+    },
+    {
+      "cooldown": 440,
+      "cost": 160,
+      "material": "ENDER_PEARL",
+      "amount": 2
+    },
+    {
+      "cooldown": 400,
+      "cost": 200,
       "material": "ENDER_PEARL",
       "amount": 2
     }

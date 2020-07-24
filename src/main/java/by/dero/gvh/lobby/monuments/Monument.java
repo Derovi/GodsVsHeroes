@@ -11,12 +11,10 @@ import org.bukkit.entity.Player;
 public abstract class Monument {
     private final DirectedPosition position;
     private final String className;
-    private final Player owner;
 
-    public Monument(DirectedPosition position, String className, Player owner) {
+    public Monument(DirectedPosition position, String className) {
         this.position = position;
         this.className = className;
-        this.owner = owner;
     }
 
     public abstract void load();
@@ -24,9 +22,6 @@ public abstract class Monument {
     public abstract void unload();
 
     public void onSelect(Player player) {
-        if (!owner.getName().equals(player.getName())) {
-            return;
-        }
         LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
         if (lobbyPlayer.getPlayerInfo().isClassUnlocked(className)) {
             SelectorInterface selectorInterface = new SelectorInterface(
@@ -40,9 +35,6 @@ public abstract class Monument {
     }
 
     public void onUpdateSelected(Player player) {
-        if (!owner.getName().equals(player.getName())) {
-            return;
-        }
     }
 
     public Position getPosition() {
@@ -51,9 +43,5 @@ public abstract class Monument {
 
     public String getClassName() {
         return className;
-    }
-
-    public Player getOwner() {
-        return owner;
     }
 }

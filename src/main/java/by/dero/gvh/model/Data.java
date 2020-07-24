@@ -98,6 +98,13 @@ public class Data {
         registerItem("skyrise", SkyRiseInfo.class, SkyRise.class);
         registerItem("mjolnir", MjolnirInfo.class, Mjolnir.class);
         registerItem("paladinarmor", PaladinArmorInfo.class, PaladinArmor.class);
+        registerItem("energyfist", EnergyFistInfo.class, EnergyFist.class);
+        registerItem("doublefist", DoubleFistInfo.class, DoubleFist.class);
+        registerItem("chargedfists", ChargedFistsInfo.class, ChargedFists.class);
+        registerItem("lightningstrike", LightningStrikeInfo.class, LightningStrike.class);
+        registerItem("summongunsmith", SummonGunsmithInfo.class, SummonGunsmith.class);
+        registerItem("spawnarmoredhorse", ItemInfo.class, SpawnArmoredHorse.class);
+        registerItem("hachickjump", HachickJumpInfo.class, HachickJump.class);
     }
 
     private void registerClasses() {
@@ -112,6 +119,8 @@ public class Data {
         registerClass("assassin");
         registerClass("dovahkiin");
         registerClass("horseman");
+        registerClass("paladin");
+//        registerClass("hachick");
     }
 
     public void load() {

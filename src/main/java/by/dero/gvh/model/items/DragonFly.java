@@ -3,7 +3,6 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.InteractAnyItem;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.DragonFlyInfo;
@@ -17,15 +16,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class DragonFly extends Item implements PlayerInteractInterface, InteractAnyItem, InfiniteReplenishInterface {
+public class DragonFly extends Item implements PlayerInteractInterface, InteractAnyItem {
     private final DragonFlyInfo info;
     private final Cooldown fireballCooldown;
     private ControlledDragon dragon;
+    private final Material material;
 
     public DragonFly(String name, int level, Player owner) {
         super(name, level, owner);
         info = (DragonFlyInfo) getInfo();
         fireballCooldown = new Cooldown(info.getFireballCoolDown());
+        material = info.getMaterial();
     }
 
     @Override
@@ -34,6 +35,7 @@ public class DragonFly extends Item implements PlayerInteractInterface, Interact
             return;
         }
         cooldown.reload();
+        owner.setCooldown(material, (int) cooldown.getDuration());
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 100, 1);
         dragon = new ControlledDragon(owner);
         dragon.setSpeed(info.getSpeed());

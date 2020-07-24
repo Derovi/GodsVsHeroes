@@ -1,13 +1,12 @@
 {
   "name": "defaultchestplatechainmail",
+  "displayName": "§cКираса",
   "slot": -2,
   "levels": [
     {
       "cooldown": 0,
       "cost": 80,
       "material": "CHAINMAIL_CHESTPLATE",
-      "displayName": "§cНагрудник",
-      "lore": [],
       "amount": 1
     }
   ]

@@ -2,29 +2,50 @@
   "name": "stunrocks",
   "slot": 0,
   "lore": [
-    "§fРадиус §8» §b1.5 §fблока.",
+    "§fРадиус §8» §b2 §fблока.",
     "§fДлительность §8» §b%%duration,0.05%% §fсек.",
+    "§fУрон от броска §8» §b%%damage,0.5%%§c❤",
+    "§fЗарядов §8» §b%%amount%%",
     "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
       "cooldown": 200,
+      "damage": 6,
       "duration": 40,
       "cost": 80,
       "material": "SNOW_BALL",
       "amount": 2
     },
     {
-      "cooldown": 180,
+      "cooldown": 185,
+      "damage": 6,
       "duration": 40,
       "cost": 100,
       "material": "SNOW_BALL",
       "amount": 2
     },
     {
-      "cooldown": 160,
+      "cooldown": 170,
+      "damage": 6,
       "duration": 40,
-      "cost": 120,
+      "cost": 130,
+      "material": "SNOW_BALL",
+      "amount": 2
+    },
+    {
+      "cooldown": 155,
+      "damage": 6,
+      "duration": 40,
+      "cost": 160,
+      "material": "SNOW_BALL",
+      "amount": 2
+    },
+    {
+      "cooldown": 140,
+      "damage": 6,
+      "duration": 40,
+      "cost": 200,
       "material": "SNOW_BALL",
       "amount": 2
     }

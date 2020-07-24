@@ -1,11 +1,9 @@
 package by.dero.gvh.model;
 
-import by.dero.gvh.GamePlayer;
-import by.dero.gvh.Plugin;
 import by.dero.gvh.model.annotations.CustomDamage;
 import by.dero.gvh.model.annotations.DynamicCustomization;
-import by.dero.gvh.model.annotations.StaticCustomization;
 import by.dero.gvh.model.annotations.PotionItem;
+import by.dero.gvh.model.annotations.StaticCustomization;
 import by.dero.gvh.nmcapi.NMCUtils;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagInt;
@@ -14,7 +12,6 @@ import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -84,8 +81,15 @@ public class ItemInfo {
         if (lore == null) {
             lore = new ArrayList<>();
             for (String string : description.getLore()) {
-                lore.add(parseString(string));
+                if (string != null) {
+                    lore.add(parseString(string));
+                }
             }
+        }
+        List<String> desc = new ArrayList<>(lore);
+        if (!description.getName().startsWith("default")) {
+            desc.add("");
+            desc.add("§8»§aОткрыть описание§8«");
         }
 
         itemStack = new ItemStack(material, amount);
@@ -93,7 +97,7 @@ public class ItemInfo {
         for (ItemInfo.EnchantInfo enchantInfo : enchantments) {
             itemMeta.addEnchant(Enchantment.getByName(enchantInfo.getName()), enchantInfo.getLevel(), enchantInfo.isVisible());
         }
-        itemMeta.setLore(lore);
+        itemMeta.setLore(desc);
         itemMeta.setDisplayName(displayName);
         itemMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         itemMeta.addEnchant(Enchantment.DURABILITY, Integer.MAX_VALUE, true);
@@ -164,7 +168,7 @@ public class ItemInfo {
         if (dynamicCustomizer != null) {
             try {
                 ItemStack result = itemStack.clone();
-                dynamicCustomizer.invoke(null, result, this, owner);
+                dynamicCustomizer.invoke(this, result, this, owner);
                 return result;
             } catch (Exception ex) {
                 ex.printStackTrace();

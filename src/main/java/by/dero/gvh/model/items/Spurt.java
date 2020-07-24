@@ -31,7 +31,7 @@ public class Spurt extends Item implements DoubleSpaceInterface {
         cooldown.reload();
         owner.getLocation().getWorld().playSound(owner.getEyeLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.07f, 1);
         Drawings.drawCircleInFront(owner.getEyeLocation(), 3, 0.5, Particle.EXPLOSION_LARGE);
-        owner.setVelocity(owner.getLocation().getDirection().normalize().multiply(power).setY (0.4));
+        owner.setVelocity(owner.getLocation().getDirection().normalize().multiply(power).setY(0.4));
         float playerSpeed = owner.getWalkSpeed();
         owner.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration, 1), true);
         new BukkitRunnable() {

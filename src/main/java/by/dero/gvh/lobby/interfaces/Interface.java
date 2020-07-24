@@ -11,7 +11,7 @@ public class Interface {
     private Inventory inventory;
     private final Runnable[] buttonActions;
     private final InterfaceManager manager;
-    private final int height;
+    protected final int height;
 
     public Interface(InterfaceManager manager, Player player, int height, String name) {
         this.manager = manager;
@@ -86,5 +86,13 @@ public class Interface {
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public InterfaceManager getManager() {
+        return manager;
     }
 }

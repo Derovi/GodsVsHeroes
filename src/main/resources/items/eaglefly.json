@@ -3,6 +3,7 @@
   "invisible": true,
   "slot": 0,
   "lore": [
+    "§fДлительность §8» §b%%duration,0.05%% §fсек.",
     "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
@@ -15,34 +16,34 @@
       "amount": 1
     },
     {
-      "cooldown": 740,
-      "speed": 0.52,
+      "cooldown": 750,
+      "speed": 0.5,
       "duration": 220,
       "cost": 100,
       "material": "FEATHER",
       "amount": 1
     },
     {
-      "cooldown": 680,
-      "speed": 0.54,
+      "cooldown": 700,
+      "speed": 0.5,
       "duration": 240,
-      "cost": 120,
+      "cost": 130,
       "material": "FEATHER",
       "amount": 1
     },
     {
-      "cooldown": 620,
-      "speed": 0.56,
+      "cooldown": 650,
+      "speed": 0.5,
       "duration": 260,
-      "cost": 140,
+      "cost": 160,
       "material": "FEATHER",
       "amount": 1
     },
     {
-      "cooldown": 560,
-      "speed": 0.58,
+      "cooldown": 600,
+      "speed": 0.5,
       "duration": 280,
-      "cost": 160,
+      "cost": 200,
       "material": "FEATHER",
       "amount": 1
     }

@@ -1,29 +1,24 @@
 {
   "name": "defaultsword",
+  "displayName": "§cМеч",
   "slot": 0,
   "levels": [
     {
       "cooldown": 0,
       "cost": 80,
       "material": "DIAMOND_SWORD",
-      "displayName": "§cМеч",
-      "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
       "cost": 100,
       "material": "DIAMOND_SWORD",
-      "displayName": "§cМеч",
-      "lore": [],
       "amount": 1
     },
     {
       "cooldown": 0,
       "cost": 120,
       "material": "DIAMOND_SWORD",
-      "displayName": "§cМеч",
-      "lore": [],
       "amount": 1
     }
   ]

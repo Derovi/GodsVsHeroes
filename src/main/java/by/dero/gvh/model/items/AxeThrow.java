@@ -3,7 +3,6 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.AxeThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingAxe;
@@ -20,7 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class AxeThrow extends Item implements PlayerInteractInterface {
     private final double damage;
 
     public AxeThrow(String name, int level, Player owner) {
@@ -42,6 +41,7 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
 
         final int slot = owner.getInventory().getHeldItemSlot();
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
+        owner.getInventory().setItem(slot, Item.getPane(getInfo().getDisplayName()));
         axe.spawn();
         axe.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(axe.getHoldEntity(), getTeam())) {
@@ -73,6 +73,9 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
                     Sound.BLOCK_SHULKER_BOX_OPEN, 1.07f, 1);
         });
         axe.setOnOwnerPickUp(() -> {
+            if (ownerGP.isInventoryHided()) {
+                ownerGP.getContents()[0] = getItemStack();
+            } else
             if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
                 owner.getInventory().setItem(slot, getItemStack());
                 owner.getInventory().getItem(slot).setAmount(1);
@@ -82,6 +85,13 @@ public class AxeThrow extends Item implements PlayerInteractInterface, InfiniteR
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
+                if (ownerGP.isInventoryHided()) {
+                    ownerGP.getContents()[0] = getItemStack();
+                } else
+                if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+                    owner.getInventory().setItem(slot, getItemStack());
+                    owner.getInventory().getItem(slot).setAmount(1);
+                }
                 axe.remove();
             }
         };

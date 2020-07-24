@@ -3,30 +3,23 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.interfaces.InfiniteReplenishInterface;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.SwordThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingSword;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.NBTTagInt;
-import net.minecraft.server.v1_12_R1.NBTTagList;
-import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class SwordThrow extends Item implements PlayerInteractInterface, InfiniteReplenishInterface {
+public class SwordThrow extends Item implements PlayerInteractInterface {
     private final double damage;
 
     public SwordThrow(String name, int level, Player owner) {
@@ -47,6 +40,7 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
         final ThrowingSword sword = new ThrowingSword(owner, getItemStack());
 
         final int slot = owner.getInventory().getHeldItemSlot();
+        owner.getInventory().setItem(slot, Item.getPane(getInfo().getDisplayName()));
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         sword.spawn();
         sword.setOnHitEntity(() -> {
@@ -79,15 +73,22 @@ public class SwordThrow extends Item implements PlayerInteractInterface, Infinit
                     Sound.BLOCK_SHULKER_BOX_OPEN, 1.07f, 1);
         });
         sword.setOnOwnerPickUp(() -> {
+            if (ownerGP.isInventoryHided()) {
+                ownerGP.getContents()[0] = getItemStack();
+            } else
             if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
                 owner.getInventory().setItem(slot, getItemStack());
-                owner.getInventory().getItem(slot).setAmount(1);
             }
             sword.remove();
         });
         final BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
+                if (ownerGP.isInventoryHided()) {
+                    ownerGP.getContents()[0] = getItemStack();
+                } else if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+                    owner.getInventory().setItem(slot, getItemStack());
+                }
                 sword.remove();
             }
         };

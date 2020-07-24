@@ -1,0 +1,32 @@
+{
+  "name": "doublefist",
+  "slot": 0,
+  "lore": [
+    "§fУрон от атаки §8» §b%%damage,0.5%%§c❤",
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек.",
+    "§fМогут быть усилены"
+  ],
+  "levels": [
+    {
+      "cooldown": 15,
+      "damage": 9,
+      "cost": 80,
+      "material": "CLAY_BALL",
+      "amount": 1
+    },
+    {
+      "cooldown": 15,
+      "damage": 10,
+      "cost": 80,
+      "material": "CLAY_BALL",
+      "amount": 1
+    },
+    {
+      "cooldown": 15,
+      "damage": 11,
+      "cost": 80,
+      "material": "CLAY_BALL",
+      "amount": 1
+    }
+  ]
+}

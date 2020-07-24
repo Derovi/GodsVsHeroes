@@ -1,6 +1,7 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.fireworks.FireworkSpawner;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.utils.MathUtils;
 import net.minecraft.server.v1_12_R1.EntityFireworks;
@@ -21,6 +22,46 @@ import java.util.UUID;
 public class Drawings {
     public static final double dense = 1.5;
     public static final Vector randomVector = new Vector(Math.random(), Math.random(), Math.random()).normalize();
+
+    public static void drawFist(Location loc, double size, Particle particle) {
+        // drawing palm
+        double density = 10;
+        double height = size * 1.2;
+        double fingerWidth = 1;
+        double emptyWidth = 0.2;
+        int idx = 0;
+        double[] finger = new double[5];
+        finger[2] = 5;
+        finger[1] = 0.95 * finger[2];
+        finger[3] = 0.9575 * finger[2];
+        finger[4] = 0.8 * finger[2];
+        finger[0] = 0.9 * finger[2];
+        double startAngle = Math.toRadians(loc.getYaw()) + Math.PI * 0.6;
+        for (double h = 0; ; ) {
+            double rad = 2 * Math.pow((height - h) / height, 0.15);
+            if (Double.isNaN(rad) || rad < 0.1) {
+                break;
+            }
+            h += Math.pow((height - h) / height, 0.5) / 3.5;
+            for (double angle = 0; angle < Math.PI * 2 / 3; angle += Math.PI / density / 3) {
+                loc.getWorld().spawnParticle(particle, loc.clone().add(MathUtils.cos(startAngle + angle) * rad,
+                        h, MathUtils.sin(startAngle + angle) * rad), 1, 0, 0, 0, 0);
+            }
+            double H = h;
+            while (H > fingerWidth + emptyWidth) {
+                H -= fingerWidth + emptyWidth;
+            }
+            ++idx;
+            if (idx % 3 != 0) {
+                for (double angle = Math.PI / 3; angle < Math.PI / 3 + finger[(idx - 1) / 3]; angle += Math.PI / density / 3) {
+                    loc.getWorld().spawnParticle(particle, loc.clone().add(MathUtils.cos(startAngle + angle) * rad, h, MathUtils.sin(startAngle + angle) * rad), 1, 0, 0, 0, 0);
+                }
+            }
+            if (idx == 15) {
+                break;
+            }
+        }
+    }
 
     public static void drawLine(Location a, Location b, Particle obj) {
         Vector cur = a.toVector();
@@ -75,8 +116,21 @@ public class Drawings {
                     ), 1, 0, 0, 0, 0);
         }
     }
+    
+    public static void drawCircle(Location loc, double radius, Particle obj, int parts) {
+        for (double angle = 0; angle < MathUtils.PI2; angle += MathUtils.PI2 / parts) {
+            loc.getWorld().spawnParticle(
+                    obj,
+                    new Location(
+                            loc.getWorld(),
+                            loc.getX() + MathUtils.cos(angle) * radius,
+                            loc.getY(),
+                            loc.getZ() + MathUtils.sin(angle) * radius
+                    ), 1, 0, 0, 0, 0);
+        }
+    }
 
-    private static final Color[] colors = new Color[] {
+    public static final Color[] colors = new Color[] {
         Color.AQUA, Color.BLUE, Color.FUCHSIA, Color.LIME, Color.MAROON, Color.NAVY,
         Color.OLIVE, Color.ORANGE, Color.WHITE, Color.YELLOW, Color.SILVER, Color.RED, Color.PURPLE
     };
@@ -120,7 +174,7 @@ public class Drawings {
                 for (double partAngle = 0; partAngle < MathUtils.PI2; partAngle += MathUtils.PI2 / parts) {
                     double resHor = horAngle + partAngle;
                     final Location at = MathUtils.getInCphere(center.toVector(), radius, resHor, vertAngle).toLocation(center.getWorld());
-                    player.getWorld().spawnParticle(particle, at, 0,0,0, 0);
+                    player.spawnParticle(particle, at, 0,0,0, 0);
                 }
 
                 horAngle += horAngleSpeed * dT;
@@ -224,7 +278,10 @@ public class Drawings {
 
         Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     player.playSound(loc, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 2, 1);
-                    spawnFirework(loc.clone().add(0,1,0), 2);
+                    for (int i = 0; i < 2; i++) {
+                        FireworkSpawner.spawn(loc.clone().add(0, 1, 0), FireworkEffect.builder().withColor(
+                                colors[(int)(Math.random()*colors.length)]).flicker(true).build(), player);
+                    }
                 }, duration);
     }
 

@@ -1,8 +1,8 @@
 package by.dero.gvh.model.itemsinfo;
 
-import by.dero.gvh.model.annotations.CustomDamage;
 import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
+import by.dero.gvh.model.annotations.CustomDamage;
 
 public class KnifeThrowInfo extends ItemInfo {
     private double damage;

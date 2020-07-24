@@ -3,29 +3,44 @@
   "slot": 0,
   "lore": [
     "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fЗарядов §8» §b%%amount%%",
     "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
-      "cooldown": 120,
+      "cooldown": 200,
       "radius": 7,
       "cost": 80,
       "material": "SNOW_BALL",
       "amount": 2
     },
     {
-      "cooldown": 105,
-      "radius": 7.5,
+      "cooldown": 160,
+      "radius": 8,
       "cost": 100,
       "material": "SNOW_BALL",
       "amount": 2
     },
     {
-      "cooldown": 90,
-      "radius": 8,
-      "cost": 120,
+      "cooldown": 120,
+      "radius": 9,
+      "cost": 130,
       "material": "SNOW_BALL",
       "amount": 2
+    },
+    {
+      "cooldown": 200,
+      "radius": 7,
+      "cost": 160,
+      "material": "SNOW_BALL",
+      "amount": 3
+    },
+    {
+      "cooldown": 160,
+      "radius": 8,
+      "cost": 200,
+      "material": "SNOW_BALL",
+      "amount": 3
     }
   ]
 }

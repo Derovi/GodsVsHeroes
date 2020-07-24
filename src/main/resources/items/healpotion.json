@@ -5,12 +5,13 @@
     "§fХил себя §8» §b%%heal,0.5%%§c❤",
     "§fХил союзников §8» §b%%allyHeal,0.5%%§c❤",
     "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fЗарядов §8» §b%%amount%%",
     "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
-      "cooldown": 120,
-      "radius": 5.0,
+      "cooldown": 100,
+      "radius": 4.0,
       "heal": 4,
       "allyHeal": 2,
       "cost": 80,
@@ -18,38 +19,38 @@
       "amount": 2
     },
     {
-      "cooldown": 115,
-      "radius": 5.0,
-      "heal": 4,
-      "allyHeal": 2,
-      "cost": 140,
-      "material": "SPLASH_POTION",
-      "amount": 2
-    },
-    {
       "cooldown": 110,
-      "radius": 5.0,
-      "heal": 4,
-      "allyHeal": 2,
-      "cost": 180,
+      "radius": 4.5,
+      "heal": 5,
+      "allyHeal": 3,
+      "cost": 100,
       "material": "SPLASH_POTION",
       "amount": 2
     },
     {
-      "cooldown": 105,
+      "cooldown": 120,
       "radius": 5.0,
-      "heal": 4,
-      "allyHeal": 2,
-      "cost": 240,
+      "heal": 6,
+      "allyHeal": 4,
+      "cost": 130,
       "material": "SPLASH_POTION",
       "amount": 2
     },
     {
-      "cooldown": 180,
-      "radius": 5.0,
-      "heal": 4,
-      "allyHeal": 2,
-      "cost": 280,
+      "cooldown": 130,
+      "radius": 4.0,
+      "heal": 5,
+      "allyHeal": 3,
+      "cost": 160,
+      "material": "SPLASH_POTION",
+      "amount": 3
+    },
+    {
+      "cooldown": 140,
+      "radius": 4.5,
+      "heal": 6,
+      "allyHeal": 4,
+      "cost": 200,
       "material": "SPLASH_POTION",
       "amount": 3
     }

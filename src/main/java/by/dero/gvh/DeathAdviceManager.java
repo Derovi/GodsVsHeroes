@@ -39,7 +39,6 @@ public class DeathAdviceManager {
         register("dovahkiin", Lang.get("death.dovahkiin.space"), 100);
         register("dovahkiin", Lang.get("death.dovahkiin.sword"), 100);
         // thor
-        register("thor", Lang.get("death.thor.stunall"), 100);
         register("thor", Lang.get("death.thor.hammer"), 100);
         register("thor", Lang.get("death.thor.space"), 100);
         register("thor", Lang.get("death.thor.chainlightning"), 100);
@@ -50,6 +49,11 @@ public class DeathAdviceManager {
         register("horseman", Lang.get("death.horseman.space"), 100);
         register("horseman", Lang.get("death.horseman.horse"), 100);
         register("horseman", Lang.get("death.horseman.meteor"), 100);
+        // paladin
+        register("paladin", Lang.get("death.paladin.energyfist"), 100);
+        register("paladin", Lang.get("death.paladin.sword"), 100);
+        register("paladin", Lang.get("death.paladin.paladinarmor"), 100);
+        register("paladin", Lang.get("death.paladin.spawnarmoredhorse"), 100);
     }
 
     public static class Advice {
@@ -89,7 +93,9 @@ public class DeathAdviceManager {
         Advice result = null;
         List<Advice> suitable = new ArrayList<>();
         suitable.addAll(advices.get("all"));
-        suitable.addAll(advices.get(player.getClassName()));
+        if (advices.containsKey(player.getClassName())) {
+            suitable.addAll(advices.get(player.getClassName()));
+        }
         int summaryChance = 0;
         for (Advice advice : suitable) {
             summaryChance += advice.chance;

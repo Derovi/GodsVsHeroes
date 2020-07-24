@@ -1,0 +1,13 @@
+{
+  "name": "spawnarmoredhorse",
+  "slot": 0,
+  "invisible": true,
+  "levels": [
+    {
+      "cooldown": 200,
+      "material": "FEATHER",
+      "displayName": "",
+      "amount": 1
+    }
+  ]
+}

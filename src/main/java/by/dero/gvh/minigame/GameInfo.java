@@ -1,9 +1,11 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.Position;
+import org.bukkit.util.Vector;
 
 public class GameInfo {
-    private String world = "World";
+    private String lobbyWorld = "World";
     private String mode;
     private int teamCount = 2;
     private int respawnTime = 200;
@@ -15,10 +17,9 @@ public class GameInfo {
     private DirectedPosition[] winnerPositions;
     private DirectedPosition[] looserPositions;
     private DirectedPosition[] mapBorders;
-    private DirectedPosition[] healPoints;
-    private DirectedPosition[] speedPoints;
-    private DirectedPosition[] resistancePoints;
-    private DirectedPosition[] liftHints;
+    private Position[] healPoints;
+    private Position[] speedPoints;
+    private Position[] resistancePoints;
 
     public int getFinishTime() {
         return finishTime;
@@ -60,12 +61,12 @@ public class GameInfo {
         this.respawnTime = respawnTime;
     }
 
-    public String getWorld() {
-        return world;
+    public String getLobbyWorld() {
+        return lobbyWorld;
     }
 
-    public void setWorld(String world) {
-        this.world = world;
+    public void setLobbyWorld(String lobbyWorld) {
+        this.lobbyWorld = lobbyWorld;
     }
 
     public int getTeamCount() {
@@ -108,28 +109,28 @@ public class GameInfo {
         this.mapBorders = mapBorders;
     }
 
-    public DirectedPosition[] getHealPoints() {
-        return healPoints;
-    }
-
-    public void setHealPoints(DirectedPosition[] healPoints) {
+    public void setHealPoints(Position[] healPoints) {
         this.healPoints = healPoints;
     }
 
-    public DirectedPosition[] getSpeedPoints() {
-        return speedPoints;
-    }
-
-    public void setSpeedPoints(DirectedPosition[] speedPoints) {
+    public void setSpeedPoints(Position[] speedPoints) {
         this.speedPoints = speedPoints;
     }
 
-    public DirectedPosition[] getResistancePoints() {
-        return resistancePoints;
+    public void setResistancePoints(Position[] resistancePoints) {
+        this.resistancePoints = resistancePoints;
     }
 
-    public void setResistancePoints(DirectedPosition[] resistancePoints) {
-        this.resistancePoints = resistancePoints;
+    public Position[] getHealPoints() {
+        return healPoints;
+    }
+
+    public Position[] getSpeedPoints() {
+        return speedPoints;
+    }
+
+    public Position[] getResistancePoints() {
+        return resistancePoints;
     }
 
     public String getMode() {
@@ -138,13 +139,5 @@ public class GameInfo {
 
     public void setMode(String mode) {
         this.mode = mode;
-    }
-
-    public DirectedPosition[] getLiftHints () {
-        return liftHints;
-    }
-
-    public void setLiftHints (DirectedPosition[] liftHints) {
-        this.liftHints = liftHints;
     }
 }

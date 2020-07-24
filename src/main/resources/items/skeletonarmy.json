@@ -4,42 +4,63 @@
   "lore": [
     "§fКол-во скелетов §8» §7%%melee%%§8/§f%%range%%",
     "§fУрон визер скелета §8» §b%%meleeDamage,0.5%%§c❤",
-    "§fЗдоровье визер скелета §8» §b%%meleeHealth,0.5%%§c❤",
-    "§fЗдоровье обычного скелета §8» §b10§c❤",
+    "§fЗдоровье скелета §8» §b%%meleeHealth,0.5%%§c❤",
     "§fДлительность жизни §8» §b%%duration,0.05%% §fсек.",
     "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
-      "cooldown": 1200,
+      "cooldown": 1400,
+      "duration": 800,
+      "range": 2,
+      "melee": 2,
+      "meleeDamage": 5,
+      "meleeHealth": 30,
+      "cost": 80,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 1400,
       "duration": 800,
       "range": 2,
       "melee": 2,
       "meleeDamage": 5,
       "meleeHealth": 35,
-      "cost": 80,
+      "cost": 100,
       "material": "NETHER_STAR",
       "amount": 1
     },
     {
-      "cooldown": 1200,
+      "cooldown": 1400,
       "duration": 800,
-      "range": 2,
-      "melee": 2,
-      "meleeDamage": 5,
-      "meleeHealth": 40,
-      "cost": 80,
-      "material": "NETHER_STAR",
-      "amount": 1
-    },
-    {
-      "cooldown": 1200,
-      "duration": 800,
-      "range": 2,
+      "range": 3,
       "melee": 2,
       "meleeDamage": 6,
-      "meleeHealth": 40,
-      "cost": 80,
+      "meleeHealth": 30,
+      "cost": 130,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 1400,
+      "duration": 800,
+      "range": 3,
+      "melee": 2,
+      "meleeDamage": 6,
+      "meleeHealth": 35,
+      "cost": 160,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 1400,
+      "duration": 800,
+      "range": 3,
+      "melee": 3,
+      "meleeDamage": 5,
+      "meleeHealth": 35,
+      "cost": 200,
       "material": "NETHER_STAR",
       "amount": 1
     }

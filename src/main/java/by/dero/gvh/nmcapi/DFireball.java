@@ -2,12 +2,13 @@ package by.dero.gvh.nmcapi;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.utils.GameUtils;
-import net.minecraft.server.v1_12_R1.EntityDragonFireball;
-import net.minecraft.server.v1_12_R1.MovingObjectPosition;
+import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.event.CraftEventFactory;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
@@ -28,12 +29,19 @@ public class DFireball extends EntityDragonFireball {
                 loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1.07f, 1);
                 for (final LivingEntity ent : GameUtils.getNearby(loc, 3)) {
                     if (GameUtils.isEnemy(ent, owner.getPlayer())) {
-                        GameUtils.damage(10, ent, owner.getPlayer());
+                        GameUtils.damage(explodeDamage, ent, owner.getPlayer());
                     }
                 }
                 this.die();
             }
         }
+    }
+
+    public void setDirection(double d0, double d1, double d2) {
+        double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+        this.dirX = d0 / d3 * 0.1D;
+        this.dirY = d1 / d3 * 0.1D;
+        this.dirZ = d2 / d3 * 0.1D;
     }
 
     public void spawn() {

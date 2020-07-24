@@ -9,37 +9,37 @@
   "levels": [
     {
       "cooldown": 340,
-      "duration": 40,
-      "cost": 80,
-      "material": "FEATHER",
-      "amount": 1
-    },
-    {
-      "cooldown": 340,
-      "duration": 45,
-      "cost": 100,
-      "material": "FEATHER",
-      "amount": 1
-    },
-    {
-      "cooldown": 340,
-      "duration": 50,
-      "cost": 120,
-      "material": "FEATHER",
-      "amount": 1
-    },
-    {
-      "cooldown": 340,
-      "duration": 55,
-      "cost": 140,
-      "material": "FEATHER",
-      "amount": 1
-    },
-    {
-      "cooldown": 340,
       "duration": 60,
+      "cost": 80,
+      "material": "DRAGON_EGG",
+      "amount": 1
+    },
+    {
+      "cooldown": 320,
+      "duration": 65,
+      "cost": 100,
+      "material": "DRAGON_EGG",
+      "amount": 1
+    },
+    {
+      "cooldown": 300,
+      "duration": 70,
+      "cost": 130,
+      "material": "DRAGON_EGG",
+      "amount": 1
+    },
+    {
+      "cooldown": 280,
+      "duration": 75,
       "cost": 160,
-      "material": "FEATHER",
+      "material": "DRAGON_EGG",
+      "amount": 1
+    },
+    {
+      "cooldown": 260,
+      "duration": 80,
+      "cost": 200,
+      "material": "DRAGON_EGG",
       "amount": 1
     }
   ]

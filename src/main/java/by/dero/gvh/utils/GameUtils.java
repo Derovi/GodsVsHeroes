@@ -9,21 +9,18 @@ import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.Lang;
 import com.google.common.base.Predicate;
-import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import net.minecraft.server.v1_12_R1.EntityArmorStand;
+import net.minecraft.server.v1_12_R1.EntityLiving;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.*;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -31,8 +28,10 @@ import java.util.*;
 
 public class GameUtils {
     public static final double eyeHeight = 1.7775;
-
+    public static final Vector zeroVelocity = new Vector(0, -0.0784000015258789, 0);
+    
     public static HashMap<Character, Byte> codeToData = null;
+    public static final ItemStack clearItem = new ItemStack(Material.AIR);
     public static Sound[] notes = new Sound[] {
             Sound.BLOCK_NOTE_BASEDRUM,
             Sound.BLOCK_NOTE_BASS,
@@ -69,15 +68,8 @@ public class GameUtils {
         }
     }
 
-    private static DirectedPosition[] borders = null;
-    public static boolean insideMap(Location loc) {
-        if (borders == null) {
-            borders = Game.getInstance().getInfo().getMapBorders();
-        }
-        final String desMsg = Lang.get("game.desertionMessage");
-
-        return loc.getX() >= borders[0].getX() && loc.getX() <= borders[1].getX() &&
-                loc.getZ() >= borders[0].getZ() && loc.getZ() <= borders[1].getZ();
+    public static String getTeamColor(int team) {
+        return Lang.get("commands." + (char)('1' + team)).substring(0, 2);
     }
 
     public static void changeColor(Location loc, char code) {
@@ -180,7 +172,7 @@ public class GameUtils {
     }
 
     public static void doubleSpaceCooldownMessage(Item item) {
-        GamePlayer player = GameUtils.getPlayer(item.getOwner().getName());
+        GamePlayer player = item.getOwnerGP();
         if (!player.isActionBarBlocked()) {
             player.setActionBarBlocked(true);
             MessagingUtils.sendCooldownMessage(player.getPlayer(), item.getName(), item.getCooldown().getSecondsRemaining());
@@ -192,74 +184,17 @@ public class GameUtils {
             }.runTaskLater(Plugin.getInstance(), 30);
         }
     }
-
-    public static void spawnLightning(Location at, double damage, double sound, GamePlayer owner) {
-        EntityLightning entity = new EntityLightning(((CraftWorld)at.getWorld()).world,
-                at.getX(), at.getY(), at.getZ(), false);
-
-        at.getWorld().playSound(at, Sound.ENTITY_LIGHTNING_THUNDER, (float) sound, 1);
-        for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
-            Player player = gp.getPlayer();
-            if (player.getLocation().distance(at) <= 2 && owner.getTeam() != gp.getTeam()) {
-                GameUtils.damage(damage, player, owner.getPlayer());
+    
+    public static void stunMessage(GamePlayer player, int duration) {
+        MessagingUtils.sendSubtitle(Lang.get("game.stunMessage"), player.getPlayer(), 0, duration, 0);
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                MessagingUtils.sendSubtitle(" ", player.getPlayer(), 0, 20, 0);
             }
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutSpawnEntityWeather(entity));
-        }
-        for (GameMob gm : Game.getInstance().getMobs().values()) {
-            if (gm.getEntity().isDead()) {
-                continue;
-            }
-            if (gm.getEntity().getLocation().distance(at) <= 2 && owner.getTeam() != gm.getTeam()) {
-                GameUtils.damage(damage, gm.getEntity(), owner.getPlayer());
-            }
-        }
-    }
-
-    public static Entity spawnEntity(final Location loc, final EntityType type) {
-        CraftWorld wrld = ((CraftWorld) loc.getWorld());
-        net.minecraft.server.v1_12_R1.Entity entity = wrld.createEntity(loc, type.getEntityClass());
-        entity.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
-        wrld.addEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        return entity.getBukkitEntity();
-    }
-
-    public static LivingEntity spawnTeamEntity(Location loc, EntityType type, GamePlayer gp) {
-        LivingEntity entity = (LivingEntity) spawnEntity(loc, type);
-        GameMob gm = new GameMob(entity, gp.getTeam(), gp.getPlayer());
-        gm.updateName();
-        return entity;
-    }
-
-    public static Projectile spawnProjectile(final Location at, final double speed,
-                                             final EntityType type, final Player player) {
-        final Vector dir = at.getDirection().clone();
-
-        final Location loc = at.clone().add(dir.clone().multiply(1.8));
-        Projectile obj = (Projectile) spawnEntity(loc, type);
-        obj.setVelocity(dir.multiply(speed));
-        obj.setShooter(player);
-
-        return obj;
-    }
-
-    public static Projectile spawnSplashPotion(Location at, double speed, PotionType type, Player player) {
-        Potion instance = new Potion(type, 1, true);
-
-        EntityPlayer pl = ((CraftPlayer) player).getHandle();
-        EntityPotion potion = new EntityPotion(pl.world, pl, CraftItemStack.asCraftCopy(instance.toItemStack(1)).handle);
-        potion.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(),""));
-        Vector dir = at.getDirection();
-        Location loc = at.clone().add(dir.clone().multiply(2));
-        potion.locX = loc.x;
-        potion.locY = loc.y;
-        potion.locZ = loc.z;
-        potion.motX = dir.x * speed;
-        potion.motY = dir.y * speed;
-        potion.motZ = dir.z * speed;
-
-        potion.world.addEntity(potion, CreatureSpawnEvent.SpawnReason.CUSTOM);
-
-        return (Projectile) potion.getBukkitEntity();
+        };
+        runnable.runTaskLater(Plugin.getInstance(), duration);
+        Game.getInstance().getRunnables().add(runnable);
     }
 
     public static ArrayList<GameObject> getGameObjects() {
@@ -311,7 +246,8 @@ public class GameUtils {
     public static List<LivingEntity> getNearby(final Location wh, final double radius) {
         final List<LivingEntity> buf = new ArrayList<>();
         for (Entity ent : Objects.requireNonNull(wh.getWorld()).getNearbyEntities(wh, radius, radius, radius)) {
-            if (ent instanceof LivingEntity && ent.getLocation().distance(wh) <= radius && !isDeadPlayer(ent)) {
+            if (ent instanceof LivingEntity && ent.getLocation().add(0, ent.getHeight() / 2, 0).distance(wh) <= radius &&
+                    !isDeadPlayer(ent)) {
                 buf.add((LivingEntity) ent);
             }
         }
@@ -350,26 +286,66 @@ public class GameUtils {
 
     public static LivingEntity getTargetEntity(final Player entity, final double maxRange,
                                                java.util.function.Predicate<LivingEntity> pred) {
-        return getTarget(entity, entity.getWorld().getLivingEntities(), maxRange, pred);
+        return getTarget(entity, entity.getWorld().getLivingEntities(), maxRange, 1, pred);
     }
-
-    public static <T extends LivingEntity> T getTarget(Player entity, Iterable<T> entities, double maxRange,
+    
+    public static LivingEntity getTargetEntity(final Player entity, final double maxRange, final double prec,
+                                               java.util.function.Predicate<LivingEntity> pred) {
+        return getTarget(entity, entity.getWorld().getLivingEntities(), maxRange, prec, pred);
+    }
+    
+    public static void changeEquipment(Player player, int slot, int duration, ItemStack item) {
+        final ItemStack saved;
+        final PlayerInventory inv = player.getInventory();
+        switch (slot) {
+            case -1 : saved = inv.getHelmet(); inv.setHelmet(item); break;
+            case -2 : saved = inv.getChestplate(); inv.setChestplate(item); break;
+            case -3 : saved = inv.getLeggings(); inv.setLeggings(item); break;
+            case -4 : saved = inv.getBoots(); inv.setBoots(item); break;
+            default : saved = inv.getItem(slot); inv.setItem(slot, item); break;
+        }
+        SafeRunnable restoreInv = new SafeRunnable() {
+            int timeRes = 0;
+            @Override
+            public void run() {
+                if (GameUtils.isDeadPlayer(player)) {
+                    this.cancel();
+                    return;
+                }
+                if (timeRes > duration) {
+                    this.cancel();
+                    switch (slot) {
+                        case -1 : inv.setHelmet(saved); break;
+                        case -2 : inv.setChestplate(saved); break;
+                        case -3 : inv.setLeggings(saved); break;
+                        case -4 : inv.setBoots(saved); break;
+                        default : inv.setItem(slot, saved); break;
+                    }
+                    return;
+                }
+                timeRes += 5;
+            }
+        };
+        restoreInv.runTaskTimer(Plugin.getInstance(), 0, 5);
+        Game.getInstance().getRunnables().add(restoreInv);
+    }
+    
+    public static <T extends LivingEntity> T getTarget(Player entity, Iterable<T> entities, double maxRange, double prec,
                                                        java.util.function.Predicate<LivingEntity> pred) {
         if (entity == null)
             return null;
         T target = null;
-        final double threshold = 1;
         for (final T other : entities) {
-            if (other.getLocation().distance(entity.getLocation()) > maxRange || !pred.test(other)) {
+            Location otLoc = other.getLocation().add(0, other.getHeight() / 2, 0);
+            if (otLoc.distance(entity.getEyeLocation()) > maxRange || !pred.test(other)) {
                 continue;
             }
-            final Vector n = other.getLocation().toVector().subtract(entity.getLocation().toVector());
-            if (entity.getLocation().getDirection().normalize().crossProduct(n).lengthSquared() < threshold &&
-                    n.normalize().dot(entity.getLocation().getDirection().normalize()) >= 0) {
-                if (target == null || (target.getLocation().distanceSquared(
-                        entity.getLocation()) > other.getLocation()
-                        .distanceSquared(entity.getLocation())) &&
-                        isEnemy(target, getPlayer(entity.getName()).getTeam())) {
+            final Vector n = otLoc.toVector().subtract(entity.getEyeLocation().toVector());
+            if (entity.getEyeLocation().getDirection().normalize().crossProduct(n).lengthSquared() <
+                    entity.getHeight() * entity.getHeight() / 4 * prec * prec &&
+                    n.normalize().dot(entity.getEyeLocation().getDirection().normalize()) >= 0) {
+                if (target == null || target.getLocation().add(0, target.getHeight() / 2, 0).
+                        distanceSquared(entity.getEyeLocation()) > otLoc.distanceSquared(entity.getEyeLocation())) {
                     target = other;
                 }
             }
@@ -416,7 +392,34 @@ public class GameUtils {
         assert ret != null;
         return ret;
     }
+    
+    
+    public static GameObject getNearestEnemy(GameObject gp) {
+        Location wh = gp.getEntity().getLocation();
+        GameObject ret = null;
+        double dst = 10000;
+        for (GameObject ot : getGameObjects()) {
+            if (ot.getTeam() == gp.getTeam() || isDeadPlayer(ot.getEntity())) {
+                continue;
+            }
+            double cur = wh.distance(ot.getEntity().getLocation());
+            if (cur < dst) {
+                dst = cur;
+                ret = ot;
+            }
+        }
+        return ret;
+    }
 
+    public static ItemStack getHead(Player player) {
+        SkullMeta skullMeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
+        skullMeta.setOwningPlayer(player);
+        skullMeta.setDisplayName(Lang.get("interfaces.stats"));
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte)3);
+        skull.setItemMeta(skullMeta);
+        return skull;
+    }
+    
     public static Predicate<EntityLiving> getTargetPredicate(int team) {
         return (entity) -> entity != null && isEnemy(entity.getBukkitEntity(), team);
     }

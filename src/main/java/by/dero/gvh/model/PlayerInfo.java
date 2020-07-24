@@ -1,6 +1,7 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +9,14 @@ import java.util.Map;
 public class PlayerInfo {
     private String name;
     private String selectedClass = "assassin";
+    @Getter
+    private HashMap<String, Cosmetic> cosmetics = null;
     private int balance = 100;
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
+
+    public PlayerInfo() {
+        this.cosmetics = new HashMap<>();
+    }
 
     public PlayerInfo(String name) {
         this.name = name;
@@ -40,12 +47,36 @@ public class PlayerInfo {
         classes.get(className).put(item, level);
     }
 
+    public void unlockCosmetic(String name) {
+        cosmetics.put(name, new Cosmetic(name));
+    }
+
+    public void disableCosmetic(String name) {
+        if (!cosmetics.containsKey(name)) {
+            return;
+        }
+        cosmetics.get(name).setEnabled(false);
+    }
+
+    public void enableCosmetic(String name) {
+        if (!cosmetics.containsKey(name)) {
+            return;
+        }
+        cosmetics.get(name).setEnabled(true);
+    }
+
     public int getItemLevel(String className, String item) {
+        if (!classes.containsKey(className)) {
+            return 0;
+        }
         return classes.get(className).getOrDefault(item, 0);
     }
 
     public boolean canUpgradeItem(String className, String item) {
         Map<String, Integer> items = getItems(className);
+        if (!items.containsKey(item)) {
+            items.put(item, 0);
+        }
         int level = items.get(item);
         if (level + 1 >= Plugin.getInstance().getData().getItemDescription(item).getLevels().size()) {
             return false;

@@ -5,12 +5,14 @@
     "§fУрон за заряд §8» §b%%damage,0.5%%§c❤",
     "§fВремя горения §8» §b5 §fсек.",
     "§fРадиус §8» §b%%radius%% §fблоков",
+    "§fЗарядов §8» §b%%amount%%",
     "§fКулдаун заряда §8» §b%%cooldown,0.05%% §fсек."
   ],
   "levels": [
     {
-      "cooldown": 25,
+      "cooldown": 30,
       "radius": 7.0,
+      "material": "BLAZE_ROD",
       "damage": 3,
       "cost": 80,
       "amount": 8
@@ -18,29 +20,33 @@
     {
       "cooldown": 25,
       "radius": 7.0,
+      "material": "BLAZE_ROD",
       "damage": 3,
       "cost": 100,
       "amount": 9
     },
     {
-      "cooldown": 25,
+      "cooldown": 20,
       "radius": 7.0,
-      "damage": 4,
-      "cost": 120,
+      "material": "BLAZE_ROD",
+      "damage": 3,
+      "cost": 130,
       "amount": 10
     },
     {
-      "cooldown": 25,
+      "cooldown": 30,
       "radius": 7.0,
+      "material": "BLAZE_ROD",
       "damage": 4,
-      "cost": 140,
+      "cost": 160,
       "amount": 11
     },
     {
       "cooldown": 25,
       "radius": 7.0,
+      "material": "BLAZE_ROD",
       "damage": 4,
-      "cost": 160,
+      "cost": 200,
       "amount": 12
     }
   ]

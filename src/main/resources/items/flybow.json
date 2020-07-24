@@ -6,22 +6,12 @@
       "cooldown": 20,
       "modifier": 1.0,
       "material": "BOW",
-      "displayName": "§cFly bow",
-      "lore": [
-        "§aВыстрелите из лука для полёта.",
-        "§6Уровень 1"
-      ],
       "amount": 1
     },
     {
       "cooldown": 20,
       "modifier": 1.2,
       "material": "BOW",
-      "displayName": "§cFly bow",
-      "lore": [
-        "§aВыстрелите из лука для полёта.",
-        "§6Уровень 2"
-      ],
       "amount": 1
     }
   ]

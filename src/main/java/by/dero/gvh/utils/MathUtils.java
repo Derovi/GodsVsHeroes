@@ -1,8 +1,8 @@
 package by.dero.gvh.utils;
 
-import by.dero.gvh.minigame.Game;
 import net.minecraft.server.v1_12_R1.MathHelper;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 public class MathUtils {
@@ -52,7 +52,7 @@ public class MathUtils {
                 loc.getZ() + sin(angle) * radius
         );
     }
-
+    
     public static Location randomCylinder(final Location center, final double minRadius, final double maxRadius, final double depth) {
         final double dst = Math.random() * (maxRadius - minRadius) + minRadius;
         return randomCylinderWall(center, dst, depth);
@@ -115,12 +115,23 @@ public class MathUtils {
         return getInCphere(center, radius, horAngle, vertAngle);
     }
 
-    public static Location getGoodInCylinder(Location loc, double minradius, double radius) {
-        final DirectedPosition[] poses = Game.getInstance().getInfo().getMapBorders();
-        loc = MathUtils.randomCylinder(loc.clone(), minradius, radius, 0);
-        loc.x = Math.max(poses[0].x, Math.min(loc.x, poses[1].x));
-        loc.z = Math.max(poses[0].z, Math.min(loc.z, poses[1].z));
-        loc.y = loc.getWorld().getHighestBlockYAt((int)loc.x, (int)loc.z) + 1;
+    public static Location getGoodInCylinder(Location zxc, double minradius, double radius) {
+        Location loc;
+        do {
+            loc = MathUtils.randomCylinder(zxc.clone(), minradius, radius, 0);
+//        loc.y = loc.getWorld().getHighestBlockYAt((int)loc.x, (int)loc.z) + 1;
+            while (loc.getBlock().getType().equals(Material.AIR) &&
+                    loc.clone().add(0, -1, 0).getBlock().getType().equals(Material.AIR) &&
+                    loc.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR)) {
+                loc = loc.subtract(0, 1, 0);
+            }
+            while ((!loc.getBlock().getType().equals(Material.AIR) ||
+                    !loc.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR) ||
+                    !loc.clone().add(0, 2, 0).getBlock().getType().equals(Material.AIR)) &&
+                    loc.getY() < 180) {
+                loc = loc.add(0, 1, 0);
+            }
+        } while (loc.getY() > 180);
         return loc;
     }
 

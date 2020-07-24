@@ -7,7 +7,9 @@ import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.interfaces.ProjectileHitInterface;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import by.dero.gvh.utils.SpawnUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -19,13 +21,19 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class TeleportPearls extends Item implements PlayerInteractInterface,
 		InfiniteReplenishInterface, ProjectileHitInterface {
 
+	private final Material material;
 	public TeleportPearls (String name, int level, Player owner) {
 		super(name, level, owner);
+		
+		material = getInfo().getMaterial();
 	}
 
 	@Override
 	public void onPlayerInteract (PlayerInteractEvent event) {
-		Projectile proj = GameUtils.spawnProjectile(owner.getEyeLocation(), 1.2, EntityType.SNOWBALL, owner);
+		if (!ownerGP.isCharged(getName())) {
+			owner.setCooldown(material, (int) cooldown.getDuration());
+		}
+		Projectile proj = SpawnUtils.spawnProjectile(owner.getEyeLocation(), 1.2, EntityType.SNOWBALL, owner);
 		summonedEntityIds.add(proj.getUniqueId());
 	}
 
@@ -33,9 +41,6 @@ public class TeleportPearls extends Item implements PlayerInteractInterface,
 	public void onProjectileHit (ProjectileHitEvent event) {
 		event.getEntity().remove();
 		Location loc = event.getEntity().getLocation();
-		if (!GameUtils.insideMap(loc)) {
-			return;
-		}
 		owner.getWorld().playSound(loc, Sound.ENTITY_ENDERMEN_TELEPORT, 1.07f, 1);
 		GameUtils.damage(5, owner, owner);
 		owner.teleport(new Location(loc.world, loc.x, loc.y, loc.z, owner.getLocation().yaw, owner.getLocation().pitch));
