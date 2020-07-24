@@ -1,5 +1,6 @@
 package by.dero.gvh.model.itemsinfo;
 
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
@@ -9,6 +10,7 @@ import by.dero.gvh.model.annotations.CustomDamage;
 import by.dero.gvh.model.annotations.DynamicCustomization;
 import by.dero.gvh.nmcapi.NMCUtils;
 import by.dero.gvh.utils.GameUtils;
+import com.sk89q.jnbt.NBTUtils;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagInt;
 import net.minecraft.server.v1_12_R1.NBTTagList;
@@ -27,9 +29,20 @@ public class SwordThrowInfo extends ItemInfo {
 
     @DynamicCustomization
     public void customize(ItemStack itemStack, ItemInfo info, Player player) {
+        GamePlayer gp = GameUtils.getPlayer(player.getName());
+        String warriorBlade = Plugin.getInstance().getCosmeticManager().getByGroup(player, 1);
+        if (warriorBlade != null) {
+            if (warriorBlade.equals("bloodSword")) {
+                NBTTagCompound tagCompound = NMCUtils.getNBT(itemStack);
+                tagCompound.set("weapons", new NBTTagString("bloodyvengeance"));
+                NMCUtils.setNBT(itemStack, tagCompound);
+            }
+        }
+
+        // paladin
         if (Plugin.getInstance().getPluginMode() instanceof Minigame &&
                 Game.getInstance().getState().equals(Game.State.GAME) &&
-                GameUtils.getPlayer(player.getName()).isUltimateBuf()) {
+                gp.isUltimateBuf()) {
                 itemStack.setType(Material.DIAMOND_SWORD);
                 NBTTagCompound compound = NMCUtils.getNBT(itemStack);
                 NBTTagList modifiers = new NBTTagList();

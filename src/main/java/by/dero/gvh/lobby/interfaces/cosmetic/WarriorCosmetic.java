@@ -9,5 +9,6 @@ public class WarriorCosmetic extends CosmeticInterface {
         super(manager, player, className);
         registerCosmetic(new CosmeticButton(2, 2, "bloodySword"));
         registerCosmetic(new CosmeticButton(3, 2, "victorySword"));
+        update();
     }
 }

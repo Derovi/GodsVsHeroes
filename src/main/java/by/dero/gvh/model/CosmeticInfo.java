@@ -1,8 +1,12 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.nmcapi.NMCUtils;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -22,6 +26,17 @@ public class CosmeticInfo {
         public String getName() {
             return Lang.get("rarity." + toString().toLowerCase());
         }
+    }
+
+    @AllArgsConstructor
+    public static class NBT {
+        @Getter
+        @Setter
+        private String name;
+
+        @Getter
+        @Setter
+        private String value;
     }
 
     @Getter
@@ -67,6 +82,11 @@ public class CosmeticInfo {
     @Builder.Default
     private Rarity rarity = Rarity.UNCOMMON;
 
+    @Getter
+    @Setter
+    @Builder.Default
+    private NBT nbt = null;
+
     public ItemStack getItemStack() {
         return getItemStack(false);
     }
@@ -85,6 +105,11 @@ public class CosmeticInfo {
         itemStack.setItemMeta(meta);
         if (customizer != null) {
             customizer.customize(itemStack);
+        }
+        if (nbt != null) {
+            NBTTagCompound compound = NMCUtils.getNBT(itemStack);
+            compound.set(nbt.getName(), new NBTTagString(nbt.getValue()));
+            NMCUtils.setNBT(itemStack, compound);
         }
         return itemStack;
     }
