@@ -51,7 +51,7 @@ public class SmartFallingBlock extends EntityFallingBlock {
         } else {
             World bukkitWorld = world.world;
             Location location = new Location(bukkitWorld, locX, locY, locZ);
-            Collection<Entity> entities = bukkitWorld.getNearbyEntities(location, 0.5, 0.5, 0.5);
+            Collection<Entity> entities = bukkitWorld.getNearbyEntities(location, 0.5, 1, 0.5);
 
             for (Entity entity : entities) {
                 if (entity.getUniqueId().equals(getUniqueID())) {
