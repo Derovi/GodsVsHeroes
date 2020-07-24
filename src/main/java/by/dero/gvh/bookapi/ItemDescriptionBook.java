@@ -46,9 +46,11 @@ public class ItemDescriptionBook extends BookGUI {
         }
 */
         builder.newLine().newLine().add(BookUtil.TextBuilder.of("§3§l[Характеристики]").onClick(new BookButton(this, () -> {
-            if (backAction != null) {
-                backAction.run();
-            }
+            ItemCharacteristicsBook book = new ItemCharacteristicsBook(getManager(), getPlayer(), className, itemName,
+                    Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName()).getItemLevel(className, itemName));
+            book.setBackAction(this::open);
+            book.build();
+            book.open();
         })).build());
 
         builder.newLine().add(BookUtil.TextBuilder.of("§5§l[Назад]").onClick(new BookButton(this, () -> {
