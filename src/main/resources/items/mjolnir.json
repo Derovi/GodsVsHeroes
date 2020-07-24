@@ -9,37 +9,37 @@
   ],
   "levels": [
     {
-      "cooldown": 35,
-      "damage": 12,
+      "cooldown": 30,
+      "damage": 11,
       "meleeDamage": 9,
       "cost": 80,
       "amount": 1
     },
     {
       "cooldown": 35,
-      "damage": 13,
+      "damage": 12,
       "meleeDamage": 9,
       "cost": 100,
       "amount": 1
     },
     {
-      "cooldown": 30,
+      "cooldown": 35,
       "damage": 13,
       "meleeDamage": 9,
       "cost": 130,
       "amount": 1
     },
     {
-      "cooldown": 35,
+      "cooldown": 30,
       "damage": 13,
-      "meleeDamage": 10,
+      "meleeDamage": 9,
       "cost": 160,
       "amount": 1
     },
     {
       "cooldown": 35,
       "damage": 14,
-      "meleeDamage": 10,
+      "meleeDamage": 9,
       "cost": 200,
       "amount": 1
     }
