@@ -12,6 +12,7 @@ import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
 import by.dero.gvh.stats.GameStatsData;
+import by.dero.gvh.stats.StatsData;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
@@ -49,7 +50,10 @@ public class Plugin extends JavaPlugin implements Listener {
     private PlayerData playerData;
     private ServerData serverData;
     private ReportData reportData;
-    private GameStatsData statsData;
+    @Getter
+    private GameStatsData gameStatsData;
+    @Getter
+    private StatsData statsData;
     private PluginMode pluginMode;
     private BookManager bookManager;
     @Getter
@@ -101,6 +105,13 @@ public class Plugin extends JavaPlugin implements Listener {
                 settings.getPlayerDataMongodbConnection(), settings.getPlayerDataMongodbDatabase()));
         serverData = new ServerData(new MongoDBStorage(
                 settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
+
+        statsData = new StatsData(new MongoDBStorage(
+                settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
+
+        gameStatsData = new GameStatsData(new MongoDBStorage(
+                settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
+
         StorageInterface reportDataStorage = new LocalStorage();
         if (settings.getReportDataStorageType().equals("mongodb")) {
             reportDataStorage = new MongoDBStorage(
@@ -177,10 +188,6 @@ public class Plugin extends JavaPlugin implements Listener {
 
     public BookManager getBookManager() {
         return bookManager;
-    }
-
-    public GameStatsData getStatsData() {
-        return statsData;
     }
 
     @EventHandler

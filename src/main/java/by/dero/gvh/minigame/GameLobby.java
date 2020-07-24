@@ -22,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.permissions.IPermissionService;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -154,28 +155,30 @@ public class GameLobby implements Listener {
     }
 
     public void onPlayerJoined(GamePlayer gamePlayer) {
-        gamePlayer.getPlayer().setGameMode(GameMode.SURVIVAL);
+        Player player = gamePlayer.getPlayer();
+
+        player.setGameMode(GameMode.SURVIVAL);
         gamePlayer.setBoard(new Board("Lobby", 6));
         for (PotionEffect effect : gamePlayer.getPlayer().getActivePotionEffects()) {
             gamePlayer.getPlayer().removePotionEffect(effect.getType());
         }
 
-        gamePlayer.getPlayer().getInventory().setHeldItemSlot(0);
+        player.getInventory().setHeldItemSlot(0);
         final int players = game.getPlayers().size();
         final int needed = game.getInfo().getMaxPlayerCount();
 
         Bukkit.getServer().broadcastMessage(Lang.get("gameLobby.playerJoined")
-                .replace("%name%", gamePlayer.getPlayer().getName())
+                .replace("%name%", MessagingUtils.getPrefixAddition(player) + player.getName())
                 .replace("%cur%", String.valueOf(players))
                 .replace("%max%", String.valueOf(needed))
         );
         updateDisplays();
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.showPlayer(Plugin.getInstance(), gamePlayer.getPlayer());
-            gamePlayer.getPlayer().showPlayer(Plugin.getInstance(), p);
+            player.showPlayer(Plugin.getInstance(), p);
         }
 
-        PlayerInventory inv = gamePlayer.getPlayer().getInventory();
+        PlayerInventory inv = player.getInventory();
         inv.clear();
         for (int i = 0; i < 9; i++) {
             inv.setItem(i, chooseInv[i]);
@@ -197,7 +200,8 @@ public class GameLobby implements Listener {
         final int players = game.getPlayers().size() - 1;
         final int needed = game.getInfo().getMinPlayerCount();
         Bukkit.getServer().broadcastMessage(Lang.get("gameLobby.playerLeft")
-                .replace("%name%", gamePlayer.getPlayer().getName())
+                .replace("%name%", MessagingUtils.getPrefixAddition(gamePlayer.getPlayer())
+                        + gamePlayer.getPlayer().getName())
                 .replace("%cur%", String.valueOf(players))
                 .replace("%max%", String.valueOf(game.getInfo().getMaxPlayerCount()))
         );
