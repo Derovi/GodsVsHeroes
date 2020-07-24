@@ -180,7 +180,9 @@ public abstract class Game implements Listener {
             System.err.println("Can't start game, status is PREPARING!");
             return;
         }
+        stats = new GameStats();
         chooseTeams();
+    
         for (GamePlayer player : players.values()) {
             spawnPlayer(player, 0);
             AdviceManager.sendAdvice(player.getPlayer(), "gameStarted");
@@ -246,7 +248,6 @@ public abstract class Game implements Listener {
         };
         cooldownMessageUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
         runnables.add(cooldownMessageUpdater);
-        stats = new GameStats();
 
         Minigame.getInstance().getLootsManager().load();
         Minigame.getInstance().getLiftManager().load();
@@ -296,7 +297,7 @@ public abstract class Game implements Listener {
         int[] teams = new int[cnt];
 
         final Stack<GamePlayer> left = new Stack<>();
-        for (GamePlayer gp : getPlayers().values()) {
+        for (GamePlayer gp : players.values()) {
             if (gp.getTeam() != -1) {
                 teams[gp.getTeam()]++;
             } else {
@@ -323,7 +324,10 @@ public abstract class Game implements Listener {
             left.peek().setTeam(t);
             left.pop();
         }
-
+        
+        for (GamePlayer gp : players.values()) {
+            stats.getPlayers().get(gp.getPlayer().getName()).setTeam(gp.getTeam());
+        }
         mobs = new HashMap<>();
     }
 

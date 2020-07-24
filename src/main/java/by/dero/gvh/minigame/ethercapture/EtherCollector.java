@@ -10,6 +10,7 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.nmcapi.MovingCrystal;
 import by.dero.gvh.stats.GameStats;
 import by.dero.gvh.utils.*;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,7 +30,7 @@ public class EtherCollector {
     private MovingCrystal crystal;
     private FlyingText captureIndicator;
     private final double maxHeight = 16;
-    private int captureStatus = 0; // 0 to 36
+    @Getter private int captureStatus = 0; // 0 to 36
     private int owner = 0;
     private SafeRunnable etherAdd;
     private final int etherDelay;
