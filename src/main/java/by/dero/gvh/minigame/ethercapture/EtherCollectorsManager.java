@@ -57,11 +57,17 @@ public class EtherCollectorsManager {
         };
         playersUpdater.runTaskTimer(Plugin.getInstance(), 5, 5);
         collectorsUpdater = new BukkitRunnable() {
+            int ticks = 0;
             @Override
             public void run() {
                 for (int index = 0; index < collectors.size(); ++index) {
                     collectors.get(index).update(playersOnCollector.get(index));
                 }
+                ticks++;
+                if (ticks % 10 == 0) {
+                    game.updateDisplays();
+                }
+                ticks %= 10;
             }
         };
         collectorsUpdater.runTaskTimer(Plugin.getInstance(), 5, 1);

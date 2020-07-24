@@ -1,5 +1,6 @@
 package by.dero.gvh.utils;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_12_R1.scoreboard.CraftTeam;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -8,7 +9,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 public class Board {
-    private final Team[] teams;
+    @Getter private final Team[] teams;
 
     public Scoreboard getScoreboard() {
         return scoreboard;
@@ -37,7 +38,7 @@ public class Board {
             obj.getScore(x).setScore(size-i);
         }
     }
-
+    
     public static void setText(final Team team, final String str) {
         ((CraftTeam) team).team.setSuffix(" ");
         if (str.length() > 16) {
