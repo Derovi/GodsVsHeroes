@@ -8,7 +8,6 @@ import by.dero.gvh.utils.Position;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -18,15 +17,10 @@ import org.bukkit.scoreboard.Team;
 import ru.cristalix.core.display.data.DataDrawData;
 import ru.cristalix.core.display.data.StringDrawData;
 import ru.cristalix.core.math.V2;
-import ru.cristalix.core.math.V3;
-import ru.cristalix.core.render.IRenderService;
-import ru.cristalix.core.render.VisibilityTarget;
-import ru.cristalix.core.render.WorldRenderData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import static by.dero.gvh.utils.Board.setText;
 
@@ -131,7 +125,7 @@ public class PlayerLobby {
                     final Location at = center.clone().add(0, MathUtils.sin(cur) * radius,MathUtils.cos(cur) * radius);
                     player.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
                 }
-                angle += MathUtils.PI2 * turnsPerSec / 20;
+                angle = (angle + MathUtils.PI2 * turnsPerSec / 20) % MathUtils.PI2;
             }
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 2);

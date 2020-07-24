@@ -76,7 +76,7 @@ public class ArmorStandMonument extends Monument {
                                 0, 0, 0, 0);
                     }
                 }
-                angle += Math.PI * turnPerSec / 5;
+                angle = (angle + Math.PI * turnPerSec / 5) % MathUtils.PI2;
             }
         };
         particles.runTaskTimer(Plugin.getInstance(), 0, 2);
