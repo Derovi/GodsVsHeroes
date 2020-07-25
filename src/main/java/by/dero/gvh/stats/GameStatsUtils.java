@@ -9,9 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class GameStatsUtils {
 	@Getter @Setter static GameStats gameStats;
@@ -170,26 +168,134 @@ public class GameStatsUtils {
 	}
 
 	private static List<TopEntry> getKillTop(GameStats game) {
-    	return null;
+		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
+		for (GamePlayerStats playerStats : game.getPlayers().values()) {
+			list.add(new TopEntry(playerStats.getName(), "", 0));
+		}
+		
+		list.sort(Comparator.comparingInt(a -> -game.getPlayers().get(a.getName()).getKills()));
+		for (int i = 0; i < list.size(); i++) {
+			TopEntry entry = list.get(i);
+			entry.setValue(Lang.get("stats.formatKills").
+					replace("%val%", String.valueOf(game.getPlayers().get(entry.getName()).getKills())));
+			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
+				entry.setOrder(i);
+			} else {
+				entry.setOrder(list.get(i-1).getOrder());
+			}
+		}
+		
+    	return list;
 	}
 
 	private static List<TopEntry> getKDATop(GameStats game) {
-		return null;
+		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
+		for (GamePlayerStats playerStats : game.getPlayers().values()) {
+			list.add(new TopEntry(playerStats.getName(), "", 0));
+		}
+		
+		list.sort(Comparator.comparingDouble(a -> -game.getPlayers().get(a.getName()).getTeamHeal()));
+		double was = 100000;
+		for (int i = 0; i < list.size(); i++) {
+			TopEntry entry = list.get(i);
+			GamePlayerStats cur = game.getPlayers().get(entry.getName());
+			
+			entry.setValue(Lang.get("stats.formatKDA").
+					replace("%kills%", String.valueOf(cur.getKills())).
+					replace("%deaths%", String.valueOf(cur.getDeaths())).
+					replace("%assissts%", String.valueOf(cur.getAssists())).
+					replace("%kda%", String.format("%.2f", cur.getKDA())));
+			if (i == 0 || was > cur.getKDA()) {
+				entry.setOrder(i);
+			} else {
+				entry.setOrder(list.get(i-1).getOrder());
+			}
+			was = cur.getKDA();
+		}
+		
+		return list;
 	}
 
 	private static List<TopEntry> getDamageTop(GameStats game) {
-		return null;
+		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
+		for (GamePlayerStats playerStats : game.getPlayers().values()) {
+			list.add(new TopEntry(playerStats.getName(), "", 0));
+		}
+		
+		list.sort(Comparator.comparingDouble(a -> -game.getPlayers().get(a.getName()).getDamageDealt()));
+		for (int i = 0; i < list.size(); i++) {
+			TopEntry entry = list.get(i);
+			entry.setValue(Lang.get("stats.formatDamage").
+					replace("%val%", String.valueOf(Math.round(game.getPlayers().get(entry.getName()).getDamageDealt()))));
+			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
+				entry.setOrder(i);
+			} else {
+				entry.setOrder(list.get(i-1).getOrder());
+			}
+		}
+		
+		return list;
 	}
 
 	private static List<TopEntry> getCaptureTop(GameStats game) {
-		return null;
+		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
+		for (GamePlayerStats playerStats : game.getPlayers().values()) {
+			list.add(new TopEntry(playerStats.getName(), "", 0));
+		}
+		
+		list.sort(Comparator.comparingInt(a -> -game.getPlayers().get(a.getName()).getCapturePoints()));
+		for (int i = 0; i < list.size(); i++) {
+			TopEntry entry = list.get(i);
+			entry.setValue(Lang.get("stats.formatCapture").
+					replace("%val%", String.valueOf(game.getPlayers().get(entry.getName()).getCapturePoints())));
+			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
+				entry.setOrder(i);
+			} else {
+				entry.setOrder(list.get(i-1).getOrder());
+			}
+		}
+		return list;
 	}
 
 	private static List<TopEntry> getHealTop(GameStats game) {
-		return null;
+		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
+		for (GamePlayerStats playerStats : game.getPlayers().values()) {
+			list.add(new TopEntry(playerStats.getName(), "", 0));
+		}
+		
+		list.sort(Comparator.comparingDouble(a -> -game.getPlayers().get(a.getName()).getTeamHeal()));
+		for (int i = 0; i < list.size(); i++) {
+			TopEntry entry = list.get(i);
+			entry.setValue(Lang.get("stats.formatHeal").
+					replace("%val%", String.valueOf(Math.round(game.getPlayers().get(entry.getName()).getTeamHeal()))));
+			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
+				entry.setOrder(i);
+			} else {
+				entry.setOrder(list.get(i-1).getOrder());
+			}
+		}
+		
+		return list;
 	}
 
 	private static List<TopEntry> getAdvancementTop(GameStats game) {
-		return null;
+		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
+		for (GamePlayerStats playerStats : game.getPlayers().values()) {
+			list.add(new TopEntry(playerStats.getName(), "", 0));
+		}
+		
+		list.sort(Comparator.comparingDouble(a -> -game.getPlayers().get(a.getName()).getAdvancement()));
+		for (int i = 0; i < list.size(); i++) {
+			TopEntry entry = list.get(i);
+			entry.setValue(Lang.get("stats.formatAdvancement").
+					replace("%val%", String.valueOf(Math.round(game.getPlayers().get(entry.getName()).getAdvancement()))));
+			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
+				entry.setOrder(i);
+			} else {
+				entry.setOrder(list.get(i-1).getOrder());
+			}
+		}
+		
+		return list;
 	}
 }
