@@ -1,9 +1,11 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.HealAllInfo;
+import by.dero.gvh.stats.GamePlayerStats;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -33,13 +35,15 @@ public class HealAll extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
         owner.setCooldown(material, (int) cooldown.getDuration());
-        
+    
+        GamePlayerStats stats = Game.getInstance().getStats().getPlayers().get(owner.getName());
         for (final LivingEntity ent : GameUtils.getNearby(owner.getLocation(), radius)) {
             if (GameUtils.isAlly(ent, getTeam())) {
                 final double hp = Math.min(ent.getHealth() + heal,
                         ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 ent.getWorld().playEffect(ent.getLocation(), Effect.BREWING_STAND_BREW, null);
-
+                stats.setTeamHeal(stats.getTeamHeal() + hp);
+                
                 Drawings.drawCircle(ent.getLocation(), 1, Particle.HEART);
                 ent.setHealth(hp);
             }

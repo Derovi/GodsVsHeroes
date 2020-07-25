@@ -5,6 +5,7 @@
   "minPlayerCount": 12,
   "maxPlayerCount": 20,
   "respawnTime": 200,
+  "afkTime": 2400,
   "lobbyPosition": {
     "x": 0.5,
     "y": 91,

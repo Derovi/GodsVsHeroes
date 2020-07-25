@@ -254,6 +254,33 @@ public abstract class Game implements Listener {
         for (GamePlayer gp : getPlayers().values()) {
             gp.updateInventory();
         }
+        
+        SafeRunnable checkAfk = new SafeRunnable() {
+            final HashMap<Player, Integer> counter = new HashMap<>();
+            final HashMap<Player, Vector> prevLoc = new HashMap<>();
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (counter.containsKey(player)) {
+                        Vector was = prevLoc.get(player);
+                        if (was.distance(player.getLocation().toVector()) < 4) {
+                            int cnt = counter.get(player) + 1;
+                            counter.put(player, cnt);
+                            if (cnt >= 6) {
+                                player.kickPlayer(Lang.get("game.afkKickMessage"));
+                            }
+                        } else {
+                            counter.put(player, 0);
+                        }
+                    } else {
+                        counter.put(player, 0);
+                    }
+                    prevLoc.put(player, player.getLocation().toVector());
+                }
+            }
+        };
+        checkAfk.runTaskTimer(Plugin.getInstance(), info.getAfkTime() / 6, info.getAfkTime() / 6);
+        runnables.add(checkAfk);
     }
 
     public void onPlayerKilled(GamePlayer player, GamePlayer killer, Collection<GamePlayer> assists) {
