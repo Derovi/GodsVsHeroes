@@ -215,7 +215,13 @@
     "bestKills": "§aБольше всего убийств §8» §9%pl%",
     "bestDamageDealt": "§aБольше всего нанесено урона §8» §9%pl%",
     "bestDeaths": "§aМеньше всего смертей §8» §9%pl%",
-    "bestDamageTaken": "§aМеньше всего получил урона §8» §9%pl%"
+    "bestDamageTaken": "§aМеньше всего получил урона §8» §9%pl%",
+    "formatKills": "§a%val%",
+    "formatDamage": "§a%val%§c❤",
+    "formatHeal": "§a%val%§c❤",
+    "formatKDA": "§a%kills%§8/§c%deaths%§8/§6%assists% §f(%kda%)",
+    "formatCapture": "§a%val%",
+    "formatAdvancement": "§a%val%"
   },
   "classes": {
     "all": "Общее",

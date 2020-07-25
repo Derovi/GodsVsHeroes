@@ -1,11 +1,11 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.minigame.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import ru.cristalix.core.formatting.Colors;
 
 public class TestCommand implements CommandExecutor {
     @Override
@@ -31,11 +31,7 @@ public class TestCommand implements CommandExecutor {
         //BookGUI gui = new BookGUI(player);
         //gui.open();
         try {
-            Bukkit.getServer().broadcastMessage(Colors.custom(
-                    Integer.parseInt(args[0]),
-                    Integer.parseInt(args[1]),
-                    Integer.parseInt(args[2])
-            ) + "zxc");
+            Bukkit.getServer().broadcastMessage(Game.getInstance().getStats().getDate());
         } catch (Exception ignored) {
         
         }

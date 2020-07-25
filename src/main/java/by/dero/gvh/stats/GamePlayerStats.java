@@ -48,4 +48,8 @@ public class GamePlayerStats {
     
     @Getter @Setter
     private double advancement = 0;
+    
+    public double getKDA() {
+        return (double) (kills + assists) / Math.max(deaths, 1);
+    }
 }
