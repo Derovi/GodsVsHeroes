@@ -13,8 +13,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 public class GameStatsManager {
-    @Getter
-    @Setter
+    @Getter @Setter
     private GameStats gameStats;
     @Getter @Setter
     private long startTime;
@@ -113,6 +112,8 @@ public class GameStatsManager {
             gameStats.getPlayers().put(gp.getPlayer().getName(),
                     new GamePlayerStats(gp.getPlayer().getName(), gp.getClassName(), gp.getTeam()));
         }
+        this.gameStats = gameStats;
+        gameStats.setStartTime(startTime);
     }
 
     public void unload() {
