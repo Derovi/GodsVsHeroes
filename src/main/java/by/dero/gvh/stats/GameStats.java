@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class GameStats {
     @SerializedName("_id")
@@ -19,7 +18,7 @@ public class GameStats {
     private final HashMap<String, GamePlayerStats> players = new HashMap<>();
 
     @Getter
-    private final List<Integer> percentToWin = new ArrayList<>();
+    private final ArrayList<Integer> percentToWin = new ArrayList<>();
 
     @Getter @Setter
     private int gameDurationSec;

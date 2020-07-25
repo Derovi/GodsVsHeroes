@@ -12,8 +12,10 @@ import org.bukkit.Location;
 import java.util.*;
 
 public class GameStatsUtils {
-	@Getter @Setter static GameStats gameStats;
-	@Getter @Setter static long startTime;
+	@Getter @Setter
+	static GameStats gameStats;
+	@Getter @Setter
+	static long startTime;
 	
 	public static void addKill(GamePlayer target, GamePlayer killer) {
 		if (target != null) {
@@ -313,5 +315,15 @@ public class GameStatsUtils {
 		}
 		
 		return list;
+	}
+	
+	public static String getDurationString() {
+    	String str = "";
+    	long sec = System.currentTimeMillis() / 1000 - startTime;
+    	if (sec >= 60) {
+    		str = sec / 60 + " минут ";
+	    }
+    	str += sec % 60 + "секунд";
+    	return str;
 	}
 }
