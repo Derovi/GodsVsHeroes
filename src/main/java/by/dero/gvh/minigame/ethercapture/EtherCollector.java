@@ -8,7 +8,7 @@ import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.minigame.RewardManager;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.nmcapi.MovingCrystal;
-import by.dero.gvh.stats.GameStats;
+import by.dero.gvh.stats.GameStatsUtils;
 import by.dero.gvh.utils.*;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -169,9 +169,8 @@ public class EtherCollector {
         for (Map.Entry<GamePlayer, Double> entry : rewards.entrySet()) {
             int cnt = (int) Math.ceil(entry.getValue() * mult);
             String name = entry.getKey().getPlayer().getName();
-            GameStats stats = Game.getInstance().getStats();
-            stats.addCapturePoints(name, (int) (double) entry.getValue());
-            stats.addExp(entry.getKey(), cnt);
+            GameStatsUtils.addCapturePoints(name, (int) (double) entry.getValue());
+            GameStatsUtils.addExp(entry.getKey(), cnt);
             Plugin.getInstance().getPlayerData().increaseBalance(name, cnt);
             MessagingUtils.sendSubtitle(Lang.get("rewmes.capture").
                     replace("%exp%", String.valueOf(cnt)), entry.getKey().getPlayer(), 0, 20, 0);

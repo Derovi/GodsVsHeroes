@@ -2,6 +2,7 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.stats.GameStatsUtils;
 import by.dero.gvh.utils.GameUtils;
 import org.bukkit.entity.Player;
 
@@ -22,7 +23,7 @@ public class RewardManager {
         int count = get(reward).getCount();
         String name = player.getName();
         GamePlayer gp = GameUtils.getPlayer(name);
-        Game.getInstance().getStats().addExp(gp, count);
+        GameStatsUtils.addExp(gp, count);
         Plugin.getInstance().getPlayerData().increaseBalance(name, count);
         if (!message.isEmpty()) {
             player.sendMessage(message.replace("%count%", String.valueOf(count)).replace(
