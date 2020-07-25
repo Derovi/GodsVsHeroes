@@ -10,7 +10,8 @@ import java.util.HashMap;
 
 public class GameStats {
     @SerializedName("_id")
-    @Getter private int id;
+    @Getter @Setter
+    private int id;
 
     @Getter
     private final HashMap<String, GamePlayerStats> players = new HashMap<>();

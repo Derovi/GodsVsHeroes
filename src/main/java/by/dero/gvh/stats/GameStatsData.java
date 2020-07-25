@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
 
@@ -36,10 +37,11 @@ public class GameStatsData {
                     playerStats = gson.fromJson(document.toJson(), PlayerStats.class);
                 }
                 playerStats.addGame(game);
-                UpdateOptions options = new UpdateOptions();
+                ReplaceOptions options = new ReplaceOptions();
                 options.upsert(true);
-                playersCollection.updateOne(new Document("_id", playerStats.getName()),
-                        new Document(BasicDBObject.parse(gson.toJson(playerStats))), options);
+                System.out.println("Name: " + playerStats.getName());
+                Document updater = new Document(BasicDBObject.parse(gson.toJson(playerStats)));
+                playersCollection.replaceOne(Filters.eq("_id", playerStats.getName()), updater, options);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

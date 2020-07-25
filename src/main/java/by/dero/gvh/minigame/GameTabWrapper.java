@@ -3,18 +3,13 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.utils.GameUtils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import ru.cristalix.core.chat.ChatContext;
 import ru.cristalix.core.chat.ChatTextComponent;
-import ru.cristalix.core.chat.IChatService;
-import ru.cristalix.core.chat.IConstantChatView;
 import ru.cristalix.core.tab.IConstantTabView;
 import ru.cristalix.core.tab.ITabService;
 import ru.cristalix.core.tab.TabTextComponent;
@@ -31,15 +26,14 @@ public class GameTabWrapper {
     private List<TabTextComponent> tabTextComponents = new ArrayList<>();
 
     public GameTabWrapper(Plugin plugin) {
-
-
+        loadTabComponents();
         new BukkitRunnable() {
             @Override
             public void run() {
-                loadTabComponents();
                 reloadTab();
             }
-        }.runTaskTimer(plugin, 20, 20);
+        }.runTaskTimer(Plugin.getInstance(), 5, 5);
+        reloadTab();
     }
 
     public void addChatPrefix(ChatTextComponent component) {
@@ -57,12 +51,21 @@ public class GameTabWrapper {
 
     public void loadTabComponents() {
         tabTextComponents.clear();
-        for (GamePlayer gp : Minigame.getInstance().getGame().getPlayers().values()) {
-            addTab(new TabTextComponent(gp.getTeam(), TextFormat.NONE,
-                    (uuid) -> uuid.equals(gp.getPlayer().getUniqueId()), uuid -> CompletableFuture.supplyAsync(() -> {
-                return new BaseComponent[] {new TextComponent(Lang.get("teamTabPrefix." + (gp.getTeam() + 1)))};
-            })));
-        }
+        addTab(new TabTextComponent(0, TextFormat.NONE, uuid -> true, uuid -> CompletableFuture.supplyAsync(() -> {
+            GamePlayer gp = Minigame.getInstance().getGame().getPlayers().getOrDefault(
+                    Bukkit.getPlayer(uuid).getName(), null);
+            if (gp == null) {
+                return new BaseComponent[] {new TextComponent()};
+            }
+            return new BaseComponent[] {new TextComponent(Lang.get("teamTabPrefix." + (gp.getTeam() + 1)))};
+        }), uuid -> CompletableFuture.supplyAsync(() -> {
+            GamePlayer gp = Minigame.getInstance().getGame().getPlayers().getOrDefault(
+                    Bukkit.getPlayer(uuid).getName(), null);
+            if (gp == null) {
+                return 100;
+            }
+            return gp.getTeam();
+        })));
     }
 
     public void reloadTab() {
