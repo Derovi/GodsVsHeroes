@@ -56,13 +56,13 @@ public class GameTabWrapper {
     }
 
     public void loadTabComponents() {
-        /*tabTextComponents.clear();
+        tabTextComponents.clear();
         for (GamePlayer gp : Minigame.getInstance().getGame().getPlayers().values()) {
             addTab(new TabTextComponent(gp.getTeam(), TextFormat.NONE,
                     (uuid) -> uuid.equals(gp.getPlayer().getUniqueId()), uuid -> CompletableFuture.supplyAsync(() -> {
                 return new BaseComponent[] {new TextComponent(Lang.get("teamTabPrefix." + (gp.getTeam() + 1)))};
             })));
-        }*/
+        }
     }
 
     public void reloadTab() {
