@@ -48,7 +48,7 @@ public class GameStatsUtils {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
 		}
 		
-		list.sort(Comparator.comparingDouble(a -> -game.getPlayers().get(a.getName()).getTeamHeal()));
+		list.sort(Comparator.comparingDouble(a -> -game.getPlayers().get(a.getName()).getKDA()));
 		double was = 100000;
 		for (int i = 0; i < list.size(); i++) {
 			TopEntry entry = list.get(i);
