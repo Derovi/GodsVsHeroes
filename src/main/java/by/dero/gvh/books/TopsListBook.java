@@ -8,6 +8,7 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.stats.GamePlayerStats;
 import by.dero.gvh.stats.GameStats;
 import by.dero.gvh.stats.GameStatsUtils;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
 public class TopsListBook extends BookGUI {
@@ -36,11 +37,41 @@ public class TopsListBook extends BookGUI {
             }
         }
         builder.newLine().newLine();
-        builder.add("§3[Топ - Полезность]").newLine();
-        builder.add("§c[Топ - Убийства]").newLine();
-        builder.add("§5[Топ - У/С/П]").newLine();
-        builder.add("§4[Топ - Урон]").newLine();
-        builder.add("§9[Топ - Захват]").newLine().newLine();
+        builder.add(BookUtil.TextBuilder.of("§3[Топ - Полезность]").onClick(new BookButton(this, () -> {
+            PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
+                    "§6Топ - Полезность", GameStatsUtils.getAdvancementTop(game));
+            book.setBackAction(this::open);
+            book.build();
+            book.open();
+        })).build()).newLine();
+        builder.add(BookUtil.TextBuilder.of("§c[Топ - Убийства]").onClick(new BookButton(this, () -> {
+            PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
+                    "§6Топ - Убийства", GameStatsUtils.getKillTop(game));
+            book.setBackAction(this::open);
+            book.build();
+            book.open();
+        })).build()).newLine();
+        builder.add(BookUtil.TextBuilder.of("§5[Топ - У/С/П]").onClick(new BookButton(this, () -> {
+            PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
+                    "§6Топ - У/С/П", GameStatsUtils.getKDATop(game));
+            book.setBackAction(this::open);
+            book.build();
+            book.open();
+        })).build()).newLine();
+        builder.add(BookUtil.TextBuilder.of("§4[Топ - Урон]").onClick(new BookButton(this, () -> {
+            PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
+                    "§6Топ - Урон", GameStatsUtils.getDamageTop(game));
+            book.setBackAction(this::open);
+            book.build();
+            book.open();
+        })).build()).newLine();
+        builder.add(BookUtil.TextBuilder.of("§9[Топ - Захват]").onClick(new BookButton(this, () -> {
+            PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
+                    "§6Топ - Захват", GameStatsUtils.getCaptureTop(game));
+            book.setBackAction(this::open);
+            book.build();
+            book.open();
+        })).build()).newLine();
 
         builder.newLine();
         builder.add(BookUtil.TextBuilder.of("§5§l[Назад]").onClick(new BookButton(this, () -> {

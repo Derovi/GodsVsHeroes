@@ -28,7 +28,7 @@ public class GameStatsUtils {
 		return str;
 	}
 
-	private static List<TopEntry> getKillTop(GameStats game) {
+	public static List<TopEntry> getKillTop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -49,7 +49,7 @@ public class GameStatsUtils {
     	return list;
 	}
 
-	private static List<TopEntry> getKDATop(GameStats game) {
+	public static List<TopEntry> getKDATop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -77,7 +77,7 @@ public class GameStatsUtils {
 		return list;
 	}
 
-	private static List<TopEntry> getDamageTop(GameStats game) {
+	public static List<TopEntry> getDamageTop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -98,7 +98,7 @@ public class GameStatsUtils {
 		return list;
 	}
 
-	private static List<TopEntry> getCaptureTop(GameStats game) {
+	public static List<TopEntry> getCaptureTop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -118,7 +118,7 @@ public class GameStatsUtils {
 		return list;
 	}
 
-	private static List<TopEntry> getHealTop(GameStats game) {
+	public static List<TopEntry> getHealTop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -139,7 +139,7 @@ public class GameStatsUtils {
 		return list;
 	}
 
-	private static List<TopEntry> getAdvancementTop(GameStats game) {
+	public static List<TopEntry> getAdvancementTop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
