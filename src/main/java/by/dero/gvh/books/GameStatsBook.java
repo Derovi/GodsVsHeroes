@@ -7,11 +7,16 @@ import by.dero.gvh.bookapi.BookUtil;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.stats.GamePlayerStats;
 import by.dero.gvh.stats.GameStats;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 
 public class GameStatsBook extends BookGUI {
-    private GameStats game;
-    private Player considered;
+    private final GameStats game;
+    private final Player considered;
+    @Getter
+    @Setter
+    private Runnable backAction = null;
 
     public GameStatsBook(BookManager manager, Player player, Player considered, GameStats game) {
         super(manager, player);
@@ -42,13 +47,19 @@ public class GameStatsBook extends BookGUI {
         builder.add("§0Урон §8» §4" + playerStats.getDamageDealt()).newLine();
         builder.add("§0Опыт §8» §2" + playerStats.getExpGained()).newLine();
 
-        /*builder.newLine();
-        builder.add(BookUtil.TextBuilder.of("§5§l[Топы]").onClick(new BookButton(this, new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        })).build());*/
+        builder.newLine();
+        builder.add(BookUtil.TextBuilder.of("§3§l[Топы]").onClick(new BookButton(this, () -> {
+            TopsListBook book = new TopsListBook(getManager(), getPlayer(), considered, game);
+            book.setBackAction(() -> open());
+            book.build();
+            book.open();
+        })).build());
+        if (backAction != null) {
+            builder.newLine();
+            builder.add(BookUtil.TextBuilder.of("§5§l[Назад]").onClick(new BookButton(this, () -> {
+                backAction.run();
+            })).build());
+        }
 
         setBook(BookUtil.writtenBook()
                 .author("§6derovi")
