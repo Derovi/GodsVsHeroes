@@ -1,5 +1,9 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.Plugin;
+import by.dero.gvh.books.GameStatsBook;
+import by.dero.gvh.stats.GameStats;
+import by.dero.gvh.stats.PlayerStats;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,29 +14,19 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender,
                              Command command, String s, String[] args) {
         Player player = (Player) commandSender;
-//        AllCosmetic cosmeticInterface = new AllCosmetic(Lobby.getInstance().getInterfaceManager(),
-//                player, "all");
-//        cosmeticInterface.update();
-//        cosmeticInterface.open();
-        /*ItemDescriptionBook book = new ItemDescriptionBook(Plugin.getInstance().getBookManager(),
-                player, "paladin", "swordthrow");
-        book.build();
-        book.open();*/
-        //FireworkSpawner.spawn(player.getLocation(), FireworkEffect.builder().withColor(
-        //        Drawings.colors[(int)(Math.random()*Drawings.colors.length)]).flicker(true).build(), player);
-//        FireworkSpawner.spawn(player.getLocation(), FireworkEffect.builder().withColor(
-//                Drawings.colors[(int)(Math.random()*Drawings.colors.length)]).flicker(true).build(), player);
-        //Location location = player.getLocation();
-        //double yaw = Math.toRadians(location.getYaw());
-        //location.add(-Math.sin(yaw) * 1.2, 0, Math.cos(yaw) * 1.2);
-        //Drawings.drawFist(location, 3, Particle.FLAME);
-        //BookGUI gui = new BookGUI(player);
-        //gui.open();
-        try {
-//            Bukkit.getServer().broadcastMessage(Game.getInstance().getStats().getDate());
-        } catch (Exception ignored) {
-        
+
+        PlayerStats playerStats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
+        if (playerStats.getGames().isEmpty()) {
+            player.sendMessage("§4No games!");
+            return true;
         }
+        int id = playerStats.getGames().get(playerStats.getGames().size() - 1);
+        GameStats gameStats = Plugin.getInstance().getGameStatsData().getGameStats(id);
+        System.out.println(gameStats == null);
+        GameStatsBook gameStatsBook = new GameStatsBook(Plugin.getInstance().getBookManager(),
+                player, player, gameStats);
+        gameStatsBook.build();
+        gameStatsBook.open();
         return true;
     }
 }

@@ -1,6 +1,10 @@
-package by.dero.gvh.bookapi;
+package by.dero.gvh.books;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.bookapi.BookButton;
+import by.dero.gvh.bookapi.BookGUI;
+import by.dero.gvh.bookapi.BookManager;
+import by.dero.gvh.bookapi.BookUtil;
 import by.dero.gvh.model.ItemInfo;
 import by.dero.gvh.model.Lang;
 import lombok.Getter;
@@ -24,7 +28,7 @@ public class ItemCharacteristicsBook extends BookGUI {
     }
 
     @Override
-    void build() {
+    public void build() {
         BookUtil.PageBuilder builder = new BookUtil.PageBuilder()
                 .add(BookUtil.TextBuilder.of("§6§l" + Lang.get("items." + itemName).replace(" ", " §6§l")).build())
                 .newLine();
