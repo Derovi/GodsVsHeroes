@@ -1,6 +1,5 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.stats.GameStatsUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +11,7 @@ public class TestCommand implements CommandExecutor {
                              Command command, String s, String[] args) {
         Player player = (Player) commandSender;
 
-        player.sendMessage(GameStatsUtils.getDateString(System.currentTimeMillis()));
+//        player.sendMessage(GameStatsUtils.getDateString(System.currentTimeMillis()));
 //        PlayerStats playerStats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
 //        if (playerStats.getGames().isEmpty()) {
 //            player.sendMessage("§4No games!");
