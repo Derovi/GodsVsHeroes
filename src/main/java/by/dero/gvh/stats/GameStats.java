@@ -1,30 +1,31 @@
 package by.dero.gvh.stats;
 
-import by.dero.gvh.FlyingText;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.minigame.Game;
-import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Location;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public class GameStats {
     @SerializedName("_id")
-    @Getter private int id;
+    @Getter @Setter
+    private int id;
 
-    @Getter private final HashMap<String, GamePlayerStats> players = new HashMap<>();
+    @Getter
+    private final HashMap<String, GamePlayerStats> players = new HashMap<>();
 
-    @Getter @Setter private int gameDurationSec;
+    @Getter @Setter
+    private int gameDurationSec;
 
-    @Getter @Setter private int wonTeam;
+    @Getter @Setter
+    private int wonTeam;
     
-    @Setter @Getter private long startTime;
+    @Setter @Getter
+    private long startTime;
     
     public GameStats() {
         this.startTime = System.currentTimeMillis() / 1000;
