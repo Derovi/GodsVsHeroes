@@ -1,7 +1,5 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.minigame.Game;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,7 +29,7 @@ public class TestCommand implements CommandExecutor {
         //BookGUI gui = new BookGUI(player);
         //gui.open();
         try {
-            Bukkit.getServer().broadcastMessage(Game.getInstance().getStats().getDate());
+//            Bukkit.getServer().broadcastMessage(Game.getInstance().getStats().getDate());
         } catch (Exception ignored) {
         
         }

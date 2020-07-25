@@ -10,7 +10,7 @@
   "levels": [
     {
       "cooldown": 260,
-      "radius": 8.0,
+      "radius": 10.0,
       "damage": 19,
       "selfDamage": 5,
       "cost": 80,
@@ -19,7 +19,7 @@
     },
     {
       "cooldown": 260,
-      "radius": 8.0,
+      "radius": 10.0,
       "damage": 21,
       "selfDamage": 5,
       "cost": 100,
@@ -28,7 +28,7 @@
     },
     {
       "cooldown": 260,
-      "radius": 8.0,
+      "radius": 10.0,
       "damage": 23,
       "selfDamage": 5,
       "cost": 130,
@@ -37,7 +37,7 @@
     },
     {
       "cooldown": 260,
-      "radius": 8.0,
+      "radius": 10.0,
       "damage": 25,
       "selfDamage": 5,
       "cost": 160,
@@ -46,7 +46,7 @@
     },
     {
       "cooldown": 260,
-      "radius": 8.0,
+      "radius": 10.0,
       "damage": 27,
       "selfDamage": 5,
       "cost": 200,

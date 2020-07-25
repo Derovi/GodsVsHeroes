@@ -182,6 +182,7 @@ public abstract class Game implements Listener {
             return;
         }
         stats = new GameStats();
+        stats.load();
         chooseTeams();
     
         for (GamePlayer player : players.values()) {

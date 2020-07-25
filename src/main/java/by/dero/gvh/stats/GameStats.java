@@ -23,26 +23,26 @@ public class GameStats {
     @Getter @Setter
     private int wonTeam;
     
-    @Getter
-    private String date;
+    @Getter @Setter
+    private long startTime;
     
-    public GameStats() {
+    public void load() {
         GameStatsUtils.gameStats = this;
-        GameStatsUtils.startTime = System.currentTimeMillis() / 1000;
-        setDate();
+        startTime = System.currentTimeMillis() / 1000;
         for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
             players.put(gp.getPlayer().getName(),
                     new GamePlayerStats(gp.getPlayer().getName(), gp.getClassName(), gp.getTeam()));
         }
     }
     
-    public void setDate() {
+    public String getDateString() {
         Calendar cal = Calendar.getInstance();
         String[] months = {
                 "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля",
                 "Августа", "Сентября", "Октября", "Ноября", "Декабря"
         };
-        date = cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + " " +
+        String str = cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + " " +
                 cal.get(Calendar.DAY_OF_MONTH) + " " + months[cal.get(Calendar.MONTH) - 1] + " " + cal.get(Calendar.YEAR);
+        return str;
     }
 }
