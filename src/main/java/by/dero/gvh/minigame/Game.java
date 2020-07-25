@@ -380,6 +380,7 @@ public abstract class Game implements Listener {
             info.setStatus(RealmStatus.GAME_ENDING);
         }
         stats.setGameDurationSec((int) (System.currentTimeMillis() / 1000 - gameStatsManager.getStartTime()));
+        stats.setWonTeam(winnerTeam);
         for (GamePlayer gp : players.values()) {
             if (gp.getPlayer().isOnline()) {
                 stats.getPlayers().get(gp.getPlayer().getName()).setPlayTimeSec(stats.getGameDurationSec());

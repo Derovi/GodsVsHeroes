@@ -4,6 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,8 +31,12 @@ public class BuyCosmeticInterface extends Interface {
 		ItemStack returnItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
 		InterfaceUtils.changeName(returnItem, Lang.get("interfaces.back"));
 		
-		Runnable onTry = () -> {};
-		Runnable onBuy = () -> {};
+		Runnable onTry = () -> {
+			player.playSound(player.getEyeLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
+		};
+		Runnable onBuy = () -> {
+			player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+		};
 		
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 6; y++) {

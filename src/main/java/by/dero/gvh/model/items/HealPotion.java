@@ -41,7 +41,9 @@ public class HealPotion extends Item implements ProjectileHitInterface,
                 final double hp = Math.min(ent.getEntity().getHealth() + (ent.getEntity().equals(owner) ? heal : allyHeal),
                         ent.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 ent.getEntity().setHealth(hp);
-                stats.setTeamHeal(stats.getTeamHeal() + hp);
+                if (!ent.getEntity().equals(owner)) {
+                    stats.setTeamHeal(stats.getTeamHeal() + hp);
+                }
                 
                 if (ent instanceof GameMob) {
                     ((GameMob) ent).updateName();

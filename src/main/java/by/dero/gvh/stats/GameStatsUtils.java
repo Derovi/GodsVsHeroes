@@ -1,13 +1,6 @@
 package by.dero.gvh.stats;
 
-import by.dero.gvh.FlyingText;
-import by.dero.gvh.GamePlayer;
-import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Lang;
-import by.dero.gvh.model.interfaces.DisplayInteractInterface;
-import lombok.Getter;
-import lombok.Setter;
-import org.bukkit.Location;
 
 import java.util.*;
 
@@ -87,7 +80,7 @@ public class GameStatsUtils {
 		for (int i = 0; i < list.size(); i++) {
 			TopEntry entry = list.get(i);
 			entry.setValue(Lang.get("stats.formatDamage").
-					replace("%val%", String.valueOf(Math.round(game.getPlayers().get(entry.getName()).getDamageDealt()))));
+					replace("%val%", String.valueOf(Math.round(game.getPlayers().get(entry.getName()).getDamageDealt()) / 2)));
 			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
 				entry.setOrder(i + 1);
 			} else {
@@ -128,7 +121,7 @@ public class GameStatsUtils {
 		for (int i = 0; i < list.size(); i++) {
 			TopEntry entry = list.get(i);
 			entry.setValue(Lang.get("stats.formatHeal").
-					replace("%val%", String.valueOf(Math.round(game.getPlayers().get(entry.getName()).getTeamHeal()))));
+					replace("%val%", String.valueOf(Math.round(game.getPlayers().get(entry.getName()).getTeamHeal()) / 2)));
 			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
 				entry.setOrder(i + 1);
 			} else {
@@ -165,7 +158,7 @@ public class GameStatsUtils {
     	if (stats.getGameDurationSec() >= 60) {
     		str = stats.getGameDurationSec() / 60 + " минут ";
 	    }
-    	str += stats.getGameDurationSec() % 60 + "секунд";
+    	str += stats.getGameDurationSec() % 60 + " секунд";
     	return str;
 	}
 }

@@ -12,6 +12,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class SkeletonArmy extends Item implements PlayerInteractInterface {
     private final int melee;
@@ -30,6 +31,15 @@ public class SkeletonArmy extends Item implements PlayerInteractInterface {
         range = info.getRange();
         duration = info.getDuration();
         material = info.getMaterial();
+    }
+    
+    @Override
+    public ItemStack getItemStack() {
+        ItemStack result = super.getItemStack();
+        if (result.getType().equals(Material.SKULL_ITEM)) {
+            result.setDurability((short) 1);
+        }
+        return result;
     }
     
     @Override
