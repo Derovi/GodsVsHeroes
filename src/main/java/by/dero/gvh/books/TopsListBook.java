@@ -13,10 +13,10 @@ import org.bukkit.entity.Player;
 
 public class TopsListBook extends BookGUI {
     private final GameStats game;
-    private final Player considered;
+    private final String considered;
     private Runnable backAction;
 
-    public TopsListBook(BookManager manager, Player player, Player considered, GameStats game) {
+    public TopsListBook(BookManager manager, Player player, String considered, GameStats game) {
         super(manager, player);
         this.game = game;
         this.considered = considered;
@@ -26,48 +26,48 @@ public class TopsListBook extends BookGUI {
     public void build() {
         BookUtil.PageBuilder builder = new BookUtil.PageBuilder()
                 .add("§6§lТопы§8 - Игра #" + game.getId()).newLine();
-        builder.add("§8Длительность » " + GameStatsUtils.getDurationString(game)).newLine();
-        builder.add("§8Дата » " + GameStatsUtils.getDateString(game.getStartTime())).newLine().newLine();
+        builder.add("§0Время §8» §0" + GameStatsUtils.getDurationString(game)).newLine();
+        builder.add("§0Дата §8» §0" + GameStatsUtils.getDateString(game.getStartTime())).newLine();
 
         if (game.getPercentToWin() != null) {
             for (int team = 0; team < game.getPercentToWin().size(); ++team) {
                 int percent = game.getPercentToWin().get(team);
                 String value = percent >= 100 ? "§aПобеда" : ("§c" + percent + '%');
-                builder.add(Lang.get("commands." + (percent + 1)) + " §8» " + value).newLine();
+                builder.add(Lang.get("commands." + (team + 1)) + " §8» " + value).newLine();
             }
         }
-        builder.newLine().newLine();
+        builder.newLine();
         builder.add(BookUtil.TextBuilder.of("§3[Топ - Полезность]").onClick(new BookButton(this, () -> {
             PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
-                    "§6Топ - Полезность", GameStatsUtils.getAdvancementTop(game));
+                    "§6§lТоп - Полезность", GameStatsUtils.getAdvancementTop(game));
             book.setBackAction(this::open);
             book.build();
             book.open();
         })).build()).newLine();
         builder.add(BookUtil.TextBuilder.of("§c[Топ - Убийства]").onClick(new BookButton(this, () -> {
             PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
-                    "§6Топ - Убийства", GameStatsUtils.getKillTop(game));
+                    "§6§lТоп - Убийства", GameStatsUtils.getKillTop(game));
             book.setBackAction(this::open);
             book.build();
             book.open();
         })).build()).newLine();
         builder.add(BookUtil.TextBuilder.of("§5[Топ - У/С/П]").onClick(new BookButton(this, () -> {
             PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
-                    "§6Топ - У/С/П", GameStatsUtils.getKDATop(game));
+                    "§6§lТоп - У/С/П", GameStatsUtils.getKDATop(game));
             book.setBackAction(this::open);
             book.build();
             book.open();
         })).build()).newLine();
         builder.add(BookUtil.TextBuilder.of("§4[Топ - Урон]").onClick(new BookButton(this, () -> {
             PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
-                    "§6Топ - Урон", GameStatsUtils.getDamageTop(game));
+                    "§6§lТоп - Урон", GameStatsUtils.getDamageTop(game));
             book.setBackAction(this::open);
             book.build();
             book.open();
         })).build()).newLine();
         builder.add(BookUtil.TextBuilder.of("§9[Топ - Захват]").onClick(new BookButton(this, () -> {
             PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
-                    "§6Топ - Захват", GameStatsUtils.getCaptureTop(game));
+                    "§6§lТоп - Захват", GameStatsUtils.getCaptureTop(game));
             book.setBackAction(this::open);
             book.build();
             book.open();

@@ -64,7 +64,7 @@ public class GameStatsUtils {
 			entry.setValue(Lang.get("stats.formatKDA").
 					replace("%kills%", String.valueOf(cur.getKills())).
 					replace("%deaths%", String.valueOf(cur.getDeaths())).
-					replace("%assissts%", String.valueOf(cur.getAssists())).
+					replace("%assists%", String.valueOf(cur.getAssists())).
 					replace("%kda%", String.format("%.2f", cur.getKDA())));
 			if (i == 0 || was > cur.getKDA()) {
 				entry.setOrder(i + 1);
@@ -163,9 +163,9 @@ public class GameStatsUtils {
 	public static String getDurationString(GameStats stats) {
     	String str = "";
     	if (stats.getGameDurationSec() >= 60) {
-    		str = stats.getGameDurationSec() / 60 + " минут ";
+    		str = stats.getGameDurationSec() / 60 + " м. ";
 	    }
-    	str += stats.getGameDurationSec() % 60 + "секунд";
+    	str += stats.getGameDurationSec() % 60 + "с.";
     	return str;
 	}
 }

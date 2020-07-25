@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerTopBook extends BookGUI {
-    private final Player considered;
+    private final String considered;
     private final GameStats game;
     private final String title;
     private final List<TopEntry> top;
@@ -28,7 +28,7 @@ public class PlayerTopBook extends BookGUI {
     @Getter @Setter
     private Runnable backAction;
 
-    public PlayerTopBook(BookManager manager, Player player, Player considered,
+    public PlayerTopBook(BookManager manager, Player player, String considered,
                          GameStats game, String title, List<TopEntry> top) {
         super(manager, player);
         this.considered = considered;
@@ -48,18 +48,18 @@ public class PlayerTopBook extends BookGUI {
 
             for (TopEntry entry : top) {
                 String nameColor = "§0";
-                if (entry.getName().equals(considered.getName())) {
+                if (entry.getName().equals(considered)) {
                     nameColor = "§5";
                 }
                 builder.add(entry.getOrder() + ". ").add(
                         BookUtil.TextBuilder.of(nameColor + entry.getName()).onClick(new BookButton(this, () -> {
                             GameStatsBook gameStatsBook = new GameStatsBook(getManager(),
-                                    getPlayer(), Bukkit.getPlayer(entry.getName()), game);
+                                    getPlayer(), entry.getName(), game);
                             gameStatsBook.setBackAction(this::open);
                             gameStatsBook.build();
                             gameStatsBook.open();
                         })).build()
-                ).add(" §8» §3" + entry.getValue());
+                ).add(" §8» §3" + entry.getValue()).newLine();
             }
 
             builder.newLine();

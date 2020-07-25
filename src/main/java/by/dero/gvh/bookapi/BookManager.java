@@ -6,15 +6,19 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import ru.cristalix.core.event.AsyncPlayerChatEvent;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-public class BookManager implements CommandExecutor {
+public class BookManager implements Listener {
     private final HashMap<UUID, BookGUI> players = new HashMap<>();
 
     public BookManager() {
-        Bukkit.getPluginCommand("bookapi").setExecutor(this);
+        Bukkit.getPluginManager().registerEvents(this, Plugin.getInstance());
     }
 
     public void registerBook(Player player, BookGUI gui) {
@@ -25,21 +29,26 @@ public class BookManager implements CommandExecutor {
         players.remove(player.getUniqueId());
     }
 
-    @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if (!(commandSender instanceof Player)) {
-            return false;
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onChat(AsyncPlayerChatEvent event) {
+        String message = event.getOriginalMessage()[0].toPlainText();
+        System.out.println(event.getOriginalMessage()[0].toPlainText());
+        if (message.startsWith("bookapi")) {
+            if (!players.containsKey(event.getPlayer().getUniqueId())) {
+                return;
+            }
+            String[] args = message.split(" ");
+            if (args.length == 1) {
+                return;
+            }
+            BookGUI gui = players.get(event.getPlayer().getUniqueId());
+            if (!gui.getButtons().containsKey(UUID.fromString(args[1]))) {
+                event.getPlayer().sendMessage("§4No such button");
+                return;
+            }
+            gui.getButtons().get(UUID.fromString(args[1])).onClick.run();
+            event.setCancelled(true);
+            event.setMessage(null);
         }
-        Player player = (Player) commandSender;
-        if (!players.containsKey(player.getUniqueId())) {
-            return false;
-        }
-        BookGUI gui = players.get(player.getUniqueId());
-        if (!gui.getButtons().containsKey(UUID.fromString(args[0]))) {
-            player.sendMessage("§4No such button");
-            return true;
-        }
-        gui.getButtons().get(UUID.fromString(args[0])).onClick.run();
-        return false;
     }
 }
