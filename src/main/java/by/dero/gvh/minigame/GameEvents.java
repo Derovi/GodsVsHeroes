@@ -289,7 +289,7 @@ public class GameEvents implements Listener {
                 damageCause.putIfAbsent((GamePlayer) gm, new Stack<>());
                 damageCause.get(gm).add(Pair.of(damager, System.currentTimeMillis()));
                 if (!gm.equals(damager)) {
-                    GameStatsUtils.addDamage((GamePlayer) gm, damager, event.getDamage());
+                    Game.getInstance().getGameStatsManager().addDamage((GamePlayer) gm, damager, event.getDamage());
                 }
             } else {
                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
@@ -390,7 +390,7 @@ public class GameEvents implements Listener {
         Player p = event.getPlayer();
         if (game.getState() == Game.State.GAME && game.stats.getPlayers().containsKey(p.getName())) {
             game.stats.getPlayers().get(p.getName()).setPlayTimeSec(
-                    (int) (System.currentTimeMillis() / 1000 - GameStatsUtils.getStartTime()));
+                    (int) (System.currentTimeMillis() / 1000 - Game.getInstance().getGameStatsManager().getStartTime()));
         }
         Minigame.getInstance().getGame().removePlayer(p.getName());
     }

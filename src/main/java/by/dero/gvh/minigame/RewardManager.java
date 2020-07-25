@@ -23,7 +23,7 @@ public class RewardManager {
         int count = get(reward).getCount();
         String name = player.getName();
         GamePlayer gp = GameUtils.getPlayer(name);
-        GameStatsUtils.addExp(gp, count);
+        Minigame.getInstance().getGame().getGameStatsManager().addExp(gp, count);
         Plugin.getInstance().getPlayerData().increaseBalance(name, count);
         if (!message.isEmpty()) {
             player.sendMessage(message.replace("%count%", String.valueOf(count)).replace(

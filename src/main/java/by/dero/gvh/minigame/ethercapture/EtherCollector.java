@@ -169,8 +169,8 @@ public class EtherCollector {
         for (Map.Entry<GamePlayer, Double> entry : rewards.entrySet()) {
             int cnt = (int) Math.ceil(entry.getValue() * mult);
             String name = entry.getKey().getPlayer().getName();
-            GameStatsUtils.addCapturePoints(name, (int) (double) entry.getValue());
-            GameStatsUtils.addExp(entry.getKey(), cnt);
+            Game.getInstance().getGameStatsManager().addCapturePoints(name, (int) (double) entry.getValue());
+            Game.getInstance().getGameStatsManager().addExp(entry.getKey(), cnt);
             Plugin.getInstance().getPlayerData().increaseBalance(name, cnt);
             MessagingUtils.sendSubtitle(Lang.get("rewmes.capture").
                     replace("%exp%", String.valueOf(cnt)), entry.getKey().getPlayer(), 0, 20, 0);

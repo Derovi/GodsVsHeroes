@@ -52,7 +52,7 @@ public class PlayerTopBook extends BookGUI {
                     nameColor = "§5";
                 }
                 builder.add(entry.getOrder() + ". ").add(
-                        BookUtil.TextBuilder.of(entry.getName()).onClick(new BookButton(this, () -> {
+                        BookUtil.TextBuilder.of(nameColor + entry.getName()).onClick(new BookButton(this, () -> {
                             GameStatsBook gameStatsBook = new GameStatsBook(getManager(),
                                     getPlayer(), Bukkit.getPlayer(entry.getName()), game);
                             gameStatsBook.setBackAction(this::open);

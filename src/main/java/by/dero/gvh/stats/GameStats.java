@@ -28,13 +28,4 @@ public class GameStats {
     
     @Getter @Setter
     private long startTime;
-    
-    public void load() {
-        GameStatsUtils.gameStats = this;
-        startTime = System.currentTimeMillis() / 1000;
-        for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
-            players.put(gp.getPlayer().getName(),
-                    new GamePlayerStats(gp.getPlayer().getName(), gp.getClassName(), gp.getTeam()));
-        }
-    }
 }

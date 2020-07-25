@@ -25,7 +25,7 @@ public class TopsListBook extends BookGUI {
     public void build() {
         BookUtil.PageBuilder builder = new BookUtil.PageBuilder()
                 .add("§6§lТопы§8 - Игра #" + game.getId()).newLine();
-        builder.add("§8Длительность » ").newLine();
+        builder.add("§8Длительность » " + GameStatsUtils.getDurationString(game)).newLine();
         builder.add("§8Дата » " + GameStatsUtils.getDateString(game.getStartTime())).newLine().newLine();
 
         if (game.getPercentToWin() != null) {

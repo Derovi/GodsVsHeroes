@@ -5,6 +5,7 @@ import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.stats.GameStats;
+import by.dero.gvh.stats.GameStatsManager;
 import by.dero.gvh.stats.GameStatsUtils;
 import by.dero.gvh.utils.*;
 import lombok.Getter;
@@ -61,6 +62,8 @@ public abstract class Game implements Listener {
     private RewardManager rewardManager;
     private MapManager mapManager;
     private DeathAdviceManager deathAdviceManager;
+    @Getter
+    private GameStatsManager gameStatsManager;
     @Getter @Setter protected GameStats stats;
     protected boolean loaded = false;
 
@@ -182,7 +185,7 @@ public abstract class Game implements Listener {
             return;
         }
         stats = new GameStats();
-        stats.load();
+        gameStatsManager = new GameStatsManager(stats);
         chooseTeams();
     
         for (GamePlayer player : players.values()) {
@@ -314,7 +317,7 @@ public abstract class Game implements Listener {
                                 pl.getPlayer(), 0, 20, 0);
                     }
                 }
-                GameStatsUtils.addKill(player, killer, assists);
+                gameStatsManager.addKill(player, killer, assists);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -377,7 +380,7 @@ public abstract class Game implements Listener {
             RealmInfo info = IRealmService.get().getCurrentRealmInfo();
             info.setStatus(RealmStatus.GAME_ENDING);
         }
-        stats.setGameDurationSec((int) (System.currentTimeMillis() / 1000 - GameStatsUtils.getStartTime()));
+        stats.setGameDurationSec((int) (System.currentTimeMillis() / 1000 - getGameStatsManager().getStartTime()));
         for (GamePlayer gp : players.values()) {
             if (gp.getPlayer().isOnline()) {
                 stats.getPlayers().get(gp.getPlayer().getName()).setPlayTimeSec(stats.getGameDurationSec());
