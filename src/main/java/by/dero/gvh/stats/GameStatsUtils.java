@@ -110,6 +110,22 @@ public class GameStatsUtils {
             text.unload();
         }
     }
+    
+	public static String getDateString(long time) {
+		TimeZone timeZone = TimeZone.getTimeZone("Europe/Moscow");
+		Calendar cal = Calendar.getInstance(timeZone);
+		String[] months = {
+				"Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля",
+				"Августа", "Сентября", "Октября", "Ноября", "Декабря"
+		};
+		String str = cal.get(Calendar.DAY_OF_MONTH) + " " + months[cal.get(Calendar.MONTH) - 1];
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		if (year != Calendar.getInstance(timeZone).get(Calendar.YEAR)) {
+			str += " " + year;
+		}
+		str += ", " + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
+		return str;
+	}
 	
 	private static String getBestDamageDealt() {
 		String best = "";
