@@ -61,7 +61,7 @@ public class GameTabWrapper {
         }), uuid -> CompletableFuture.supplyAsync(() -> {
             GamePlayer gp = Minigame.getInstance().getGame().getPlayers().getOrDefault(
                     Bukkit.getPlayer(uuid).getName(), null);
-            if (gp == null) {
+            if (gp == null || gp.getTeam() == -1) {
                 return 100;
             }
             return gp.getTeam();
