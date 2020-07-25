@@ -66,8 +66,8 @@ public class Drawings {
     public static int[] chatColorToCrist(char code) {
         switch (code) {
             case '0' : return new int[] {255, 255, 255};
-            case '1' : return new int[] {0, 255, 0};
-            case '2' : return new int[] {255, 0, 0};
+            case '1' : return new int[] {255, 0, 0};
+            case '2' : return new int[] {0, 255, 0};
             default : return new int[] {0, 125, 255};
         }
     }

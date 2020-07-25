@@ -2,142 +2,24 @@ package by.dero.gvh.minigame;
 
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.Position;
-import org.bukkit.util.Vector;
+import lombok.Getter;
+import lombok.Setter;
 
 public class GameInfo {
-    private String lobbyWorld = "World";
-    private String mode;
-    private int teamCount = 2;
-    private int respawnTime = 200;
-    private int minPlayerCount = 2;
-    private int maxPlayerCount = 24;
-    private DirectedPosition lobbyPosition;
-    private DirectedPosition[][] spawnPoints;
-    private int finishTime;
-    private DirectedPosition[] winnerPositions;
-    private DirectedPosition[] looserPositions;
-    private DirectedPosition[] mapBorders;
-    private Position[] healPoints;
-    private Position[] speedPoints;
-    private Position[] resistancePoints;
-
-    public int getFinishTime() {
-        return finishTime;
-    }
-
-    public void setFinishTime(int finishTime) {
-        this.finishTime = finishTime;
-    }
-
-    public DirectedPosition[] getWinnerPositions() {
-        return winnerPositions;
-    }
-
-    public void setWinnerPositions(DirectedPosition[] winnerPositions) {
-        this.winnerPositions = winnerPositions;
-    }
-
-    public DirectedPosition[] getLooserPositions() {
-        return looserPositions;
-    }
-
-    public void setLooserPositions(DirectedPosition[] looserPositions) {
-        this.looserPositions = looserPositions;
-    }
-
-    public DirectedPosition getLobbyPosition() {
-        return lobbyPosition;
-    }
-
-    public void setLobbyPosition(DirectedPosition lobbyPosition) {
-        this.lobbyPosition = lobbyPosition;
-    }
-
-    public int getRespawnTime() {
-        return respawnTime;
-    }
-
-    public void setRespawnTime(int respawnTime) {
-        this.respawnTime = respawnTime;
-    }
-
-    public String getLobbyWorld() {
-        return lobbyWorld;
-    }
-
-    public void setLobbyWorld(String lobbyWorld) {
-        this.lobbyWorld = lobbyWorld;
-    }
-
-    public int getTeamCount() {
-        return teamCount;
-    }
-
-    public void setTeamCount(int teamCount) {
-        this.teamCount = teamCount;
-    }
-
-    public int getMinPlayerCount() {
-        return minPlayerCount;
-    }
-
-    public void setMinPlayerCount(int minPlayerCount) {
-        this.minPlayerCount = minPlayerCount;
-    }
-
-    public int getMaxPlayerCount() {
-        return maxPlayerCount;
-    }
-
-    public void setMaxPlayerCount(int maxPlayerCount) {
-        this.maxPlayerCount = maxPlayerCount;
-    }
-
-    public DirectedPosition[][] getSpawnPoints() {
-        return spawnPoints;
-    }
-
-    public void setSpawnPoints(DirectedPosition[][] spawnPoints) {
-        this.spawnPoints = spawnPoints;
-    }
-
-    public DirectedPosition[] getMapBorders() {
-        return mapBorders;
-    }
-
-    public void setMapBorders(DirectedPosition[] mapBorders) {
-        this.mapBorders = mapBorders;
-    }
-
-    public void setHealPoints(Position[] healPoints) {
-        this.healPoints = healPoints;
-    }
-
-    public void setSpeedPoints(Position[] speedPoints) {
-        this.speedPoints = speedPoints;
-    }
-
-    public void setResistancePoints(Position[] resistancePoints) {
-        this.resistancePoints = resistancePoints;
-    }
-
-    public Position[] getHealPoints() {
-        return healPoints;
-    }
-
-    public Position[] getSpeedPoints() {
-        return speedPoints;
-    }
-
-    public Position[] getResistancePoints() {
-        return resistancePoints;
-    }
-
-    public String getMode() {
-        return mode;
-    }
-
-    public void setMode(String mode) {
-        this.mode = mode;
-    }
+    @Getter @Setter private String lobbyWorld = "World";
+    @Getter @Setter private String mode;
+    @Getter @Setter private int teamCount = 2;
+    @Getter @Setter private int respawnTime = 200;
+    @Getter @Setter private int minPlayerCount = 2;
+    @Getter @Setter private int maxPlayerCount = 24;
+    @Getter @Setter private int afkTime = 2400;
+    @Getter @Setter private DirectedPosition lobbyPosition;
+    @Getter @Setter private DirectedPosition[][] spawnPoints;
+    @Getter @Setter private int finishTime;
+    @Getter @Setter private DirectedPosition[] winnerPositions;
+    @Getter @Setter private DirectedPosition[] looserPositions;
+    @Getter @Setter private DirectedPosition[] mapBorders;
+    @Getter @Setter private Position[] healPoints;
+    @Getter @Setter private Position[] speedPoints;
+    @Getter @Setter private Position[] resistancePoints;
 }

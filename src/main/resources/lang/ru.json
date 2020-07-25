@@ -199,7 +199,8 @@
     "assists": "Помощей §8» §a%assists%",
     "online": "Онлайн §8» §b%online%",
     "collectorsStatus": "Захват §8» §f",
-    "progressReach": "%command% §aнабрали %pts%%"
+    "progressReach": "%command% §aнабрали %pts%%",
+    "afkKickMessage": "§cИграть надо было, голубчик"
   },
   "loots": {
     "statusSpeed": "§aСкорость §8» §6%amount% §aсек.",

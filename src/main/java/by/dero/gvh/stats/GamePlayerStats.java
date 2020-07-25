@@ -32,5 +32,7 @@ public class GamePlayerStats {
 
     @Getter @Setter private int playTimeSec = 0;
     
-    @Getter @Setter private int teamHeal = 0;
+    @Getter @Setter private double teamHeal = 0;
+    
+    @Getter @Setter private double advancement = 0;
 }

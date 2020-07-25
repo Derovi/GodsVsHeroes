@@ -52,15 +52,27 @@ public class GameStats {
         }
     }
     
+    //counts advancement
     public void addKill(GamePlayer target, GamePlayer killer, Collection<GamePlayer> assists) {
-        if (assists != null) {
-            GamePlayerStats stats;
+        int killcnt = Game.getInstance().getRewardManager().get("killEnemy").getCount();
+        GamePlayerStats stats;
+        if (assists != null && !assists.isEmpty()) {
+            double assistrew = killcnt * 0.4 / assists.size();
             for (GamePlayer player : assists) {
                 String name = player.getPlayer().getName();
                 stats = players.get(name);
                 stats.setAssists(stats.getAssists() + 1);
+                stats.setAdvancement(stats.getAdvancement() + assistrew);
             }
+            stats = players.get(killer.getPlayer().getName());
+            stats.setAdvancement(stats.getAdvancement() + killcnt - assistrew * assists.size());
+        } else {
+            stats = players.get(killer.getPlayer().getName());
+            stats.setAdvancement(stats.getAdvancement() + killcnt);
         }
+        
+        stats = players.get(target.getPlayer().getName());
+        stats.setAdvancement(stats.getAdvancement() - killcnt);
         addKill(target, killer);
     }
     
