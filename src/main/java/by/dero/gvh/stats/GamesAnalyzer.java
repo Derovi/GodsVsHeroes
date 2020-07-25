@@ -1,10 +1,10 @@
 package by.dero.gvh.stats;
 
+import by.dero.gvh.utils.Pair;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GamesAnalyzer {
     @Getter
@@ -19,49 +19,143 @@ public class GamesAnalyzer {
     }
 
     public int getAverageDurationSec() {
-        // находишь среднюю продолжительность игр в секундах
-        return 0;
+        int sum = 0;
+        for (GameStats stats : games) {
+            sum += stats.getGameDurationSec();
+        }
+        return sum / games.size();
     }
 
-    public int getAverageKills() {
-        // находишь среднее кол-во килов среди игроков, которые досидели до конца игры по всем играм
-        return 0;
+    public double getAverageKills() {
+        double kills = 0;
+        int cnt = 0;
+        for (GameStats stats : games) {
+            for (GamePlayerStats pl : stats.getPlayers().values()) {
+                kills += pl.getKills();
+                cnt++;
+            }
+        }
+        return kills / cnt;
     }
 
-    public int getAverageAssists() {
-        // находишь среднее кол-во ассистов среди игроков, которые досидели до конца игры по всем играм
-        return 0;
+    public double getAverageAssists() {
+        double assists = 0;
+        int cnt = 0;
+        for (GameStats stats : games) {
+            for (GamePlayerStats pl : stats.getPlayers().values()) {
+                assists += pl.getAssists();
+                cnt++;
+            }
+        }
+        return assists / cnt;
     }
 
-    public int getAverageCapture() {
-        // находишь среднее кол-во очков захвата среди игроков, которые досидели до конца игры по всем играм
-        return 0;
+    public double getAverageCapture() {
+        double capture = 0;
+        int cnt = 0;
+        for (GameStats stats : games) {
+            for (GamePlayerStats pl : stats.getPlayers().values()) {
+                capture += pl.getCapturePoints();
+                cnt++;
+            }
+        }
+        return capture / cnt;
     }
 
-    public int getAverageTeamHeal() {
-        // находишь среднее кол-во хила тиме среди игроков, которые досидели до конца игры по всем играм
-        return 0;
+    public double getAverageTeamHeal() {
+        double heal = 0;
+        int cnt = 0;
+        for (GameStats stats : games) {
+            for (GamePlayerStats pl : stats.getPlayers().values()) {
+                heal += pl.getTeamHeal();
+                cnt++;
+            }
+        }
+        return heal / cnt;
     }
 
-    public int getAverageExpGained() {
-        // находишь среднее кол-во опыта, который получил игрок за катку (среди всех, не обязательно до конца сидевших)
-        return 0;
+    public double getAverageExpGained() {
+        double exp = 0;
+        int cnt = 0;
+        for (GameStats stats : games) {
+            for (GamePlayerStats pl : stats.getPlayers().values()) {
+                exp += pl.getExpGained();
+                cnt++;
+            }
+        }
+        return exp / cnt;
     }
 
     public double getAveragePlayPercent() {
-        // для каждого игрока в каждой игре находишь playTime / gameDuration и возвращаешь среднее по таким значениям
-        return 0;
+        double percent = 0;
+        int cnt = 0;
+        for (GameStats stats : games) {
+            for (GamePlayerStats pl : stats.getPlayers().values()) {
+                percent += (double) pl.getPlayTimeSec() / stats.getGameDurationSec();
+                cnt++;
+            }
+        }
+        return percent / cnt;
     }
 
-    public List<StatsInfo> getHeroTopWinRate() {
-        // Возвращаешь топ героев по винрейту
-        return null;
+    public List<TopEntry> getHeroTopWinRate() {
+        HashMap<String, Pair<Integer, Integer> > stat = new HashMap<>();
+        for (GameStats game : games) {
+            for (GamePlayerStats playerStats : game.getPlayers().values()) {
+                String name = playerStats.getClassName();
+                Pair<Integer, Integer> cur = stat.getOrDefault(name, Pair.of(0, 0));
+                stat.put(name, Pair.of(cur.getKey() + playerStats.getTeam() == game.getWonTeam() ? 1 : 0, cur.getValue() + 1));
+            }
+        }
+        ArrayList<TopEntry> list = new ArrayList<>(stat.size());
+        for (Map.Entry<String, Pair<Integer, Integer> > entry : stat.entrySet()) {
+            list.add(new TopEntry(entry.getKey(), "", 0));
+        }
+        list.sort((a, b) -> {
+            Pair<Integer, Integer> c = stat.get(a.getName()), d = stat.get(b.getName());
+            return -Integer.compare(c.getKey() * d.getValue(), d.getKey() * c.getValue());
+        });
+        double was = 100000;
+        for (int i = 0; i < list.size(); i++) {
+            Pair<Integer, Integer> z = stat.get(list.get(i).getName());
+            double cur = (double) z.getKey() / z.getValue();
+            list.get(i).setValue(String.format("%.2f", cur));
+            if (cur == was) {
+                list.get(i).setOrder(list.get(i-1).getOrder());
+            } else {
+                list.get(i).setOrder(i + 1);
+            }
+            was = cur;
+        }
+        return list;
     }
 
-    public List<StatsInfo> getHeroTopPickRate() {
-        // Возвращаешь топ героев по пикрейту (как считать норм я не знаю, я придумал такое -
-        // вот допустим считаешь для warrior. Для каждой игры находишь сколько там войнов,
-        // делишь на общее кол-во игроков в этой игре. Это пикрейт в этой игре. Общий пикрейт - среднее по всем играм)
-        return null;
+    public List<TopEntry> getHeroTopPickRate() {
+        int cnt = 0;
+        HashMap<String, Integer> herocnt = new HashMap<>();
+        for (GameStats stats : games) {
+            for (GamePlayerStats playerStats : stats.getPlayers().values()) {
+                cnt++;
+                Integer hc = herocnt.getOrDefault(playerStats.getClassName(), 0) + 1;
+                herocnt.put(playerStats.getClassName(), hc);
+            }
+        }
+        ArrayList<TopEntry> list = new ArrayList<>(herocnt.size());
+        for (Map.Entry<String, Integer> entry : herocnt.entrySet()) {
+            list.add(new TopEntry(entry.getKey(), "", 0));
+        }
+        list.sort(Comparator.comparingInt(a -> -herocnt.get(a.getName())));
+        double was = 123123;
+        for (int i = 0; i < list.size(); i++) {
+            double cur = (double) herocnt.get(list.get(i).getName()) / cnt;
+            list.get(i).setValue(String.format("%.2f", cur));
+            if (cur == was) {
+                list.get(i).setOrder(list.get(i-1).getOrder());
+            } else {
+                list.get(i).setOrder(i + 1);
+            }
+            was = cur;
+        }
+        return list;
     }
 }

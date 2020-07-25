@@ -179,7 +179,7 @@ public class GameStatsUtils {
 			entry.setValue(Lang.get("stats.formatKills").
 					replace("%val%", String.valueOf(game.getPlayers().get(entry.getName()).getKills())));
 			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
-				entry.setOrder(i);
+				entry.setOrder(i + 1);
 			} else {
 				entry.setOrder(list.get(i-1).getOrder());
 			}
@@ -206,7 +206,7 @@ public class GameStatsUtils {
 					replace("%assissts%", String.valueOf(cur.getAssists())).
 					replace("%kda%", String.format("%.2f", cur.getKDA())));
 			if (i == 0 || was > cur.getKDA()) {
-				entry.setOrder(i);
+				entry.setOrder(i + 1);
 			} else {
 				entry.setOrder(list.get(i-1).getOrder());
 			}
@@ -228,7 +228,7 @@ public class GameStatsUtils {
 			entry.setValue(Lang.get("stats.formatDamage").
 					replace("%val%", String.valueOf(Math.round(game.getPlayers().get(entry.getName()).getDamageDealt()))));
 			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
-				entry.setOrder(i);
+				entry.setOrder(i + 1);
 			} else {
 				entry.setOrder(list.get(i-1).getOrder());
 			}
@@ -249,7 +249,7 @@ public class GameStatsUtils {
 			entry.setValue(Lang.get("stats.formatCapture").
 					replace("%val%", String.valueOf(game.getPlayers().get(entry.getName()).getCapturePoints())));
 			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
-				entry.setOrder(i);
+				entry.setOrder(i + 1);
 			} else {
 				entry.setOrder(list.get(i-1).getOrder());
 			}
@@ -269,7 +269,7 @@ public class GameStatsUtils {
 			entry.setValue(Lang.get("stats.formatHeal").
 					replace("%val%", String.valueOf(Math.round(game.getPlayers().get(entry.getName()).getTeamHeal()))));
 			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
-				entry.setOrder(i);
+				entry.setOrder(i + 1);
 			} else {
 				entry.setOrder(list.get(i-1).getOrder());
 			}
@@ -290,7 +290,7 @@ public class GameStatsUtils {
 			entry.setValue(Lang.get("stats.formatAdvancement").
 					replace("%val%", String.valueOf(Math.round(game.getPlayers().get(entry.getName()).getAdvancement()))));
 			if (i == 0 || !list.get(i-1).getValue().equals(entry.getValue())) {
-				entry.setOrder(i);
+				entry.setOrder(i + 1);
 			} else {
 				entry.setOrder(list.get(i-1).getOrder());
 			}
