@@ -96,27 +96,27 @@ public class GameStats {
         stats.setCapturePoints(stats.getCapturePoints() + points);
     }
     
-    private final LinkedList<FlyingText> texts = new LinkedList<>();
-    public void spawnStats(final Location loc) {
-        for (final String message : new String[]{
-                Lang.get("stats.label"),
-                Lang.get("stats.bestKills").replace("%pl%", getBestKills()),
-                Lang.get("stats.bestDamageDealt").replace("%pl%", getBestDamageDealt()),
-                Lang.get("stats.bestDeaths").replace("%pl%", getBestDeaths()),
-                Lang.get("stats.bestDamageTaken").replace("%pl%", getBestDamageTaken()),
-        }) {
-            final FlyingText text = new FlyingText(loc.clone(), message);
-            loc.subtract(0, 0.3, 0);
-            texts.add(text);
-        }
-    }
+//    private final LinkedList<FlyingText> texts = new LinkedList<>();
+//    public void spawnStats(final Location loc) {
+//        for (final String message : new String[]{
+//                Lang.get("stats.label"),
+//                Lang.get("stats.bestKills").replace("%pl%", getBestKills()),
+//                Lang.get("stats.bestDamageDealt").replace("%pl%", getBestDamageDealt()),
+//                Lang.get("stats.bestDeaths").replace("%pl%", getBestDeaths()),
+//                Lang.get("stats.bestDamageTaken").replace("%pl%", getBestDamageTaken()),
+//        }) {
+//            final FlyingText text = new FlyingText(loc.clone(), message);
+//            loc.subtract(0, 0.3, 0);
+//            texts.add(text);
+//        }
+//    }
     
-    public void unload() {
-        players.clear();
-        for (final FlyingText text : texts) {
-            text.unload();
-        }
-    }
+//    public void unload() {
+//        players.clear();
+//        for (final FlyingText text : texts) {
+//            text.unload();
+//        }
+//    }
     
     private String getBestDamageDealt() {
         String best = "";

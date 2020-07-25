@@ -367,6 +367,8 @@ public abstract class Game implements Listener {
             player.setFireTicks(0);
         }
 
+        Plugin.getInstance().getGameStatsData().saveGameStats(stats);
+
         for (LivingEntity entity: world.getLivingEntities()) {
             if (!(entity instanceof Player)) {
                 entity.remove();
@@ -409,7 +411,7 @@ public abstract class Game implements Listener {
                         player.kickPlayer(Lang.get("game.gameFinished"));
                     }
                 }
-                stats.unload();
+                //stats.unload();
                 if (Plugin.getInstance().getSettings().isStopAfterGame()) {
                     Bukkit.shutdown();
                     return;

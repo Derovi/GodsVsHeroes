@@ -22,7 +22,7 @@ public class AfterParty {
     public void start() {
         final Location loc = game.getInfo().getLobbyPosition().toLocation(game.getInfo().getLobbyWorld());
 
-        game.getStats().spawnStats(loc.clone().add(0, 2, 4));
+        //game.getStats().spawnStats(loc.clone().add(0, 2, 4));
         for (GamePlayer gp : game.getPlayers().values()) {
             final Player player = gp.getPlayer();
             player.teleport(loc);

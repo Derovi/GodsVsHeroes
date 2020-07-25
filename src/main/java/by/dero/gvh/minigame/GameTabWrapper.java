@@ -6,6 +6,7 @@ import by.dero.gvh.model.Lang;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -55,19 +56,23 @@ public class GameTabWrapper {
     }
 
     public void loadTabComponents() {
-        tabTextComponents.clear();
+        /*tabTextComponents.clear();
         for (GamePlayer gp : Minigame.getInstance().getGame().getPlayers().values()) {
             addTab(new TabTextComponent(gp.getTeam(), TextFormat.NONE,
                     (uuid) -> uuid.equals(gp.getPlayer().getUniqueId()), uuid -> CompletableFuture.supplyAsync(() -> {
                 return new BaseComponent[] {new TextComponent(Lang.get("teamTabPrefix." + (gp.getTeam() + 1)))};
             })));
-        }
+        }*/
     }
 
     public void reloadTab() {
+        //System.out.println("reload");
         IConstantTabView tabView = ITabService.get().createConstantTabView();
         tabTextComponents.forEach(tabView::addPrefix);
         ITabService.get().setDefaultTabView(tabView);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            ITabService.get().update(player);
+        }
     }
 
 }

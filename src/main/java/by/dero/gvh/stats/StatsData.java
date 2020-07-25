@@ -18,12 +18,9 @@ public class StatsData {
 
     public StatsData(MongoDBStorage storage) {
         collection = storage.getDatabase().getCollection("stats");
-        for (int i = 0; i < 5; ++i) {
-            System.out.println(generateGameId());
-        }
         UpdateOptions options = new UpdateOptions();
         options.upsert(true);
-        //collection.updateOne(new Document("_id", "games"), new Document("lastID", "0"), options);
+        //collection.insertOne(new Document("_id", "games"), new Document("lastID", "0"), options);
     }
 
     public int generateGameId() {
