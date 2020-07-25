@@ -32,7 +32,7 @@ public class TopsListBook extends BookGUI {
         if (game.getPercentToWin() != null) {
             for (int team = 0; team < game.getPercentToWin().size(); ++team) {
                 int percent = game.getPercentToWin().get(team);
-                String value = percent >= 100 ? "§aПобеда" : ("§c" + percent + '%');
+                String value = percent >= 100 ? "§2Победа" : ("§9" + percent + '%');
                 builder.add(Lang.get("commands." + (team + 1)) + " §8» " + value).newLine();
             }
         }
@@ -54,6 +54,7 @@ public class TopsListBook extends BookGUI {
         builder.add(BookUtil.TextBuilder.of("§5[Топ - У/С/П]").onClick(new BookButton(this, () -> {
             PlayerTopBook book = new PlayerTopBook(getManager(), getPlayer(), considered, game,
                     "§6§lТоп - У/С/П", GameStatsUtils.getKDATop(game));
+            book.setOnOnePage(5);
             book.setBackAction(this::open);
             book.build();
             book.open();

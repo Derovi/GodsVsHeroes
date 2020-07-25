@@ -32,7 +32,6 @@ public class BookManager implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onChat(AsyncPlayerChatEvent event) {
         String message = event.getOriginalMessage()[0].toPlainText();
-        System.out.println(event.getOriginalMessage()[0].toPlainText());
         if (message.startsWith("bookapi")) {
             if (!players.containsKey(event.getPlayer().getUniqueId())) {
                 return;

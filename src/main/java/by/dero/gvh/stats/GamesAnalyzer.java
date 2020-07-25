@@ -1,17 +1,47 @@
 package by.dero.gvh.stats;
 
 import by.dero.gvh.utils.Pair;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.*;
 
+@NoArgsConstructor
 public class GamesAnalyzer {
     @Getter
     @Setter
     private List<GameStats> games = new ArrayList<>();
 
-    public GamesAnalyzer() {
+    @Builder
+    @Getter
+    public static class Bundle {
+        private final int analyzedGames;
+        private final int averageDurationSec;
+        private final double averageKills;
+        private final double averageAssists;
+        private final double averageCapture;
+        private final double averageTeamHeal;
+        private final double averageExpGained;
+        private final double averagePlayPercent;
+        private final List<TopEntry> heroTopWinRate;
+        private final List<TopEntry> heroTopPickRate;
+    }
+
+    public Bundle getBundle() {
+        return Bundle.builder()
+                .analyzedGames(games.size())
+                .averageDurationSec(getAverageDurationSec())
+                .averageKills(getAverageKills())
+                .averageAssists(getAverageAssists())
+                .averageCapture(getAverageCapture())
+                .averageTeamHeal(getAverageTeamHeal())
+                .averageExpGained(getAverageExpGained())
+                .averagePlayPercent(getAveragePlayPercent())
+                .heroTopWinRate(getHeroTopWinRate())
+                .heroTopPickRate(getHeroTopPickRate())
+                .build();
     }
 
     public GamesAnalyzer(List<GameStats> games) {

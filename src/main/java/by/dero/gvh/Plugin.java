@@ -3,6 +3,7 @@ package by.dero.gvh;
 import by.dero.gvh.bookapi.BookManager;
 import by.dero.gvh.commands.AdviceCommand;
 import by.dero.gvh.commands.BugCommand;
+import by.dero.gvh.commands.EtherCommand;
 import by.dero.gvh.commands.TestCommand;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Game;
@@ -87,6 +88,7 @@ public class Plugin extends JavaPlugin implements Listener {
             settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());;
         }
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
+        Bukkit.getPluginCommand("ether").setExecutor(new EtherCommand());
         Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
         Bukkit.getPluginCommand("advice").setExecutor(new AdviceCommand());
         lang = new Lang(new LocalStorage());

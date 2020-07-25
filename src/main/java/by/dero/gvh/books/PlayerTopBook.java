@@ -23,6 +23,8 @@ public class PlayerTopBook extends BookGUI {
     private final GameStats game;
     private final String title;
     private final List<TopEntry> top;
+    @Getter @Setter
+    private int onOnePage = 8;
 
 
     @Getter @Setter
@@ -39,14 +41,14 @@ public class PlayerTopBook extends BookGUI {
 
     @Override
     public void build() {
-        final int onOnePage = 8;
         List<BaseComponent[]> pages = new ArrayList<>();
 
         for (int first = 0; first < game.getPlayers().size(); first += onOnePage) {
             BookUtil.PageBuilder builder = new BookUtil.PageBuilder()
                     .add(title).newLine().newLine();
 
-            for (TopEntry entry : top) {
+            for (int idx = first; idx < Math.min(first + onOnePage, top.size()); ++idx) {
+                TopEntry entry = top.get(idx);
                 String nameColor = "§0";
                 if (entry.getName().equals(considered)) {
                     nameColor = "§5";
