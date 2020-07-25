@@ -7,6 +7,7 @@ import by.dero.gvh.bookapi.BookUtil;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.stats.GamePlayerStats;
 import by.dero.gvh.stats.GameStats;
+import by.dero.gvh.stats.GameStatsUtils;
 import org.bukkit.entity.Player;
 
 public class TopsListBook extends BookGUI {
@@ -23,20 +24,22 @@ public class TopsListBook extends BookGUI {
     public void build() {
         GamePlayerStats playerStats = game.getPlayers().get(considered.getName());
         BookUtil.PageBuilder builder = new BookUtil.PageBuilder()
-                .add("§6§lТопы§8 - Игра #" + game.getId()).newLine().newLine();
-        if (considered.getUniqueId().equals(getPlayer().getUniqueId())) {
-            builder.add("§6Ваша статистика:");
-        } else {
-            builder.add("§6Статистика §8»§9 " + considered.getName() + "§6:");
+                .add("§6§lТопы§8 - Игра #" + game.getId()).newLine();
+        builder.add("§8Длительность » ").newLine();
+        builder.add("§8Дата » " + GameStatsUtils.getDateString(game.getStartTime())).newLine().newLine();
+
+        if (game.getPercentToWin() != null) {
+
         }
+
         builder.newLine();
-        builder.add("§0Класс §8>> §5" + Lang.get("classes." + playerStats.getClassName())).newLine();
-        builder.add("§0Убийств §8>> §a" + playerStats.getKills()).newLine();
-        builder.add("§0Смертей §8>> §c" + playerStats.getDeaths()).newLine();
-        builder.add("§0Помощей §8>> §6" + playerStats.getAssists()).newLine();
-        builder.add("§0Захват §8>> §9" + playerStats.getCapturePoints()).newLine();
-        builder.add("§0Урон §8>> §4" + playerStats.getDamageDealt()).newLine();
-        builder.add("§0Опыт §8>> §2" + playerStats.getExpGained()).newLine();
+        builder.add("§3[Топ - Полезность]").newLine();
+        builder.add("§c[Топ - Убийства]").newLine();
+        builder.add("§5[Топ - У/С/П]").newLine();
+        builder.add("§4[Топ - Урон]").newLine();
+        builder.add("§9[Топ - Захват]").newLine().newLine();
+
+        builder.add("§5§l[Назад]");
 
         builder.newLine();
         builder.add(BookUtil.TextBuilder.of("§5§l[Назад]").onClick(new BookButton(this, new Runnable() {

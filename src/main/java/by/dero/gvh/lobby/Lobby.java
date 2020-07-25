@@ -350,7 +350,7 @@ public class Lobby implements PluginMode, Listener {
         statItem.setItemMeta(meta);
         activates[1] = player -> {
             PlayerStats playerStats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
-            if (!playerStats.getGames().isEmpty()) {
+            if (playerStats != null && !playerStats.getGames().isEmpty()) {
                 int id = playerStats.getGames().get(playerStats.getGames().size() - 1);
                 GameStats gameStats = Plugin.getInstance().getGameStatsData().getGameStats(id);
                 GameStatsBook gameStatsBook = new GameStatsBook(Plugin.getInstance().getBookManager(),
@@ -393,7 +393,7 @@ public class Lobby implements PluginMode, Listener {
         inv.clear();
         inv.setItem(0, compassitem);
         PlayerStats playerStats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
-        if (!playerStats.getGames().isEmpty()) {
+        if (playerStats != null && !playerStats.getGames().isEmpty()) {
             inv.setItem(1, statItem);
         }
         inv.setItem(4, cosmeticitem);

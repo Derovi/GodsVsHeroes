@@ -6,7 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class GameStats {
     @SerializedName("_id")
@@ -15,6 +17,9 @@ public class GameStats {
 
     @Getter
     private final HashMap<String, GamePlayerStats> players = new HashMap<>();
+
+    @Getter
+    private final List<Integer> percentToWin = new ArrayList<>();
 
     @Getter @Setter
     private int gameDurationSec;
