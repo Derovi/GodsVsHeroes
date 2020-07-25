@@ -1,7 +1,5 @@
 package by.dero.gvh.stats;
 
-import by.dero.gvh.GamePlayer;
-import by.dero.gvh.minigame.Game;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;

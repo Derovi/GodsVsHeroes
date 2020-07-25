@@ -6,7 +6,6 @@ import by.dero.gvh.model.*;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.stats.GameStats;
 import by.dero.gvh.stats.GameStatsManager;
-import by.dero.gvh.stats.GameStatsUtils;
 import by.dero.gvh.utils.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -380,7 +379,7 @@ public abstract class Game implements Listener {
             RealmInfo info = IRealmService.get().getCurrentRealmInfo();
             info.setStatus(RealmStatus.GAME_ENDING);
         }
-        stats.setGameDurationSec((int) (System.currentTimeMillis() / 1000 - getGameStatsManager().getStartTime()));
+        stats.setGameDurationSec((int) (System.currentTimeMillis() / 1000 - gameStatsManager.getStartTime()));
         for (GamePlayer gp : players.values()) {
             if (gp.getPlayer().isOnline()) {
                 stats.getPlayers().get(gp.getPlayer().getName()).setPlayTimeSec(stats.getGameDurationSec());
