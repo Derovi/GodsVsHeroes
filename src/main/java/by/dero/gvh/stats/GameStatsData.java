@@ -44,6 +44,7 @@ public class GameStatsData {
 
     public void saveGameStats(GameStats game) {
         int id = Plugin.getInstance().getStatsData().generateGameId();
+        game.setId(id);
         try {
             BasicDBObject dbObject = BasicDBObject.parse(gson.toJson(game));
             dbObject.put("_id", id);
