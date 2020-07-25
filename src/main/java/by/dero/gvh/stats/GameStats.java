@@ -70,6 +70,9 @@ public class GameStats {
             stats = players.get(killer.getPlayer().getName());
             stats.setAdvancement(stats.getAdvancement() + killcnt);
         }
+        
+        stats = players.get(target.getPlayer().getName());
+        stats.setAdvancement(stats.getAdvancement() - killcnt);
         addKill(target, killer);
     }
     
