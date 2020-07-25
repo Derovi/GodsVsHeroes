@@ -92,7 +92,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         }
         StringBuilder builder = new StringBuilder(Lang.get("game.collectorsStatus"));
         for (EtherCollector col : collectorsManager.getCollectors()) {
-            int[] rgb = Drawings.CristMedian((char)('1' + col.getOwner() + 1), (double) col.getCaptureStatus() / 180);
+            int[] rgb = Drawings.CristMedian((char)('1' + col.getOwner()), (double) col.getCaptureStatus() / 180);
             builder.append(Colors.custom(rgb[0], rgb[1], rgb[2])).append("❖");
         }
         str[cnt+1] = builder.toString();
