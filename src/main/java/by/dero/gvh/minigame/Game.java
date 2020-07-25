@@ -396,8 +396,6 @@ public abstract class Game implements Listener {
             player.setFireTicks(0);
         }
 
-        Plugin.getInstance().getGameStatsData().saveGameStats(stats);
-
         for (LivingEntity entity: world.getLivingEntities()) {
             if (!(entity instanceof Player)) {
                 entity.remove();

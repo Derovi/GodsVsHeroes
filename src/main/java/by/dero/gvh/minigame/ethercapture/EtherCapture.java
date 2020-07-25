@@ -1,6 +1,7 @@
 package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
 import by.dero.gvh.minigame.Minigame;
@@ -106,8 +107,8 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
 //            str[cnt+2] = Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()));
             str[cnt+3] = Lang.get("game.expGained").replace("%exp%", String.valueOf(stats.getExpGained()));
             str[cnt+4] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills()));
-            str[cnt+5] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists()));
-            str[cnt+6] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths()));
+            str[cnt+5] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths()));
+            str[cnt+6] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists()));
             gp.getBoard().update(str);
         }
     }
@@ -131,7 +132,19 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         setDisplays();
         updateDisplays();
     }
-
+    
+    @Override
+    public void finish(int winnerTeam, boolean needFireworks) {
+        super.finish(winnerTeam, needFireworks);
+    
+        stats.getPercentToWin().ensureCapacity(getInfo().getTeamCount());
+        for (int i = 0; i < getInfo().getTeamCount(); i++) {
+            stats.getPercentToWin().add(currentEtherCount[i] * 100 / etherCaptureInfo.getEtherToWin());
+        }
+        
+        Plugin.getInstance().getGameStatsData().saveGameStats(stats);
+    }
+    
     @Override
     public boolean unload () {
         if (!loaded) {
