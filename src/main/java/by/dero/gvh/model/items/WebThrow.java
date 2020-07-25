@@ -78,7 +78,7 @@ public class WebThrow extends Item implements PlayerInteractInterface {
                     block.setVelocity(MathUtils.ZEROVECTOR);
                 }
             }
-            owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_HOSTILE_DEATH, 1.07f, 1);
+            owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_PLACE, 1.07f, 1);
         });
         smartFallingBlock.setOnHitEntity((Entity entity) -> {
             Vector at = entity.getLocation().toVector();

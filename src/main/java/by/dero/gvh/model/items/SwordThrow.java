@@ -40,14 +40,14 @@ public class SwordThrow extends Item implements PlayerInteractInterface {
         final ThrowingSword sword = new ThrowingSword(owner, getItemStack());
 
         final int slot = owner.getInventory().getHeldItemSlot();
-        owner.getInventory().setItem(slot, Item.getPane(getInfo().getDisplayName()));
+        owner.getInventory().removeItem(owner.getInventory().getItem(slot));
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         sword.spawn();
         sword.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(sword.getHoldEntity(), getTeam())) {
                 GameUtils.damage(damage, (LivingEntity) sword.getHoldEntity(), owner);
                 Location at = sword.getItemPosition().toLocation(owner.getWorld());
-                at.getWorld().spawnParticle(Particle.BLOCK_CRACK, at.clone().add(0,0,0), 20,
+                at.getWorld().spawnParticle(Particle.BLOCK_CRACK, at.clone().add(0, 0, 0), 20,
                         new MaterialData(Material.REDSTONE_BLOCK));
             }
         });
@@ -75,8 +75,8 @@ public class SwordThrow extends Item implements PlayerInteractInterface {
         sword.setOnOwnerPickUp(() -> {
             if (ownerGP.isInventoryHided()) {
                 ownerGP.getContents()[0] = getItemStack();
-            } else
-            if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+            } else if (owner.getInventory().getItem(slot) == null ||
+                    owner.getInventory().getItem(slot).getType().equals(Material.AIR)) {
                 owner.getInventory().setItem(slot, getItemStack());
             }
             sword.remove();
@@ -86,7 +86,8 @@ public class SwordThrow extends Item implements PlayerInteractInterface {
             public void run() {
                 if (ownerGP.isInventoryHided()) {
                     ownerGP.getContents()[0] = getItemStack();
-                } else if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+                } else if (owner.getInventory().getItem(slot) == null ||
+                        owner.getInventory().getItem(slot).getType().equals(Material.AIR)) {
                     owner.getInventory().setItem(slot, getItemStack());
                 }
                 sword.remove();

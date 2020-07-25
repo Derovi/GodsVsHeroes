@@ -141,10 +141,10 @@ public class GamesAnalyzer {
         for (Map.Entry<String, Pair<Integer, Integer> > entry : stat.entrySet()) {
             list.add(new TopEntry(entry.getKey(), "", 0));
         }
-        list.sort((a, b) -> {
-            Pair<Integer, Integer> c = stat.get(a.getName()), d = stat.get(b.getName());
-            return -Integer.compare(c.getKey() * d.getValue(), d.getKey() * c.getValue());
-        });
+        list.sort(Comparator.comparingDouble(a -> {
+            Pair<Integer, Integer> b = stat.get(a.getName());
+            return -(double)b.getKey() / b.getValue();
+        }));
         double was = 100000;
         for (int i = 0; i < list.size(); i++) {
             Pair<Integer, Integer> z = stat.get(list.get(i).getName());

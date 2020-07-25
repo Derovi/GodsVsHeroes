@@ -42,7 +42,10 @@ public class HealAll extends Item implements PlayerInteractInterface {
                 final double hp = Math.min(ent.getHealth() + heal,
                         ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
                 ent.getWorld().playEffect(ent.getLocation(), Effect.BREWING_STAND_BREW, null);
-                stats.setTeamHeal(stats.getTeamHeal() + hp);
+    
+                if (!ent.equals(owner)) {
+                    stats.setTeamHeal(stats.getTeamHeal() + hp);
+                }
                 
                 Drawings.drawCircle(ent.getLocation(), 1, Particle.HEART);
                 ent.setHealth(hp);

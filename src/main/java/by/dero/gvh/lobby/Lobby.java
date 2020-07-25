@@ -78,6 +78,7 @@ public class Lobby implements PluginMode, Listener {
     private final List<BukkitRunnable> runnables = new ArrayList<>();
     private final HashMap<String, LobbyPlayer> players = new HashMap<>();
     private final HashSet<UUID> hidePlayers = new HashSet<>();
+    private final HashMap<Player, Long> hideShowUsed = new HashMap<>();
     
     @FunctionalInterface
     private interface ItemFunc {
@@ -317,6 +318,12 @@ public class Lobby implements PluginMode, Listener {
         meta.setDisplayName(Lang.get("lobby.hidePlayers"));
         hideitem.setItemMeta(meta);
         activates[8] = player -> {
+            if (System.currentTimeMillis() - hideShowUsed.getOrDefault(player, 0L) < 3000) {
+                return;
+            }
+            hideShowUsed.put(player, System.currentTimeMillis());
+            player.setCooldown(Material.EYE_OF_ENDER, 60);
+            player.setCooldown(Material.ENDER_PEARL, 60);
             player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
             if (hidePlayers.contains(player.getUniqueId())) {
                 hidePlayers.remove(player.getUniqueId());
@@ -339,6 +346,7 @@ public class Lobby implements PluginMode, Listener {
         cosmeticitem.setItemMeta(meta);
         
         activates[4] = player -> {
+            player.playSound(player.getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
             CosmeticSelectorInterface inter = new CosmeticSelectorInterface(interfaceManager, player);
             inter.open();
         };

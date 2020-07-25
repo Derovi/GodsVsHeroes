@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public enum Heads {
+    GUNSMITH("YTZiOGQ4NzQ1ZjZmYzdhMGE3NzM1NGNlMWE5ZjMwNDY4MTdmNjZkMmQzYWZkMWJjZGFjNmQyZDEwZjM3OSJ9fX0=", "gunsmith"),
     ASSASSIN("Mzk1NzEyYjZlMWIzOGY5MmUyMWE1MmZiNzlhZjUzM2I3M2JiNWRkNWNiZGFmOTJlZTY0YjkzYWFhN2M0NjRkIn19fQ==", "assassin"),
 //    DOVAHKIIN("ZjdiMWI5MTI1MjFmMTMwZDNiZThiNWEwOTY1NDRmM2E3NTM1N2M1ZTE5MzFhZWJkZWU5MmJmNWE1Y2RjYTE3NCJ9fX0=", "dovahkiin"),
     HORSEMAN("ODdiNTA0MDBiZjVlNDZlZjYwMDA5NzU2NWI0NDQwYjg0Y2NjMmIxYTc1NTA0MjJhZjdjODczYzJiODg2ZDlhYyJ9fX0=", "horseman"),

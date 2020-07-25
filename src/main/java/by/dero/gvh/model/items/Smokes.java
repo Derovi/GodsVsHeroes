@@ -59,7 +59,9 @@ public class Smokes extends Item implements InfiniteReplenishInterface, PlayerIn
 			Player player = gp.getPlayer();
 			boolean inside = false;
 			for (Pair<Location, Integer> pose : poses) {
-				if (gp.getTeam() != pose.getValue() && pose.getKey().distance(player.getLocation()) < radius) {
+				if (!GameUtils.isDeadPlayer(player) &&
+						gp.getTeam() != pose.getValue() &&
+						pose.getKey().distance(player.getLocation()) < radius) {
 					if (!player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
 						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 4), true);
 						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 0), true);
