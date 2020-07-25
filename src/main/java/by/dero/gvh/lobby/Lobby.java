@@ -3,19 +3,21 @@ package by.dero.gvh.lobby;
 import by.dero.gvh.AdviceManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
+import by.dero.gvh.books.GameStatsBook;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.CosmeticSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
-import by.dero.gvh.minigame.GameTabWrapper;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
+import by.dero.gvh.stats.GameStats;
+import by.dero.gvh.stats.PlayerStats;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.Position;
 import by.dero.gvh.utils.ResourceUtils;
@@ -39,6 +41,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -291,6 +294,7 @@ public class Lobby implements PluginMode, Listener {
     private static ItemStack cosmeticitem = null;
     private static ItemStack hideitem = null;
     private static ItemStack showitem = null;
+    private static ItemStack statItem = null;
     
     private void initItems() {
         compassitem = new ItemStack(Material.COMPASS);
@@ -338,6 +342,23 @@ public class Lobby implements PluginMode, Listener {
             CosmeticSelectorInterface inter = new CosmeticSelectorInterface(interfaceManager, player);
             inter.open();
         };
+        
+        statItem = new ItemStack(Material.ENCHANTED_BOOK);
+        meta = statItem.getItemMeta();
+        meta.setDisplayName(Lang.get("lobby.lastGame"));
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        statItem.setItemMeta(meta);
+        activates[1] = player -> {
+            PlayerStats playerStats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
+            if (!playerStats.getGames().isEmpty()) {
+                int id = playerStats.getGames().get(playerStats.getGames().size() - 1);
+                GameStats gameStats = Plugin.getInstance().getGameStatsData().getGameStats(id);
+                GameStatsBook gameStatsBook = new GameStatsBook(Plugin.getInstance().getBookManager(),
+                        player, player, gameStats);
+                gameStatsBook.build();
+                gameStatsBook.open();
+            }
+        };
     }
     
     public void playerJoined(Player player) {
@@ -371,12 +392,17 @@ public class Lobby implements PluginMode, Listener {
         
         inv.clear();
         inv.setItem(0, compassitem);
+        PlayerStats playerStats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
+        if (!playerStats.getGames().isEmpty()) {
+            inv.setItem(1, statItem);
+        }
         inv.setItem(4, cosmeticitem);
         if (hidePlayers.contains(player.getUniqueId())) {
             inv.setItem(8, showitem);
         } else {
             inv.setItem(8, hideitem);
         }
+        
         AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
                 (pl) -> (!players.containsKey(pl.getName()) || players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
 
