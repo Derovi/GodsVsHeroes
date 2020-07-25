@@ -4,7 +4,7 @@ import by.dero.gvh.GameMob;
 import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.bookapi.ItemDescriptionBook;
+import by.dero.gvh.books.ItemDescriptionBook;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.nmcapi.NMCUtils;

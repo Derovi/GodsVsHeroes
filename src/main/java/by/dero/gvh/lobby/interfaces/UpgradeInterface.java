@@ -1,7 +1,7 @@
 package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.bookapi.ItemDescriptionBook;
+import by.dero.gvh.books.ItemDescriptionBook;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.model.ItemInfo;

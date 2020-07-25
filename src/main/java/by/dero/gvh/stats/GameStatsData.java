@@ -1,6 +1,7 @@
 package by.dero.gvh.stats;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,6 +22,24 @@ public class GameStatsData {
         this.storage = storage;
         gamesCollection = storage.getDatabase().getCollection("games");
         playersCollection = storage.getDatabase().getCollection("playerStats");
+    }
+
+    public GameStats getGameStats(int id) {
+        Document document = gamesCollection.find(
+                Filters.eq("_id", id)).first();
+        if (document == null) {
+            return null;
+        }
+        return gson.fromJson(document.toJson(), GameStats.class);
+    }
+
+    public PlayerStats getPlayerStats(String playerName) {
+        Document document = playersCollection.find(
+                Filters.eq("_id", playerName)).first();
+        if (document == null) {
+            return null;
+        }
+        return gson.fromJson(document.toJson(), PlayerStats.class);
     }
 
     public void saveGameStats(GameStats game) {
