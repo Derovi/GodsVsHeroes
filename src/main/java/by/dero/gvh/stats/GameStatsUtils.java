@@ -11,6 +11,7 @@ import org.bukkit.Location;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 public class GameStatsUtils {
 	@Getter @Setter static GameStats gameStats;
@@ -166,5 +167,29 @@ public class GameStatsUtils {
 			}
 		}
 		return best;
+	}
+
+	private static List<TopEntry> getKillTop(GameStats game) {
+    	return null;
+	}
+
+	private static List<TopEntry> getKDATop(GameStats game) {
+		return null;
+	}
+
+	private static List<TopEntry> getDamageTop(GameStats game) {
+		return null;
+	}
+
+	private static List<TopEntry> getCaptureTop(GameStats game) {
+		return null;
+	}
+
+	private static List<TopEntry> getHealTop(GameStats game) {
+		return null;
+	}
+
+	private static List<TopEntry> getAdvancementTop(GameStats game) {
+		return null;
 	}
 }
