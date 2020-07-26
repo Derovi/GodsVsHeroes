@@ -3,8 +3,6 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Cooldown;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Item;
-import by.dero.gvh.model.ItemInfo;
-import by.dero.gvh.model.annotations.DynamicCustomization;
 import by.dero.gvh.model.interfaces.DoubleHandInteractInterface;
 import by.dero.gvh.model.interfaces.DoubleHanded;
 import by.dero.gvh.model.itemsinfo.DoubleFistInfo;

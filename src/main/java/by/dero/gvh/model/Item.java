@@ -66,7 +66,7 @@ public class Item {
     }
 
     public ItemStack getItemStack() {
-        return getInfo().getItemStack(owner);
+        return getInfo().getItemStack(new CustomizationContext(owner, ownerGP.getClassName()));
     }
 
     public ItemInfo getInfo() {

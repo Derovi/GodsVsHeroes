@@ -1,9 +1,7 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.model.annotations.CustomDamage;
-import by.dero.gvh.model.annotations.DynamicCustomization;
 import by.dero.gvh.model.annotations.PotionItem;
-import by.dero.gvh.model.annotations.StaticCustomization;
 import by.dero.gvh.nmcapi.NMCUtils;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagInt;
@@ -11,7 +9,6 @@ import net.minecraft.server.v1_12_R1.NBTTagList;
 import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -19,7 +16,6 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -61,7 +57,6 @@ public class ItemInfo {
     private int cost = 5;
     private final ItemDescription description;
     private ItemStack itemStack;
-    private Method dynamicCustomizer = null;
 
     public ItemInfo(ItemDescription description) {
         this.description = description;
@@ -92,7 +87,7 @@ public class ItemInfo {
             desc.add("§8»§aОткрыть описание§8«");
         }
 
-        itemStack = new ItemStack(material, amount);
+        itemStack = staticCustomizationBefore(new ItemStack(material, amount));
         ItemMeta itemMeta = itemStack.getItemMeta();
         for (ItemInfo.EnchantInfo enchantInfo : enchantments) {
             itemMeta.addEnchant(Enchantment.getByName(enchantInfo.getName()), enchantInfo.getLevel(), enchantInfo.isVisible());
@@ -108,18 +103,6 @@ public class ItemInfo {
             PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
             potionMeta.setBasePotionData(new PotionData(getClass().getAnnotation(PotionItem.class).potionType()));
             itemStack.setItemMeta(potionMeta);
-        }
-        for (Method method : getClass().getMethods()) {
-            if (method.isAnnotationPresent(StaticCustomization.class)) {
-                try {
-                    method.invoke(null, itemStack, this);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-            if (method.isAnnotationPresent(DynamicCustomization.class)) {
-                dynamicCustomizer = method;
-            }
         }
         NBTTagCompound compound = NMCUtils.getNBT(itemStack);
         compound.set("custom", new NBTTagString(description.getName()));
@@ -143,8 +126,18 @@ public class ItemInfo {
                 }
             }
         }
-        NMCUtils.setNBT(itemStack, compound);
+        NMCUtils.setNBT(staticCustomizationAfter(itemStack), compound);
     }
+
+    public ItemStack staticCustomizationBefore(ItemStack itemStack) {
+        return itemStack;
+    }
+
+    public ItemStack staticCustomizationAfter(ItemStack itemStack) {
+        return itemStack;
+    }
+
+    public ItemStack dynamicCustomization(ItemStack itemStack, CustomizationContext context) { return itemStack; }
 
     public String romeNumber(int number) {
         switch (number) {
@@ -164,17 +157,8 @@ public class ItemInfo {
         return Integer.toString(number);
     }
 
-    public ItemStack getItemStack(Player owner) {
-        if (dynamicCustomizer != null) {
-            try {
-                ItemStack result = itemStack.clone();
-                dynamicCustomizer.invoke(this, result, this, owner);
-                return result;
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        return itemStack;
+    public ItemStack getItemStack(CustomizationContext context) {
+        return dynamicCustomization(itemStack.clone(), context);
     }
 
     public String parseString(String string) {

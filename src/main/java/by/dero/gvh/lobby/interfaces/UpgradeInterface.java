@@ -4,10 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.books.ItemDescriptionBook;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
-import by.dero.gvh.model.ItemInfo;
-import by.dero.gvh.model.Lang;
-import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.model.UnitClassDescription;
+import by.dero.gvh.model.*;
 import by.dero.gvh.utils.InterfaceUtils;
 import by.dero.gvh.utils.Pair;
 import org.bukkit.Material;
@@ -34,7 +31,8 @@ public class UpgradeInterface extends Interface {
     public void updateItemLine(int position, String itemName, PlayerInfo info) {
         int currentLevel = info.getItemLevel(className, itemName);
         List<ItemInfo> infos = Plugin.getInstance().getData().getItems().get(itemName).getLevels();
-        addButton(position, 0, infos.get(currentLevel).getItemStack(getPlayer()), () -> {
+        addButton(position, 0, infos.get(currentLevel)
+                .getItemStack(new CustomizationContext(getPlayer(), className)), () -> {
                     ItemDescriptionBook book =
                             new ItemDescriptionBook(Plugin.getInstance().getBookManager(), getPlayer(), className, itemName);
                     book.setBackAction(this::open);
