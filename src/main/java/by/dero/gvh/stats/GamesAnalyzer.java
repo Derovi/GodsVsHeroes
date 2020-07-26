@@ -104,7 +104,7 @@ public class GamesAnalyzer {
             for (GamePlayerStats playerStats : game.getPlayers().values()) {
                 String name = playerStats.getClassName();
                 Pair<Integer, Integer> cur = stat.getOrDefault(name, Pair.of(0, 0));
-                stat.put(name, Pair.of(cur.getKey() + playerStats.getTeam() == game.getWonTeam() ? 1 : 0, cur.getValue() + 1));
+                stat.put(name, Pair.of(cur.getKey() + (playerStats.getTeam() == game.getWonTeam() ? 1 : 0), cur.getValue() + 1));
             }
         }
         ArrayList<TopEntry> list = new ArrayList<>(stat.size());
