@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -43,10 +44,14 @@ public class SingleBoostInterface extends Interface {
 		ItemStack[] itemsEnchanted = new ItemStack[itemsMat.length];
 		for (int i = 0; i < itemsMat.length; i++) {
 			items[i] = new ItemStack(Material.STAINED_GLASS_PANE, 1, itemsMat[i]);
+			ItemMeta meta = items[i].getItemMeta();
+			meta.setDisplayName(" ");
+			items[i].setItemMeta(meta);
 			itemsEnchanted[i] = new ItemStack(Material.STAINED_GLASS_PANE, 1, itemsMat[i]);
-			ItemMeta meta = itemsEnchanted[i].getItemMeta();
+			meta = itemsEnchanted[i].getItemMeta();
 			meta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
 			meta.setDisplayName(" ");
+			meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 			itemsEnchanted[i].setItemMeta(meta);
 		}
 		
@@ -118,15 +123,16 @@ public class SingleBoostInterface extends Interface {
 				snakeIdx++;
 				if (snakeIdx == poses.size()) {
 					snakeIdx = 0;
-					itemIdx = (itemIdx + 1) % items.length;
 					itemEnch = itemsEnchanted[itemIdx];
+					itemIdx = (itemIdx + 1) % items.length;
 				}
-				if (snakeIdx == length && stage) {
+				if (snakeIdx == length && needEnch) {
 					item = items[itemIdx];
 				}
+				update();
 			}
 		};
-		drawSnake.runTaskTimer(Plugin.getInstance(), 0, 10);
+		drawSnake.runTaskTimer(Plugin.getInstance(), 0, 3);
 	}
 	
 	@Override
