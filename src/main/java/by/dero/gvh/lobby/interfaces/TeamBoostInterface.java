@@ -21,7 +21,8 @@ public class TeamBoostInterface extends Interface {
 	@Setter private Runnable onBack = null;
 	
 	private final BukkitRunnable drawSnake;
-	private final byte[] itemsMat = {1, 2, 3, 4};
+//	private final byte[] itemsMat = {1, 2, 3, 4};
+	private final byte[] itemsMat = {8, 9, 3};
 	private final List<Pair<Integer, Integer>> poses = Arrays.asList(
 			Pair.of(3, 1), Pair.of(3, 2), Pair.of(3, 3), Pair.of(3, 4), Pair.of(3, 5), Pair.of(3, 6),
 			Pair.of(3, 7), Pair.of(2, 7), Pair.of(1, 7), Pair.of(1, 6), Pair.of(1, 5), Pair.of(1, 4),
@@ -94,6 +95,7 @@ public class TeamBoostInterface extends Interface {
 		}
 		
 		drawSnake = new BukkitRunnable() {
+			boolean start = true;
 			boolean stage = false;
 			boolean needEnch = false;
 			int itemIdx = 0;
@@ -103,32 +105,35 @@ public class TeamBoostInterface extends Interface {
 			ItemStack itemEnch = itemsEnchanted[0];
 			@Override
 			public void run() {
-				stage |= (itemIdx > 0 && snakeIdx >= length);
-				needEnch |= itemIdx > 0;
-				int x = poses.get(snakeIdx).getValue(), y = poses.get(snakeIdx).getKey();
-				if (stage) {
-					int lst = (snakeIdx - length + poses.size()) % poses.size();
-					addItem(poses.get(lst).getValue(), poses.get(lst).getKey(), item);
-				} else {
-					if (needEnch) {
-						addItem(x, y, itemEnch);
+				for (int i = 0; i < (start ? poses.size() : 1); i++) {
+					stage |= (itemIdx > 0 && snakeIdx >= length);
+					needEnch |= itemIdx > 0;
+					int x = poses.get(snakeIdx).getValue(), y = poses.get(snakeIdx).getKey();
+					if (stage) {
+						int lst = (snakeIdx - length + poses.size()) % poses.size();
+						addItem(poses.get(lst).getValue(), poses.get(lst).getKey(), item);
 					} else {
-						addItem(x, y, item);
+						if (needEnch) {
+							addItem(x, y, itemEnch);
+						} else {
+							addItem(x, y, item);
+						}
 					}
+					if (needEnch) {
+						addItem(poses.get(snakeIdx).getValue(), poses.get(snakeIdx).getKey(), itemEnch);
+					}
+					snakeIdx++;
+					if (snakeIdx == poses.size()) {
+						snakeIdx = 0;
+						itemEnch = itemsEnchanted[itemIdx];
+						itemIdx = (itemIdx + 1) % items.length;
+					}
+					if (snakeIdx == length && needEnch) {
+						item = items[itemIdx];
+					}
+					update();
 				}
-				if (needEnch) {
-					addItem(poses.get(snakeIdx).getValue(), poses.get(snakeIdx).getKey(), itemEnch);
-				}
-				snakeIdx++;
-				if (snakeIdx == poses.size()) {
-					snakeIdx = 0;
-					itemEnch = itemsEnchanted[itemIdx];
-					itemIdx = (itemIdx + 1) % items.length;
-				}
-				if (snakeIdx == length && needEnch) {
-					item = items[itemIdx];
-				}
-				update();
+				start = false;
 			}
 		};
 		drawSnake.runTaskTimer(Plugin.getInstance(), 0, 3);
