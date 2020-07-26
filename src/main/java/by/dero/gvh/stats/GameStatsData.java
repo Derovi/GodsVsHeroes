@@ -11,6 +11,7 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 public class GameStatsData {
     private final MongoCollection<Document> gamesCollection;
@@ -66,5 +67,15 @@ public class GameStatsData {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void analyzeAllAndSave() {
+        GamesAnalyzer gamesAnalyzer = new GamesAnalyzer();
+        for (Document document : gamesCollection.find()) {
+            gamesAnalyzer.getGames().add(gson.fromJson(document.toJson(), GameStats.class));
+        }
+        BasicDBObject object = BasicDBObject.parse(gson.toJson(gamesAnalyzer.getBundle()));
+        storage.getDatabase().getCollection("analyzeReports").insertOne(
+                new Document(object));
     }
 }

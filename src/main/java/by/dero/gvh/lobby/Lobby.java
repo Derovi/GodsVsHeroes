@@ -362,7 +362,7 @@ public class Lobby implements PluginMode, Listener {
                 int id = playerStats.getGames().get(playerStats.getGames().size() - 1);
                 GameStats gameStats = Plugin.getInstance().getGameStatsData().getGameStats(id);
                 GameStatsBook gameStatsBook = new GameStatsBook(Plugin.getInstance().getBookManager(),
-                        player, player, gameStats);
+                        player, player.getName(), gameStats);
                 gameStatsBook.build();
                 gameStatsBook.open();
             }

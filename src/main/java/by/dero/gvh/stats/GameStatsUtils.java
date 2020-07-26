@@ -21,7 +21,7 @@ public class GameStatsUtils {
 		return str;
 	}
 
-	private static List<TopEntry> getKillTop(GameStats game) {
+	public static List<TopEntry> getKillTop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -42,7 +42,7 @@ public class GameStatsUtils {
     	return list;
 	}
 
-	private static List<TopEntry> getKDATop(GameStats game) {
+	public static List<TopEntry> getKDATop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -57,7 +57,7 @@ public class GameStatsUtils {
 			entry.setValue(Lang.get("stats.formatKDA").
 					replace("%kills%", String.valueOf(cur.getKills())).
 					replace("%deaths%", String.valueOf(cur.getDeaths())).
-					replace("%assissts%", String.valueOf(cur.getAssists())).
+					replace("%assists%", String.valueOf(cur.getAssists())).
 					replace("%kda%", String.format("%.2f", cur.getKDA())));
 			if (i == 0 || was > cur.getKDA()) {
 				entry.setOrder(i + 1);
@@ -70,7 +70,7 @@ public class GameStatsUtils {
 		return list;
 	}
 
-	private static List<TopEntry> getDamageTop(GameStats game) {
+	public static List<TopEntry> getDamageTop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -91,7 +91,7 @@ public class GameStatsUtils {
 		return list;
 	}
 
-	private static List<TopEntry> getCaptureTop(GameStats game) {
+	public static List<TopEntry> getCaptureTop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -111,7 +111,7 @@ public class GameStatsUtils {
 		return list;
 	}
 
-	private static List<TopEntry> getHealTop(GameStats game) {
+	public static List<TopEntry> getHealTop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -132,7 +132,7 @@ public class GameStatsUtils {
 		return list;
 	}
 
-	private static List<TopEntry> getAdvancementTop(GameStats game) {
+	public static List<TopEntry> getAdvancementTop(GameStats game) {
 		ArrayList<TopEntry> list = new ArrayList<>(game.getPlayers().size());
 		for (GamePlayerStats playerStats : game.getPlayers().values()) {
 			list.add(new TopEntry(playerStats.getName(), "", 0));
@@ -156,9 +156,9 @@ public class GameStatsUtils {
 	public static String getDurationString(GameStats stats) {
     	String str = "";
     	if (stats.getGameDurationSec() >= 60) {
-    		str = stats.getGameDurationSec() / 60 + " минут ";
+    		str = stats.getGameDurationSec() / 60 + " м. ";
 	    }
-    	str += stats.getGameDurationSec() % 60 + " секунд";
+    	str += stats.getGameDurationSec() % 60 + "с.";
     	return str;
 	}
 }

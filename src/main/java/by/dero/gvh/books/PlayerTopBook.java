@@ -19,16 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerTopBook extends BookGUI {
-    private final Player considered;
+    private final String considered;
     private final GameStats game;
     private final String title;
     private final List<TopEntry> top;
+    @Getter @Setter
+    private int onOnePage = 8;
 
 
     @Getter @Setter
     private Runnable backAction;
 
-    public PlayerTopBook(BookManager manager, Player player, Player considered,
+    public PlayerTopBook(BookManager manager, Player player, String considered,
                          GameStats game, String title, List<TopEntry> top) {
         super(manager, player);
         this.considered = considered;
@@ -39,27 +41,27 @@ public class PlayerTopBook extends BookGUI {
 
     @Override
     public void build() {
-        final int onOnePage = 8;
         List<BaseComponent[]> pages = new ArrayList<>();
 
         for (int first = 0; first < game.getPlayers().size(); first += onOnePage) {
             BookUtil.PageBuilder builder = new BookUtil.PageBuilder()
                     .add(title).newLine().newLine();
 
-            for (TopEntry entry : top) {
+            for (int idx = first; idx < Math.min(first + onOnePage, top.size()); ++idx) {
+                TopEntry entry = top.get(idx);
                 String nameColor = "§0";
-                if (entry.getName().equals(considered.getName())) {
+                if (entry.getName().equals(considered)) {
                     nameColor = "§5";
                 }
                 builder.add(entry.getOrder() + ". ").add(
                         BookUtil.TextBuilder.of(nameColor + entry.getName()).onClick(new BookButton(this, () -> {
                             GameStatsBook gameStatsBook = new GameStatsBook(getManager(),
-                                    getPlayer(), Bukkit.getPlayer(entry.getName()), game);
+                                    getPlayer(), entry.getName(), game);
                             gameStatsBook.setBackAction(this::open);
                             gameStatsBook.build();
                             gameStatsBook.open();
                         })).build()
-                ).add(" §8» §3" + entry.getValue());
+                ).add(" §8» §3" + entry.getValue()).newLine();
             }
 
             builder.newLine();
