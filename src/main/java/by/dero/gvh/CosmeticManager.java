@@ -48,6 +48,7 @@ public class CosmeticManager {
                 .displayName("§bМеч победы")
                 .cost(50)
                 .groupID(1)
+                .nbt(new CosmeticInfo.NBT("weapons", "azure_sabre"))
                 .build());
     }
 
@@ -72,7 +73,7 @@ public class CosmeticManager {
         }
     }
 
-    public String getByGroup(Player player, int groupID) {
+    public CosmeticInfo getByGroup(Player player, int groupID) {
         Set<String> cosmetics;
         if (playerCustomizations.containsKey(player.getUniqueId())) {
             cosmetics = playerCustomizations.get(player.getUniqueId());
@@ -86,8 +87,9 @@ public class CosmeticManager {
             }
         }
         for (String name : cosmetics) {
+            System.out.println(name + " " + customizations.containsKey(name));
             if (customizations.get(name).getGroupID() == groupID) {
-                return name;
+                return customizations.get(name);
             }
         }
         return null;

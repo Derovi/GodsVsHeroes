@@ -2,6 +2,7 @@ package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -36,6 +37,11 @@ public class BuyCosmeticInterface extends Interface {
 		};
 		Runnable onBuy = () -> {
 			player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+			PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
+			info.unlockCosmetic(cosmeticName);
+			info.enableCosmetic(cosmeticName);
+			Plugin.getInstance().getPlayerData().savePlayerInfo(info);
+			onBackButton.run();
 		};
 		
 		for (int x = 0; x < 9; x++) {

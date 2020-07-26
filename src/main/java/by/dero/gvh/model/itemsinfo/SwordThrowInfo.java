@@ -3,6 +3,7 @@ package by.dero.gvh.model.itemsinfo;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.model.CosmeticInfo;
 import by.dero.gvh.model.CustomizationContext;
 import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.ItemInfo;
@@ -29,6 +30,12 @@ public class SwordThrowInfo extends ItemInfo {
 
     @Override
     public ItemStack dynamicCustomization(ItemStack itemStack, CustomizationContext context) {
+        if (context.getClassName().equals("warrior")) {
+            CosmeticInfo cosmetic = Plugin.getInstance().getCosmeticManager().getByGroup(context.getPlayer(), 1);
+            if (cosmetic != null) {
+                cosmetic.addNBT(itemStack);
+            }
+        }
         if (context.getClassName().equals("paladin")) {
             if (Plugin.getInstance().getPluginMode() instanceof Minigame &&
                     Game.getInstance().getState().equals(Game.State.GAME) &&

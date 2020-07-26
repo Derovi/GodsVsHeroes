@@ -8,9 +8,10 @@ import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import ru.cristalix.core.display.IDisplayService;
+import ru.cristalix.core.event.AsyncPlayerChatEvent;
 import ru.cristalix.core.permissions.IGroup;
 import ru.cristalix.core.permissions.IPermissionService;
 import ru.cristalix.core.scoreboard.IScoreboardService;
@@ -38,10 +39,13 @@ public class CommandChat implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
+		if (event.isCancelled()) {
+			return;
+		}
 		event.setCancelled(true);
-		String msg = event.getMessage();
+		String msg = event.getOriginalMessage()[0].toPlainText();
 		if (msg.isEmpty()) {
 			return;
 		}

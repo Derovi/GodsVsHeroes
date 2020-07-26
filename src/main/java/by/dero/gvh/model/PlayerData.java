@@ -76,4 +76,8 @@ public class PlayerData {
     public StorageInterface getStorage() {
         return storage;
     }
+
+    public void savePlayerInfo(PlayerInfo info) {
+        savePlayerInfo(info.getName(), info);
+    }
 }

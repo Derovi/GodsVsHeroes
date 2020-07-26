@@ -62,6 +62,16 @@ public class PlayerInfo {
         if (!cosmetics.containsKey(name)) {
             return;
         }
+        CosmeticInfo info =
+                Plugin.getInstance().getCosmeticManager().getCustomizations().get(name);
+        for (Cosmetic other : cosmetics.values()) {
+            CosmeticInfo otherInfo =
+                    Plugin.getInstance().getCosmeticManager().getCustomizations().get(other.getName());
+            if (info.getGroupID() == otherInfo.getGroupID()) {
+                other.setEnabled(false);
+            }
+        }
+        System.out.println("Enabled: " + name);
         cosmetics.get(name).setEnabled(true);
     }
 

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -78,19 +79,19 @@ public class CosmeticInterface extends Interface {
             if (state == 0) {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3);
                 runnable = () -> {
+                    getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                     BuyCosmeticInterface buyCosmetic = new BuyCosmeticInterface(getManager(), getPlayer(), name);
                     buyCosmetic.setOnBackButton(() -> {
                         buyCosmetic.close();
+                        update();
                         open();
                     });
                     buyCosmetic.open();
-                    //playerInfo.unlockCosmetic(name);
-                    //playerInfo.enableCosmetic(name);
-                    //Plugin.getInstance().getPlayerData().savePlayerInfo(getPlayer().getName(), playerInfo);
                 };
             } else if (state == 1) {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 7);
                 runnable = () -> {
+                    getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                     playerInfo.enableCosmetic(name);
                     Plugin.getInstance().getPlayerData().savePlayerInfo(getPlayer().getName(), playerInfo);
                     update();
@@ -98,6 +99,7 @@ public class CosmeticInterface extends Interface {
             } else {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
                 runnable = () -> {
+                    getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                     playerInfo.disableCosmetic(name);
                     Plugin.getInstance().getPlayerData().savePlayerInfo(getPlayer().getName(), playerInfo);
                     update();
