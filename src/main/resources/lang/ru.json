@@ -15,7 +15,8 @@
     "unlockTitle": "§aНажмите, чтобы открыть",
     "unlockNETitle": "§cНедостаточно опыта",
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
-    "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
+    "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!",
+    "active": "§aАктивировано"
   },
   "cosmetic": {
     "common": "§aОбщее",
@@ -273,7 +274,7 @@
     "selectedClass": "Выбран §8» §b%class%",
     "heroSelected": "§6Класс §9%class%§6 выбран",
     "standTitle": "§bПКМ - выбрать§8 §9%class%",
-    "moneyBalance": "Ваш баланс §8» §b%money%",
+    "moneyBalance": "Опыт §8» §b%money%",
     "busy": "§cНа всех серверах игра уже идет, подождите!",
     "locked": "§6Тестирование сегодня в §f16:30§6! Актуальная информация в группе §fВК §cvk.com/etherwar",
     "compass": "§6Выбор сервера",

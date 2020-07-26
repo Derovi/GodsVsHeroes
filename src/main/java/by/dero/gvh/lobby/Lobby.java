@@ -18,13 +18,14 @@ import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.stats.GameStats;
 import by.dero.gvh.stats.PlayerStats;
-import by.dero.gvh.utils.DataUtils;
-import by.dero.gvh.utils.Position;
-import by.dero.gvh.utils.ResourceUtils;
-import by.dero.gvh.utils.VoidGenerator;
+import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
+import net.minecraft.server.v1_12_R1.EnumItemSlot;
+import net.minecraft.server.v1_12_R1.PacketPlayOutEntityEquipment;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -344,7 +345,7 @@ public class Lobby implements PluginMode, Listener {
         meta = cosmeticitem.getItemMeta();
         meta.setDisplayName(Lang.get("lobby.cosmetics"));
         cosmeticitem.setItemMeta(meta);
-        
+    
         activates[4] = player -> {
             player.playSound(player.getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
             CosmeticSelectorInterface inter = new CosmeticSelectorInterface(interfaceManager, player);
@@ -384,6 +385,16 @@ public class Lobby implements PluginMode, Listener {
         playerLobby.load();
         activeLobbies.put(player.getName(), playerLobby);
         Lobby.getInstance().updateDisplays(player);
+        
+        for (Monument monument : monumentManager.getMonuments().values()) {
+            if (monument instanceof ArmorStandMonument) {
+                ArmorStand stand = ((ArmorStandMonument) monument).getArmorStand();
+                ItemStack weapon = GameUtils.getMeleeWeapon(player, monument.getClassName());
+//                stand.setItemInHand(weapon);
+                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(
+                        new PacketPlayOutEntityEquipment(stand.getEntityId(), EnumItemSlot.MAINHAND, CraftItemStack.asNMSCopy(weapon)));
+            }
+        }
 
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (hidePlayers.contains(player.getUniqueId())) {
