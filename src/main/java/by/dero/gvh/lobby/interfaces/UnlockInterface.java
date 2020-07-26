@@ -7,6 +7,7 @@ import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.lobby.PlayerLobby;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.minigame.Heads;
+import by.dero.gvh.model.CustomizationContext;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.InterfaceUtils;
@@ -60,7 +61,8 @@ public class UnlockInterface extends Interface {
             addButton(index, 0, returnSlot, this::close);
         }
         for (String itemName : itemNames) {
-            addButton(index++, 0, Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(0).getItemStack(player),
+            addButton(index++, 0, Plugin.getInstance().getData().getItems().get(itemName).getLevels().get(0)
+                            .getItemStack(new CustomizationContext(player, className)),
                     () -> {
                         ItemDescriptionBook book =
                                 new ItemDescriptionBook(Plugin.getInstance().getBookManager(), getPlayer(), className, itemName);

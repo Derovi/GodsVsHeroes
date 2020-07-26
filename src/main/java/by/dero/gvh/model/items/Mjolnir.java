@@ -1,6 +1,7 @@
 package by.dero.gvh.model.items;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.model.CustomizationContext;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.MjolnirInfo;
@@ -57,7 +58,8 @@ public class Mjolnir extends Item implements PlayerInteractInterface {
         });
         mjolnir.setOnReturned(() -> {
             if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
-                owner.getInventory().setItem(slot, getInfo().getItemStack(getOwner()));
+                owner.getInventory().setItem(
+                        slot, getInfo().getItemStack(new CustomizationContext(getOwner(), getOwnerGP().getClassName())));
                 owner.getInventory().getItem(slot).setAmount(1);
             }
         });

@@ -1,9 +1,7 @@
 package by.dero.gvh.model;
 
 import by.dero.gvh.model.annotations.CustomDamage;
-import by.dero.gvh.model.annotations.DynamicCustomization;
 import by.dero.gvh.model.annotations.PotionItem;
-import by.dero.gvh.model.annotations.StaticCustomization;
 import by.dero.gvh.nmcapi.NMCUtils;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagInt;
@@ -61,7 +59,6 @@ public class ItemInfo {
     private int cost = 5;
     private final ItemDescription description;
     private ItemStack itemStack;
-    private Method dynamicCustomizer = null;
 
     public ItemInfo(ItemDescription description) {
         this.description = description;
@@ -109,18 +106,7 @@ public class ItemInfo {
             potionMeta.setBasePotionData(new PotionData(getClass().getAnnotation(PotionItem.class).potionType()));
             itemStack.setItemMeta(potionMeta);
         }
-        for (Method method : getClass().getMethods()) {
-            if (method.isAnnotationPresent(StaticCustomization.class)) {
-                try {
-                    method.invoke(null, itemStack, this);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-            if (method.isAnnotationPresent(DynamicCustomization.class)) {
-                dynamicCustomizer = method;
-            }
-        }
+        itemStack = staticCustomization(itemStack);
         NBTTagCompound compound = NMCUtils.getNBT(itemStack);
         compound.set("custom", new NBTTagString(description.getName()));
         for (Field field : getClass().getDeclaredFields()) {
@@ -146,6 +132,12 @@ public class ItemInfo {
         NMCUtils.setNBT(itemStack, compound);
     }
 
+    public ItemStack staticCustomization(ItemStack itemStack) {
+        return itemStack;
+    }
+
+    public ItemStack dynamicCustomization(ItemStack itemStack, CustomizationContext context) { return itemStack; }
+
     public String romeNumber(int number) {
         switch (number) {
             case 1:
@@ -164,17 +156,8 @@ public class ItemInfo {
         return Integer.toString(number);
     }
 
-    public ItemStack getItemStack(Player owner) {
-        if (dynamicCustomizer != null) {
-            try {
-                ItemStack result = itemStack.clone();
-                dynamicCustomizer.invoke(this, result, this, owner);
-                return result;
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        return itemStack;
+    public ItemStack getItemStack(CustomizationContext context) {
+        return dynamicCustomization(itemStack.clone(), context);
     }
 
     public String parseString(String string) {
