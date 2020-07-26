@@ -21,7 +21,7 @@ import java.util.UUID;
 public class ArmorStandMonument extends Monument {
     private final double turnPerSec = 0.3;
     private final double radius = 0.8;
-    private HashMap<UUID, Integer> unlocktime = new HashMap<>();
+    private final HashMap<UUID, Integer> unlocktime = new HashMap<>();
     private ArmorStand armorStand;
     private BukkitRunnable particles;
     private boolean loaded = false;
