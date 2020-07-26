@@ -12,7 +12,7 @@ public class DoubleFistInfo extends ItemInfo implements Damaging {
 	private int damage;
 
 	@Override
-	public ItemStack staticCustomization(ItemStack itemStack) {
+	public ItemStack staticCustomizationAfter(ItemStack itemStack) {
 		NBTTagCompound nbt = NMCUtils.getNBT(itemStack);
 		nbt.set("ether", new NBTTagString("glove"));
 		NMCUtils.setNBT(itemStack, nbt);

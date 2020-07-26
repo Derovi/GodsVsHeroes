@@ -19,7 +19,7 @@ public class MjolnirInfo extends ItemInfo {
 
 
     @Override
-    public ItemStack staticCustomization(ItemStack itemStack) {
+    public ItemStack staticCustomizationAfter(ItemStack itemStack) {
         NBTTagCompound nbt = NMCUtils.getNBT(itemStack);
         nbt.set("ether", new NBTTagString("mjolnir"));
         NMCUtils.setNBT(itemStack, nbt);
