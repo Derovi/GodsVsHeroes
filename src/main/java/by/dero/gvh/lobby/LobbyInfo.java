@@ -32,4 +32,7 @@ public class LobbyInfo {
     
     @Getter @Setter
     private DirectedPosition teamBooster;
+    
+    @Getter @Setter
+    private DirectedPosition donateChest;
 }
