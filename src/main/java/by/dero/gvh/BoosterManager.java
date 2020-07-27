@@ -44,7 +44,6 @@ public class BoosterManager {
         boosters.put("L5", BoosterInfo.builder()
                 .name("L5")
                 .durationSec(-1)
-                .selfMultiplier(0.1)
                 .build());
 
         boosters.put("G1", BoosterInfo.builder()
@@ -83,7 +82,7 @@ public class BoosterManager {
                     result += info.getTeamMultiplier() - 1;
                 }
                 if (other.getPlayer().getUniqueId().equals(gp.getPlayer().getUniqueId())) {
-                    result += info.getSelfMultiplier() - 1;
+                    result += info.getSelfMultiplier() + booster.getBonus() - 1;
                 }
             }
         }

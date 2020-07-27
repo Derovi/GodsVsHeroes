@@ -56,7 +56,7 @@ public class EtherCommand implements CommandExecutor {
                     Lobby.getInstance().updateDisplays(lp.getPlayer());
                 }
             }
-            commandSender.sendMessage("§aБустер выдан");
+            commandSender.sendMessage("§aОпыт выдан");
             return true;
         }
         return true;

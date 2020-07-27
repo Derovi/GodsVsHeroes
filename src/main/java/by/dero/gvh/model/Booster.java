@@ -1,14 +1,54 @@
 package by.dero.gvh.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@Getter @Setter
+@NoArgsConstructor
 public class Booster {
+    public Booster(String name, long startTime, long expirationTime, double bonus) {
+        this.name = name;
+        this.startTime = startTime / 1000;
+        this.expirationTime = expirationTime / 1000;
+        this.bonus = bonus;
+    }
+
     private String name;
-    private long startTime;
-    private long expirationTime;
+    private long startTime = 0;
+    private long expirationTime = 0;
     private double bonus;
+
+    public String getName() {
+        return name;
+    }
+
+    public Booster setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public Booster setStartTime(long startTime) {
+        this.startTime = startTime;
+        return this;
+    }
+
+    public long getExpirationTime() {
+        return expirationTime;
+    }
+
+    public Booster setExpirationTime(long expirationTime) {
+        this.expirationTime = expirationTime;
+        return this;
+    }
+
+    public double getBonus() {
+        return bonus;
+    }
+
+    public Booster setBonus(double bonus) {
+        this.bonus = bonus;
+        return this;
+    }
 }

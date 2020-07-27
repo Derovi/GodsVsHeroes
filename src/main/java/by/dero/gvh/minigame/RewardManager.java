@@ -4,12 +4,14 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.stats.GameStatsUtils;
 import by.dero.gvh.utils.GameUtils;
+import gnu.trove.map.hash.THashMap;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
 public class RewardManager {
     private HashMap<String, Reward> rewards = new HashMap<>();
+    private final HashMap<String, Integer> playerExp = new HashMap<>();
 
     public Reward get(String name) {
         return rewards.get(name);
@@ -24,11 +26,18 @@ public class RewardManager {
         String name = player.getName();
         GamePlayer gp = GameUtils.getPlayer(name);
         Minigame.getInstance().getGame().getGameStatsManager().addExp(gp, count);
-        Plugin.getInstance().getPlayerData().increaseBalance(name, count);
+
+        int currentExp = playerExp.getOrDefault(name, 0);
+        playerExp.put(name, currentExp + count);
+
         if (!message.isEmpty()) {
             player.sendMessage(message.replace("%count%", String.valueOf(count)).replace(
                     "%allcount%", String.valueOf(Game.getInstance().getStats().getPlayers().get(name).getExpGained())));
         }
+    }
+
+    public int getExp(String playerName) {
+        return playerExp.getOrDefault(playerName, 0);
     }
 
     public String getMessage(String reward) {

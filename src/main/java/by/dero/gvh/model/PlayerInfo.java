@@ -69,6 +69,19 @@ public class PlayerInfo {
     }
 
     public void activateBooster(BoosterInfo info) {
+        if (info.getName().equals("L5")) {
+            for (Booster booster : boosters) {
+                if (booster.getName().equals("L5")) {
+                    booster.setBonus(booster.getBonus() + 0.1);
+                    return;
+                }
+            }
+            boosters.add(new Booster("L5", -1, -1, 0.1));
+            return;
+        }
+        long currentTime = System.currentTimeMillis();
+        boosters.add(new Booster(info.getName(),
+                currentTime, currentTime + info.getDurationSec() * 1000, 0));
     }
 
     public void removeExpiredBoosters() {

@@ -217,25 +217,6 @@ public class Lobby implements PluginMode, Listener {
         updateHolograms(player);
         //lobby.getSelectedClass().setText(Lang.get("lobby.selectedClass")
         //        .replace("%class%", Lang.get("classes." + players.get(player.getName()).getPlayerInfo().getSelectedClass())));
-        final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
-        for (final Monument monument : Lobby.getInstance().getMonumentManager().getMonuments().values()) {
-            if (monument instanceof ArmorStandMonument) {
-                final ArmorStand armorStand = ((ArmorStandMonument) monument).getArmorStand();
-                final String clname = Lang.get("classes." + monument.getClassName());
-                final String customName;
-                if (info.getSelectedClass().equals(monument.getClassName())) {
-                    customName = Lang.get("lobby.heroSelected").
-                            replace("%class%", clname);
-                } else
-                if (info.isClassUnlocked(monument.getClassName())) {
-                    customName = Lang.get("lobby.standTitle").
-                            replace("%class%", clname);
-                } else {
-                    customName = Lang.get("lobby.heroLocked").
-                            replace("%class%", clname);
-                }
-            }
-        }
 
         /*IPlatformEventExecutor<Object, Object, Object> eventExecutor = IServerPlatform.get().getPlatformEventExecutor();
         eventExecutor.registerListener(PlayerJoinEvent.class, this, (e) -> {
