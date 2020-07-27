@@ -40,6 +40,9 @@ public class TeleportPearls extends Item implements PlayerInteractInterface,
 	@Override
 	public void onProjectileHit (ProjectileHitEvent event) {
 		event.getEntity().remove();
+		if (owner.getVehicle() != null) {
+			return;
+		}
 		Location loc = event.getEntity().getLocation();
 		owner.getWorld().playSound(loc, Sound.ENTITY_ENDERMEN_TELEPORT, 1.07f, 1);
 		GameUtils.damage(5, owner, owner);

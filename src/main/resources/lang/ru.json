@@ -16,7 +16,8 @@
     "unlockNETitle": "§cНедостаточно опыта",
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!",
-    "active": "§aАктивировано"
+    "active": "§aАктивировано",
+    "confirm": "§aПодтвердить"
   },
   "cosmetic": {
     "common": "§aОбщее",
