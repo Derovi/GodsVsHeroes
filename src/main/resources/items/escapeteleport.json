@@ -10,35 +10,35 @@
   ],
   "levels": [
     {
-      "radius": 18.0,
+      "radius": 25.0,
       "minRadius": 8.0,
       "cooldown": 600,
       "cost": 80,
       "amount": 1
     },
     {
-      "radius": 19.0,
+      "radius": 26.0,
       "minRadius": 8.0,
       "cooldown": 550,
       "cost": 100,
       "amount": 1
     },
     {
-      "radius": 20.0,
+      "radius": 27.0,
       "minRadius": 8.0,
       "cooldown": 500,
       "cost": 130,
       "amount": 1
     },
     {
-      "radius": 21.0,
+      "radius": 28.0,
       "minRadius": 8.0,
       "cooldown": 450,
       "cost": 160,
       "amount": 1
     },
     {
-      "radius": 22.0,
+      "radius": 30.0,
       "minRadius": 8.0,
       "cooldown": 400,
       "cost": 200,

@@ -1,13 +1,16 @@
 package by.dero.gvh.lobby.interfaces;
 
-import by.dero.gvh.model.Lang;
-import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.List;
 
 public class ConfirmationInterface extends Interface {
-	public ConfirmationInterface(InterfaceManager manager, Player player, String name, Runnable onAbort, Runnable onAccept) {
+	public ConfirmationInterface(InterfaceManager manager, Player player, String name,
+	                             Runnable onAbort, Runnable onAccept, String abortName, String acceptName,
+	                             List<String> loreAbort, List<String> loreAccept) {
 		super(manager, player, 5, name);
 		
 		String[] pattern = {
@@ -20,9 +23,19 @@ public class ConfirmationInterface extends Interface {
 		
 		
 		ItemStack confirmItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
-		InterfaceUtils.changeName(confirmItem, Lang.get("interfaces.confirm"));
+		ItemMeta meta = confirmItem.getItemMeta();
+		meta.setDisplayName(acceptName);
+		if (loreAccept != null) {
+			meta.setLore(loreAccept);
+		}
+		confirmItem.setItemMeta(meta);
 		ItemStack returnItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
-		InterfaceUtils.changeName(returnItem, Lang.get("interfaces.back"));
+		meta = returnItem.getItemMeta();
+		meta.setDisplayName(abortName);
+		if (loreAbort != null) {
+			meta.setLore(loreAbort);
+		}
+		returnItem.setItemMeta(meta);
 		
 		for (int y = 0; y < getHeight(); y++) {
 			for (int x = 0; x < 9; x++) {
