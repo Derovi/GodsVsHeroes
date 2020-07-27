@@ -30,7 +30,7 @@ import ru.cristalix.core.formatting.Colors;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static by.dero.gvh.model.Drawings.spawnFirework;
+import static by.dero.gvh.model.Drawings.spawnFireworks;
 
 public class EtherCapture extends Game implements DisplayInteractInterface {
     private final EtherCaptureInfo etherCaptureInfo;
@@ -213,7 +213,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         //System.out.println("o3: " + player.getLocation().getWorld().getName());
         final float exp = player.getExp();
 
-        spawnFirework(player.getLocation().clone().add(0, 1, 0), 1);
+        spawnFireworks(player.getLocation().clone().add(0, 1, 0), 1);
         Location loc = player.getLocation();
         loc.setWorld(Minigame.getInstance().getGame().getWorld());
 

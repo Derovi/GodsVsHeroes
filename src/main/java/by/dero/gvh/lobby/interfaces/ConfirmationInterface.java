@@ -40,8 +40,8 @@ public class ConfirmationInterface extends Interface {
 		for (int y = 0; y < getHeight(); y++) {
 			for (int x = 0; x < 9; x++) {
 				switch (pattern[y].charAt(x)) {
-					case 'R' : addButton(x, y, returnItem, onAbort); break;
-					case 'G' : addButton(x, y, confirmItem, onAccept); break;
+					case 'R' : addButton(x, y, returnItem, () -> {this.close(); onAbort.run();}); break;
+					case 'G' : addButton(x, y, confirmItem, () -> {this.close(); onAccept.run();}); break;
 				}
 			}
 		}

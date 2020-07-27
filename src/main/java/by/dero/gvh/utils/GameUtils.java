@@ -5,6 +5,7 @@ import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.*;
 import com.google.common.base.Predicate;
@@ -19,6 +20,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -446,6 +448,44 @@ public class GameUtils {
         ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte)3);
         skull.setItemMeta(skullMeta);
         return skull;
+    }
+    
+    private static final String[] romeNumbers = {"0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
+    public static ItemStack getBoosterHead(String name) {
+        BoosterInfo info = Plugin.getInstance().getBoosterManager().getBoosters().get(name);
+        ItemStack head = Heads.getHead(name);
+        ItemMeta meta = head.getItemMeta();
+        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Командный" : "Личный") +" Бустер §1" + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
+        ArrayList<String> lore = new ArrayList<>(20);
+        if (name.equals("L5")) {
+            lore.add("§6Перманентный эффект");
+            lore.add("§8[§6НАВСЕГДА§8] §fвы станете получать на");
+            lore.add("§610§c% §fбольше опыта");
+        } else {
+            lore.add("§6Временный эффект");
+            int dur = info.getDurationSec() / 3600;
+            lore.add("§fДлительность эффекта §8» §6" + dur + " §cчас" + (dur == 1 ? "" : (2 <= dur && dur <= 4 ? "а" : "ов")));
+            if (name.equals("G1")) {
+                lore.add("§fПока эффект активен ваша команда будет");
+                lore.add("§fполучать §cx§6" + String.format("%.1f", info.getTeamMultiplier()) + " §fопыта");
+            } if (name.equals("G2")) {
+                lore.add("§fПока эффект активен вы будете");
+                lore.add("§fполучать §cx§6" + String.format("%.1f", info.getSelfMultiplier()) + " §fопыта, a");
+                lore.add("§fваша команда §cx§6" + String.format("%.1f", info.getTeamMultiplier()) + " §fопыта");
+            } else if (name.equals("G3")) {
+                lore.add("§fПока эффект активен ваша и вражеская");
+                lore.add("§fкоманды будут получать §cx§6" + String.format("%.1f", info.getTeamMultiplier()) + " §fопыта");
+            } else if (name.startsWith("L")) {
+                lore.add("§fПока эффект активен вы будете");
+                lore.add("§fполучать §cx§6" + String.format("%.1f", info.getSelfMultiplier()) + " §fопыта");
+//            if (name.equals("T"))
+            }
+            lore.add(" ");
+            lore.add("§fСтоимость добра §8» §6" + info.getCost() + "§b кристалликов");
+        }
+        meta.setLore(lore);
+        head.setItemMeta(meta);
+        return head;
     }
     
     public static Predicate<EntityLiving> getTargetPredicate(int team) {

@@ -10,7 +10,7 @@ import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
 import lombok.Getter;
-import lombok.Setter;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
@@ -20,6 +20,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
+import java.util.LinkedList;
+
 public class BoosterStand {
 	@Getter private final Location location;
 	
@@ -27,8 +29,8 @@ public class BoosterStand {
 	
 	private final Class<? extends Interface> inter;
 	
-	@Getter @Setter
-	private int animCnt = 0;
+	@Getter
+	private final LinkedList<Color> anims = new LinkedList<>();
 	
 	public BoosterStand(DirectedPosition position, String name, String headName, Class<? extends Interface> inter) {
 		this.inter = inter;
@@ -51,7 +53,7 @@ public class BoosterStand {
 			double yaw = 0, yawSpeed = 0;
 			@Override
 			public void run() {
-				if (animCnt > 0) {
+				if (anims.size() > 0) {
 					if (stay >= 0) {
 						yaw += yawSpeed;
 						stand.setHeadPose(new EulerAngle(0, yaw, 0));
@@ -79,8 +81,7 @@ public class BoosterStand {
 					if (animTime == animDuration) {
 						yaw = 0;
 						animTime = 0;
-						animCnt--;
-						Drawings.spawnFirework(stand.getEyeLocation(), 1);
+						Drawings.spawnFireworks(stand.getEyeLocation(), 1, anims.removeFirst());
 					}
 				} else {
 					stand.setHeadPose(new EulerAngle(0, 0, roll));
@@ -111,8 +112,8 @@ public class BoosterStand {
 	
 	public void onClick(Player player) {
 		try {
-			inter.getConstructor(InterfaceManager.class, Player.class).
-					newInstance(Lobby.getInstance().getInterfaceManager(), player).open();
+			inter.getConstructor(InterfaceManager.class, Player.class, BoosterStand.class).
+					newInstance(Lobby.getInstance().getInterfaceManager(), player, this).open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
