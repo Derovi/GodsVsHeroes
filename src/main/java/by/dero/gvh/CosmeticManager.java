@@ -50,6 +50,120 @@ public class CosmeticManager {
                 .groupID(1)
                 .nbt(new CosmeticInfo.NBT("weapons", "azure_sabre"))
                 .build());
+
+        register(CosmeticInfo.builder()  // death mace
+                .name("deathMace")
+                .hero("warrior")
+                .rarity(CosmeticInfo.Rarity.IMMORTAL)
+                .material(Material.DIAMOND_SWORD)
+                .displayName("§4Булава смерти")
+                .cost(50)
+                .groupID(1)
+                .nbt(new CosmeticInfo.NBT("weapons", "bludgeon"))
+                .build());
+
+        // horseman
+        register(CosmeticInfo.builder()  // hell axe
+                .name("hellAxe")
+                .hero("horseman")
+                .rarity(CosmeticInfo.Rarity.MYTHICAL)
+                .material(Material.DIAMOND_SWORD)
+                .displayName("§4Топор ада")
+                .cost(50)
+                .groupID(2)
+                .nbt(new CosmeticInfo.NBT("weapons", "waraxe"))
+                .build());
+
+        register(CosmeticInfo.builder()  // skeleton axe
+                .name("skeletonAxe")
+                .hero("horseman")
+                .rarity(CosmeticInfo.Rarity.RARE)
+                .material(Material.DIAMOND_SWORD)
+                .displayName("§Костяной топор")
+                .cost(50)
+                .groupID(2)
+                .nbt(new CosmeticInfo.NBT("weapons", "skeletonAxe"))
+                .build());
+
+        // dovahkiin
+        register(CosmeticInfo.builder()  // dragon sword
+                .name("dragonSword")
+                .hero("dovahkiin")
+                .rarity(CosmeticInfo.Rarity.LEGENDARY)
+                .material(Material.DIAMOND_SWORD)
+                .displayName("§4Меч дракона")
+                .cost(50)
+                .groupID(2)
+                .nbt(new CosmeticInfo.NBT("weapons", "dragon"))
+                .build());
+
+        // lucifer
+        register(CosmeticInfo.builder()  // demonic sword
+                .name("demoicSword")
+                .hero("lucifer")
+                .rarity(CosmeticInfo.Rarity.MYTHICAL)
+                .material(Material.DIAMOND_SWORD)
+                .displayName("§4Демонический меч")
+                .cost(50)
+                .groupID(3)
+                .nbt(new CosmeticInfo.NBT("weapons", "demonic"))
+                .build());
+
+        register(CosmeticInfo.builder()  // devil sword
+                .name("devilSword")
+                .hero("lucifer")
+                .rarity(CosmeticInfo.Rarity.IMMORTAL)
+                .material(Material.DIAMOND_SWORD)
+                .displayName("§4Меч сатаны")
+                .cost(50)
+                .groupID(3)
+                .nbt(new CosmeticInfo.NBT("weapons", "spider"))
+                .build());
+
+        // paladin
+        register(CosmeticInfo.builder()  // fairy sword
+                .name("fairySword")
+                .hero("paladin")
+                .rarity(CosmeticInfo.Rarity.UNCOMMON)
+                .material(Material.DIAMOND_SWORD)
+                .displayName("§4Сказочный меч")
+                .cost(50)
+                .groupID(4)
+                .nbt(new CosmeticInfo.NBT("ether", "paladinsword"))
+                .build());
+        register(CosmeticInfo.builder()  // lost sword
+                .name("lostSword")
+                .hero("paladin")
+                .rarity(CosmeticInfo.Rarity.RARE)
+                .material(Material.DIAMOND_SWORD)
+                .displayName("§4Утерянный меч")
+                .cost(50)
+                .groupID(4)
+                .nbt(new CosmeticInfo.NBT("weapons", "crimsoncleaver"))
+                .build());
+
+        // assassin
+        register(CosmeticInfo.builder()  // altair blade
+                .name("altairBlade")
+                .hero("assassin")
+                .rarity(CosmeticInfo.Rarity.LEGENDARY)
+                .material(Material.CLAY_BALL)
+                .displayName("§4Клинок альтаира")
+                .cost(50)
+                .groupID(5)
+                .nbt(new CosmeticInfo.NBT("ether", "hid_blade"))
+                .build());
+
+        register(CosmeticInfo.builder()  // Ezio Espadron
+                .name("ezioEspadron")
+                .hero("assassin")
+                .rarity(CosmeticInfo.Rarity.RARE)
+                .material(Material.DIAMOND_SWORD)
+                .displayName("§4Эспадрон Эцио")
+                .cost(50)
+                .groupID(5)
+                .nbt(new CosmeticInfo.NBT("weapons", "claymore"))
+                .build());
     }
 
     public void loadPlayer(Player player) {
