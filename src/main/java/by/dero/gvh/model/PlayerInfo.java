@@ -1,9 +1,13 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.BoosterManager;
 import by.dero.gvh.Plugin;
 import lombok.Getter;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlayerInfo {
@@ -11,6 +15,8 @@ public class PlayerInfo {
     private String selectedClass = "assassin";
     @Getter
     private HashMap<String, Cosmetic> cosmetics = null;
+    @Getter @Setter
+    private List<Booster> boosters = new ArrayList<>();
     private int balance = 100;
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
@@ -56,6 +62,17 @@ public class PlayerInfo {
             return;
         }
         cosmetics.get(name).setEnabled(false);
+    }
+
+    public void activateBooster(String booster) {
+        activateBooster(Plugin.getInstance().getBoosterManager().getBoosters().get(booster));
+    }
+
+    public void activateBooster(BoosterInfo info) {
+    }
+
+    public void removeExpiredBoosters() {
+        BoosterManager.removeExpiredBoosters(boosters);
     }
 
     public void enableCosmetic(String name) {

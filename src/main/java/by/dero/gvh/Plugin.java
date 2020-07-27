@@ -58,6 +58,8 @@ public class Plugin extends JavaPlugin implements Listener {
     private PluginMode pluginMode;
     private BookManager bookManager;
     @Getter
+    private BoosterManager boosterManager;
+    @Getter
     private CosmeticManager cosmeticManager;
     private Settings settings;
     private Lang lang;
@@ -87,6 +89,7 @@ public class Plugin extends JavaPlugin implements Listener {
             IRealmService.get().getCurrentRealmInfo().setMaxPlayers(1000);
             settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());;
         }
+        boosterManager = new BoosterManager();
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
         Bukkit.getPluginCommand("ether").setExecutor(new EtherCommand());
         Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());

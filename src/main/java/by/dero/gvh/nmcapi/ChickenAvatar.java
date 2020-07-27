@@ -30,8 +30,8 @@ public class ChickenAvatar extends EntityChicken {
         PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0);
         player.addPotionEffect(effect);
         playerHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(4);
         player.setHealth(4);
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(4);
         boundingBox.e += 1.05;
     }
 
