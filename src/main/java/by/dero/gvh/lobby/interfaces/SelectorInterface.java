@@ -1,9 +1,11 @@
 package by.dero.gvh.lobby.interfaces;
 
+import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,9 +24,9 @@ public class SelectorInterface extends Interface {
         };
         
         Runnable select = () -> {
-            LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
-            lobbyPlayer.getPlayerInfo().selectClass(className);
-            lobbyPlayer.saveInfo();
+            PlayerInfo playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
+            playerInfo.selectClass(className);
+            Plugin.getInstance().getPlayerData().savePlayerInfo(playerInfo);
             Lobby.getInstance().updateDisplays(getPlayer());
             close();
         };

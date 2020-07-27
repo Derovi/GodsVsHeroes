@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import ru.cristalix.core.invoice.IInvoiceService;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -24,8 +25,7 @@ public class UpgradeInterface extends Interface {
         super(manager, player, 6, className);
         this.manager = manager;
         this.className = className;
-        PlayerInfo playerInfo = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
-        updateAll(playerInfo);
+        updateAll(Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()));
     }
 
     public void updateItemLine(int position, String itemName, PlayerInfo info) {
@@ -61,10 +61,10 @@ public class UpgradeInterface extends Interface {
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade").
                         replace("%cost%", String.valueOf(nextInfo.getCost())));
                 addButton(position, currentLevel + 1, itemStack, () -> {
-                    LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(getPlayer().getName());
-                    lobbyPlayer.getPlayerInfo().upgradeItem(className, itemName);
-                    lobbyPlayer.saveInfo();
-                    updateAll(lobbyPlayer.getPlayerInfo());
+                    PlayerInfo playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName());
+                    playerInfo.upgradeItem(className, itemName);
+                    Plugin.getInstance().getPlayerData().savePlayerInfo(playerInfo);
+                    updateAll(playerInfo);
                     Lobby.getInstance().updateDisplays(getPlayer());
                     update();
                 });

@@ -49,13 +49,6 @@ public class EtherCommand implements CommandExecutor {
             PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(args[1]);
             info.setBalance(info.getBalance() + count);
             Plugin.getInstance().getPlayerData().savePlayerInfo(info);
-            if (Plugin.getInstance().getPluginMode() instanceof Lobby) {
-                if (Lobby.getInstance().getPlayers().containsKey(args[1])) {
-                    LobbyPlayer lp = Lobby.getInstance().getPlayers().get(args[1]);
-                    lp.setPlayerInfo(info);
-                    Lobby.getInstance().updateDisplays(lp.getPlayer());
-                }
-            }
             commandSender.sendMessage("§aОпыт выдан");
             return true;
         }

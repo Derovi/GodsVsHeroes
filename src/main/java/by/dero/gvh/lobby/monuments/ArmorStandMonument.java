@@ -38,7 +38,7 @@ public class ArmorStandMonument extends Monument {
             @Override
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
+                    final PlayerInfo info = Plugin.getInstance().getPlayerData().getStoredPlayerInfo(player.getName());
                     if (!info.isClassUnlocked(getClassName())) {
                         final double zxc = MathUtils.cos(Math.toRadians(70)) * 1.5;
                         Drawings.spawnMovingCircle(st.clone().add(0, 1.85, 0),

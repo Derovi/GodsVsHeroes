@@ -9,6 +9,7 @@ import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.CustomizationContext;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Location;
@@ -26,7 +27,7 @@ import static by.dero.gvh.model.Drawings.spawnUnlockParticles;
 public class UnlockInterface extends Interface {
     public UnlockInterface(InterfaceManager manager, Player player, String className) {
         super(manager, player, 6,
-                (Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().canUnlock(className)
+                (Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()).canUnlock(className)
                 ? Lang.get("interfaces.unlockTitle") : Lang.get("interfaces.unlockNETitle")));
         
         String[] pattern = {
@@ -37,7 +38,7 @@ public class UnlockInterface extends Interface {
                 "REEGGGEER",
                 "RREEHEERR",
         };
-        
+
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
 
         ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
@@ -75,14 +76,14 @@ public class UnlockInterface extends Interface {
             addButton(index, 0, returnSlot, this::close);
         }
         
-        boolean canUnlock = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo().canUnlock(className);
+        boolean canUnlock = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()).canUnlock(className);
         if (canUnlock) {
             Runnable unlockAction = () -> {
                 player.sendMessage(Lang.get("interfaces.unlocked").replace("%className%", Lang.get("classes." + className)).
                         replace("%cost%", String.valueOf(classDescription.getCost())));
-                LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
-                lobbyPlayer.getPlayerInfo().unlockClass(className);
-                lobbyPlayer.saveInfo();
+                PlayerInfo playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
+                playerInfo.unlockClass(className);
+                Plugin.getInstance().getPlayerData().savePlayerInfo(playerInfo);
                 final PlayerLobby lobby = Lobby.getInstance().getActiveLobbies().get(player.getName());
                 final ArmorStand stand = ((ArmorStandMonument) Lobby.getInstance().getMonumentManager().
                         getMonuments().get(className)).getArmorStand();
@@ -122,10 +123,10 @@ public class UnlockInterface extends Interface {
 //            }
         } else {
             Runnable action = () -> {
-                LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
                 player.sendMessage(Lang.get("interfaces.notUnlocked").replace("%className%", Lang.get("classes." + className)).
                         replace("%cost%", String.valueOf(classDescription.getCost())).
-                        replace("%remains%", String.valueOf(classDescription.getCost() - lobbyPlayer.getPlayerInfo().getBalance())));
+                        replace("%remains%", String.valueOf(classDescription.getCost()
+                                - Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()).getBalance())));
                 close();
             };
             ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);

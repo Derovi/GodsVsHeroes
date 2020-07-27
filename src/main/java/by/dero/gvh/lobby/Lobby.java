@@ -356,7 +356,6 @@ public class Lobby implements PluginMode, Listener {
         inv.setHeldItemSlot(0);
         player.setGameMode(GameMode.ADVENTURE);
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
-        lobbyPlayer.loadInfo();
         players.put(player.getName(), lobbyPlayer);
         new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1).apply(player);
         new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 0).apply(player);
@@ -403,12 +402,12 @@ public class Lobby implements PluginMode, Listener {
             inv.setItem(8, hideitem);
         }
         
-        AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
-                (pl) -> (!players.containsKey(pl.getName()) || players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
+//        AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
+//                (pl) -> (!players.containsKey(pl.getName()) ||
+//                        Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()).getClasses().size() > 1));
 
         AdviceManager.sendAdvice(player, "startGame", 30, 400,
-                (pl) -> (!players.containsKey(pl.getName())),
-                (pl) -> (players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
+                (pl) -> (!players.containsKey(pl.getName())));
     }
 
     public void playerLeft(Player player) {
