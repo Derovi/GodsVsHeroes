@@ -20,7 +20,8 @@
     "confirm": "§aПодтвердить",
     "confirmBuy": "§6Подтверждение покупки",
     "thxBuyBooster": "§6Бустер выдан. Спасибо за покупку",
-    "queueActive": "§6В очереди §8» §1%val%"
+    "queueActive": "§6Осталось §8» §b%val%",
+    "permMult": "§6Текущий прирост опыта §8» §f%val%§b%"
   },
   "cosmetic": {
     "common": "§aОбщее",

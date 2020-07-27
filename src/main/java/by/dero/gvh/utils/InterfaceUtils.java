@@ -81,4 +81,39 @@ public class InterfaceUtils {
         }
         return from;
     }
+    
+    public static String getLeftTimeString(int sec) {
+        StringBuilder str = new StringBuilder();
+        if (sec >= 3600) {
+            int h = sec / 3600;
+            str.append("§b").append(h);
+            if (h == 1) {
+                str.append(" §fчас ");
+            } else if (h <= 4) {
+                str.append(" §fчаса ");
+            } else {
+                str.append(" §fчасов ");
+            }
+        }
+        if (sec >= 60) {
+            int m = sec / 60 % 60;
+            if (m == 1) {
+                str.append("§b").append(m).append(" §fминута");
+            } else if (2 <= m && m <= 4) {
+                str.append("§b").append(m).append(" §fминуты");
+            } else if (5 <= m) {
+                str.append("§b").append(m).append(" §fминут");
+            }
+        }
+        if (sec < 60) {
+            if (sec == 1) {
+                return "§b" + sec + " §fсекунда";
+            } else if (2 <= sec && sec <= 4) {
+                return "§b" + sec + " §fсекунды";
+            } else {
+                return "§b" + sec + " §fсекунд";
+            }
+        }
+        return str.toString();
+    }
 }

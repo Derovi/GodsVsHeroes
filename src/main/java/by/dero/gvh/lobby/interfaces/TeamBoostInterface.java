@@ -8,6 +8,7 @@ import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.InterfaceUtils;
 import by.dero.gvh.utils.Pair;
+import by.dero.gvh.utils.SafeRunnable;
 import lombok.Setter;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -18,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +35,8 @@ public class TeamBoostInterface extends Interface {
 			Pair.of(1, 3), Pair.of(1, 2), Pair.of(2, 2)
 	);
 	
+	private final ArrayList<SafeRunnable> runnables = new ArrayList<>();
+	
 	public TeamBoostInterface(InterfaceManager manager, Player player, BoosterStand stand) {
 		super(manager, player, 6, Lang.get("lobby.teamBooster"));
 		
@@ -46,6 +50,7 @@ public class TeamBoostInterface extends Interface {
 		};
 		ItemStack[] items = new ItemStack[itemsMat.length];
 		ItemStack[] itemsEnchanted = new ItemStack[itemsMat.length];
+		PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
 		for (int i = 0; i < itemsMat.length; i++) {
 			items[i] = new ItemStack(Material.STAINED_GLASS_PANE, 1, itemsMat[i]);
 			ItemMeta meta = items[i].getItemMeta();
@@ -67,11 +72,10 @@ public class TeamBoostInterface extends Interface {
 		InterfaceUtils.changeName(activeItem, Lang.get("interfaces.empty"));
 		ItemStack queueActiveItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
 		Color[] fwColors = {
-				Color.GREEN, Color.YELLOW, Color.BLUE
+				Color.GREEN, Color.YELLOW, Color.BLUE, Color.PURPLE, Color.RED
 		};
-		ItemStack[] heads = new ItemStack[5];
-		Runnable[] onSelect = new Runnable[5];
-		PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
+		ItemStack[] heads = new ItemStack[3];
+		Runnable[] onSelect = new Runnable[3];
 		for (int i = 0; i < 3; i++) {
 			String boostName = "G" + (char)('1' + i);
 			heads[i] = GameUtils.getBoosterHead(boostName);
@@ -88,10 +92,15 @@ public class TeamBoostInterface extends Interface {
 			};
 		}
 		
-		int[] boosters = new int[5];
+		info.removeExpiredBoosters();
+		long[] boosters = new long[3];
+		for (int i = 0; i < 3; i++) {
+			boosters[i] = -1;
+		}
 		for (Booster booster : info.getBoosters()) {
 			if (booster.getName().charAt(0) == 'G') {
-				boosters[Integer.parseInt(String.valueOf(booster.getName().charAt(1))) - 1]++;
+				int idx = Integer.parseInt(String.valueOf(booster.getName().charAt(1))) - 1;
+				boosters[idx] = Math.max(boosters[idx], booster.getExpirationTime());
 			}
 		}
 		for (int y = 0; y < 6; y++) {
@@ -117,9 +126,26 @@ public class TeamBoostInterface extends Interface {
 						addButton(x, y, heads[x-3], onSelect[x-3]); break;
 					case 'C' :
 						if (boosters[x-3] > 0) {
-							InterfaceUtils.changeName(queueActiveItem, Lang.get("interfaces.queueActive").
-									replace("%val%",String.valueOf(boosters[x-3] - 1)));
 							addItem(x, y, queueActiveItem);
+							
+							int finalX = x;
+							int finalY = y;
+							SafeRunnable runnable = new SafeRunnable() {
+								@Override
+								public void run() {
+									long left = boosters[finalX - 3] - System.currentTimeMillis() / 1000;
+									if (left > 0) {
+										InterfaceUtils.changeName(getInventory().getItem(getPos(finalX, finalY)),
+												Lang.get("interfaces.queueActive").
+														replace("%val%", InterfaceUtils.getLeftTimeString((int) left)));
+									} else {
+										this.cancel();
+										addItem(finalX, finalY, activeItem);
+									}
+								}
+							};
+							runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
+							runnables.add(runnable);
 						} else {
 							addItem(x, y, activeItem);
 						}
@@ -177,5 +203,10 @@ public class TeamBoostInterface extends Interface {
 	public void onInventoryClosed() {
 		super.onInventoryClosed();
 		drawSnake.cancel();
+		
+		for (SafeRunnable runnable : runnables) {
+			runnable.cancel();
+		}
+		runnables.clear();
 	}
 }

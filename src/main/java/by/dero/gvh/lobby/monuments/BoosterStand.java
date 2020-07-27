@@ -45,7 +45,7 @@ public class BoosterStand {
 			int animTime = 0;
 			final double yawAccel = 0.006;
 			final int animDuration = 160;
-			final int stayDuration = (int) (Math.PI * 2 * 8 / yawAccel / animDuration * 2);
+			final int stayDuration = (int) (Math.PI * 2 * 3 / yawAccel / animDuration * 2);
 			int stay = -1;
 			final double dHei = 1.6 / animDuration * 2;
 			double add = Math.PI / 3 / 80;

@@ -74,7 +74,6 @@ public class DonatePackChest {
 						animCnt--;
 					}
 				}
-				System.out.println(chest.getBukkitEntity().getLocation().toVector().toString());
 			}
 		};
 		runnable.runTaskTimer(Plugin.getInstance(), 0, 1);

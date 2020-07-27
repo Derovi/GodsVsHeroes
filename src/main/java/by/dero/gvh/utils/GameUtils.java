@@ -455,7 +455,7 @@ public class GameUtils {
         BoosterInfo info = Plugin.getInstance().getBoosterManager().getBoosters().get(name);
         ItemStack head = Heads.getHead(name);
         ItemMeta meta = head.getItemMeta();
-        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Командный" : "Личный") +" Бустер §1" + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
+        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Командный" : "") +" Бустер §1" + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
         ArrayList<String> lore = new ArrayList<>(20);
         if (name.equals("L5")) {
             lore.add("§6Перманентный эффект");
@@ -480,9 +480,9 @@ public class GameUtils {
                 lore.add("§fполучать §cx§6" + String.format("%.1f", info.getSelfMultiplier()) + " §fопыта");
 //            if (name.equals("T"))
             }
-            lore.add(" ");
-            lore.add("§fСтоимость добра §8» §6" + info.getCost() + "§b кристалликов");
         }
+        lore.add(" ");
+        lore.add("§fСтоимость добра §8» §6" + info.getCost() + "§b кристалликов");
         meta.setLore(lore);
         head.setItemMeta(meta);
         return head;

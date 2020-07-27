@@ -4,7 +4,6 @@ import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Booster;
 import by.dero.gvh.model.BoosterInfo;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -115,6 +114,6 @@ public class BoosterManager {
 
     public static void removeExpiredBoosters(List<Booster> boosters) {
         long currentTime = System.currentTimeMillis() / 1000;
-        boosters.removeIf((booster) -> (booster.getExpirationTime() <= currentTime));
+        boosters.removeIf((booster) -> (booster.getExpirationTime() <= currentTime && !booster.getName().equals("L5")));
     }
 }
