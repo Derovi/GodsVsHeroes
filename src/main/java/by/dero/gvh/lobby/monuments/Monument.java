@@ -1,5 +1,6 @@
 package by.dero.gvh.lobby.monuments;
 
+import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.lobby.interfaces.SelectorInterface;
@@ -22,8 +23,7 @@ public abstract class Monument {
     public abstract void unload();
 
     public void onSelect(Player player) {
-        LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(player.getName());
-        if (lobbyPlayer.getPlayerInfo().isClassUnlocked(className)) {
+        if (Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()).isClassUnlocked(className)) {
             SelectorInterface selectorInterface = new SelectorInterface(
                     Lobby.getInstance().getInterfaceManager(), player, className);
             selectorInterface.open();

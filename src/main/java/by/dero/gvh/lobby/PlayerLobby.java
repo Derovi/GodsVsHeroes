@@ -6,6 +6,7 @@ import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
+import com.sk89q.worldedit.util.gson.GsonUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -88,17 +89,14 @@ public class PlayerLobby {
         }
 
         player.setScoreboard(scoreboard);
-        scoreboardUpdater = new Runnable() {
-            final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
-            @Override
-            public void run() {
-                Board.setText((CraftTeam) teams[0], Lang.get("lobby.selectedClass")
-                        .replace("%class%", Lang.get("classes." + info.getSelectedClass())));
-                Board.setText((CraftTeam) teams[1], Lang.get("lobby.moneyBalance")
-                        .replace("%money%", String.valueOf(info.getBalance())));
-                Board.setText((CraftTeam) teams[2], Lang.get("lobby.online")
-                        .replace("%online%", String.valueOf(Plugin.getInstance().getServerData().getSavedOnline())));
-            }
+        scoreboardUpdater = () -> {
+            final PlayerInfo info = Plugin.getInstance().getPlayerData().getStoredPlayerInfo(player.getName());
+            Board.setText((CraftTeam) teams[0], Lang.get("lobby.selectedClass")
+                    .replace("%class%", Lang.get("classes." + info.getSelectedClass())));
+            Board.setText((CraftTeam) teams[1], Lang.get("lobby.moneyBalance")
+                    .replace("%money%", String.valueOf(info.getBalance())));
+            Board.setText((CraftTeam) teams[2], Lang.get("lobby.online")
+                    .replace("%online%", String.valueOf(Plugin.getInstance().getServerData().getSavedOnline())));
         };
         new BukkitRunnable() {
             @Override
