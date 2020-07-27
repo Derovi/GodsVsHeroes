@@ -19,7 +19,11 @@ public class EtherCommand implements CommandExecutor {
             return true;
         }
         if (args[0].equalsIgnoreCase("analyzeall")) {
-            Plugin.getInstance().getGameStatsData().analyzeAllAndSave();
+            int startID = 0;
+            if (args.length > 1) {
+                startID = Integer.parseInt(args[1]);
+            }
+            Plugin.getInstance().getGameStatsData().analyzeAllAndSave(startID);
             commandSender.sendMessage("§aАнализ прошел успешно, искать в mongodb::analyzeReports");
             return true;
         }

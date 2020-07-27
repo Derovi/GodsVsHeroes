@@ -69,10 +69,14 @@ public class GameStatsData {
         }
     }
 
-    public void analyzeAllAndSave() {
+    public void analyzeAllAndSave(int startID) {
         GamesAnalyzer gamesAnalyzer = new GamesAnalyzer();
         for (Document document : gamesCollection.find()) {
-            gamesAnalyzer.getGames().add(gson.fromJson(document.toJson(), GameStats.class));
+            GameStats stats = gson.fromJson(document.toJson(), GameStats.class);
+            if (stats.getId() < startID) {
+                continue;
+            }
+            gamesAnalyzer.getGames().add(stats);
         }
         BasicDBObject object = BasicDBObject.parse(gson.toJson(gamesAnalyzer.getBundle()));
         storage.getDatabase().getCollection("analyzeReports").insertOne(
