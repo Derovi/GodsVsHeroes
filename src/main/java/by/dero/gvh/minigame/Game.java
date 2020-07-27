@@ -273,7 +273,7 @@ public abstract class Game implements Listener {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     if (counter.containsKey(player)) {
                         Vector was = prevLoc.get(player);
-                        if (was.distance(player.getLocation().toVector()) < 4) {
+                        if (was.distance(player.getLocation().toVector()) < 1) {
                             int cnt = counter.get(player) + 1;
                             counter.put(player, cnt);
                             if (cnt >= 6) {

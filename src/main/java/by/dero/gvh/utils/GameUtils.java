@@ -6,8 +6,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
-import by.dero.gvh.model.Item;
-import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.*;
 import com.google.common.base.Predicate;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EntityLiving;
@@ -353,6 +352,35 @@ public class GameUtils {
         return target;
     }
 
+    public static boolean isSword(Material material) {
+        return material.equals(Material.WOOD_SWORD) ||
+                material.equals(Material.STONE_SWORD) ||
+                material.equals(Material.IRON_SWORD) ||
+                material.equals(Material.GOLD_SWORD) ||
+                material.equals(Material.DIAMOND_SWORD);
+    }
+    
+    public static boolean isAxe(Material material) {
+        return material.equals(Material.WOOD_AXE) ||
+                material.equals(Material.STONE_AXE) ||
+                material.equals(Material.IRON_AXE) ||
+                material.equals(Material.GOLD_AXE) ||
+                material.equals(Material.DIAMOND_AXE);
+    }
+    
+    public static ItemStack getMeleeWeapon(Player player, String className) {
+        final UnitClassDescription classDescription =
+                Plugin.getInstance().getData().getClassNameToDescription().get(className);
+        
+        for (String name : classDescription.getItemNames()) {
+            final ItemInfo info = Plugin.getInstance().getData().getItems().get(name).getLevels().get(0);
+            if (isAxe(info.getMaterial()) || isSword(info.getMaterial())) {
+                return info.getItemStack(new CustomizationContext(player, className));
+            }
+        }
+        return null;
+    }
+    
     public static void setInvisibleFlags(ArmorStand stand) {
         EntityArmorStand handle = ((CraftArmorStand) stand).getHandle();
         handle.setCustomNameVisible(false);

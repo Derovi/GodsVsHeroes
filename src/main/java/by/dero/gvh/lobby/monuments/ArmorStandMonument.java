@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -22,7 +23,7 @@ public class ArmorStandMonument extends Monument {
     private final double turnPerSec = 0.3;
     private final double radius = 0.8;
     private final HashMap<UUID, Integer> unlocktime = new HashMap<>();
-    private ArmorStand armorStand;
+    private CraftArmorStand armorStand;
     private BukkitRunnable particles;
     private boolean loaded = false;
 
@@ -90,7 +91,8 @@ public class ArmorStandMonument extends Monument {
         }
         loaded = true;
         final World at = Lobby.getInstance().getWorld();
-        armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
+        armorStand = (CraftArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
+//        armorStand.setArms(true);
         armorStand.setInvulnerable(true);
         armorStand.setCustomNameVisible(true);
         armorStand.setCustomName("§6" + Lang.get("classes." + getClassName()));
