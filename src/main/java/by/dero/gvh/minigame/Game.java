@@ -169,10 +169,7 @@ public abstract class Game implements Listener {
     public void start() {
         Plugin.getInstance().getBoosterManager().load(Bukkit.getOnlinePlayers());
         Plugin.getInstance().getBoosterManager().precalcMultipliers(this);
-        for (GamePlayer gp : players.values()) {
-            System.out.println(gp.getPlayer().getName() +
-                    ": " + Plugin.getInstance().getBoosterManager().getMultiplier(this, gp));
-        }
+
         if (!isMapPrepared()) {
             prepareMap(lobby.getSelectedMap());
         }
