@@ -8,10 +8,10 @@ import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.CosmeticSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
+import by.dero.gvh.lobby.monuments.DonatePackChest;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.model.Lang;
-import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
@@ -20,6 +20,7 @@ import by.dero.gvh.stats.GameStats;
 import by.dero.gvh.stats.PlayerStats;
 import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
+import lombok.Getter;
 import net.minecraft.server.v1_12_R1.EnumItemSlot;
 import net.minecraft.server.v1_12_R1.PacketPlayOutEntityEquipment;
 import org.bukkit.*;
@@ -80,6 +81,7 @@ public class Lobby implements PluginMode, Listener {
     private final HashMap<String, LobbyPlayer> players = new HashMap<>();
     private final HashSet<UUID> hidePlayers = new HashSet<>();
     private final HashMap<Player, Long> hideShowUsed = new HashMap<>();
+    @Getter private DonatePackChest chest;
     
     @FunctionalInterface
     private interface ItemFunc {
@@ -165,6 +167,9 @@ public class Lobby implements PluginMode, Listener {
         }, EventPriority.MONITOR, true);
         
         initItems();
+        
+        chest = new DonatePackChest(Lobby.getInstance().getInfo().getDonateChest());
+        System.out.println(chest + " " + Lobby.getInstance().getInfo().getDonateChest());
     }
 
     private void registerEvents() {

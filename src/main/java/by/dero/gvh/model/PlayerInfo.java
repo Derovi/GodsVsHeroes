@@ -138,7 +138,7 @@ public class PlayerInfo {
             balance -= Plugin.getInstance().getData().getItems().get(item).getLevels().get(newLevel).getCost();
         }
     }
-
+    
     public boolean isClassUnlocked(String className) {
         return classes.containsKey(className);
     }

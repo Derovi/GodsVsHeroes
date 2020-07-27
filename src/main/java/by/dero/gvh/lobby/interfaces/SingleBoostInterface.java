@@ -1,11 +1,15 @@
 package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.minigame.Heads;
+import by.dero.gvh.lobby.monuments.BoosterStand;
+import by.dero.gvh.model.Booster;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.InterfaceUtils;
 import by.dero.gvh.utils.Pair;
 import lombok.Setter;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -29,7 +33,7 @@ public class SingleBoostInterface extends Interface {
 			Pair.of(1, 3), Pair.of(1, 2), Pair.of(1, 1), Pair.of(2, 1)
 	);
 	
-	public SingleBoostInterface(InterfaceManager manager, Player player) {
+	public SingleBoostInterface(InterfaceManager manager, Player player, BoosterStand stand) {
 		super(manager, player, 6, Lang.get("lobby.singleBooster"));
 		
 		String[] pattern = {
@@ -60,15 +64,36 @@ public class SingleBoostInterface extends Interface {
 		ItemStack switchItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 11);
 		InterfaceUtils.changeName(switchItem, Lang.get("lobby.teamBooster"));
 		ItemStack activeItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
+		InterfaceUtils.changeName(activeItem, Lang.get("interfaces.empty"));
+		ItemStack queueActiveItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
+		Color[] fwColors = {
+				Color.GREEN, Color.YELLOW, Color.BLUE, Color.PURPLE, Color.RED
+		};
 		ItemStack[] heads = new ItemStack[5];
 		Runnable[] onSelect = new Runnable[5];
+		PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
 		for (int i = 0; i < 5; i++) {
-			heads[i] = Heads.getHead(String.valueOf((char)('1' + i)));
-			onSelect[i] = () -> {};
-			//TODO name of buf
-			//TODO onSelect
+			String boostName = "L" + (char)('1' + i);
+			heads[i] = GameUtils.getBoosterHead(boostName);
+			int finalI = i;
+			onSelect[i] = () -> {
+				ConfirmationInterface inter = new ConfirmationInterface(manager, player,
+						Lang.get("interfaces.confirmBuy"), this::open, () -> {
+					info.activateBooster(boostName);
+					Plugin.getInstance().getPlayerData().savePlayerInfo(info);
+					player.sendMessage(Lang.get("interfaces.thxBuyBooster"));
+					stand.getAnims().add(fwColors[finalI]);
+				}, Lang.get("interfaces.back"), Lang.get("interfaces.confirm"), null, heads[finalI].getLore());
+				inter.open();
+			};
 		}
 		
+		int[] boosters = new int[5];
+		for (Booster booster : info.getBoosters()) {
+			if (booster.getName().charAt(0) == 'L') {
+				boosters[Integer.parseInt(String.valueOf(booster.getName().charAt(1))) - 1]++;
+			}
+		}
 		for (int y = 0; y < 6; y++) {
 			for (int x = 0; x < 9; x++) {
 				switch (pattern[y].charAt(x)) {
@@ -82,14 +107,23 @@ public class SingleBoostInterface extends Interface {
 						break;
 					case 'S' :
 						addButton(x, y, switchItem, () -> {
-							TeamBoostInterface inter = new TeamBoostInterface(manager, player);
+							TeamBoostInterface inter = new TeamBoostInterface(manager, player, stand);
 							inter.setOnBack(this::open);
 							close();
 							inter.open();
 						});
 						break;
-					case 'H' : addButton(x, y, heads[x-2], onSelect[x-2]); break;
-					case 'C' : addItem(x, y, activeItem); break;
+					case 'H' :
+						addButton(x, y, heads[x-2], onSelect[x-2]); break;
+					case 'C' :
+						if (boosters[x-2] > 0) {
+							InterfaceUtils.changeName(queueActiveItem, Lang.get("interfaces.queueActive").
+									replace("%val%",String.valueOf(boosters[x-2] - 1)));
+							addItem(x, y, queueActiveItem);
+						} else {
+							addItem(x, y, activeItem);
+						}
+						break;
 				}
 			}
 		}

@@ -29,8 +29,9 @@ import ru.cristalix.core.formatting.Colors;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
-import static by.dero.gvh.model.Drawings.spawnFirework;
+import static by.dero.gvh.model.Drawings.spawnFireworks;
 
 public class EtherCapture extends Game implements DisplayInteractInterface {
     private final EtherCaptureInfo etherCaptureInfo;
@@ -74,6 +75,8 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         }
     }
 
+    
+    private final HashMap<GamePlayer, Double> boosterMult = new HashMap<>();
     @Override
     public void updateDisplays() {
         int cnt = getInfo().getTeamCount();
@@ -105,7 +108,14 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             str[cnt] = Lang.get("commands.playingFor").
                     replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
 //            str[cnt+2] = Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()));
-            str[cnt+3] = Lang.get("game.expGained").replace("%exp%", String.valueOf(stats.getExpGained()));
+    
+            double mult = boosterMult.getOrDefault(gp, -1.0);
+            if (mult == -1) {
+                mult = Plugin.getInstance().getBoosterManager().calculateMultiplier(this, gp);
+                boosterMult.put(gp, mult);
+            }
+            str[cnt+3] = (mult == 1 ? Lang.get("game.expGained") : Lang.get("game.expGainedMult").
+                    replace("%mul%", String.format("%.1f", mult))).replace("%exp%", String.valueOf(stats.getExpGained() * mult));
             str[cnt+4] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills()));
             str[cnt+5] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths()));
             str[cnt+6] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists()));
@@ -213,7 +223,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         //System.out.println("o3: " + player.getLocation().getWorld().getName());
         final float exp = player.getExp();
 
-        spawnFirework(player.getLocation().clone().add(0, 1, 0), 1);
+        spawnFireworks(player.getLocation().clone().add(0, 1, 0), 1);
         Location loc = player.getLocation();
         loc.setWorld(Minigame.getInstance().getGame().getWorld());
 

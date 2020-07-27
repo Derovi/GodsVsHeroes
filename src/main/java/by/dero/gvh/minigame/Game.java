@@ -418,7 +418,7 @@ public abstract class Game implements Listener {
             @Override
             public void run() {
                 if (needFireworks) {
-                    Drawings.spawnFirework(MathUtils.randomCylinder(
+                    Drawings.spawnFireworks(MathUtils.randomCylinder(
                             getInfo().getLobbyPosition().toLocation(getInfo().getLobbyWorld()),
                             13, -10
                     ), 2);

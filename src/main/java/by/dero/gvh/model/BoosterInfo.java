@@ -16,4 +16,6 @@ public class BoosterInfo {
     private double gameMultiplier = 1;
     @Builder.Default
     private int durationSec = 3600;
+    @Builder.Default
+    private int cost = 10000;
 }

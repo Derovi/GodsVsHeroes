@@ -161,7 +161,7 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         //player.leaveVehicle();
         final float exp = player.getExp();
 
-        Drawings.spawnFirework(player.getLocation().clone().add(0,1,0), 1);
+        Drawings.spawnFireworks(player.getLocation().clone().add(0,1,0), 1);
 
         final int team = getPlayers().get(player.getName()).getTeam();
         int respTime = -1;

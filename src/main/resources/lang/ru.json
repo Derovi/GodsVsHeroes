@@ -17,7 +17,10 @@
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!",
     "active": "§aАктивировано",
-    "confirm": "§aПодтвердить"
+    "confirm": "§aПодтвердить",
+    "confirmBuy": "§6Подтверждение покупки",
+    "thxBuyBooster": "§6Бустер выдан. Спасибо за покупку",
+    "queueActive": "§6В очереди §8» §1%val%"
   },
   "cosmetic": {
     "common": "§aОбщее",
@@ -195,7 +198,8 @@
     "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
     "ether": "EtherWar",
     "classSelected": "§bВаш класс §8» §f%class%",
-    "expGained": "Опыт за игру §8» §b%exp%",
+    "expGained": "Опыт §8» §b%exp%",
+    "expGainedMult": "Опыт(§cx§6%mul%§f) §8» §b%exp%",
     "kills": "Убийств §8» §a%kills%",
     "deaths": "Смертей §8» §c%deaths%",
     "assists": "Помощей §8» §6%assists%",
