@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 public class Booster {
     public Booster(String name, long startTime, long expirationTime, double bonus) {
         this.name = name;
-        this.startTime = startTime / 1000;
-        this.expirationTime = expirationTime / 1000;
+        this.startTime = startTime;
+        this.expirationTime = expirationTime;
         this.bonus = bonus;
     }
 

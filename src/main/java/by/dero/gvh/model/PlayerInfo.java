@@ -79,9 +79,14 @@ public class PlayerInfo {
             boosters.add(new Booster("L5", -1, -1, 0.1));
             return;
         }
-        long currentTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis() / 1000;
+        for (Booster booster : boosters) {
+            if (booster.getName().equals(info.getName())) {
+                startTime = Math.max(startTime, booster.getExpirationTime() + 1);
+            }
+        }
         boosters.add(new Booster(info.getName(),
-                currentTime, currentTime + info.getDurationSec() * 1000, 0));
+                startTime, startTime + info.getDurationSec(), 0));
     }
 
     public void removeExpiredBoosters() {

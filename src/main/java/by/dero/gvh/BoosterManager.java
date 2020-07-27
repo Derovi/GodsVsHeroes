@@ -73,9 +73,13 @@ public class BoosterManager {
 
     public double calculateMultiplier(Game game, GamePlayer gp) {
         double result = 1;
+        long currentTime = System.currentTimeMillis() / 1000;
         for (GamePlayer other : game.getPlayers().values()) {
             List<Booster> playerBoosters = getBoosters(other.getPlayer());
             for (Booster booster : playerBoosters) {
+                if (booster.getExpirationTime() < currentTime || booster.getStartTime() > currentTime) {
+                    continue;
+                }
                 BoosterInfo info = boosters.get(booster.getName());
                 result += info.getGameMultiplier() - 1;
                 if (other.getTeam() == gp.getTeam()) {
@@ -110,7 +114,7 @@ public class BoosterManager {
     }
 
     public static void removeExpiredBoosters(List<Booster> boosters) {
-        long currentTime = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis() / 1000;
         boosters.removeIf((booster) -> (booster.getExpirationTime() <= currentTime));
     }
 }
