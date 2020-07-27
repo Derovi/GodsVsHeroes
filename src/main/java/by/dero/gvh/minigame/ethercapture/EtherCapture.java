@@ -115,7 +115,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
                 boosterMult.put(gp, mult);
             }
             str[cnt+3] = (mult == 1 ? Lang.get("game.expGained") : Lang.get("game.expGainedMult").
-                    replace("%mul%", String.format("%.2f", mult))).replace("%exp%", String.valueOf(stats.getExpGained() * mult));
+                    replace("%mul%", String.format("%.1f", mult))).replace("%exp%", String.valueOf(stats.getExpGained() * mult));
             str[cnt+4] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills()));
             str[cnt+5] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths()));
             str[cnt+6] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists()));
