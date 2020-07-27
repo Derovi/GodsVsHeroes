@@ -24,10 +24,10 @@ public class DonatePackChest {
 	
 	private final int animDuration = 200;
 	private final double radius = 1.5;
-	private final Location center;
+	private Location center;
 	private final double part = MathUtils.PI2 / 5;
 	
-	private final EntityFallingBlock chest;
+	private EntityFallingBlock chest;
 	
 	public Location getInCircle(int pt) {
 		return center.clone().add(MathUtils.cos(part * pt + Math.PI / 2) * radius, MathUtils.sin(part * pt + Math.PI / 2) * radius, 0);
@@ -37,16 +37,24 @@ public class DonatePackChest {
 		Location loc = position.toLocation(Lobby.getInstance().getWorld());
 		System.out.println(loc.toVector().toString());
 		MaterialData data = new MaterialData(Material.CHEST);
-		chest = new EntityFallingBlock(((CraftWorld)loc.getWorld()).getHandle(),
-				loc.x, loc.y, loc.z, CraftMagicNumbers.getBlock(data.getItemType()).fromLegacyData(data.getData()));
-		
-		chest.setNoGravity(false);
-		chest.noclip = true;
-		chest.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
-		
-		chest.world.addEntity(chest, CreatureSpawnEvent.SpawnReason.CUSTOM);
-		center = loc.clone().subtract(MathUtils.cos(part * 3 + Math.PI / 2) * radius, MathUtils.sin(part * 3 + Math.PI / 2) * radius, 0);
-		
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+
+				chest = new EntityFallingBlock(((CraftWorld)loc.getWorld()).getHandle(),
+						loc.x, loc.y, loc.z, CraftMagicNumbers.getBlock(Material.STONE).fromLegacyData(0));
+
+				chest.setNoGravity(true);
+				chest.noclip = true;
+				chest.getBukkitEntity().setMetadata("custom", new FixedMetadataValue(Plugin.getInstance(), ""));
+				((CraftWorld)loc.getWorld()).getHandle().addEntity(chest, CreatureSpawnEvent.SpawnReason.CUSTOM);
+			}
+		}.runTaskLater(Plugin.getInstance(), 40);
+
+
+		/*center = loc.clone().subtract(MathUtils.cos(part * 3 + Math.PI / 2) * radius, MathUtils.sin(part * 3 + Math.PI / 2) * radius, 0);
+
 		BukkitRunnable runnable = new BukkitRunnable() {
 			int animTime = 0;
 			int pt = 3;
@@ -74,9 +82,9 @@ public class DonatePackChest {
 						animCnt--;
 					}
 				}
-				System.out.println(chest.getBukkitEntity().getLocation().toVector().toString());
+				//System.out.println(chest.getBukkitEntity().getLocation().toVector().toString());
 			}
 		};
-		runnable.runTaskTimer(Plugin.getInstance(), 0, 1);
+		runnable.runTaskTimer(Plugin.getInstance(), 0, 1);*/
 	}
 }
