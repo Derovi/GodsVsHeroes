@@ -23,7 +23,7 @@ public class UpgradeInterface extends Interface {
 
     public UpgradeInterface(InterfaceManager manager, Player player, String className) {
         super(manager, player, 6, Lang.get("interfaces.upgradeInterface")
-                .replace("hero", className));
+                .replace("%hero%", Lang.get("classes." + className)));
         this.manager = manager;
         this.className = className;
         updateAll(Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()));

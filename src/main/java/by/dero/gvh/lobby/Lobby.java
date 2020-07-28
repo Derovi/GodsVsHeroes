@@ -89,6 +89,12 @@ public class Lobby implements PluginMode, Listener {
         instance = this;
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
                 ServerType.LOBBY, 300);
+        if (Plugin.getInstance().getSettings().getServerName().startsWith("EW")) {
+            RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+            info.setLobbyServer(true);
+            info.setServicedServers(new String[]{"EW"});
+        }
+
         try {
             info = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(), "lobby", "lobby",
                     ResourceUtils.readResourceFile("/lobby/lobby.json")), LobbyInfo.class);

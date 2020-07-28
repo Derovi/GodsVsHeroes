@@ -27,21 +27,22 @@ public class Donate {
     private int price;
 
     public void apply(Player player) {
-        Plugin.getInstance().getDonateData().save(
-                DonateInfo.builder().description(description).type(type).playerName(player.getName()).price(price).build());
-        onSuccessful.run();
-        /*IInvoiceService.get().bill(player.getUniqueId(), Invoice.builder()
+//        Plugin.getInstance().getDonateData().save(
+//                DonateInfo.builder().description(description).type(type).playerName(player.getName()).price(price).build());
+//        onSuccessful.run();
+        IInvoiceService.get().bill(player.getUniqueId(), Invoice.builder()
                 .price(price)
                 .description(description)
-                .allowBonuses(false)
+                .allowBonuses(true)
                 .build()).thenAccept(invoiceResult -> {
             if (invoiceResult.isSuccess()) {
+                System.out.println("Suc: " + price);
                 Plugin.getInstance().getDonateData().save(
                         DonateInfo.builder().description(description).type(type).playerName(player.getName()).price(price).build());
                 onSuccessful.run();
             } else {
                 onError.run();
             }
-        });*/
+        });
     }
 }
