@@ -19,7 +19,7 @@
       "cooldown": 18,
       "damage": 15,
       "meleeDamage": 8,
-      "cost": 100,
+      "cost": 130,
       "material": "IRON_SWORD",
       "amount": 1
     },
@@ -27,7 +27,7 @@
       "cooldown": 16,
       "damage": 15,
       "meleeDamage": 9,
-      "cost": 130,
+      "cost": 350,
       "material": "IRON_SWORD",
       "amount": 1
     },
@@ -35,7 +35,7 @@
       "cooldown": 14,
       "damage": 15,
       "meleeDamage": 9,
-      "cost": 160,
+      "cost": 720,
       "material": "IRON_SWORD",
       "amount": 1
     },
@@ -43,7 +43,15 @@
       "cooldown": 12,
       "damage": 15,
       "meleeDamage": 10,
-      "cost": 200,
+      "cost": 1600,
+      "material": "IRON_SWORD",
+      "amount": 1
+    },
+    {
+      "cooldown": 12,
+      "damage": 15,
+      "meleeDamage": 11,
+      "cost": 3500,
       "material": "IRON_SWORD",
       "amount": 1
     }

@@ -16,28 +16,35 @@
     {
       "cooldown": 285,
       "maxRange": 22,
-      "cost": 100,
+      "cost": 130,
       "material": "STICK",
       "amount": 1
     },
     {
       "cooldown": 270,
       "maxRange": 24,
-      "cost": 130,
+      "cost": 350,
       "material": "STICK",
       "amount": 1
     },
     {
       "cooldown": 255,
       "maxRange": 26,
-      "cost": 160,
+      "cost": 720,
       "material": "STICK",
       "amount": 1
     },
     {
       "cooldown": 240,
       "maxRange": 28,
-      "cost": 200,
+      "cost": 1600,
+      "material": "STICK",
+      "amount": 1
+    },
+    {
+      "cooldown": 225,
+      "maxRange": 30,
+      "cost": 3500,
       "material": "STICK",
       "amount": 1
     }

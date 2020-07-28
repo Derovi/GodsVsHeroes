@@ -20,7 +20,7 @@
       "radius": 10,
       "damage": 13,
       "cooldown": 480,
-      "cost": 100,
+      "cost": 130,
       "material": "FEATHER",
       "amount": 1
     },
@@ -28,7 +28,7 @@
       "radius": 11,
       "damage": 13,
       "cooldown": 460,
-      "cost": 130,
+      "cost": 350,
       "material": "FEATHER",
       "amount": 1
     },
@@ -36,7 +36,7 @@
       "radius": 12,
       "damage": 13,
       "cooldown": 440,
-      "cost": 160,
+      "cost": 720,
       "material": "FEATHER",
       "amount": 1
     },
@@ -44,7 +44,15 @@
       "radius": 12,
       "damage": 14,
       "cooldown": 420,
-      "cost": 200,
+      "cost": 1600,
+      "material": "FEATHER",
+      "amount": 1
+    },
+    {
+      "radius": 13,
+      "damage": 15,
+      "cooldown": 420,
+      "cost": 3500,
       "material": "FEATHER",
       "amount": 1
     }

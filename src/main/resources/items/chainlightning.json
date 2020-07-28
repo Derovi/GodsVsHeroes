@@ -22,7 +22,7 @@
       "otherDamage": 6,
       "radius": 8.0,
       "cooldown": 60,
-      "cost": 100,
+      "cost": 130,
       "material": "STICK",
       "amount": 1
     },
@@ -31,7 +31,7 @@
       "radius": 6.0,
       "otherDamage": 7,
       "cooldown": 60,
-      "cost": 130,
+      "cost": 350,
       "material": "STICK",
       "amount": 1
     },
@@ -40,7 +40,16 @@
       "radius": 8.0,
       "otherDamage": 7,
       "cooldown": 60,
-      "cost": 160,
+      "cost": 720,
+      "material": "STICK",
+      "amount": 1
+    },
+    {
+      "damage": 13,
+      "radius": 8.0,
+      "otherDamage": 8,
+      "cooldown": 60,
+      "cost": 1600,
       "material": "STICK",
       "amount": 1
     },
@@ -49,7 +58,7 @@
       "radius": 8.0,
       "otherDamage": 8,
       "cooldown": 60,
-      "cost": 200,
+      "cost": 3500,
       "material": "STICK",
       "amount": 1
     }

@@ -15,30 +15,37 @@
       "amount": 1
     },
     {
-      "cooldown": 320,
+      "cooldown": 315,
       "duration": 65,
-      "cost": 100,
-      "material": "DRAGON_EGG",
-      "amount": 1
-    },
-    {
-      "cooldown": 300,
-      "duration": 70,
       "cost": 130,
       "material": "DRAGON_EGG",
       "amount": 1
     },
     {
-      "cooldown": 280,
-      "duration": 75,
-      "cost": 160,
+      "cooldown": 290,
+      "duration": 70,
+      "cost": 350,
       "material": "DRAGON_EGG",
       "amount": 1
     },
     {
-      "cooldown": 260,
+      "cooldown": 265,
+      "duration": 75,
+      "cost": 720,
+      "material": "DRAGON_EGG",
+      "amount": 1
+    },
+    {
+      "cooldown": 240,
       "duration": 80,
-      "cost": 200,
+      "cost": 1600,
+      "material": "DRAGON_EGG",
+      "amount": 1
+    },
+    {
+      "cooldown": 215,
+      "duration": 80,
+      "cost": 3500,
       "material": "DRAGON_EGG",
       "amount": 1
     }

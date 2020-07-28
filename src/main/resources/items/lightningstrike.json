@@ -23,7 +23,7 @@
       "radius": 5.25,
       "lightningDamage": 12,
       "damage": 10,
-      "cost": 100,
+      "cost": 130,
       "material": "NETHER_STAR",
       "amount": 1
     },{
@@ -31,7 +31,7 @@
       "radius": 5.5,
       "lightningDamage": 12,
       "damage": 10,
-      "cost": 130,
+      "cost": 350,
       "material": "NETHER_STAR",
       "amount": 1
     },{
@@ -39,7 +39,7 @@
       "radius": 5.75,
       "lightningDamage": 12,
       "damage": 10,
-      "cost": 160,
+      "cost": 720,
       "material": "NETHER_STAR",
       "amount": 1
     },
@@ -48,7 +48,16 @@
       "radius": 6,
       "lightningDamage": 12,
       "damage": 10,
-      "cost": 200,
+      "cost": 1600,
+      "material": "NETHER_STAR",
+      "amount": 1
+    },
+    {
+      "cooldown": 600,
+      "radius": 6.25,
+      "lightningDamage": 12,
+      "damage": 1,
+      "cost": 3500,
       "material": "NETHER_STAR",
       "amount": 1
     }

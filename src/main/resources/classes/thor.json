@@ -1,7 +1,7 @@
 {
   "name": "thor",
   "maxHP": 40,
-  "cost": 10,
+  "cost": 15000,
   "itemNames": [
     "mjolnir",
     "chainlightning",

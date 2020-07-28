@@ -5,7 +5,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.books.GameStatsBook;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
-import by.dero.gvh.lobby.interfaces.CosmeticSelectorInterface;
+import by.dero.gvh.lobby.interfaces.DonateSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.DonatePackChest;
@@ -34,12 +34,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -182,6 +178,7 @@ public class Lobby implements PluginMode, Listener {
 
     @Override
     public void onDisable() {
+        chest.unload();
         for (final BukkitRunnable runnable : runnables) {
             runnable.cancel();
         }
@@ -327,14 +324,14 @@ public class Lobby implements PluginMode, Listener {
             }
         };
         
-        cosmeticitem = new ItemStack(Material.EMERALD);
+        cosmeticitem = new ItemStack(Material.ENDER_CHEST);
         meta = cosmeticitem.getItemMeta();
-        meta.setDisplayName(Lang.get("lobby.cosmetics"));
+        meta.setDisplayName(Lang.get("lobby.donate"));
         cosmeticitem.setItemMeta(meta);
     
         activates[4] = player -> {
             player.playSound(player.getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-            CosmeticSelectorInterface inter = new CosmeticSelectorInterface(interfaceManager, player);
+            DonateSelectorInterface inter = new DonateSelectorInterface(interfaceManager, player);
             inter.open();
         };
         
@@ -517,7 +514,7 @@ public class Lobby implements PluginMode, Listener {
             event.setCancelled (true);
         }
     }
-
+    
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -528,38 +525,41 @@ public class Lobby implements PluginMode, Listener {
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
             event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             int slot = player.getInventory().getHeldItemSlot();
+            if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENDER_CHEST)) {
+                event.setCancelled(true);
+            } else
             if (activates[slot] != null) {
                 activates[slot].run(player);
+                event.setCancelled(true);
             }
-            event.setCancelled(true);
         }
     }
     
     
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onDropItem(PlayerDropItemEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onInventoryDrag(InventoryDragEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
-        event.setCancelled(true);
-    }
+//    @EventHandler
+//    public void onBlockPlace(BlockPlaceEvent event) {
+//        event.setCancelled(true);
+//    }
+//
+//    @EventHandler
+//    public void onDropItem(PlayerDropItemEvent event) {
+//        event.setCancelled(true);
+//    }
+//
+//    @EventHandler
+//    public void onInventoryDrag(InventoryDragEvent event) {
+//        event.setCancelled(true);
+//    }
+//
+//    @EventHandler
+//    public void onInventoryClick(InventoryClickEvent event) {
+//        event.setCancelled(true);
+//    }
+//
+//    @EventHandler
+//    public void onBlockBreak(BlockBreakEvent event) {
+//        event.setCancelled(true);
+//    }
 
     @EventHandler
     public void onThunderChange(ThunderChangeEvent e) {

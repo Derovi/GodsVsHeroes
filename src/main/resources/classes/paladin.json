@@ -1,7 +1,7 @@
 {
   "name": "paladin",
   "maxHP": 40,
-  "cost": 10,
+  "cost": 1500,
   "itemNames": [
     "swordthrow",
     "energyfist",
