@@ -115,7 +115,7 @@ public class SingleBoostInterface extends Interface {
 							.description("Booster " + boostName)
 							.onSuccessful(() -> {
 								getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-								Lobby.getInstance().getChest().addAnim(2, getPlayer());
+								Lobby.getInstance().getChest().addAnim(2, getPlayer(), null);
 								BoosterStand stand = Lobby.getInstance().getMonumentManager().getBoosters().get(1);
 								Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () ->
 												stand.getAnims().add(fwColors[finalI]),

@@ -106,7 +106,7 @@ public class TeamBoostInterface extends Interface {
 							.description("Booster " + boostName)
 							.onSuccessful(() -> {
 								getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-								Lobby.getInstance().getChest().addAnim(1, getPlayer());
+								Lobby.getInstance().getChest().addAnim(1, getPlayer(), null);
 								BoosterStand stand = Lobby.getInstance().getMonumentManager().getBoosters().get(0);
 								Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () ->
 												stand.getAnims().add(fwColors[finalI]),
