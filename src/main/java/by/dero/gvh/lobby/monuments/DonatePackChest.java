@@ -89,6 +89,15 @@ public class DonatePackChest {
 						if (animTime == 10) {
 							loc.getWorld().playSound(loc, Sound.BLOCK_END_PORTAL_SPAWN, 1.5f, 1);
 						}
+						if (10 <= animTime && animTime < 20) {
+							for (int i = 0; i < stands.length; i++) {
+								Location at = getInCircle(MathUtils.PI2 * (animTime - 9) / 6 / 10 + MathUtils.PI2 / 3 * i);
+								stands[i].setPosition(at.x, at.y, at.z);
+							}
+						}
+						if (animTime == 20) {
+							loc.getWorld().playSound(loc, Sound.BLOCK_COMPARATOR_CLICK, 1.5f, 1);
+						}
 						if (10 <= animTime && animTime < 45) {
 							for (int i = 0; i < 5; i++) {
 								Vector at = MathUtils.getInCphere(MathUtils.ZEROVECTOR, 3, MathUtils.PI2 * Math.random(), MathUtils.PI2 * Math.random());
@@ -97,8 +106,15 @@ public class DonatePackChest {
 										at.x, at.y, at.z);
 							}
 						}
-						if (animTime == 70) {
-							carryStand = new EntityArmorStand(stands[0].getWorld(), loc.x, loc.y-0.4, loc.z);
+						
+						if (animTime == 80) {
+							loc.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_FIREBALL_EXPLODE, 1.5f, 1);
+							for (int i = 0; i < 100; i++) {
+								Vector at = MathUtils.getInCphere(MathUtils.ZEROVECTOR, 1, MathUtils.PI2 * Math.random(), MathUtils.PI2 * Math.random());
+								at.y = Math.abs(at.y);
+								loc.getWorld().spawnParticle(Particle.FLAME, loc.clone(), 0, at.x, at.y, at.z);
+							}
+							carryStand = new EntityArmorStand(stands[0].getWorld(), loc.x, loc.y-1.4, loc.z-0.2);
 							GameUtils.setInvisibleFlags((ArmorStand) carryStand.getBukkitEntity());
 							if (anims.getFirst().getCarry() != null) {
 								((CraftArmorStand) carryStand.getBukkitEntity()).setHelmet(anims.getFirst().getCarry());
@@ -106,11 +122,12 @@ public class DonatePackChest {
 							carryStand.world.addEntity(carryStand, CreatureSpawnEvent.SpawnReason.CUSTOM);
 						}
 						
-						if (70 <= animTime && animTime <= 110) {
-							carryStand.setHeadPose(new Vector3f(0, (float) (360.0 * animTime / 20), 0));
+						if (80 <= animTime && animTime <= 160) {
+							carryStand.setHeadPose(new Vector3f(0, carryStand.headPose.y + 360.0f / 20, 0));
 						}
 						
-						if (animTime == 95) {
+						if (animTime == 160) {
+							carryStand.die();
 							PacketPlayOutBlockAction packet = new PacketPlayOutBlockAction(
 									new BlockPosition(loc.x - 0.5, loc.y - 0.4375, loc.z - 0.7),
 									CraftMagicNumbers.getBlock(loc.getBlock()), 1, 0);
@@ -119,16 +136,17 @@ public class DonatePackChest {
 							}
 						}
 						
-						animTime++;
-						if (animTime == 110) {
-							text.setText(Lang.get("lobby.donate"));
-							loc.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_FIREBALL_EXPLODE, 1.5f, 1);
-							for (int i = 0; i < 100; i++) {
-								Vector at = MathUtils.getInCphere(MathUtils.ZEROVECTOR, 1, MathUtils.PI2 * Math.random(), MathUtils.PI2 * Math.random());
-								at.y = Math.abs(at.y);
-								loc.getWorld().spawnParticle(Particle.FLAME, loc.clone(), 0, at.x, at.y, at.z);
+						if (165 <= animTime && animTime < 175) {
+							for (int i = 0; i < stands.length; i++) {
+								Location at = getInCircle(MathUtils.PI2 * (174 - animTime) / 6 / 10 + MathUtils.PI2 / 3 * i);
+								stands[i].setPosition(at.x, at.y, at.z);
 							}
-							carryStand.die();
+						}
+						
+						animTime++;
+						if (animTime == 175) {
+							loc.getWorld().playSound(loc, Sound.BLOCK_COMPARATOR_CLICK, 1.5f, 1);
+							text.setText(Lang.get("lobby.donate"));
 							animTime = 0;
 							anims.removeFirst();
 						}

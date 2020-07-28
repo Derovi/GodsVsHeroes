@@ -16,6 +16,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -363,6 +364,13 @@ public abstract class Game implements Listener {
         runnable.runTaskTimer(Plugin.getInstance(), 0, 60);
         runnables.add(runnable);
     
+        Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+            for (Entity entity : world.getEntities()) {
+                if (entity instanceof org.bukkit.entity.Item) {
+                    entity.remove();
+                }
+            }
+        }, 20);
     }
 
     public void onPlayerKilled(GamePlayer player, GamePlayer killer, Collection<GamePlayer> assists) {
