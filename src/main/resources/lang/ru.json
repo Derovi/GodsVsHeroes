@@ -5,6 +5,7 @@
     "stats": "§cСкоро",
     "soon": "§6Скоро",
     "select": "§aВыбрать",
+    "upgradeInterface": "§3Улучшить §8» §6%hero%",
     "upgradeSelect": "§9Улучшить",
     "notAvailable": "§cНе доступно",
     "upgrade": "§aУлучшить за §6%cost% §aопыта",
@@ -298,8 +299,8 @@
     "online": "Онлайн §8» §b%online%",
     "cosmetics": "§6Косметика",
     "lastGame": "§6Статистика прошлой игры",
-    "teamBooster": "§6Улучшения команды",
-    "singleBooster": "§6Улучшения себя",
+    "teamBooster": "§6Глобальные бустеры",
+    "singleBooster": "§6Бустеры",
     "donate": "§6Донат"
   },
   "rewmes": {
@@ -364,12 +365,12 @@
     "mythical": "§5Мифическая",
     "legendary": "§cЛегендарная",
     "immortal": "§6Эпическая",
-    "number.": {
-      "uncommon": "§3I",
-      "rare": "§9II",
-      "mythical": "§5III",
-      "legendary": "§cIV",
-      "immortal": "§6V"
+    "number": {
+      "uncommon": "§3§lI",
+      "rare": "§9§lII",
+      "mythical": "§5§lIII",
+      "legendary": "§c§lIV",
+      "immortal": "§6§lV"
     }
   },
   "teamTabPrefix": {

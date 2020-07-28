@@ -463,34 +463,42 @@ public class GameUtils {
         BoosterInfo info = Plugin.getInstance().getBoosterManager().getBoosters().get(name);
         ItemStack head = Heads.getHead(name);
         ItemMeta meta = head.getItemMeta();
-        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Командный " : "") +"Бустер §1" + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
+        String lvlColor = "§4";
+        if (Integer.parseInt(name.substring(1)) == 1) {
+            lvlColor = "§2";
+        } else if (Integer.parseInt(name.substring(1)) == 2) {
+            lvlColor = "§6";
+        } else if (Integer.parseInt(name.substring(1)) == 3) {
+            lvlColor = "§9";
+        } else if (Integer.parseInt(name.substring(1)) == 4) {
+            lvlColor = "§5";
+        }
+        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Командный " : "") +"Бустер " + lvlColor + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
+        if (name.equals("L5")) {
+            meta.setDisplayName("§fБустер §6§lНАВСЕГДА");
+        }
         ArrayList<String> lore = new ArrayList<>(20);
         if (name.equals("L5")) {
-            lore.add("§6Перманентный эффект");
-            lore.add("§8[§6НАВСЕГДА§8] §fвы станете получать на");
+            lore.add("§6Постоянный эффект");
+            lore.add("§a+§l10% §fк опыту §l§aВСЕГДА");
             lore.add("§610§c% §fбольше опыта");
         } else {
             lore.add("§6Временный эффект");
             int dur = info.getDurationSec() / 3600;
-            lore.add("§fДлительность эффекта §8» §6" + dur + " §cчас" + (dur == 1 ? "" : (2 <= dur && dur <= 4 ? "а" : "ов")));
+            lore.add("§fДлительность §8» §6" + dur + " §cчас" + (dur == 1 ? "" : (2 <= dur && dur <= 4 ? "а" : "ов")));
             if (name.equals("G1")) {
-                lore.add("§fПока эффект активен ваша команда будет");
-                lore.add("§fполучать §cx§6" + String.format("%.1f", info.getTeamMultiplier()) + " §fопыта");
+                lore.add("§fБонус команде §a×§l" + String.format("%.1f", info.getTeamMultiplier()) + " §fк опыту");
             } if (name.equals("G2")) {
-                lore.add("§fПока эффект активен вы будете");
-                lore.add("§fполучать §c×§6" + String.format("%.1f", info.getSelfMultiplier()) + " §fопыта, a");
-                lore.add("§fваша команда §c×§6" + String.format("%.1f", info.getTeamMultiplier()) + " §fопыта");
+                lore.add("§fБонус §a×§l" + String.format("%.1f", info.getSelfMultiplier()) + " §fк опыту");
+                lore.add("§fБонус команде §a×§l" + String.format("%.1f", info.getTeamMultiplier()) + " §fк опыту");
             } else if (name.equals("G3")) {
-                lore.add("§fПока эффект активен ваша и вражеская");
-                lore.add("§fкоманды будут получать §c×§6" + String.format("%.1f", info.getGameMultiplier()) + " §fопыта");
+                lore.add("§fБонус всем §a×§l" + String.format("%.1f", info.getGameMultiplier()) + " §fк опыту");
             } else if (name.startsWith("L")) {
-                lore.add("§fПока эффект активен вы будете");
-                lore.add("§fполучать §c×§6" + String.format("%.1f", info.getSelfMultiplier()) + " §fопыта");
-//            if (name.equals("T"))
+                lore.add("§fБонус §a×§l" + String.format("%.1f", info.getSelfMultiplier()) + " §fк опыту");
             }
         }
         lore.add(" ");
-        lore.add("§fСтоимость добра §8» §6" + info.getCost() + "§b кристалликов");
+        lore.add("§fЦена §8» §b" + info.getCost() + " кристалликов");
         meta.setLore(lore);
         head.setItemMeta(meta);
         return head;

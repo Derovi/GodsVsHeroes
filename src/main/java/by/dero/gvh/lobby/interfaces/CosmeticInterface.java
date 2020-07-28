@@ -64,9 +64,9 @@ public class CosmeticInterface extends Interface {
         PlayerInfo playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName());
         addButton(4, 5, head, () -> {
             if (playerInfo.isClassUnlocked(className)) {
-                UpgradeInterface upgradeInterface = new UpgradeInterface(
+                SelectorInterface selectorInterface = new SelectorInterface(
                         Lobby.getInstance().getInterfaceManager(), getPlayer(), className);
-                upgradeInterface.open();
+                selectorInterface.open();
             } else {
                 UnlockInterface unlockInterface = new UnlockInterface(
                         Lobby.getInstance().getInterfaceManager(), getPlayer(), className);

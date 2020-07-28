@@ -1,8 +1,11 @@
 package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.donate.Donate;
+import by.dero.gvh.donate.DonateType;
 import by.dero.gvh.lobby.monuments.BoosterStand;
 import by.dero.gvh.model.Booster;
+import by.dero.gvh.model.BoosterInfo;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -11,6 +14,7 @@ import by.dero.gvh.utils.Pair;
 import by.dero.gvh.utils.SafeRunnable;
 import com.google.common.collect.Lists;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -97,20 +101,31 @@ public class SingleBoostInterface extends Interface {
 		Runnable[] onSelect = new Runnable[5];
 		for (int i = 0; i < 5; i++) {
 			String boostName = "L" + (char)('1' + i);
+			BoosterInfo boosterInfo = Plugin.getInstance().getBoosterManager().getBoosters().get(boostName);
 			heads[i] = GameUtils.getBoosterHead(boostName);
 			int finalI = i;
 			onSelect[i] = () -> {
 				ConfirmationInterface inter = new ConfirmationInterface(getManager(), getPlayer(),
 						Lang.get("interfaces.confirmBuy"), this::open, () -> {
-					info.activateBooster(boostName);
-					Plugin.getInstance().getPlayerData().savePlayerInfo(info);
-					getPlayer().sendMessage(Lang.get("interfaces.thxBuyBooster"));
-					stand.getAnims().add(fwColors[finalI]);
+					Donate donate = Donate.builder()
+							.price(boosterInfo.getCost())
+							.type(DonateType.BOOSTER)
+							.description("Booster " + boostName)
+							.onSuccessful(() -> {
+								info.activateBooster(boostName);
+								Plugin.getInstance().getPlayerData().savePlayerInfo(info);
+								getPlayer().sendMessage(Lang.get("interfaces.thxBuyBooster"));
+								stand.getAnims().add(fwColors[finalI]);
+							})
+							.onError(() -> {
+
+							}).build();
+					donate.apply(getPlayer());
 				}, Lang.get("interfaces.back"), Lang.get("interfaces.confirm"), null, heads[finalI].getLore());
 				inter.open();
 			};
 		}
-		
+
 		info.removeExpiredBoosters();
 		long[] boosters = new long[5];
 		for (int i = 0; i < 5; i++) {

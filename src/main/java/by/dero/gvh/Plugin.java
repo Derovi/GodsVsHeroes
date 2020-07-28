@@ -5,6 +5,7 @@ import by.dero.gvh.commands.AdviceCommand;
 import by.dero.gvh.commands.BugCommand;
 import by.dero.gvh.commands.EtherCommand;
 import by.dero.gvh.commands.TestCommand;
+import by.dero.gvh.donate.DonateData;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
@@ -31,6 +32,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.cristalix.core.CoreApi;
+import ru.cristalix.core.invoice.IInvoiceService;
+import ru.cristalix.core.invoice.InvoiceService;
 import ru.cristalix.core.karma.IKarmaService;
 import ru.cristalix.core.karma.KarmaService;
 import ru.cristalix.core.map.IMapService;
@@ -56,6 +59,8 @@ public class Plugin extends JavaPlugin implements Listener {
     private GameStatsData gameStatsData;
     @Getter
     private StatsData statsData;
+    @Getter
+    private DonateData donateData;
     private PluginMode pluginMode;
     private BookManager bookManager;
     @Getter
@@ -85,6 +90,7 @@ public class Plugin extends JavaPlugin implements Listener {
         if (settings.isCristalix()) {
             CoreApi.get().registerService(ITransferService.class, new TransferService(ISocketClient.get()));
             CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
+            CoreApi.get().registerService(IInvoiceService.class, new InvoiceService(ISocketClient.get()));
             CoreApi.get().registerService(IMapService.class, new MapService());
             IPermissionService.get().enableTablePermissions();
             new CPSLimiter(this, 10);
@@ -115,6 +121,9 @@ public class Plugin extends JavaPlugin implements Listener {
                 settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
 
         statsData = new StatsData(new MongoDBStorage(
+                settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
+
+        donateData = new DonateData(new MongoDBStorage(
                 settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
 
         gameStatsData = new GameStatsData(new MongoDBStorage(
