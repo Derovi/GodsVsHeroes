@@ -26,6 +26,7 @@ public class EagleFly extends Item implements DoubleSpaceInterface {
         cooldown.reload();
         ChickenAvatar passiveChicken = new ChickenAvatar(owner);
         owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 1.07f, 1);
+        passiveChicken.setHeal(info.getHeal());
         passiveChicken.spawn();
         new BukkitRunnable() {
             @Override

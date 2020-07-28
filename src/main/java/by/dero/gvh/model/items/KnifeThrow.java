@@ -1,7 +1,9 @@
 package by.dero.gvh.model.items;
 
+import by.dero.gvh.CosmeticManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.CosmeticInfo;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
 import by.dero.gvh.model.itemsinfo.KnifeThrowInfo;
@@ -15,6 +17,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -40,7 +43,13 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
         }
         cooldown.reload();
         owner.setCooldown(material, (int) cooldown.getDuration());
-        final ThrowingKnife knife = new ThrowingKnife(owner, getItemStack());
+        ItemStack itemStack = getItemStack();
+        CosmeticInfo cosmeticInfo = Plugin.getInstance().getCosmeticManager().getByGroup(getOwner(),
+                CosmeticManager.getWeaponGroup("assassin"));
+        if (cosmeticInfo != null && cosmeticInfo.getName().equals("altairBlade")) {
+            itemStack.setType(Material.DIAMOND_SWORD);
+        }
+        final ThrowingKnife knife = new ThrowingKnife(owner, itemStack);
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
         knife.spawn();
         knife.setOnHitEntity(() -> {

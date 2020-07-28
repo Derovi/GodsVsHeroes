@@ -1,6 +1,7 @@
 package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.GameUtils;
@@ -60,8 +61,18 @@ public class CosmeticInterface extends Interface {
         } else {
             head = Heads.getHead(className);
         }
-        addItem(4, 5, head);
         PlayerInfo playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName());
+        addButton(4, 5, head, () -> {
+            if (playerInfo.isClassUnlocked(className)) {
+                UpgradeInterface upgradeInterface = new UpgradeInterface(
+                        Lobby.getInstance().getInterfaceManager(), getPlayer(), className);
+                upgradeInterface.open();
+            } else {
+                UnlockInterface unlockInterface = new UnlockInterface(
+                        Lobby.getInstance().getInterfaceManager(), getPlayer(), className);
+                unlockInterface.open();
+            }
+        });
         Map<String, Cosmetic> customizations = playerInfo.getCosmetics();
         for (CosmeticButton button : cosmeticButtons) {
             String name = button.getCosmeticName();
@@ -78,6 +89,7 @@ public class CosmeticInterface extends Interface {
             Runnable runnable;
             if (state == 0) {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3);
+                subItem.getItemMeta().setDisplayName(Lang.get("cosmetic.buy"));
                 runnable = () -> {
                     getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                     BuyCosmeticInterface buyCosmetic = new BuyCosmeticInterface(getManager(), getPlayer(), name);
@@ -90,6 +102,7 @@ public class CosmeticInterface extends Interface {
                 };
             } else if (state == 1) {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 7);
+                subItem.getItemMeta().setDisplayName(Lang.get("cosmetic.enable"));
                 runnable = () -> {
                     getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                     playerInfo.enableCosmetic(name);
@@ -98,6 +111,7 @@ public class CosmeticInterface extends Interface {
                 };
             } else {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
+                subItem.getItemMeta().setDisplayName(Lang.get("cosmetic.disable"));
                 runnable = () -> {
                     getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                     playerInfo.disableCosmetic(name);

@@ -56,32 +56,36 @@ public class DonateSelectorInterface extends Interface {
 		
 		runnable = new SafeRunnable() {
 			int step = 0;
+			int tick = 0;
 			final LinkedList<Pair<Integer, Integer> > panes = new LinkedList<>();
 			@Override
 			public void run() {
-				if (step == 0) {
-					addItem(4, 1, animItem);
-					panes.add(Pair.of(4, 1));
-				} else if (1 <= step && step <= 4) {
-					addItem(4 - step, 0, animItem);
-					addItem(4 + step, 0, animItem);
-					addItem(4 - step, 2, animItem);
-					addItem(4 + step, 2, animItem);
-					panes.add(Pair.of(4 - step, 0));
-					panes.add(Pair.of(4 + step, 0));
-					panes.add(Pair.of(4 - step, 2));
-					panes.add(Pair.of(4 + step, 2));
-				} else if (step == 5) {
-					removeButton(panes.getFirst().getKey(), panes.getFirst().getValue());
-					panes.removeFirst();
-				} else {
-					for (int i = 0; i < 4; i++) {
+				if (tick == 0) {
+					if (step == 0) {
+						addItem(4, 1, animItem);
+						panes.add(Pair.of(4, 1));
+					} else if (1 <= step && step <= 4) {
+						addItem(4 - step, 0, animItem);
+						addItem(4 + step, 0, animItem);
+						addItem(4 - step, 2, animItem);
+						addItem(4 + step, 2, animItem);
+						panes.add(Pair.of(4 - step, 0));
+						panes.add(Pair.of(4 + step, 0));
+						panes.add(Pair.of(4 - step, 2));
+						panes.add(Pair.of(4 + step, 2));
+					} else if (step == 5) {
 						removeButton(panes.getFirst().getKey(), panes.getFirst().getValue());
 						panes.removeFirst();
+					} else {
+						for (int i = 0; i < 4; i++) {
+							removeButton(panes.getFirst().getKey(), panes.getFirst().getValue());
+							panes.removeFirst();
+						}
 					}
+					step = (step + 1) % 10;
 				}
-				step = (step + 1) % 10;
-//				update();
+				tick = (tick + 1) % 5;
+				update();
 			}
 		};
 		runnable.runTaskTimer(Plugin.getInstance(), 0, 10);

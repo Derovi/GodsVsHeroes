@@ -2,6 +2,7 @@ package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.lobby.interfaces.cosmetic.AllCosmetic;
 import by.dero.gvh.lobby.interfaces.cosmetic.CosmeticInterfaces;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.Lang;
@@ -30,20 +31,19 @@ public class CosmeticSelectorInterface extends Interface {
 		InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
 		ItemStack common = GameUtils.getHead(player);
 		InterfaceUtils.changeName(common, "§9" + Lang.get("classes.all"));
-		//InterfaceUtils.changeLore(common, Collections.singletonList("§aНажмите, чтобы открыть"));
-		InterfaceUtils.changeLore(common, Collections.singletonList("§cСкоро"));
 		
 		ItemStack returnItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
 		InterfaceUtils.changeName(returnItem, Lang.get("interfaces.back"));
+		InterfaceUtils.changeLore(common, Collections.singletonList("§aНажмите, чтобы открыть"));
 
 		addButton(0, getHeight() - 1, common, () -> {
-			/*CosmeticInterface interfaceObject = new AllCosmetic(Lobby.getInstance().getInterfaceManager(),
+			CosmeticInterface interfaceObject = new AllCosmetic(Lobby.getInstance().getInterfaceManager(),
 					getPlayer(), "all");
 			interfaceObject.setOnBackButton(() -> {
 				interfaceObject.close();
 				open();
 			});
-			interfaceObject.open();*/
+			interfaceObject.open();
 		});
 		addButton(0, getHeight() - 2, returnItem, () -> {close(); onBackButton.run();});
 		int[] idxes = {8, 8};
@@ -73,11 +73,6 @@ public class CosmeticSelectorInterface extends Interface {
 					ex.printStackTrace();
 				}
 			});
-			x++;
-			if (x == 9) {
-				x = 2;
-				y--;
-			}
 		}
 	}
 }

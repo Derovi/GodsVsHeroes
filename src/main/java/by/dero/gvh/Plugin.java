@@ -9,6 +9,7 @@ import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.*;
+import by.dero.gvh.model.kits.DonateKitManager;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
@@ -59,6 +60,8 @@ public class Plugin extends JavaPlugin implements Listener {
     private BookManager bookManager;
     @Getter
     private BoosterManager boosterManager;
+    @Getter
+    private DonateKitManager donateKitManager;
     @Getter
     private CosmeticManager cosmeticManager;
     private Settings settings;
@@ -151,6 +154,7 @@ public class Plugin extends JavaPlugin implements Listener {
         AdvancementDataWorld.REGISTRY.c.clear();
         bookManager = new BookManager();
         cosmeticManager = new CosmeticManager();
+        donateKitManager = new DonateKitManager();
     }
 
     @Override

@@ -470,14 +470,14 @@ public class GameUtils {
                 lore.add("§fполучать §cx§6" + String.format("%.1f", info.getTeamMultiplier()) + " §fопыта");
             } if (name.equals("G2")) {
                 lore.add("§fПока эффект активен вы будете");
-                lore.add("§fполучать §cx§6" + String.format("%.1f", info.getSelfMultiplier()) + " §fопыта, a");
-                lore.add("§fваша команда §cx§6" + String.format("%.1f", info.getTeamMultiplier()) + " §fопыта");
+                lore.add("§fполучать §c×§6" + String.format("%.1f", info.getSelfMultiplier()) + " §fопыта, a");
+                lore.add("§fваша команда §c×§6" + String.format("%.1f", info.getTeamMultiplier()) + " §fопыта");
             } else if (name.equals("G3")) {
                 lore.add("§fПока эффект активен ваша и вражеская");
-                lore.add("§fкоманды будут получать §cx§6" + String.format("%.1f", info.getTeamMultiplier()) + " §fопыта");
+                lore.add("§fкоманды будут получать §c×§6" + String.format("%.1f", info.getTeamMultiplier()) + " §fопыта");
             } else if (name.startsWith("L")) {
                 lore.add("§fПока эффект активен вы будете");
-                lore.add("§fполучать §cx§6" + String.format("%.1f", info.getSelfMultiplier()) + " §fопыта");
+                lore.add("§fполучать §c×§6" + String.format("%.1f", info.getSelfMultiplier()) + " §fопыта");
 //            if (name.equals("T"))
             }
         }
