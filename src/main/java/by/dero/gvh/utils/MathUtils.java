@@ -124,14 +124,20 @@ public class MathUtils {
                     loc.clone().add(0, -1, 0).getBlock().getType().equals(Material.AIR) &&
                     loc.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR)) {
                 loc = loc.subtract(0, 1, 0);
+                if (loc.getBlock().getType().equals(Material.BARRIER)) {
+                    break;
+                }
             }
             while ((!loc.getBlock().getType().equals(Material.AIR) ||
                     !loc.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR) ||
                     !loc.clone().add(0, 2, 0).getBlock().getType().equals(Material.AIR)) &&
                     loc.getY() < 180) {
+                if (loc.getBlock().getType().equals(Material.BARRIER)) {
+                    break;
+                }
                 loc = loc.add(0, 1, 0);
             }
-        } while (loc.getY() > 180);
+        } while (loc.getY() > 180 && !loc.getBlock().getType().equals(Material.BARRIER));
         return loc;
     }
 

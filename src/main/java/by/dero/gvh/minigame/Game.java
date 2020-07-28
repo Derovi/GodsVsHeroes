@@ -25,6 +25,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import ru.cristalix.core.build.BuildWorldState;
 import ru.cristalix.core.build.models.Point;
+import ru.cristalix.core.display.IDisplayService;
+import ru.cristalix.core.display.enums.EnumPosition;
+import ru.cristalix.core.display.enums.EnumUpdateType;
+import ru.cristalix.core.display.messages.ProgressMessage;
 import ru.cristalix.core.map.BukkitWorldLoader;
 import ru.cristalix.core.map.IMapService;
 import ru.cristalix.core.map.LoadedMap;
@@ -288,6 +292,77 @@ public abstract class Game implements Listener {
         };
         checkAfk.runTaskTimer(Plugin.getInstance(), info.getAfkTime() / 6, info.getAfkTime() / 6);
         runnables.add(checkAfk);
+    
+        HashMap<String, Pair<Double, Double>> multipliers = new HashMap<>();
+        for (GamePlayer gp : players.values()) {
+            for (Booster booster : Plugin.getInstance().getBoosterManager().getBoosters(gp.getPlayer())) {
+                if (booster.getStartTime() > System.currentTimeMillis() / 1000 ||
+                        booster.getExpirationTime() < System.currentTimeMillis() / 1000) {
+                    continue;
+                }
+                Pair<Double, Double> cur = multipliers.getOrDefault(gp.getPlayer().getName(), Pair.of(1.0, 1.0));
+                switch (booster.getName()) {
+                    case "G1":
+                        cur.setKey(cur.getKey() + 1);
+                        break;
+                    case "G2":
+                        cur.setKey(cur.getKey() + 0.5);
+                        break;
+                    case "G3":
+                        cur.setValue(cur.getValue() + 1);
+                        break;
+                }
+                if (cur.getKey() > 1 || cur.getValue() > 1) {
+                    multipliers.put(gp.getPlayer().getName(), cur);
+                }
+            }
+        }
+        ArrayList<ArrayList<Player>> byTeam = new ArrayList<>();
+        ArrayList<ArrayList<String>> boosterTitles = new ArrayList<>();
+        for (int i = 0; i < info.getTeamCount(); i++) {
+            boosterTitles.add(new ArrayList<>());
+            byTeam.add(new ArrayList<>());
+        }
+        for (Map.Entry<String, Pair<Double, Double>> cur : multipliers.entrySet()) {
+            int team = players.get(cur.getKey()).getTeam();
+            if (cur.getValue().getKey() > 1) {
+                boosterTitles.get(team).add(Lang.get("game.boosterBarTeam").
+                        replace("%val%", String.format("%.1f", cur.getValue().getKey())).
+                        replace("%pl%", cur.getKey()));
+            }
+            if (cur.getValue().getValue() > 1) {
+                for (int i = 0; i < info.getTeamCount(); i++) {
+                    boosterTitles.get(i).add(Lang.get("game.boosterBarGlobal").
+                            replace("%val%", String.format("%.1f", cur.getValue().getValue())).
+                            replace("%pl%", cur.getKey()));
+                }
+            }
+        }
+        
+        for (GamePlayer gp : players.values()) {
+            byTeam.get(gp.getTeam()).add(gp.getPlayer());
+        }
+        BukkitRunnable runnable = new BukkitRunnable() {
+            final int[] boosterIdx = {0, 0};
+            @Override
+            public void run() {
+                for (int i = 0; i < 2; i++) {
+                    if (boosterTitles.get(i).isEmpty()) {
+                        continue;
+                    }
+                    for (Player pl : byTeam.get(i)) {
+                        IDisplayService.get().sendProgress(pl.getUniqueId(), ProgressMessage.builder().
+                                updateType(EnumUpdateType.ADD).name(boosterTitles.get(i).get(boosterIdx[i])).percent(1).
+                                color(GameUtils.getBrightColors()[(int) (Math.random() * GameUtils.getBrightColors().length)]).
+                                position(EnumPosition.TOPTOP).build());
+                    }
+                    boosterIdx[i] = (boosterIdx[i] + 1) % boosterTitles.get(i).size();
+                }
+            }
+        };
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 60);
+        runnables.add(runnable);
+    
     }
 
     public void onPlayerKilled(GamePlayer player, GamePlayer killer, Collection<GamePlayer> assists) {

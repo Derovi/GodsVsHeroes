@@ -34,7 +34,8 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 
 	@Override
 	public void onDoubleSpace () {
-		if (owner.getInventory().getItem(0).getType().equals(Material.STAINED_GLASS_PANE)) {
+		if (owner.getInventory().getItem(0) == null ||
+				owner.getInventory().getItem(0).getType().equals(Material.AIR)) {
 			if (!ownerGP.isActionBarBlocked()) {
 				ownerGP.setActionBarBlocked(true);
 				owner.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.cantUse")));
@@ -63,7 +64,8 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 		runnable.runTaskLater(Plugin.getInstance(), 10);
 		Game.getInstance().getRunnables().add(runnable);
 		Mjolnir mjolnir = (Mjolnir) ownerGP.getItems().get("mjolnir");
-		owner.getInventory().setItem(0, Item.getPane(owner.getInventory().getItem(0).getI18NDisplayName()));
+		
+		owner.getInventory().removeItem(owner.getInventory().getItem(0));
 		SafeRunnable runnable1 = new SafeRunnable() {
 			int ticks = 0;
 			@Override

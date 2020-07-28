@@ -214,7 +214,9 @@
     "progressReach": "%command% §aнабрали %pts%%",
     "afkKickMessage": "§cИграть надо было, голубчик",
     "winSubtitle": "§l§f +§6%exp% §fопыта",
-    "endResult": "§l§f +§6%exp% §fопыта всего"
+    "endResult": "§l§f +§6%exp% §fопыта всего",
+    "boosterBarTeam": "        §a×§l%val% §fкоманде от §6%pl%§f, /thx - отблагодарить",
+    "boosterBarGlobal": "        §a×§l%val% §fвсем от §6%pl%§f, /thx - отблагодарить"
   },
   "loots": {
     "statusSpeed": "§aСкорость §8» §6%amount% §aсек.",
