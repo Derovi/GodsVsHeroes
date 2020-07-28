@@ -3,6 +3,7 @@ package by.dero.gvh.lobby.interfaces;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.donate.Donate;
 import by.dero.gvh.donate.DonateType;
+import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.monuments.BoosterStand;
 import by.dero.gvh.model.Booster;
 import by.dero.gvh.model.BoosterInfo;
@@ -17,6 +18,7 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -112,10 +114,15 @@ public class SingleBoostInterface extends Interface {
 							.type(DonateType.BOOSTER)
 							.description("Booster " + boostName)
 							.onSuccessful(() -> {
+								getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+								Lobby.getInstance().getChest().addAnim(2, getPlayer());
+								BoosterStand stand = Lobby.getInstance().getMonumentManager().getBoosters().get(1);
+								Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () ->
+												stand.getAnims().add(fwColors[finalI]),
+										Lobby.getInstance().getChest().getAnimDuration() - 20);
 								info.activateBooster(boostName);
 								Plugin.getInstance().getPlayerData().savePlayerInfo(info);
 								getPlayer().sendMessage(Lang.get("interfaces.thxBuyBooster"));
-								stand.getAnims().add(fwColors[finalI]);
 							})
 							.onError(() -> {
 

@@ -1,6 +1,7 @@
 package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.InterfaceUtils;
@@ -36,6 +37,7 @@ public class BuyCosmeticInterface extends Interface {
 			player.playSound(player.getEyeLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
 		};
 		Runnable onBuy = () -> {
+			Lobby.getInstance().getChest().addAnim(0, player);
 			player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 			PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
 			info.unlockCosmetic(cosmeticName);

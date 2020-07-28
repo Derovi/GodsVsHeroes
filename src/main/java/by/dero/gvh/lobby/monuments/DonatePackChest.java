@@ -1,9 +1,13 @@
 package by.dero.gvh.lobby.monuments;
 
+import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.MathUtils;
+import by.dero.gvh.utils.Pair;
+import lombok.Getter;
 import net.minecraft.server.v1_12_R1.BlockPosition;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockAction;
@@ -21,7 +25,8 @@ import org.bukkit.util.Vector;
 import java.util.LinkedList;
 
 public class DonatePackChest {
-	private final LinkedList<Integer> anims = new LinkedList<>();
+	private final LinkedList<Pair<Integer, Player>> anims = new LinkedList<>();
+	@Getter
 	private final int animDuration = 320;
 	private final int firstStage = 180;
 	private final Location loc;
@@ -47,12 +52,17 @@ public class DonatePackChest {
 			stands[i].world.addEntity(stands[i], CreatureSpawnEvent.SpawnReason.CUSTOM);
 		}
 		
+		FlyingText text =  new FlyingText(loc.clone().add(0, 0.4, -0.2), Lang.get("lobby.donate"));
 		runnable = new BukkitRunnable() {
 			int animTime = 0;
 			double angle = 0;
 			@Override
 			public void run() {
 				if (anims.size() > 0) {
+					if (animTime == 0) {
+						text.setText(Lang.get("interfaces.openingTitle").
+								replace("%pl%", anims.getFirst().getValue().getName()));
+					}
 					if (animTime < firstStage) {
 						int st = animTime * 6 / firstStage;
 						if (st % 2 == 0) {
@@ -108,7 +118,7 @@ public class DonatePackChest {
 					animTime++;
 					if (animTime == animDuration) {
 						loc.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_FIREBALL_EXPLODE, 1.5f, 1);
-						if (anims.getFirst() == 0) {
+						if (anims.getFirst().getKey() == 0) {
 							for (int i = 0; i < 100; i++) {
 								Vector at = MathUtils.getInCphere(MathUtils.ZEROVECTOR, 1, MathUtils.PI2 * Math.random(), MathUtils.PI2 * Math.random());
 								at.y = Math.abs(at.y);
@@ -118,7 +128,7 @@ public class DonatePackChest {
 							for (int i = 0; i < 20; i++) {
 								new BukkitRunnable() {
 									final Location target = Lobby.getInstance().getMonumentManager().getBoosters().
-											get(anims.getFirst() - 1).getLocation();
+											get(anims.getFirst().getKey() - 1).getLocation();
 									@Override
 									public void run() {
 										for (int j = 0; j < 3; j++) {
@@ -132,6 +142,7 @@ public class DonatePackChest {
 								}.runTaskLater(Plugin.getInstance(), i);
 							}
 						}
+						text.setText(Lang.get("lobby.donate"));
 						animTime = 0;
 						anims.removeFirst();
 					}
@@ -149,7 +160,7 @@ public class DonatePackChest {
 		runnable.cancel();
 	}
 	
-	public void addAnim(int type) {
-		anims.add(type);
+	public void addAnim(int type, Player player) {
+		anims.add(Pair.of(type, player));
 	}
 }

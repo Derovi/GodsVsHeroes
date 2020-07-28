@@ -29,7 +29,7 @@ public class UnlockInterface extends Interface {
     public UnlockInterface(InterfaceManager manager, Player player, String className) {
         super(manager, player, 6,
                 (Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()).canUnlock(className)
-                ? Lang.get("interfaces.unlockTitle") : Lang.get("interfaces.unlockNETitle")).
+                ? Lang.get("interfaces.unlockTitle") : Lang.get("interfaces.unlockTitle")).
                         replace("%class%", Lang.get("classes." + className)).
                         replace("%cost%", String.valueOf(Plugin.getInstance().getData().
                                 getClassNameToDescription().get(className).getCost())));
@@ -135,12 +135,16 @@ public class UnlockInterface extends Interface {
                                 - Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()).getBalance())));
                 close();
             };
-            ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
+            ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
             InterfaceUtils.changeName(itemStack, Lang.get("interfaces.unlockNE").
                     replace("%cost%", String.valueOf(classDescription.getCost())));
             for (int x = 0; x < 9; ++x) {
                 for (int y = 1; y < 6; ++y) {
-                    addButton(x, y, itemStack, action);
+                    switch (pattern[y].charAt(x)) {
+                        case 'R' : addButton(x, y, returnSlot, this::close); break;
+                        case 'H' : addItem(x, y, skull); break;
+                        case 'G' : addButton(x, y, itemStack, action); break;
+                    }
                 }
             }
         }
@@ -148,9 +152,9 @@ public class UnlockInterface extends Interface {
         ItemStack cristItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3);
         InterfaceUtils.changeName(cristItem, Lang.get("interfaces.unlockCrist"));
         InterfaceUtils.changeLore(cristItem, Collections.singletonList(Lang.get("interfaces.cristCostLore").
-                replace("%cost%", String.valueOf(classDescription.getCost()))));
+                replace("%cost%", String.valueOf(classDescription.getCristCost()))));
         int dx = Math.random() < 0.5 ? 1 : 6;
-        int dy = Math.random() < 0.5 ? 3 : 4;
+        int dy = Math.random() < 0.5 ? 2 : 3;
         for (int x = dx; x <= dx + 1; x++) {
             for (int y = dy; y <= dy + 1; y++) {
                 addButton(x, y, cristItem, () -> {

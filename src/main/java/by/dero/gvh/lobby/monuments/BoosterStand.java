@@ -41,11 +41,11 @@ public class BoosterStand {
 		stand.setHelmet(Heads.getHead(headName));
 		new BukkitRunnable() {
 			int animTime = 0;
-			final double yawAccel = 0.006;
-			final int animDuration = 160;
-			final int stayDuration = (int) (Math.PI * 2 * 3 / yawAccel / animDuration * 2);
+			final double yawAccel = 0.007;
+			final int animDuration = 60;
+			final int stayDuration = (int) (MathUtils.PI2 * 1 / yawAccel / animDuration * 2);
 			int stay = -1;
-			final double dHei = 1.6 / animDuration * 2;
+			final double dHei = 1.0 / animDuration * 2;
 			double add = Math.PI / 3 / 80;
 			double roll = 0;
 			double yaw = 0, yawSpeed = 0;
