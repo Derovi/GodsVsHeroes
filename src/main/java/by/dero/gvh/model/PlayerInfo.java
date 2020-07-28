@@ -13,7 +13,7 @@ import java.util.Map;
 public class PlayerInfo {
     @Getter @Setter
     private String name;
-    private String selectedClass = "assassin";
+    private String selectedClass = "warrior";
     @Getter
     private HashMap<String, Cosmetic> cosmetics = null;
     @Getter @Setter

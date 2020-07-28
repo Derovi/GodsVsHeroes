@@ -24,6 +24,7 @@ public class BoosterManager {
                 .name("L1")
                 .durationSec(3600)
                 .selfMultiplier(2)
+                .cost(5)
                 .build());
         boosters.put("L2", BoosterInfo.builder()
                 .name("L2")

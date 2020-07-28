@@ -211,7 +211,7 @@
     "ether": "EtherWar",
     "classSelected": "§bВаш класс §8» §f%class%",
     "expGained": "Опыт §8» §b%exp%",
-    "expGainedMult": "Опыт §c×§6%mul%§f §8» §b%exp%",
+    "expGainedMult": "Опыт §a×§l%mul%§f §8» §b%exp%",
     "kills": "Убийств §8» §a%kills%",
     "deaths": "Смертей §8» §c%deaths%",
     "assists": "Помощей §8» §6%assists%",

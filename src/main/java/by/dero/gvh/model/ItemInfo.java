@@ -126,8 +126,8 @@ public class ItemInfo {
                 }
             }
         }
-        itemStack = staticCustomizationAfter(itemStack);
         NMCUtils.setNBT(itemStack, compound);
+        itemStack = staticCustomizationAfter(itemStack);
     }
 
     public ItemStack staticCustomizationBefore(ItemStack itemStack) {
