@@ -2,6 +2,7 @@
   "name": "ull",
   "maxHP": 40,
   "cost": 1000,
+  "cristCost": 100,
   "itemNames": [
     "poisonousbow",
     "explosivebow",

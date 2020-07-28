@@ -1,6 +1,6 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.lobby.monuments.DonatePackChest;
+import by.dero.gvh.lobby.Lobby;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +14,11 @@ public class TestCommand implements CommandExecutor {
                              Command command, String s, String[] args) {
         Player player = (Player) commandSender;
 
-        DonatePackChest.setAnimCnt(DonatePackChest.getAnimCnt() + 1);
+        try {
+            Lobby.getInstance().getChest().addAnim(Integer.parseInt(args[0]));
+        } catch (Exception e) {
+        
+        }
 //        if (args.length == 0) {
 //            flag = true;
 //        } else if (args.length == 1) {

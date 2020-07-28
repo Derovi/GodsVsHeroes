@@ -23,8 +23,6 @@ import org.bukkit.util.Vector;
 import java.util.LinkedList;
 
 public class BoosterStand {
-	@Getter private final Location location;
-	
 	@Getter private final CraftArmorStand stand;
 	
 	private final Class<? extends Interface> inter;
@@ -34,7 +32,7 @@ public class BoosterStand {
 	
 	public BoosterStand(DirectedPosition position, String name, String headName, Class<? extends Interface> inter) {
 		this.inter = inter;
-		location  = position.toLocation(Lobby.getInstance().getWorld());
+		Location location  = position.toLocation(Lobby.getInstance().getWorld());
 		stand = (CraftArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
 		GameUtils.setInvisibleFlags(stand);
 		stand.setCustomNameVisible(true);
@@ -121,5 +119,9 @@ public class BoosterStand {
 	
 	public void unload() {
 		stand.remove();
+	}
+	
+	public Location getLocation() {
+		return stand.getEyeLocation();
 	}
 }

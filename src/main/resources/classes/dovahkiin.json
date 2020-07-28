@@ -2,6 +2,7 @@
   "name": "dovahkiin",
   "maxHP": 40,
   "cost": 19500,
+  "cristCost": 100,
   "itemNames": [
     "swordthrow",
     "dragonbreath",
