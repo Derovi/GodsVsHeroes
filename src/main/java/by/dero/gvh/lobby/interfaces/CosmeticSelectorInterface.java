@@ -23,19 +23,24 @@ public class CosmeticSelectorInterface extends Interface {
 	
 	public CosmeticSelectorInterface(InterfaceManager manager, Player player) {
 		super(manager, player, 2, Lang.get("cosmetic.title"));
+	}
+	
+	@Override
+	public void open() {
+		super.open();
 		
 		Collection<UnitClassDescription> classes = Plugin.getInstance().getData().getClassNameToDescription().values();
 		
-		PlayerInfo info = Plugin.getInstance().getPlayerData().getStoredPlayerInfo(player.getName());
+		PlayerInfo info = Plugin.getInstance().getPlayerData().getStoredPlayerInfo(getPlayer().getName());
 		ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
 		InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
-		ItemStack common = GameUtils.getHead(player);
+		ItemStack common = GameUtils.getHead(getPlayer());
 		InterfaceUtils.changeName(common, "§9" + Lang.get("classes.all"));
 		
 		ItemStack returnItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
 		InterfaceUtils.changeName(returnItem, Lang.get("interfaces.back"));
 		InterfaceUtils.changeLore(common, Collections.singletonList("§aНажмите, чтобы открыть"));
-
+		
 		addButton(0, getHeight() - 1, common, () -> {
 			CosmeticInterface interfaceObject = new AllCosmetic(Lobby.getInstance().getInterfaceManager(),
 					getPlayer(), "all");

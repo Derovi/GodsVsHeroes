@@ -526,6 +526,8 @@ public class Lobby implements PluginMode, Listener {
             event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             int slot = player.getInventory().getHeldItemSlot();
             if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENDER_CHEST)) {
+                DonateSelectorInterface inter = new DonateSelectorInterface(interfaceManager, player);
+                inter.open();
                 event.setCancelled(true);
             } else
             if (activates[slot] != null) {
@@ -535,7 +537,7 @@ public class Lobby implements PluginMode, Listener {
         }
     }
     
-    
+//
 //    @EventHandler
 //    public void onBlockPlace(BlockPlaceEvent event) {
 //        event.setCancelled(true);

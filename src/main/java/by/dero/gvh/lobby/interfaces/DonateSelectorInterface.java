@@ -21,6 +21,11 @@ public class DonateSelectorInterface extends Interface {
 	
 	public DonateSelectorInterface(InterfaceManager manager, Player player) {
 		super(manager, player, 3, Lang.get("interfaces.selectDonateCat"));
+	}
+	
+	@Override
+	public void open() {
+		super.open();
 		
 		ItemStack cosmetic = new ItemStack(Material.EMERALD);
 		InterfaceUtils.changeName(cosmetic, Lang.get("cosmetic.title"));
@@ -32,17 +37,17 @@ public class DonateSelectorInterface extends Interface {
 		InterfaceUtils.changeName(singleBooster, Lang.get("lobby.singleBooster"));
 		
 		addButton(3, 1, cosmetic, () -> {
-			CosmeticSelectorInterface inter = new CosmeticSelectorInterface(manager, player);
+			CosmeticSelectorInterface inter = new CosmeticSelectorInterface(getManager(), getPlayer());
 			inter.open();
 			inter.setOnBackButton(this::open);
 		});
 		addButton(4, 0, teamBooster, () -> {
-			TeamBoostInterface inter = new TeamBoostInterface(manager, player, Lobby.getInstance().getMonumentManager().getBoosters().get(0));
+			TeamBoostInterface inter = new TeamBoostInterface(getManager(), getPlayer(), Lobby.getInstance().getMonumentManager().getBoosters().get(0));
 			inter.open();
 			inter.setOnBack(this::open);
 		});
 		addButton(4, 2, singleBooster, () -> {
-			SingleBoostInterface inter = new SingleBoostInterface(manager, player, Lobby.getInstance().getMonumentManager().getBoosters().get(1));
+			SingleBoostInterface inter = new SingleBoostInterface(getManager(), getPlayer(), Lobby.getInstance().getMonumentManager().getBoosters().get(1));
 			inter.open();
 			inter.setOnBack(this::open);
 		});
@@ -53,11 +58,10 @@ public class DonateSelectorInterface extends Interface {
 		meta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
 		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		animItem.setItemMeta(meta);
-		
 		runnable = new SafeRunnable() {
 			int step = 0;
 			int tick = 0;
-			final LinkedList<Pair<Integer, Integer> > panes = new LinkedList<>();
+			final LinkedList<Pair<Integer, Integer>> panes = new LinkedList<>();
 			@Override
 			public void run() {
 				if (tick == 0) {
@@ -88,12 +92,13 @@ public class DonateSelectorInterface extends Interface {
 				update();
 			}
 		};
-		runnable.runTaskTimer(Plugin.getInstance(), 0, 10);
+		runnable.runTaskTimer(Plugin.getInstance(), 0, 1);
 	}
 	
 	@Override
 	public void onInventoryClosed() {
 		runnable.cancel();
 		super.onInventoryClosed();
+		getInventory().clear();
 	}
 }
