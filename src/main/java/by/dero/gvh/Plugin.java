@@ -5,6 +5,7 @@ import by.dero.gvh.commands.AdviceCommand;
 import by.dero.gvh.commands.BugCommand;
 import by.dero.gvh.commands.EtherCommand;
 import by.dero.gvh.commands.TestCommand;
+import by.dero.gvh.donate.DonateData;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
@@ -56,6 +57,8 @@ public class Plugin extends JavaPlugin implements Listener {
     private GameStatsData gameStatsData;
     @Getter
     private StatsData statsData;
+    @Getter
+    private DonateData donateData;
     private PluginMode pluginMode;
     private BookManager bookManager;
     @Getter
@@ -115,6 +118,9 @@ public class Plugin extends JavaPlugin implements Listener {
                 settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
 
         statsData = new StatsData(new MongoDBStorage(
+                settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
+
+        donateData = new DonateData(new MongoDBStorage(
                 settings.getServerDataMongodbConnection(), settings.getServerDataMongodbDatabase()));
 
         gameStatsData = new GameStatsData(new MongoDBStorage(

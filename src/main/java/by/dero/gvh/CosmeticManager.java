@@ -223,7 +223,6 @@ public class CosmeticManager {
             }
         }
         for (String name : cosmetics) {
-            System.out.println(name + " " + customizations.containsKey(name));
             if (customizations.get(name).getGroupID() == groupID) {
                 return customizations.get(name);
             }

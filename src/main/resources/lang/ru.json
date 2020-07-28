@@ -297,8 +297,8 @@
     "online": "Онлайн §8» §b%online%",
     "cosmetics": "§6Косметика",
     "lastGame": "§6Статистика прошлой игры",
-    "teamBooster": "§6Улучшения команды",
-    "singleBooster": "§6Улучшения себя",
+    "teamBooster": "§6Глобальные бустеры",
+    "singleBooster": "§6Бустеры",
     "donate": "§6Донат"
   },
   "rewmes": {
@@ -364,11 +364,11 @@
     "legendary": "§cЛегендарная",
     "immortal": "§6Эпическая",
     "number": {
-      "uncommon": "§3I",
-      "rare": "§9II",
-      "mythical": "§5III",
-      "legendary": "§cIV",
-      "immortal": "§6V"
+      "uncommon": "§3§lI",
+      "rare": "§9§lII",
+      "mythical": "§5§lIII",
+      "legendary": "§c§lIV",
+      "immortal": "§6§lV"
     }
   },
   "teamTabPrefix": {
