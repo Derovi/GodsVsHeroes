@@ -31,13 +31,19 @@ public class DonateSelectorInterface extends Interface {
 		ItemStack singleBooster = Heads.getHead("singleBooster");
 		InterfaceUtils.changeName(singleBooster, Lang.get("lobby.singleBooster"));
 		
-		addButton(3, 1, cosmetic, () -> new CosmeticSelectorInterface(manager, player).open());
+		addButton(3, 1, cosmetic, () -> {
+			CosmeticSelectorInterface inter = new CosmeticSelectorInterface(manager, player);
+			inter.open();
+			inter.setOnBackButton(this::open);
+		});
 		addButton(4, 0, teamBooster, () -> {
 			TeamBoostInterface inter = new TeamBoostInterface(manager, player, Lobby.getInstance().getMonumentManager().getBoosters().get(0));
+			inter.open();
 			inter.setOnBack(this::open);
 		});
 		addButton(4, 2, singleBooster, () -> {
 			SingleBoostInterface inter = new SingleBoostInterface(manager, player, Lobby.getInstance().getMonumentManager().getBoosters().get(1));
+			inter.open();
 			inter.setOnBack(this::open);
 		});
 		
