@@ -28,17 +28,16 @@ public class CosmeticSelectorInterface extends Interface {
 		InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
 		ItemStack common = GameUtils.getHead(player);
 		InterfaceUtils.changeName(common, "§9" + Lang.get("classes.all"));
-		//InterfaceUtils.changeLore(common, Collections.singletonList("§aНажмите, чтобы открыть"));
-		InterfaceUtils.changeLore(common, Collections.singletonList("§cСкоро"));
+		InterfaceUtils.changeLore(common, Collections.singletonList("§aНажмите, чтобы открыть"));
 
 		addButton(0, getHeight() - 1, common, () -> {
-			/*CosmeticInterface interfaceObject = new AllCosmetic(Lobby.getInstance().getInterfaceManager(),
+			CosmeticInterface interfaceObject = new AllCosmetic(Lobby.getInstance().getInterfaceManager(),
 					getPlayer(), "all");
 			interfaceObject.setOnBackButton(() -> {
 				interfaceObject.close();
 				open();
 			});
-			interfaceObject.open();*/
+			interfaceObject.open();
 		});
 		int x = 2, y = getHeight() - 1;
 		for (UnitClassDescription desc : classes) {
