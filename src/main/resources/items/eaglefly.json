@@ -12,6 +12,7 @@
       "speed": 0.5,
       "duration": 200,
       "cost": 80,
+      "heal": 14,
       "material": "FEATHER",
       "amount": 1
     },
@@ -20,6 +21,7 @@
       "speed": 0.5,
       "duration": 220,
       "cost": 100,
+      "heal": 15,
       "material": "FEATHER",
       "amount": 1
     },
@@ -28,6 +30,7 @@
       "speed": 0.5,
       "duration": 240,
       "cost": 130,
+      "heal": 16,
       "material": "FEATHER",
       "amount": 1
     },
@@ -36,6 +39,7 @@
       "speed": 0.5,
       "duration": 260,
       "cost": 160,
+      "heal": 17,
       "material": "FEATHER",
       "amount": 1
     },
@@ -44,6 +48,7 @@
       "speed": 0.5,
       "duration": 280,
       "cost": 200,
+      "heal": 18,
       "material": "FEATHER",
       "amount": 1
     }
