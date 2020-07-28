@@ -51,14 +51,14 @@ public class CosmeticSelectorInterface extends Interface {
 			interfaceObject.open();
 		});
 		addButton(0, getHeight() - 2, returnItem, () -> {close(); onBackButton.run();});
-		int[] idxes = {8, 8};
+		int[] idxes = {2, 2};
 		for (UnitClassDescription desc : classes) {
 			ItemStack head = Heads.getHead(desc.getName());
 			InterfaceUtils.changeName(head, "§9" + Lang.get("classes." + desc.getName()));
 			InterfaceUtils.changeLore(head, Collections.singletonList("§aОткрыть"));
 			int y = getHeight() - (info.isClassUnlocked(desc.getName()) ? 1 : 2);
 			int x = idxes[y];
-			idxes[y]--;
+			idxes[y]++;
 			if (!CosmeticInterfaces.exists(desc.getName())) {
 				InterfaceUtils.changeName(head, "§9" + Lang.get("classes." + desc.getName()));
 				InterfaceUtils.changeLore(head, Collections.singletonList("§cСкоро"));

@@ -3,7 +3,6 @@ package by.dero.gvh.lobby.interfaces;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.books.ItemDescriptionBook;
 import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.lobby.LobbyPlayer;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.InterfaceUtils;
 import by.dero.gvh.utils.Pair;
@@ -11,7 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import ru.cristalix.core.invoice.IInvoiceService;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -23,7 +21,7 @@ public class UpgradeInterface extends Interface {
 
     public UpgradeInterface(InterfaceManager manager, Player player, String className) {
         super(manager, player, 6, Lang.get("interfaces.upgradeInterface")
-                .replace("hero", className));
+                .replace("%hero%", Lang.get("classes." + className)));
         this.manager = manager;
         this.className = className;
         updateAll(Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()));
@@ -70,7 +68,7 @@ public class UpgradeInterface extends Interface {
                     update();
                 });
             } else {
-                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
+                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 7);
                 ItemMeta meta = itemStack.getItemMeta();
                 meta.setLore(lore);
                 itemStack.setItemMeta(meta);
