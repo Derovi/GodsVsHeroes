@@ -1,7 +1,8 @@
 {
   "name": "warrior",
   "maxHP": 40,
-  "cost": 10,
+  "cost": 0,
+  "cristCost": 100,
   "itemNames": [
     "swordthrow",
     "webthrow",

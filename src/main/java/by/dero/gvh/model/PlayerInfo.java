@@ -11,13 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerInfo {
+    @Getter @Setter
     private String name;
     private String selectedClass = "warrior";
     @Getter
     private HashMap<String, Cosmetic> cosmetics = null;
     @Getter @Setter
     private List<Booster> boosters = new ArrayList<>();
+    @Getter @Setter
     private int balance = 100;
+    @Getter
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
     public PlayerInfo() {
@@ -149,25 +152,5 @@ public class PlayerInfo {
 
     public void selectClass(String selectedClass) {
         this.selectedClass = selectedClass;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public Map<String, Map<String, Integer>> getClasses() {
-        return classes;
     }
 }

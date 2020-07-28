@@ -4,8 +4,6 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.MathUtils;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.server.v1_12_R1.BlockPosition;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockAction;
@@ -20,9 +18,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.LinkedList;
+
 public class DonatePackChest {
-	@Getter @Setter
-	private static int animCnt = 0;
+	private final LinkedList<Integer> anims = new LinkedList<>();
 	private final int animDuration = 320;
 	private final int firstStage = 180;
 	private final Location loc;
@@ -53,7 +52,7 @@ public class DonatePackChest {
 			double angle = 0;
 			@Override
 			public void run() {
-				if (animCnt > 0) {
+				if (anims.size() > 0) {
 					if (animTime < firstStage) {
 						int st = animTime * 6 / firstStage;
 						if (st % 2 == 0) {
@@ -109,13 +108,32 @@ public class DonatePackChest {
 					animTime++;
 					if (animTime == animDuration) {
 						loc.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_FIREBALL_EXPLODE, 1.5f, 1);
-						for (int i = 0; i < 100; i++) {
-							Vector at = MathUtils.getInCphere(MathUtils.ZEROVECTOR, 1, MathUtils.PI2 * Math.random(), MathUtils.PI2 * Math.random());
-							at.y = Math.abs(at.y);
-							loc.getWorld().spawnParticle(Particle.FLAME, loc.clone(), 0, at.x, at.y, at.z);
+						if (anims.getFirst() == 0) {
+							for (int i = 0; i < 100; i++) {
+								Vector at = MathUtils.getInCphere(MathUtils.ZEROVECTOR, 1, MathUtils.PI2 * Math.random(), MathUtils.PI2 * Math.random());
+								at.y = Math.abs(at.y);
+								loc.getWorld().spawnParticle(Particle.FLAME, loc.clone(), 0, at.x, at.y, at.z);
+							}
+						} else {
+							for (int i = 0; i < 20; i++) {
+								new BukkitRunnable() {
+									final Location target = Lobby.getInstance().getMonumentManager().getBoosters().
+											get(anims.getFirst() - 1).getLocation();
+									@Override
+									public void run() {
+										for (int j = 0; j < 3; j++) {
+											Vector at = MathUtils.getInCphere(target.toVector(), 0.35, MathUtils.PI2 * Math.random(),
+													MathUtils.PI2 * Math.random()).subtract(loc.toVector()).multiply(0.075);
+											
+											loc.getWorld().spawnParticle(Particle.FLAME, loc, 0,
+													at.x, at.y, at.z);
+										}
+									}
+								}.runTaskLater(Plugin.getInstance(), i);
+							}
 						}
 						animTime = 0;
-						animCnt--;
+						anims.removeFirst();
 					}
 				}
 			}
@@ -129,5 +147,9 @@ public class DonatePackChest {
 			stand.die();
 		}
 		runnable.cancel();
+	}
+	
+	public void addAnim(int type) {
+		anims.add(type);
 	}
 }

@@ -11,11 +11,13 @@
     "upgrade": "§aУлучшить за §6%cost% §aопыта",
     "upgraded": "§9Улучшено",
     "upgradeNE": "§cНужно §6%cost% §cопыта",
-    "unlock": "§aРазблокировать за §6%cost% §aопыта",
+    "unlock": "§aРазблокировать",
+    "unlockCrist": "§aРазблокировать за §bкристаллики",
     "unlockNE": "§cНужно §6%cost% §cопыта!",
-    "unlockTitle": "§aНажмите, чтобы открыть",
-    "unlockNETitle": "§cНедостаточно опыта",
+    "unlockTitle": "§6%class%§8. §fЦена §8» §6%cost% §fопыта",
+    "unlockNETitle": "§cНедостаточно опыта§8. §fЦена §8» §6%cost%",
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
+    "unlockedCrist": "§aВы открыли класс §6%className%§a за §6%cost% §bкристалликов!",
     "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!",
     "active": "§aАктивировано",
     "confirm": "§aПодтвердить",
@@ -25,7 +27,9 @@
     "permMult": "§6Текущий прирост опыта §8» §f%val%§b%",
     "notActive": "§cНе активирован",
     "selectDonateCat": "§6Выберите категорию",
-    "packsTitle": "§6Наборы"
+    "packsTitle": "§6Наборы",
+    "costLore": "§fЦена §8» §6%cost% §fопыта",
+    "cristCostLore": "§fЦена §8» §6%cost% §bкристалликов"
   },
   "cosmetic": {
     "common": "§aОбщее",
@@ -215,7 +219,9 @@
     "progressReach": "%command% §aнабрали %pts%%",
     "afkKickMessage": "§cИграть надо было, голубчик",
     "winSubtitle": "§l§f +§6%exp% §fопыта",
-    "endResult": "§l§f +§6%exp% §fопыта всего"
+    "endResult": "§l§f +§6%exp% §fопыта всего",
+    "boosterBarTeam": "        §a×§l%val% §fкоманде от §6%pl%§f, /thx - отблагодарить",
+    "boosterBarGlobal": "        §a×§l%val% §fвсем от §6%pl%§f, /thx - отблагодарить"
   },
   "loots": {
     "statusSpeed": "§aСкорость §8» §6%amount% §aсек.",

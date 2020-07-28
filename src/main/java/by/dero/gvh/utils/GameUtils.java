@@ -9,6 +9,7 @@ import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.*;
 import com.google.common.base.Predicate;
+import lombok.Getter;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EntityLiving;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
@@ -24,6 +25,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.formatting.Color;
 
 import java.util.*;
 
@@ -46,8 +48,14 @@ public class GameUtils {
             Sound.BLOCK_NOTE_SNARE,
             Sound.BLOCK_NOTE_XYLOPHONE,
     };
+    
+    @Getter
+    public static final Color[] brightColors = {
+        Color.ORANGE, Color.AQUA, Color.LIME, Color.BLUE, Color.CYAN, Color.MAGENTA, Color.PINK,
+        Color.PURPLE, Color.SILVER, Color.RED, Color.SILVER
+    };
 
-    public GameUtils () {
+    public GameUtils() {
         if (codeToData == null) {
             codeToData = new HashMap<>();
             codeToData.put('0', (byte) 15);
@@ -484,7 +492,7 @@ public class GameUtils {
                 lore.add("§fБонус §a×§l" + String.format("%.1f", info.getSelfMultiplier()) + " §fк опыту");
                 lore.add("§fБонус команде §a×§l" + String.format("%.1f", info.getTeamMultiplier()) + " §fк опыту");
             } else if (name.equals("G3")) {
-                lore.add("§fБонус всем §a×§l" + String.format("%.1f", info.getTeamMultiplier()) + " §fк опыту");
+                lore.add("§fБонус всем §a×§l" + String.format("%.1f", info.getGameMultiplier()) + " §fк опыту");
             } else if (name.startsWith("L")) {
                 lore.add("§fБонус §a×§l" + String.format("%.1f", info.getSelfMultiplier()) + " §fк опыту");
             }

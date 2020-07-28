@@ -1,8 +1,11 @@
 package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.donate.Donate;
+import by.dero.gvh.donate.DonateType;
 import by.dero.gvh.lobby.monuments.BoosterStand;
 import by.dero.gvh.model.Booster;
+import by.dero.gvh.model.BoosterInfo;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.GameUtils;
@@ -80,6 +83,7 @@ public class TeamBoostInterface extends Interface {
 		InterfaceUtils.changeName(activeItem, Lang.get("interfaces.empty"));
 		activeItem.setLore(Lists.newArrayList(Lang.get("interfaces.notActive")));
 		ItemStack queueActiveItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
+		
 		Color[] fwColors = {
 				Color.GREEN, Color.YELLOW, Color.BLUE, Color.PURPLE, Color.RED
 		};
@@ -87,15 +91,26 @@ public class TeamBoostInterface extends Interface {
 		Runnable[] onSelect = new Runnable[3];
 		for (int i = 0; i < 3; i++) {
 			String boostName = "G" + (char)('1' + i);
+			BoosterInfo boosterInfo = Plugin.getInstance().getBoosterManager().getBoosters().get(boostName);
 			heads[i] = GameUtils.getBoosterHead(boostName);
 			int finalI = i;
 			onSelect[i] = () -> {
 				ConfirmationInterface inter = new ConfirmationInterface(getManager(), getPlayer(),
 						Lang.get("interfaces.confirmBuy"), this::open, () -> {
-					info.activateBooster(boostName);
-					Plugin.getInstance().getPlayerData().savePlayerInfo(info);
-					getPlayer().sendMessage(Lang.get("interfaces.thxBuyBooster"));
-					stand.getAnims().add(fwColors[finalI]);
+					Donate donate = Donate.builder()
+							.price(boosterInfo.getCost())
+							.type(DonateType.BOOSTER)
+							.description("Booster " + boostName)
+							.onSuccessful(() -> {
+								info.activateBooster(boostName);
+								Plugin.getInstance().getPlayerData().savePlayerInfo(info);
+								getPlayer().sendMessage(Lang.get("interfaces.thxBuyBooster"));
+								stand.getAnims().add(fwColors[finalI]);
+							})
+							.onError(() -> {
+							
+							}).build();
+					donate.apply(getPlayer());
 				}, Lang.get("interfaces.back"), Lang.get("interfaces.confirm"), null, heads[finalI].getLore());
 				inter.open();
 			};
