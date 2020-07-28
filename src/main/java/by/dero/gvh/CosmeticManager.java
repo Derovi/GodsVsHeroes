@@ -79,7 +79,7 @@ public class CosmeticManager {
                 .hero("horseman")
                 .rarity(CosmeticInfo.Rarity.RARE)
                 .material(Material.DIAMOND_SWORD)
-                .displayName("§Костяной топор")
+                .displayName("§4Костяной топор")
                 .cost(50)
                 .groupID(2)
                 .nbt(new CosmeticInfo.NBT("weapons", "skeletonAxe"))

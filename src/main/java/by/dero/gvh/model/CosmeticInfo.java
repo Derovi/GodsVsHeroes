@@ -23,6 +23,7 @@ public class CosmeticInfo {
     public enum Rarity {
         UNCOMMON, RARE, MYTHICAL, LEGENDARY, IMMORTAL;
 
+        public String getNumber() {return Lang.get("rarity.number." + toString().toLowerCase()); }
         public String getName() {
             return Lang.get("rarity." + toString().toLowerCase());
         }
@@ -104,7 +105,8 @@ public class CosmeticInfo {
         meta.setDisplayName(displayName);
         List<String> lore = new ArrayList<>(description);
         lore.add("");
-        lore.add("§fРедкость: " + rarity.getName());
+        lore.add("§fРедкость: " + rarity.getNumber());
+        lore.add(rarity.getName());
         if (addCost) {
             lore.add("§fЦена: §b%cost% кристалликов".replace("%cost%", Integer.toString(cost)));
         }
