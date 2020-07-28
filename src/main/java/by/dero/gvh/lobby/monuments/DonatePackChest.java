@@ -110,7 +110,7 @@ public class DonatePackChest {
 							carryStand.setHeadPose(new Vector3f(0, (float) (360.0 * animTime / 20), 0));
 						}
 						
-						if (animTime == 105) {
+						if (animTime == 95) {
 							PacketPlayOutBlockAction packet = new PacketPlayOutBlockAction(
 									new BlockPosition(loc.x - 0.5, loc.y - 0.4375, loc.z - 0.7),
 									CraftMagicNumbers.getBlock(loc.getBlock()), 1, 0);
@@ -121,6 +121,7 @@ public class DonatePackChest {
 						
 						animTime++;
 						if (animTime == 110) {
+							text.setText(Lang.get("lobby.donate"));
 							loc.getWorld().playSound(loc, Sound.ENTITY_ENDERDRAGON_FIREBALL_EXPLODE, 1.5f, 1);
 							for (int i = 0; i < 100; i++) {
 								Vector at = MathUtils.getInCphere(MathUtils.ZEROVECTOR, 1, MathUtils.PI2 * Math.random(), MathUtils.PI2 * Math.random());
