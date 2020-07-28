@@ -6,9 +6,11 @@ import by.dero.gvh.lobby.interfaces.cosmetic.AllCosmetic;
 import by.dero.gvh.lobby.interfaces.cosmetic.CosmeticInterfaces;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.InterfaceUtils;
+import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,18 +19,28 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class CosmeticSelectorInterface extends Interface {
+	@Setter private Runnable onBackButton;
+	
 	public CosmeticSelectorInterface(InterfaceManager manager, Player player) {
-		super(manager, player, (int) Math.ceil((double)Plugin.getInstance().getData().getClassNameToDescription().size() / 7),
-				Lang.get("cosmetic.title"));
+		super(manager, player, 2, Lang.get("cosmetic.title"));
+	}
+	
+	@Override
+	public void open() {
+		super.open();
 		
 		Collection<UnitClassDescription> classes = Plugin.getInstance().getData().getClassNameToDescription().values();
 		
+		PlayerInfo info = Plugin.getInstance().getPlayerData().getStoredPlayerInfo(getPlayer().getName());
 		ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
 		InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
-		ItemStack common = GameUtils.getHead(player);
+		ItemStack common = GameUtils.getHead(getPlayer());
 		InterfaceUtils.changeName(common, "§9" + Lang.get("classes.all"));
+		
+		ItemStack returnItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
+		InterfaceUtils.changeName(returnItem, Lang.get("interfaces.back"));
 		InterfaceUtils.changeLore(common, Collections.singletonList("§aНажмите, чтобы открыть"));
-
+		
 		addButton(0, getHeight() - 1, common, () -> {
 			CosmeticInterface interfaceObject = new AllCosmetic(Lobby.getInstance().getInterfaceManager(),
 					getPlayer(), "all");
@@ -38,11 +50,15 @@ public class CosmeticSelectorInterface extends Interface {
 			});
 			interfaceObject.open();
 		});
-		int x = 2, y = getHeight() - 1;
+		addButton(0, getHeight() - 2, returnItem, () -> {close(); onBackButton.run();});
+		int[] idxes = {8, 8};
 		for (UnitClassDescription desc : classes) {
 			ItemStack head = Heads.getHead(desc.getName());
 			InterfaceUtils.changeName(head, "§9" + Lang.get("classes." + desc.getName()));
 			InterfaceUtils.changeLore(head, Collections.singletonList("§aОткрыть"));
+			int y = getHeight() - (info.isClassUnlocked(desc.getName()) ? 1 : 2);
+			int x = idxes[y];
+			idxes[y]--;
 			if (!CosmeticInterfaces.exists(desc.getName())) {
 				InterfaceUtils.changeName(head, "§9" + Lang.get("classes." + desc.getName()));
 				InterfaceUtils.changeLore(head, Collections.singletonList("§cСкоро"));
@@ -62,11 +78,6 @@ public class CosmeticSelectorInterface extends Interface {
 					ex.printStackTrace();
 				}
 			});
-			x++;
-			if (x == 9) {
-				x = 2;
-				y--;
-			}
 		}
 	}
 }

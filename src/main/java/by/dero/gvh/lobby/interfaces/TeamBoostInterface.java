@@ -27,7 +27,7 @@ import java.util.List;
 public class TeamBoostInterface extends Interface {
 	@Setter private Runnable onBack = null;
 	
-	private final BukkitRunnable drawSnake;
+	private BukkitRunnable drawSnake;
 	//	private final byte[] itemsMat = {1, 2, 3, 4};
 	private final byte[] itemsMat = {8, 9, 3};
 	private final List<Pair<Integer, Integer>> poses = Arrays.asList(
@@ -37,9 +37,16 @@ public class TeamBoostInterface extends Interface {
 	);
 	
 	private final ArrayList<SafeRunnable> runnables = new ArrayList<>();
+	private final BoosterStand stand;
 	
 	public TeamBoostInterface(InterfaceManager manager, Player player, BoosterStand stand) {
 		super(manager, player, 6, Lang.get("lobby.teamBooster"));
+		this.stand = stand;
+	}
+	
+	@Override
+	public void open() {
+		super.open();
 		
 		String[] pattern = {
 				"EEEEEEEEE",
@@ -51,7 +58,7 @@ public class TeamBoostInterface extends Interface {
 		};
 		ItemStack[] items = new ItemStack[itemsMat.length];
 		ItemStack[] itemsEnchanted = new ItemStack[itemsMat.length];
-		PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
+		PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName());
 		for (int i = 0; i < itemsMat.length; i++) {
 			items[i] = new ItemStack(Material.STAINED_GLASS_PANE, 1, itemsMat[i]);
 			ItemMeta meta = items[i].getItemMeta();
@@ -83,11 +90,11 @@ public class TeamBoostInterface extends Interface {
 			heads[i] = GameUtils.getBoosterHead(boostName);
 			int finalI = i;
 			onSelect[i] = () -> {
-				ConfirmationInterface inter = new ConfirmationInterface(manager, player,
+				ConfirmationInterface inter = new ConfirmationInterface(getManager(), getPlayer(),
 						Lang.get("interfaces.confirmBuy"), this::open, () -> {
 					info.activateBooster(boostName);
 					Plugin.getInstance().getPlayerData().savePlayerInfo(info);
-					player.sendMessage(Lang.get("interfaces.thxBuyBooster"));
+					getPlayer().sendMessage(Lang.get("interfaces.thxBuyBooster"));
 					stand.getAnims().add(fwColors[finalI]);
 				}, Lang.get("interfaces.back"), Lang.get("interfaces.confirm"), null, heads[finalI].getLore());
 				inter.open();
@@ -118,7 +125,7 @@ public class TeamBoostInterface extends Interface {
 						break;
 					case 'S' :
 						addButton(x, y, switchItem, () -> {
-							SingleBoostInterface inter = new SingleBoostInterface(manager, player, stand);
+							SingleBoostInterface inter = new SingleBoostInterface(getManager(), getPlayer(), stand);
 							inter.setOnBack(this::open);
 							close();
 							inter.open();
@@ -214,5 +221,6 @@ public class TeamBoostInterface extends Interface {
 			runnable.cancel();
 		}
 		runnables.clear();
+		getInventory().clear();
 	}
 }
