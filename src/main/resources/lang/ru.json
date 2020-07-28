@@ -5,6 +5,7 @@
     "stats": "§cСкоро",
     "soon": "§6Скоро",
     "select": "§aВыбрать",
+    "upgradeInterface": "§3Улучшить §8» §6%hero%",
     "upgradeSelect": "§9Улучшить",
     "notAvailable": "§cНе доступно",
     "upgrade": "§aУлучшить за §6%cost% §aопыта",
@@ -362,7 +363,7 @@
     "mythical": "§5Мифическая",
     "legendary": "§cЛегендарная",
     "immortal": "§6Эпическая",
-    "number.": {
+    "number": {
       "uncommon": "§3I",
       "rare": "§9II",
       "mythical": "§5III",
