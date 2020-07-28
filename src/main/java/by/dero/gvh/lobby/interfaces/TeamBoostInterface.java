@@ -137,7 +137,7 @@ public class TeamBoostInterface extends Interface {
 						if (boosters[x-3] > 0) {
 							List<String> lore = new ArrayList<>(heads[x-3].getLore());
 							InterfaceUtils.changeName(queueActiveItem, heads[x-3].getItemMeta().getDisplayName());
-							addItem(x, y, queueActiveItem);
+							addButton(x, y, queueActiveItem, onSelect[x-3]);
 							
 							int finalX = x;
 							int finalY = y;
@@ -152,7 +152,7 @@ public class TeamBoostInterface extends Interface {
 									} else {
 										this.cancel();
 										InterfaceUtils.changeName(activeItem, heads[finalX-3].getItemMeta().getDisplayName());
-										addItem(finalX, finalY, activeItem);
+										addButton(finalX, finalY, activeItem, onSelect[finalX-3]);
 									}
 								}
 							};
@@ -160,7 +160,7 @@ public class TeamBoostInterface extends Interface {
 							runnables.add(runnable);
 						} else {
 							InterfaceUtils.changeName(activeItem, heads[x-3].getItemMeta().getDisplayName());
-							addItem(x, y, activeItem);
+							addButton(x, y, activeItem, onSelect[x-3]);
 						}
 						break;
 				}
@@ -176,40 +176,45 @@ public class TeamBoostInterface extends Interface {
 			final int length = 7;
 			ItemStack item = items[0];
 			ItemStack itemEnch = itemsEnchanted[0];
+			int ticks = 0;
 			@Override
 			public void run() {
-				for (int i = 0; i < (start ? poses.size() : 1); i++) {
-					stage |= (itemIdx > 0 && snakeIdx >= length);
-					needEnch |= itemIdx > 0;
-					int x = poses.get(snakeIdx).getValue(), y = poses.get(snakeIdx).getKey();
-					if (stage) {
-						int lst = (snakeIdx - length + poses.size()) % poses.size();
-						addItem(poses.get(lst).getValue(), poses.get(lst).getKey(), item);
-					} else {
-						if (needEnch) {
-							addItem(x, y, itemEnch);
+				if (ticks == 0) {
+					for (int i = 0; i < (start ? poses.size() : 1); i++) {
+						stage |= (itemIdx > 0 && snakeIdx >= length);
+						needEnch |= itemIdx > 0;
+						int x = poses.get(snakeIdx).getValue(), y = poses.get(snakeIdx).getKey();
+						if (stage) {
+							int lst = (snakeIdx - length + poses.size()) % poses.size();
+							addItem(poses.get(lst).getValue(), poses.get(lst).getKey(), item);
 						} else {
-							addItem(x, y, item);
+							if (needEnch) {
+								addItem(x, y, itemEnch);
+							} else {
+								addItem(x, y, item);
+							}
 						}
+						if (needEnch) {
+							addItem(poses.get(snakeIdx).getValue(), poses.get(snakeIdx).getKey(), itemEnch);
+						}
+						snakeIdx++;
+						if (snakeIdx == poses.size()) {
+							snakeIdx = 0;
+							itemEnch = itemsEnchanted[itemIdx];
+							itemIdx = (itemIdx + 1) % items.length;
+						}
+						if (snakeIdx == length && needEnch) {
+							item = items[itemIdx];
+						}
+						update();
 					}
-					if (needEnch) {
-						addItem(poses.get(snakeIdx).getValue(), poses.get(snakeIdx).getKey(), itemEnch);
-					}
-					snakeIdx++;
-					if (snakeIdx == poses.size()) {
-						snakeIdx = 0;
-						itemEnch = itemsEnchanted[itemIdx];
-						itemIdx = (itemIdx + 1) % items.length;
-					}
-					if (snakeIdx == length && needEnch) {
-						item = items[itemIdx];
-					}
-					update();
+					start = false;
 				}
-				start = false;
+				ticks = (ticks + 1) % 3;
+				update();
 			}
 		};
-		drawSnake.runTaskTimer(Plugin.getInstance(), 0, 3);
+		drawSnake.runTaskTimer(Plugin.getInstance(), 0, 1);
 	}
 	
 	@Override
