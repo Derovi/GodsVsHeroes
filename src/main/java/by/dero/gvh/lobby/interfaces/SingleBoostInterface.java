@@ -9,6 +9,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.InterfaceUtils;
 import by.dero.gvh.utils.Pair;
 import by.dero.gvh.utils.SafeRunnable;
+import com.google.common.collect.Lists;
 import lombok.Setter;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -70,6 +71,7 @@ public class SingleBoostInterface extends Interface {
 		InterfaceUtils.changeName(switchItem, Lang.get("lobby.teamBooster"));
 		ItemStack activeItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
 		InterfaceUtils.changeName(activeItem, Lang.get("interfaces.empty"));
+		activeItem.setLore(Lists.newArrayList(Lang.get("interfaces.notActive")));
 		ItemStack queueActiveItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
 		ItemStack permMultItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 10);
 		double mult = 1;
@@ -136,6 +138,8 @@ public class SingleBoostInterface extends Interface {
 						addButton(x, y, heads[x-2], onSelect[x-2]); break;
 					case 'C' :
 						if (boosters[x-2] > 0) {
+							List<String> lore = new ArrayList<>(heads[x-2].getLore());
+							InterfaceUtils.changeName(queueActiveItem, heads[x-2].getItemMeta().getDisplayName());
 							addItem(x, y, queueActiveItem);
 							
 							int finalX = x;
@@ -145,11 +149,12 @@ public class SingleBoostInterface extends Interface {
 								public void run() {
 									long left = boosters[finalX - 2] - System.currentTimeMillis() / 1000;
 									if (left > 0) {
-										InterfaceUtils.changeName(getInventory().getItem(getPos(finalX, finalY)),
-												Lang.get("interfaces.queueActive").
-														replace("%val%", InterfaceUtils.getLeftTimeString((int) left)));
+										lore.set(lore.size() - 1, Lang.get("interfaces.queueActive").
+												replace("%val%", InterfaceUtils.getLeftTimeString((int) left)));
+										getInventory().getItem(getPos(finalX, finalY)).setLore(lore);
 									} else {
 										this.cancel();
+										InterfaceUtils.changeName(activeItem, heads[finalX - 2].getItemMeta().getDisplayName());
 										addItem(finalX, finalY, activeItem);
 									}
 								}
@@ -157,6 +162,7 @@ public class SingleBoostInterface extends Interface {
 							runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
 							runnables.add(runnable);
 						} else {
+							InterfaceUtils.changeName(activeItem, heads[x - 2].getItemMeta().getDisplayName());
 							addItem(x, y, activeItem);
 						}
 						break;

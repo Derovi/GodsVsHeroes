@@ -19,7 +19,7 @@
       "force": 0.8,
       "duration": 90,
       "cooldown": 160,
-      "cost": 100,
+      "cost": 130,
       "material": "WEB",
       "amount": 1
     },
@@ -27,7 +27,7 @@
       "force": 0.8,
       "duration": 100,
       "cooldown": 160,
-      "cost": 130,
+      "cost": 350,
       "material": "WEB",
       "amount": 1
     },
@@ -35,7 +35,7 @@
       "force": 0.8,
       "duration": 110,
       "cooldown": 160,
-      "cost": 160,
+      "cost": 720,
       "material": "WEB",
       "amount": 1
     },
@@ -43,7 +43,15 @@
       "force": 0.8,
       "duration": 120,
       "cooldown": 160,
-      "cost": 200,
+      "cost": 1600,
+      "material": "WEB",
+      "amount": 1
+    },
+    {
+      "force": 0.8,
+      "duration": 130,
+      "cooldown": 160,
+      "cost": 3500,
       "material": "WEB",
       "amount": 1
     }

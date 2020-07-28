@@ -9,6 +9,7 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.InterfaceUtils;
 import by.dero.gvh.utils.Pair;
 import by.dero.gvh.utils.SafeRunnable;
+import com.google.common.collect.Lists;
 import lombok.Setter;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -70,6 +71,7 @@ public class TeamBoostInterface extends Interface {
 		InterfaceUtils.changeName(switchItem, Lang.get("lobby.singleBooster"));
 		ItemStack activeItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
 		InterfaceUtils.changeName(activeItem, Lang.get("interfaces.empty"));
+		activeItem.setLore(Lists.newArrayList(Lang.get("interfaces.notActive")));
 		ItemStack queueActiveItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
 		Color[] fwColors = {
 				Color.GREEN, Color.YELLOW, Color.BLUE, Color.PURPLE, Color.RED
@@ -126,6 +128,8 @@ public class TeamBoostInterface extends Interface {
 						addButton(x, y, heads[x-3], onSelect[x-3]); break;
 					case 'C' :
 						if (boosters[x-3] > 0) {
+							List<String> lore = new ArrayList<>(heads[x-3].getLore());
+							InterfaceUtils.changeName(queueActiveItem, heads[x-3].getItemMeta().getDisplayName());
 							addItem(x, y, queueActiveItem);
 							
 							int finalX = x;
@@ -135,11 +139,12 @@ public class TeamBoostInterface extends Interface {
 								public void run() {
 									long left = boosters[finalX - 3] - System.currentTimeMillis() / 1000;
 									if (left > 0) {
-										InterfaceUtils.changeName(getInventory().getItem(getPos(finalX, finalY)),
-												Lang.get("interfaces.queueActive").
-														replace("%val%", InterfaceUtils.getLeftTimeString((int) left)));
+										lore.set(lore.size() - 1, Lang.get("interfaces.queueActive").
+												replace("%val%", InterfaceUtils.getLeftTimeString((int) left)));
+										getInventory().getItem(getPos(finalX, finalY)).setLore(lore);
 									} else {
 										this.cancel();
+										InterfaceUtils.changeName(activeItem, heads[finalX-3].getItemMeta().getDisplayName());
 										addItem(finalX, finalY, activeItem);
 									}
 								}
@@ -147,6 +152,7 @@ public class TeamBoostInterface extends Interface {
 							runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
 							runnables.add(runnable);
 						} else {
+							InterfaceUtils.changeName(activeItem, heads[x-3].getItemMeta().getDisplayName());
 							addItem(x, y, activeItem);
 						}
 						break;

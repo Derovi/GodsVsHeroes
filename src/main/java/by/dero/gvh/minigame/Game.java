@@ -395,9 +395,20 @@ public abstract class Game implements Listener {
                 player.removePotionEffect(effect.getType());
             }
             if (gp.getTeam() == winnerTeam) {
-                rewardManager.give("winGame", player);
+                rewardManager.give("winGame", player, "");
+                MessagingUtils.sendTitle(Lang.get("game.won"), Lang.get("game.winSubtitle").
+                        replace("%exp%", String.valueOf(rewardManager.get("winGame").getCount())), player, 0, 60, 0);
+                Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+                    if (player.isOnline()) {
+                        MessagingUtils.sendTitle(Lang.get("game.won"), Lang.get("game.endResult").
+                                        replace("%exp%", String.valueOf(Game.getInstance().getStats().getPlayers().get(player.getName()).getExpGained())),
+                                player, 0, 60, 0);
+                    }
+                }, 60);
             } else {
-                rewardManager.give("loseGame", player);
+                MessagingUtils.sendTitle(Lang.get("game.lost"), Lang.get("game.endResult").
+                                replace("%exp%", String.valueOf(Game.getInstance().getStats().getPlayers().get(player.getName()).getExpGained())),
+                        player, 0, 120, 0);
             }
             player.setFireTicks(0);
         }

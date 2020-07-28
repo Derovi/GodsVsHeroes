@@ -20,28 +20,35 @@
       "radius": 26.0,
       "minRadius": 8.0,
       "cooldown": 550,
-      "cost": 100,
+      "cost": 130,
       "amount": 1
     },
     {
       "radius": 27.0,
       "minRadius": 8.0,
       "cooldown": 500,
-      "cost": 130,
+      "cost": 350,
       "amount": 1
     },
     {
       "radius": 28.0,
       "minRadius": 8.0,
       "cooldown": 450,
-      "cost": 160,
+      "cost": 720,
       "amount": 1
     },
     {
       "radius": 30.0,
       "minRadius": 8.0,
       "cooldown": 400,
-      "cost": 200,
+      "cost": 1600,
+      "amount": 1
+    },
+    {
+      "radius": 30.0,
+      "minRadius": 8.0,
+      "cooldown": 350,
+      "cost": 3500,
       "amount": 1
     }
   ]

@@ -455,7 +455,7 @@ public class GameUtils {
         BoosterInfo info = Plugin.getInstance().getBoosterManager().getBoosters().get(name);
         ItemStack head = Heads.getHead(name);
         ItemMeta meta = head.getItemMeta();
-        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Командный" : "") +" Бустер §1" + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
+        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Командный " : "") +"Бустер §1" + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
         ArrayList<String> lore = new ArrayList<>(20);
         if (name.equals("L5")) {
             lore.add("§6Перманентный эффект");

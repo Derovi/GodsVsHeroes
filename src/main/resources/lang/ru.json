@@ -21,7 +21,10 @@
     "confirmBuy": "§6Подтверждение покупки",
     "thxBuyBooster": "§6Бустер выдан. Спасибо за покупку",
     "queueActive": "§6Осталось §8» §b%val%",
-    "permMult": "§6Текущий прирост опыта §8» §f%val%§b%"
+    "permMult": "§6Текущий прирост опыта §8» §f%val%§b%",
+    "notActive": "§cНе активирован",
+    "selectDonateCat": "§6Выберите категорию",
+    "packsTitle": "§6Наборы"
   },
   "cosmetic": {
     "common": "§aОбщее",
@@ -207,7 +210,9 @@
     "online": "Онлайн §8» §b%online%",
     "collectorsStatus": "Захват §8» §f",
     "progressReach": "%command% §aнабрали %pts%%",
-    "afkKickMessage": "§cИграть надо было, голубчик"
+    "afkKickMessage": "§cИграть надо было, голубчик",
+    "winSubtitle": "§l§f +§6%exp% §fопыта",
+    "endResult": "§l§f +§6%exp% §fопыта всего"
   },
   "loots": {
     "statusSpeed": "§aСкорость §8» §6%amount% §aсек.",
@@ -290,7 +295,8 @@
     "cosmetics": "§6Косметика",
     "lastGame": "§6Статистика прошлой игры",
     "teamBooster": "§6Улучшения команды",
-    "singleBooster": "§6Улучшения себя"
+    "singleBooster": "§6Улучшения себя",
+    "donate": "§6Донат"
   },
   "rewmes": {
     "kill": "§6§lУбийство§a +%exp% опыта §8|§a +%eth% эфира",

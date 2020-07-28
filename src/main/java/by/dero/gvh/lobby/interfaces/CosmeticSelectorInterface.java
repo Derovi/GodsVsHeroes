@@ -2,7 +2,6 @@ package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.lobby.interfaces.cosmetic.AllCosmetic;
 import by.dero.gvh.lobby.interfaces.cosmetic.CosmeticInterfaces;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.Lang;
@@ -13,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
