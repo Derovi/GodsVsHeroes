@@ -34,8 +34,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -543,31 +547,31 @@ public class Lobby implements PluginMode, Listener {
         }
     }
     
-//
-//    @EventHandler
-//    public void onBlockPlace(BlockPlaceEvent event) {
-//        event.setCancelled(true);
-//    }
-//
-//    @EventHandler
-//    public void onDropItem(PlayerDropItemEvent event) {
-//        event.setCancelled(true);
-//    }
-//
-//    @EventHandler
-//    public void onInventoryDrag(InventoryDragEvent event) {
-//        event.setCancelled(true);
-//    }
-//
-//    @EventHandler
-//    public void onInventoryClick(InventoryClickEvent event) {
-//        event.setCancelled(true);
-//    }
-//
-//    @EventHandler
-//    public void onBlockBreak(BlockBreakEvent event) {
-//        event.setCancelled(true);
-//    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onDropItem(PlayerDropItemEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        event.setCancelled(true);
+    }
 
     @EventHandler
     public void onThunderChange(ThunderChangeEvent e) {
