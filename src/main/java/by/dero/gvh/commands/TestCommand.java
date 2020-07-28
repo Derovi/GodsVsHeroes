@@ -1,6 +1,10 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.lobby.monuments.BoosterStand;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +19,13 @@ public class TestCommand implements CommandExecutor {
         Player player = (Player) commandSender;
 
         try {
-            Lobby.getInstance().getChest().addAnim(Integer.parseInt(args[0]));
+            int idx = Integer.parseInt(args[0]);
+            Lobby.getInstance().getChest().addAnim(idx, player);
+            if (idx > 0) {
+                BoosterStand stand = Lobby.getInstance().getMonumentManager().getBoosters().get(idx-1);
+                Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> stand.getAnims().add(Color.WHITE),
+                        Lobby.getInstance().getChest().getAnimDuration() - 20);
+            }
         } catch (Exception e) {
         
         }

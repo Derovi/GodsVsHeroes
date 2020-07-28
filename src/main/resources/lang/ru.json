@@ -29,7 +29,8 @@
     "selectDonateCat": "§6Выберите категорию",
     "packsTitle": "§6Наборы",
     "costLore": "§fЦена §8» §6%cost% §fопыта",
-    "cristCostLore": "§fЦена §8» §6%cost% §bкристалликов"
+    "cristCostLore": "§fЦена §8» §6%cost% §bкристалликов",
+    "openingTitle": "§c§lОткрывает §8» §6§l%pl%"
   },
   "cosmetic": {
     "common": "§aОбщее",
