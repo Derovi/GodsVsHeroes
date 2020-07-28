@@ -37,7 +37,8 @@ public class BuyCosmeticInterface extends Interface {
 			player.playSound(player.getEyeLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
 		};
 		Runnable onBuy = () -> {
-			Lobby.getInstance().getChest().addAnim(0, player);
+			Lobby.getInstance().getChest().addAnim(3, player, Plugin.getInstance().getCosmeticManager()
+					.getCustomizations().get(cosmeticName).getItemStack(true));
 			player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 			PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
 			info.unlockCosmetic(cosmeticName);

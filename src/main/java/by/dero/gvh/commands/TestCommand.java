@@ -20,7 +20,7 @@ public class TestCommand implements CommandExecutor {
 
         try {
             int idx = Integer.parseInt(args[0]);
-            Lobby.getInstance().getChest().addAnim(idx, player);
+            Lobby.getInstance().getChest().addAnim(idx, player, null);
             if (idx > 0) {
                 BoosterStand stand = Lobby.getInstance().getMonumentManager().getBoosters().get(idx-1);
                 Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> stand.getAnims().add(Color.WHITE),
