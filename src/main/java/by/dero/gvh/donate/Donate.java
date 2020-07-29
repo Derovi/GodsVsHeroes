@@ -34,6 +34,7 @@ public class Donate {
 //                DonateInfo.builder().description(description).type(type).playerName(player.getName()).price(price).build());
 //        onSuccessful.run();
         if (player.isOp()) {
+            player.sendMessage("§aКуплено за опку");
             onSuccessful.run();
             return;
         }
@@ -48,11 +49,12 @@ public class Donate {
                                 .description(description)
                                 .type(type)
                                 .playerName(player.getName())
-                                .date(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")
+                                .date(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                                         .format(Calendar.getInstance().getTime()))
                                 .price(price).build());
                 onSuccessful.run();
             } else {
+                player.sendMessage("§cУ вас не хватает кристалликов =(");
                 onError.run();
             }
         });

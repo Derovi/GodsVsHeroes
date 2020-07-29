@@ -88,8 +88,9 @@ public class CosmeticInterface extends Interface {
             }
             Runnable runnable;
             if (state == 0) {
+                item = info.getItemStack(true);
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3);
-                subItem.getItemMeta().setDisplayName(Lang.get("cosmetic.buy"));
+                InterfaceUtils.changeName(subItem, Lang.get("cosmetic.buy"));
                 runnable = () -> {
                     getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                     BuyCosmeticInterface buyCosmetic = new BuyCosmeticInterface(getManager(), getPlayer(), name);
@@ -102,7 +103,7 @@ public class CosmeticInterface extends Interface {
                 };
             } else if (state == 1) {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 7);
-                subItem.getItemMeta().setDisplayName(Lang.get("cosmetic.enable"));
+                InterfaceUtils.changeName(subItem, Lang.get("cosmetic.enable"));
                 runnable = () -> {
                     getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                     playerInfo.enableCosmetic(name);
@@ -111,7 +112,7 @@ public class CosmeticInterface extends Interface {
                 };
             } else {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
-                subItem.getItemMeta().setDisplayName(Lang.get("cosmetic.disable"));
+                InterfaceUtils.changeName(subItem, Lang.get("cosmetic.diable"));
                 runnable = () -> {
                     getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                     playerInfo.disableCosmetic(name);

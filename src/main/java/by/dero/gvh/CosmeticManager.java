@@ -22,8 +22,8 @@ public class CosmeticManager {
                 .hero("all")
                 .rarity(CosmeticInfo.Rarity.MYTHICAL)
                 .material(Material.DIAMOND)
-                .displayName("Падающие головы")
-                .cost(50)
+                .displayName("§4Падающие головы")
+                .cost(119)
                 .groupID(0)
                 .build());
 
@@ -35,7 +35,7 @@ public class CosmeticManager {
                 .rarity(CosmeticInfo.Rarity.RARE)
                 .material(Material.DIAMOND_SWORD)
                 .displayName("§4Кровавый меч")
-                .cost(50)
+                .cost(69)
                 .groupID(1)
                 .nbt(new CosmeticInfo.NBT("weapons", "bloodyvengeance"))
                 .build());
@@ -43,10 +43,10 @@ public class CosmeticManager {
         register(CosmeticInfo.builder()  // victory sword
                 .name("victorySword")
                 .hero("warrior")
-                .rarity(CosmeticInfo.Rarity.RARE)
+                .rarity(CosmeticInfo.Rarity.MYTHICAL)
                 .material(Material.DIAMOND_SWORD)
                 .displayName("§bМеч победы")
-                .cost(50)
+                .cost(119)
                 .groupID(1)
                 .nbt(new CosmeticInfo.NBT("weapons", "azure_sabre"))
                 .build());
@@ -57,7 +57,7 @@ public class CosmeticManager {
                 .rarity(CosmeticInfo.Rarity.IMMORTAL)
                 .material(Material.DIAMOND_SWORD)
                 .displayName("§4Булава смерти")
-                .cost(50)
+                .cost(279)
                 .groupID(1)
                 .nbt(new CosmeticInfo.NBT("weapons", "bludgeon"))
                 .build());
@@ -69,7 +69,7 @@ public class CosmeticManager {
                 .rarity(CosmeticInfo.Rarity.MYTHICAL)
                 .material(Material.DIAMOND_SWORD)
                 .displayName("§4Топор ада")
-                .cost(50)
+                .cost(119)
                 .groupID(2)
                 .nbt(new CosmeticInfo.NBT("weapons", "waraxe"))
                 .build());
@@ -80,7 +80,7 @@ public class CosmeticManager {
                 .rarity(CosmeticInfo.Rarity.RARE)
                 .material(Material.DIAMOND_SWORD)
                 .displayName("§4Костяной топор")
-                .cost(50)
+                .cost(69)
                 .groupID(2)
                 .nbt(new CosmeticInfo.NBT("weapons", "skeletonAxe"))
                 .build());
@@ -92,7 +92,7 @@ public class CosmeticManager {
                 .rarity(CosmeticInfo.Rarity.LEGENDARY)
                 .material(Material.DIAMOND_SWORD)
                 .displayName("§4Меч дракона")
-                .cost(50)
+                .cost(189)
                 .groupID(3)
                 .nbt(new CosmeticInfo.NBT("weapons", "dragon"))
                 .build());
@@ -104,7 +104,7 @@ public class CosmeticManager {
                 .rarity(CosmeticInfo.Rarity.MYTHICAL)
                 .material(Material.DIAMOND_SWORD)
                 .displayName("§4Демонический меч")
-                .cost(50)
+                .cost(119)
                 .groupID(4)
                 .nbt(new CosmeticInfo.NBT("weapons", "demonic"))
                 .build());
@@ -115,7 +115,7 @@ public class CosmeticManager {
                 .rarity(CosmeticInfo.Rarity.IMMORTAL)
                 .material(Material.DIAMOND_SWORD)
                 .displayName("§4Меч сатаны")
-                .cost(50)
+                .cost(279)
                 .groupID(4)
                 .nbt(new CosmeticInfo.NBT("weapons", "spider"))
                 .build());
@@ -127,7 +127,7 @@ public class CosmeticManager {
                 .rarity(CosmeticInfo.Rarity.UNCOMMON)
                 .material(Material.CLAY_BALL)
                 .displayName("§4Сказочный меч")
-                .cost(50)
+                .cost(29)
                 .groupID(5)
                 .nbt(new CosmeticInfo.NBT("ether", "paladinsword"))
                 .build());
@@ -137,7 +137,7 @@ public class CosmeticManager {
                 .rarity(CosmeticInfo.Rarity.RARE)
                 .material(Material.DIAMOND_SWORD)
                 .displayName("§4Утерянный меч")
-                .cost(50)
+                .cost(69)
                 .groupID(5)
                 .nbt(new CosmeticInfo.NBT("weapons", "crimsoncleaver"))
                 .build());
@@ -149,7 +149,7 @@ public class CosmeticManager {
                 .rarity(CosmeticInfo.Rarity.LEGENDARY)
                 .material(Material.CLAY_BALL)
                 .displayName("§4Клинок альтаира")
-                .cost(50)
+                .cost(189)
                 .groupID(6)
                 .nbt(new CosmeticInfo.NBT("ether", "hid_blade"))
                 .build());
@@ -157,10 +157,10 @@ public class CosmeticManager {
         register(CosmeticInfo.builder()  // Ezio Espadron
                 .name("ezioEspadron")
                 .hero("assassin")
-                .rarity(CosmeticInfo.Rarity.RARE)
+                .rarity(CosmeticInfo.Rarity.MYTHICAL)
                 .material(Material.DIAMOND_SWORD)
                 .displayName("§4Эспадрон Эцио")
-                .cost(50)
+                .cost(119)
                 .groupID(6)
                 .nbt(new CosmeticInfo.NBT("weapons", "claymore"))
                 .build());

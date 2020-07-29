@@ -84,6 +84,11 @@ public class BoosterManager {
         for (GamePlayer other : game.getPlayers().values()) {
             List<Booster> playerBoosters = getBoosters(other.getPlayer());
             for (Booster booster : playerBoosters) {
+                if (booster.getName().equals("L5") &&
+                        other.getPlayer().getUniqueId().equals(gp.getPlayer().getUniqueId())) {
+                    result += booster.getBonus();
+                    continue;
+                }
                 if (booster.getExpirationTime() < currentTime || booster.getStartTime() > currentTime) {
                     continue;
                 }

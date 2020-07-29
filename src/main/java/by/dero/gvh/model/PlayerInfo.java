@@ -19,7 +19,7 @@ public class PlayerInfo {
     @Getter @Setter
     private List<Booster> boosters = new ArrayList<>();
     @Getter @Setter
-    private int balance = 100;
+    private int balance = 300;
     @Getter
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
