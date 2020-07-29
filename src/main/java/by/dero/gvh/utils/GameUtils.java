@@ -449,6 +449,14 @@ public class GameUtils {
         return ret;
     }
 
+    public static String getString(Double ch) {
+        String str = String.format("%.1f", ch);
+        if (str.charAt(str.length() - 1) == '0') {
+            str = str.substring(0, str.length() - 2);
+        }
+        return str;
+    }
+    
     public static ItemStack getHead(Player player) {
         SkullMeta skullMeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
         skullMeta.setOwningPlayer(player);

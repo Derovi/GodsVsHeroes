@@ -32,7 +32,7 @@ public class GamePlayerStats {
     private double damageDealt = 0;
 
     @Getter @Setter
-    private int expGained = 0;
+    private double expGained = 0;
 
     @Getter @Setter
     private int capturePoints = 0;
