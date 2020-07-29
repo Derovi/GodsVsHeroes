@@ -75,7 +75,7 @@ public class GameStatsManager {
         }
     }
 
-    public void addExp(GamePlayer gp, Integer value) {
+    public void addExp(GamePlayer gp, double value) {
         String name = gp.getPlayer().getName();
         GamePlayerStats stats = gameStats.getPlayers().get(name);
         stats.setExpGained(stats.getExpGained() + value);

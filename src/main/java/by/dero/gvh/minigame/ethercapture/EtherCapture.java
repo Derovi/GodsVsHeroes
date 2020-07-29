@@ -10,6 +10,7 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.stats.GamePlayerStats;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Bukkit;
@@ -29,7 +30,6 @@ import ru.cristalix.core.formatting.Colors;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 import static by.dero.gvh.model.Drawings.spawnFireworks;
 
@@ -74,9 +74,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             gp.setBoard(board);
         }
     }
-
     
-    private final HashMap<GamePlayer, Double> boosterMult = new HashMap<>();
     @Override
     public void updateDisplays() {
         int cnt = getInfo().getTeamCount();
@@ -108,14 +106,9 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             str[cnt] = Lang.get("commands.playingFor").
                     replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
 //            str[cnt+2] = Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()));
-    
-            double mult = boosterMult.getOrDefault(gp, -1.0);
-            if (mult == -1) {
-                mult = Plugin.getInstance().getBoosterManager().calculateMultiplier(this, gp);
-                boosterMult.put(gp, mult);
-            }
+            double mult = getMultiplier(gp);
             str[cnt+3] = (mult == 1 ? Lang.get("game.expGained") : Lang.get("game.expGainedMult").
-                    replace("%mul%", String.format("%.1f", mult))).replace("%exp%", String.valueOf(stats.getExpGained() * mult));
+                    replace("%mul%", String.format("%.1f", mult))).replace("%exp%", GameUtils.getString(stats.getExpGained()));
             str[cnt+4] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills()));
             str[cnt+5] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths()));
             str[cnt+6] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists()));

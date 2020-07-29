@@ -66,8 +66,10 @@ public abstract class Game implements Listener {
     private RewardManager rewardManager;
     private MapManager mapManager;
     private DeathAdviceManager deathAdviceManager;
-    @Getter
-    private GameStatsManager gameStatsManager;
+    @Getter private GameStatsManager gameStatsManager;
+    @Getter private final HashMap<GamePlayer, Double> boosterMult = new HashMap<>();
+    @Getter private final HashSet<GamePlayer> boosterTeamSpent = new HashSet<>();
+    @Getter private final HashSet<GamePlayer> boosterGlobalSpent = new HashSet<>();
     @Getter @Setter protected GameStats stats;
     protected boolean loaded = false;
 
@@ -303,13 +305,13 @@ public abstract class Game implements Listener {
                 }
                 Pair<Double, Double> cur = multipliers.getOrDefault(gp.getPlayer().getName(), Pair.of(1.0, 1.0));
                 switch (booster.getName()) {
-                    case "G1":
+                    case "G1" :
                         cur.setKey(cur.getKey() + 1);
                         break;
-                    case "G2":
+                    case "G2" :
                         cur.setKey(cur.getKey() + 0.5);
                         break;
-                    case "G3":
+                    case "G3" :
                         cur.setValue(cur.getValue() + 1);
                         break;
                 }
@@ -325,13 +327,16 @@ public abstract class Game implements Listener {
             byTeam.add(new ArrayList<>());
         }
         for (Map.Entry<String, Pair<Double, Double>> cur : multipliers.entrySet()) {
-            int team = players.get(cur.getKey()).getTeam();
+            GamePlayer gp = players.get(cur.getKey());
+            int team = gp.getTeam();
             if (cur.getValue().getKey() > 1) {
+                boosterTeamSpent.add(gp);
                 boosterTitles.get(team).add(Lang.get("game.boosterBarTeam").
                         replace("%val%", String.format("%.1f", cur.getValue().getKey())).
                         replace("%pl%", cur.getKey()));
             }
             if (cur.getValue().getValue() > 1) {
+                boosterGlobalSpent.add(gp);
                 for (int i = 0; i < info.getTeamCount(); i++) {
                     boosterTitles.get(i).add(Lang.get("game.boosterBarGlobal").
                             replace("%val%", String.format("%.1f", cur.getValue().getValue())).
@@ -379,7 +384,7 @@ public abstract class Game implements Listener {
                 rewardManager.give("killEnemy", killer.getPlayer(), "");
 
                 MessagingUtils.sendSubtitle(Lang.get("rewmes.kill").
-                                replace("%exp%", Integer.toString(rewardManager.get("killEnemy").getCount()))
+                                replace("%exp%", GameUtils.getString(getMultiplier(killer) * rewardManager.get("killEnemy").getCount()))
                                 .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
                         killer.getPlayer(), 0, 20, 0);
 
@@ -397,7 +402,7 @@ public abstract class Game implements Listener {
                     for (GamePlayer pl : assists) {
                         rewardManager.give("assist", pl.getPlayer(), "");
                         MessagingUtils.sendSubtitle(Lang.get("rewmes.assist").
-                                        replace("%exp%", Integer.toString(rewardManager.get("assist").getCount()))
+                                        replace("%exp%", GameUtils.getString(getMultiplier(pl) * rewardManager.get("assist").getCount()))
                                 .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
                                 pl.getPlayer(), 0, 20, 0);
                     }
@@ -480,7 +485,7 @@ public abstract class Game implements Listener {
             if (gp.getTeam() == winnerTeam) {
                 rewardManager.give("winGame", player, "");
                 MessagingUtils.sendTitle(Lang.get("game.won"), Lang.get("game.winSubtitle").
-                        replace("%exp%", String.valueOf(rewardManager.get("winGame").getCount())), player, 0, 60, 0);
+                        replace("%exp%", GameUtils.getString(getMultiplier(gp) * rewardManager.get("winGame").getCount())), player, 0, 60, 0);
                 Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     if (player.isOnline()) {
                         MessagingUtils.sendTitle(Lang.get("game.won"), Lang.get("game.endResult").
@@ -494,6 +499,7 @@ public abstract class Game implements Listener {
                         player, 0, 120, 0);
             }
             player.setFireTicks(0);
+            Plugin.getInstance().getPlayerData().increaseBalance(player.getName(), rewardManager.getExp(player.getName()));
         }
 
         for (LivingEntity entity: world.getLivingEntities()) {
@@ -783,5 +789,14 @@ public abstract class Game implements Listener {
 
     protected void setState (State state) {
         this.state = state;
+    }
+    
+    public double getMultiplier(GamePlayer gp) {
+        double mult = getBoosterMult().getOrDefault(gp, -1.0);
+        if (mult == -1) {
+            mult = Plugin.getInstance().getBoosterManager().calculateMultiplier(this, gp);
+            getBoosterMult().put(gp, mult);
+        }
+        return mult;
     }
 }
