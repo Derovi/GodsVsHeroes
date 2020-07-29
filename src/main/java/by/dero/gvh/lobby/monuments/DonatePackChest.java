@@ -65,7 +65,8 @@ public class DonatePackChest {
 			stands[i].world.addEntity(stands[i], CreatureSpawnEvent.SpawnReason.CUSTOM);
 		}
 		
-		FlyingText text =  new FlyingText(loc.clone().add(0, 0.4, -0.2), Lang.get("lobby.donate"));
+		Location stText = loc.clone().add(0, 0.4, -0.2);
+		FlyingText text =  new FlyingText(stText, Lang.get("lobby.donate"));
 		runnable = new BukkitRunnable() {
 			int animTime = 0;
 			double angle = 0;
@@ -93,6 +94,7 @@ public class DonatePackChest {
 							for (int i = 0; i < stands.length; i++) {
 								Location at = getInCircle(MathUtils.PI2 * (animTime - 9) / 6 / 10 + MathUtils.PI2 / 3 * i);
 								stands[i].setPosition(at.x, at.y, at.z);
+								text.getArmorStand().getHandle().locY = stText.y + 1.5 / 10 * (animTime - 9);
 							}
 						}
 						if (animTime == 20) {
@@ -140,6 +142,7 @@ public class DonatePackChest {
 							for (int i = 0; i < stands.length; i++) {
 								Location at = getInCircle(MathUtils.PI2 * (174 - animTime) / 6 / 10 + MathUtils.PI2 / 3 * i);
 								stands[i].setPosition(at.x, at.y, at.z);
+								text.getArmorStand().getHandle().locY = stText.y + 1.5 / 10 * (174 - animTime);
 							}
 						}
 						
