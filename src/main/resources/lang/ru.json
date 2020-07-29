@@ -222,7 +222,10 @@
     "winSubtitle": "§l§f +§6%exp% §fопыта",
     "endResult": "§l§f +§6%exp% §fопыта всего",
     "boosterBarTeam": "        §a×§l%val% §fкоманде от §6%pl%§f, /thx - отблагодарить",
-    "boosterBarGlobal": "        §a×§l%val% §fвсем от §6%pl%§f, /thx - отблагодарить"
+    "boosterBarGlobal": "        §a×§l%val% §fвсем от §6%pl%§f, /thx - отблагодарить",
+    "thxSentMany": "§aТы сказал спасибо игрокам §f%pl% §f+§6§l20 §aопыта",
+    "thxSentOne": "§aТы сказал спасибо игроку §f%pl% §f+§6§l20 §aопыта",
+    "thxReceived": "§f%pl% §aсказал вам спасибо! §f+§6§l20 §aопыта"
   },
   "loots": {
     "statusSpeed": "§aСкорость §8» §6%amount% §aсек.",

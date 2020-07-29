@@ -1,10 +1,7 @@
 package by.dero.gvh;
 
 import by.dero.gvh.bookapi.BookManager;
-import by.dero.gvh.commands.AdviceCommand;
-import by.dero.gvh.commands.BugCommand;
-import by.dero.gvh.commands.EtherCommand;
-import by.dero.gvh.commands.TestCommand;
+import by.dero.gvh.commands.*;
 import by.dero.gvh.donate.DonateData;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Game;
@@ -36,9 +33,7 @@ import ru.cristalix.core.invoice.IInvoiceService;
 import ru.cristalix.core.invoice.InvoiceService;
 import ru.cristalix.core.karma.IKarmaService;
 import ru.cristalix.core.karma.KarmaService;
-import ru.cristalix.core.map.BukkitWorldLoader;
 import ru.cristalix.core.map.IMapService;
-import ru.cristalix.core.map.LoadedMap;
 import ru.cristalix.core.map.MapService;
 import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
@@ -102,6 +97,7 @@ public class Plugin extends JavaPlugin implements Listener {
         }
         boosterManager = new BoosterManager();
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
+        Bukkit.getPluginCommand("thx").setExecutor(new ThxCommand());
         Bukkit.getPluginCommand("ether").setExecutor(new EtherCommand());
         Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
         Bukkit.getPluginCommand("advice").setExecutor(new AdviceCommand());

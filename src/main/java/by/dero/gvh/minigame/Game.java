@@ -68,6 +68,8 @@ public abstract class Game implements Listener {
     private DeathAdviceManager deathAdviceManager;
     @Getter private GameStatsManager gameStatsManager;
     @Getter private final HashMap<GamePlayer, Double> boosterMult = new HashMap<>();
+    @Getter private final HashSet<GamePlayer> boosterTeamSpent = new HashSet<>();
+    @Getter private final HashSet<GamePlayer> boosterGlobalSpent = new HashSet<>();
     @Getter @Setter protected GameStats stats;
     protected boolean loaded = false;
 
@@ -325,13 +327,16 @@ public abstract class Game implements Listener {
             byTeam.add(new ArrayList<>());
         }
         for (Map.Entry<String, Pair<Double, Double>> cur : multipliers.entrySet()) {
-            int team = players.get(cur.getKey()).getTeam();
+            GamePlayer gp = players.get(cur.getKey());
+            int team = gp.getTeam();
             if (cur.getValue().getKey() > 1) {
+                boosterTeamSpent.add(gp);
                 boosterTitles.get(team).add(Lang.get("game.boosterBarTeam").
                         replace("%val%", String.format("%.1f", cur.getValue().getKey())).
                         replace("%pl%", cur.getKey()));
             }
             if (cur.getValue().getValue() > 1) {
+                boosterGlobalSpent.add(gp);
                 for (int i = 0; i < info.getTeamCount(); i++) {
                     boosterTitles.get(i).add(Lang.get("game.boosterBarGlobal").
                             replace("%val%", String.format("%.1f", cur.getValue().getValue())).
