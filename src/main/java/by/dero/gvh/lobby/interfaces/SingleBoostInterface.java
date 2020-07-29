@@ -44,7 +44,7 @@ public class SingleBoostInterface extends Interface {
 	
 	private final ArrayList<SafeRunnable> runnables = new ArrayList<>();
 	
-	private BoosterStand stand;
+	private final BoosterStand stand;
 	
 	public SingleBoostInterface(InterfaceManager manager, Player player, BoosterStand stand) {
 		super(manager, player, 6, Lang.get("lobby.singleBooster"));
@@ -115,11 +115,11 @@ public class SingleBoostInterface extends Interface {
 							.description("Booster " + boostName)
 							.onSuccessful(() -> {
 								getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-								Lobby.getInstance().getChest().addAnim(2, getPlayer(), null);
 								BoosterStand stand = Lobby.getInstance().getMonumentManager().getBoosters().get(1);
-								Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () ->
+								Lobby.getInstance().getChest().addAnim(2, getPlayer(), null, () ->
+										Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () ->
 												stand.getAnims().add(fwColors[finalI]),
-										Lobby.getInstance().getChest().getAnimDuration() - 20);
+										Lobby.getInstance().getChest().getAnimDuration() - 20));
 								info.activateBooster(boostName);
 								Plugin.getInstance().getPlayerData().savePlayerInfo(info);
 								getPlayer().sendMessage(Lang.get("interfaces.thxBuyBooster"));

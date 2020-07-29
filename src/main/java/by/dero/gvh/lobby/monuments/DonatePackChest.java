@@ -31,10 +31,12 @@ public class DonatePackChest {
 		@Getter private final int type;
 		@Getter private final Player player;
 		@Getter private final ItemStack carry;
-		public Anim(int type, Player player, ItemStack carry) {
+		@Getter private final Runnable runnable;
+		public Anim(int type, Player player, ItemStack carry, Runnable runnable) {
 			this.type = type;
 			this.player = player;
 			this.carry = carry;
+			this.runnable = runnable;
 		}
 	}
 	
@@ -77,6 +79,9 @@ public class DonatePackChest {
 					if (animTime == 0) {
 						text.setText(Lang.get("interfaces.openingTitle").
 								replace("%pl%", anims.getFirst().getPlayer().getName()));
+						if (anims.getFirst().getRunnable() != null) {
+							anims.getFirst().getRunnable().run();
+						}
 					}
 					if (anims.getFirst().getType() == 3) {
 						if (animTime == 0) {
@@ -252,7 +257,7 @@ public class DonatePackChest {
 		runnable.cancel();
 	}
 	
-	public void addAnim(int type, Player player, ItemStack carry) {
-		anims.add(new Anim(type, player, carry));
+	public void addAnim(int type, Player player, ItemStack carry, Runnable runnable) {
+		anims.add(new Anim(type, player, carry, runnable));
 	}
 }

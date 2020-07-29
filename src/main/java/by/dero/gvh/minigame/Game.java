@@ -361,7 +361,7 @@ public abstract class Game implements Listener {
                 }
             }
         };
-        runnable.runTaskTimer(Plugin.getInstance(), 0, 60);
+        runnable.runTaskTimer(Plugin.getInstance(), 0, 200);
         runnables.add(runnable);
     
         Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
