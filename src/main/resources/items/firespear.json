@@ -31,14 +31,14 @@
     },
     {
       "cooldown": 95,
-      "damage": 14,
+      "damage": 15,
       "cost": 720,
       "material": "IRON_SPADE",
       "amount": 1
     },
     {
       "cooldown": 90,
-      "damage": 14,
+      "damage": 15,
       "cost": 1600,
       "material": "IRON_SPADE",
       "amount": 1
