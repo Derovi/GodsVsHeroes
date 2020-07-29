@@ -1,7 +1,8 @@
 {
   "name": "thor",
   "maxHP": 40,
-  "cost": 10,
+  "cost": 15000,
+  "cristCost": 559,
   "itemNames": [
     "mjolnir",
     "chainlightning",

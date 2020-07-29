@@ -72,7 +72,7 @@ public class Interface {
         inventory.setItem(pos, new ItemStack(Material.AIR));
     }
 
-    private int getPos(int x, int y) {
+    protected int getPos(int x, int y) {
         return (height - y - 1) * 9 + x;
     }
 

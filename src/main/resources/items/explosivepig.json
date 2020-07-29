@@ -23,7 +23,7 @@
       "radius": 5.5,
       "damage": 12,
       "duration": 200,
-      "cost": 100,
+      "cost": 130,
       "material": "TNT",
       "amount": 1
     },
@@ -32,7 +32,7 @@
       "radius": 4.5,
       "damage": 13,
       "duration": 200,
-      "cost": 130,
+      "cost": 350,
       "material": "TNT",
       "amount": 1
     },
@@ -41,7 +41,7 @@
       "radius": 5.5,
       "damage": 13,
       "duration": 200,
-      "cost": 160,
+      "cost": 720,
       "material": "TNT",
       "amount": 1
     },
@@ -50,7 +50,16 @@
       "radius": 5.5,
       "damage": 14,
       "duration": 200,
-      "cost": 200,
+      "cost": 1600,
+      "material": "TNT",
+      "amount": 1
+    },
+    {
+      "cooldown": 200,
+      "radius": 5.5,
+      "damage": 15,
+      "duration": 200,
+      "cost": 3500,
       "material": "TNT",
       "amount": 1
     }

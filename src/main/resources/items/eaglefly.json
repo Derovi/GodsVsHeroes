@@ -4,7 +4,8 @@
   "slot": 0,
   "lore": [
     "§fДлительность §8» §b%%duration,0.05%% §fсек.",
-    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек."
+    "§fКулдаун §8» §b%%cooldown,0.05%% §fсек.",
+    "§fВосстановление §8» §b%%heal,0.5%%§a❤"
   ],
   "levels": [
     {
@@ -12,6 +13,7 @@
       "speed": 0.5,
       "duration": 200,
       "cost": 80,
+      "heal": 18,
       "material": "FEATHER",
       "amount": 1
     },
@@ -19,7 +21,8 @@
       "cooldown": 750,
       "speed": 0.5,
       "duration": 220,
-      "cost": 100,
+      "heal": 19,
+      "cost": 130,
       "material": "FEATHER",
       "amount": 1
     },
@@ -27,7 +30,8 @@
       "cooldown": 700,
       "speed": 0.5,
       "duration": 240,
-      "cost": 130,
+      "heal": 20,
+      "cost": 350,
       "material": "FEATHER",
       "amount": 1
     },
@@ -35,7 +39,8 @@
       "cooldown": 650,
       "speed": 0.5,
       "duration": 260,
-      "cost": 160,
+      "heal": 21,
+      "cost": 720,
       "material": "FEATHER",
       "amount": 1
     },
@@ -43,7 +48,17 @@
       "cooldown": 600,
       "speed": 0.5,
       "duration": 280,
-      "cost": 200,
+      "heal": 22,
+      "cost": 1600,
+      "material": "FEATHER",
+      "amount": 1
+    },
+    {
+      "cooldown": 550,
+      "speed": 0.5,
+      "duration": 300,
+      "heal": 23,
+      "cost": 3500,
       "material": "FEATHER",
       "amount": 1
     }

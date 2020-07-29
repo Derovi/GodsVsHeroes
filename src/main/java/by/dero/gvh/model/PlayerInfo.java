@@ -1,17 +1,26 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.BoosterManager;
 import by.dero.gvh.Plugin;
 import lombok.Getter;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlayerInfo {
+    @Getter @Setter
     private String name;
-    private String selectedClass = "assassin";
+    private String selectedClass = "warrior";
     @Getter
     private HashMap<String, Cosmetic> cosmetics = null;
-    private int balance = 100;
+    @Getter @Setter
+    private List<Booster> boosters = new ArrayList<>();
+    @Getter @Setter
+    private int balance = 300;
+    @Getter
     private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
 
     public PlayerInfo() {
@@ -58,10 +67,49 @@ public class PlayerInfo {
         cosmetics.get(name).setEnabled(false);
     }
 
+    public void activateBooster(String booster) {
+        activateBooster(Plugin.getInstance().getBoosterManager().getBoosters().get(booster));
+    }
+
+    public void activateBooster(BoosterInfo info) {
+        if (info.getName().equals("L5")) {
+            for (Booster booster : boosters) {
+                if (booster.getName().equals("L5")) {
+                    booster.setBonus(booster.getBonus() + 0.1);
+                    return;
+                }
+            }
+            boosters.add(new Booster("L5", -1, -1, 0.1));
+            return;
+        }
+        long startTime = System.currentTimeMillis() / 1000;
+        for (Booster booster : boosters) {
+            if (booster.getName().equals(info.getName())) {
+                startTime = Math.max(startTime, booster.getExpirationTime() + 1);
+            }
+        }
+        boosters.add(new Booster(info.getName(),
+                startTime, startTime + info.getDurationSec(), 0));
+    }
+
+    public void removeExpiredBoosters() {
+        BoosterManager.removeExpiredBoosters(boosters);
+    }
+
     public void enableCosmetic(String name) {
         if (!cosmetics.containsKey(name)) {
             return;
         }
+        CosmeticInfo info =
+                Plugin.getInstance().getCosmeticManager().getCustomizations().get(name);
+        for (Cosmetic other : cosmetics.values()) {
+            CosmeticInfo otherInfo =
+                    Plugin.getInstance().getCosmeticManager().getCustomizations().get(other.getName());
+            if (info.getGroupID() == otherInfo.getGroupID()) {
+                other.setEnabled(false);
+            }
+        }
+        System.out.println("Enabled: " + name);
         cosmetics.get(name).setEnabled(true);
     }
 
@@ -93,7 +141,7 @@ public class PlayerInfo {
             balance -= Plugin.getInstance().getData().getItems().get(item).getLevels().get(newLevel).getCost();
         }
     }
-
+    
     public boolean isClassUnlocked(String className) {
         return classes.containsKey(className);
     }
@@ -104,25 +152,5 @@ public class PlayerInfo {
 
     public void selectClass(String selectedClass) {
         this.selectedClass = selectedClass;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public Map<String, Map<String, Integer>> getClasses() {
-        return classes;
     }
 }

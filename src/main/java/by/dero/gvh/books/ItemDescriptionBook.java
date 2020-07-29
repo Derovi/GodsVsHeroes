@@ -1,12 +1,13 @@
-package by.dero.gvh.bookapi;
+package by.dero.gvh.books;
 
-import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.model.ItemInfo;
+import by.dero.gvh.bookapi.BookButton;
+import by.dero.gvh.bookapi.BookGUI;
+import by.dero.gvh.bookapi.BookManager;
+import by.dero.gvh.bookapi.BookUtil;
+import by.dero.gvh.books.ItemCharacteristicsBook;
 import by.dero.gvh.model.Lang;
-import net.md_5.bungee.api.chat.ClickEvent;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class ItemDescriptionBook extends BookGUI {
     private final String className;

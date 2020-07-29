@@ -17,7 +17,7 @@ public abstract class BookGUI {
         this.player = player;
     }
 
-    abstract void build();
+    public abstract void build();
 
     public void open() {
         manager.registerBook(player, this);

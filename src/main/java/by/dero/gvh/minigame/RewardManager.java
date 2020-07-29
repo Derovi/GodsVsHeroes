@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 public class RewardManager {
     private HashMap<String, Reward> rewards = new HashMap<>();
+    private final HashMap<String, Double> playerExp = new HashMap<>();
 
     public Reward get(String name) {
         return rewards.get(name);
@@ -19,15 +20,32 @@ public class RewardManager {
     }
 
     public void give(String reward, Player player, String message) {
-        int count = get(reward).getCount();
         String name = player.getName();
         GamePlayer gp = GameUtils.getPlayer(name);
-        Game.getInstance().getStats().addExp(gp, count);
-        Plugin.getInstance().getPlayerData().increaseBalance(name, count);
-        if (!message.isEmpty()) {
-            player.sendMessage(message.replace("%count%", String.valueOf(count)).replace(
-                    "%allcount%", String.valueOf(Game.getInstance().getStats().getPlayers().get(name).getExpGained())));
+        double mult = Game.getInstance().getBoosterMult().getOrDefault(gp, -1.0);
+        if (mult == -1) {
+            mult = Plugin.getInstance().getBoosterManager().calculateMultiplier(Game.getInstance(), gp);
+            Game.getInstance().getBoosterMult().put(gp, mult);
         }
+
+        double count = mult * get(reward).getCount();
+        Minigame.getInstance().getGame().getGameStatsManager().addExp(gp, count);
+
+        double currentExp = playerExp.getOrDefault(name, 0.0);
+        playerExp.put(name, currentExp + count);
+
+        if (!message.isEmpty()) {
+            player.sendMessage(message.replace("%count%", GameUtils.getString(count)).replace(
+                    "%allcount%", GameUtils.getString(Game.getInstance().getStats().getPlayers().get(name).getExpGained())));
+        }
+    }
+
+    public void addExp(String name, double val) {
+        playerExp.put(name, playerExp.getOrDefault(name, 0.0) + val);
+    }
+    
+    public int getExp(String playerName) {
+        return (int) (double) playerExp.getOrDefault(playerName, 0.0);
     }
 
     public String getMessage(String reward) {

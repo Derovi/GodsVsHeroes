@@ -13,3 +13,5 @@ commands:
     aliases: [bugreport]
   advice:
   bookapi:
+  ether:
+  thx:

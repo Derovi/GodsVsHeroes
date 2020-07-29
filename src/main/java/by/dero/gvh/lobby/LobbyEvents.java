@@ -14,7 +14,7 @@ public class LobbyEvents implements Listener {
         event.setJoinMessage(null);
         if (!Plugin.getInstance().getPlayerData().isPlayerRegistered(event.getPlayer().getName())) {
             Plugin.getInstance().getPlayerData().registerPlayer(event.getPlayer().getName());
-            Plugin.getInstance().getPlayerData().unlockClass(event.getPlayer().getName(), "assassin");
+            Plugin.getInstance().getPlayerData().unlockClass(event.getPlayer().getName(), "warrior");
         }
         Player player = event.getPlayer();
         Lobby.getInstance().playerJoined(player);

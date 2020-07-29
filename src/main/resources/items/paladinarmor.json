@@ -30,7 +30,7 @@
       "swordDamage": 11,
       "duration": 220,
       "cooldown": 1120,
-      "cost": 100,
+      "cost": 130,
       "material": "END_CRYSTAL",
       "amount": 1
     },
@@ -44,7 +44,7 @@
       "swordDamage": 11,
       "duration": 240,
       "cooldown": 1080,
-      "cost": 130,
+      "cost": 350,
       "material": "END_CRYSTAL",
       "amount": 1
     },
@@ -58,7 +58,7 @@
       "swordDamage": 11,
       "duration": 260,
       "cooldown": 1040,
-      "cost": 160,
+      "cost": 720,
       "material": "END_CRYSTAL",
       "amount": 1
     },
@@ -72,7 +72,21 @@
       "swordDamage": 11,
       "duration": 280,
       "cooldown": 1000,
-      "cost": 200,
+      "cost": 1600,
+      "material": "END_CRYSTAL",
+      "amount": 1
+    },
+    {
+      "helmet": "DIAMOND_HELMET",
+      "chestplate": "DIAMOND_CHESTPLATE",
+      "leggings": "DIAMOND_LEGGINGS",
+      "boots": "DIAMOND_BOOTS",
+      "sword": "DIAMOND_SWORD",
+      "speed": 0.4,
+      "swordDamage": 11,
+      "duration": 300,
+      "cooldown": 1000,
+      "cost": 3500,
       "material": "END_CRYSTAL",
       "amount": 1
     }

@@ -23,6 +23,7 @@ public class CosmeticInfo {
     public enum Rarity {
         UNCOMMON, RARE, MYTHICAL, LEGENDARY, IMMORTAL;
 
+        public String getNumber() {return Lang.get("rarity.number." + toString().toLowerCase()); }
         public String getName() {
             return Lang.get("rarity." + toString().toLowerCase());
         }
@@ -87,6 +88,13 @@ public class CosmeticInfo {
     @Builder.Default
     private NBT nbt = null;
 
+    public void addNBT(ItemStack itemStack) {
+        itemStack.setType(material);
+        NBTTagCompound compound = NMCUtils.getNBT(itemStack);
+        compound.set(nbt.getName(), new NBTTagString(nbt.getValue()));
+        NMCUtils.setNBT(itemStack, compound);
+    }
+
     public ItemStack getItemStack() {
         return getItemStack(false);
     }
@@ -94,10 +102,11 @@ public class CosmeticInfo {
     public ItemStack getItemStack(boolean addCost) {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(name);
+        meta.setDisplayName(displayName);
         List<String> lore = new ArrayList<>(description);
         lore.add("");
-        lore.add("§fРедкость: " + rarity.getName());
+        lore.add("§fРедкость: " + rarity.getNumber());
+        lore.add(rarity.getName());
         if (addCost) {
             lore.add("§fЦена: §b%cost% кристалликов".replace("%cost%", Integer.toString(cost)));
         }

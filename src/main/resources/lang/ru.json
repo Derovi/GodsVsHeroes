@@ -5,22 +5,39 @@
     "stats": "§cСкоро",
     "soon": "§6Скоро",
     "select": "§aВыбрать",
+    "upgradeInterface": "§9§lУлучшить §8» §6§l%hero%",
     "upgradeSelect": "§9Улучшить",
     "notAvailable": "§cНе доступно",
     "upgrade": "§aУлучшить за §6%cost% §aопыта",
     "upgraded": "§9Улучшено",
     "upgradeNE": "§cНужно §6%cost% §cопыта",
-    "unlock": "§aРазблокировать за §6%cost% §aопыта",
+    "unlock": "§aРазблокировать",
+    "unlockCrist": "§aРазблокировать за §bкристаллики",
     "unlockNE": "§cНужно §6%cost% §cопыта!",
-    "unlockTitle": "§aНажмите, чтобы открыть",
-    "unlockNETitle": "§cНедостаточно опыта",
+    "unlockTitle": "§9Цена §8» §6§l%cost% §9опыта",
+    "unlockNETitle": "§cНедостаточно опыта§8. §fЦена §8» §6%cost%",
     "unlocked": "§aВы открыли класс §6%className%§a за §6%cost% §aопыта!",
-    "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!"
+    "unlockedCrist": "§aВы открыли класс §6%className%§a за §6%cost% §bкристалликов!",
+    "notUnlocked": "§cВы не можете открыть класс §6%className%§c за §6%cost%§c опыта. Нужно еще §6%remains%§c!",
+    "active": "§aАктивировано",
+    "confirm": "§aПодтвердить",
+    "confirmBuy": "§6Подтверждение покупки",
+    "thxBuyBooster": "§6Бустер выдан. Спасибо за покупку",
+    "queueActive": "§6Осталось §8» §b%val%",
+    "permMult": "§6Текущий прирост опыта §8» §f%val%§b%",
+    "notActive": "§cНе активирован",
+    "selectDonateCat": "§6Выберите категорию",
+    "packsTitle": "§6Наборы",
+    "costLore": "§fЦена §8» §6%cost% §fопыта",
+    "cristCostLore": "§fЦена §8» §6%cost% §bкристалликов",
+    "openingTitle": "§c§lОткрывает §8» §6§l%pl%"
   },
   "cosmetic": {
     "common": "§aОбщее",
     "try": "§aПопробовать",
-    "buy": "§aКупить",
+    "buy": "§bКупить",
+    "enable": "§aВыбрать",
+    "disable": "§8Выключить",
     "title": "§6Косметика",
     "titleHero": "§6Косметика §8» §f%hero%",
     "titleItem": "§6Косметика §8» §9%item%"
@@ -193,13 +210,22 @@
     "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
     "ether": "EtherWar",
     "classSelected": "§bВаш класс §8» §f%class%",
-    "expGained": "Опыт за игру §8» §b%exp%",
+    "expGained": "Опыт §8» §b%exp%",
+    "expGainedMult": "Опыт §a×§l%mul%§f §8» §b%exp%",
     "kills": "Убийств §8» §a%kills%",
     "deaths": "Смертей §8» §c%deaths%",
-    "assists": "Помощей §8» §a%assists%",
+    "assists": "Помощей §8» §6%assists%",
     "online": "Онлайн §8» §b%online%",
-    "collectorsStatus": "Захват ",
-    "progressReach": "%command% §aнабрали %pts%%"
+    "collectorsStatus": "Захват §8» §f",
+    "progressReach": "%command% §aнабрали %pts%%",
+    "afkKickMessage": "§cИграть надо было, голубчик",
+    "winSubtitle": "§l§f +§6%exp% §fопыта",
+    "endResult": "§l§f +§6%exp% §fопыта всего",
+    "boosterBarTeam": "        §a×§l%val% §fкоманде от §6%pl%§f, /thx - отблагодарить",
+    "boosterBarGlobal": "        §a×§l%val% §fвсем от §6%pl%§f, /thx - отблагодарить",
+    "thxSentMany": "§aТы сказал спасибо игрокам §f%pl% §f+§6§l20 §aопыта",
+    "thxSentOne": "§aТы сказал спасибо игроку §f%pl% §f+§6§l20 §aопыта",
+    "thxReceived": "§f%pl% §aсказал вам спасибо! §f+§6§l20 §aопыта"
   },
   "loots": {
     "statusSpeed": "§aСкорость §8» §6%amount% §aсек.",
@@ -214,7 +240,13 @@
     "bestKills": "§aБольше всего убийств §8» §9%pl%",
     "bestDamageDealt": "§aБольше всего нанесено урона §8» §9%pl%",
     "bestDeaths": "§aМеньше всего смертей §8» §9%pl%",
-    "bestDamageTaken": "§aМеньше всего получил урона §8» §9%pl%"
+    "bestDamageTaken": "§aМеньше всего получил урона §8» §9%pl%",
+    "formatKills": "§9%val%",
+    "formatDamage": "§c%val%§c❤",
+    "formatHeal": "§2%val%§2❤",
+    "formatKDA": "§2%kills%§8/§c%deaths%§8/§6%assists% §8(%kda%)",
+    "formatCapture": "§9%val%",
+    "formatAdvancement": "§9%val%"
   },
   "classes": {
     "all": "Общее",
@@ -266,14 +298,18 @@
     "selectedClass": "Выбран §8» §b%class%",
     "heroSelected": "§6Класс §9%class%§6 выбран",
     "standTitle": "§bПКМ - выбрать§8 §9%class%",
-    "moneyBalance": "Ваш баланс §8» §b%money%",
+    "moneyBalance": "Опыт §8» §b%money%",
     "busy": "§cНа всех серверах игра уже идет, подождите!",
     "locked": "§6Тестирование сегодня в §f16:30§6! Актуальная информация в группе §fВК §cvk.com/etherwar",
     "compass": "§6Выбор сервера",
     "hidePlayers": "§6Спрятать игроков",
     "showPlayers": "§6Показать игроков",
     "online": "Онлайн §8» §b%online%",
-    "cosmetics": "§6Косметика"
+    "cosmetics": "§6Косметика",
+    "lastGame": "§6Статистика прошлой игры",
+    "teamBooster": "§6Глобальные бустеры",
+    "singleBooster": "§6Бустеры",
+    "donate": "§6Донат"
   },
   "rewmes": {
     "kill": "§6§lУбийство§a +%exp% опыта §8|§a +%eth% эфира",
@@ -336,6 +372,18 @@
     "rare": "§9Редкая",
     "mythical": "§5Мифическая",
     "legendary": "§cЛегендарная",
-    "immortal": "§6Эпическая"
+    "immortal": "§6Эпическая",
+    "number": {
+      "uncommon": "§3§lI",
+      "rare": "§9§lII",
+      "mythical": "§5§lIII",
+      "legendary": "§c§lIV",
+      "immortal": "§6§lV"
+    }
+  },
+  "teamTabPrefix": {
+    "0": "§f§lС",
+    "1": "§c§lК",
+    "2": "§a§lЗ"
   }
 }

@@ -18,28 +18,35 @@
     {
       "cooldown": 95,
       "damage": 13,
-      "cost": 100,
+      "cost": 130,
       "material": "IRON_SPADE",
       "amount": 1
     },
     {
       "cooldown": 90,
       "damage": 14,
-      "cost": 130,
+      "cost": 350,
       "material": "IRON_SPADE",
       "amount": 1
     },
     {
       "cooldown": 95,
-      "damage": 14,
-      "cost": 160,
+      "damage": 15,
+      "cost": 720,
       "material": "IRON_SPADE",
       "amount": 1
     },
     {
       "cooldown": 90,
       "damage": 15,
-      "cost": 200,
+      "cost": 1600,
+      "material": "IRON_SPADE",
+      "amount": 1
+    },
+    {
+      "cooldown": 85,
+      "damage": 15,
+      "cost": 3500,
       "material": "IRON_SPADE",
       "amount": 1
     }

@@ -40,8 +40,8 @@ public class AxeThrow extends Item implements PlayerInteractInterface {
         final ThrowingAxe axe = new ThrowingAxe(owner, getItemStack());
 
         final int slot = owner.getInventory().getHeldItemSlot();
+        owner.getInventory().removeItem(owner.getInventory().getItem(slot));
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);
-        owner.getInventory().setItem(slot, Item.getPane(getInfo().getDisplayName()));
         axe.spawn();
         axe.setOnHitEntity(() -> {
             if (GameUtils.isEnemy(axe.getHoldEntity(), getTeam())) {
@@ -75,10 +75,9 @@ public class AxeThrow extends Item implements PlayerInteractInterface {
         axe.setOnOwnerPickUp(() -> {
             if (ownerGP.isInventoryHided()) {
                 ownerGP.getContents()[0] = getItemStack();
-            } else
-            if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+            } else if (owner.getInventory().getItem(slot) == null ||
+                    owner.getInventory().getItem(slot).getType().equals(Material.AIR)) {
                 owner.getInventory().setItem(slot, getItemStack());
-                owner.getInventory().getItem(slot).setAmount(1);
             }
             axe.remove();
         });
@@ -87,10 +86,9 @@ public class AxeThrow extends Item implements PlayerInteractInterface {
             public void run() {
                 if (ownerGP.isInventoryHided()) {
                     ownerGP.getContents()[0] = getItemStack();
-                } else
-                if (owner.getInventory().getItem(slot).getType().equals(Material.STAINED_GLASS_PANE)) {
+                } else if (owner.getInventory().getItem(slot) == null ||
+                        owner.getInventory().getItem(slot).getType().equals(Material.AIR)) {
                     owner.getInventory().setItem(slot, getItemStack());
-                    owner.getInventory().getItem(slot).setAmount(1);
                 }
                 axe.remove();
             }

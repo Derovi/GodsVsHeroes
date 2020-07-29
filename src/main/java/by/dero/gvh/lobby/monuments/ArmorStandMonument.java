@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -21,8 +22,8 @@ import java.util.UUID;
 public class ArmorStandMonument extends Monument {
     private final double turnPerSec = 0.3;
     private final double radius = 0.8;
-    private HashMap<UUID, Integer> unlocktime = new HashMap<>();
-    private ArmorStand armorStand;
+    private final HashMap<UUID, Integer> unlocktime = new HashMap<>();
+    private CraftArmorStand armorStand;
     private BukkitRunnable particles;
     private boolean loaded = false;
 
@@ -37,7 +38,7 @@ public class ArmorStandMonument extends Monument {
             @Override
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
+                    final PlayerInfo info = Plugin.getInstance().getPlayerData().getStoredPlayerInfo(player.getName());
                     if (!info.isClassUnlocked(getClassName())) {
                         final double zxc = MathUtils.cos(Math.toRadians(70)) * 1.5;
                         Drawings.spawnMovingCircle(st.clone().add(0, 1.85, 0),
@@ -90,7 +91,8 @@ public class ArmorStandMonument extends Monument {
         }
         loaded = true;
         final World at = Lobby.getInstance().getWorld();
-        armorStand = (ArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
+        armorStand = (CraftArmorStand) at.spawnEntity(getPosition().toLocation(at), EntityType.ARMOR_STAND);
+//        armorStand.setArms(true);
         armorStand.setInvulnerable(true);
         armorStand.setCustomNameVisible(true);
         armorStand.setCustomName("§6" + Lang.get("classes." + getClassName()));

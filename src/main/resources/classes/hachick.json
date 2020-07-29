@@ -2,6 +2,7 @@
   "name": "hachick",
   "maxHP": 40,
   "cost": 0,
+  "cristCost": 100,
   "itemNames": [
     "doublefist",
     "healpotion",

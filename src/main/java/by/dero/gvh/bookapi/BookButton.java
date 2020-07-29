@@ -21,6 +21,6 @@ public class BookButton implements BookUtil.ClickAction {
 
     @Override
     public String value() {
-        return "/bookapi " + uuid;
+        return "bookapi " + uuid;
     }
 }

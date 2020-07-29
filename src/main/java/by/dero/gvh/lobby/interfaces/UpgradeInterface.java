@@ -1,13 +1,9 @@
 package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.bookapi.ItemDescriptionBook;
+import by.dero.gvh.books.ItemDescriptionBook;
 import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.lobby.LobbyPlayer;
-import by.dero.gvh.model.ItemInfo;
-import by.dero.gvh.model.Lang;
-import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.model.UnitClassDescription;
+import by.dero.gvh.model.*;
 import by.dero.gvh.utils.InterfaceUtils;
 import by.dero.gvh.utils.Pair;
 import org.bukkit.Material;
@@ -24,17 +20,18 @@ public class UpgradeInterface extends Interface {
     private final InterfaceManager manager;
 
     public UpgradeInterface(InterfaceManager manager, Player player, String className) {
-        super(manager, player, 6, className);
+        super(manager, player, 6, Lang.get("interfaces.upgradeInterface")
+                .replace("%hero%", Lang.get("classes." + className)));
         this.manager = manager;
         this.className = className;
-        PlayerInfo playerInfo = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
-        updateAll(playerInfo);
+        updateAll(Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()));
     }
 
     public void updateItemLine(int position, String itemName, PlayerInfo info) {
         int currentLevel = info.getItemLevel(className, itemName);
         List<ItemInfo> infos = Plugin.getInstance().getData().getItems().get(itemName).getLevels();
-        addButton(position, 0, infos.get(currentLevel).getItemStack(getPlayer()), () -> {
+        addButton(position, 0, infos.get(currentLevel)
+                .getItemStack(new CustomizationContext(getPlayer(), className)), () -> {
                     ItemDescriptionBook book =
                             new ItemDescriptionBook(Plugin.getInstance().getBookManager(), getPlayer(), className, itemName);
                     book.setBackAction(this::open);
@@ -63,15 +60,15 @@ public class UpgradeInterface extends Interface {
                 InterfaceUtils.changeName(itemStack, Lang.get("interfaces.upgrade").
                         replace("%cost%", String.valueOf(nextInfo.getCost())));
                 addButton(position, currentLevel + 1, itemStack, () -> {
-                    LobbyPlayer lobbyPlayer = Lobby.getInstance().getPlayers().get(getPlayer().getName());
-                    lobbyPlayer.getPlayerInfo().upgradeItem(className, itemName);
-                    lobbyPlayer.saveInfo();
-                    updateAll(lobbyPlayer.getPlayerInfo());
+                    PlayerInfo playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName());
+                    playerInfo.upgradeItem(className, itemName);
+                    Plugin.getInstance().getPlayerData().savePlayerInfo(playerInfo);
+                    updateAll(playerInfo);
                     Lobby.getInstance().updateDisplays(getPlayer());
                     update();
                 });
             } else {
-                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
+                ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 7);
                 ItemMeta meta = itemStack.getItemMeta();
                 meta.setLore(lore);
                 itemStack.setItemMeta(meta);

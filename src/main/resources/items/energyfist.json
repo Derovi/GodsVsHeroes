@@ -22,15 +22,6 @@
       "duration": 40,
       "speed": 1,
       "cooldown": 75,
-      "cost": 100,
-      "material": "SHIELD",
-      "amount": 1
-    },
-    {
-      "damage": 9,
-      "duration": 60,
-      "speed": 1,
-      "cooldown": 70,
       "cost": 130,
       "material": "SHIELD",
       "amount": 1
@@ -39,8 +30,17 @@
       "damage": 9,
       "duration": 60,
       "speed": 1,
+      "cooldown": 70,
+      "cost": 350,
+      "material": "SHIELD",
+      "amount": 1
+    },
+    {
+      "damage": 9,
+      "duration": 60,
+      "speed": 1,
       "cooldown": 65,
-      "cost": 160,
+      "cost": 720,
       "material": "SHIELD",
       "amount": 1
     },
@@ -49,7 +49,16 @@
       "duration": 60,
       "speed": 1,
       "cooldown": 60,
-      "cost": 200,
+      "cost": 1600,
+      "material": "SHIELD",
+      "amount": 1
+    },
+    {
+      "damage": 10,
+      "duration": 60,
+      "speed": 1,
+      "cooldown": 55,
+      "cost": 3500,
       "material": "SHIELD",
       "amount": 1
     }

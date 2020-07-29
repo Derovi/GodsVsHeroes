@@ -1,7 +1,11 @@
 package by.dero.gvh.lobby.monuments;
 
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.lobby.interfaces.SingleBoostInterface;
+import by.dero.gvh.lobby.interfaces.TeamBoostInterface;
+import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.DirectedPosition;
+import lombok.Getter;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +17,8 @@ import java.util.*;
 public class MonumentManager implements Listener {
     private final HashMap<String, Class<? extends Monument>> classNameToMonument = new HashMap<>();
     private final HashMap<String, Monument> monuments = new HashMap<>();
-
+    @Getter private final ArrayList<BoosterStand> boosters = new ArrayList<>();
+    
     public MonumentManager() {
         registerMonuments();
     }
@@ -32,6 +37,13 @@ public class MonumentManager implements Listener {
                 ex.printStackTrace();
             }
         }
+    
+        System.err.println(Lobby.getInstance().getInfo().getTeamBooster() + " " + Lobby.getInstance().getInfo().getTeamBooster());
+        boosters.add(new BoosterStand(Lobby.getInstance().getInfo().getTeamBooster(),
+                Lang.get("lobby.teamBooster"), "teambooster", TeamBoostInterface.class));
+    
+        boosters.add(new BoosterStand(Lobby.getInstance().getInfo().getSingleBooster(),
+                Lang.get("lobby.singleBooster"), "singlebooster", SingleBoostInterface.class));
     }
 
     public void unload() {
@@ -39,6 +51,10 @@ public class MonumentManager implements Listener {
             monument.unload();
         }
         monuments.clear();
+        for (BoosterStand stand : boosters) {
+            stand.unload();
+        }
+        boosters.clear();
     }
 
     private void registerMonuments() {
@@ -67,6 +83,12 @@ public class MonumentManager implements Listener {
             if (armorStand.getUniqueId().equals(entityId)) {
                 standMonument.onSelect(player);
                 Lobby.getInstance().updateDisplays(player);
+            }
+        }
+        
+        for (BoosterStand stand : boosters) {
+            if (stand.getStand().getUniqueId().equals(entityId)) {
+                stand.onClick(player);
             }
         }
     }

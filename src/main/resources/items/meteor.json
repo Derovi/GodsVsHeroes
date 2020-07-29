@@ -22,7 +22,7 @@
       "radius": 6.0,
       "range": 50,
       "cooldown": 300,
-      "cost": 100,
+      "cost": 130,
       "material": "FIREBALL",
       "amount": 1
     },
@@ -31,7 +31,7 @@
       "radius": 6.0,
       "range": 50,
       "cooldown": 300,
-      "cost": 130,
+      "cost": 350,
       "material": "FIREBALL",
       "amount": 1
     },
@@ -40,7 +40,7 @@
       "radius": 6.0,
       "range": 50,
       "cooldown": 300,
-      "cost": 160,
+      "cost": 720,
       "material": "FIREBALL",
       "amount": 1
     },
@@ -49,7 +49,16 @@
       "radius": 6.0,
       "range": 50,
       "cooldown": 300,
-      "cost": 200,
+      "cost": 1600,
+      "material": "FIREBALL",
+      "amount": 1
+    },
+    {
+      "damage": 17,
+      "radius": 6.0,
+      "range": 50,
+      "cooldown": 300,
+      "cost": 3500,
       "material": "FIREBALL",
       "amount": 1
     }

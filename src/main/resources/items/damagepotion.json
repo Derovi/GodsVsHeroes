@@ -20,7 +20,7 @@
       "cooldown": 90,
       "radius": 4.0,
       "damage": 10,
-      "cost": 100,
+      "cost": 130,
       "material": "SPLASH_POTION",
       "amount": 2
     },
@@ -28,7 +28,7 @@
       "cooldown": 80,
       "radius": 4.5,
       "damage": 11,
-      "cost": 130,
+      "cost": 350,
       "material": "SPLASH_POTION",
       "amount": 2
     },
@@ -36,7 +36,7 @@
       "cooldown": 100,
       "radius": 3.5,
       "damage": 9,
-      "cost": 160,
+      "cost": 720,
       "material": "SPLASH_POTION",
       "amount": 3
     },
@@ -44,7 +44,15 @@
       "cooldown": 90,
       "radius": 4.0,
       "damage": 10,
-      "cost": 190,
+      "cost": 1600,
+      "material": "SPLASH_POTION",
+      "amount": 3
+    },
+    {
+      "cooldown": 80,
+      "radius": 4.0,
+      "damage": 10,
+      "cost": 3500,
       "material": "SPLASH_POTION",
       "amount": 3
     }

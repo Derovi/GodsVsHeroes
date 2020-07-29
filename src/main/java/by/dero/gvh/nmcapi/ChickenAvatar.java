@@ -3,6 +3,8 @@ package by.dero.gvh.nmcapi;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.utils.GameUtils;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.v1_12_R1.EntityChicken;
 import net.minecraft.server.v1_12_R1.EnumMoveType;
 import org.bukkit.attribute.Attribute;
@@ -19,6 +21,10 @@ public class ChickenAvatar extends EntityChicken {
     private final GamePlayer gamePlayer;
     private double playerHealth;
     private double speed = 0.5;
+    @Getter
+    @Setter
+    private int heal;
+    private int savedHealth;
 
     public ChickenAvatar(Player player) {
         super(((CraftWorld) player.getLocation().getWorld()).getHandle());
@@ -30,8 +36,9 @@ public class ChickenAvatar extends EntityChicken {
         PotionEffect effect = new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0);
         player.addPotionEffect(effect);
         playerHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(4);
+        savedHealth = (int) (player.getHealth());
         player.setHealth(4);
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(4);
         boundingBox.e += 1.05;
     }
 
@@ -65,7 +72,7 @@ public class ChickenAvatar extends EntityChicken {
         player.leaveVehicle();
         player.removePotionEffect(PotionEffectType.INVISIBILITY);
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(playerHealth);
-        player.setHealth(playerHealth);
+        player.setHealth(Math.min(playerHealth, savedHealth + heal));
         gamePlayer.showInventory();
         super.die();
     }

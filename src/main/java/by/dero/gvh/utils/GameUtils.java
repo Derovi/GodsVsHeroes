@@ -5,10 +5,11 @@ import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.minigame.Minigame;
-import by.dero.gvh.model.Item;
-import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.*;
 import com.google.common.base.Predicate;
+import lombok.Getter;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import net.minecraft.server.v1_12_R1.EntityLiving;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
@@ -20,9 +21,11 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import ru.cristalix.core.formatting.Color;
 
 import java.util.*;
 
@@ -45,8 +48,14 @@ public class GameUtils {
             Sound.BLOCK_NOTE_SNARE,
             Sound.BLOCK_NOTE_XYLOPHONE,
     };
+    
+    @Getter
+    public static final Color[] brightColors = {
+        Color.ORANGE, Color.AQUA, Color.LIME, Color.BLUE, Color.CYAN, Color.MAGENTA, Color.PINK,
+        Color.PURPLE, Color.SILVER, Color.RED, Color.SILVER
+    };
 
-    public GameUtils () {
+    public GameUtils() {
         if (codeToData == null) {
             codeToData = new HashMap<>();
             codeToData.put('0', (byte) 15);
@@ -353,6 +362,35 @@ public class GameUtils {
         return target;
     }
 
+    public static boolean isSword(Material material) {
+        return material.equals(Material.WOOD_SWORD) ||
+                material.equals(Material.STONE_SWORD) ||
+                material.equals(Material.IRON_SWORD) ||
+                material.equals(Material.GOLD_SWORD) ||
+                material.equals(Material.DIAMOND_SWORD);
+    }
+    
+    public static boolean isAxe(Material material) {
+        return material.equals(Material.WOOD_AXE) ||
+                material.equals(Material.STONE_AXE) ||
+                material.equals(Material.IRON_AXE) ||
+                material.equals(Material.GOLD_AXE) ||
+                material.equals(Material.DIAMOND_AXE);
+    }
+    
+    public static ItemStack getMeleeWeapon(Player player, String className) {
+        final UnitClassDescription classDescription =
+                Plugin.getInstance().getData().getClassNameToDescription().get(className);
+        
+        for (String name : classDescription.getItemNames()) {
+            final ItemInfo info = Plugin.getInstance().getData().getItems().get(name).getLevels().get(0);
+            if (isAxe(info.getMaterial()) || isSword(info.getMaterial())) {
+                return info.getItemStack(new CustomizationContext(player, className));
+            }
+        }
+        return null;
+    }
+    
     public static void setInvisibleFlags(ArmorStand stand) {
         EntityArmorStand handle = ((CraftArmorStand) stand).getHandle();
         handle.setCustomNameVisible(false);
@@ -411,6 +449,14 @@ public class GameUtils {
         return ret;
     }
 
+    public static String getString(Double ch) {
+        String str = String.format("%.1f", ch);
+        if (str.charAt(str.length() - 1) == '0') {
+            str = str.substring(0, str.length() - 2);
+        }
+        return str;
+    }
+    
     public static ItemStack getHead(Player player) {
         SkullMeta skullMeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
         skullMeta.setOwningPlayer(player);
@@ -418,6 +464,52 @@ public class GameUtils {
         ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte)3);
         skull.setItemMeta(skullMeta);
         return skull;
+    }
+    
+    private static final String[] romeNumbers = {"0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
+    public static ItemStack getBoosterHead(String name) {
+        BoosterInfo info = Plugin.getInstance().getBoosterManager().getBoosters().get(name);
+        ItemStack head = Heads.getHead(name);
+        ItemMeta meta = head.getItemMeta();
+        String lvlColor = "§4";
+        if (Integer.parseInt(name.substring(1)) == 1) {
+            lvlColor = "§2";
+        } else if (Integer.parseInt(name.substring(1)) == 2) {
+            lvlColor = "§6";
+        } else if (Integer.parseInt(name.substring(1)) == 3) {
+            lvlColor = "§9";
+        } else if (Integer.parseInt(name.substring(1)) == 4) {
+            lvlColor = "§5";
+        }
+        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Глобальный " : "") +"Бустер " + lvlColor + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
+        if (name.equals("L5")) {
+            meta.setDisplayName("§fБустер §6§lНАВСЕГДА");
+        }
+        ArrayList<String> lore = new ArrayList<>(20);
+        if (name.equals("L5")) {
+            lore.add("§6Постоянный эффект");
+            lore.add("§a+§l10% §fк опыту §l§aВСЕГДА");
+            lore.add("§610§c% §fбольше опыта");
+        } else {
+            lore.add("§6Временный эффект");
+            int dur = info.getDurationSec() / 3600;
+            lore.add("§fДлительность §8» §6" + dur + " §cчас" + (dur == 1 ? "" : (2 <= dur && dur <= 4 ? "а" : "ов")));
+            if (name.equals("G1")) {
+                lore.add("§fБонус команде §a×§l" + String.format("%.1f", info.getTeamMultiplier()) + " §fк опыту");
+            } if (name.equals("G2")) {
+                lore.add("§fБонус §a×§l" + String.format("%.1f", info.getSelfMultiplier()) + " §fк опыту");
+                lore.add("§fБонус команде §a×§l" + String.format("%.1f", info.getTeamMultiplier()) + " §fк опыту");
+            } else if (name.equals("G3")) {
+                lore.add("§fБонус всем §a×§l" + String.format("%.1f", info.getGameMultiplier()) + " §fк опыту");
+            } else if (name.startsWith("L")) {
+                lore.add("§fБонус §a×§l" + String.format("%.1f", info.getSelfMultiplier()) + " §fк опыту");
+            }
+        }
+        lore.add(" ");
+        lore.add("§fЦена §8» §b" + info.getCost() + " кристалликов");
+        meta.setLore(lore);
+        head.setItemMeta(meta);
+        return head;
     }
     
     public static Predicate<EntityLiving> getTargetPredicate(int team) {

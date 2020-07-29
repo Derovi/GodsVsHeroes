@@ -1,13 +1,16 @@
 package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
 import by.dero.gvh.minigame.Minigame;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.stats.GamePlayerStats;
 import by.dero.gvh.utils.Board;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Bukkit;
@@ -28,7 +31,7 @@ import ru.cristalix.core.formatting.Colors;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static by.dero.gvh.model.Drawings.spawnFirework;
+import static by.dero.gvh.model.Drawings.spawnFireworks;
 
 public class EtherCapture extends Game implements DisplayInteractInterface {
     private final EtherCaptureInfo etherCaptureInfo;
@@ -71,7 +74,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
             gp.setBoard(board);
         }
     }
-
+    
     @Override
     public void updateDisplays() {
         int cnt = getInfo().getTeamCount();
@@ -89,32 +92,27 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
                     .replace("%pts%", currentEtherCount[team] +
                             " (" + (int) ((double) currentEtherCount[team] / etherCaptureInfo.getEtherToWin() * 100) + "%)");
         }
-        str[cnt+1] = Lang.get("game.collectorsStatus");
-        String[] kek = new String[collectorsManager.getCollectors().size()];
-        int zxc = 0;
+        StringBuilder builder = new StringBuilder(Lang.get("game.collectorsStatus"));
         for (EtherCollector col : collectorsManager.getCollectors()) {
-            if (col.getOwner() == 0) {
-                kek[zxc] = Colors.custom(255, 255 - col.getCaptureStatus(), 255 - col.getCaptureStatus()) + "❖";
-            } else {
-                kek[zxc] = Colors.custom(255 - col.getCaptureStatus(), 255, 255 - col.getCaptureStatus()) + "❖";
-            }
-            zxc ++;
+            int[] rgb = Drawings.CristMedian((char)('1' + col.getOwner()), (double) col.getCaptureStatus() / 180);
+            builder.append(Colors.custom(rgb[0], rgb[1], rgb[2])).append("❖");
         }
+        str[cnt+1] = builder.toString();
+        str[cnt+2] = " ";
+        str[cnt+7] = " ";
+        str[cnt+8] = Lang.get("game.online").replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
         for (final GamePlayer gp : getPlayers().values()) {
             GamePlayerStats stats = this.stats.getPlayers().get(gp.getPlayer().getName());
             str[cnt] = Lang.get("commands.playingFor").
                     replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
-            str[cnt+2] = " ";
 //            str[cnt+2] = Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()));
-            str[cnt+3] = Lang.get("game.expGained").replace("%exp%", String.valueOf(stats.getExpGained()));
+            double mult = getMultiplier(gp);
+            str[cnt+3] = (mult == 1 ? Lang.get("game.expGained") : Lang.get("game.expGainedMult").
+                    replace("%mul%", String.format("%.1f", mult))).replace("%exp%", GameUtils.getString(stats.getExpGained()));
             str[cnt+4] = Lang.get("game.kills").replace("%kills%", String.valueOf(stats.getKills()));
-            str[cnt+5] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists()));
-            str[cnt+6] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths()));
-            str[cnt+7] = " ";
-            str[cnt+8] = Lang.get("game.online").replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
+            str[cnt+5] = Lang.get("game.deaths").replace("%deaths%", String.valueOf(stats.getDeaths()));
+            str[cnt+6] = Lang.get("game.assists").replace("%assists%", String.valueOf(stats.getAssists()));
             gp.getBoard().update(str);
-            gp.getBoard().getTeams()[cnt+1].setPrefix(str[cnt+1] + kek[0]);
-            gp.getBoard().getTeams()[cnt+1].setSuffix(kek[1] + kek[2]);
         }
     }
 
@@ -137,7 +135,19 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         setDisplays();
         updateDisplays();
     }
-
+    
+    @Override
+    public void finish(int winnerTeam, boolean needFireworks) {
+        super.finish(winnerTeam, needFireworks);
+    
+        stats.getPercentToWin().ensureCapacity(getInfo().getTeamCount());
+        for (int i = 0; i < getInfo().getTeamCount(); i++) {
+            stats.getPercentToWin().add(currentEtherCount[i] * 100 / etherCaptureInfo.getEtherToWin());
+        }
+        
+        Plugin.getInstance().getGameStatsData().saveGameStats(stats);
+    }
+    
     @Override
     public boolean unload () {
         if (!loaded) {
@@ -206,7 +216,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         //System.out.println("o3: " + player.getLocation().getWorld().getName());
         final float exp = player.getExp();
 
-        spawnFirework(player.getLocation().clone().add(0, 1, 0), 1);
+        spawnFireworks(player.getLocation().clone().add(0, 1, 0), 1);
         Location loc = player.getLocation();
         loc.setWorld(Minigame.getInstance().getGame().getWorld());
 

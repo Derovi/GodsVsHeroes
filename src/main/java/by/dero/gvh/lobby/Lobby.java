@@ -3,25 +3,30 @@ package by.dero.gvh.lobby;
 import by.dero.gvh.AdviceManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
+import by.dero.gvh.books.GameStatsBook;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
-import by.dero.gvh.lobby.interfaces.CosmeticSelectorInterface;
+import by.dero.gvh.lobby.interfaces.DonateSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
+import by.dero.gvh.lobby.monuments.DonatePackChest;
 import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.model.Lang;
-import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
-import by.dero.gvh.utils.DataUtils;
-import by.dero.gvh.utils.Position;
-import by.dero.gvh.utils.ResourceUtils;
-import by.dero.gvh.utils.VoidGenerator;
+import by.dero.gvh.stats.GameStats;
+import by.dero.gvh.stats.PlayerStats;
+import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
+import lombok.Getter;
+import net.minecraft.server.v1_12_R1.EnumItemSlot;
+import net.minecraft.server.v1_12_R1.PacketPlayOutEntityEquipment;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -38,6 +43,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -74,6 +80,8 @@ public class Lobby implements PluginMode, Listener {
     private final List<BukkitRunnable> runnables = new ArrayList<>();
     private final HashMap<String, LobbyPlayer> players = new HashMap<>();
     private final HashSet<UUID> hidePlayers = new HashSet<>();
+    private final HashMap<Player, Long> hideShowUsed = new HashMap<>();
+    @Getter private DonatePackChest chest;
     
     @FunctionalInterface
     private interface ItemFunc {
@@ -85,6 +93,12 @@ public class Lobby implements PluginMode, Listener {
         instance = this;
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
                 ServerType.LOBBY, 300);
+        if (Plugin.getInstance().getSettings().getServerName().startsWith("EW")) {
+            RealmInfo info = IRealmService.get().getCurrentRealmInfo();
+            info.setLobbyServer(true);
+            info.setServicedServers(new String[]{"EWP"});
+        }
+
         try {
             info = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(), "lobby", "lobby",
                     ResourceUtils.readResourceFile("/lobby/lobby.json")), LobbyInfo.class);
@@ -159,6 +173,9 @@ public class Lobby implements PluginMode, Listener {
         }, EventPriority.MONITOR, true);
         
         initItems();
+        
+        chest = new DonatePackChest(Lobby.getInstance().getInfo().getDonateChest());
+        System.out.println(chest + " " + Lobby.getInstance().getInfo().getDonateChest());
     }
 
     private void registerEvents() {
@@ -171,6 +188,7 @@ public class Lobby implements PluginMode, Listener {
 
     @Override
     public void onDisable() {
+        chest.unload();
         for (final BukkitRunnable runnable : runnables) {
             runnable.cancel();
         }
@@ -211,25 +229,6 @@ public class Lobby implements PluginMode, Listener {
         updateHolograms(player);
         //lobby.getSelectedClass().setText(Lang.get("lobby.selectedClass")
         //        .replace("%class%", Lang.get("classes." + players.get(player.getName()).getPlayerInfo().getSelectedClass())));
-        final PlayerInfo info = Lobby.getInstance().getPlayers().get(player.getName()).getPlayerInfo();
-        for (final Monument monument : Lobby.getInstance().getMonumentManager().getMonuments().values()) {
-            if (monument instanceof ArmorStandMonument) {
-                final ArmorStand armorStand = ((ArmorStandMonument) monument).getArmorStand();
-                final String clname = Lang.get("classes." + monument.getClassName());
-                final String customName;
-                if (info.getSelectedClass().equals(monument.getClassName())) {
-                    customName = Lang.get("lobby.heroSelected").
-                            replace("%class%", clname);
-                } else
-                if (info.isClassUnlocked(monument.getClassName())) {
-                    customName = Lang.get("lobby.standTitle").
-                            replace("%class%", clname);
-                } else {
-                    customName = Lang.get("lobby.heroLocked").
-                            replace("%class%", clname);
-                }
-            }
-        }
 
         /*IPlatformEventExecutor<Object, Object, Object> eventExecutor = IServerPlatform.get().getPlatformEventExecutor();
         eventExecutor.registerListener(PlayerJoinEvent.class, this, (e) -> {
@@ -290,6 +289,7 @@ public class Lobby implements PluginMode, Listener {
     private static ItemStack cosmeticitem = null;
     private static ItemStack hideitem = null;
     private static ItemStack showitem = null;
+    private static ItemStack statItem = null;
     
     private void initItems() {
         compassitem = new ItemStack(Material.COMPASS);
@@ -312,6 +312,12 @@ public class Lobby implements PluginMode, Listener {
         meta.setDisplayName(Lang.get("lobby.hidePlayers"));
         hideitem.setItemMeta(meta);
         activates[8] = player -> {
+            if (System.currentTimeMillis() - hideShowUsed.getOrDefault(player, 0L) < 3000) {
+                return;
+            }
+            hideShowUsed.put(player, System.currentTimeMillis());
+            player.setCooldown(Material.EYE_OF_ENDER, 60);
+            player.setCooldown(Material.ENDER_PEARL, 60);
             player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
             if (hidePlayers.contains(player.getUniqueId())) {
                 hidePlayers.remove(player.getUniqueId());
@@ -328,14 +334,32 @@ public class Lobby implements PluginMode, Listener {
             }
         };
         
-        cosmeticitem = new ItemStack(Material.EMERALD);
+        cosmeticitem = new ItemStack(Material.ENDER_CHEST);
         meta = cosmeticitem.getItemMeta();
-        meta.setDisplayName(Lang.get("lobby.cosmetics"));
+        meta.setDisplayName(Lang.get("lobby.donate"));
         cosmeticitem.setItemMeta(meta);
-        
+    
         activates[4] = player -> {
-            CosmeticSelectorInterface inter = new CosmeticSelectorInterface(interfaceManager, player);
+            player.playSound(player.getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+            DonateSelectorInterface inter = new DonateSelectorInterface(interfaceManager, player);
             inter.open();
+        };
+        
+        statItem = new ItemStack(Material.ENCHANTED_BOOK);
+        meta = statItem.getItemMeta();
+        meta.setDisplayName(Lang.get("lobby.lastGame"));
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        statItem.setItemMeta(meta);
+        activates[1] = player -> {
+            PlayerStats playerStats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
+            if (playerStats != null && !playerStats.getGames().isEmpty()) {
+                int id = playerStats.getGames().get(playerStats.getGames().size() - 1);
+                GameStats gameStats = Plugin.getInstance().getGameStatsData().getGameStats(id);
+                GameStatsBook gameStatsBook = new GameStatsBook(Plugin.getInstance().getBookManager(),
+                        player, player.getName(), gameStats);
+                gameStatsBook.build();
+                gameStatsBook.open();
+            }
         };
     }
     
@@ -344,7 +368,6 @@ public class Lobby implements PluginMode, Listener {
         inv.setHeldItemSlot(0);
         player.setGameMode(GameMode.ADVENTURE);
         LobbyPlayer lobbyPlayer = new LobbyPlayer(player);
-        lobbyPlayer.loadInfo();
         players.put(player.getName(), lobbyPlayer);
         new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1).apply(player);
         new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 0).apply(player);
@@ -354,6 +377,16 @@ public class Lobby implements PluginMode, Listener {
         playerLobby.load();
         activeLobbies.put(player.getName(), playerLobby);
         Lobby.getInstance().updateDisplays(player);
+        
+        for (Monument monument : monumentManager.getMonuments().values()) {
+            if (monument instanceof ArmorStandMonument) {
+                ArmorStand stand = ((ArmorStandMonument) monument).getArmorStand();
+                ItemStack weapon = GameUtils.getMeleeWeapon(player, monument.getClassName());
+//                stand.setItemInHand(weapon);
+                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(
+                        new PacketPlayOutEntityEquipment(stand.getEntityId(), EnumItemSlot.MAINHAND, CraftItemStack.asNMSCopy(weapon)));
+            }
+        }
 
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (hidePlayers.contains(player.getUniqueId())) {
@@ -370,18 +403,23 @@ public class Lobby implements PluginMode, Listener {
         
         inv.clear();
         inv.setItem(0, compassitem);
+        PlayerStats playerStats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
+        if (playerStats != null && !playerStats.getGames().isEmpty()) {
+            inv.setItem(1, statItem);
+        }
         inv.setItem(4, cosmeticitem);
         if (hidePlayers.contains(player.getUniqueId())) {
             inv.setItem(8, showitem);
         } else {
             inv.setItem(8, hideitem);
         }
-        AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
-                (pl) -> (!players.containsKey(pl.getName()) || players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
+        
+//        AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
+//                (pl) -> (!players.containsKey(pl.getName()) ||
+//                        Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()).getClasses().size() > 1));
 
         AdviceManager.sendAdvice(player, "startGame", 30, 400,
-                (pl) -> (!players.containsKey(pl.getName())),
-                (pl) -> (players.get(pl.getName()).getPlayerInfo().getClasses().size() > 1));
+                (pl) -> (!players.containsKey(pl.getName())));
     }
 
     public void playerLeft(Player player) {
@@ -486,25 +524,34 @@ public class Lobby implements PluginMode, Listener {
             event.setCancelled (true);
         }
     }
-
+    
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        player.sendMessage("1");
         if (event.getAction().equals(Action.PHYSICAL)) {
             event.setCancelled(true);
             return;
         }
+        player.sendMessage("2");
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
             event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            player.sendMessage("3 " + event.getClickedBlock());
             int slot = player.getInventory().getHeldItemSlot();
+            if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENDER_CHEST)) {
+                player.sendMessage("4");
+                DonateSelectorInterface inter = new DonateSelectorInterface(interfaceManager, player);
+                inter.open();
+                event.setCancelled(true);
+            } else
             if (activates[slot] != null) {
                 activates[slot].run(player);
+                event.setCancelled(true);
             }
-            event.setCancelled(true);
         }
     }
     
-    
+
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         event.setCancelled(true);

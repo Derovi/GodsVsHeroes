@@ -4,10 +4,11 @@ import by.dero.gvh.GameMob;
 import by.dero.gvh.GameObject;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
-import by.dero.gvh.bookapi.ItemDescriptionBook;
+import by.dero.gvh.books.ItemDescriptionBook;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.nmcapi.NMCUtils;
+import by.dero.gvh.stats.GameStatsUtils;
 import by.dero.gvh.utils.CosmeticsUtils;
 import by.dero.gvh.utils.Dwelling;
 import by.dero.gvh.utils.GameUtils;
@@ -288,7 +289,7 @@ public class GameEvents implements Listener {
                 damageCause.putIfAbsent((GamePlayer) gm, new Stack<>());
                 damageCause.get(gm).add(Pair.of(damager, System.currentTimeMillis()));
                 if (!gm.equals(damager)) {
-                    game.getStats().addDamage((GamePlayer) gm, damager, event.getDamage());
+                    Game.getInstance().getGameStatsManager().addDamage((GamePlayer) gm, damager, event.getDamage());
                 }
             } else {
                 Bukkit.getServer().getScheduler().runTaskLater(Plugin.getInstance(), () -> {
@@ -389,7 +390,7 @@ public class GameEvents implements Listener {
         Player p = event.getPlayer();
         if (game.getState() == Game.State.GAME && game.stats.getPlayers().containsKey(p.getName())) {
             game.stats.getPlayers().get(p.getName()).setPlayTimeSec(
-                    (int) (System.currentTimeMillis() / 1000 - game.stats.getStartTime()));
+                    (int) (System.currentTimeMillis() / 1000 - Game.getInstance().getGameStatsManager().getStartTime()));
         }
         Minigame.getInstance().getGame().removePlayer(p.getName());
     }

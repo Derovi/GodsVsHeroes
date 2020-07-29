@@ -19,7 +19,7 @@
       "cooldown": 860,
       "radius": 20.0,
       "heal": 7,
-      "cost": 100,
+      "cost": 130,
       "material": "END_CRYSTAL",
       "amount": 1
     },
@@ -27,7 +27,7 @@
       "cooldown": 920,
       "radius": 20.0,
       "heal": 8,
-      "cost": 130,
+      "cost": 350,
       "material": "END_CRYSTAL",
       "amount": 1
     },
@@ -35,7 +35,7 @@
       "cooldown": 980,
       "radius": 20.0,
       "heal": 9,
-      "cost": 160,
+      "cost": 720,
       "material": "END_CRYSTAL",
       "amount": 1
     },
@@ -43,7 +43,15 @@
       "cooldown": 1040,
       "radius": 20.0,
       "heal": 10,
-      "cost": 200,
+      "cost": 1600,
+      "material": "END_CRYSTAL",
+      "amount": 1
+    },
+    {
+      "cooldown": 1040,
+      "radius": 20.0,
+      "heal": 11,
+      "cost": 3500,
       "material": "END_CRYSTAL",
       "amount": 1
     }
