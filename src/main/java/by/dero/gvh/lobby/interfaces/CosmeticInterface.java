@@ -112,7 +112,7 @@ public class CosmeticInterface extends Interface {
                 };
             } else {
                 subItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
-                InterfaceUtils.changeName(subItem, Lang.get("cosmetic.diable"));
+                InterfaceUtils.changeName(subItem, Lang.get("cosmetic.disable"));
                 runnable = () -> {
                     getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                     playerInfo.disableCosmetic(name);
