@@ -44,7 +44,7 @@
       "swordDamage": 11,
       "duration": 240,
       "cooldown": 1080,
-      "cost": 350,
+      "cost": 360,
       "material": "END_CRYSTAL",
       "amount": 1
     },
@@ -58,7 +58,7 @@
       "swordDamage": 11,
       "duration": 260,
       "cooldown": 1040,
-      "cost": 720,
+      "cost": 800,
       "material": "END_CRYSTAL",
       "amount": 1
     },
@@ -72,7 +72,7 @@
       "swordDamage": 11,
       "duration": 280,
       "cooldown": 1000,
-      "cost": 1600,
+      "cost": 1800,
       "material": "END_CRYSTAL",
       "amount": 1
     },
@@ -86,7 +86,7 @@
       "swordDamage": 11,
       "duration": 300,
       "cooldown": 1000,
-      "cost": 3500,
+      "cost": 4500,
       "material": "END_CRYSTAL",
       "amount": 1
     }

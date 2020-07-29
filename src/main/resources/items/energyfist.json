@@ -31,7 +31,7 @@
       "duration": 60,
       "speed": 1,
       "cooldown": 70,
-      "cost": 350,
+      "cost": 360,
       "material": "SHIELD",
       "amount": 1
     },
@@ -40,7 +40,7 @@
       "duration": 60,
       "speed": 1,
       "cooldown": 65,
-      "cost": 720,
+      "cost": 800,
       "material": "SHIELD",
       "amount": 1
     },
@@ -49,7 +49,7 @@
       "duration": 60,
       "speed": 1,
       "cooldown": 60,
-      "cost": 1600,
+      "cost": 1800,
       "material": "SHIELD",
       "amount": 1
     },
@@ -58,7 +58,7 @@
       "duration": 60,
       "speed": 1,
       "cooldown": 55,
-      "cost": 3500,
+      "cost": 4500,
       "material": "SHIELD",
       "amount": 1
     }

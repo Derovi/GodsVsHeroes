@@ -26,7 +26,7 @@
       "forceMultiplier": 0.25,
       "distance": 17,
       "cooldown": 60,
-      "cost": 350,
+      "cost": 360,
       "material": "FISHING_ROD",
       "amount": 1
     },
@@ -34,7 +34,7 @@
       "forceMultiplier": 0.25,
       "distance": 18,
       "cooldown": 60,
-      "cost": 720,
+      "cost": 800,
       "material": "FISHING_ROD",
       "amount": 1
     },
@@ -42,7 +42,7 @@
       "forceMultiplier": 0.25,
       "distance": 19,
       "cooldown": 60,
-      "cost": 1600,
+      "cost": 1800,
       "material": "FISHING_ROD",
       "amount": 1
     },
@@ -50,7 +50,7 @@
       "forceMultiplier": 0.25,
       "distance": 20,
       "cooldown": 60,
-      "cost": 3500,
+      "cost": 4500,
       "material": "FISHING_ROD",
       "amount": 1
     }

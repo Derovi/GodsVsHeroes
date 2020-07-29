@@ -24,7 +24,7 @@ import java.util.HashSet;
 
 public class FireSpear extends Item implements PlayerInteractInterface {
     private final double speed = 30;
-    private final int time = 30;
+    private final int time = 20;
     private final double damage;
     private final Material material;
     

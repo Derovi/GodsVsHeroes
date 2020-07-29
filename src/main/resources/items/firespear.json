@@ -10,43 +10,43 @@
   "levels": [
     {
       "cooldown": 100,
-      "damage": 13,
+      "damage": 12,
       "cost": 80,
       "material": "IRON_SPADE",
       "amount": 1
     },
     {
       "cooldown": 95,
-      "damage": 13,
+      "damage": 12,
       "cost": 130,
+      "material": "IRON_SPADE",
+      "amount": 1
+    },
+    {
+      "cooldown": 95,
+      "damage": 13,
+      "cost": 360,
+      "material": "IRON_SPADE",
+      "amount": 1
+    },
+    {
+      "cooldown": 90,
+      "damage": 13,
+      "cost": 800,
       "material": "IRON_SPADE",
       "amount": 1
     },
     {
       "cooldown": 90,
       "damage": 14,
-      "cost": 350,
-      "material": "IRON_SPADE",
-      "amount": 1
-    },
-    {
-      "cooldown": 95,
-      "damage": 15,
-      "cost": 720,
-      "material": "IRON_SPADE",
-      "amount": 1
-    },
-    {
-      "cooldown": 90,
-      "damage": 15,
-      "cost": 1600,
+      "cost": 1800,
       "material": "IRON_SPADE",
       "amount": 1
     },
     {
       "cooldown": 85,
       "damage": 15,
-      "cost": 3500,
+      "cost": 4500,
       "material": "IRON_SPADE",
       "amount": 1
     }

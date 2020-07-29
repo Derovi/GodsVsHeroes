@@ -24,28 +24,28 @@
     {
       "cooldown": 290,
       "duration": 70,
-      "cost": 350,
+      "cost": 360,
       "material": "DRAGON_EGG",
       "amount": 1
     },
     {
       "cooldown": 265,
       "duration": 75,
-      "cost": 720,
+      "cost": 800,
       "material": "DRAGON_EGG",
       "amount": 1
     },
     {
       "cooldown": 240,
       "duration": 80,
-      "cost": 1600,
+      "cost": 1800,
       "material": "DRAGON_EGG",
       "amount": 1
     },
     {
       "cooldown": 215,
       "duration": 80,
-      "cost": 3500,
+      "cost": 4500,
       "material": "DRAGON_EGG",
       "amount": 1
     }

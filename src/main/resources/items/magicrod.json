@@ -27,7 +27,7 @@
       "cooldown": 55,
       "damage": 13,
       "duration": 60,
-      "cost": 350,
+      "cost": 360,
       "material": "BLAZE_ROD",
       "amount": 1
     },
@@ -35,7 +35,7 @@
       "cooldown": 50,
       "damage": 13,
       "duration": 60,
-      "cost": 720,
+      "cost": 800,
       "material": "BLAZE_ROD",
       "amount": 1
     },
@@ -43,7 +43,7 @@
       "cooldown": 50,
       "damage": 14,
       "duration": 60,
-      "cost": 1600,
+      "cost": 1800,
       "material": "BLAZE_ROD",
       "amount": 1
     },
@@ -51,7 +51,7 @@
       "cooldown": 40,
       "damage": 14,
       "duration": 70,
-      "cost": 3500,
+      "cost": 4500,
       "material": "BLAZE_ROD",
       "amount": 1
     }
