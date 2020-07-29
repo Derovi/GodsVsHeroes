@@ -528,14 +528,18 @@ public class Lobby implements PluginMode, Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        player.sendMessage("1");
         if (event.getAction().equals(Action.PHYSICAL)) {
             event.setCancelled(true);
             return;
         }
+        player.sendMessage("2");
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
             event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            player.sendMessage("3 " + event.getClickedBlock());
             int slot = player.getInventory().getHeldItemSlot();
             if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENDER_CHEST)) {
+                player.sendMessage("4");
                 DonateSelectorInterface inter = new DonateSelectorInterface(interfaceManager, player);
                 inter.open();
                 event.setCancelled(true);

@@ -3,7 +3,6 @@ package by.dero.gvh.minigame;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
-import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -41,12 +40,12 @@ public class AfterParty {
 //                player.teleport(spawnPosition.toLocation(game.getInfo().getWorld()));
 //                MessagingUtils.sendTitle(Lang.get("game.won"), player, 0, 40, 0);
                 MessagingUtils.sendTitle(Lang.get("game.won"), Lang.get("game.winSubtitle").
-                        replace("%exp%", GameUtils.getString(Game.getInstance().getMultiplier(gp) *
-                                game.getRewardManager().get("winGame").getCount())), player, 0, 60, 0);
+                        replace("%exp%", String.valueOf((int)(Game.getInstance().getMultiplier(gp) *
+                                game.getRewardManager().get("winGame").getCount()))), player, 0, 60, 0);
                 Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     if (player.isOnline()) {
                         MessagingUtils.sendTitle(Lang.get("game.won"), Lang.get("game.endResult").
-                                        replace("%exp%", String.valueOf(Game.getInstance().getStats().getPlayers().get(player.getName()).getExpGained())),
+                                        replace("%exp%", String.valueOf((int)Game.getInstance().getStats().getPlayers().get(player.getName()).getExpGained())),
                                 player, 0, 60, 0);
                     }
                 }, 60);
