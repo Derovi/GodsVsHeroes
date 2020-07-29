@@ -48,7 +48,7 @@
       "amount": 1
     },
     {
-      "cooldown": 45,
+      "cooldown": 40,
       "damage": 14,
       "duration": 70,
       "cost": 3500,

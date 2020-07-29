@@ -525,7 +525,7 @@ public class Lobby implements PluginMode, Listener {
         }
     }
     
-    @EventHandler
+    @EventHandler (priority = EventPriority.MONITOR)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (event.getAction().equals(Action.PHYSICAL)) {

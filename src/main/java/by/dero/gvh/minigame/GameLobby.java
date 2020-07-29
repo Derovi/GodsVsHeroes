@@ -135,7 +135,9 @@ public class GameLobby implements Listener {
                     world.playSound(game.getInfo().getLobbyPosition().toLocation(world),
                            Sound.BLOCK_NOTE_PLING, 100, 1);
                     for (final Player player : Bukkit.getOnlinePlayers()) {
-                        player.setHealth(timeLeft);
+                        if (player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() >= timeLeft) {
+                            player.setHealth(timeLeft);
+                        }
                         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(timeLeft);
                     }
                 }

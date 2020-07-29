@@ -481,7 +481,7 @@ public class GameUtils {
         } else if (Integer.parseInt(name.substring(1)) == 4) {
             lvlColor = "§5";
         }
-        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Глобальный " : "") +"Бустер " + lvlColor + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
+        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Глобальный " : "Локальный ") +"Бустер " + lvlColor + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
         if (name.equals("L5")) {
             meta.setDisplayName("§fБустер §6§lНАВСЕГДА");
         }
