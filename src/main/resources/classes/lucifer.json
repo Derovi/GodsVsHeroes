@@ -2,7 +2,7 @@
   "name": "lucifer",
   "maxHP": 40,
   "cost": 3750,
-  "cristCost": 100,
+  "cristCost": 149,
   "itemNames": [
     "swordthrow",
     "magicrod",

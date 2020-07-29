@@ -2,7 +2,7 @@
   "name": "horseman",
   "maxHP": 40,
   "cost": 2250,
-  "cristCost": 100,
+  "cristCost": 89,
   "itemNames": [
     "axethrow",
     "lightningbow",

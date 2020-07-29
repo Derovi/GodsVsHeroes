@@ -24,43 +24,50 @@ public class BoosterManager {
                 .name("L1")
                 .durationSec(3600)
                 .selfMultiplier(2)
-                .cost(5)
+                .cost(59)
                 .build());
         boosters.put("L2", BoosterInfo.builder()
                 .name("L2")
                 .durationSec(7200)
                 .selfMultiplier(2)
+                .cost(99)
                 .build());
         boosters.put("L3", BoosterInfo.builder()
                 .name("L3")
                 .durationSec(3600)
                 .selfMultiplier(3)
+                .cost(129)
                 .build());
         boosters.put("L4", BoosterInfo.builder()
                 .name("L4")
                 .durationSec(3600)
                 .selfMultiplier(5)
+                .cost(239)
                 .build());
         boosters.put("L5", BoosterInfo.builder()
                 .name("L5")
                 .durationSec(-1)
+                .cost(259)
                 .build());
 
         boosters.put("G1", BoosterInfo.builder()
                 .name("G1")
                 .durationSec(3600)
                 .teamMultiplier(2)
+                .cost(149)
                 .build());
         boosters.put("G2", BoosterInfo.builder()
                 .name("G2")
                 .durationSec(7200)
                 .selfMultiplier(3)
                 .teamMultiplier(1.5)
+                .cost(249)
                 .build());
         boosters.put("G3", BoosterInfo.builder()
                 .name("G3")
                 .durationSec(3600)
                 .gameMultiplier(2)
+                .cost(219)
                 .build());
     }
 

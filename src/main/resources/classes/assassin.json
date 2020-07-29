@@ -2,7 +2,7 @@
   "name": "assassin",
   "maxHP": 40,
   "cost": 750,
-  "cristCost": 100,
+  "cristCost": 29,
   "itemNames": [
     "knifethrow",
     "poisonousbow",

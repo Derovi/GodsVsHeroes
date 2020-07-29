@@ -2,7 +2,7 @@
   "name": "paladin",
   "maxHP": 40,
   "cost": 1500,
-  "cristCost": 100,
+  "cristCost": 59,
   "itemNames": [
     "swordthrow",
     "energyfist",
