@@ -36,7 +36,9 @@ import ru.cristalix.core.invoice.IInvoiceService;
 import ru.cristalix.core.invoice.InvoiceService;
 import ru.cristalix.core.karma.IKarmaService;
 import ru.cristalix.core.karma.KarmaService;
+import ru.cristalix.core.map.BukkitWorldLoader;
 import ru.cristalix.core.map.IMapService;
+import ru.cristalix.core.map.LoadedMap;
 import ru.cristalix.core.map.MapService;
 import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
@@ -164,6 +166,10 @@ public class Plugin extends JavaPlugin implements Listener {
         bookManager = new BookManager();
         cosmeticManager = new CosmeticManager();
         donateKitManager = new DonateKitManager();
+//
+//        LoadedMap<World> map = IMapService.get().
+//                loadMap(IMapService.get().
+//                        getMapByGameTypeAndMapName("EtherWar","Lobby1").get().getLatest(), BukkitWorldLoader.INSTANCE).join();
     }
 
     @Override
