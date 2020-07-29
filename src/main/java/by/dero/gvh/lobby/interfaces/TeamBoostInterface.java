@@ -105,12 +105,12 @@ public class TeamBoostInterface extends Interface {
 							.type(DonateType.BOOSTER)
 							.description("Booster " + boostName)
 							.onSuccessful(() -> {
-								getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-								Lobby.getInstance().getChest().addAnim(1, getPlayer(), null);
 								BoosterStand stand = Lobby.getInstance().getMonumentManager().getBoosters().get(0);
-								Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () ->
+								getPlayer().playSound(getPlayer().getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+								Lobby.getInstance().getChest().addAnim(1, getPlayer(), null, () ->
+										Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () ->
 												stand.getAnims().add(fwColors[finalI]),
-										Lobby.getInstance().getChest().getAnimDuration() - 20);
+										Lobby.getInstance().getChest().getAnimDuration() - 20));
 								info.activateBooster(boostName);
 								Plugin.getInstance().getPlayerData().savePlayerInfo(info);
 								getPlayer().sendMessage(Lang.get("interfaces.thxBuyBooster"));

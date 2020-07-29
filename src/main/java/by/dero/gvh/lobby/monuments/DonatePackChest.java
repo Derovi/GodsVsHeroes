@@ -31,10 +31,12 @@ public class DonatePackChest {
 		@Getter private final int type;
 		@Getter private final Player player;
 		@Getter private final ItemStack carry;
-		public Anim(int type, Player player, ItemStack carry) {
+		@Getter private final Runnable runnable;
+		public Anim(int type, Player player, ItemStack carry, Runnable runnable) {
 			this.type = type;
 			this.player = player;
 			this.carry = carry;
+			this.runnable = runnable;
 		}
 	}
 	
@@ -65,7 +67,8 @@ public class DonatePackChest {
 			stands[i].world.addEntity(stands[i], CreatureSpawnEvent.SpawnReason.CUSTOM);
 		}
 		
-		FlyingText text =  new FlyingText(loc.clone().add(0, 0.4, -0.2), Lang.get("lobby.donate"));
+		Location stText = loc.clone().add(0, 0.4, -0.2);
+		FlyingText text =  new FlyingText(stText, Lang.get("lobby.donate"));
 		runnable = new BukkitRunnable() {
 			int animTime = 0;
 			double angle = 0;
@@ -76,6 +79,9 @@ public class DonatePackChest {
 					if (animTime == 0) {
 						text.setText(Lang.get("interfaces.openingTitle").
 								replace("%pl%", anims.getFirst().getPlayer().getName()));
+						if (anims.getFirst().getRunnable() != null) {
+							anims.getFirst().getRunnable().run();
+						}
 					}
 					if (anims.getFirst().getType() == 3) {
 						if (animTime == 0) {
@@ -93,6 +99,7 @@ public class DonatePackChest {
 							for (int i = 0; i < stands.length; i++) {
 								Location at = getInCircle(MathUtils.PI2 * (animTime - 9) / 6 / 10 + MathUtils.PI2 / 3 * i);
 								stands[i].setPosition(at.x, at.y, at.z);
+								text.getArmorStand().getHandle().locY = stText.y + 1.5 / 10 * (animTime - 9);
 							}
 						}
 						if (animTime == 20) {
@@ -140,6 +147,7 @@ public class DonatePackChest {
 							for (int i = 0; i < stands.length; i++) {
 								Location at = getInCircle(MathUtils.PI2 * (174 - animTime) / 6 / 10 + MathUtils.PI2 / 3 * i);
 								stands[i].setPosition(at.x, at.y, at.z);
+								text.getArmorStand().getHandle().locY = stText.y + 1.5 / 10 * (174 - animTime);
 							}
 						}
 						
@@ -249,7 +257,7 @@ public class DonatePackChest {
 		runnable.cancel();
 	}
 	
-	public void addAnim(int type, Player player, ItemStack carry) {
-		anims.add(new Anim(type, player, carry));
+	public void addAnim(int type, Player player, ItemStack carry, Runnable runnable) {
+		anims.add(new Anim(type, player, carry, runnable));
 	}
 }
