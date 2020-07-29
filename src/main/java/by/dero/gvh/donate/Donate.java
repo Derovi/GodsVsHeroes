@@ -8,6 +8,9 @@ import org.bukkit.entity.Player;
 import ru.cristalix.core.invoice.IInvoiceService;
 import ru.cristalix.core.invoice.Invoice;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 @Builder
 public class Donate {
     @Getter @Setter
@@ -30,15 +33,24 @@ public class Donate {
 //        Plugin.getInstance().getDonateData().save(
 //                DonateInfo.builder().description(description).type(type).playerName(player.getName()).price(price).build());
 //        onSuccessful.run();
+        if (player.isOp()) {
+            onSuccessful.run();
+            return;
+        }
         IInvoiceService.get().bill(player.getUniqueId(), Invoice.builder()
                 .price(price)
                 .description(description)
                 .allowBonuses(true)
                 .build()).thenAccept(invoiceResult -> {
             if (invoiceResult.isSuccess()) {
-                System.out.println("Suc: " + price);
                 Plugin.getInstance().getDonateData().save(
-                        DonateInfo.builder().description(description).type(type).playerName(player.getName()).price(price).build());
+                        DonateInfo.builder()
+                                .description(description)
+                                .type(type)
+                                .playerName(player.getName())
+                                .date(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")
+                                        .format(Calendar.getInstance().getTime()))
+                                .price(price).build());
                 onSuccessful.run();
             } else {
                 onError.run();

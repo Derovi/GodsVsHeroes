@@ -17,4 +17,7 @@ public class DonateInfo {
 
     @Getter @Setter
     String playerName;
+
+    @Getter @Setter
+    private String date;
 }
