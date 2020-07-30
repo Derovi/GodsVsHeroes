@@ -91,8 +91,12 @@ public class Plugin extends JavaPlugin implements Listener {
             CoreApi.get().registerService(IMapService.class, new MapService());
             IPermissionService.get().enableTablePermissions();
             new CPSLimiter(this, 10);
-            IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar §f - beta");
+            IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar");
             IRealmService.get().getCurrentRealmInfo().setMaxPlayers(1000);
+            String typeName = IRealmService.get().getCurrentRealmInfo().getRealmId().getTypeName();
+            if (typeName.equals("EW") || typeName.equals("EWP")) {
+                IRealmService.get().getCurrentRealmInfo().setGroupName("EtherWar");
+            }
             settings.setServerName(IRealmService.get().getCurrentRealmInfo().getRealmId().getRealmName());;
         }
         boosterManager = new BoosterManager();

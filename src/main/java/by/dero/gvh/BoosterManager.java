@@ -58,7 +58,7 @@ public class BoosterManager {
                 .build());
         boosters.put("G2", BoosterInfo.builder()
                 .name("G2")
-                .durationSec(7200)
+                .durationSec(3600)
                 .selfMultiplier(3)
                 .teamMultiplier(1.5)
                 .cost(249)
