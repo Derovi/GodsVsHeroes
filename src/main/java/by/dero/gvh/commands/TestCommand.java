@@ -1,14 +1,12 @@
 package by.dero.gvh.commands;
 
-import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.lobby.monuments.BoosterStand;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class TestCommand implements CommandExecutor {
     static boolean flag = false;
@@ -19,11 +17,16 @@ public class TestCommand implements CommandExecutor {
         Player player = (Player) commandSender;
 
         try {
-            int idx = Integer.parseInt(args[0]);
-            BoosterStand stand = Lobby.getInstance().getMonumentManager().getBoosters().get(idx-1);;
-            Lobby.getInstance().getChest().addAnim(idx, player, null, () ->
-                    Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> stand.getAnims().add(Color.WHITE),
-                    Lobby.getInstance().getChest().getAnimDuration() - 20));
+            Lobby.getInstance().getChest().addAnim(4, player, new ItemStack(Material.DIAMOND));
+//
+//            int i = Integer.parseInt(args[0]);
+//            float j = Float.parseFloat(args[1]);
+//
+//            player.playSound(player.getEyeLocation(), Sound.values()[i], 1, j);
+//            player.sendMessage(Sound.values()[i].toString());
+//            BoosterStand stand = Lobby.getInstance().getMonumentManager().getBoosters().get(idx-1);
+//            Lobby.getInstance().getChest().addAnim(3, player,
+//                    Plugin.getInstance().getCosmeticManager().getCustomizations().get("ezioEspadron").getItemStack(), null);
         } catch (Exception e) {
         
         }

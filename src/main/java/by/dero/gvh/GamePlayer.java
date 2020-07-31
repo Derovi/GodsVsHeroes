@@ -287,7 +287,7 @@ public class GamePlayer extends GameObject {
             }
         }
 
-        if (preferredTeam == mx1 && val1 - val2 >= 1) {
+        if (preferredTeam == mx1 && val1 - val2 >= 1 && val1 >= Game.getInstance().getPlayers().size() / 2) {
             return false;
         }
         setTeam(preferredTeam);
