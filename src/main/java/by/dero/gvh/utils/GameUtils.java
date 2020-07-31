@@ -503,7 +503,7 @@ public class GameUtils {
                 lore.add("§6/thx§f от игроков даст §a+§l20§f опыта!");
             } if (name.equals("G2")) {
                 lore.add("§fЦелый час§f ты будешь получать");
-                lore.add("§a§l+250%§f опыта, а твоя команда §a§l+100%§f!");
+                lore.add("§a§l+250%§f опыта, а твоя команда §a§l+50%§f!");
                 lore.add("");
                 lore.add("§6/thx§f от игроков даст §a+§l20§f опыта!");
             } else if (name.equals("G3")) {
