@@ -49,7 +49,7 @@ public class BuyCosmeticInterface extends Interface {
 					.description("Cosmetic " + cosmeticName)
 					.onSuccessful(() -> {
 						Lobby.getInstance().getChest().addAnim(3, player, Plugin.getInstance().getCosmeticManager()
-								.getCustomizations().get(cosmeticName).getItemStack(true), null);
+								.getCustomizations().get(cosmeticName).getItemStack(true));
 						player.playSound(player.getEyeLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 						PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
 						info.unlockCosmetic(cosmeticName);

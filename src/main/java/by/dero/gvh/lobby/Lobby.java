@@ -586,7 +586,7 @@ public class Lobby implements PluginMode, Listener {
             e.setCancelled(true);
         }
     }
-
+    
     @EventHandler
     public void removeSwapHand(PlayerSwapHandItemsEvent event) {
         event.setCancelled(true);
