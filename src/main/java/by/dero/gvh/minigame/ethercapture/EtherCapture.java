@@ -13,7 +13,6 @@ import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.MessagingUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -100,7 +99,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         str[cnt+1] = builder.toString();
         str[cnt+2] = " ";
         str[cnt+7] = " ";
-        str[cnt+8] = Lang.get("game.online").replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()));
+        str[cnt+8] = Lang.get("game.online").replace("%online%", String.valueOf(getPlayers().size()));
         for (final GamePlayer gp : getPlayers().values()) {
             GamePlayerStats stats = this.stats.getPlayers().get(gp.getPlayer().getName());
             str[cnt] = Lang.get("commands.playingFor").

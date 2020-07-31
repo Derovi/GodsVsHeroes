@@ -8,13 +8,13 @@ import by.dero.gvh.books.ItemDescriptionBook;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.nmcapi.NMCUtils;
-import by.dero.gvh.stats.GameStatsUtils;
 import by.dero.gvh.utils.CosmeticsUtils;
 import by.dero.gvh.utils.Dwelling;
 import by.dero.gvh.utils.GameUtils;
 import lombok.Getter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -381,7 +381,11 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
-        Minigame.getInstance().getGame().addPlayer(event.getPlayer());
+        if (Game.getInstance().getState().equals(Game.State.GAME)) {
+            Minigame.getInstance().getGame().addPlayer(event.getPlayer());
+        } else {
+            event.getPlayer().setGameMode(GameMode.SPECTATOR);
+        }
     }
 
     @EventHandler

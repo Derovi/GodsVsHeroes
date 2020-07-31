@@ -52,20 +52,14 @@ public class Plugin extends JavaPlugin implements Listener {
     private PlayerData playerData;
     private ServerData serverData;
     private ReportData reportData;
-    @Getter
-    private GameStatsData gameStatsData;
-    @Getter
-    private StatsData statsData;
-    @Getter
-    private DonateData donateData;
+    @Getter private GameStatsData gameStatsData;
+    @Getter private StatsData statsData;
+    @Getter private DonateData donateData;
     private PluginMode pluginMode;
     private BookManager bookManager;
-    @Getter
-    private BoosterManager boosterManager;
-    @Getter
-    private DonateKitManager donateKitManager;
-    @Getter
-    private CosmeticManager cosmeticManager;
+    @Getter private BoosterManager boosterManager;
+    @Getter private DonateKitManager donateKitManager;
+    @Getter private CosmeticManager cosmeticManager;
     private Settings settings;
     private Lang lang;
 
