@@ -25,6 +25,7 @@ import net.minecraft.server.v1_12_R1.EnumItemSlot;
 import net.minecraft.server.v1_12_R1.PacketPlayOutEntityEquipment;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.ArmorStand;
@@ -34,12 +35,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -174,10 +171,32 @@ public class Lobby implements PluginMode, Listener {
         
         initItems();
         
-        chest = new DonatePackChest(Lobby.getInstance().getInfo().getDonateChest());
+        chest = new DonatePackChest(info.getDonateChest());
+        for (Map.Entry<String, DirectedPosition> banner : info.getCosmeticToBanner().entrySet()) {
+            String name = banner.getKey();
+            DirectedPosition pos = banner.getValue();
+            spawnBanner(name, pos);
+        }
+        
         System.out.println(chest + " " + Lobby.getInstance().getInfo().getDonateChest());
     }
 
+    private void spawnBanner(String name, DirectedPosition pos) {
+        Location loc = pos.toLocation(world);
+        world.getBlockAt(loc).setType(Material.END_ROD);
+        world.getBlockAt(loc.clone().add(0, 1, 0)).setType(Material.IRON_PLATE);
+        Location barrier = loc.clone().add(-pos.getDirection().x, 2, -pos.getDirection().z);
+        if (world.getBlockAt(barrier).getType().equals(Material.AIR)) {
+            world.getBlockAt(barrier).setType(Material.BARRIER);
+        }
+        BlockFace state = world.getBlockAt(loc.clone().add(0, 2, 0)).getFace(world.getBlockAt(loc.clone().add(0, 2, 0)));
+        Bukkit.getServer().broadcastMessage(state.toString());
+//        world.getBlockAt(loc.clone().add(0, 2, 0)).setType(Material.WALL_BANNER);
+//        world.getBlockAt(loc.clone().add(0, 2, 0)).setData((byte) (15 + (pos.getDirection().z > 0 ? 32 : 0)));
+        
+//        CraftBanner banner = (CraftBanner) world.getBlockAt(loc.clone().add(0, 2, 0)).getState().setD;
+    }
+    
     private void registerEvents() {
         Plugin p = Plugin.getInstance();
         Bukkit.getPluginManager().registerEvents(portalManager, p);
@@ -547,31 +566,31 @@ public class Lobby implements PluginMode, Listener {
         }
     }
     
-
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onDropItem(PlayerDropItemEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onInventoryDrag(InventoryDragEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
-        event.setCancelled(true);
-    }
+//
+//    @EventHandler
+//    public void onBlockPlace(BlockPlaceEvent event) {
+//        event.setCancelled(true);
+//    }
+//
+//    @EventHandler
+//    public void onDropItem(PlayerDropItemEvent event) {
+//        event.setCancelled(true);
+//    }
+//
+//    @EventHandler
+//    public void onInventoryDrag(InventoryDragEvent event) {
+//        event.setCancelled(true);
+//    }
+//
+//    @EventHandler
+//    public void onInventoryClick(InventoryClickEvent event) {
+//        event.setCancelled(true);
+//    }
+//
+//    @EventHandler
+//    public void onBlockBreak(BlockBreakEvent event) {
+//        event.setCancelled(true);
+//    }
 
     @EventHandler
     public void onThunderChange(ThunderChangeEvent e) {

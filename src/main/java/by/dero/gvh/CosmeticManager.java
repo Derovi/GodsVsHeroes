@@ -122,7 +122,7 @@ public class CosmeticManager {
 
         // paladin
         register(CosmeticInfo.builder()  // fairy sword
-                .name("fairySword")
+                .name("devilSword")
                 .hero("paladin")
                 .rarity(CosmeticInfo.Rarity.UNCOMMON)
                 .material(Material.CLAY_BALL)
