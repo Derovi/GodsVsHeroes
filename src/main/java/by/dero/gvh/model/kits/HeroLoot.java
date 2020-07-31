@@ -6,10 +6,8 @@ import by.dero.gvh.lobby.PlayerLobby;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.PlayerInfo;
-import by.dero.gvh.utils.GameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,11 +15,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import static by.dero.gvh.model.Drawings.spawnUnlockParticles;
 
-public class HeroKitEntry extends KitEntry {
+public class HeroLoot extends LootBoxItem {
     private final String className;
 
-    public HeroKitEntry(String playerName, String className) {
-        super(playerName);
+    public HeroLoot(String playerName, int chance, String className) {
+        super(playerName, chance);
         this.className = className;
     }
 

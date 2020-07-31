@@ -88,6 +88,18 @@ public class CosmeticInfo {
     @Builder.Default
     private NBT nbt = null;
 
+    @Getter
+    @Setter
+    @Builder.Default
+    private NBT nbt2 = null;
+
+    public void addNBT2(ItemStack itemStack) {
+        itemStack.setType(material);
+        NBTTagCompound compound = NMCUtils.getNBT(itemStack);
+        compound.set(nbt2.getName(), new NBTTagString(nbt2.getValue()));
+        NMCUtils.setNBT(itemStack, compound);
+    }
+
     public void addNBT(ItemStack itemStack) {
         itemStack.setType(material);
         NBTTagCompound compound = NMCUtils.getNBT(itemStack);

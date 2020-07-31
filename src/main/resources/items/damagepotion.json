@@ -10,47 +10,47 @@
   "levels": [
     {
       "cooldown": 100,
-      "radius": 3.5,
-      "damage": 9,
+      "radius": 3.25,
+      "damage": 8,
       "cost": 80,
       "material": "SPLASH_POTION",
       "amount": 2
     },
     {
       "cooldown": 90,
-      "radius": 4.0,
-      "damage": 10,
+      "radius": 3.5,
+      "damage": 9,
       "cost": 130,
       "material": "SPLASH_POTION",
       "amount": 2
     },
     {
       "cooldown": 80,
-      "radius": 4.5,
-      "damage": 11,
+      "radius": 3.75,
+      "damage": 10,
       "cost": 360,
       "material": "SPLASH_POTION",
       "amount": 2
     },
     {
       "cooldown": 100,
-      "radius": 3.5,
-      "damage": 9,
+      "radius": 3.25,
+      "damage": 8,
       "cost": 800,
       "material": "SPLASH_POTION",
       "amount": 3
     },
     {
       "cooldown": 90,
-      "radius": 4.0,
-      "damage": 10,
+      "radius": 3.5,
+      "damage": 9,
       "cost": 1800,
       "material": "SPLASH_POTION",
       "amount": 3
     },
     {
       "cooldown": 80,
-      "radius": 4.0,
+      "radius": 3.75,
       "damage": 10,
       "cost": 4500,
       "material": "SPLASH_POTION",

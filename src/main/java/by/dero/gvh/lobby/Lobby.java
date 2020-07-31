@@ -546,7 +546,6 @@ public class Lobby implements PluginMode, Listener {
             }
         }
     }
-    
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {

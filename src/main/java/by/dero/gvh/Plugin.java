@@ -7,7 +7,7 @@ import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.*;
-import by.dero.gvh.model.kits.DonateKitManager;
+import by.dero.gvh.model.kits.LootBoxManager;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
@@ -63,7 +63,7 @@ public class Plugin extends JavaPlugin implements Listener {
     @Getter
     private BoosterManager boosterManager;
     @Getter
-    private DonateKitManager donateKitManager;
+    private LootBoxManager donateKitManager;
     @Getter
     private CosmeticManager cosmeticManager;
     private Settings settings;
@@ -165,7 +165,7 @@ public class Plugin extends JavaPlugin implements Listener {
         AdvancementDataWorld.REGISTRY.c.clear();
         bookManager = new BookManager();
         cosmeticManager = new CosmeticManager();
-        donateKitManager = new DonateKitManager();
+        donateKitManager = new LootBoxManager();
 //
 //        LoadedMap<World> map = IMapService.get().
 //                loadMap(IMapService.get().
