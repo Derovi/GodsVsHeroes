@@ -47,24 +47,21 @@ import ru.cristalix.core.transfer.TransferService;
 import java.io.IOException;
 
 public class Plugin extends JavaPlugin implements Listener {
-    private static Plugin instance;
-    private Data data;
-    private PlayerData playerData;
-    private ServerData serverData;
-    private ReportData reportData;
+    @Getter private static Plugin instance;
+    @Getter private Data data;
+    @Getter private PlayerData playerData;
+    @Getter private ServerData serverData;
+    @Getter private ReportData reportData;
     @Getter private GameStatsData gameStatsData;
     @Getter private StatsData statsData;
     @Getter private DonateData donateData;
-    private PluginMode pluginMode;
-    private BookManager bookManager;
-    @Getter
-    private BoosterManager boosterManager;
-    @Getter
-    private LootBoxManager donateKitManager;
-    @Getter
-    private CosmeticManager cosmeticManager;
-    private Settings settings;
-    private Lang lang;
+    @Getter private PluginMode pluginMode;
+    @Getter private BookManager bookManager;
+    @Getter private BoosterManager boosterManager;
+    @Getter private LootBoxManager donateKitManager;
+    @Getter private CosmeticManager cosmeticManager;
+    @Getter private Settings settings;
+    @Getter private Lang lang;
 
     @Override
     public void onEnable() {
@@ -155,7 +152,7 @@ public class Plugin extends JavaPlugin implements Listener {
 
             Bukkit.getPluginManager().registerEvents((Listener) pluginMode, this);
         }
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(Plugin.getInstance(), "BungeeCord");
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         Bukkit.getPluginManager().registerEvents(this, this);
         new MathUtils();
@@ -174,42 +171,6 @@ public class Plugin extends JavaPlugin implements Listener {
     public void onDisable() {
         pluginMode.onDisable();
         CustomEntities.unregisterEntities();
-    }
-
-    public ServerData getServerData() {
-        return serverData;
-    }
-
-    public Lang getLang() {
-        return lang;
-    }
-
-    public Settings getSettings() {
-        return settings;
-    }
-
-    public PlayerData getPlayerData() {
-        return playerData;
-    }
-
-    public static Plugin getInstance() {
-        return instance;
-    }
-
-    public Data getData() {
-        return data;
-    }
-
-    public ReportData getReportData() {
-        return reportData;
-    }
-
-    public PluginMode getPluginMode() {
-        return pluginMode;
-    }
-
-    public BookManager getBookManager() {
-        return bookManager;
     }
 
     @EventHandler

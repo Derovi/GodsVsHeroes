@@ -392,8 +392,8 @@ public class GameEvents implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         event.setQuitMessage(null);
         Player p = event.getPlayer();
-        if (game.getState() == Game.State.GAME && game.stats.getPlayers().containsKey(p.getName())) {
-            game.stats.getPlayers().get(p.getName()).setPlayTimeSec(
+        if (game.getState() == Game.State.GAME && game.getStats().getPlayers().containsKey(p.getName())) {
+            game.getStats().getPlayers().get(p.getName()).setPlayTimeSec(
                     (int) (System.currentTimeMillis() / 1000 - Game.getInstance().getGameStatsManager().getStartTime()));
         }
         Minigame.getInstance().getGame().removePlayer(p.getName());

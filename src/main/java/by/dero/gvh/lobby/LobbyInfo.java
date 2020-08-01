@@ -9,23 +9,11 @@ import lombok.Setter;
 import java.util.Map;
 
 public class LobbyInfo {
-    private DirectedPosition spawnPosition;
-    private Position portalPosition;
+    @Getter private DirectedPosition spawnPosition;
+    @Getter private Position portalPosition;
 
-    @SerializedName("monuments")
+    @SerializedName("monuments") @Getter
     private Map<String, DirectedPosition> classNameToMonumentPosition;
-
-    public DirectedPosition getSpawnPosition() {
-        return spawnPosition;
-    }
-
-    public Position getPortalPosition() {
-        return portalPosition;
-    }
-
-    public Map<String, DirectedPosition> getClassNameToMonumentPosition() {
-        return classNameToMonumentPosition;
-    }
     
     @Getter @Setter
     private DirectedPosition singleBooster;
@@ -35,4 +23,7 @@ public class LobbyInfo {
     
     @Getter @Setter
     private DirectedPosition donateChest;
+    
+    @SerializedName("banners") @Getter
+    private Map<String, DirectedPosition> cosmeticToBanner;
 }

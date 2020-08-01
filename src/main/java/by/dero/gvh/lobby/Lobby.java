@@ -4,16 +4,13 @@ import by.dero.gvh.AdviceManager;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.books.GameStatsBook;
+import by.dero.gvh.lobby.interfaces.BuyCosmeticInterface;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.DonateSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
-import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.DonatePackChest;
-import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
-import by.dero.gvh.model.Lang;
-import by.dero.gvh.model.ServerType;
-import by.dero.gvh.model.StorageInterface;
+import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.stats.GameStats;
@@ -21,14 +18,12 @@ import by.dero.gvh.stats.PlayerStats;
 import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
 import lombok.Getter;
-import net.minecraft.server.v1_12_R1.EnumItemSlot;
-import net.minecraft.server.v1_12_R1.PacketPlayOutEntityEquipment;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
-import org.bukkit.entity.ArmorStand;
+import org.bukkit.block.Sign;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -50,6 +45,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.IPlatformEventExecutor;
@@ -68,25 +64,20 @@ import ru.cristalix.core.render.WorldRenderData;
 import java.util.*;
 
 public class Lobby implements PluginMode, Listener {
-    private static Lobby instance;
-    private LobbyInfo info;
-    private final String worldName = "Lobby";
-    private World world;
-    private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
-    private final static ItemFunc[] activates = new ItemFunc[9];
-    private MonumentManager monumentManager;
-    private InterfaceManager interfaceManager;
+    @Getter private static Lobby instance;
+    @Getter private LobbyInfo info;
+    @Getter private final String worldName = "Lobby";
+    @Getter private World world;
+    @Getter private final HashMap<String, PlayerLobby> activeLobbies = new HashMap<>();
+    private final static PlayerRunnable[] activates = new PlayerRunnable[9];
+    @Getter private MonumentManager monumentManager;
+    @Getter private InterfaceManager interfaceManager;
     private PortalManager portalManager;
     private final List<BukkitRunnable> runnables = new ArrayList<>();
-    private final HashMap<String, LobbyPlayer> players = new HashMap<>();
+    @Getter private final HashMap<String, LobbyPlayer> players = new HashMap<>();
     private final HashSet<UUID> hidePlayers = new HashSet<>();
     private final HashMap<Player, Long> hideShowUsed = new HashMap<>();
     @Getter private DonatePackChest chest;
-    
-    @FunctionalInterface
-    private interface ItemFunc {
-        void run(Player player);
-    }
     
     @Override
     public void onEnable() {
@@ -174,10 +165,62 @@ public class Lobby implements PluginMode, Listener {
         
         initItems();
         
-        chest = new DonatePackChest(Lobby.getInstance().getInfo().getDonateChest());
-        System.out.println(chest + " " + Lobby.getInstance().getInfo().getDonateChest());
+        chest = new DonatePackChest(info.getDonateChest());
+        Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+            for (Map.Entry<String, DirectedPosition> banner : info.getCosmeticToBanner().entrySet()) {
+                spawnBanner(banner.getKey(), banner.getValue());
+            }
+        }, 1);
+        
+        System.out.println(chest + " " + info.getDonateChest());
     }
-
+    
+    
+    private final HashMap<Vector, PlayerRunnable> blockRunnables = new HashMap<>();
+    private void spawnBanner(String name, DirectedPosition pos) {
+        Location loc = pos.toLocation(world);
+        world.getBlockAt(loc.clone().add(0, 2, -pos.getDz())).setType(Material.GLOWSTONE);
+        world.getBlockAt(loc.clone().add(0, 1, -pos.getDz())).setType(Material.DARK_OAK_FENCE);
+        world.getBlockAt(loc.clone().add(0, 0, -pos.getDz())).setType(Material.WOOD);
+        world.getBlockAt(loc.clone().add(0, 0, -pos.getDz())).setData((byte) 5);
+        world.getBlockAt(loc.clone().add(0, 2, 0)).setType(Material.WALL_BANNER);
+    
+        CraftArmorStand stand;
+        world.getBlockAt(loc).setType(Material.WALL_SIGN);
+        if (pos.getDz() < 0) {
+            stand = (CraftArmorStand) world.spawnEntity(loc.clone().add(-0.2, -0.1, 0.7), EntityType.ARMOR_STAND);
+            world.getBlockAt(loc.clone().add(0, 2, 0)).setData((byte) 2);
+            world.getBlockAt(loc).setData((byte) 2);
+        } else {
+            stand = (CraftArmorStand) world.spawnEntity(loc.clone().add(1.2, -0.1, 0.3), EntityType.ARMOR_STAND);
+            world.getBlockAt(loc.clone().add(0, 2, 0)).setData((byte) 3);
+            world.getBlockAt(loc).setData((byte) 3);
+        }
+        if (!name.equals("fairySword")) {
+            stand.setHeadPose(new EulerAngle(0, 0, -Math.PI / 4));
+        } else {
+            stand.getHandle().locX += 0.7;
+        }
+        CosmeticInfo item = Plugin.getInstance().getCosmeticManager().getCustomizations().get(name);
+        Sign sign = (Sign) world.getBlockAt(loc).getState();
+        sign.setLine(0, item.getDisplayName());
+        sign.setLine(1, Lang.get("classes." + item.getHero()));
+        sign.setLine(3, "§f[Пкм - открыть]");
+        sign.update();
+        
+        stand.setHelmet(item.getItemStack(true));
+        GameUtils.setInvisibleFlags(stand);
+        blockRunnables.put(loc.toBlockLocation().toVector(), (p) -> {
+            PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(p.getName());
+            if (info.getCosmetics().containsKey(name)) {
+                p.sendMessage(Lang.get("cosmetic.alreadyUnlocked"));
+            } else {
+                BuyCosmeticInterface inter = new BuyCosmeticInterface(interfaceManager, p, name);
+                inter.open();
+            }
+        });
+    }
+    
     private void registerEvents() {
         Plugin p = Plugin.getInstance();
         Bukkit.getPluginManager().registerEvents(portalManager, p);
@@ -298,7 +341,7 @@ public class Lobby implements PluginMode, Listener {
         compassitem.setItemMeta(meta);
         activates[0] = player -> {
             CompassInterface compassInterface = new CompassInterface(
-                    Lobby.getInstance().getInterfaceManager(), player);
+                    interfaceManager, player);
             compassInterface.open();
         };
     
@@ -376,17 +419,7 @@ public class Lobby implements PluginMode, Listener {
         player.teleport(info.getSpawnPosition().toLocation(world));
         playerLobby.load();
         activeLobbies.put(player.getName(), playerLobby);
-        Lobby.getInstance().updateDisplays(player);
-        
-        for (Monument monument : monumentManager.getMonuments().values()) {
-            if (monument instanceof ArmorStandMonument) {
-                ArmorStand stand = ((ArmorStandMonument) monument).getArmorStand();
-                ItemStack weapon = GameUtils.getMeleeWeapon(player, monument.getClassName());
-//                stand.setItemInHand(weapon);
-                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(
-                        new PacketPlayOutEntityEquipment(stand.getEntityId(), EnumItemSlot.MAINHAND, CraftItemStack.asNMSCopy(weapon)));
-            }
-        }
+        updateDisplays(player);
 
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (hidePlayers.contains(player.getUniqueId())) {
@@ -443,38 +476,6 @@ public class Lobby implements PluginMode, Listener {
             ++yIdx;
         }
         return new Position(xIdx * 96, 68 + Math.abs(new Random().nextInt()) % 20, yIdx * 96);
-    }
-
-    public static Lobby getInstance() {
-        return instance;
-    }
-
-    public InterfaceManager getInterfaceManager() {
-        return interfaceManager;
-    }
-
-    public MonumentManager getMonumentManager() {
-        return monumentManager;
-    }
-
-    public HashMap<String, PlayerLobby> getActiveLobbies() {
-        return activeLobbies;
-    }
-
-    public HashMap<String, LobbyPlayer> getPlayers() {
-        return players;
-    }
-
-    public LobbyInfo getInfo() {
-        return info;
-    }
-
-    public String getWorldName() {
-        return worldName;
-    }
-
-    public World getWorld() {
-        return world;
     }
 
     private final HashMap<UUID, Location> onGround = new HashMap<>();
@@ -534,6 +535,15 @@ public class Lobby implements PluginMode, Listener {
         }
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) ||
             event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (event.getClickedBlock() != null) {
+                PlayerRunnable runnable = blockRunnables.getOrDefault(event.getClickedBlock().getLocation().toVector(), null);
+                if (runnable != null) {
+                    runnable.run(player);
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+            
             int slot = player.getInventory().getHeldItemSlot();
             if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENDER_CHEST)) {
                 DonateSelectorInterface inter = new DonateSelectorInterface(interfaceManager, player);
@@ -546,6 +556,7 @@ public class Lobby implements PluginMode, Listener {
             }
         }
     }
+    
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {

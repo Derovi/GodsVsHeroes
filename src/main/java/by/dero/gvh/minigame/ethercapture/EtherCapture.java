@@ -13,6 +13,7 @@ import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.MessagingUtils;
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -33,9 +34,9 @@ import java.util.Collection;
 import static by.dero.gvh.model.Drawings.spawnFireworks;
 
 public class EtherCapture extends Game implements DisplayInteractInterface {
-    private final EtherCaptureInfo etherCaptureInfo;
+    @Getter private final EtherCaptureInfo etherCaptureInfo;
     private final EtherCollectorsManager collectorsManager;
-    private static EtherCapture instance;
+    @Getter private static EtherCapture instance;
 
     private int[] currentEtherCount;
 
@@ -101,7 +102,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         str[cnt+7] = " ";
         str[cnt+8] = Lang.get("game.online").replace("%online%", String.valueOf(getPlayers().size()));
         for (final GamePlayer gp : getPlayers().values()) {
-            GamePlayerStats stats = this.stats.getPlayers().get(gp.getPlayer().getName());
+            GamePlayerStats stats = getStats().getPlayers().get(gp.getPlayer().getName());
             str[cnt] = Lang.get("commands.playingFor").
                     replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
 //            str[cnt+2] = Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()));
@@ -139,12 +140,12 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     public void finish(int winnerTeam, boolean needFireworks) {
         super.finish(winnerTeam, needFireworks);
     
-        stats.getPercentToWin().ensureCapacity(getInfo().getTeamCount());
+        getStats().getPercentToWin().ensureCapacity(getInfo().getTeamCount());
         for (int i = 0; i < getInfo().getTeamCount(); i++) {
-            stats.getPercentToWin().add(currentEtherCount[i] * 100 / etherCaptureInfo.getEtherToWin());
+            getStats().getPercentToWin().add(currentEtherCount[i] * 100 / etherCaptureInfo.getEtherToWin());
         }
         
-        Plugin.getInstance().getGameStatsData().saveGameStats(stats);
+        Plugin.getInstance().getGameStatsData().saveGameStats(getStats());
     }
     
     @Override
@@ -179,9 +180,9 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
 
     @Override
     public void prepareMap(BuildWorldState state) {
-        getEtherCaptureInfo().setEtherCollectors(new IntPosition[state.getPoints().get("col").size()]);
+        etherCaptureInfo.setEtherCollectors(new IntPosition[state.getPoints().get("col").size()]);
         for (Point point : state.getPoints().get("col")) {
-            getEtherCaptureInfo().getEtherCollectors()[Integer.parseInt(point.getTag()) - 1] =
+            etherCaptureInfo.getEtherCollectors()[Integer.parseInt(point.getTag()) - 1] =
                     new IntPosition((int) point.getV3().getX(),
                             (int) point.getV3().getY(),
                             (int) point.getV3().getZ());
@@ -229,17 +230,5 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         event.setRespawnLocation(getPlayerDeathLocations().get(event.getPlayer().getName()));
-    }
-
-    public EtherCaptureInfo getEtherCaptureInfo() {
-        return etherCaptureInfo;
-    }
-
-    public int[] getCurrentEtherCount () {
-        return currentEtherCount;
-    }
-
-    public static EtherCapture getInstance () {
-        return instance;
     }
 }
