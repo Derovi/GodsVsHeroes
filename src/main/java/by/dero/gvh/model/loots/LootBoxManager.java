@@ -1,4 +1,4 @@
-package by.dero.gvh.model.kits;
+package by.dero.gvh.model.loots;
 
 import lombok.Getter;
 

@@ -175,7 +175,7 @@ public abstract class Game implements Listener {
         Plugin.getInstance().getBoosterManager().precalcMultipliers(this);
 
         if (!isMapPrepared()) {
-            prepareMap(lobby.getSelectedMap());
+            prepareMap(lobby.getMapVoting().getMostVoted().getBuildName());
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
             Plugin.getInstance().getCosmeticManager().loadPlayer(player);

@@ -7,7 +7,7 @@ import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.*;
-import by.dero.gvh.model.kits.LootBoxManager;
+import by.dero.gvh.model.loots.LootBoxManager;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
@@ -97,6 +97,7 @@ public class Plugin extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
         Bukkit.getPluginCommand("thx").setExecutor(new ThxCommand());
         Bukkit.getPluginCommand("ether").setExecutor(new EtherCommand());
+        Bukkit.getPluginCommand("vote").setExecutor(new VoteCommand());
         Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
         Bukkit.getPluginCommand("advice").setExecutor(new AdviceCommand());
         lang = new Lang(new LocalStorage());
