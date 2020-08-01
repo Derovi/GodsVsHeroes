@@ -381,11 +381,14 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
-//        if (Game.getInstance().getState().equals(Game.State.GAME)) {
+        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
             Minigame.getInstance().getGame().addPlayer(event.getPlayer());
-//        } else {
-//            event.getPlayer().setGameMode(GameMode.SPECTATOR);
-//        }
+        } else {
+            event.getPlayer().setGameMode(GameMode.CREATIVE);
+            for (GamePlayer gp : game.getPlayers().values()) {
+                gp.getPlayer().hidePlayer(Plugin.getInstance(), event.getPlayer());
+            }
+        }
     }
 
     @EventHandler
@@ -415,7 +418,14 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
-        event.setCancelled(true);
+        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+        if (item != null && !item.getType().equals(Material.AIR) && item.getAmount() >= 1) {
+            event.getPlayer().sendMessage("zxc " + item.getAmount());
+            event.getPlayer().getInventory().getItemInMainHand().setAmount(item.getAmount() + 1);
+            event.getItemDrop().remove();
+        } else {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
