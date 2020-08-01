@@ -210,7 +210,6 @@ public class Lobby implements PluginMode, Listener {
         
         stand.setHelmet(item.getItemStack(true));
         GameUtils.setInvisibleFlags(stand);
-        Bukkit.getServer().broadcastMessage(loc.toBlockLocation().toVector().toString());
         blockRunnables.put(loc.toBlockLocation().toVector(), (p) -> {
             PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(p.getName());
             if (info.getCosmetics().containsKey(name)) {
