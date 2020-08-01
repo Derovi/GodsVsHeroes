@@ -182,6 +182,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     public void prepareMap(BuildWorldState state) {
         etherCaptureInfo.setEtherCollectors(new IntPosition[state.getPoints().get("col").size()]);
         for (Point point : state.getPoints().get("col")) {
+            System.out.println("col: " + point.getTag() + "|" + point.getV3().toString());
             etherCaptureInfo.getEtherCollectors()[Integer.parseInt(point.getTag()) - 1] =
                     new IntPosition((int) point.getV3().getX(),
                             (int) point.getV3().getY(),
