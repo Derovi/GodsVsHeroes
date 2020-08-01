@@ -15,28 +15,24 @@ import by.dero.gvh.model.AreaManager;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.utils.WorldUtils;
+import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import ru.cristalix.core.realm.IRealmService;
 
 public class Minigame implements PluginMode {
-    private static Minigame instance;
-    private AreaManager areaManager;
-    private GameData gameData;
-    private Game game;
+    @Getter private static Minigame instance;
+    @Getter private AreaManager areaManager;
+    @Getter private GameData gameData;
+    @Getter private Game game;
 
-    public GameEvents getGameEvents() {
-        return gameEvents;
-    }
+    @Getter private GameEvents gameEvents;
+    @Getter private CommandManager commandManager;
+    @Getter private World lobbyWorld;
 
-    private GameEvents gameEvents;
-    private CommandManager commandManager;
-    private World lobbyWorld;
-
-    private LootsManager lootsManager;
-    private LiftManager liftManager;
+    @Getter private LootsManager lootsManager;
+    @Getter private LiftManager liftManager;
     public static long startTime;
 
     @Override
@@ -102,37 +98,5 @@ public class Minigame implements PluginMode {
         commandManager.getCommands().put("addspawnpoint", new AddSpawnPointCommand());
         commandManager.getCommands().put("addarea", new AddAreaCommand());
         commandManager.getCommands().put("unlock", new UnlockClassCommand());
-    }
-
-    public World getLobbyWorld() {
-        return lobbyWorld;
-    }
-
-    public static Minigame getInstance() {
-        return instance;
-    }
-
-    public GameData getGameData() {
-        return gameData;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public CommandManager getCommandManager() {
-        return commandManager;
-    }
-
-    public AreaManager getAreaManager() {
-        return areaManager;
-    }
-
-    public LootsManager getLootsManager() {
-        return lootsManager;
-    }
-
-    public LiftManager getLiftManager () {
-        return liftManager;
     }
 }

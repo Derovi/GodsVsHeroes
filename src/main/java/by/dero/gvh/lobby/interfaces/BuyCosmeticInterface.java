@@ -4,12 +4,10 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.donate.Donate;
 import by.dero.gvh.donate.DonateType;
 import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.lobby.monuments.BoosterStand;
 import by.dero.gvh.model.CosmeticInfo;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.InterfaceUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -43,6 +41,7 @@ public class BuyCosmeticInterface extends Interface {
 		};
 		CosmeticInfo cosmeticInfo = Plugin.getInstance().getCosmeticManager().getCustomizations().get(cosmeticName);
 		Runnable onBuy = () -> {
+			close();
 			Donate donate = Donate.builder()
 					.price(cosmeticInfo.getCost())
 					.type(DonateType.COSMETIC)
@@ -55,7 +54,9 @@ public class BuyCosmeticInterface extends Interface {
 						info.unlockCosmetic(cosmeticName);
 						info.enableCosmetic(cosmeticName);
 						Plugin.getInstance().getPlayerData().savePlayerInfo(info);
-						onBackButton.run();
+						if (onBackButton != null) {
+							onBackButton.run();
+						}
 					})
 					.onError(() -> {
 						getPlayer().sendMessage();
@@ -69,6 +70,7 @@ public class BuyCosmeticInterface extends Interface {
 					case 'I' : addItem(x, y, Plugin.getInstance().getCosmeticManager()
 							.getCustomizations().get(cosmeticName).getItemStack(true)); break;
 					case 'R' : addButton(x, y, returnItem, () -> {
+						close();
 						if (onBackButton != null) {
 							onBackButton.run();
 						}
@@ -78,10 +80,6 @@ public class BuyCosmeticInterface extends Interface {
 				}
 			}
 		}
-	}
-
-	public Runnable getOnBackButton() {
-		return onBackButton;
 	}
 
 	public BuyCosmeticInterface setOnBackButton(Runnable onBackButton) {
