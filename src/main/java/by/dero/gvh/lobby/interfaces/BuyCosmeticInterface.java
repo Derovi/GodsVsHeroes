@@ -14,8 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class BuyCosmeticInterface extends Interface {
-	private Runnable onBackButton = null;
-
 	public BuyCosmeticInterface(InterfaceManager manager, Player player, String cosmeticName) {
 		super(manager, player, 6,  Lang.get("cosmetic.titleItem").replace("%item%",
 				Plugin.getInstance().getCosmeticManager().getCustomizations().get(cosmeticName).getDisplayName()));
@@ -80,10 +78,5 @@ public class BuyCosmeticInterface extends Interface {
 				}
 			}
 		}
-	}
-
-	public BuyCosmeticInterface setOnBackButton(Runnable onBackButton) {
-		this.onBackButton = onBackButton;
-		return this;
 	}
 }

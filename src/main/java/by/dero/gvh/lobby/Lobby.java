@@ -33,7 +33,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
@@ -171,8 +170,6 @@ public class Lobby implements PluginMode, Listener {
                 spawnBanner(banner.getKey(), banner.getValue());
             }
         }, 1);
-        
-        System.out.println(chest + " " + info.getDonateChest());
     }
     
     
@@ -557,12 +554,11 @@ public class Lobby implements PluginMode, Listener {
         }
     }
     
-
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         event.setCancelled(true);
     }
-
+    
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
         event.setCancelled(true);
@@ -570,11 +566,6 @@ public class Lobby implements PluginMode, Listener {
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
         event.setCancelled(true);
     }
 

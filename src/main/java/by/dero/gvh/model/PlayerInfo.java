@@ -14,15 +14,14 @@ public class PlayerInfo {
     @Getter @Setter
     private String name;
     private String selectedClass = "warrior";
-    @Getter
-    private HashMap<String, Cosmetic> cosmetics = null;
+    @Getter private HashMap<String, Cosmetic> cosmetics = null;
     @Getter @Setter
     private List<Booster> boosters = new ArrayList<>();
     @Getter @Setter
     private int balance = 300;
-    @Getter
-    private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
-
+    @Getter private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
+    @Getter private final Map<String, HashMap<String, Integer>> itemsOrder = new HashMap<>();
+    
     public PlayerInfo() {
         this.cosmetics = new HashMap<>();
     }

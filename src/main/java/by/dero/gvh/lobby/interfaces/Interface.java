@@ -1,5 +1,7 @@
 package by.dero.gvh.lobby.interfaces;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,11 +9,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class Interface {
-    private final Player player;
+    @Getter private final Player player;
+    @Getter @Setter
     private Inventory inventory;
     private final Runnable[] buttonActions;
-    private final InterfaceManager manager;
-    protected final int height;
+    @Getter private final InterfaceManager manager;
+    @Getter private final int height;
+    @Setter protected Runnable onBackButton = null;
 
     public Interface(InterfaceManager manager, Player player, int height, String name) {
         this.manager = manager;
@@ -74,25 +78,5 @@ public class Interface {
 
     protected int getPos(int x, int y) {
         return (height - y - 1) * 9 + x;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public InterfaceManager getManager() {
-        return manager;
     }
 }

@@ -74,7 +74,12 @@ public class GamePlayer extends GameObject {
                 } else if (slot == -4) {
                     player.getInventory().setBoots(item.getItemStack());
                 } else {
-                    player.getInventory().addItem(item.getItemStack());
+                    HashMap<String, Integer> order = playerInfo.getItemsOrder().getOrDefault(className, null);
+                    if (order != null) {
+                        player.getInventory().setItem(order.get(name), item.getItemStack());
+                    } else {
+                        player.getInventory().addItem(item.getItemStack());
+                    }
                 }
                 if (item instanceof DoubleHanded) {
                     player.getInventory().setItemInOffHand(item.getItemStack());

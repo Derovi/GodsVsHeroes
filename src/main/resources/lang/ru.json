@@ -30,7 +30,10 @@
     "packsTitle": "§6Наборы",
     "costLore": "§fЦена §8» §6%cost% §fопыта",
     "cristCostLore": "§fЦена §8» §6%cost% §bкристалликов",
-    "openingTitle": "§c§lОткрывает §8» §6§l%pl%"
+    "openingTitle": "§c§lОткрывает §8» §6§l%pl%",
+    "slotCustomizerTitle": "§9§lНастройка инвентаря",
+    "saveResult": "§aСохранить",
+    "undoResult": "§cОчистить"
   },
   "cosmetic": {
     "common": "§aОбщее",
