@@ -7,9 +7,7 @@ import by.dero.gvh.books.GameStatsBook;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.DonateSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
-import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.lobby.monuments.DonatePackChest;
-import by.dero.gvh.lobby.monuments.Monument;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.ServerType;
@@ -21,15 +19,11 @@ import by.dero.gvh.stats.PlayerStats;
 import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
 import lombok.Getter;
-import net.minecraft.server.v1_12_R1.EnumItemSlot;
-import net.minecraft.server.v1_12_R1.PacketPlayOutEntityEquipment;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
-import org.bukkit.entity.ArmorStand;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -47,6 +41,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.IPlatformEventExecutor;
@@ -172,29 +167,31 @@ public class Lobby implements PluginMode, Listener {
         initItems();
         
         chest = new DonatePackChest(info.getDonateChest());
-        for (Map.Entry<String, DirectedPosition> banner : info.getCosmeticToBanner().entrySet()) {
-            String name = banner.getKey();
-            DirectedPosition pos = banner.getValue();
-            spawnBanner(name, pos);
-        }
+        Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+            for (Map.Entry<String, DirectedPosition> banner : info.getCosmeticToBanner().entrySet()) {
+                spawnBanner(banner.getKey(), banner.getValue());
+            }
+        }, 1);
         
         System.out.println(chest + " " + Lobby.getInstance().getInfo().getDonateChest());
     }
-
+    
     private void spawnBanner(String name, DirectedPosition pos) {
         Location loc = pos.toLocation(world);
         world.getBlockAt(loc).setType(Material.END_ROD);
-        world.getBlockAt(loc.clone().add(0, 1, 0)).setType(Material.IRON_PLATE);
-        Location barrier = loc.clone().add(-pos.getDirection().x, 2, -pos.getDirection().z);
-        if (world.getBlockAt(barrier).getType().equals(Material.AIR)) {
-            world.getBlockAt(barrier).setType(Material.BARRIER);
+        world.getBlockAt(loc.clone().add(0, 2, 0)).setType(Material.WALL_BANNER);
+    
+        CraftArmorStand stand;
+        if (pos.getDz() < 0) {
+            stand = (CraftArmorStand) world.spawnEntity(loc.clone().add(-0.2, -0.1, 0.6), EntityType.ARMOR_STAND);
+            world.getBlockAt(loc.clone().add(0, 2, 0)).setData((byte) 2);
+        } else {
+            stand = (CraftArmorStand) world.spawnEntity(loc.clone().add(1.2, -0.1, 0.4), EntityType.ARMOR_STAND);
+            world.getBlockAt(loc.clone().add(0, 2, 0)).setData((byte) 3);
         }
-        BlockFace state = world.getBlockAt(loc.clone().add(0, 2, 0)).getFace(world.getBlockAt(loc.clone().add(0, 2, 0)));
-        Bukkit.getServer().broadcastMessage(state.toString());
-//        world.getBlockAt(loc.clone().add(0, 2, 0)).setType(Material.WALL_BANNER);
-//        world.getBlockAt(loc.clone().add(0, 2, 0)).setData((byte) (15 + (pos.getDirection().z > 0 ? 32 : 0)));
-        
-//        CraftBanner banner = (CraftBanner) world.getBlockAt(loc.clone().add(0, 2, 0)).getState().setD;
+        stand.setHeadPose(new EulerAngle(0, 0, -Math.PI / 4));
+        stand.setHelmet(Plugin.getInstance().getCosmeticManager().getCustomizations().get(name).getItemStack(true));
+        GameUtils.setInvisibleFlags(stand);
     }
     
     private void registerEvents() {
@@ -396,16 +393,6 @@ public class Lobby implements PluginMode, Listener {
         playerLobby.load();
         activeLobbies.put(player.getName(), playerLobby);
         Lobby.getInstance().updateDisplays(player);
-        
-        for (Monument monument : monumentManager.getMonuments().values()) {
-            if (monument instanceof ArmorStandMonument) {
-                ArmorStand stand = ((ArmorStandMonument) monument).getArmorStand();
-                ItemStack weapon = GameUtils.getMeleeWeapon(player, monument.getClassName());
-//                stand.setItemInHand(weapon);
-                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(
-                        new PacketPlayOutEntityEquipment(stand.getEntityId(), EnumItemSlot.MAINHAND, CraftItemStack.asNMSCopy(weapon)));
-            }
-        }
 
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (hidePlayers.contains(player.getUniqueId())) {

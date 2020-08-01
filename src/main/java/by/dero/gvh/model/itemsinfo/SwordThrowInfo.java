@@ -55,8 +55,15 @@ public class SwordThrowInfo extends ItemInfo {
                 damage.set("Slot", new NBTTagString("mainhand"));
                 modifiers.add(damage);
                 compound.set("AttributeModifiers", modifiers);
+                NMCUtils.setNBT(itemStack, compound);
+                if (cosmeticInfo != null && cosmeticInfo.getName().equals("fairySword")) {
+                    cosmeticInfo.addNBT2(itemStack);
+                }
             } else {
                 itemStack.setType(getMaterial());
+                if (cosmeticInfo != null && cosmeticInfo.getName().equals("fairySword")) {
+                    cosmeticInfo.addNBT(itemStack);
+                }
             }
         }
         return itemStack;

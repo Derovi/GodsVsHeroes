@@ -130,6 +130,7 @@ public class CosmeticManager {
                 .cost(29)
                 .groupID(5)
                 .nbt(new CosmeticInfo.NBT("ether", "paladinsword"))
+                .nbt2(new CosmeticInfo.NBT("ether", "paladinswordult"))
                 .build());
         register(CosmeticInfo.builder()  // lost sword
                 .name("lostSword")
