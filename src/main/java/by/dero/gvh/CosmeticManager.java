@@ -11,10 +11,10 @@ import java.util.*;
 public class CosmeticManager {
     @Getter
     private final Map<String, CosmeticInfo> customizations = new HashMap<>();
-
+    
     @Getter
     private final Map<UUID, Set<String>> playerCustomizations = new HashMap<>();
-
+    
     public CosmeticManager() {
         // register heads
         register(CosmeticInfo.builder()
@@ -26,8 +26,8 @@ public class CosmeticManager {
                 .cost(119)
                 .groupID(0)
                 .build());
-
-
+        
+        
         // warrior
         register(CosmeticInfo.builder()  // blood sword
                 .name("bloodySword")
@@ -39,7 +39,7 @@ public class CosmeticManager {
                 .groupID(1)
                 .nbt(new CosmeticInfo.NBT("weapons", "bloodyvengeance"))
                 .build());
-
+        
         register(CosmeticInfo.builder()  // victory sword
                 .name("victorySword")
                 .hero("warrior")
@@ -50,7 +50,7 @@ public class CosmeticManager {
                 .groupID(1)
                 .nbt(new CosmeticInfo.NBT("weapons", "azure_sabre"))
                 .build());
-
+        
         register(CosmeticInfo.builder()  // death mace
                 .name("deathMace")
                 .hero("warrior")
@@ -61,7 +61,7 @@ public class CosmeticManager {
                 .groupID(1)
                 .nbt(new CosmeticInfo.NBT("weapons", "bludgeon"))
                 .build());
-
+        
         // horseman
         register(CosmeticInfo.builder()  // hell axe
                 .name("hellAxe")
@@ -73,7 +73,7 @@ public class CosmeticManager {
                 .groupID(2)
                 .nbt(new CosmeticInfo.NBT("weapons", "waraxe"))
                 .build());
-
+        
         register(CosmeticInfo.builder()  // skeleton axe
                 .name("skeletonAxe")
                 .hero("horseman")
@@ -84,7 +84,7 @@ public class CosmeticManager {
                 .groupID(2)
                 .nbt(new CosmeticInfo.NBT("weapons", "skeletonAxe"))
                 .build());
-
+        
         // dovahkiin
         register(CosmeticInfo.builder()  // dragon sword
                 .name("dragonSword")
@@ -96,7 +96,7 @@ public class CosmeticManager {
                 .groupID(3)
                 .nbt(new CosmeticInfo.NBT("weapons", "dragon"))
                 .build());
-
+        
         // lucifer
         register(CosmeticInfo.builder()  // demonic sword
                 .name("demoicSword")
@@ -108,7 +108,7 @@ public class CosmeticManager {
                 .groupID(4)
                 .nbt(new CosmeticInfo.NBT("weapons", "demonic"))
                 .build());
-
+        
         register(CosmeticInfo.builder()  // devil sword
                 .name("devilSword")
                 .hero("lucifer")
@@ -119,10 +119,10 @@ public class CosmeticManager {
                 .groupID(4)
                 .nbt(new CosmeticInfo.NBT("weapons", "spider"))
                 .build());
-
+        
         // paladin
         register(CosmeticInfo.builder()  // fairy sword
-                .name("devilSword")
+                .name("fairySword")
                 .hero("paladin")
                 .rarity(CosmeticInfo.Rarity.UNCOMMON)
                 .material(Material.CLAY_BALL)
@@ -142,7 +142,7 @@ public class CosmeticManager {
                 .groupID(5)
                 .nbt(new CosmeticInfo.NBT("weapons", "crimsoncleaver"))
                 .build());
-
+        
         // assassin
         register(CosmeticInfo.builder()  // altair blade
                 .name("altairBlade")
@@ -154,7 +154,7 @@ public class CosmeticManager {
                 .groupID(6)
                 .nbt(new CosmeticInfo.NBT("ether", "hid_blade"))
                 .build());
-
+        
         register(CosmeticInfo.builder()  // Ezio Espadron
                 .name("ezioEspadron")
                 .hero("assassin")
@@ -166,7 +166,7 @@ public class CosmeticManager {
                 .nbt(new CosmeticInfo.NBT("weapons", "claymore"))
                 .build());
     }
-
+    
     public static int getWeaponGroup(String name) {
         int group = 1;
         switch (name) {
@@ -188,7 +188,7 @@ public class CosmeticManager {
         }
         return group;
     }
-
+    
     public void loadPlayer(Player player) {
         Set<String> customizations = new HashSet<>();
         for (Cosmetic customization :
@@ -199,7 +199,7 @@ public class CosmeticManager {
         }
         playerCustomizations.put(player.getUniqueId(), customizations);
     }
-
+    
     public boolean isEnabled(Player player, String customization) {
         if (playerCustomizations.containsKey(player.getUniqueId())) {
             return playerCustomizations.get(player.getUniqueId()).contains(customization);
@@ -209,7 +209,7 @@ public class CosmeticManager {
             return customizations.containsKey(customization) && customizations.get(customization).isEnabled();
         }
     }
-
+    
     public CosmeticInfo getByGroup(Player player, int groupID) {
         Set<String> cosmetics;
         if (playerCustomizations.containsKey(player.getUniqueId())) {
@@ -230,7 +230,7 @@ public class CosmeticManager {
         }
         return null;
     }
-
+    
     public void register(CosmeticInfo customization) {
         customizations.put(customization.getName(), customization);
     }

@@ -178,18 +178,23 @@ public class Lobby implements PluginMode, Listener {
     
     private void spawnBanner(String name, DirectedPosition pos) {
         Location loc = pos.toLocation(world);
-        world.getBlockAt(loc).setType(Material.END_ROD);
+        world.getBlockAt(loc).setType(Material.IRON_BLOCK);
+        world.getBlockAt(loc.clone().add(0, 2, -pos.getDz())).setType(Material.GLOWSTONE);
         world.getBlockAt(loc.clone().add(0, 2, 0)).setType(Material.WALL_BANNER);
     
         CraftArmorStand stand;
         if (pos.getDz() < 0) {
-            stand = (CraftArmorStand) world.spawnEntity(loc.clone().add(-0.2, -0.1, 0.6), EntityType.ARMOR_STAND);
+            stand = (CraftArmorStand) world.spawnEntity(loc.clone().add(-0.2, -0.1, 0.7), EntityType.ARMOR_STAND);
             world.getBlockAt(loc.clone().add(0, 2, 0)).setData((byte) 2);
         } else {
-            stand = (CraftArmorStand) world.spawnEntity(loc.clone().add(1.2, -0.1, 0.4), EntityType.ARMOR_STAND);
+            stand = (CraftArmorStand) world.spawnEntity(loc.clone().add(1.2, -0.1, 0.3), EntityType.ARMOR_STAND);
             world.getBlockAt(loc.clone().add(0, 2, 0)).setData((byte) 3);
         }
-        stand.setHeadPose(new EulerAngle(0, 0, -Math.PI / 4));
+        if (!name.equals("fairySword")) {
+            stand.setHeadPose(new EulerAngle(0, 0, -Math.PI / 4));
+        } else {
+            stand.getHandle().locX += 0.7;
+        }
         stand.setHelmet(Plugin.getInstance().getCosmeticManager().getCustomizations().get(name).getItemStack(true));
         GameUtils.setInvisibleFlags(stand);
     }
