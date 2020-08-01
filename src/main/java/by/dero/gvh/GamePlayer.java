@@ -19,34 +19,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GamePlayer extends GameObject {
+    @Getter @Setter
     private Player player;
+    @Getter @Setter
     private String className = "default";
+    @Getter @Setter
     private PlayerInfo playerInfo;
     private final HashMap<String, Item> items = new HashMap<>();
+    @Getter @Setter
     private Item lastUsed;
+    @Getter @Setter
     private boolean actionBarBlocked = false;
-    @Getter
-    @Setter
+    @Getter @Setter
     private ItemStack[] contents = null;
+    @Getter @Setter
     private boolean disabled = false;
+    @Getter @Setter
     private boolean ultimateBuf = false;
 
-    private Board board;
+    @Getter private Board board;
 
     public GamePlayer(Player player) {
         super(player);
         this.player = player;
         this.playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
     }
-
-
-    public Item getLastUsed() {
-        return lastUsed;
-    }
-
-    public void setLastUsed(Item lastUsed) {
-        this.lastUsed = lastUsed;
-    }
+    
 
     public Item getSelectedItem() {
         ItemStack selectedItem = player.getInventory().getItemInMainHand();
@@ -212,30 +210,6 @@ public class GamePlayer extends GameObject {
         return contents != null;
     }
 
-    public PlayerInfo getPlayerInfo() {
-        return playerInfo;
-    }
-
-    public void setPlayerInfo(PlayerInfo playerInfo) {
-        this.playerInfo = playerInfo;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
     public HashMap<String, Item> getItems() {
         return items;
     }
@@ -246,18 +220,6 @@ public class GamePlayer extends GameObject {
         }
         getPlayer().setScoreboard(board.getScoreboard());
         this.board = board;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public boolean isActionBarBlocked() {
-        return actionBarBlocked;
-    }
-
-    public void setActionBarBlocked(boolean actionBarBlocked) {
-        this.actionBarBlocked = actionBarBlocked;
     }
 
     public boolean setPreferredTeam (int preferredTeam) {
@@ -292,21 +254,5 @@ public class GamePlayer extends GameObject {
         }
         setTeam(preferredTeam);
         return true;
-    }
-
-    public boolean isDisabled () {
-        return disabled;
-    }
-
-    public void setDisabled (boolean disabled) {
-        this.disabled = disabled;
-    }
-    
-    public boolean isUltimateBuf() {
-        return ultimateBuf;
-    }
-    
-    public void setUltimateBuf(boolean ultimateBuf) {
-        this.ultimateBuf = ultimateBuf;
     }
 }
