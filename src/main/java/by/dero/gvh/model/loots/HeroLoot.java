@@ -1,4 +1,4 @@
-package by.dero.gvh.model.kits;
+package by.dero.gvh.model.loots;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;

@@ -22,7 +22,7 @@ public class ReportData {
         try {
             ReportInfo info = new ReportInfo(playerName, text);
             Date date = Calendar.getInstance().getTime();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             info.setDate(dateFormat.format(date));
             storage.save("bugReports", dateFormat.format(date) + random.nextInt(),
                     new GsonBuilder().setPrettyPrinting().create().toJson(info));
@@ -35,7 +35,7 @@ public class ReportData {
         try {
             ReportInfo info = new ReportInfo(playerName, text);
             Date date = Calendar.getInstance().getTime();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             info.setDate(dateFormat.format(date));
             storage.save("adviceReports", dateFormat.format(date) + new Random().nextInt(),
                     new GsonBuilder().setPrettyPrinting().create().toJson(info));

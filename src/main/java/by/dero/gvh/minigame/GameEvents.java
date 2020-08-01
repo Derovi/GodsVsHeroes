@@ -381,11 +381,11 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
-        if (Game.getInstance().getState().equals(Game.State.GAME)) {
+//        if (Game.getInstance().getState().equals(Game.State.GAME)) {
             Minigame.getInstance().getGame().addPlayer(event.getPlayer());
-        } else {
-            event.getPlayer().setGameMode(GameMode.SPECTATOR);
-        }
+//        } else {
+//            event.getPlayer().setGameMode(GameMode.SPECTATOR);
+//        }
     }
 
     @EventHandler

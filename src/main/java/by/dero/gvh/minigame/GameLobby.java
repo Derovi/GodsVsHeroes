@@ -8,6 +8,7 @@ import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.BridgeUtils;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MessagingUtils;
+import lombok.Getter;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -32,7 +33,8 @@ public class GameLobby implements Listener {
     private int timeLeft = 61;
     private BukkitRunnable prepairing;
     private final ItemStack[] chooseInv;
-    private String selectedMap = "Castle";
+    @Getter
+    private final MapVoting mapVoting;
 
     public GameLobby(Game game) {
         this.game = game;
@@ -50,6 +52,7 @@ public class GameLobby implements Listener {
         cns.setDisplayName(Lang.get("gameLobby.exit"));
         chooseInv[8].setItemMeta(cns);
         Bukkit.getPluginManager().registerEvents(this, Plugin.getInstance());
+        mapVoting = new MapVoting();
     }
 
     private boolean ready = false;
@@ -214,10 +217,6 @@ public class GameLobby implements Listener {
                 ready = false;
             }
         }, 2);
-    }
-
-    public String getSelectedMap() {
-        return selectedMap;
     }
 
     public Game getGame () {
