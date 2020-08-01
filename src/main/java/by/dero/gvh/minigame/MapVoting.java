@@ -31,8 +31,8 @@ public class MapVoting {
     public Set<UUID> votedPlayers = new HashSet<>();
 
     public MapVoting() {
-        maps.add(new Map("Castle", "Castle"));
         maps.add(new Map("Japan", "Japan"));
+        maps.add(new Map("Castle", "Castle"));
     }
 
     public Map getMap(String displayName) {
@@ -51,7 +51,7 @@ public class MapVoting {
     public void vote(Player player, String mapName) {
         Map map = getMap(mapName);
         if (map == null) {
-            player.sendMessage(Lang.get("mapVoting.notExists".replace("%map%", mapName)));
+            player.sendMessage(Lang.get("mapVoting.notExists").replace("%map%", mapName));
             return;
         }
         if (votedPlayers.contains(player.getUniqueId())) {
@@ -60,7 +60,7 @@ public class MapVoting {
         }
         votedPlayers.add(player.getUniqueId());
         map.vote();
-        player.sendMessage(Lang.get("mapVoting.sucVoted".replace("%map%", mapName)));
+        player.sendMessage(Lang.get("mapVoting.sucVoted").replace("%map%", mapName));
     }
 
     public Map getMostVoted() {
