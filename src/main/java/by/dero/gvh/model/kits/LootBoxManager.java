@@ -1,6 +1,10 @@
 package by.dero.gvh.model.kits;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 
 import java.util.HashMap;
 
@@ -23,6 +27,11 @@ public class LootBoxManager {
             lootBox.add(new ExpLoot(playerName, 10, ExpLoot.Type.K6));
             return lootBox;
         });
+        BlockState state = new Location(Bukkit.getWorld("kek"),1,1,1).getBlock().getState();
+        org.bukkit.material.Banner banner = new org.bukkit.material.Banner();
+        banner.setFacingDirection(BlockFace.EAST);
+        state.setData(banner);
+        state.update();
     }
 
     public LootBox buildBox(String playerName, String boxName, int cost) {
