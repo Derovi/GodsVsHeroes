@@ -20,8 +20,8 @@ public class SlotCustomizerInterface extends Interface {
 	private String className;
 	private final HashMap<String, String> displayToName = new HashMap<>();
 	private PlayerInfo info;
-	private HashMap<String, Integer> order;
 	private final Runnable saveOrder = () -> {
+		HashMap<String, Integer> order = info.getItemsOrder().getOrDefault(className, null);
 		if (order == null) {
 			order = new HashMap<>();
 			info.getItemsOrder().put(className, order);
@@ -57,19 +57,15 @@ public class SlotCustomizerInterface extends Interface {
 		InterfaceUtils.changeName(returnItem, Lang.get("interfaces.back"));
 		ItemStack saveItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
 		InterfaceUtils.changeName(saveItem, Lang.get("interfaces.saveResult"));
-		ItemStack undoItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
+		ItemStack undoItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 10);
 		InterfaceUtils.changeName(undoItem, Lang.get("interfaces.undoResult"));
 		
-		putItemLine();
+		putItemLine(false);
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < getHeight(); y++) {
 				switch (pattern[y].charAt(x)) {
 					case 'G' : addButton(x, y, saveItem, saveOrder); break;
-					case 'B' : addButton(x, y, undoItem, () -> {
-						info.getItemsOrder().put(className, null);
-						order = null;
-						putItemLine();
-					}); break;
+					case 'B' : addButton(x, y, undoItem, () -> putItemLine(true)); break;
 					case 'H' : addItem(x, y, skull); break;
 					case 'R' : addButton(x, y, returnItem, () -> {
 						close();
@@ -82,7 +78,7 @@ public class SlotCustomizerInterface extends Interface {
 		}
 	}
 	
-	private void putItemLine() {
+	private void putItemLine(boolean def) {
 		ArrayList<Integer> slots = new ArrayList<>();
 		for (int x = 0; x < 9; x++) {
 			removeButton(x, 0);
@@ -91,7 +87,7 @@ public class SlotCustomizerInterface extends Interface {
 		getManager().getUnlockedSlots().put(getPlayer().getUniqueId(), slots);
 		
 		info = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName());
-		order = info.getItemsOrder().getOrDefault(className, null);
+		HashMap<String, Integer> order = info.getItemsOrder().getOrDefault(className, null);
 		
 		int counter = 0;
 		for (String itemName : Plugin.getInstance().getData().getClassNameToDescription().get(className).getItemNames()) {
@@ -106,12 +102,13 @@ public class SlotCustomizerInterface extends Interface {
 			item.setAmount(1);
 			displayToName.put(item.getItemMeta().getDisplayName(), itemName);
 			
-			if (order == null) {
+			if (order == null || def) {
 				addItem(counter, 0, item);
 				counter++;
 			} else {
 				addItem(order.get(itemName), 0, item);
 			}
+			System.out.println(counter + " " + item.getItemMeta().getDisplayName());
 		}
 	}
 	

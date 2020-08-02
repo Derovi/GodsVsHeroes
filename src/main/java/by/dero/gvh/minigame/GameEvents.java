@@ -14,7 +14,6 @@ import by.dero.gvh.utils.GameUtils;
 import lombok.Getter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -381,14 +380,14 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
-        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+//        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
             Minigame.getInstance().getGame().addPlayer(event.getPlayer());
-        } else {
-            event.getPlayer().setGameMode(GameMode.CREATIVE);
-            for (GamePlayer gp : game.getPlayers().values()) {
-                gp.getPlayer().hidePlayer(Plugin.getInstance(), event.getPlayer());
-            }
-        }
+//        } else {
+//            event.getPlayer().setGameMode(GameMode.CREATIVE);
+//            for (GamePlayer gp : game.getPlayers().values()) {
+//                gp.getPlayer().hidePlayer(Plugin.getInstance(), event.getPlayer());
+//            }
+//        }
     }
 
     @EventHandler
