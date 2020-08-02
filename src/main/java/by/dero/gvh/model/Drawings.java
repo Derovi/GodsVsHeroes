@@ -153,41 +153,54 @@ public class Drawings {
         Color.OLIVE, Color.ORANGE, Color.WHITE, Color.YELLOW, Color.SILVER, Color.RED, Color.PURPLE
     };
 
-    public static void spawnFireworks(final Location loc, final int amount) {
-        for (int i = 0; i < amount; i++) {
-            CraftWorld world = (CraftWorld) loc.getWorld();
-            EntityFireworks fw = new EntityFireworks(world.world);
-            fw.setPosition(loc.getX(), loc.getY(), loc.getZ());
-            fw.expectedLifespan = 2;
-            fw.noclip = true;
+    public static void spawnFireworks(final Location loc) {
+        CraftWorld world = (CraftWorld) loc.getWorld();
+        EntityFireworks fw = new EntityFireworks(world.world);
+        fw.setPosition(loc.getX(), loc.getY(), loc.getZ());
+        fw.expectedLifespan = 2;
+        fw.noclip = true;
 
-            CraftItemStack item = ((CraftFirework) fw.getBukkitEntity()).item;
-            FireworkMeta meta = (FireworkMeta) item.getItemMeta();
-            meta.setPower(2);
-            meta.addEffect(FireworkEffect.builder().withColor(
-                    colors[(int)(Math.random()*colors.length)]).flicker(true).build());
-            item.setItemMeta(meta);
+        CraftItemStack item = ((CraftFirework) fw.getBukkitEntity()).item;
+        FireworkMeta meta = (FireworkMeta) item.getItemMeta();
+        meta.setPower(2);
+        meta.addEffect(FireworkEffect.builder().withColor(
+                colors[(int)(Math.random()*colors.length)]).flicker(true).build());
+        item.setItemMeta(meta);
 
-            world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        }
+        world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
     }
     
-    public static void spawnFireworks(Location loc, int amount, Color color) {
-        for (int i = 0; i < amount; i++) {
-            CraftWorld world = (CraftWorld) loc.getWorld();
-            EntityFireworks fw = new EntityFireworks(world.world);
-            fw.setPosition(loc.getX(), loc.getY(), loc.getZ());
-            fw.expectedLifespan = 2;
-            fw.noclip = true;
-        
-            CraftItemStack item = ((CraftFirework) fw.getBukkitEntity()).item;
-            FireworkMeta meta = (FireworkMeta) item.getItemMeta();
-            meta.setPower(2);
-            meta.addEffect(FireworkEffect.builder().withColor(color).flicker(true).build());
-            item.setItemMeta(meta);
-        
-            world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        }
+    public static void spawnFireworks(Location loc, FireworkEffect.Type type) {
+        CraftWorld world = (CraftWorld) loc.getWorld();
+        EntityFireworks fw = new EntityFireworks(world.world);
+        fw.setPosition(loc.getX(), loc.getY(), loc.getZ());
+        fw.expectedLifespan = 2;
+        fw.noclip = true;
+    
+        CraftItemStack item = ((CraftFirework) fw.getBukkitEntity()).item;
+        FireworkMeta meta = (FireworkMeta) item.getItemMeta();
+        meta.setPower(2);
+        Color color = colors[(int)(Math.random()*colors.length)];
+        meta.addEffect(FireworkEffect.builder().withColor(color).withFade(color).with(type).flicker(true).build());
+        item.setItemMeta(meta);
+    
+        world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
+    }
+    
+    public static void spawnFireworks(Location loc, Color color) {
+        CraftWorld world = (CraftWorld) loc.getWorld();
+        EntityFireworks fw = new EntityFireworks(world.world);
+        fw.setPosition(loc.getX(), loc.getY(), loc.getZ());
+        fw.expectedLifespan = 2;
+        fw.noclip = true;
+    
+        CraftItemStack item = ((CraftFirework) fw.getBukkitEntity()).item;
+        FireworkMeta meta = (FireworkMeta) item.getItemMeta();
+        meta.setPower(2);
+        meta.addEffect(FireworkEffect.builder().withColor(color).flicker(true).build());
+        item.setItemMeta(meta);
+    
+        world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
     }
 
     public static void spawnMovingSphere(final Location center,

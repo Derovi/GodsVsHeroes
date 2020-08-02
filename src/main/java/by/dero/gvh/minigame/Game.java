@@ -515,10 +515,11 @@ public abstract class Game implements Listener {
             @Override
             public void run() {
                 if (needFireworks) {
-                    Drawings.spawnFireworks(MathUtils.randomCylinder(
-                            info.getLobbyPosition().toLocation(info.getLobbyWorld()),
-                            13, -10
-                    ), 2);
+                    for (int i = 0; i < 2; i++) {
+                        Drawings.spawnFireworks(MathUtils.randomCylinder(
+                                info.getLobbyPosition().toLocation(info.getLobbyWorld()),
+                                13, -10));
+                    }
                 }
                 //Bukkit.getServer().broadcastMessage("§6Спасибо за участие! Все заходим в группу вк §cvk.com/etherwar§6 и проходим опрос в закрепе!");
             }

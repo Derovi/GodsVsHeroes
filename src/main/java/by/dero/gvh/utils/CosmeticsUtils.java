@@ -2,11 +2,11 @@ package by.dero.gvh.utils;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.Drawings;
 import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import net.minecraft.server.v1_12_R1.World;
+import org.bukkit.*;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
@@ -132,5 +132,13 @@ public class CosmeticsUtils {
 		};
 		runnable.runTaskTimer(Plugin.getInstance(), 0, 1);
 		Game.getInstance().getRunnables().add(runnable);
+	}
+	
+	public static void spawnDeathFirework(Player player, Player killer) {
+		if (!Plugin.getInstance().getCosmeticManager().isEnabled(killer, "creeperFirework")) {
+			Drawings.spawnFireworks(player.getEyeLocation());
+		} else {
+			Drawings.spawnFireworks(player.getEyeLocation(), FireworkEffect.Type.CREEPER);
+		}
 	}
 }

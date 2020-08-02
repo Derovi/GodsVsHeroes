@@ -36,6 +36,16 @@ public class CosmeticManager {
                 .cost(139)
                 .groupID(0)
                 .build());
+    
+        register(CosmeticInfo.builder()
+                .name("creeperFirework")
+                .hero("all")
+                .rarity(CosmeticInfo.Rarity.RARE)
+                .material(Material.SKULL_ITEM)
+                .displayName("§4Феерверк с крипером")
+                .cost(99)
+                .groupID(0)
+                .build());
         
         // warrior
         register(CosmeticInfo.builder()  // blood sword

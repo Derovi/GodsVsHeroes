@@ -79,7 +79,7 @@ public class BoosterStand {
 					if (animTime == animDuration) {
 						yaw = 0;
 						animTime = 0;
-						Drawings.spawnFireworks(stand.getEyeLocation(), 1, anims.removeFirst());
+						Drawings.spawnFireworks(stand.getEyeLocation(), anims.removeFirst());
 					}
 				} else {
 					stand.setHeadPose(new EulerAngle(0, 0, roll));
