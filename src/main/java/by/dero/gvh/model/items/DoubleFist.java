@@ -65,7 +65,6 @@ public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteract
 		if (!cooldown.isReady() || System.currentTimeMillis() - lastUsed < 3000) {
 			return;
 		}
-		System.out.println("Interact Main");
 		cooldown.reload();
 		event.getPlayer().getInventory().setItem(0, getItemStack(true));
 		new BukkitRunnable() {
@@ -93,7 +92,6 @@ public class DoubleFist extends Item implements DoubleHanded, DoubleHandInteract
 		if (!cooldownOffhand.isReady() || System.currentTimeMillis() - lastUsed < 3000) {
 			return;
 		}
-		System.out.println("Interact Off");
 		cooldownOffhand.reload();
 		event.getPlayer().getInventory().setItemInOffHand(getItemStack(false));
 		new BukkitRunnable() {

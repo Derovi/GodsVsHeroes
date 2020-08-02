@@ -11,7 +11,7 @@
   "levels": [
     {
       "cooldown": 800,
-      "radius": 5,
+      "radius": 6.5,
       "lightningDamage": 12,
       "damage": 10,
       "cost": 80,
@@ -20,7 +20,7 @@
     },
     {
       "cooldown": 760,
-      "radius": 5.25,
+      "radius": 6.75,
       "lightningDamage": 12,
       "damage": 10,
       "cost": 130,
@@ -28,36 +28,36 @@
       "amount": 1
     },{
       "cooldown": 720,
-      "radius": 5.5,
+      "radius": 7.0,
       "lightningDamage": 12,
       "damage": 10,
-      "cost": 350,
+      "cost": 360,
       "material": "NETHER_STAR",
       "amount": 1
     },{
       "cooldown": 680,
-      "radius": 5.75,
+      "radius": 7.25,
       "lightningDamage": 12,
       "damage": 10,
-      "cost": 720,
+      "cost": 800,
       "material": "NETHER_STAR",
       "amount": 1
     },
     {
       "cooldown": 640,
-      "radius": 6,
+      "radius": 7.5,
       "lightningDamage": 12,
       "damage": 10,
-      "cost": 1600,
+      "cost": 1800,
       "material": "NETHER_STAR",
       "amount": 1
     },
     {
       "cooldown": 600,
-      "radius": 6.25,
+      "radius": 7.75,
       "lightningDamage": 12,
       "damage": 1,
-      "cost": 3500,
+      "cost": 4500,
       "material": "NETHER_STAR",
       "amount": 1
     }

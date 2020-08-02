@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class CosmeticInfo {
     public interface ItemStackCustomizer {
-        void customize(ItemStack itemStack);
+        ItemStack customize(ItemStack itemStack);
     }
 
     public enum Rarity {
@@ -40,10 +40,13 @@ public class CosmeticInfo {
         private String value;
     }
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @Builder.Default
-    ItemStackCustomizer customizer = null;
+    ItemStackCustomizer customizerBefore = itemStack -> itemStack;
+
+    @Getter @Setter
+    @Builder.Default
+    ItemStackCustomizer customizerAfter = itemStack -> itemStack;
 
     @Getter
     @Setter
@@ -88,6 +91,18 @@ public class CosmeticInfo {
     @Builder.Default
     private NBT nbt = null;
 
+    @Getter
+    @Setter
+    @Builder.Default
+    private NBT nbt2 = null;
+
+    public void addNBT2(ItemStack itemStack) {
+        itemStack.setType(material);
+        NBTTagCompound compound = NMCUtils.getNBT(itemStack);
+        compound.set(nbt2.getName(), new NBTTagString(nbt2.getValue()));
+        NMCUtils.setNBT(itemStack, compound);
+    }
+
     public void addNBT(ItemStack itemStack) {
         itemStack.setType(material);
         NBTTagCompound compound = NMCUtils.getNBT(itemStack);
@@ -100,7 +115,7 @@ public class CosmeticInfo {
     }
 
     public ItemStack getItemStack(boolean addCost) {
-        ItemStack itemStack = new ItemStack(material);
+        ItemStack itemStack = customizerBefore.customize(new ItemStack(material));
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(displayName);
         List<String> lore = new ArrayList<>(description);
@@ -112,14 +127,11 @@ public class CosmeticInfo {
         }
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
-        if (customizer != null) {
-            customizer.customize(itemStack);
-        }
         if (nbt != null) {
             NBTTagCompound compound = NMCUtils.getNBT(itemStack);
             compound.set(nbt.getName(), new NBTTagString(nbt.getValue()));
             NMCUtils.setNBT(itemStack, compound);
         }
-        return itemStack;
+        return customizerAfter.customize(itemStack);
     }
 }

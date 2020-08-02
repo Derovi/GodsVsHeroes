@@ -8,7 +8,6 @@ import by.dero.gvh.books.ItemDescriptionBook;
 import by.dero.gvh.model.Item;
 import by.dero.gvh.model.interfaces.*;
 import by.dero.gvh.nmcapi.NMCUtils;
-import by.dero.gvh.stats.GameStatsUtils;
 import by.dero.gvh.utils.CosmeticsUtils;
 import by.dero.gvh.utils.Dwelling;
 import by.dero.gvh.utils.GameUtils;
@@ -364,6 +363,9 @@ public class GameEvents implements Listener {
         assists.remove(kilGP);
         if (!kilGP.equals(playerGP)) {
             CosmeticsUtils.dropHead(player, kilGP.getPlayer());
+            CosmeticsUtils.spawnGrave(player, kilGP.getPlayer());
+            CosmeticsUtils.spawnDeathFirework(player, kilGP.getPlayer());
+            
             for (PlayerKillInterface item : GameUtils.selectItems(kilGP, PlayerKillInterface.class)) {
                 item.onPlayerKill(player);
             }
@@ -381,15 +383,22 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
-        Minigame.getInstance().getGame().addPlayer(event.getPlayer());
+//        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+            Minigame.getInstance().getGame().addPlayer(event.getPlayer());
+//        } else {
+//            event.getPlayer().setGameMode(GameMode.CREATIVE);
+//            for (GamePlayer gp : game.getPlayers().values()) {
+//                gp.getPlayer().hidePlayer(Plugin.getInstance(), event.getPlayer());
+//            }
+//        }
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
         event.setQuitMessage(null);
         Player p = event.getPlayer();
-        if (game.getState() == Game.State.GAME && game.stats.getPlayers().containsKey(p.getName())) {
-            game.stats.getPlayers().get(p.getName()).setPlayTimeSec(
+        if (game.getState() == Game.State.GAME && game.getStats().getPlayers().containsKey(p.getName())) {
+            game.getStats().getPlayers().get(p.getName()).setPlayTimeSec(
                     (int) (System.currentTimeMillis() / 1000 - Game.getInstance().getGameStatsManager().getStartTime()));
         }
         Minigame.getInstance().getGame().removePlayer(p.getName());
@@ -411,7 +420,13 @@ public class GameEvents implements Listener {
 
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
-        event.setCancelled(true);
+        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+        if (item != null && !item.getType().equals(Material.AIR) && item.getAmount() >= 1) {
+            event.getPlayer().getInventory().getItemInMainHand().setAmount(item.getAmount() + 1);
+            event.getItemDrop().remove();
+        } else {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler

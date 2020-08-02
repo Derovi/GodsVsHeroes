@@ -26,7 +26,7 @@
       "cooldown": 0,
       "radius": 4,
       "duration": 100,
-      "cost": 350,
+      "cost": 360,
       "material": "BOW",
       "amount": 1
     },
@@ -34,7 +34,7 @@
       "cooldown": 0,
       "radius": 4.5,
       "duration": 100,
-      "cost": 720,
+      "cost": 800,
       "material": "BOW",
       "amount": 1
     },
@@ -42,7 +42,7 @@
       "cooldown": 0,
       "radius": 5,
       "duration": 100,
-      "cost": 1600,
+      "cost": 1800,
       "material": "BOW",
       "amount": 1
     },
@@ -50,7 +50,7 @@
       "cooldown": 0,
       "radius": 5.5,
       "duration": 100,
-      "cost": 3500,
+      "cost": 4500,
       "material": "BOW",
       "amount": 1
     }

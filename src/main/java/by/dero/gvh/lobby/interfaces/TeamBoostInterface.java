@@ -119,6 +119,7 @@ public class TeamBoostInterface extends Interface {
 							
 							}).build();
 					donate.apply(getPlayer());
+					open();
 				}, Lang.get("interfaces.back"), Lang.get("interfaces.confirm"), null, heads[finalI].getLore());
 				inter.open();
 			};

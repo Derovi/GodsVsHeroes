@@ -24,28 +24,28 @@
     {
       "cooldown": 120,
       "radius": 9,
-      "cost": 350,
+      "cost": 360,
       "material": "SNOW_BALL",
       "amount": 2
     },
     {
       "cooldown": 200,
       "radius": 7,
-      "cost": 720,
+      "cost": 800,
       "material": "SNOW_BALL",
       "amount": 3
     },
     {
       "cooldown": 160,
       "radius": 8,
-      "cost": 1600,
+      "cost": 1800,
       "material": "SNOW_BALL",
       "amount": 3
     },
     {
       "cooldown": 120,
       "radius": 9,
-      "cost": 3500,
+      "cost": 4500,
       "material": "SNOW_BALL",
       "amount": 3
     }

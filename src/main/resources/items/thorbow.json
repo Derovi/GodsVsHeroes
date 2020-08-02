@@ -22,28 +22,28 @@
     },
     {
       "cooldown": 35,
-      "cost": 350,
+      "cost": 360,
       "damage": 11,
       "material": "BOW",
       "amount": 1
     },
     {
       "cooldown": 35,
-      "cost": 720,
+      "cost": 800,
       "damage": 12,
       "material": "BOW",
       "amount": 1
     },
     {
       "cooldown": 30,
-      "cost": 1600,
+      "cost": 1800,
       "damage": 12,
       "material": "BOW",
       "amount": 1
     },
     {
       "cooldown": 25,
-      "cost": 4000,
+      "cost": 4600,
       "damage": 13,
       "material": "BOW",
       "amount": 1

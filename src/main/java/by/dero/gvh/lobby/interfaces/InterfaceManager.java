@@ -1,13 +1,19 @@
 package by.dero.gvh.lobby.interfaces;
 
+import lombok.Getter;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class InterfaceManager implements Listener {
+    @Getter private final HashMap<UUID, ArrayList<Integer>> unlockedSlots = new HashMap<>();
+    
     private final HashMap<String, Interface> playerNameToInterface = new HashMap<>();
 
     public void register(String playerName, Interface playerInterface) {
@@ -22,18 +28,23 @@ public class InterfaceManager implements Listener {
             playerNameToInterface.remove(playerName);
         }
     }
-
+    
     @EventHandler
     public void onItemSelected(InventoryClickEvent event) {
         String playerName = event.getWhoClicked().getName();
-        if (!isInterfaceOpened(playerName)) {
+        if (!isInterfaceOpened(playerName) || !(event.getWhoClicked() instanceof Player)) {
+            event.setCancelled(true);
             return;
         }
-        event.setCancelled(true);
         if (event.getClickedInventory() == event.getView().getBottomInventory()) {
+            event.setCancelled(true);
             return;
         }
-        playerNameToInterface.get(playerName).clicked(event.getSlot());
+        ArrayList<Integer> unlocked = unlockedSlots.getOrDefault(event.getWhoClicked().getUniqueId(), null);
+        if (unlocked == null || !unlocked.contains(event.getSlot())) {
+            event.setCancelled(true);
+            playerNameToInterface.get(playerName).clicked(event.getSlot());
+        }
     }
 
     private boolean isInterfaceOpened(String playerName) {

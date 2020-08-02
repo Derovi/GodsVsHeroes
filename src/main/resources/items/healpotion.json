@@ -32,7 +32,7 @@
       "radius": 5.0,
       "heal": 6,
       "allyHeal": 4,
-      "cost": 350,
+      "cost": 360,
       "material": "SPLASH_POTION",
       "amount": 2
     },
@@ -41,7 +41,7 @@
       "radius": 4.0,
       "heal": 5,
       "allyHeal": 3,
-      "cost": 720,
+      "cost": 800,
       "material": "SPLASH_POTION",
       "amount": 3
     },
@@ -50,7 +50,7 @@
       "radius": 4.5,
       "heal": 5,
       "allyHeal": 4,
-      "cost": 1600,
+      "cost": 1800,
       "material": "SPLASH_POTION",
       "amount": 3
     },
@@ -59,7 +59,7 @@
       "radius": 5,
       "heal": 6,
       "allyHeal": 4,
-      "cost": 3500,
+      "cost": 4500,
       "material": "SPLASH_POTION",
       "amount": 3
     }

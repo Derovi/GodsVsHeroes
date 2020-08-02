@@ -30,7 +30,7 @@
       "radius": 7.0,
       "material": "BLAZE_ROD",
       "damage": 3,
-      "cost": 350,
+      "cost": 360,
       "amount": 11
     },
     {
@@ -38,7 +38,7 @@
       "radius": 7.0,
       "material": "BLAZE_ROD",
       "damage": 4,
-      "cost": 720,
+      "cost": 800,
       "amount": 9
     },
     {
@@ -46,7 +46,7 @@
       "radius": 7.0,
       "material": "BLAZE_ROD",
       "damage": 4,
-      "cost": 1600,
+      "cost": 1800,
       "amount": 11
     },
     {
@@ -54,7 +54,7 @@
       "radius": 7.0,
       "material": "BLAZE_ROD",
       "damage": 4,
-      "cost": 3500,
+      "cost": 4500,
       "amount": 12
     }
   ]

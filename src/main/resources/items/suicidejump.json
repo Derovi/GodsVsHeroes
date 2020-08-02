@@ -11,7 +11,7 @@
     {
       "cooldown": 260,
       "radius": 10.0,
-      "damage": 19,
+      "damage": 16,
       "selfDamage": 5,
       "cost": 80,
       "material": "FIREBALL",
@@ -20,7 +20,7 @@
     {
       "cooldown": 260,
       "radius": 10.0,
-      "damage": 21,
+      "damage": 17,
       "selfDamage": 5,
       "cost": 130,
       "material": "FIREBALL",
@@ -29,36 +29,36 @@
     {
       "cooldown": 260,
       "radius": 10.0,
-      "damage": 23,
+      "damage": 18,
       "selfDamage": 5,
-      "cost": 350,
+      "cost": 360,
       "material": "FIREBALL",
       "amount": 1
     },
     {
       "cooldown": 260,
       "radius": 10.0,
-      "damage": 25,
+      "damage": 19,
       "selfDamage": 5,
-      "cost": 720,
+      "cost": 800,
       "material": "FIREBALL",
       "amount": 1
     },
     {
       "cooldown": 260,
       "radius": 10.0,
-      "damage": 27,
+      "damage": 20,
       "selfDamage": 5,
-      "cost": 1600,
+      "cost": 1800,
       "material": "FIREBALL",
       "amount": 1
     },
     {
       "cooldown": 260,
       "radius": 10.0,
-      "damage": 29,
+      "damage": 21,
       "selfDamage": 5,
-      "cost": 4000,
+      "cost": 4600,
       "material": "FIREBALL",
       "amount": 1
     }

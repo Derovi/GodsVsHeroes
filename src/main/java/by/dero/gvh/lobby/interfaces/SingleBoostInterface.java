@@ -26,9 +26,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class SingleBoostInterface extends Interface {
 	@Setter private Runnable onBack = null;
@@ -95,6 +93,8 @@ public class SingleBoostInterface extends Interface {
 		}
 		InterfaceUtils.changeName(permMultItem, Lang.get("interfaces.permMult").
 				replace("%val%", String.valueOf(Math.round(mult * 100))));
+		InterfaceUtils.changeLore(permMultItem,
+				Collections.singletonList("§3§lПостоянный §fбонус §8» §a+§l" + Math.round(mult * 100 - 100) + "%"));
 		
 		Color[] fwColors = {
 				Color.GREEN, Color.YELLOW, Color.BLUE, Color.PURPLE, Color.RED
@@ -128,6 +128,7 @@ public class SingleBoostInterface extends Interface {
 
 							}).build();
 					donate.apply(getPlayer());
+					open();
 				}, Lang.get("interfaces.back"), Lang.get("interfaces.confirm"), null, heads[finalI].getLore());
 				inter.open();
 			};
@@ -196,7 +197,7 @@ public class SingleBoostInterface extends Interface {
 						}
 						break;
 					case 'V' :
-						addItem(x, y, permMultItem);
+						addButton(x, y, permMultItem, onSelect[x-2]);
 						break;
 				}
 			}

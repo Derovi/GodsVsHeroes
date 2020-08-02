@@ -40,10 +40,6 @@ import ru.cristalix.core.realm.RealmStatus;
 import java.util.*;
 
 public abstract class Game implements Listener {
-    public static Game getInstance() {
-        return instance;
-    }
-
     public enum State {
         GAME, FINISHING, WAITING, PREPARING, GAME_FULL
     }
@@ -54,23 +50,24 @@ public abstract class Game implements Listener {
         GameEvents.setGame(this);
     }
 
-    private static Game instance;
-    private GameLobby lobby;
+    @Getter private static Game instance;
+    @Getter private GameLobby lobby;
     private AfterParty afterParty;
-    private final GameInfo info;
-    private State state;
-    private World world = null;
-    private final HashMap<String, GamePlayer> players = new HashMap<>();
-    private HashMap<UUID, GameMob> mobs;
-    private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
-    private RewardManager rewardManager;
-    private MapManager mapManager;
+    @Getter private final GameInfo info;
+    @Getter private State state;
+    @Getter private World world = null;
+    @Getter private final HashMap<String, GamePlayer> players = new HashMap<>();
+    @Getter private HashMap<UUID, GameMob> mobs;
+    @Getter private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
+    @Getter private RewardManager rewardManager;
+    @Getter private MapManager mapManager;
     private DeathAdviceManager deathAdviceManager;
     @Getter private GameStatsManager gameStatsManager;
     @Getter private final HashMap<GamePlayer, Double> boosterMult = new HashMap<>();
     @Getter private final HashSet<GamePlayer> boosterTeamSpent = new HashSet<>();
     @Getter private final HashSet<GamePlayer> boosterGlobalSpent = new HashSet<>();
-    @Getter @Setter protected GameStats stats;
+    @Getter @Setter
+    private GameStats stats;
     protected boolean loaded = false;
 
     public LinkedList<BukkitRunnable> getRunnables() {
@@ -122,17 +119,17 @@ public abstract class Game implements Listener {
                 healPositions.add(position);
             }
         }
-        getInfo().setSpeedPoints(new Position[speedPositions.size()]);
+        info.setSpeedPoints(new Position[speedPositions.size()]);
         for (int index = 0; index < speedPositions.size(); ++index) {
-            getInfo().getSpeedPoints()[index] = speedPositions.get(index);
+            info.getSpeedPoints()[index] = speedPositions.get(index);
         }
-        getInfo().setResistancePoints(new Position[resPositions.size()]);
+        info.setResistancePoints(new Position[resPositions.size()]);
         for (int index = 0; index < resPositions.size(); ++index) {
-            getInfo().getResistancePoints()[index] = resPositions.get(index);
+            info.getResistancePoints()[index] = resPositions.get(index);
         }
-        getInfo().setHealPoints(new Position[healPositions.size()]);
+        info.setHealPoints(new Position[healPositions.size()]);
         for (int index = 0; index < healPositions.size(); ++index) {
-            getInfo().getHealPoints()[index] = healPositions.get(index);
+            info.getHealPoints()[index] = healPositions.get(index);
         }
         HashMap<String, LiftManager.Lift> lifts = new HashMap<>();
         for (Point point : state.getPoints().get("lift")) {
@@ -178,7 +175,7 @@ public abstract class Game implements Listener {
         Plugin.getInstance().getBoosterManager().precalcMultipliers(this);
 
         if (!isMapPrepared()) {
-            prepareMap(lobby.getSelectedMap());
+            prepareMap(lobby.getMapVoting().getMostVoted().getBuildName());
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
             Plugin.getInstance().getCosmeticManager().loadPlayer(player);
@@ -235,7 +232,7 @@ public abstract class Game implements Listener {
         SafeRunnable cooldownMessageUpdater = new SafeRunnable() {
             @Override
             public void run() {
-                for (GamePlayer player : getPlayers().values()) {
+                for (GamePlayer player : players.values()) {
                     if (player.getPlayer().getGameMode() == GameMode.SPECTATOR ||
                         player.isActionBarBlocked()) {
                         continue;
@@ -265,7 +262,7 @@ public abstract class Game implements Listener {
 
         Minigame.getInstance().getLootsManager().load();
         Minigame.getInstance().getLiftManager().load();
-        for (GamePlayer gp : getPlayers().values()) {
+        for (GamePlayer gp : players.values()) {
             gp.updateInventory();
         }
         
@@ -415,7 +412,7 @@ public abstract class Game implements Listener {
     }
 
     private void chooseTeams() {
-        final int cnt = getInfo().getTeamCount();
+        final int cnt = info.getTeamCount();
         int[] teams = new int[cnt];
 
         final Stack<GamePlayer> left = new Stack<>();
@@ -518,10 +515,11 @@ public abstract class Game implements Listener {
             @Override
             public void run() {
                 if (needFireworks) {
-                    Drawings.spawnFireworks(MathUtils.randomCylinder(
-                            getInfo().getLobbyPosition().toLocation(getInfo().getLobbyWorld()),
-                            13, -10
-                    ), 2);
+                    for (int i = 0; i < 2; i++) {
+                        Drawings.spawnFireworks(MathUtils.randomCylinder(
+                                info.getLobbyPosition().toLocation(info.getLobbyWorld()),
+                                13, -10));
+                    }
                 }
                 //Bukkit.getServer().broadcastMessage("§6Спасибо за участие! Все заходим в группу вк §cvk.com/etherwar§6 и проходим опрос в закрепе!");
             }
@@ -558,7 +556,7 @@ public abstract class Game implements Listener {
                 }
                 prepare();
             }
-        }.runTaskLater(Plugin.getInstance(), 20 * getInfo().getFinishTime());
+        }.runTaskLater(Plugin.getInstance(), 20 * info.getFinishTime());
     }
 
     public void prepare() {
@@ -613,12 +611,12 @@ public abstract class Game implements Listener {
             player.kickPlayer(Lang.get("game.gamePrepairing"));
             return;
         }
-        if (getInfo().getMaxPlayerCount() <= getPlayers().size()) {
+        if (info.getMaxPlayerCount() <= players.size()) {
             //BridgeUtils.toLobby(player, Lang.get("game.overflow"));
             player.kickPlayer(Lang.get("game.overflow"));
             return;
         }
-        if (getPlayers().size() >= info.getMaxPlayerCount()) {
+        if (players.size() >= info.getMaxPlayerCount()) {
             state = State.GAME_FULL;
             Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                     state.toString());
@@ -644,7 +642,7 @@ public abstract class Game implements Listener {
         player.getPlayer().getInventory().clear();
         if (state == State.WAITING) {
             lobby.onPlayerLeft(player);
-            if (getPlayers().size() == info.getMaxPlayerCount()) {
+            if (players.size() == info.getMaxPlayerCount()) {
                 state = State.WAITING;
                 Plugin.getInstance().getServerData().updateStatus(Plugin.getInstance().getSettings().getServerName(),
                         state.toString());
@@ -670,12 +668,12 @@ public abstract class Game implements Listener {
         if (state == State.WAITING) {
             teleportToLobby(gamePlayer.getPlayer());
         } else {
-            spawnPlayer(gamePlayer, getInfo().getRespawnTime());
+            spawnPlayer(gamePlayer, info.getRespawnTime());
         }
     }
 
     private void teleportToLobby(Player player) {
-        player.teleport(getInfo().getLobbyPosition().toLocation(getInfo().getLobbyWorld()));
+        player.teleport(info.getLobbyPosition().toLocation(info.getLobbyWorld()));
     }
 
     private void addItems(GamePlayer player) {
@@ -694,8 +692,8 @@ public abstract class Game implements Listener {
         player.setGameMode(GameMode.SURVIVAL);
         new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0).apply(player);
 
-        final int locationIndex = new Random().nextInt(getInfo().getSpawnPoints()[gp.getTeam()].length);
-        final DirectedPosition spawnPosition = getInfo().getSpawnPoints()[gp.getTeam()][locationIndex];
+        final int locationIndex = new Random().nextInt(info.getSpawnPoints()[gp.getTeam()].length);
+        final DirectedPosition spawnPosition = info.getSpawnPoints()[gp.getTeam()][locationIndex];
         player.teleport(spawnPosition.toLocation(world));
         final int maxHealth =  Plugin.getInstance().getData().getClassNameToDescription().get(gp.getClassName()).getMaxHP();
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
@@ -749,46 +747,6 @@ public abstract class Game implements Listener {
         };
         runnable.runTaskTimer(Plugin.getInstance(), 0, 20);
         runnables.add(runnable);
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public MapManager getMapManager() {
-        return mapManager;
-    }
-
-    public HashMap<String, Location> getPlayerDeathLocations() {
-        return playerDeathLocations;
-    }
-
-    public GameLobby getLobby() {
-        return lobby;
-    }
-
-    public GameInfo getInfo() {
-        return info;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public HashMap<String, GamePlayer> getPlayers() {
-        return players;
-    }
-
-    public HashMap<UUID, GameMob> getMobs() {
-        return mobs;
-    }
-
-    public RewardManager getRewardManager () {
-        return rewardManager;
-    }
-
-    protected void setState (State state) {
-        this.state = state;
     }
     
     public double getMultiplier(GamePlayer gp) {

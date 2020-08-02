@@ -1,27 +1,26 @@
-package by.dero.gvh.model.kits;
+package by.dero.gvh.model.loots;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.PlayerInfo;
-import org.bukkit.Material;
+import by.dero.gvh.utils.GameUtils;
 import org.bukkit.inventory.ItemStack;
 
-public class ExpKitEntry extends KitEntry {
-    private int count;
+public class BoosterLoot extends LootBoxItem {
+    private String boosterName;
 
-    public ExpKitEntry(String playerName, int count) {
-        super(playerName);
-        this.count = count;
+    public BoosterLoot(String playerName, int chance) {
+        super(playerName, chance);
     }
 
     @Override
     public void give() {
         PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayerName());
-        info.setBalance(info.getBalance() + count);
+        info.activateBooster(boosterName);
         Plugin.getInstance().getPlayerData().savePlayerInfo(info);
     }
 
     @Override
     public ItemStack getItemStack() {
-        return new ItemStack(Material.EXP_BOTTLE);
+        return GameUtils.getBoosterHead(boosterName);
     }
 }

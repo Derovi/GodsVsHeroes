@@ -10,7 +10,6 @@ import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.UnitClassDescription;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.InterfaceUtils;
-import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,8 +18,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class CosmeticSelectorInterface extends Interface {
-	@Setter private Runnable onBackButton;
-	
 	public CosmeticSelectorInterface(InterfaceManager manager, Player player) {
 		super(manager, player, 2, Lang.get("cosmetic.title"));
 	}
@@ -32,8 +29,8 @@ public class CosmeticSelectorInterface extends Interface {
 		Collection<UnitClassDescription> classes = Plugin.getInstance().getData().getClassNameToDescription().values();
 		
 		PlayerInfo info = Plugin.getInstance().getPlayerData().getStoredPlayerInfo(getPlayer().getName());
-		ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
-		InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
+//		ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
+//		InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
 		ItemStack common = GameUtils.getHead(getPlayer());
 		InterfaceUtils.changeName(common, "§9" + Lang.get("classes.all"));
 		

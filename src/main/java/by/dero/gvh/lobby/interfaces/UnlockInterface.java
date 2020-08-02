@@ -6,6 +6,7 @@ import by.dero.gvh.donate.Donate;
 import by.dero.gvh.donate.DonateType;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.PlayerLobby;
+import by.dero.gvh.lobby.interfaces.cosmetic.CosmeticInterfaces;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.CustomizationContext;
@@ -45,12 +46,13 @@ public class UnlockInterface extends Interface {
 
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(className);
 
-        ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
+//        ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
         ItemStack returnSlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
-        ItemStack skull = Heads.getHead(className);
-        
         InterfaceUtils.changeName(returnSlot, Lang.get("interfaces.back"));
-        InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
+        ItemStack skull = Heads.getHead(className);
+        InterfaceUtils.changeName(skull, Lang.get("cosmetic.title"));
+        
+//        InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
         List<String> itemNames = new LinkedList<>();
         for (String itemName : classDescription.getItemNames()) {
             if (itemNames.size() == 9) {
@@ -116,9 +118,22 @@ public class UnlockInterface extends Interface {
                 for (int y = 1; y < 6; y++) {
                     switch (pattern[y].charAt(x)) {
                         case 'R' : addButton(x, y, returnSlot, this::close); break;
-                        case 'E' : addItem(x, y, emptySlot); break;
+//                        case 'E' : addItem(x, y, emptySlot); break;
                         case 'G' : addButton(x, y, itemStack, unlockAction); break;
-                        case 'H' : addItem(x, y, skull); break;
+                        case 'H' : addButton(x, y, skull, () -> {
+                            close();
+                            try {
+                                Class<? extends CosmeticInterface> interfaceClass = CosmeticInterfaces.get(className);
+                                CosmeticInterface inter = interfaceClass.getConstructor(InterfaceManager.class,
+                                        Player.class, String.class).newInstance(Lobby.getInstance().getInterfaceManager(),
+                                        getPlayer(), className);
+                                inter.setOnBackButton(this::open);
+                                inter.update();
+                                inter.open();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }); break;
                     }
                 }
             }
@@ -142,7 +157,20 @@ public class UnlockInterface extends Interface {
                 for (int y = 1; y < 6; ++y) {
                     switch (pattern[y].charAt(x)) {
                         case 'R' : addButton(x, y, returnSlot, this::close); break;
-                        case 'H' : addItem(x, y, skull); break;
+                        case 'H' : addButton(x, y, skull, () -> {
+                            close();
+                            try {
+                                Class<? extends CosmeticInterface> interfaceClass = CosmeticInterfaces.get(className);
+                                CosmeticInterface inter = interfaceClass.getConstructor(InterfaceManager.class,
+                                        Player.class, String.class).newInstance(Lobby.getInstance().getInterfaceManager(),
+                                        getPlayer(), className);
+                                inter.setOnBackButton(this::open);
+                                inter.update();
+                                inter.open();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }); break;
                         case 'G' : addButton(x, y, itemStack, action); break;
                     }
                 }

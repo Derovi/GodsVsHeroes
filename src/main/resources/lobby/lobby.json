@@ -27,6 +27,74 @@
     "y": 88,
     "z": 5
   },
+  "banners": {
+    "bloodySword": {
+      "x": -9,
+      "y": 87,
+      "z": -15,
+      "dz": 1
+    },
+    "victorySword": {
+      "x": -7,
+      "y": 87,
+      "z": -15,
+      "dz": 1
+    },
+    "deathMace": {
+      "x": -5,
+      "y": 87,
+      "z": -15,
+      "dz": 1
+    },
+    "hellAxe": {
+      "x": -3,
+      "y": 87,
+      "z": -15,
+      "dz": 1
+    },
+    "skeletonAxe": {
+      "x": 5,
+      "y": 87,
+      "z": -15,
+      "dz": 1
+    },
+    "dragonSword": {
+      "x": 7,
+      "y": 87,
+      "z": -15,
+      "dz": 1
+    },
+    "demoicSword": {
+      "x": 9,
+      "y": 87,
+      "z": -15,
+      "dz": 1
+    },
+    "devilSword": {
+      "x": 11,
+      "y": 87,
+      "z": -15,
+      "dz": 1
+    },
+    "lostSword": {
+      "x": -9,
+      "y": 87,
+      "z": 13,
+      "dz": -1
+    },
+    "ezioEspadron": {
+      "x": -7,
+      "y": 87,
+      "z": 13,
+      "dz": -1
+    },
+    "fairySword": {
+      "x": -5,
+      "y": 87,
+      "z": 13,
+      "dz": -1
+    }
+  },
   "monuments": {
     "warrior": {
       "x": -2.5,

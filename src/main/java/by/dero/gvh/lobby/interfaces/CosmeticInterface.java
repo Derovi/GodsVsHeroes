@@ -20,8 +20,7 @@ import java.util.Map;
 
 public class CosmeticInterface extends Interface {
     private final String className;
-    private Runnable onBackButton = null;
-    private List<CosmeticButton> cosmeticButtons = new ArrayList<>();
+    private final List<CosmeticButton> cosmeticButtons = new ArrayList<>();
 
     public CosmeticInterface(InterfaceManager manager, Player player, String className) {
         super(manager, player, 6, Lang.get("cosmetic.titleHero").replace("%hero%",
@@ -31,13 +30,13 @@ public class CosmeticInterface extends Interface {
 
     public void update() {
         clear();
-        ItemStack empty = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
-        InterfaceUtils.changeName(empty, Lang.get("interfaces.empty"));
-        for (int x = 0; x < 9; ++x) {
-            for (int y = 0; y < 6; ++y) {
-                addItem(x, y, empty);
-            }
-        }
+//        ItemStack empty = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
+//        InterfaceUtils.changeName(empty, Lang.get("interfaces.empty"));
+//        for (int x = 0; x < 9; ++x) {
+//            for (int y = 0; y < 6; ++y) {
+//                addItem(x, y, empty);
+//            }
+//        }
         ItemStack backItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
         InterfaceUtils.changeName(backItem, Lang.get("interfaces.back"));
         addButton(0, 5, backItem, () -> {
@@ -142,14 +141,5 @@ public class CosmeticInterface extends Interface {
 
     public void registerCosmetic(CosmeticButton button) {
         cosmeticButtons.add(button);
-    }
-
-    public Runnable getOnBackButton() {
-        return onBackButton;
-    }
-
-    public CosmeticInterface setOnBackButton(Runnable onBackButton) {
-        this.onBackButton = onBackButton;
-        return this;
     }
 }

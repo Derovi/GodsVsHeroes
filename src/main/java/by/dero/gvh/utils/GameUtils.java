@@ -19,6 +19,8 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -134,7 +136,7 @@ public class GameUtils {
             Player player = ((Player) entity);
             return player.getGameMode().equals(GameMode.SURVIVAL) && !getPlayer(player.getName()).isInventoryHided();
         }
-        return true;
+        return !(entity instanceof ArmorStand);
     }
 
     public static boolean isVoid(Material material) {
@@ -466,6 +468,10 @@ public class GameUtils {
         return skull;
     }
     
+    public static boolean isEmptyItem(Inventory inv, int slot) {
+        return inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.AIR);
+    }
+    
     private static final String[] romeNumbers = {"0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
     public static ItemStack getBoosterHead(String name) {
         BoosterInfo info = Plugin.getInstance().getBoosterManager().getBoosters().get(name);
@@ -481,7 +487,7 @@ public class GameUtils {
         } else if (Integer.parseInt(name.substring(1)) == 4) {
             lvlColor = "§5";
         }
-        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Глобальный " : "") +"Бустер " + lvlColor + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
+        meta.setDisplayName("§f" + (name.charAt(0) == 'G' ? "Глобальный " : "Локальный ") +"Бустер " + lvlColor + romeNumbers[Integer.parseInt(name.substring(1))] + "§c уровня");
         if (name.equals("L5")) {
             meta.setDisplayName("§fБустер §6§lНАВСЕГДА");
         }
@@ -489,23 +495,42 @@ public class GameUtils {
         if (name.equals("L5")) {
             lore.add("§6Постоянный эффект");
             lore.add("§a+§l10% §fк опыту §l§aВСЕГДА");
-            lore.add("§610§c% §fбольше опыта");
+            lore.add("");
+            lore.add("§fВы всегда будете получать");
+            lore.add("§fна §a§l10%§f больше опыта!");
         } else {
             lore.add("§6Временный эффект");
             int dur = info.getDurationSec() / 3600;
             lore.add("§fДлительность §8» §6" + dur + " §cчас" + (dur == 1 ? "" : (2 <= dur && dur <= 4 ? "а" : "ов")));
             if (name.equals("G1")) {
-                lore.add("§fБонус команде §a×§l" + String.format("%.1f", info.getTeamMultiplier()) + " §fк опыту");
+                lore.add("§fЦелый час§f твоя команда будет");
+                lore.add("§fполучать на §a§l100%§f больше опыта!");
+                lore.add("");
+                lore.add("§6/thx§f от игроков даст §a+§l20§f опыта!");
             } if (name.equals("G2")) {
-                lore.add("§fБонус §a×§l" + String.format("%.1f", info.getSelfMultiplier()) + " §fк опыту");
-                lore.add("§fБонус команде §a×§l" + String.format("%.1f", info.getTeamMultiplier()) + " §fк опыту");
+                lore.add("§fЦелый час§f ты будешь получать");
+                lore.add("§a§l+250%§f опыта, а твоя команда §a§l+50%§f!");
+                lore.add("");
+                lore.add("§6/thx§f от игроков даст §a+§l20§f опыта!");
             } else if (name.equals("G3")) {
-                lore.add("§fБонус всем §a×§l" + String.format("%.1f", info.getGameMultiplier()) + " §fк опыту");
+                lore.add("§fЦелый час §lВСЕ§f в твоей игре будут");
+                lore.add("§fполучать на §a§l100%§f больше опыта!");
+                lore.add("");
+                lore.add("§6§l/thx§f от игроков даст §a+§l20§f опыта!");
             } else if (name.startsWith("L")) {
-                lore.add("§fБонус §a×§l" + String.format("%.1f", info.getSelfMultiplier()) + " §fк опыту");
+                if (info.getName().equals("L2")) {
+                    lore.add("§fНа §6§l2§f§l часа§f дает тебе");
+                    lore.add("§a+§l" + (int) (info.getSelfMultiplier() * 100 - 100) + "%§f к опыту");
+                } else {
+                    lore.add("§fНа час дает тебе");
+                    lore.add("§a+§l" + (int) (info.getSelfMultiplier() * 100 - 100) + "%§f к опыту");
+                }
+                //lore.add("§fБонус §a×§l" + String.format("%.1f", info.getSelfMultiplier()) + " §fк опыту");
             }
         }
         lore.add(" ");
+        lore.add("§2Работает с другими бустерами,");
+        lore.add("§2Работает с чужими бустерами.");
         lore.add("§fЦена §8» §b" + info.getCost() + " кристалликов");
         meta.setLore(lore);
         head.setItemMeta(meta);

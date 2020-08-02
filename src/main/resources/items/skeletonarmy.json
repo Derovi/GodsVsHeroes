@@ -38,7 +38,7 @@
       "melee": 2,
       "meleeDamage": 6,
       "meleeHealth": 30,
-      "cost": 350,
+      "cost": 360,
       "material": "NETHER_STAR",
       "amount": 1
     },
@@ -49,7 +49,7 @@
       "melee": 2,
       "meleeDamage": 6,
       "meleeHealth": 35,
-      "cost": 720,
+      "cost": 800,
       "material": "NETHER_STAR",
       "amount": 1
     },
@@ -60,7 +60,7 @@
       "melee": 3,
       "meleeDamage": 5,
       "meleeHealth": 35,
-      "cost": 1600,
+      "cost": 1800,
       "material": "NETHER_STAR",
       "amount": 1
     },
@@ -71,7 +71,7 @@
       "melee": 3,
       "meleeDamage": 6,
       "meleeHealth": 35,
-      "cost": 3500,
+      "cost": 4500,
       "material": "NETHER_STAR",
       "amount": 1
     }

@@ -26,7 +26,7 @@ public class SuicideJump extends Item implements PlayerInteractInterface {
         final SuicideJumpInfo info = (SuicideJumpInfo) getInfo();
         radius = info.getRadius();
         selfDamage = info.getSelfDamage();
-        damage = info.getSelfDamage();
+        damage = info.getDamage();
         material = info.getMaterial();
     }
 

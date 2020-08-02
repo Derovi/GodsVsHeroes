@@ -28,7 +28,7 @@
       "cooldown": 100,
       "damage" : 9,
       "radius" : 5,
-      "cost": 350,
+      "cost": 360,
       "material": "SNOW_BALL",
       "amount": 2
     },
@@ -36,7 +36,7 @@
       "cooldown": 120,
       "damage" : 8,
       "radius" : 5,
-      "cost": 720,
+      "cost": 800,
       "material": "SNOW_BALL",
       "amount": 3
     },
@@ -44,7 +44,7 @@
       "cooldown": 110,
       "damage" : 8,
       "radius" : 6,
-      "cost": 1600,
+      "cost": 1800,
       "material": "SNOW_BALL",
       "amount": 3
     },
@@ -52,7 +52,7 @@
       "cooldown": 100,
       "damage" : 9,
       "radius" : 6,
-      "cost": 3500,
+      "cost": 4500,
       "material": "SNOW_BALL",
       "amount": 3
     }

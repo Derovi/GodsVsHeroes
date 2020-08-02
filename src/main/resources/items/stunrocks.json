@@ -29,7 +29,7 @@
       "cooldown": 170,
       "damage": 6,
       "duration": 40,
-      "cost": 350,
+      "cost": 360,
       "material": "SNOW_BALL",
       "amount": 2
     },
@@ -37,7 +37,7 @@
       "cooldown": 155,
       "damage": 6,
       "duration": 40,
-      "cost": 720,
+      "cost": 800,
       "material": "SNOW_BALL",
       "amount": 2
     },
@@ -45,7 +45,7 @@
       "cooldown": 140,
       "damage": 6,
       "duration": 40,
-      "cost": 1600,
+      "cost": 1800,
       "material": "SNOW_BALL",
       "amount": 2
     },
@@ -53,7 +53,7 @@
       "cooldown": 115,
       "damage": 6,
       "duration": 40,
-      "cost": 3500,
+      "cost": 4500,
       "material": "SNOW_BALL",
       "amount": 2
     }

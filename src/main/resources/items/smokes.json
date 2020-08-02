@@ -10,7 +10,7 @@
   "levels": [
     {
       "cooldown": 300,
-      "radius": 6.0,
+      "radius": 5.6,
       "duration": 100,
       "cost": 80,
       "material": "SNOW_BALL",
@@ -18,7 +18,7 @@
     },
     {
       "cooldown": 300,
-      "radius": 6.6,
+      "radius": 6.0,
       "duration": 110,
       "cost": 130,
       "material": "SNOW_BALL",
@@ -26,33 +26,33 @@
     },
     {
       "cooldown": 300,
-      "radius": 7.0,
+      "radius": 6.4,
       "duration": 120,
-      "cost": 350,
+      "cost": 360,
+      "material": "SNOW_BALL",
+      "amount": 2
+    },
+    {
+      "cooldown": 300,
+      "radius": 6.8,
+      "duration": 130,
+      "cost": 800,
+      "material": "SNOW_BALL",
+      "amount": 2
+    },
+    {
+      "cooldown": 300,
+      "radius": 7.2,
+      "duration": 140,
+      "cost": 1800,
       "material": "SNOW_BALL",
       "amount": 2
     },
     {
       "cooldown": 300,
       "radius": 7.6,
-      "duration": 130,
-      "cost": 720,
-      "material": "SNOW_BALL",
-      "amount": 2
-    },
-    {
-      "cooldown": 300,
-      "radius": 8.2,
-      "duration": 140,
-      "cost": 1600,
-      "material": "SNOW_BALL",
-      "amount": 2
-    },
-    {
-      "cooldown": 300,
-      "radius": 8.8,
       "duration": 150,
-      "cost": 4000,
+      "cost": 4600,
       "material": "SNOW_BALL",
       "amount": 2
     }
