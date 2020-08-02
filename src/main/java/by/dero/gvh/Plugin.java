@@ -13,10 +13,7 @@ import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
 import by.dero.gvh.stats.GameStatsData;
 import by.dero.gvh.stats.StatsData;
-import by.dero.gvh.utils.DataUtils;
-import by.dero.gvh.utils.GameUtils;
-import by.dero.gvh.utils.MathUtils;
-import by.dero.gvh.utils.ResourceUtils;
+import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
 import lombok.Getter;
 import net.minecraft.server.v1_12_R1.AdvancementDataWorld;
@@ -177,6 +174,11 @@ public class Plugin extends JavaPlugin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         serverData.updateOnline(settings.getServerName(),
                 Bukkit.getServer().getOnlinePlayers().size());
+        if (!event.getPlayer().isOp() && IRealmService.get().getCurrentRealmInfo().getRealmId().getTypeName().equals("TEST")) {
+            event.getPlayer().sendMessage("§6Вы были перенаправлены на основной сервер! " +
+                    "В следующий раз заходите через §5Голову дракона§6 в компасе!");
+            BridgeUtils.redirectPlayer(event.getPlayer(), "EW-1");
+        }
     }
 
     @EventHandler

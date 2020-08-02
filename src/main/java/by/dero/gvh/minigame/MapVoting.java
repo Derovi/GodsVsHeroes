@@ -37,7 +37,7 @@ public class MapVoting {
 
     public Map getMap(String displayName) {
         for (Map map : maps) {
-            if (map.displayName.equals(displayName)) {
+            if (map.displayName.equalsIgnoreCase(displayName)) {
                 return map;
             }
         }
