@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class CosmeticInterface extends Interface {
     private final String className;
-    private List<CosmeticButton> cosmeticButtons = new ArrayList<>();
+    private final List<CosmeticButton> cosmeticButtons = new ArrayList<>();
 
     public CosmeticInterface(InterfaceManager manager, Player player, String className) {
         super(manager, player, 6, Lang.get("cosmetic.titleHero").replace("%hero%",

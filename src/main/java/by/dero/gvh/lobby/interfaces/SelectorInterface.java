@@ -2,6 +2,7 @@ package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.lobby.interfaces.cosmetic.CosmeticInterfaces;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
@@ -53,7 +54,7 @@ public class SelectorInterface extends Interface {
         ItemStack returnItemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
         InterfaceUtils.changeName(returnItemStack, Lang.get("interfaces.back"));
         ItemStack skull = Heads.getHead(className);
-        InterfaceUtils.changeName(skull, Lang.get("interfaces.stats"));
+        InterfaceUtils.changeName(skull, Lang.get("cosmetic.title"));
 //        ItemStack emptySlot = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 8);
 //        InterfaceUtils.changeName(emptySlot, Lang.get("interfaces.empty"));
         ItemStack settings = new ItemStack(Material.CLAY_BALL);
@@ -69,8 +70,21 @@ public class SelectorInterface extends Interface {
 //                    case 'E' : addItem(x, y, emptySlot); break;
                     case 'G' : addButton(x, y, selectItemStack, select); break;
                     case 'B' : addButton(x, y, upgradeItemStack, upgrade); break;
-                    case 'H' : addItem(x, y, skull); break;
-                    case 'S' : addButton(x, y, settings, onSettings);
+                    case 'H' : addButton(x, y, skull, () -> {
+                        close();
+                        try {
+                            Class<? extends CosmeticInterface> interfaceClass = CosmeticInterfaces.get(className);
+                            CosmeticInterface inter = interfaceClass.getConstructor(InterfaceManager.class,
+                                    Player.class, String.class).newInstance(Lobby.getInstance().getInterfaceManager(),
+                                    getPlayer(), className);
+                            inter.setOnBackButton(this::open);
+                            inter.update();
+                            inter.open();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }); break;
+                    case 'S' : addButton(x, y, settings, onSettings); break;
                 }
             }
         }
