@@ -33,6 +33,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.*;
@@ -453,6 +455,17 @@ public class Lobby implements PluginMode, Listener {
                 (pl) -> (!players.containsKey(pl.getName())));
     }
 
+    public void updateItems(Player player) {
+        for (int i = 0; i < player.getInventory().getSize(); i++) {
+            if (i >= activates.length || activates[i] == null) {
+                ItemStack item = player.getInventory().getItem(i);
+                if (item != null && item.getType() != Material.AIR) {
+                    player.getInventory().removeItem(player.getInventory().getItem(i));
+                }
+            }
+        }
+    }
+    
     public void playerLeft(Player player) {
         activeLobbies.get(player.getName()).unload();
         activeLobbies.remove(player.getName());
@@ -564,7 +577,16 @@ public class Lobby implements PluginMode, Listener {
     public void onDropItem(PlayerDropItemEvent event) {
         event.setCancelled(true);
     }
-
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onInv(InventoryClickEvent event) {
+        if (event.getAction() != InventoryAction.PLACE_ALL &&
+                event.getAction() != InventoryAction.PICKUP_ALL &&
+                event.getAction() != InventoryAction.SWAP_WITH_CURSOR) {
+            event.setCancelled(true);
+        }
+    }
+    
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         event.setCancelled(true);

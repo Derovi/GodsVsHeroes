@@ -23,6 +23,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.HashMap;
+
 public class PaladinArmor extends Item implements PlayerInteractInterface {
 	private final int duration;
 	private final double speed;
@@ -53,6 +55,14 @@ public class PaladinArmor extends Item implements PlayerInteractInterface {
 		cooldown.reload();
 		owner.setCooldown(material, (int) cooldown.getDuration());
 		SwordThrow swordThrow = (SwordThrow) ownerGP.getItems().get("swordthrow");
+		HashMap<String, Integer> order = Plugin.getInstance().getPlayerData().getPlayerInfo(owner.getName()).
+				getItemsOrder().getOrDefault(ownerGP.getClassName(), null);
+		final int slot;
+		if (order == null) {
+			slot = 0;
+		} else {
+			slot = order.get("swordthrow");
+		}
 		
 		if (owner.getVehicle() != null && owner.getVehicle() instanceof Horse) {
 			((Horse) owner.getVehicle()).getInventory().setArmor(new ItemStack(Material.DIAMOND_BARDING));
@@ -110,11 +120,12 @@ public class PaladinArmor extends Item implements PlayerInteractInterface {
 						};
 						runnable.runTaskLater(Plugin.getInstance(), duration);
 						Game.getInstance().getRunnables().add(runnable);
-						if (owner.getInventory().getItem(0).getType().equals(Material.STAINED_GLASS_PANE)) {
+						if (owner.getInventory().getItem(slot) == null ||
+								owner.getInventory().getItem(slot).getType().equals(Material.AIR)) {
 							return;
 						}
 					}
-					GameUtils.changeEquipment(owner, finalType, duration, item);
+					GameUtils.changeEquipment(owner, finalType < 0 ? finalType : slot, duration, item);
 				}
 			};
 			world.addEntity(handle, CreatureSpawnEvent.SpawnReason.CUSTOM);

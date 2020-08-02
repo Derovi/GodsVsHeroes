@@ -1,9 +1,14 @@
 package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
+import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.minigame.Heads;
-import by.dero.gvh.model.*;
+import by.dero.gvh.model.CustomizationContext;
+import by.dero.gvh.model.ItemDescription;
+import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.InterfaceUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -50,9 +55,9 @@ public class SlotCustomizerInterface extends Interface {
 		InterfaceUtils.changeName(skull, Lang.get("classes." + className));
 		ItemStack returnItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
 		InterfaceUtils.changeName(returnItem, Lang.get("interfaces.back"));
-		ItemStack saveItem = new ItemStack(Material.CLAY_BALL);
+		ItemStack saveItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
 		InterfaceUtils.changeName(saveItem, Lang.get("interfaces.saveResult"));
-		ItemStack undoItem = new ItemStack(Material.CLAY_BALL);
+		ItemStack undoItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
 		InterfaceUtils.changeName(undoItem, Lang.get("interfaces.undoResult"));
 		
 		putItemLine();
@@ -60,7 +65,11 @@ public class SlotCustomizerInterface extends Interface {
 			for (int y = 0; y < getHeight(); y++) {
 				switch (pattern[y].charAt(x)) {
 					case 'G' : addButton(x, y, saveItem, saveOrder); break;
-					case 'B' : addButton(x, y, undoItem, this::putItemLine); break;
+					case 'B' : addButton(x, y, undoItem, () -> {
+						info.getItemsOrder().put(className, null);
+						order = null;
+						putItemLine();
+					}); break;
 					case 'H' : addItem(x, y, skull); break;
 					case 'R' : addButton(x, y, returnItem, () -> {
 						close();
@@ -108,6 +117,7 @@ public class SlotCustomizerInterface extends Interface {
 	
 	@Override
 	public void onInventoryClosed() {
+		Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> Lobby.getInstance().updateItems(getPlayer()), 1);
 		ArrayList<Integer> slots = getManager().getUnlockedSlots().get(getPlayer().getUniqueId());
 		for (int x = 0; x < 9; x++) {
 			int pos = getPos(x, 0);
