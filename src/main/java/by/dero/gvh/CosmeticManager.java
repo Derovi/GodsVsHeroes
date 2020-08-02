@@ -21,12 +21,21 @@ public class CosmeticManager {
                 .name("headDrop")
                 .hero("all")
                 .rarity(CosmeticInfo.Rarity.MYTHICAL)
-                .material(Material.DIAMOND)
+                .material(Material.SKULL_ITEM)
                 .displayName("§4Падающие головы")
                 .cost(119)
                 .groupID(0)
                 .build());
         
+        register(CosmeticInfo.builder()
+                .name("grave")
+                .hero("all")
+                .rarity(CosmeticInfo.Rarity.MYTHICAL)
+                .material(Material.COBBLE_WALL)
+                .displayName("§4Могилы врагов")
+                .cost(139)
+                .groupID(0)
+                .build());
         
         // warrior
         register(CosmeticInfo.builder()  // blood sword

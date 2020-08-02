@@ -48,7 +48,7 @@ public class SlotCustomizerInterface extends Interface {
 		String[] pattern = {
 				"IIIIIIIII",
 				"EEEEEEEEE",
-				"REEGEBEEE",
+				"REEEBEEEE",
 				"RREEHEEEE"
 		};
 		ItemStack skull = Heads.getHead(className);
@@ -108,12 +108,12 @@ public class SlotCustomizerInterface extends Interface {
 			} else {
 				addItem(order.get(itemName), 0, item);
 			}
-			System.out.println(counter + " " + item.getItemMeta().getDisplayName());
 		}
 	}
 	
 	@Override
 	public void onInventoryClosed() {
+		saveOrder.run();
 		Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> Lobby.getInstance().updateItems(getPlayer()), 1);
 		ArrayList<Integer> slots = getManager().getUnlockedSlots().get(getPlayer().getUniqueId());
 		for (int x = 0; x < 9; x++) {

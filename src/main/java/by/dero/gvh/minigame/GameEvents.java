@@ -363,6 +363,7 @@ public class GameEvents implements Listener {
         assists.remove(kilGP);
         if (!kilGP.equals(playerGP)) {
             CosmeticsUtils.dropHead(player, kilGP.getPlayer());
+            CosmeticsUtils.spawnGrave(player, kilGP.getPlayer());
             for (PlayerKillInterface item : GameUtils.selectItems(kilGP, PlayerKillInterface.class)) {
                 item.onPlayerKill(player);
             }

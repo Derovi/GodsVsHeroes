@@ -185,6 +185,10 @@ public class Lobby implements PluginMode, Listener {
         world.getBlockAt(loc.clone().add(0, 0, -pos.getDz())).setData((byte) 5);
         world.getBlockAt(loc.clone().add(0, 2, 0)).setType(Material.WALL_BANNER);
     
+        CraftArmorStand invStand = (CraftArmorStand) world.spawnEntity(
+                loc.clone().add(0.5, 1, 0.5), EntityType.ARMOR_STAND);
+        GameUtils.setInvisibleFlags(invStand);
+        
         CraftArmorStand stand;
         world.getBlockAt(loc).setType(Material.WALL_SIGN);
         if (pos.getDz() < 0) {
@@ -204,13 +208,13 @@ public class Lobby implements PluginMode, Listener {
         CosmeticInfo item = Plugin.getInstance().getCosmeticManager().getCustomizations().get(name);
         Sign sign = (Sign) world.getBlockAt(loc).getState();
         sign.setLine(0, item.getDisplayName());
-        sign.setLine(1, Lang.get("classes." + item.getHero()));
-        sign.setLine(3, "§f[Пкм - открыть]");
+        sign.setLine(1, "§6" + Lang.get("classes." + item.getHero()));
+        sign.setLine(3, "§6[Пкм - открыть]");
         sign.update();
         
         stand.setHelmet(item.getItemStack(true));
         GameUtils.setInvisibleFlags(stand);
-        blockRunnables.put(loc.toBlockLocation().toVector(), (p) -> {
+        PlayerRunnable onClick = (p) -> {
             PlayerInfo info = Plugin.getInstance().getPlayerData().getPlayerInfo(p.getName());
             if (info.getCosmetics().containsKey(name)) {
                 p.sendMessage(Lang.get("cosmetic.alreadyUnlocked"));
@@ -218,7 +222,9 @@ public class Lobby implements PluginMode, Listener {
                 BuyCosmeticInterface inter = new BuyCosmeticInterface(interfaceManager, p, name);
                 inter.open();
             }
-        });
+        };
+        blockRunnables.put(loc.toBlockLocation().toVector(), onClick);
+        monumentManager.getOnClick().put(invStand.getUniqueId(), onClick);
     }
     
     private void registerEvents() {

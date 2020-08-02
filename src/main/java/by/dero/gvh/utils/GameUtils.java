@@ -135,7 +135,7 @@ public class GameUtils {
             Player player = ((Player) entity);
             return player.getGameMode().equals(GameMode.SURVIVAL) && !getPlayer(player.getName()).isInventoryHided();
         }
-        return true;
+        return !(entity instanceof ArmorStand);
     }
 
     public static boolean isVoid(Material material) {
