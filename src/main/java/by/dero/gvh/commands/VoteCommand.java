@@ -4,7 +4,6 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Lang;
-import by.dero.gvh.model.PlayerInfo;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,8 +17,7 @@ public class VoteCommand implements CommandExecutor {
             commandSender.sendMessage(Lang.get("mapVoting.invalidMode"));
             return true;
         }
-        Game game =
-                ((Minigame) Plugin.getInstance().getPluginMode()).getGame();
+        Game game = ((Minigame) Plugin.getInstance().getPluginMode()).getGame();
         if (!game.getState().equals(Game.State.WAITING)) {
             commandSender.sendMessage(Lang.get("mapVoting.invalidState"));
             return true;
@@ -37,6 +35,7 @@ public class VoteCommand implements CommandExecutor {
             }
             game.getLobby().getMapVoting().getMap(mapName).setVoteCount(228);
         }
+        game.getLobby().updateDisplays();
         return true;
     }
 }

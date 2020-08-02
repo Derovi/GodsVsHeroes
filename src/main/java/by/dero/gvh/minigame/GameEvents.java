@@ -420,7 +420,6 @@ public class GameEvents implements Listener {
     public void onDropItem(PlayerDropItemEvent event) {
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
         if (item != null && !item.getType().equals(Material.AIR) && item.getAmount() >= 1) {
-            event.getPlayer().sendMessage("zxc " + item.getAmount());
             event.getPlayer().getInventory().getItemInMainHand().setAmount(item.getAmount() + 1);
             event.getItemDrop().remove();
         } else {

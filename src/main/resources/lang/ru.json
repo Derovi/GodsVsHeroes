@@ -316,6 +316,8 @@
     "compass": "§6Выбор сервера",
     "hidePlayers": "§6Спрятать игроков",
     "showPlayers": "§6Показать игроков",
+    "mapVoting": "§6§l%map% §8» §f%val%",
+    "mapVotingHint": "§bПроголосовать §8» §f§l/vote",
     "online": "Онлайн §8» §b%online%",
     "cosmetics": "§6Косметика",
     "lastGame": "§6Статистика прошлой игры",

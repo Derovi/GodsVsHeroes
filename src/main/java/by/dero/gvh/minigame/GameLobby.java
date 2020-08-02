@@ -4,6 +4,7 @@ import by.dero.gvh.AdviceManager;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
+import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.BridgeUtils;
 import by.dero.gvh.utils.GameUtils;
@@ -23,18 +24,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import ru.cristalix.core.permissions.IPermissionService;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-public class GameLobby implements Listener {
+public class GameLobby implements Listener, DisplayInteractInterface {
     private final Game game;
     private int timeLeft = 61;
     private BukkitRunnable prepairing;
     private final ItemStack[] chooseInv;
-    @Getter
-    private final MapVoting mapVoting;
+    @Getter private final MapVoting mapVoting;
 
     public GameLobby(Game game) {
         this.game = game;
@@ -57,24 +56,33 @@ public class GameLobby implements Listener {
 
     private boolean ready = false;
     private final int[] showTime = {60, 45, 30, 15, 10, 5, 4, 3, 2, 1};
-
-    private void updateDisplays() {
+    
+    @Override
+    public void setDisplays() {
+    
+    }
+    
+    @Override
+    public void updateDisplays() {
+        String[] ar = new String[8 + mapVoting.getMaps().size()];
+        ar[0] = Lang.get("gameLobby.boardReady").
+                    replace("%cur%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size())).
+                    replace("%max%", String.valueOf(game.getInfo().getMaxPlayerCount()));
+        ar[1] = Lang.get("gameLobby.boardRequired").replace("%min%", String.valueOf(game.getInfo().getMinPlayerCount()));
+        ar[2] = Lang.get("gameLobby.boardTimeLeft").replace("%time%", String.valueOf(timeLeft));
+        ar[3] = " ";
+        ar[4] = Lang.get("lobby.mapVotingHint");
+        for (int i = 0; i < mapVoting.getMaps().size(); i++) {
+            MapVoting.Map cur = mapVoting.getMaps().get(i);
+            ar[5 + i] = Lang.get("lobby.mapVoting").replace("%map%", cur.getDisplayName()).
+                    replace("%val%", String.valueOf(cur.getVoteCount()));
+        }
+        ar[ar.length-3] = " ";
         for (final GamePlayer gp : game.getPlayers().values()) {
-            gp.getBoard().update(
-                    new String[] {
-                            Lang.get("gameLobby.boardReady").
-                                    replace("%cur%", String.valueOf(Bukkit.getServer().getOnlinePlayers().size())).
-                                    replace("%max%", String.valueOf(game.getInfo().getMaxPlayerCount())),
-                            Lang.get("gameLobby.boardRequired").
-                                    replace("%min%", String.valueOf(game.getInfo().getMinPlayerCount())),
-                            Lang.get("gameLobby.boardTimeLeft").
-                                    replace("%time%", String.valueOf(timeLeft)),
-                            " ",
-                            Lang.get("gameLobby.boardPreferred").
-                                    replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam()))),
-                            Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()))
-                    }
-            );
+            ar[ar.length-2] = Lang.get("gameLobby.boardPreferred").
+                    replace("%com%", Lang.get("commands." + (char)('1' + gp.getTeam())));
+            ar[ar.length-1] = Lang.get("game.classSelected").replace("%class%", Lang.get("classes." + gp.getClassName()));
+            gp.getBoard().update(ar);
         }
     }
 
@@ -163,7 +171,7 @@ public class GameLobby implements Listener {
         Player player = gamePlayer.getPlayer();
 
         player.setGameMode(GameMode.SURVIVAL);
-        gamePlayer.setBoard(new Board("Lobby", 6));
+        gamePlayer.setBoard(new Board("Lobby", 8 + mapVoting.maps.size()));
         for (PotionEffect effect : gamePlayer.getPlayer().getActivePotionEffects()) {
             gamePlayer.getPlayer().removePotionEffect(effect.getType());
         }

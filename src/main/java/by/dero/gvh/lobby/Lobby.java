@@ -34,6 +34,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -569,6 +570,11 @@ public class Lobby implements PluginMode, Listener {
         event.setCancelled(true);
     }
 
+    @EventHandler
+    public void onInventoryMove(InventoryMoveItemEvent event) {
+        event.setCancelled(true);
+    }
+    
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         event.setCancelled(true);
