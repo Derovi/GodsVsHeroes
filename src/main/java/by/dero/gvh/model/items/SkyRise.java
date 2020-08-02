@@ -11,7 +11,10 @@ import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.SafeRunnable;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -19,6 +22,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
+
+import java.util.HashMap;
 
 public class SkyRise extends Item implements DoubleSpaceInterface {
 	private final double radius;
@@ -34,8 +39,10 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 
 	@Override
 	public void onDoubleSpace () {
-		if (owner.getInventory().getItem(0) == null ||
-				owner.getInventory().getItem(0).getType().equals(Material.AIR)) {
+		HashMap<String, Integer> order = ownerGP.getPlayerInfo().getItemsOrder().getOrDefault(ownerGP.getClassName(), null);
+		final int slot = order != null ? order.get("mjolnir") : 0;
+		if (owner.getInventory().getItem(slot) == null ||
+				owner.getInventory().getItem(slot).getType().equals(Material.AIR)) {
 			if (!ownerGP.isActionBarBlocked()) {
 				ownerGP.setActionBarBlocked(true);
 				owner.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Lang.get("game.cantUse")));
@@ -65,7 +72,7 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 		Game.getInstance().getRunnables().add(runnable);
 		Mjolnir mjolnir = (Mjolnir) ownerGP.getItems().get("mjolnir");
 		
-		owner.getInventory().removeItem(owner.getInventory().getItem(0));
+		owner.getInventory().removeItem(owner.getInventory().getItem(slot));
 		SafeRunnable runnable1 = new SafeRunnable() {
 			int ticks = 0;
 			@Override
@@ -73,12 +80,11 @@ public class SkyRise extends Item implements DoubleSpaceInterface {
 				if ((owner.getVelocity().y < 0 && !owner.getLocation().add(0, -1, 0).
 						getBlock().getType().equals(Material.AIR)) || ticks > 80) {
 					this.cancel();
-					owner.getInventory().setItem(0, mjolnir.getItemStack());
 					Location loc = owner.getLocation().add(0, -1, 0);
 					loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
 					loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
 					stand.remove();
-					owner.getInventory().setItem(0, mjolnir.getItemStack());
+					owner.getInventory().setItem(slot, mjolnir.getItemStack());
 					for (GameObject go : GameUtils.getGameObjects()) {
 						LivingEntity ent = go.getEntity();
 						if (ent.getLocation().distance(owner.getLocation()) < radius && go.getTeam() != getTeam()) {

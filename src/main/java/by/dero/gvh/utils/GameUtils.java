@@ -19,6 +19,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -464,6 +465,10 @@ public class GameUtils {
         ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (byte)3);
         skull.setItemMeta(skullMeta);
         return skull;
+    }
+    
+    public static boolean isEmptyItem(Inventory inv, int slot) {
+        return inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.AIR);
     }
     
     private static final String[] romeNumbers = {"0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
