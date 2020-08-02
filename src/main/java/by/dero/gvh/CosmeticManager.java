@@ -5,6 +5,7 @@ import by.dero.gvh.model.CosmeticInfo;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -21,7 +22,7 @@ public class CosmeticManager {
                 .name("headDrop")
                 .hero("all")
                 .rarity(CosmeticInfo.Rarity.MYTHICAL)
-                .material(Material.SKULL_ITEM)
+                .customizerBefore(itemStack -> new ItemStack(Material.SKULL_ITEM, 1, (byte) 3))
                 .displayName("§4Падающие головы")
                 .cost(119)
                 .groupID(0)
@@ -41,7 +42,7 @@ public class CosmeticManager {
                 .name("creeperFirework")
                 .hero("all")
                 .rarity(CosmeticInfo.Rarity.RARE)
-                .material(Material.SKULL_ITEM)
+                .customizerBefore(itemStack -> new ItemStack(Material.SKULL_ITEM, 1, (byte) 4))
                 .displayName("§4Феерверк с крипером")
                 .cost(99)
                 .groupID(0)
