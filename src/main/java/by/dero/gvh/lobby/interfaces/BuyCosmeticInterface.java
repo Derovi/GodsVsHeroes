@@ -7,7 +7,9 @@ import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.model.CosmeticInfo;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.utils.DirectedPosition;
 import by.dero.gvh.utils.InterfaceUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -35,7 +37,15 @@ public class BuyCosmeticInterface extends Interface {
 		InterfaceUtils.changeName(returnItem, Lang.get("interfaces.back"));
 		
 		Runnable onTry = () -> {
-			player.playSound(player.getEyeLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
+			try {
+				DirectedPosition pos = Lobby.getInstance().getInfo().getCosmeticToBanner().get(cosmeticName);
+				Location at = pos.toLocation(player.getWorld()).add(0.5 + pos.getDx(), 0, 0.5 + pos.getDz());
+				at.setYaw(pos.getDz() > 0 ? 180 : 0);
+				player.teleport(at);
+				player.playSound(player.getEyeLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
+			} catch (Exception ignored) {
+			
+			}
 		};
 		CosmeticInfo cosmeticInfo = Plugin.getInstance().getCosmeticManager().getCustomizations().get(cosmeticName);
 		Runnable onBuy = () -> {

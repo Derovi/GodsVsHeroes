@@ -5,6 +5,7 @@ import by.dero.gvh.lobby.interfaces.SingleBoostInterface;
 import by.dero.gvh.lobby.interfaces.TeamBoostInterface;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.PlayerRunnable;
 import lombok.Getter;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ public class MonumentManager implements Listener {
     private final HashMap<String, Class<? extends Monument>> classNameToMonument = new HashMap<>();
     private final HashMap<String, Monument> monuments = new HashMap<>();
     @Getter private final ArrayList<BoosterStand> boosters = new ArrayList<>();
+    @Getter private final HashMap<UUID, PlayerRunnable> onClick = new HashMap<>();
     
     public MonumentManager() {
         registerMonuments();
@@ -73,6 +75,11 @@ public class MonumentManager implements Listener {
         event.setCancelled(true);
         UUID entityId = event.getRightClicked().getUniqueId();
         Player player = event.getPlayer();
+        PlayerRunnable runnable = onClick.getOrDefault(entityId, null);
+        if (runnable != null) {
+            runnable.run(player);
+        }
+        
         Collection<Monument> playerMonuments = Lobby.getInstance().getMonumentManager().getMonuments().values();
         for (Monument monument : playerMonuments) {
             if (!(monument instanceof ArmorStandMonument)) {
