@@ -93,7 +93,6 @@ public class SlotCustomizerInterface extends Interface {
 				order.put(itemName, counter);
 				counter++;
 			}
-			info.getItemsOrder().put(className, order);
 		}
 		
 		counter = 0;
@@ -110,15 +109,16 @@ public class SlotCustomizerInterface extends Interface {
 			displayToName.put(item.getItemMeta().getDisplayName(), itemName);
 			
 			if (def) {
+				order.put(itemName, counter);
 				addItem(counter, 0, item);
 				counter++;
 			} else {
 				addItem(order.get(itemName), 0, item);
 			}
 		}
+		info.getItemsOrder().put(className, order);
 	}
 	
-	static int zxc = 0;
 	@Override
 	public void onSlotClicked(InventoryClickEvent event) {
 		super.onSlotClicked(event);
