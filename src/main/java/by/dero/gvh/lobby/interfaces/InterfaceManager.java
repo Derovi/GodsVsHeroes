@@ -44,8 +44,8 @@ public class InterfaceManager implements Listener {
         if (unlocked == null || !unlocked.contains(event.getSlot())) {
             event.setCancelled(true);
         }
-        playerNameToInterface.get(playerName).clicked(event.getSlot());
         playerNameToInterface.get(playerName).onSlotClicked(event);
+        playerNameToInterface.get(playerName).clicked(event.getSlot());
     }
 
     private boolean isInterfaceOpened(String playerName) {
