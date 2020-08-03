@@ -96,6 +96,7 @@ public class Plugin extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("ether").setExecutor(new EtherCommand());
         Bukkit.getPluginCommand("vote").setExecutor(new VoteCommand());
         Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
+        Bukkit.getPluginCommand("tochc").setExecutor(new ToCHCCommand());
         Bukkit.getPluginCommand("advice").setExecutor(new AdviceCommand());
         lang = new Lang(new LocalStorage());
         lang.load(settings.getLocale());
@@ -176,7 +177,8 @@ public class Plugin extends JavaPlugin implements Listener {
                 Bukkit.getServer().getOnlinePlayers().size());
         if (!event.getPlayer().isOp() && IRealmService.get().getCurrentRealmInfo().getRealmId().getTypeName().equals("TEST")) {
             event.getPlayer().sendMessage("§6Вы были перенаправлены на основной сервер! " +
-                    "В следующий раз заходите через §5Голову дракона§6 в компасе!");
+                    "В следующий раз заходите через §5Голову дракона§6 в компасе!" +
+                    "Если вы хотели попасть на CHC - /tochc");
             BridgeUtils.redirectPlayer(event.getPlayer(), "EW-1");
         }
     }
