@@ -91,7 +91,7 @@ public class Lobby implements PluginMode, Listener {
             info.setLobbyServer(true);
             info.setServicedServers(new String[]{"EWP"});
         } else {
-            IRealmService.get().getCurrentRealmInfo().setLobbyServer(true);
+            //IRealmService.get().getCurrentRealmInfo().setLobbyServer(true);
         }
 
         try {

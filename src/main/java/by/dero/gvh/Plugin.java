@@ -96,7 +96,7 @@ public class Plugin extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("ether").setExecutor(new EtherCommand());
         Bukkit.getPluginCommand("vote").setExecutor(new VoteCommand());
         Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
-        Bukkit.getPluginCommand("tochc").setExecutor(new ToCHCCommand());
+        //Bukkit.getPluginCommand("tochc").setExecutor(new ToCHCCommand());
         Bukkit.getPluginCommand("advice").setExecutor(new AdviceCommand());
         lang = new Lang(new LocalStorage());
         lang.load(settings.getLocale());
