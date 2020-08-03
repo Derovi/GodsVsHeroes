@@ -75,7 +75,7 @@ public class GamePlayer extends GameObject {
                     player.getInventory().setBoots(item.getItemStack());
                 } else {
                     HashMap<String, Integer> order = playerInfo.getItemsOrder().getOrDefault(className, null);
-                    if (order != null) {
+                    if (GameUtils.goodOrder(order, className)) {
                         player.getInventory().setItem(order.get(name), item.getItemStack());
                     } else {
                         player.getInventory().addItem(item.getItemStack());

@@ -7,10 +7,13 @@ import by.dero.gvh.model.CustomizationContext;
 import by.dero.gvh.model.ItemDescription;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.InterfaceUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -20,22 +23,12 @@ public class SlotCustomizerInterface extends Interface {
 	private String className;
 	private final HashMap<String, String> displayToName = new HashMap<>();
 	private PlayerInfo info;
-	private final Runnable saveOrder = () -> {
+	private final Runnable saveOrder = () -> Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
 		HashMap<String, Integer> order = info.getItemsOrder().getOrDefault(className, null);
-		if (order == null) {
-			order = new HashMap<>();
-			info.getItemsOrder().put(className, order);
+		if (GameUtils.goodOrder(order, className)) {
+			Plugin.getInstance().getPlayerData().savePlayerInfo(info);
 		}
-		for (int x = 0; x < 9; x++) {
-			int pos = getPos(x, 0);
-			
-			ItemStack item = getInventory().getItem(pos);
-			if (item != null && !item.getType().equals(Material.AIR)) {
-				order.put(displayToName.get(item.getItemMeta().getDisplayName()), x);
-			}
-		}
-		Plugin.getInstance().getPlayerData().savePlayerInfo(info);
-	};
+	}, 1);
 	
 	public SlotCustomizerInterface(InterfaceManager manager, Player player, String className) {
 		super(manager, player, 4, Lang.get("interfaces.slotCustomizerTitle"));
@@ -88,8 +81,22 @@ public class SlotCustomizerInterface extends Interface {
 		
 		info = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName());
 		HashMap<String, Integer> order = info.getItemsOrder().getOrDefault(className, null);
-		
 		int counter = 0;
+		if (!GameUtils.goodOrder(order, className)) {
+			order = new HashMap<>();
+			for (String itemName : Plugin.getInstance().getData().getClassNameToDescription().get(className).getItemNames()) {
+				ItemDescription desc = Plugin.getInstance().getData().getItems().get(itemName);
+				if (desc.isInvisible() || desc.getSlot() != 0 || itemName.startsWith("default")) {
+					continue;
+				}
+				
+				order.put(itemName, counter);
+				counter++;
+			}
+			info.getItemsOrder().put(className, order);
+		}
+		
+		counter = 0;
 		for (String itemName : Plugin.getInstance().getData().getClassNameToDescription().get(className).getItemNames()) {
 			ItemDescription desc = Plugin.getInstance().getData().getItems().get(itemName);
 			if (desc.isInvisible() || desc.getSlot() != 0 || itemName.startsWith("default")) {
@@ -102,13 +109,35 @@ public class SlotCustomizerInterface extends Interface {
 			item.setAmount(1);
 			displayToName.put(item.getItemMeta().getDisplayName(), itemName);
 			
-			if (order == null || def) {
+			if (def) {
 				addItem(counter, 0, item);
 				counter++;
 			} else {
 				addItem(order.get(itemName), 0, item);
 			}
 		}
+	}
+	
+	static int zxc = 0;
+	@Override
+	public void onSlotClicked(InventoryClickEvent event) {
+		super.onSlotClicked(event);
+		final int slot = event.getSlot();
+		Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+			if ((event.getAction().equals(InventoryAction.PLACE_ALL) || event.getAction().equals(InventoryAction.SWAP_WITH_CURSOR)) &&
+					Lobby.getInstance().getInterfaceManager().getUnlockedSlots().get(event.getWhoClicked().getUniqueId())
+							.contains(slot)) {
+				HashMap<String, Integer> order = info.getItemsOrder().getOrDefault(className, null);
+				if (order == null) {
+					order = new HashMap<>();
+					info.getItemsOrder().put(className, order);
+				}
+				ItemStack item = getInventory().getItem(slot);
+				if (item != null && !item.getType().equals(Material.AIR)) {
+					order.put(displayToName.get(item.getItemMeta().getDisplayName()), slot % 9);
+				}
+			}
+		}, 1);
 	}
 	
 	@Override
