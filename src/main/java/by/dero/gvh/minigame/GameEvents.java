@@ -399,6 +399,7 @@ public class GameEvents implements Listener {
         event.setQuitMessage(null);
         Player p = event.getPlayer();
         if (game.getState() == Game.State.GAME && game.getStats().getPlayers().containsKey(p.getName())) {
+            game.getStats().getDeserters().add(p.getName());
             game.getStats().getPlayers().get(p.getName()).setPlayTimeSec(
                     (int) (System.currentTimeMillis() / 1000 - Game.getInstance().getGameStatsManager().getStartTime()));
         }

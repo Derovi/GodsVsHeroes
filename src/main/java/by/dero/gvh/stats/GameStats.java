@@ -26,4 +26,7 @@ public class GameStats {
     
     @Getter @Setter
     private long startTime;
+    
+    @Getter @Setter
+    private ArrayList<String> deserters = new ArrayList<>();
 }

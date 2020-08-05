@@ -181,7 +181,7 @@ public class Lobby implements PluginMode, Listener {
         Block totem = world.getBlockAt(at);
         totem.setType(Material.MAGENTA_SHULKER_BOX);
         blockRunnables.put(at.toVector(), (p) -> {
-            
+        
         });
         new FlyingText(at.clone().add(0, 2, 0), Lang.get("interfaces.totem"));
     }
