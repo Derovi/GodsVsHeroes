@@ -23,6 +23,10 @@ public class SlotCustomizerInterface extends Interface {
 	private String className;
 	private final HashMap<String, String> displayToName = new HashMap<>();
 	private PlayerInfo info;
+	private ItemStack rmbDropItem;
+	private ItemStack qDropItem;
+	
+	
 	private final Runnable saveOrder = () -> Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
 		HashMap<String, Integer> order = info.getItemsOrder().getOrDefault(className, null);
 		if (GameUtils.goodOrder(order, className)) {
@@ -41,7 +45,7 @@ public class SlotCustomizerInterface extends Interface {
 		String[] pattern = {
 				"IIIIIIIII",
 				"EEEEEEEEE",
-				"REEEBEEEE",
+				"REEBESEEE",
 				"RREEHEEEE"
 		};
 		ItemStack skull = Heads.getHead(className);
@@ -52,6 +56,10 @@ public class SlotCustomizerInterface extends Interface {
 		InterfaceUtils.changeName(saveItem, Lang.get("interfaces.saveResult"));
 		ItemStack undoItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 10);
 		InterfaceUtils.changeName(undoItem, Lang.get("interfaces.undoResult"));
+		rmbDropItem = new ItemStack(Material.IRON_SWORD);
+		InterfaceUtils.changeName(rmbDropItem, Lang.get("interfaces.rmbDrop"));
+		qDropItem = new ItemStack(Material.DIAMOND_SWORD);
+		InterfaceUtils.changeName(qDropItem, Lang.get("interfaces.qDrop"));
 		
 		putItemLine(false);
 		for (int x = 0; x < 9; x++) {
@@ -60,6 +68,11 @@ public class SlotCustomizerInterface extends Interface {
 					case 'G' : addButton(x, y, saveItem, saveOrder); break;
 					case 'B' : addButton(x, y, undoItem, () -> putItemLine(true)); break;
 					case 'H' : addItem(x, y, skull); break;
+					case 'S' :
+						int finalX = x;
+						int finalY = y;
+						addButton(x, y, info.isDropWeapon() ? qDropItem : rmbDropItem, () -> switchDrop(finalX, finalY));
+						break;
 					case 'R' : addButton(x, y, returnItem, () -> {
 						close();
 						if (onBackButton != null) {
@@ -69,6 +82,11 @@ public class SlotCustomizerInterface extends Interface {
 				}
 			}
 		}
+	}
+	
+	private void switchDrop(int x, int y) {
+		info.setDropWeapon(!info.isDropWeapon());
+		addButton(x, y, info.isDropWeapon() ? qDropItem : rmbDropItem, () -> switchDrop(x, y));
 	}
 	
 	private void putItemLine(boolean def) {

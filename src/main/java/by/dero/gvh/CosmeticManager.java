@@ -185,6 +185,27 @@ public class CosmeticManager {
                 .groupID(6)
                 .nbt(new CosmeticInfo.NBT("weapons", "claymore"))
                 .build());
+    
+        register(CosmeticInfo.builder().name("deathText0").hero("all").rarity(CosmeticInfo.Rarity.RARE)
+                .material(Material.SIGN).displayName("§4Умер не как герой").cost(139).groupID(7).build());
+        
+        register(CosmeticInfo.builder().name("deathText1").hero("all").rarity(CosmeticInfo.Rarity.MYTHICAL)
+                .material(Material.SIGN).displayName("§4Ну умер и умер").cost(159).groupID(7).build());
+    
+        register(CosmeticInfo.builder().name("deathText2").hero("all").rarity(CosmeticInfo.Rarity.IMMORTAL)
+                .material(Material.SIGN).displayName("§4Умер как лох, рэальна").cost(219).groupID(7).build());
+    
+        register(CosmeticInfo.builder().name("deathText3").hero("all").rarity(CosmeticInfo.Rarity.IMMORTAL)
+                .material(Material.SIGN).displayName("§4Отлетаешь").cost(219).groupID(7).build());
+        
+        register(CosmeticInfo.builder().name("deathText4").hero("all").rarity(CosmeticInfo.Rarity.IMMORTAL)
+                .material(Material.SIGN).displayName("§4Лежать плюс ...").cost(219).groupID(7).build());
+    
+        register(CosmeticInfo.builder().name("deathText5").hero("all").rarity(CosmeticInfo.Rarity.RARE)
+                .material(Material.SIGN).displayName("§4Ну бывает").cost(139).groupID(7).build());
+        
+        register(CosmeticInfo.builder().name("deathText6").hero("all").rarity(CosmeticInfo.Rarity.RARE)
+                .material(Material.SIGN).displayName("§4Получается так").cost(139).groupID(7).build());
     }
     
     public static int getWeaponGroup(String name) {

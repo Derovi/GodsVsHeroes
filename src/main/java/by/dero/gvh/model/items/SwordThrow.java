@@ -3,23 +3,23 @@ package by.dero.gvh.model.items;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.Dropping;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
+import by.dero.gvh.model.interfaces.ThrowingWeapon;
 import by.dero.gvh.model.itemsinfo.SwordThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingSword;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class SwordThrow extends Item implements PlayerInteractInterface {
+public class SwordThrow extends Item implements PlayerInteractInterface, ThrowingWeapon, Dropping {
     private final double damage;
 
     public SwordThrow(String name, int level, Player owner) {
@@ -33,12 +33,26 @@ public class SwordThrow extends Item implements PlayerInteractInterface {
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (!ownerGP.getPlayerInfo().isDropWeapon()) {
+            throwWeapon();
+        }
+    }
+    
+    @Override
+    public void onDropItem(PlayerDropItemEvent event) {
+        if (ownerGP.getPlayerInfo().isDropWeapon()) {
+            throwWeapon();
+        }
+    }
+    
+    @Override
+    public void throwWeapon() {
         if (!cooldown.isReady()) {
             return;
         }
         cooldown.reload();
         final ThrowingSword sword = new ThrowingSword(owner, getItemStack());
-
+    
         final int slot = owner.getInventory().getHeldItemSlot();
         owner.getInventory().removeItem(owner.getInventory().getItem(slot));
         owner.getWorld().playSound(owner.getLocation(), Sound.BLOCK_CLOTH_STEP,  1.07f, 1);

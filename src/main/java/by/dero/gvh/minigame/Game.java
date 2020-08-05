@@ -719,14 +719,16 @@ public abstract class Game implements Listener {
             MessagingUtils.sendTitle(Lang.get("game.livesNotLeft"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
             return;
         } else {
-            MessagingUtils.sendTitle(Lang.get("game.dead"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
+            if (!gp.isLockedTitles()) {
+                MessagingUtils.sendTitle(Lang.get("game.dead"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
+            }
         }
 
         SafeRunnable runnable = new SafeRunnable() {
             int counter = respawnTime;
             @Override
             public void run() {
-                if (counter < respawnTime && (respawnTime - counter) % 80 == 0) {
+                if (!gp.isLockedTitles() && counter < respawnTime && (respawnTime - counter) % 80 == 0) {
                     MessagingUtils.sendSubtitle(deathAdviceManager.nextAdvice(gp), gp.getPlayer(), 0, 80, 0);
                 }
 
@@ -735,6 +737,7 @@ public abstract class Game implements Listener {
                     return;
                 }
                 if (counter <= 0) {
+                    gp.setLockedTitles(false);
                     toSpawn(gp);
                     onPlayerRespawned(gp);
                     this.cancel();

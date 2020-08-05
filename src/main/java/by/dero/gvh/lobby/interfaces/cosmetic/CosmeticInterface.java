@@ -1,7 +1,8 @@
-package by.dero.gvh.lobby.interfaces;
+package by.dero.gvh.lobby.interfaces.cosmetic;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.lobby.interfaces.*;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.*;
 import by.dero.gvh.utils.GameUtils;

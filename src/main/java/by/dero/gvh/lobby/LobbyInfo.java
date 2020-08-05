@@ -24,6 +24,9 @@ public class LobbyInfo {
     @Getter @Setter
     private DirectedPosition donateChest;
     
+    @Getter @Setter
+    private DirectedPosition dailyTotem;
+    
     @SerializedName("banners") @Getter
     private Map<String, DirectedPosition> cosmeticToBanner;
 }

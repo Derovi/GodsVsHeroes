@@ -21,6 +21,8 @@ public class PlayerInfo {
     private int balance = 300;
     @Getter private final Map<String, Map<String, Integer>> classes = new HashMap<>(); // class name and its items (name and level)
     @Getter private final Map<String, HashMap<String, Integer>> itemsOrder = new HashMap<>();
+    @Getter @Setter
+    private boolean dropWeapon = false;
     
     public PlayerInfo() {
         this.cosmetics = new HashMap<>();
