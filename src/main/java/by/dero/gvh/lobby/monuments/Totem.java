@@ -17,7 +17,7 @@ import org.bukkit.util.EulerAngle;
 
 public class Totem {
 	CraftArmorStand[] heads;
-	private final int animTime = 68;
+	private final int animTime = 80;
 	
 	public Totem(Location at) {
 		for (int i = 0; i < 3; i++) {
@@ -83,17 +83,19 @@ public class Totem {
 		
 		new BukkitRunnable() {
 			int time = 0;
+			int animType = 0;
 			@Override
 			public void run() {
 				time++;
 				for (int i = 0; i < heads.length; i++) {
-					if (i * 2 < time && time <= animTime - 8 + i * 2) {
-						heads[i].setHeadPose(heads[i].getHeadPose().add(0, 0, MathUtils.PI2 / (animTime - 8)));
-					}
+					heads[i].setHeadPose(heads[i].getHeadPose().add(0, 0,
+							MathUtils.PI2 / animTime * (i < 2 ? 1 : -1) *
+									((animType & (i < 2 ? 1 : 2)) != 0 ? -1 : 1)));
 				}
 				
 				if (time == animTime) {
 					time = 0;
+					animType = (int) (Math.random() * 4);
 				}
 				
 			}
