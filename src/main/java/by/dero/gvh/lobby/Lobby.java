@@ -16,6 +16,7 @@ import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.stats.GameStats;
+import by.dero.gvh.stats.IntTopEntry;
 import by.dero.gvh.stats.PlayerStats;
 import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
@@ -85,6 +86,7 @@ public class Lobby implements PluginMode, Listener {
     private final HashMap<Player, Long> hideShowUsed = new HashMap<>();
     @Getter private DonatePackChest chest;
     @Getter private Totem totem;
+    @Getter private CristallixTop expTop;
     
     @Override
     public void onEnable() {
@@ -184,6 +186,18 @@ public class Lobby implements PluginMode, Listener {
         
         totem = new Totem(info.getDailyTotem().toLocation(world));
         new FlyingText(info.getDailyTotem().toLocation(world), Lang.get("interfaces.totem"));
+        
+        Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+            expTop = new CristallixTop(() -> {
+                List<IntTopEntry> from = topManager.getTop();
+                ArrayList<Pair<String, String> > top = new ArrayList<>(from.size());
+                for (IntTopEntry intTopEntry : from) {
+                    top.add(Pair.of(intTopEntry.getName(), String.valueOf(new PlayerLevel(intTopEntry.getValue()).getLevel())));
+                }
+                return top;
+            }, "Игрок", "Опыт", "Топ игроков по опыту", 175, 0, info.getTopsPositions().get("exp").toV3(), world.getUID());
+            Bukkit.getScheduler().runTaskTimer(Plugin.getInstance(), expTop::update, 2, 100);
+        }, 100);
     }
     
     

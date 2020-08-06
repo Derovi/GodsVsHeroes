@@ -15,6 +15,9 @@ public class LobbyInfo {
     @SerializedName("monuments") @Getter
     private Map<String, DirectedPosition> classNameToMonumentPosition;
     
+    @SerializedName("tops") @Getter
+    private Map<String, DirectedPosition> topsPositions;
+    
     @Getter @Setter
     private DirectedPosition singleBooster;
     
