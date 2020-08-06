@@ -20,21 +20,33 @@ public class CommandChat implements Listener {
 	private String getMessageText(Player player, String text, boolean global) {
 		if (!Minigame.getInstance().getGame().getState().equals(Game.State.GAME)) {
 			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+			String nameColor = IPermissionService.get().getNameColor(player.getUniqueId()).join();
+			if (nameColor == null) {
+				nameColor = iGroup.getNameColor();
+			}
 			return iGroup.getPrefixColor() + iGroup.getPrefix() + " " + iGroup.getNameColor() +
-					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
+					nameColor + player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		}
 		GamePlayer gp = GameUtils.getPlayer(player.getName());
 		if (!global) {
 			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+			String nameColor = IPermissionService.get().getNameColor(player.getUniqueId()).join();
+			if (nameColor == null) {
+				nameColor = iGroup.getNameColor();
+			}
 			return GameUtils.getTeamColor(gp.getTeam()) + "T §8|" + GameUtils.getTeamColor(gp.getTeam()) +
 					Lang.get("classes." + gp.getClassName()) +
-					"§8| " + MessagingUtils.getPrefixAddition(iGroup) +
+					"§8| " + MessagingUtils.getPrefixAddition(iGroup, nameColor) +
 					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		} else {
 			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+			String nameColor = IPermissionService.get().getNameColor(player.getUniqueId()).join();
+			if (nameColor == null) {
+				nameColor = iGroup.getNameColor();
+			}
 			return GameUtils.getTeamColor(gp.getTeam()) + "G §8|" + GameUtils.getTeamColor(gp.getTeam()) +
 					Lang.get("classes." + gp.getClassName()) +
-					"§8| " + MessagingUtils.getPrefixAddition(iGroup) +
+					"§8| " + MessagingUtils.getPrefixAddition(iGroup, nameColor) +
 					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		}
 	}

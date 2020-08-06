@@ -19,14 +19,19 @@ public class MessagingUtils {
 //    }
 
     public static String getPrefixAddition(Player player) {
-        return getPrefixAddition(IPermissionService.get().getBestGroup(player.getUniqueId()).join());
+        String nameColor = IPermissionService.get().getNameColor(player.getUniqueId()).join();
+        IGroup group = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+        if (nameColor == null) {
+            nameColor = group.getNameColor();
+        }
+        return getPrefixAddition(group, nameColor);
     }
 
-    public static String getPrefixAddition(IGroup group) {
+    public static String getPrefixAddition(IGroup group, String nameColor) {
         if (group.getPrefix().isEmpty()) {
-            return group.getNameColor();
+            return nameColor;
         }
-        return group.getPrefixColor() + group.getPrefix() + ' ' + group.getNameColor();
+        return group.getPrefixColor() + group.getPrefix() + ' ' + nameColor;
     }
     
     public static void sendCooldownMessage(final Player player, final String itemName, final long time) {
