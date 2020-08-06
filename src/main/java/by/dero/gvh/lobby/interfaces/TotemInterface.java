@@ -36,14 +36,21 @@ public class TotemInterface extends Interface {
 	
 	private final PlayerInfo info;
 	public TotemInterface(InterfaceManager manager, Player player) {
-		super(manager, player, 1, Lang.get("interfaces.dailyBonus"));
+		super(manager, player, 6, Lang.get("interfaces.dailyBonus"));
 		info = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName());
 	}
 	
 	@Override
-	public void open() {
-		super.open();
-		String pattern = "RRETEUERR";
+	public void update() {
+		clear();
+		String[] pattern =  {
+				"RRRRRRRRR",
+				"REEESEEER",
+				"REUUETTER",
+				"REUUETTER",
+				"REEEEEEER",
+				"RREEHEERR",
+		};
 		ItemStack returnItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14);
 		InterfaceUtils.changeName(returnItem, Lang.get("interfaces.back"));
 		ItemStack takeItem;
@@ -54,6 +61,8 @@ public class TotemInterface extends Interface {
 		} else {
 			takeItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
 			InterfaceUtils.changeName(takeItem, "§cБонус еще не накапал");
+			takeItem.setLore(Collections.singletonList(
+					"§fДоход §8» §6§l" + levels[info.getTotemLevel()].bonus + " §fопыта."));
 		}
 		ItemStack upgradeItem;
 		if (info.getTotemLevel() != levels.length - 1) {
@@ -61,7 +70,6 @@ public class TotemInterface extends Interface {
 			InterfaceUtils.changeName(upgradeItem, "§aУлучшить§8: §f" + bonus + "§8->§b" + levels[info.getTotemLevel() + 1].bonus);
 			
 			upgradeItem.setLore(Lists.newArrayList(
-					"§fДоход §8» §6§l" + levels[info.getTotemLevel()].bonus + " §fопыта.",
 					Lang.get("interfaces.cristCostLore").
 							replace("%cost%", String.valueOf(levels[info.getTotemLevel() + 1].cost))));
 		} else {
@@ -71,49 +79,61 @@ public class TotemInterface extends Interface {
 			upgradeItem.setLore(Collections.singletonList(
 					"§fДоход §8» §6§l" + levels[info.getTotemLevel()].bonus + " §fопыта."));
 		}
-		
-		for (int x = 0; x < 9; x++) {
-			switch (pattern.charAt(x)) {
-				case 'R' : addButton(x, 0, returnItem, this::close); break;
-				case 'T' :
-					int finalX = x;
-					addButton(x, 0, takeItem, () -> {
-					if (takeItem.getDurability() == 5) {
-						info.setBalance(info.getBalance() + bonus);
-						info.setTotemLastTaken((int) (System.currentTimeMillis() / 1000));
-						Plugin.getInstance().getPlayerData().savePlayerInfo(info);
-						Lobby.getInstance().updateDisplays(getPlayer());
-						
-						ItemStack zxc = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
-						InterfaceUtils.changeName(zxc, "§cБонус еще не накапал");
-						addItem(finalX, 0,  zxc);
-					}
-				}); break;
-				case 'U' : addButton(x, 0, upgradeItem, () -> {
-					if (info.getTotemLevel() != levels.length - 1) {
-						ConfirmationInterface inter = new ConfirmationInterface(getManager(), getPlayer(),
-								Lang.get("interfaces.confirmBuy"), this::open, () -> {
-							Donate donate = Donate.builder()
-									.price(levels[info.getTotemLevel() + 1].cost)
-									.type(DonateType.TOTEM)
-									.description("Totem " + (info.getTotemLevel() + 1))
-									.onSuccessful(() -> {
-										getPlayer().playSound(getPlayer().getEyeLocation(),
-												Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-										info.setTotemLevel(info.getTotemLevel() + 1);
-										Plugin.getInstance().getPlayerData().savePlayerInfo(info);
-									})
-									.onError(() -> {
-									
-									}).build();
-							donate.apply(getPlayer());
-							open();
-						}, Lang.get("interfaces.back"), Lang.get("interfaces.confirm"), null, upgradeItem.getLore());
-						inter.setOnBackButton(this::open);
-						inter.open();
-					}
-				});
+		for (int y = 0; y < getHeight(); y++) {
+			for (int x = 0; x < 9; x++) {
+				switch (pattern[y].charAt(x)) {
+					case 'R':
+						addButton(x, y, returnItem, this::close);
+						break;
+					case 'T':
+						addButton(x, y, takeItem, () -> {
+							if (takeItem.getDurability() == 5) {
+								info.setBalance(info.getBalance() + bonus);
+								info.setTotemLastTaken((int) (System.currentTimeMillis() / 1000));
+								Plugin.getInstance().getPlayerData().savePlayerInfo(info);
+								Lobby.getInstance().updateDisplays(getPlayer());
+								update();
+							}
+						});
+						break;
+					case 'U':
+						addButton(x, y, upgradeItem, () -> {
+							if (info.getTotemLevel() != levels.length - 1) {
+								ConfirmationInterface inter = new ConfirmationInterface(getManager(), getPlayer(),
+										Lang.get("interfaces.confirmBuy"), this::open, () -> {
+									Donate donate = Donate.builder()
+											.price(levels[info.getTotemLevel() + 1].cost)
+											.type(DonateType.TOTEM)
+											.description("Totem " + (info.getTotemLevel() + 1))
+											.onSuccessful(() -> {
+												getPlayer().playSound(getPlayer().getEyeLocation(),
+														Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+												info.setTotemLevel(info.getTotemLevel() + 1);
+												Plugin.getInstance().getPlayerData().savePlayerInfo(info);
+											})
+											.onError(() -> {
+											
+											}).build();
+									donate.apply(getPlayer());
+									open();
+								}, Lang.get("interfaces.back"), Lang.get("interfaces.confirm"), null,
+										Lists.newArrayList(
+												"§fДоход §8» §6§l" + levels[info.getTotemLevel() + 1].bonus + " §fопыта.",
+												Lang.get("interfaces.cristCostLore").
+														replace("%cost%", String.valueOf(levels[info.getTotemLevel() + 1].cost))));
+								inter.setOnBackButton(this::open);
+								inter.open();
+							}
+						});
+				}
 			}
 		}
+		super.update();
+	}
+	
+	@Override
+	public void open() {
+		super.open();
+		update();
 	}
 }
