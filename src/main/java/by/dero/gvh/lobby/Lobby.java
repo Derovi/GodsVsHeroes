@@ -100,6 +100,7 @@ public class Lobby implements PluginMode, Listener {
         }
 
         topManager = new TopManager();
+
         try {
             info = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(), "lobby", "lobby",
                     ResourceUtils.readResourceFile("/lobby/lobby.json")), LobbyInfo.class);

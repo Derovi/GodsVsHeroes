@@ -46,7 +46,11 @@ public class TopManager {
         int idx = 1;
         for (Document document : Plugin.getInstance().getGameStatsData().getPlayersCollection().aggregate(
                 Collections.singletonList(new BsonDocument("$sort", new BsonDocument("exp", new BsonInt32(-1)))))) {
+            if (document.getInteger("exp") == null) {
+                continue;
+            }
             top.add(new IntTopEntry(document.getString("_id"), document.getInteger("exp"), idx));
+            System.out.println(top.get(top.size() - 1).getName() + ": " + top.get(top.size() - 1).getValue());
             ++idx;
             if (idx > 500) {
                 break;
