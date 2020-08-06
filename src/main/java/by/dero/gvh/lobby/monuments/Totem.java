@@ -97,7 +97,6 @@ public class Totem {
 					time = 0;
 					animType = (int) (Math.random() * 4);
 				}
-				
 			}
 		}.runTaskTimer(Plugin.getInstance(), 0, 1);
 	}

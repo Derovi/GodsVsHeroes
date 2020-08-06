@@ -1,6 +1,7 @@
 package by.dero.gvh.utils;
 
 import by.dero.gvh.CosmeticManager;
+import by.dero.gvh.FlyingText;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
@@ -106,10 +107,12 @@ public class CosmeticsUtils {
 		world.addEntity(handle, CreatureSpawnEvent.SpawnReason.CUSTOM);
 		ent[5] = handle;
 		
+		FlyingText text = new FlyingText(target.getEyeLocation(), "§c§lF");
 		Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
 			for (EntityArmorStand e : ent) {
 				e.die();
 			}
+			text.unload();
 		}, Game.getInstance().getInfo().getRespawnTime());
 	}
 	
