@@ -3,10 +3,13 @@ package by.dero.gvh.lobby;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.stats.PlayerStats;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
 import com.sk89q.worldedit.util.gson.GsonUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -29,6 +32,8 @@ public class PlayerLobby {
     private final Player player;
     private DataDrawData data;
     private Runnable scoreboardUpdater;
+    @Getter @Setter
+    private PlayerStats stats;
 
     private final List<BukkitRunnable> runnables = new ArrayList<>();
 
@@ -55,6 +60,7 @@ public class PlayerLobby {
         loadPortal();
         loadBoard();
         loadSelectedClass();
+        stats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
     }
 
     private void loadSelectedClass() {
