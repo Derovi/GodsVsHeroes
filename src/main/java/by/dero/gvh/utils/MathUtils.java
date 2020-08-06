@@ -139,7 +139,7 @@ public class MathUtils {
                 }
                 loc = loc.add(0, 1, 0);
             }
-        } while (loc.getY() > 180 && !loc.getBlock().getType().equals(Material.BARRIER));
+        } while (loc.getY() > 180 || loc.getBlock().getType().equals(Material.BARRIER) || loc.getY() < 10);
         return loc;
     }
 
