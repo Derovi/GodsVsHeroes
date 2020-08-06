@@ -1,7 +1,5 @@
 package by.dero.gvh.lobby.interfaces.cosmetic;
 
-import by.dero.gvh.lobby.interfaces.CosmeticInterface;
-
 import java.util.HashMap;
 
 public class CosmeticInterfaces {

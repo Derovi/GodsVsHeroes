@@ -365,6 +365,7 @@ public class GameEvents implements Listener {
             CosmeticsUtils.dropHead(player, kilGP.getPlayer());
             CosmeticsUtils.spawnGrave(player, kilGP.getPlayer());
             CosmeticsUtils.spawnDeathFirework(player, kilGP.getPlayer());
+            CosmeticsUtils.sendDeathMessage(player, kilGP.getPlayer());
             
             for (PlayerKillInterface item : GameUtils.selectItems(kilGP, PlayerKillInterface.class)) {
                 item.onPlayerKill(player);
@@ -398,6 +399,7 @@ public class GameEvents implements Listener {
         event.setQuitMessage(null);
         Player p = event.getPlayer();
         if (game.getState() == Game.State.GAME && game.getStats().getPlayers().containsKey(p.getName())) {
+            game.getStats().getDeserters().add(p.getName());
             game.getStats().getPlayers().get(p.getName()).setPlayTimeSec(
                     (int) (System.currentTimeMillis() / 1000 - Game.getInstance().getGameStatsManager().getStartTime()));
         }
@@ -421,11 +423,27 @@ public class GameEvents implements Listener {
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+        Item it = GameUtils.getPlayer(event.getPlayer().getName()).getItems()
+                .getOrDefault(NMCUtils.getNBT(event.getItemDrop().getItemStack()).getString("custom"), null);
         if (item != null && !item.getType().equals(Material.AIR) && item.getAmount() >= 1) {
             event.getPlayer().getInventory().getItemInMainHand().setAmount(item.getAmount() + 1);
             event.getItemDrop().remove();
         } else {
             event.setCancelled(true);
+        }
+        if (it instanceof Dropping) {
+            BukkitRunnable runnable = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    try {
+                        ((Dropping) it).onDropItem(event);
+                    } catch (Exception ignored) {
+                    
+                    }
+                }
+            };
+            runnable.runTaskLater(Plugin.getInstance(), 1);
+            game.getRunnables().add(runnable);
         }
     }
 

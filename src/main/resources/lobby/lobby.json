@@ -27,6 +27,11 @@
     "y": 88,
     "z": 5
   },
+  "dailyTotem": {
+    "x": 7,
+    "y": 88,
+    "z": 5
+  },
   "banners": {
     "bloodySword": {
       "x": -9,

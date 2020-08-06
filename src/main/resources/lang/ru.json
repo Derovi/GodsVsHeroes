@@ -33,7 +33,10 @@
     "openingTitle": "§c§lОткрывает §8» §6§l%pl%",
     "slotCustomizerTitle": "§9§lНастройка инвентаря",
     "saveResult": "§aСохранить",
-    "undoResult": "§5Сбросить"
+    "undoResult": "§5Сбросить",
+    "rmbDrop": "§aБросание на §8[§f§lПКМ§8]",
+    "qDrop": "§aБросание на §8[§f§lQ§8]",
+    "totem": "§6§lТотем"
   },
   "cosmetic": {
     "common": "§aОбщее",
@@ -44,7 +47,9 @@
     "title": "§6Косметика",
     "titleHero": "§6Косметика §8» §f%hero%",
     "titleItem": "§6Косметика §8» §9%item%",
-    "alreadyUnlocked": "§6Этот предмет уже разблокирован."
+    "alreadyUnlocked": "§6Этот предмет уже разблокирован.",
+    "deathText": "§6Сообщения при убийстве",
+    "deathTextLore": "§1Показывается врагу"
   },
   "items": {
     "axethrow": "Топор",

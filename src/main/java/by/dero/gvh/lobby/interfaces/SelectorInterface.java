@@ -2,6 +2,7 @@ package by.dero.gvh.lobby.interfaces;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.lobby.interfaces.cosmetic.CosmeticInterface;
 import by.dero.gvh.lobby.interfaces.cosmetic.CosmeticInterfaces;
 import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.Lang;

@@ -1,10 +1,11 @@
 package by.dero.gvh.lobby;
 
 import by.dero.gvh.AdviceManager;
+import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.books.GameStatsBook;
-import by.dero.gvh.lobby.interfaces.BuyCosmeticInterface;
+import by.dero.gvh.lobby.interfaces.cosmetic.BuyCosmeticInterface;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.DonateSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
@@ -175,6 +176,14 @@ public class Lobby implements PluginMode, Listener {
                 spawnBanner(banner.getKey(), banner.getValue());
             }
         }, 1);
+        
+        Location at = info.getDailyTotem().toLocation(world);
+        Block totem = world.getBlockAt(at);
+        totem.setType(Material.MAGENTA_SHULKER_BOX);
+        blockRunnables.put(at.toVector(), (p) -> {
+        
+        });
+        new FlyingText(at.clone().add(0, 2, 0), Lang.get("interfaces.totem"));
     }
     
     

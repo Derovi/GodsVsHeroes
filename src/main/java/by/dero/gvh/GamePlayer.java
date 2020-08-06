@@ -36,6 +36,8 @@ public class GamePlayer extends GameObject {
     private boolean disabled = false;
     @Getter @Setter
     private boolean ultimateBuf = false;
+    @Getter @Setter
+    private boolean lockedTitles = false;
 
     @Getter private Board board;
 
@@ -45,7 +47,6 @@ public class GamePlayer extends GameObject {
         this.playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
     }
     
-
     public Item getSelectedItem() {
         ItemStack selectedItem = player.getInventory().getItemInMainHand();
         return items.getOrDefault(NMCUtils.getNBT(selectedItem).getString("custom"), null);
