@@ -1,17 +1,14 @@
 package by.dero.gvh.lobby;
 
 import by.dero.gvh.Plugin;
-import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.stats.IntTopEntry;
 import by.dero.gvh.stats.PlayerStats;
-import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.BsonDocument;
 import org.bson.BsonInt32;
 import org.bson.Document;
 import org.bukkit.scheduler.BukkitRunnable;
-import ru.cristalix.core.render.IRenderService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +18,7 @@ public class TopManager {
     @Getter
     private int lastUpdate = -1;
     @Getter @Setter
-    private int topSize = 500;
+    private int topSize = 200;
     @Getter
     private final List<IntTopEntry> top = new ArrayList<>();
     @Getter @Setter
@@ -51,7 +48,7 @@ public class TopManager {
             }
             top.add(new IntTopEntry(document.getString("_id"), document.getInteger("exp"), idx));
             ++idx;
-            if (idx > 500) {
+            if (idx > topSize) {
                 break;
             }
         }
