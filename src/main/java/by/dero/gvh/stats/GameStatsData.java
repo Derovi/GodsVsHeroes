@@ -11,6 +11,8 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.UpdateOptions;
 import lombok.Getter;
+import org.bson.BsonDocument;
+import org.bson.BsonInt32;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -26,6 +28,7 @@ public class GameStatsData {
         this.storage = storage;
         gamesCollection = storage.getDatabase().getCollection("games");
         playersCollection = storage.getDatabase().getCollection("playerStats");
+        playersCollection.createIndex(new BsonDocument("exp", new BsonInt32(-1)));
     }
 
     public GameStats getGameStats(int id) {
@@ -41,7 +44,7 @@ public class GameStatsData {
         Document document = playersCollection.find(
                 Filters.eq("_id", playerName)).first();
         if (document == null) {
-            return null;
+            return new PlayerStats(playerName);
         }
         return gson.fromJson(document.toJson(), PlayerStats.class);
     }

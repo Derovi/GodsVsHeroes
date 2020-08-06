@@ -76,6 +76,8 @@ public class Lobby implements PluginMode, Listener {
     private final static PlayerRunnable[] activates = new PlayerRunnable[9];
     @Getter private MonumentManager monumentManager;
     @Getter private InterfaceManager interfaceManager;
+    @Getter
+    private TopManager topManager;
     private PortalManager portalManager;
     private final List<BukkitRunnable> runnables = new ArrayList<>();
     @Getter private final HashMap<String, LobbyPlayer> players = new HashMap<>();
@@ -97,6 +99,7 @@ public class Lobby implements PluginMode, Listener {
             //IRealmService.get().getCurrentRealmInfo().setLobbyServer(true);
         }
 
+        topManager = new TopManager();
         try {
             info = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(), "lobby", "lobby",
                     ResourceUtils.readResourceFile("/lobby/lobby.json")), LobbyInfo.class);
