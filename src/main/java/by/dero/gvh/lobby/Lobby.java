@@ -5,12 +5,13 @@ import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.books.GameStatsBook;
-import by.dero.gvh.lobby.interfaces.cosmetic.BuyCosmeticInterface;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.DonateSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
+import by.dero.gvh.lobby.interfaces.cosmetic.BuyCosmeticInterface;
 import by.dero.gvh.lobby.monuments.DonatePackChest;
 import by.dero.gvh.lobby.monuments.MonumentManager;
+import by.dero.gvh.lobby.monuments.Totem;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
@@ -81,6 +82,7 @@ public class Lobby implements PluginMode, Listener {
     private final HashSet<UUID> hidePlayers = new HashSet<>();
     private final HashMap<Player, Long> hideShowUsed = new HashMap<>();
     @Getter private DonatePackChest chest;
+    @Getter private Totem totem;
     
     @Override
     public void onEnable() {
@@ -177,13 +179,8 @@ public class Lobby implements PluginMode, Listener {
             }
         }, 1);
         
-        Location at = info.getDailyTotem().toLocation(world);
-        Block totem = world.getBlockAt(at);
-        totem.setType(Material.MAGENTA_SHULKER_BOX);
-        blockRunnables.put(at.toVector(), (p) -> {
-        
-        });
-        new FlyingText(at.clone().add(0, 2, 0), Lang.get("interfaces.totem"));
+        totem = new Totem(info.getDailyTotem().toLocation(world));
+        new FlyingText(info.getDailyTotem().toLocation(world), Lang.get("interfaces.totem"));
     }
     
     
