@@ -25,6 +25,10 @@ public class PlayerStats {
     private int looses = 0;
 
     @Getter
+    @Setter
+    private int exp = 0;
+
+    @Getter
     private List<Integer> games = new ArrayList<>();
 
     public void addGame(GameStats gameStats) {
@@ -35,5 +39,6 @@ public class PlayerStats {
             looses++;
         }
         games.add(gameStats.getId());
+        exp += playerStats.getExpGained();
     }
 }

@@ -13,7 +13,7 @@
       "cooldown": 30,
       "radius": 7.0,
       "material": "BLAZE_ROD",
-      "damage": 3,
+      "damage": 4,
       "cost": 80,
       "amount": 9
     },
@@ -21,28 +21,28 @@
       "cooldown": 25,
       "radius": 7.0,
       "material": "BLAZE_ROD",
-      "damage": 3,
+      "damage": 4,
       "cost": 130,
+      "amount": 9
+    },
+    {
+      "cooldown": 25,
+      "radius": 7.0,
+      "material": "BLAZE_ROD",
+      "damage": 4,
+      "cost": 360,
       "amount": 10
     },
     {
       "cooldown": 20,
       "radius": 7.0,
       "material": "BLAZE_ROD",
-      "damage": 3,
-      "cost": 360,
-      "amount": 11
-    },
-    {
-      "cooldown": 30,
-      "radius": 7.0,
-      "material": "BLAZE_ROD",
       "damage": 4,
       "cost": 800,
-      "amount": 9
+      "amount": 10
     },
     {
-      "cooldown": 30,
+      "cooldown": 20,
       "radius": 7.0,
       "material": "BLAZE_ROD",
       "damage": 4,
@@ -50,7 +50,7 @@
       "amount": 11
     },
     {
-      "cooldown": 25,
+      "cooldown": 20,
       "radius": 7.0,
       "material": "BLAZE_ROD",
       "damage": 4,

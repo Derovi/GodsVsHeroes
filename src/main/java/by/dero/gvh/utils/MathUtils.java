@@ -120,7 +120,9 @@ public class MathUtils {
         do {
             loc = MathUtils.randomCylinder(zxc.clone(), minradius, radius, 0);
 //        loc.y = loc.getWorld().getHighestBlockYAt((int)loc.x, (int)loc.z) + 1;
-            while (loc.getBlock().getType().equals(Material.AIR) &&
+            while (
+                    loc.getY() > 10 &&
+                    loc.getBlock().getType().equals(Material.AIR) &&
                     loc.clone().add(0, -1, 0).getBlock().getType().equals(Material.AIR) &&
                     loc.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR)) {
                 loc = loc.subtract(0, 1, 0);
