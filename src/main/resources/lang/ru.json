@@ -36,7 +36,8 @@
     "undoResult": "§5Сбросить",
     "rmbDrop": "§aБросание на §8[§f§lПКМ§8]",
     "qDrop": "§aБросание на §8[§f§lQ§8]",
-    "totem": "§6§lТотем"
+    "totem": "§6§lТотем",
+    "dailyBonus": "§6§lДневной бонус"
   },
   "cosmetic": {
     "common": "§aОбщее",

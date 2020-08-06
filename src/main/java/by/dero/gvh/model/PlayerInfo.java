@@ -23,6 +23,10 @@ public class PlayerInfo {
     @Getter private final Map<String, HashMap<String, Integer>> itemsOrder = new HashMap<>();
     @Getter @Setter
     private boolean dropWeapon = false;
+    @Getter @Setter
+    private int totemLastTaken = 0;
+    @Getter @Setter
+    private int totemLevel = 0;
     
     public PlayerInfo() {
         this.cosmetics = new HashMap<>();
