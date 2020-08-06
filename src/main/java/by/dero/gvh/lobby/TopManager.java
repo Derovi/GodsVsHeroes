@@ -50,7 +50,6 @@ public class TopManager {
                 continue;
             }
             top.add(new IntTopEntry(document.getString("_id"), document.getInteger("exp"), idx));
-            System.out.println(top.get(top.size() - 1).getName() + ": " + top.get(top.size() - 1).getValue());
             ++idx;
             if (idx > 500) {
                 break;
