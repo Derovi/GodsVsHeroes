@@ -27,8 +27,7 @@ public class CristallixTop {
 	
 	private DataDrawData data;
 	
-	public CristallixTop(Supplier<List<Pair<String, String>>> getter, String column1, String column2, String topName,
-	                     int topNameShift, int rotate, V3 position, UUID worldUid) {
+	public CristallixTop(Supplier<List<Pair<String, String>>> getter, String column1, String column2, String topName, int topNameShift, int rotate, V3 position, UUID worldUid) {
 		this.getter = getter;
 		this.column1 = column1;
 		this.column2 = column2;
@@ -39,15 +38,11 @@ public class CristallixTop {
 		this.worldUid = worldUid;
 		
 		this.data = DataDrawData.builder().dimensions(new V2(4, 4)).scale(1).position(position).rotation(rotate).tables(getTables()).build();
-		
-		IRenderService.get().createGlobalWorldRenderData(worldUid, name,
-				WorldRenderData.builder().visibilityTarget(VisibilityTarget.BLACKLIST).
-						dataDrawData(data).name(name).build());
+		IRenderService.get().createGlobalWorldRenderData(worldUid, name, WorldRenderData.builder().visibilityTarget(VisibilityTarget.BLACKLIST).dataDrawData(data).name(name).build());
 		visible(true);
 		
 		String textDataName = UUID.randomUUID().toString();
-		IRenderService.get().createGlobalWorldRenderData(worldUid, textDataName,
-				WorldRenderData.builder().visibilityTarget(VisibilityTarget.BLACKLIST).name(textDataName).dataDrawData(DataDrawData.builder()
+		IRenderService.get().createGlobalWorldRenderData(worldUid, textDataName, WorldRenderData.builder().visibilityTarget(VisibilityTarget.BLACKLIST).name(textDataName).dataDrawData(DataDrawData.builder()
 				.strings(Arrays.asList(
 						StringDrawData.builder().align(1).scale(3).position(new V2(topNameShift, 13)).string(topName).build(),
 						StringDrawData.builder().align(1).scale(2).position(new V2(175, 50)).string("(Крути колёсиком)").build()

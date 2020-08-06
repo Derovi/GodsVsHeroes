@@ -16,9 +16,9 @@ import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.stats.GameStats;
-import by.dero.gvh.stats.IntTopEntry;
 import by.dero.gvh.stats.PlayerStats;
 import by.dero.gvh.utils.*;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import lombok.Getter;
 import org.bukkit.*;
@@ -190,12 +190,13 @@ public class Lobby implements PluginMode, Listener {
         
         Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
             expTop = new CristallixTop(() -> {
-                List<IntTopEntry> from = topManager.getTop();
-                ArrayList<Pair<String, String> > top = new ArrayList<>(from.size());
-                for (IntTopEntry intTopEntry : from) {
-                    top.add(Pair.of(intTopEntry.getName(), String.valueOf(new PlayerLevel(intTopEntry.getValue()).getLevel())));
-                }
-                return top;
+//                List<IntTopEntry> from = topManager.getTop();
+//                ArrayList<Pair<String, String> > top = new ArrayList<>(from.size());
+//                for (IntTopEntry intTopEntry : from) {
+//                    top.add(Pair.of(intTopEntry.getName(), String.valueOf(new PlayerLevel(intTopEntry.getValue()).getLevel())));
+//                }
+//                return top;
+                return Lists.newArrayList(Pair.of("1", "2"), Pair.of("3", "4"), Pair.of("5", "6"));
             }, "Игрок", "Опыт", "Топ игроков по опыту", 175, 0, info.getTopsPositions().get("exp").toV3(), world.getUID());
             Bukkit.getScheduler().runTaskTimer(Plugin.getInstance(), expTop::update, 2, 100);
         }, 100);
