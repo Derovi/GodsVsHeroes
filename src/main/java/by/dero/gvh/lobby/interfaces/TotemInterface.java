@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collections;
 
@@ -35,9 +36,18 @@ public class TotemInterface extends Interface {
 	};
 	
 	private final PlayerInfo info;
+	private final BukkitRunnable updater;
+	
 	public TotemInterface(InterfaceManager manager, Player player) {
 		super(manager, player, 6, Lang.get("interfaces.dailyBonus"));
 		info = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName());
+		
+		updater = new BukkitRunnable() {
+			@Override
+			public void run() {
+				update();
+			}
+		};
 	}
 	
 	@Override
@@ -55,14 +65,16 @@ public class TotemInterface extends Interface {
 		InterfaceUtils.changeName(returnItem, Lang.get("interfaces.back"));
 		ItemStack takeItem;
 		int bonus = levels[info.getTotemLevel()].bonus;
-		if (System.currentTimeMillis() / 1000 - info.getTotemLastTaken() >= 86400) {
+		int timeLeft = (int) (System.currentTimeMillis() / 1000 - info.getTotemLastTaken());
+		if (timeLeft >= 86400) {
 			takeItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 5);
 			InterfaceUtils.changeName(takeItem, "§aЗабрать §8» §6§l" + bonus + " §fопыта.");
 		} else {
 			takeItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15);
 			InterfaceUtils.changeName(takeItem, "§cБонус еще не накапал");
-			takeItem.setLore(Collections.singletonList(
-					"§fДоход §8» §6§l" + levels[info.getTotemLevel()].bonus + " §fопыта."));
+			takeItem.setLore(Lists.newArrayList(
+					"§fДоход §8» §6§l" + levels[info.getTotemLevel()].bonus + " §fопыта.",
+					"§fОсталось §8» §f" + InterfaceUtils.getLeftTimeMinuteString(86400 - timeLeft)));
 		}
 		ItemStack upgradeItem;
 		if (info.getTotemLevel() != levels.length - 1) {
@@ -134,6 +146,12 @@ public class TotemInterface extends Interface {
 	@Override
 	public void open() {
 		super.open();
-		update();
+		updater.runTaskTimer(Plugin.getInstance(), 0, 1200);
+	}
+	
+	@Override
+	public void onInventoryClosed() {
+		updater.cancel();
+		super.onInventoryClosed();
 	}
 }

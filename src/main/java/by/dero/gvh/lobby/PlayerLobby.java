@@ -7,7 +7,6 @@ import by.dero.gvh.stats.PlayerStats;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.MathUtils;
 import by.dero.gvh.utils.Position;
-import com.sk89q.worldedit.util.gson.GsonUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -19,7 +18,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 import ru.cristalix.core.display.data.DataDrawData;
 import ru.cristalix.core.display.data.StringDrawData;
 import ru.cristalix.core.math.V2;
@@ -57,10 +55,10 @@ public class PlayerLobby {
     }
 
     public void load() {
+        stats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
         loadPortal();
         loadBoard();
         loadSelectedClass();
-        stats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
     }
 
     private void loadSelectedClass() {
@@ -86,22 +84,30 @@ public class PlayerLobby {
         final Objective obj = scoreboard.registerNewObjective("Lobby", "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        final Team[] teams = new Team[3];
-        for (int i = 0; i < 3; i++) {
-            teams[i] = scoreboard.registerNewTeam("" + i);
+        final CraftTeam[] teams = new CraftTeam[5];
+        for (int i = 0; i < 5; i++) {
+            teams[i] = (CraftTeam) scoreboard.registerNewTeam("" + i);
             final String x = "§" + (char)('a' + i);
             teams[i].addEntry(x);
-            obj.getScore(x).setScore(3-i);
+            obj.getScore(x).setScore(5-i);
         }
 
         player.setScoreboard(scoreboard);
         scoreboardUpdater = () -> {
+            if (stats == null) {
+                return;
+            }
             final PlayerInfo info = Plugin.getInstance().getPlayerData().getStoredPlayerInfo(player.getName());
-            Board.setText((CraftTeam) teams[0], Lang.get("lobby.selectedClass")
+            float exp = Math.max(0, Math.min(1, (float) stats.getLevel().getExpOnThisLevel() / stats.getLevel().getExpToNextLevel()));
+            player.setExp(exp);
+            player.setLevel(stats.getLevel().getLevel());
+            Board.setText(teams[0], Lang.get("lobby.selectedClass")
                     .replace("%class%", Lang.get("classes." + info.getSelectedClass())));
-            Board.setText((CraftTeam) teams[1], Lang.get("lobby.moneyBalance")
+            Board.setText(teams[1], Lang.get("lobby.level").replace("%val%", String.valueOf(stats.getLevel().getLevel())));
+            Board.setText(teams[2], Lang.get("lobby.moneyBalance")
                     .replace("%money%", String.valueOf(info.getBalance())));
-            Board.setText((CraftTeam) teams[2], Lang.get("lobby.online")
+            Board.setText(teams[3], " ");
+            Board.setText(teams[4], Lang.get("lobby.online")
                     .replace("%online%", String.valueOf(Plugin.getInstance().getServerData().getSavedOnline())));
         };
         new BukkitRunnable() {
@@ -109,8 +115,9 @@ public class PlayerLobby {
             public void run() {
                 if (!player.isOnline()) {
                     cancel();
+                } else {
+                    scoreboardUpdater.run();
                 }
-                scoreboardUpdater.run();
             }
         }.runTaskTimer(Plugin.getInstance(), 20, 20);
     }

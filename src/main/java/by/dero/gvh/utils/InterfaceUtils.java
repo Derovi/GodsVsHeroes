@@ -82,14 +82,14 @@ public class InterfaceUtils {
         return from;
     }
     
-    public static String getLeftTimeString(int sec) {
+    public static String getLeftTimeMinuteString(int sec) {
         StringBuilder str = new StringBuilder();
         if (sec >= 3600) {
             int h = sec / 3600;
             str.append("§b").append(h);
-            if (h == 1) {
+            if (h / 10 != 1 && h % 10 == 1) {
                 str.append(" §fчас ");
-            } else if (h <= 4) {
+            } else if (h / 10 != 1 && 2 <= h % 10 && h % 10 <= 4) {
                 str.append(" §fчаса ");
             } else {
                 str.append(" §fчасов ");
@@ -97,11 +97,37 @@ public class InterfaceUtils {
         }
         if (sec >= 60) {
             int m = sec / 60 % 60;
-            if (m == 1) {
+            if (m / 10 != 1 && m % 10 == 1) {
                 str.append("§b").append(m).append(" §fминута");
-            } else if (2 <= m && m <= 4) {
+            } else if (m / 10 != 1 && 2 <= m % 10 && m % 10 <= 4) {
                 str.append("§b").append(m).append(" §fминуты");
-            } else if (5 <= m) {
+            } else {
+                str.append("§b").append(m).append(" §fминут");
+            }
+        }
+        return str.toString();
+    }
+    
+    public static String getLeftTimeString(int sec) {
+        StringBuilder str = new StringBuilder();
+        if (sec >= 3600) {
+            int h = sec / 3600;
+            str.append("§b").append(h);
+            if (h / 10 != 1 && h % 10 == 1) {
+                str.append(" §fчас ");
+            } else if (h / 10 != 1 && 2 <= h % 10 && h % 10 <= 4) {
+                str.append(" §fчаса ");
+            } else {
+                str.append(" §fчасов ");
+            }
+        }
+        if (sec >= 60) {
+            int m = sec / 60 % 60;
+            if (m / 10 != 1 && m % 10 == 1) {
+                str.append("§b").append(m).append(" §fминута");
+            } else if (m / 10 != 1 && 2 <= m % 10 && m % 10 <= 4) {
+                str.append("§b").append(m).append(" §fминуты");
+            } else {
                 str.append("§b").append(m).append(" §fминут");
             }
         }
