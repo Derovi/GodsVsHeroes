@@ -5,6 +5,7 @@ import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.interfaces.TotemInterface;
 import by.dero.gvh.utils.GameUtils;
 import by.dero.gvh.utils.MathUtils;
+import lombok.Getter;
 import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,10 +17,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 
 public class Totem {
+	@Getter private final Location loc;
 	CraftArmorStand[] heads;
 	private final int animTime = 80;
 	
 	public Totem(Location at) {
+		this.loc = at.clone();
 		for (int i = 0; i < 3; i++) {
 			EntityArmorStand handle = new EntityArmorStand(((CraftWorld) at.getWorld()).world);
 			handle.setPosition(at.x, at.y - handle.getHeadHeight() + 0.85 + i * 0.65, at.z);

@@ -170,21 +170,25 @@ public class Drawings {
         world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
     }
     
-    public static void spawnFireworks(Location loc, FireworkEffect.Type type) {
+    
+    public static void spawnFireworks(Location loc, FireworkEffect.Type type, Color color) {
         CraftWorld world = (CraftWorld) loc.getWorld();
         EntityFireworks fw = new EntityFireworks(world.world);
         fw.setPosition(loc.getX(), loc.getY(), loc.getZ());
         fw.expectedLifespan = 2;
         fw.noclip = true;
-    
+        
         CraftItemStack item = ((CraftFirework) fw.getBukkitEntity()).item;
         FireworkMeta meta = (FireworkMeta) item.getItemMeta();
         meta.setPower(2);
-        Color color = colors[(int)(Math.random()*colors.length)];
         meta.addEffect(FireworkEffect.builder().withColor(color).withFade(color).with(type).flicker(true).build());
         item.setItemMeta(meta);
-    
+        
         world.addEntity(fw, CreatureSpawnEvent.SpawnReason.CUSTOM);
+    }
+    
+    public static void spawnFireworks(Location loc, FireworkEffect.Type type) {
+        spawnFireworks(loc, type, colors[(int)(Math.random()*colors.length)]);
     }
     
     public static void spawnFireworks(Location loc, Color color) {

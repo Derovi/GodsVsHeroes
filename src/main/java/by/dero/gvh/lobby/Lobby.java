@@ -192,10 +192,11 @@ public class Lobby implements PluginMode, Listener {
             List<IntTopEntry> from = topManager.getTop();
             ArrayList<Pair<String, String> > top = new ArrayList<>(from.size());
             for (IntTopEntry intTopEntry : from) {
-                top.add(Pair.of(intTopEntry.getName(), String.valueOf(new PlayerLevel(intTopEntry.getValue()).getLevel())));
+                top.add(Pair.of(intTopEntry.getName(),
+                        new PlayerLevel(intTopEntry.getValue()).getLevel() + "★"));
             }
             return top;
-        }, "Игрок", "Опыт", "Топ игроков по опыту", 175, 30, info.getTopsPositions().get("exp").toV3(), world.getUID());
+        }, "Игрок", "Уровень", "Топ по уровню", 175, 45, info.getTopsPositions().get("exp").toV3(), world.getUID());
         Bukkit.getScheduler().runTaskTimer(Plugin.getInstance(), expTop::update, 2, 100);
         new LobbyTabWrapper(Plugin.getInstance());
     }
