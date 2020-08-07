@@ -171,17 +171,6 @@ public abstract class Game implements Listener {
     public void prepareMap(BuildWorldState state) {}
 
     public void start() {
-        Plugin.getInstance().getBoosterManager().load(Bukkit.getOnlinePlayers());
-        Plugin.getInstance().getBoosterManager().precalcMultipliers(this);
-
-        if (!isMapPrepared()) {
-            prepareMap(lobby.getMapVoting().getMostVoted().getBuildName());
-        }
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            Plugin.getInstance().getCosmeticManager().loadPlayer(player);
-        }
-        mapManager = new MapManager(world);
-        deathAdviceManager = new DeathAdviceManager();
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
             return;
@@ -192,6 +181,18 @@ public abstract class Game implements Listener {
         }
         stats = new GameStats();
         gameStatsManager = new GameStatsManager(stats);
+        Plugin.getInstance().getBoosterManager().load(Bukkit.getOnlinePlayers());
+        Plugin.getInstance().getBoosterManager().precalcMultipliers(this);
+    
+        if (!isMapPrepared()) {
+            prepareMap(lobby.getMapVoting().getMostVoted().getBuildName());
+        }
+        stats.setMap(lobby.getMapVoting().getMostVoted().getDisplayName());
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Plugin.getInstance().getCosmeticManager().loadPlayer(player);
+        }
+        mapManager = new MapManager(world);
+        deathAdviceManager = new DeathAdviceManager();
         chooseTeams();
     
         for (GamePlayer player : players.values()) {
@@ -486,13 +487,13 @@ public abstract class Game implements Listener {
                 Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     if (player.isOnline()) {
                         MessagingUtils.sendTitle(Lang.get("game.won"), Lang.get("game.endResult").
-                                        replace("%exp%", String.valueOf(Game.getInstance().getStats().getPlayers().get(player.getName()).getExpGained())),
+                                        replace("%exp%", String.valueOf(stats.getPlayers().get(player.getName()).getExpGained())),
                                 player, 0, 60, 0);
                     }
                 }, 60);
             } else {
                 MessagingUtils.sendTitle(Lang.get("game.lost"), Lang.get("game.endResult").
-                                replace("%exp%", String.valueOf(Game.getInstance().getStats().getPlayers().get(player.getName()).getExpGained())),
+                                replace("%exp%", String.valueOf(stats.getPlayers().get(player.getName()).getExpGained())),
                         player, 0, 120, 0);
             }
             player.setFireTicks(0);
