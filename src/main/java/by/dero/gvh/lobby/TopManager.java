@@ -61,6 +61,6 @@ public class TopManager {
     public long getPlayerOrder(String playerName) {
         PlayerStats stats = Plugin.getInstance().getGameStatsData().getPlayerStats(playerName);
         return Plugin.getInstance().getGameStatsData().getPlayersCollection().countDocuments(
-                new BsonDocument("exp", new BsonDocument("$lt", new BsonInt32(stats.getExp())))) + 1;
+                new BsonDocument("exp", new BsonDocument("$gt", new BsonInt32(stats.getExp())))) + 1;
     }
 }
