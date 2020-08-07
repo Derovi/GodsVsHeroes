@@ -1,9 +1,10 @@
-package by.dero.gvh.minigame;
+package by.dero.gvh.lobby;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.PlayerLevel;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -19,13 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class GameTabWrapper {
+public class LobbyTabWrapper {
 
     private List<ChatTextComponent> prefixes = new ArrayList<>(), suffixes = new ArrayList<>();
 
     private List<TabTextComponent> tabTextComponents = new ArrayList<>();
 
-    public GameTabWrapper(Plugin plugin) {
+    public LobbyTabWrapper(Plugin plugin) {
         loadTabComponents();
         new BukkitRunnable() {
             @Override
@@ -52,20 +53,20 @@ public class GameTabWrapper {
     public void loadTabComponents() {
         tabTextComponents.clear();
         addTab(new TabTextComponent(0, TextFormat.NONE, uuid -> true, uuid -> CompletableFuture.supplyAsync(() -> {
-            GamePlayer gp = Minigame.getInstance().getGame().getPlayers().getOrDefault(
+            PlayerLobby playerLobby = Lobby.getInstance().getActiveLobbies().getOrDefault(
                     Bukkit.getPlayer(uuid).getName(), null);
-            if (gp == null) {
+            if (playerLobby == null) {
                 return new BaseComponent[] {new TextComponent()};
             }
-            return new BaseComponent[] {new TextComponent(Lang.get("teamTabPrefix." + (gp.getTeam() + 1)) + " §7" +
-                    gp.getPlayerStats().getLevel().getLevel() + "★")};
+            PlayerLevel level = new PlayerLevel(playerLobby.getStats().getExp());
+            return new BaseComponent[] {new TextComponent("§b" + level.getLevel() + "★ ")};
         }), uuid -> CompletableFuture.supplyAsync(() -> {
-            GamePlayer gp = Minigame.getInstance().getGame().getPlayers().getOrDefault(
+            PlayerLobby playerLobby = Lobby.getInstance().getActiveLobbies().getOrDefault(
                     Bukkit.getPlayer(uuid).getName(), null);
-            if (gp == null || gp.getTeam() == -1) {
-                return 100;
+            if (playerLobby == null) {
+                return 100000;
             }
-            return gp.getTeam();
+            return 100000 - new PlayerLevel(playerLobby.getStats().getExp()).getLevel();
         })));
     }
 
