@@ -25,14 +25,15 @@ public class TotemInterface extends Interface {
 	}
 	
 	private static final Level[] levels = {
-			new Level(0, 20), new Level(9, 25), new Level(11, 30), new Level(13, 35), new Level(15, 40),
-			new Level(17, 45), new Level(19, 50), new Level(21, 55), new Level(23, 60), new Level(25, 65),
-			new Level(27, 70), new Level(29, 75), new Level(31, 80), new Level(33, 85), new Level(35, 90),
-			new Level(37, 95), new Level(39, 100), new Level(41, 105), new Level(43, 110), new Level(45, 115),
-			new Level(47, 120), new Level(49, 125), new Level(51, 130), new Level(53, 135), new Level(55, 140),
-			new Level(57, 145), new Level(59, 150), new Level(61, 155), new Level(63, 160), new Level(65, 175),
-			new Level(67, 170), new Level(69, 175), new Level(71, 180), new Level(73, 185), new Level(75, 190),
-			new Level(77, 195), new Level(79, 200), new Level(81, 205), new Level(83, 210), new Level(85, 215)
+			new Level(0, 20),
+			new Level(24, 50),
+			new Level(59, 100),
+			new Level(139, 180),
+			new Level(189, 300),
+			new Level(279, 500),
+			new Level(589, 1000),
+			new Level(1389, 2000),
+			new Level(3489, 7000),
 	};
 	
 	private final PlayerInfo info;

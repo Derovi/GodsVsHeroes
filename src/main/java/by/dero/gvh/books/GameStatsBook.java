@@ -29,7 +29,7 @@ public class GameStatsBook extends BookGUI {
         BookUtil.PageBuilder builder = new BookUtil.PageBuilder();
         if (game.getDeserters().contains(considered)) {
             builder.add("§4§lПокинута").newLine().add("§8Игра #" + game.getId()).newLine().newLine();
-            builder.add("§cТебе §4§lне§c выдан опыт.").newLine();
+            builder.add("§cТебе §4§lне§c выдан §cопыт.").newLine();
             builder.add("§cТебе засчитано §4§lпоражение§c.").newLine();
             builder.add("§cТы §4§lподставил §cкоманду.").newLine();
             builder.newLine();
