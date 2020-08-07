@@ -1,5 +1,8 @@
 package by.dero.gvh.commands;
 
+import by.dero.gvh.Plugin;
+import by.dero.gvh.books.GameStatsBook;
+import by.dero.gvh.books.PlayerStatsBook;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,10 +16,10 @@ public class TestCommand implements CommandExecutor {
                              Command command, String s, String[] args) {
         Player player = (Player) commandSender;
 
-        try {
-        } catch (Exception e) {
-        
-        }
+        PlayerStatsBook gameStatsBook = new PlayerStatsBook(Plugin.getInstance().getBookManager(),
+                player, player.getName());
+        gameStatsBook.build();
+        gameStatsBook.open();
 //        if (args.length == 0) {
 //            flag = true;
 //        } else if (args.length == 1) {
