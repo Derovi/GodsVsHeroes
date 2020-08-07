@@ -5,6 +5,7 @@ import by.dero.gvh.model.Item;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.model.interfaces.DoubleHanded;
 import by.dero.gvh.nmcapi.NMCUtils;
+import by.dero.gvh.stats.PlayerStats;
 import by.dero.gvh.utils.Board;
 import by.dero.gvh.utils.GameUtils;
 import lombok.Getter;
@@ -38,6 +39,8 @@ public class GamePlayer extends GameObject {
     private boolean ultimateBuf = false;
     @Getter @Setter
     private boolean lockedTitles = false;
+    @Getter @Setter
+    private PlayerStats playerStats;
 
     @Getter private Board board;
 
@@ -45,6 +48,7 @@ public class GamePlayer extends GameObject {
         super(player);
         this.player = player;
         this.playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
+        this.playerStats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
     }
     
     public Item getSelectedItem() {

@@ -12,6 +12,7 @@ import by.dero.gvh.lobby.interfaces.cosmetic.BuyCosmeticInterface;
 import by.dero.gvh.lobby.monuments.DonatePackChest;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.lobby.monuments.Totem;
+import by.dero.gvh.minigame.GameTabWrapper;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
@@ -197,6 +198,7 @@ public class Lobby implements PluginMode, Listener {
             return top;
         }, "Игрок", "Уровень", "Топ по уровню", 175, 45, info.getTopsPositions().get("exp").toV3(), world.getUID());
         Bukkit.getScheduler().runTaskTimer(Plugin.getInstance(), expTop::update, 2, 100);
+        new LobbyTabWrapper(Plugin.getInstance());
     }
     
     

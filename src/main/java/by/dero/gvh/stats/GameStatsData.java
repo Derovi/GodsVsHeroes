@@ -76,6 +76,20 @@ public class GameStatsData {
                 Document updater = new Document(BasicDBObject.parse(gson.toJson(playerStats)));
                 playersCollection.replaceOne(Filters.eq("_id", playerStats.getName()), updater, options);
             }
+            for (String playerName : game.getDeserters()) {
+                PlayerStats playerStats = new PlayerStats(playerName);
+                Document document = playersCollection.find(
+                        Filters.eq("_id", playerName)).first();
+                if (document != null) {
+                    playerStats = gson.fromJson(document.toJson(), PlayerStats.class);
+                }
+                playerStats.getGames().add(game.getId());
+                playerStats.setAbandoned(playerStats.getAbandoned() + 1);
+                ReplaceOptions options = new ReplaceOptions();
+                options.upsert(true);
+                Document updater = new Document(BasicDBObject.parse(gson.toJson(playerStats)));
+                playersCollection.replaceOne(Filters.eq("_id", playerStats.getName()), updater, options);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
