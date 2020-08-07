@@ -10,6 +10,7 @@ import lombok.Getter;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
@@ -20,6 +21,7 @@ public class MonumentManager implements Listener {
     private final HashMap<String, Monument> monuments = new HashMap<>();
     @Getter private final ArrayList<BoosterStand> boosters = new ArrayList<>();
     @Getter private final HashMap<UUID, PlayerRunnable> onClick = new HashMap<>();
+    @Getter private final HashMap<UUID, HashMap<Integer, PlayerRunnable>> onShiftClick = new HashMap<>();
     
     public MonumentManager() {
         registerMonuments();
@@ -70,14 +72,23 @@ public class MonumentManager implements Listener {
         registerMonument("paladin", ArmorStandMonument.class);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
         event.setCancelled(true);
         UUID entityId = event.getRightClicked().getUniqueId();
         Player player = event.getPlayer();
-        PlayerRunnable runnable = onClick.getOrDefault(entityId, null);
+        PlayerRunnable runnable;
+        HashMap<Integer, PlayerRunnable> cur = onShiftClick.getOrDefault(entityId, null);
+        if (player.isSneaking() && cur != null) {
+            
+            runnable.run(player);
+            return;
+        }
+        
+        runnable = onClick.getOrDefault(entityId, null);
         if (runnable != null) {
             runnable.run(player);
+            return;
         }
         
         Collection<Monument> playerMonuments = Lobby.getInstance().getMonumentManager().getMonuments().values();

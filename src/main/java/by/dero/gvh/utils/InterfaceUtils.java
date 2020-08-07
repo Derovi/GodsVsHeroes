@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InterfaceUtils {
-    public static void changeName(ItemStack itemStack, String name) {
+    public static ItemStack changeName(ItemStack itemStack, String name) {
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(name);
         itemStack.setItemMeta(meta);
+        return itemStack;
     }
 
     public static void changeLore(ItemStack itemStack, List<String> lore) {

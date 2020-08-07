@@ -5,6 +5,7 @@ import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.books.GameStatsBook;
+import by.dero.gvh.books.PlayerStatsBook;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.DonateSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
@@ -12,7 +13,6 @@ import by.dero.gvh.lobby.interfaces.cosmetic.BuyCosmeticInterface;
 import by.dero.gvh.lobby.monuments.DonatePackChest;
 import by.dero.gvh.lobby.monuments.MonumentManager;
 import by.dero.gvh.lobby.monuments.Totem;
-import by.dero.gvh.minigame.GameTabWrapper;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
@@ -436,6 +436,13 @@ public class Lobby implements PluginMode, Listener {
                 gameStatsBook.open();
             }
         };
+        
+        activates[2] = player -> {
+            PlayerStatsBook playerStatsBook = new PlayerStatsBook(Plugin.getInstance().getBookManager(),
+                    player, player.getName());
+            playerStatsBook.build();
+            playerStatsBook.open();
+        };
     }
     
     public void playerJoined(Player player) {
@@ -472,12 +479,20 @@ public class Lobby implements PluginMode, Listener {
         if (playerStats != null && !playerStats.getGames().isEmpty()) {
             inv.setItem(1, statItem);
         }
+        inv.setItem(2, InterfaceUtils.changeName(GameUtils.getHead(player), Lang.get("lobby.playerStats")));
         inv.setItem(4, cosmeticitem);
         if (hidePlayers.contains(player.getUniqueId())) {
             inv.setItem(8, showitem);
         } else {
             inv.setItem(8, hideitem);
         }
+        
+        Lobby.getInstance().getMonumentManager().getOnShiftClick().put(player.getUniqueId(), clicker -> {
+            PlayerStatsBook playerStatsBook = new PlayerStatsBook(Plugin.getInstance().getBookManager(),
+                    clicker, player.getName());
+            playerStatsBook.build();
+            playerStatsBook.open();
+        });
         
 //        AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
 //                (pl) -> (!players.containsKey(pl.getName()) ||
