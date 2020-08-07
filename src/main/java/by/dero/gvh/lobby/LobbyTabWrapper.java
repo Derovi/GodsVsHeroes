@@ -59,7 +59,7 @@ public class LobbyTabWrapper {
                 return new BaseComponent[] {new TextComponent()};
             }
             PlayerLevel level = new PlayerLevel(playerLobby.getStats().getExp());
-            return new BaseComponent[] {new TextComponent("§b" + level.getLevel() + "★ ")};
+            return new BaseComponent[] {new TextComponent("§7" + level.getLevel() + "★")};
         }), uuid -> CompletableFuture.supplyAsync(() -> {
             PlayerLobby playerLobby = Lobby.getInstance().getActiveLobbies().getOrDefault(
                     Bukkit.getPlayer(uuid).getName(), null);

@@ -25,6 +25,10 @@ public class PlayerStats {
     @Setter
     private int looses = 0;
 
+    @Getter
+    @Setter
+    private int abandoned = 0;
+
     @Getter @Setter
     private int exp = 0;
 
