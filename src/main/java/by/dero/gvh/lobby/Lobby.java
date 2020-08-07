@@ -486,8 +486,8 @@ public class Lobby implements PluginMode, Listener {
         } else {
             inv.setItem(8, hideitem);
         }
-        
-        Lobby.getInstance().getMonumentManager().getOnShiftClick().put(player.getUniqueId(), clicker -> {
+        monumentManager.getOnShiftClick().putIfAbsent(player.getUniqueId(), new HashMap<>());
+        monumentManager.getOnShiftClick().get(player.getUniqueId()).put(-1, clicker -> {
             PlayerStatsBook playerStatsBook = new PlayerStatsBook(Plugin.getInstance().getBookManager(),
                     clicker, player.getName());
             playerStatsBook.build();

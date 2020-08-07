@@ -80,9 +80,16 @@ public class MonumentManager implements Listener {
         PlayerRunnable runnable;
         HashMap<Integer, PlayerRunnable> cur = onShiftClick.getOrDefault(entityId, null);
         if (player.isSneaking() && cur != null) {
-            
-            runnable.run(player);
-            return;
+            runnable = cur.getOrDefault(player.getInventory().getHeldItemSlot(), null);
+            if (runnable != null) {
+                runnable.run(player);
+                return;
+            }
+            runnable = cur.getOrDefault(-1, null);
+            if (runnable != null) {
+                runnable.run(player);
+                return;
+            }
         }
         
         runnable = onClick.getOrDefault(entityId, null);
