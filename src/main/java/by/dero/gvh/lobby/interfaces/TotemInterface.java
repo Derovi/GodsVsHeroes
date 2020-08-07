@@ -3,17 +3,20 @@ package by.dero.gvh.lobby.interfaces;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.donate.Donate;
 import by.dero.gvh.donate.DonateType;
+import by.dero.gvh.fireworks.FireworkSpawner;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.InterfaceUtils;
+import by.dero.gvh.utils.MathUtils;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.Collections;
 
@@ -36,18 +39,11 @@ public class TotemInterface extends Interface {
 	};
 	
 	private final PlayerInfo info;
-	private final BukkitRunnable updater;
+	private BukkitRunnable updater;
 	
 	public TotemInterface(InterfaceManager manager, Player player) {
 		super(manager, player, 6, Lang.get("interfaces.dailyBonus"));
 		info = Plugin.getInstance().getPlayerData().getPlayerInfo(getPlayer().getName());
-		
-		updater = new BukkitRunnable() {
-			@Override
-			public void run() {
-				update();
-			}
-		};
 	}
 	
 	@Override
@@ -105,6 +101,8 @@ public class TotemInterface extends Interface {
 								Plugin.getInstance().getPlayerData().savePlayerInfo(info);
 								Lobby.getInstance().updateDisplays(getPlayer());
 								update();
+								Drawings.spawnFireworks(Lobby.getInstance().getTotem().getLoc().clone().add(0, 2, 0),
+										FireworkEffect.Type.CREEPER, Color.LIME);
 							}
 						});
 						break;
@@ -122,12 +120,26 @@ public class TotemInterface extends Interface {
 														Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 												info.setTotemLevel(info.getTotemLevel() + 1);
 												Plugin.getInstance().getPlayerData().savePlayerInfo(info);
+												Location at = Lobby.getInstance().getTotem().getLoc().clone();
+												close();
+												for (int i = 0; i < 200; i++) {
+													Vector vel = MathUtils.getInCphere(MathUtils.ZEROVECTOR, 3,
+															MathUtils.PI2 * Math.random(), MathUtils.PI2 * Math.random());
+													at.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,
+															at.clone().add(0, 2, 0), 0, vel.x, vel.y, vel.z);
+												}
+												Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+														for (Player player : Bukkit.getOnlinePlayers()) {
+															FireworkSpawner.spawn(at.clone().add(0, 2, 0), FireworkEffect.builder().
+																	withColor(Color.AQUA).withFade(Color.AQUA).with(FireworkEffect.Type.STAR).
+																	flicker(true).build(), player);
+														}
+														}, 40);
 											})
 											.onError(() -> {
 											
 											}).build();
 									donate.apply(getPlayer());
-									open();
 								}, Lang.get("interfaces.back"), Lang.get("interfaces.confirm"), null,
 										Lists.newArrayList(
 												"§fДоход §8» §6§l" + levels[info.getTotemLevel() + 1].bonus + " §fопыта.",
@@ -146,6 +158,13 @@ public class TotemInterface extends Interface {
 	@Override
 	public void open() {
 		super.open();
+		
+		updater = new BukkitRunnable() {
+			@Override
+			public void run() {
+				update();
+			}
+		};
 		updater.runTaskTimer(Plugin.getInstance(), 0, 1200);
 	}
 	
