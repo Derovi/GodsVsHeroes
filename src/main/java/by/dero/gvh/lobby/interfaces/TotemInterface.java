@@ -5,7 +5,6 @@ import by.dero.gvh.donate.Donate;
 import by.dero.gvh.donate.DonateType;
 import by.dero.gvh.fireworks.FireworkSpawner;
 import by.dero.gvh.lobby.Lobby;
-import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.utils.InterfaceUtils;
@@ -101,8 +100,9 @@ public class TotemInterface extends Interface {
 								Plugin.getInstance().getPlayerData().savePlayerInfo(info);
 								Lobby.getInstance().updateDisplays(getPlayer());
 								update();
-								Drawings.spawnFireworks(Lobby.getInstance().getTotem().getLoc().clone().add(0, 2, 0),
-										FireworkEffect.Type.CREEPER, Color.LIME);
+								FireworkSpawner.spawn(Lobby.getInstance().getTotem().getLoc().clone().add(0, 2, 0), FireworkEffect.builder().
+										withColor(Color.LIME).withFade(Color.LIME).with(FireworkEffect.Type.STAR).
+										flicker(true).build(), getPlayer());
 							}
 						});
 						break;
