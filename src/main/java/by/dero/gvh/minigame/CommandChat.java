@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.HeroLevel;
 import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -36,6 +37,7 @@ public class CommandChat implements Listener {
 			}
 			return GameUtils.getTeamColor(gp.getTeam()) + "T §8|" + GameUtils.getTeamColor(gp.getTeam()) +
 					Lang.get("classes." + gp.getClassName()) +
+					" " + new HeroLevel(gp.getPlayerInfo(), gp.getClassName()).getRomeLevel() +
 					"§8| " + MessagingUtils.getPrefixAddition(iGroup, nameColor) +
 					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		} else {
@@ -46,6 +48,7 @@ public class CommandChat implements Listener {
 			}
 			return GameUtils.getTeamColor(gp.getTeam()) + "G §8|" + GameUtils.getTeamColor(gp.getTeam()) +
 					Lang.get("classes." + gp.getClassName()) +
+					" §l" + new HeroLevel(gp.getPlayerInfo(), gp.getClassName()).getRomeLevel() +
 					"§8| " + MessagingUtils.getPrefixAddition(iGroup, nameColor) +
 					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		}

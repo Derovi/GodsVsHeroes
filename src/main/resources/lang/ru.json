@@ -217,7 +217,7 @@
     "gameAlreadyStarted": "§4Игра началась!",
     "gamePrepairing": "§2Загружаемся",
     "gameFinished": "§4Игра окончена",
-    "killGlobalMessage": "§f%kilCode%[%kilClass%] %killer%§8§l ⚔ %tarCode%[%tarClass%] %target%",
+    "killGlobalMessage": "§f§8|%kilCode%%kilClass%§8| %kilCode%%killer%§8§l ⚔ §8|%tarCode%%tarClass%§8| %tarCode%%target%",
     "deathMessage": "Вы были убиты игроком %name%",
     "deathTime": "§aДо возрождения осталось§8: §9%time%",
     "livesNotLeft": "§cУ вашей команды не осталось жизней",
@@ -311,7 +311,7 @@
     "playerLeft": "§f%name%§c вышел! §f%cur%/%max%"
   },
   "lobby": {
-    "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",
+    "selectHero": "§6Выбрать §c%class%§6",
     "heroLocked": "§cКласс §9%class%§c заблокирован",
     "selectedClass": "Выбран §8» §b%class%",
     "heroSelected": "§6Класс §9%class%§6 выбран",

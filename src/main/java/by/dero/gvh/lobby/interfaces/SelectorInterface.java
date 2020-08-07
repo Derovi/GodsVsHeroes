@@ -8,6 +8,7 @@ import by.dero.gvh.minigame.Heads;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.nmcapi.NMCUtils;
+import by.dero.gvh.utils.HeroLevel;
 import by.dero.gvh.utils.InterfaceUtils;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagString;
@@ -17,7 +18,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class SelectorInterface extends Interface {
     public SelectorInterface(InterfaceManager manager, Player player, String className) {
-        super(manager, player, 6, Lang.get("lobby.selectHero").replace("%class%", Lang.get("classes." + className)));
+        super(manager, player, 6, Lang.get("lobby.selectHero").
+                replace("%class%", Lang.get("classes." + className) + " §8§l" +
+                        new HeroLevel(Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName()), className).getRomeLevel()));
         String[] pattern =  {
                 "RRRRRRRRR",
                 "REEESEEER",
@@ -26,7 +29,7 @@ public class SelectorInterface extends Interface {
                 "REEEEEEER",
                 "RREEHEERR",
         };
-        
+
         Runnable select = () -> {
             PlayerInfo playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
             playerInfo.selectClass(className);
@@ -40,7 +43,7 @@ public class SelectorInterface extends Interface {
             UpgradeInterface upgradeInterface = new UpgradeInterface(manager, player, className);
             upgradeInterface.open();
         };
-        
+
         Runnable onSettings = () -> {
             close();
             SlotCustomizerInterface inter = new SlotCustomizerInterface(manager, player, className);
@@ -63,7 +66,7 @@ public class SelectorInterface extends Interface {
         NBTTagCompound compound = NMCUtils.getNBT(settings);
         compound.set("other", new NBTTagString("settings"));
         NMCUtils.setNBT(settings, compound);
-        
+
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 6; y++) {
                 switch (pattern[y].charAt(x)) {

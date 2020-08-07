@@ -496,7 +496,7 @@ public class GameUtils {
         return true;
     }
     
-    private static final String[] romeNumbers = {"0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
+    public static final String[] romeNumbers = {"0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
     public static ItemStack getBoosterHead(String name) {
         BoosterInfo info = Plugin.getInstance().getBoosterManager().getBoosters().get(name);
         ItemStack head = Heads.getHead(name);
