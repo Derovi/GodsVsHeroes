@@ -25,6 +25,7 @@ public class TopManager {
     private Runnable onUpdate = null;
 
     public TopManager() {
+        update();
         new BukkitRunnable() {
             @Override
             public void run() {
