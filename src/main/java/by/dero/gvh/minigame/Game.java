@@ -388,8 +388,10 @@ public abstract class Game implements Listener {
 
                 String kilCode = GameUtils.getTeamColor(killer.getTeam());
                 String tarCode = GameUtils.getTeamColor(player.getTeam());
-                String kilClass = Lang.get("classes." + killer.getClassName());
-                String tarClass = Lang.get("classes." + player.getClassName());
+                String kilClass = Lang.get("classes." + killer.getClassName()) +
+                        " " + new HeroLevel(killer.getPlayerInfo(), killer.getClassName()).getRomeLevel();
+                String tarClass = Lang.get("classes." + player.getClassName()) +
+                        " " + new HeroLevel(player.getPlayerInfo(), player.getClassName()).getRomeLevel();
                 Bukkit.getServer().broadcastMessage(Lang.get("game.killGlobalMessage").
                         replace("%kilCode%", kilCode).replace("%kilClass%", kilClass).
                         replace("%killer%", killer.getPlayer().getName()).
