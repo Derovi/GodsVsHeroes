@@ -38,7 +38,8 @@ public class CristallixTop {
 		this.worldUid = worldUid;
 		
 		this.data = DataDrawData.builder().dimensions(new V2(4, 4)).scale(1).position(position).rotation(rotate).tables(getTables()).build();
-		IRenderService.get().createGlobalWorldRenderData(worldUid, name, WorldRenderData.builder().visibilityTarget(VisibilityTarget.BLACKLIST).dataDrawData(data).name(name).build());
+		WorldRenderData worldRender = WorldRenderData.builder().visibilityTarget(VisibilityTarget.BLACKLIST).dataDrawData(data).name(name).build();
+		IRenderService.get().createGlobalWorldRenderData(worldUid, name, worldRender);
 		visible(true);
 		
 		String textDataName = UUID.randomUUID().toString();

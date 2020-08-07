@@ -36,6 +36,8 @@ import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
 import ru.cristalix.core.pvp.CPSLimiter;
 import ru.cristalix.core.realm.IRealmService;
+import ru.cristalix.core.render.BukkitRenderService;
+import ru.cristalix.core.render.IRenderService;
 import ru.cristalix.core.scoreboard.IScoreboardService;
 import ru.cristalix.core.scoreboard.ScoreboardService;
 import ru.cristalix.core.transfer.ITransferService;
@@ -80,6 +82,7 @@ public class Plugin extends JavaPlugin implements Listener {
             CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
             CoreApi.get().registerService(IInvoiceService.class, new InvoiceService(ISocketClient.get()));
             CoreApi.get().registerService(IMapService.class, new MapService());
+            CoreApi.get().registerService(IRenderService.class, new BukkitRenderService(Bukkit.getServer()));
             IPermissionService.get().enableTablePermissions();
             new CPSLimiter(this, 10);
             IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar");
