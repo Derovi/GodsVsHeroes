@@ -33,7 +33,11 @@
     "openingTitle": "§c§lОткрывает §8» §6§l%pl%",
     "slotCustomizerTitle": "§9§lНастройка инвентаря",
     "saveResult": "§aСохранить",
-    "undoResult": "§5Сбросить"
+    "undoResult": "§5Сбросить",
+    "rmbDrop": "§aБросание на §8[§f§lПКМ§8]",
+    "qDrop": "§aБросание на §8[§f§lQ§8]",
+    "totem": "§6§lТотем",
+    "dailyBonus": "§6§lДневной бонус"
   },
   "cosmetic": {
     "common": "§aОбщее",
@@ -44,7 +48,9 @@
     "title": "§6Косметика",
     "titleHero": "§6Косметика §8» §f%hero%",
     "titleItem": "§6Косметика §8» §9%item%",
-    "alreadyUnlocked": "§6Этот предмет уже разблокирован."
+    "alreadyUnlocked": "§6Этот предмет уже разблокирован.",
+    "deathText": "§6Сообщения при убийстве",
+    "deathTextLore": "§1Показывается врагу"
   },
   "items": {
     "axethrow": "Топор",
@@ -211,7 +217,7 @@
     "gameAlreadyStarted": "§4Игра началась!",
     "gamePrepairing": "§2Загружаемся",
     "gameFinished": "§4Игра окончена",
-    "killGlobalMessage": "§f%kilCode%[%kilClass%] %killer%§8§l ⚔ %tarCode%[%tarClass%] %target%",
+    "killGlobalMessage": "§f§8|%kilCode%%kilClass%§8| %kilCode%%killer%§8§l ⚔ §8|%tarCode%%tarClass%§8| %tarCode%%target%",
     "deathMessage": "Вы были убиты игроком %name%",
     "deathTime": "§aДо возрождения осталось§8: §9%time%",
     "livesNotLeft": "§cУ вашей команды не осталось жизней",
@@ -221,6 +227,7 @@
     "desertionMessage": "§cНельзя покидать границу карты!",
     "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
     "ether": "EtherWar",
+    "deathMatch": "DeathMatch",
     "classSelected": "§bВаш класс §8» §f%class%",
     "expGained": "Опыт §8» §b%exp%",
     "expGainedMult": "Опыт §a×§l%mul%§f §8» §b%exp%",
@@ -305,7 +312,7 @@
     "playerLeft": "§f%name%§c вышел! §f%cur%/%max%"
   },
   "lobby": {
-    "selectHero": "§6Нажмите, чтобы выбрать §c%class%§6",
+    "selectHero": "§6Выбрать §c%class%§6",
     "heroLocked": "§cКласс §9%class%§c заблокирован",
     "selectedClass": "Выбран §8» §b%class%",
     "heroSelected": "§6Класс §9%class%§6 выбран",
@@ -319,14 +326,17 @@
     "mapVoting": "§6§l%map% §8» §f%val%",
     "mapVotingHint": "§bПроголосовать §8» §f§l/vote",
     "online": "Онлайн §8» §b%online%",
+    "level": "Уровень §8» §b%val%★",
     "cosmetics": "§6Косметика",
+    "playerStats": "§6Статистика",
     "lastGame": "§6Статистика прошлой игры",
     "teamBooster": "§6Глобальные бустеры",
     "singleBooster": "§6Локальные бустеры",
     "donate": "§6Донат"
   },
   "rewmes": {
-    "kill": "§6§lУбийство§a +%exp% опыта §8|§a +%eth% эфира",
+    "kill": "§6§lУбийство§a +%exp% опыта",
+    "killEther": "§6§lУбийство§a +%exp% опыта §8|§a +%eth% эфира",
     "assist": "§9§lПомощь§a +%exp% опыта",
     "capture": "§4§lЗахват§a +%exp% опыта"
   },

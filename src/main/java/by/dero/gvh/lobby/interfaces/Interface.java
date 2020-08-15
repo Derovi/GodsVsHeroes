@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -78,5 +79,9 @@ public class Interface {
 
     protected int getPos(int x, int y) {
         return (height - y - 1) * 9 + x;
+    }
+    
+    public void onSlotClicked(InventoryClickEvent event) {
+    
     }
 }

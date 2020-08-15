@@ -5,7 +5,9 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.CosmeticInfo;
 import by.dero.gvh.model.Item;
+import by.dero.gvh.model.interfaces.Dropping;
 import by.dero.gvh.model.interfaces.PlayerInteractInterface;
+import by.dero.gvh.model.interfaces.ThrowingWeapon;
 import by.dero.gvh.model.itemsinfo.KnifeThrowInfo;
 import by.dero.gvh.nmcapi.throwing.ThrowingKnife;
 import by.dero.gvh.utils.GameUtils;
@@ -16,12 +18,13 @@ import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class KnifeThrow extends Item implements PlayerInteractInterface {
+public class KnifeThrow extends Item implements PlayerInteractInterface, ThrowingWeapon, Dropping {
     private final Material material;
     private final double damage;
 
@@ -35,9 +38,23 @@ public class KnifeThrow extends Item implements PlayerInteractInterface {
         owner.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024.0D);
         owner.saveData();
     }
-
+    
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (!ownerGP.getPlayerInfo().isDropWeapon()) {
+            throwWeapon();
+        }
+    }
+    
+    @Override
+    public void onDropItem(PlayerDropItemEvent event) {
+        if (ownerGP.getPlayerInfo().isDropWeapon()) {
+            throwWeapon();
+        }
+    }
+    
+    @Override
+    public void throwWeapon() {
         if (!cooldown.isReady()) {
             return;
         }

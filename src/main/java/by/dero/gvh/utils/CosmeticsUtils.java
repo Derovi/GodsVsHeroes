@@ -1,12 +1,16 @@
 package by.dero.gvh.utils;
 
+import by.dero.gvh.CosmeticManager;
+import by.dero.gvh.FlyingText;
+import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.model.CosmeticInfo;
 import by.dero.gvh.model.Drawings;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_R1.EntityArmorStand;
+import net.minecraft.server.v1_12_R1.Vector3f;
 import net.minecraft.server.v1_12_R1.World;
 import org.bukkit.*;
-import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
@@ -19,6 +23,31 @@ import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 public class CosmeticsUtils {
+	public static void sendDeathMessage(Player target, Player killer) {
+		CosmeticManager manager = Plugin.getInstance().getCosmeticManager();
+		String text = null;
+		for (CosmeticInfo info : manager.getCustomizations().values()) {
+			if (manager.isEnabled(killer, info.getName())) {
+				text = info.getDisplayName();
+				break;
+			}
+		}
+		if (text != null) {
+			GamePlayer gp = GameUtils.getPlayer(target.getName());
+			gp.setLockedTitles(true);
+			MessagingUtils.sendSubtitle(text, target, 0, Game.getInstance().getInfo().getRespawnTime(), 0);
+			BukkitRunnable runnable = new BukkitRunnable() {
+				@Override
+				public void run() {
+					gp.setLockedTitles(false);
+					MessagingUtils.sendSubtitle(" ", target, 0, 1, 0);
+				}
+			};
+			runnable.runTaskLater(Plugin.getInstance(), Game.getInstance().getInfo().getRespawnTime());
+			Game.getInstance().getRunnables().add(runnable);
+		}
+	}
+	
 	public static void spawnGrave(Player target, Player killer) {
 		if (!Plugin.getInstance().getCosmeticManager().isEnabled(killer, "grave")) {
 			return;
@@ -78,10 +107,12 @@ public class CosmeticsUtils {
 		world.addEntity(handle, CreatureSpawnEvent.SpawnReason.CUSTOM);
 		ent[5] = handle;
 		
+		FlyingText text = new FlyingText(target.getEyeLocation(), "§c§lF");
 		Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
 			for (EntityArmorStand e : ent) {
 				e.die();
 			}
+			text.unload();
 		}, Game.getInstance().getInfo().getRespawnTime());
 	}
 	

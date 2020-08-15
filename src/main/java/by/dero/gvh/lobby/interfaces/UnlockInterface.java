@@ -6,6 +6,7 @@ import by.dero.gvh.donate.Donate;
 import by.dero.gvh.donate.DonateType;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.PlayerLobby;
+import by.dero.gvh.lobby.interfaces.cosmetic.CosmeticInterface;
 import by.dero.gvh.lobby.interfaces.cosmetic.CosmeticInterfaces;
 import by.dero.gvh.lobby.monuments.ArmorStandMonument;
 import by.dero.gvh.minigame.Heads;
@@ -105,7 +106,9 @@ public class UnlockInterface extends Interface {
                 final Location loc = stand.getLocation().clone();
                 spawnUnlockParticles(loc, player, 240,
                         1.7, Math.toRadians(-70), Math.toRadians(70));
-
+                
+                playerInfo.selectClass(className);
+                Plugin.getInstance().getPlayerData().savePlayerInfo(playerInfo);
                 Lobby.getInstance().updateDisplays(player);
                 close();
             };
@@ -220,6 +223,8 @@ public class UnlockInterface extends Interface {
                                     spawnUnlockParticles(loc, player, 240,
                                             1.7, Math.toRadians(-70), Math.toRadians(70));
     
+                                    playerInfo.selectClass(className);
+                                    Plugin.getInstance().getPlayerData().savePlayerInfo(playerInfo);
                                     Lobby.getInstance().updateDisplays(player);
                                     close();
                                 })

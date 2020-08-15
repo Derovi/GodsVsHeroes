@@ -15,6 +15,9 @@ public class LobbyInfo {
     @SerializedName("monuments") @Getter
     private Map<String, DirectedPosition> classNameToMonumentPosition;
     
+    @SerializedName("tops") @Getter
+    private Map<String, DirectedPosition> topsPositions;
+    
     @Getter @Setter
     private DirectedPosition singleBooster;
     
@@ -23,6 +26,9 @@ public class LobbyInfo {
     
     @Getter @Setter
     private DirectedPosition donateChest;
+    
+    @Getter @Setter
+    private DirectedPosition dailyTotem;
     
     @SerializedName("banners") @Getter
     private Map<String, DirectedPosition> cosmeticToBanner;

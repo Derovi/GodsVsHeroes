@@ -11,7 +11,7 @@
       "cooldown": 100,
       "damage": 15,
       "meleeDamage": 7,
-      "cost": 80,
+      "cost": 0,
       "material": "IRON_SWORD",
       "amount": 1
     },

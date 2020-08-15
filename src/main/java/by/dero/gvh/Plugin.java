@@ -25,6 +25,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import ru.cristalix.core.CoreApi;
 import ru.cristalix.core.invoice.IInvoiceService;
 import ru.cristalix.core.invoice.InvoiceService;
@@ -36,6 +37,8 @@ import ru.cristalix.core.network.ISocketClient;
 import ru.cristalix.core.permissions.IPermissionService;
 import ru.cristalix.core.pvp.CPSLimiter;
 import ru.cristalix.core.realm.IRealmService;
+import ru.cristalix.core.render.BukkitRenderService;
+import ru.cristalix.core.render.IRenderService;
 import ru.cristalix.core.scoreboard.IScoreboardService;
 import ru.cristalix.core.scoreboard.ScoreboardService;
 import ru.cristalix.core.transfer.ITransferService;
@@ -80,6 +83,7 @@ public class Plugin extends JavaPlugin implements Listener {
             CoreApi.get().registerService(IScoreboardService.class, new ScoreboardService());
             CoreApi.get().registerService(IInvoiceService.class, new InvoiceService(ISocketClient.get()));
             CoreApi.get().registerService(IMapService.class, new MapService());
+            CoreApi.get().registerService(IRenderService.class, new BukkitRenderService(Bukkit.getServer()));
             IPermissionService.get().enableTablePermissions();
             new CPSLimiter(this, 10);
             IScoreboardService.get().getServerStatusBoard().setDisplayName("§5EtherWar");
@@ -96,6 +100,8 @@ public class Plugin extends JavaPlugin implements Listener {
         Bukkit.getPluginCommand("ether").setExecutor(new EtherCommand());
         Bukkit.getPluginCommand("vote").setExecutor(new VoteCommand());
         Bukkit.getPluginCommand("bug").setExecutor(new BugCommand());
+        Bukkit.getPluginCommand("stats").setExecutor(new StatsCommand());
+        //Bukkit.getPluginCommand("tochc").setExecutor(new ToCHCCommand());
         Bukkit.getPluginCommand("advice").setExecutor(new AdviceCommand());
         lang = new Lang(new LocalStorage());
         lang.load(settings.getLocale());
@@ -174,11 +180,17 @@ public class Plugin extends JavaPlugin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         serverData.updateOnline(settings.getServerName(),
                 Bukkit.getServer().getOnlinePlayers().size());
-        if (!event.getPlayer().isOp() && IRealmService.get().getCurrentRealmInfo().getRealmId().getTypeName().equals("TEST")) {
-            event.getPlayer().sendMessage("§6Вы были перенаправлены на основной сервер! " +
-                    "В следующий раз заходите через §5Голову дракона§6 в компасе!");
-            BridgeUtils.redirectPlayer(event.getPlayer(), "EW-1");
-        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!event.getPlayer().isOp() && IRealmService.get().getCurrentRealmInfo().getRealmId().getTypeName().equals("TEST")) {
+                    event.getPlayer().sendMessage("§6Вы были перенаправлены на основной сервер! " +
+                            "В следующий раз заходите через §5Голову дракона§6 в компасе!" +
+                            "Если вы хотели попасть на CHC - /tochc");
+                    BridgeUtils.redirectPlayer(event.getPlayer(), "EW-1");
+                }
+            }
+        }.runTaskLater(Plugin.getInstance(), 5);
     }
 
     @EventHandler

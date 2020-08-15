@@ -9,7 +9,7 @@
   "levels": [
     {
       "cooldown": 20,
-      "damage": 13,
+      "damage": 11,
       "meleeDamage": 8,
       "cost": 0,
       "material": "IRON_SWORD",
@@ -17,7 +17,7 @@
     },
     {
       "cooldown": 18,
-      "damage": 13,
+      "damage": 11,
       "meleeDamage": 8,
       "cost": 160,
       "material": "IRON_SWORD",
@@ -25,7 +25,7 @@
     },
     {
       "cooldown": 16,
-      "damage": 13,
+      "damage": 11,
       "meleeDamage": 9,
       "cost": 420,
       "material": "IRON_SWORD",
@@ -33,7 +33,7 @@
     },
     {
       "cooldown": 14,
-      "damage": 13,
+      "damage": 11,
       "meleeDamage": 9,
       "cost": 990,
       "material": "IRON_SWORD",
@@ -41,7 +41,7 @@
     },
     {
       "cooldown": 12,
-      "damage": 13,
+      "damage": 11,
       "meleeDamage": 10,
       "cost": 2250,
       "material": "IRON_SWORD",
@@ -49,7 +49,7 @@
     },
     {
       "cooldown": 12,
-      "damage": 13,
+      "damage": 11,
       "meleeDamage": 11,
       "cost": 5200,
       "material": "IRON_SWORD",

@@ -4,11 +4,23 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.lobby.Lobby;
 import by.dero.gvh.lobby.LobbyPlayer;
+import by.dero.gvh.minigame.Game;
 import by.dero.gvh.model.PlayerInfo;
+import by.dero.gvh.model.storages.LocalStorage;
+import by.dero.gvh.stats.GamePlayerStats;
+import by.dero.gvh.stats.GameStats;
+import by.dero.gvh.stats.GameStatsData;
+import by.dero.gvh.stats.PlayerStats;
+import com.google.gson.Gson;
+import org.bson.BsonDocument;
+import org.bson.BsonInt32;
+import org.bson.Document;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Collections;
 
 public class EtherCommand implements CommandExecutor {
     @Override
@@ -50,6 +62,26 @@ public class EtherCommand implements CommandExecutor {
             info.setBalance(info.getBalance() + count);
             Plugin.getInstance().getPlayerData().savePlayerInfo(info);
             commandSender.sendMessage("§aОпыт выдан");
+            return true;
+        } if (args[0].equalsIgnoreCase("printtop")) {
+            StringBuilder summary = new StringBuilder();
+            int idx = 1;
+            for (Document document : Plugin.getInstance().getGameStatsData().getPlayersCollection().aggregate(
+                    Collections.singletonList(new BsonDocument("$sort", new BsonDocument("exp", new BsonInt32(-1)))))) {
+                PlayerStats stats = new Gson().fromJson(document.toJson(), PlayerStats.class);
+                summary.append(idx).append(") ").append(stats.getName()).append(" - ").append(stats.getExp()).append(" (")
+                        .append(stats.getWins()).append(" побед, ").append(stats.getLooses()).append(" поражений)").append('\n');
+                ++idx;
+                if (idx > 1000) {
+                    break;
+                }
+            }
+            try {
+                new LocalStorage().save("summary", "stats", summary.toString());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            commandSender.sendMessage("§aПосчитано");
             return true;
         }
         return true;

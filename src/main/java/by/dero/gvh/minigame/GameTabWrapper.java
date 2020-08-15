@@ -57,7 +57,8 @@ public class GameTabWrapper {
             if (gp == null) {
                 return new BaseComponent[] {new TextComponent()};
             }
-            return new BaseComponent[] {new TextComponent(Lang.get("teamTabPrefix." + (gp.getTeam() + 1)))};
+            return new BaseComponent[] {new TextComponent(Lang.get("teamTabPrefix." + (gp.getTeam() + 1)) + " §7" +
+                    gp.getPlayerStats().getLevel().getLevel() + "★")};
         }), uuid -> CompletableFuture.supplyAsync(() -> {
             GamePlayer gp = Minigame.getInstance().getGame().getPlayers().getOrDefault(
                     Bukkit.getPlayer(uuid).getName(), null);

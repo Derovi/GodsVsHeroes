@@ -4,6 +4,7 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.utils.GameUtils;
+import by.dero.gvh.utils.HeroLevel;
 import by.dero.gvh.utils.MessagingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,21 +21,35 @@ public class CommandChat implements Listener {
 	private String getMessageText(Player player, String text, boolean global) {
 		if (!Minigame.getInstance().getGame().getState().equals(Game.State.GAME)) {
 			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+			String nameColor = IPermissionService.get().getNameColor(player.getUniqueId()).join();
+			if (nameColor == null) {
+				nameColor = iGroup.getNameColor();
+			}
 			return iGroup.getPrefixColor() + iGroup.getPrefix() + " " + iGroup.getNameColor() +
-					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
+					nameColor + player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		}
 		GamePlayer gp = GameUtils.getPlayer(player.getName());
 		if (!global) {
 			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+			String nameColor = IPermissionService.get().getNameColor(player.getUniqueId()).join();
+			if (nameColor == null) {
+				nameColor = iGroup.getNameColor();
+			}
 			return GameUtils.getTeamColor(gp.getTeam()) + "T §8|" + GameUtils.getTeamColor(gp.getTeam()) +
 					Lang.get("classes." + gp.getClassName()) +
-					"§8| " + MessagingUtils.getPrefixAddition(iGroup) +
+					" " + new HeroLevel(gp.getPlayerInfo(), gp.getClassName()).getRomeLevel() +
+					"§8| " + MessagingUtils.getPrefixAddition(iGroup, nameColor) +
 					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		} else {
 			IGroup iGroup = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+			String nameColor = IPermissionService.get().getNameColor(player.getUniqueId()).join();
+			if (nameColor == null) {
+				nameColor = iGroup.getNameColor();
+			}
 			return GameUtils.getTeamColor(gp.getTeam()) + "G §8|" + GameUtils.getTeamColor(gp.getTeam()) +
 					Lang.get("classes." + gp.getClassName()) +
-					"§8| " + MessagingUtils.getPrefixAddition(iGroup) +
+					" §l" + new HeroLevel(gp.getPlayerInfo(), gp.getClassName()).getRomeLevel() +
+					"§8| " + MessagingUtils.getPrefixAddition(iGroup, nameColor) +
 					player.getName() + " §8» " + iGroup.getChatMessageColor() + text;
 		}
 	}

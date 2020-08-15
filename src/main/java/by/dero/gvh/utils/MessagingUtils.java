@@ -6,6 +6,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_12_R1.IChatBaseComponent;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import ru.cristalix.core.permissions.IGroup;
@@ -18,15 +19,20 @@ public class MessagingUtils {
 //        sendSubtitle(Lang.get("game.stunMessage"), player, 0, duration, 0);
 //    }
 
-    public static String getPrefixAddition(Player player) {
-        return getPrefixAddition(IPermissionService.get().getBestGroup(player.getUniqueId()).join());
+    public static String getPrefixAddition(OfflinePlayer player) {
+        String nameColor = IPermissionService.get().getNameColor(player.getUniqueId()).join();
+        IGroup group = IPermissionService.get().getBestGroup(player.getUniqueId()).join();
+        if (nameColor == null) {
+            nameColor = group.getNameColor();
+        }
+        return getPrefixAddition(group, nameColor);
     }
 
-    public static String getPrefixAddition(IGroup group) {
+    public static String getPrefixAddition(IGroup group, String nameColor) {
         if (group.getPrefix().isEmpty()) {
-            return group.getNameColor();
+            return nameColor;
         }
-        return group.getPrefixColor() + group.getPrefix() + ' ' + group.getNameColor();
+        return group.getPrefixColor() + group.getPrefix() + ' ' + nameColor;
     }
     
     public static void sendCooldownMessage(final Player player, final String itemName, final long time) {
