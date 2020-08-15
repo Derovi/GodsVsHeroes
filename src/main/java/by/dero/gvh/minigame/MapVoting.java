@@ -31,7 +31,7 @@ public class MapVoting {
     public Set<UUID> votedPlayers = new HashSet<>();
 
     public MapVoting() {
-        maps.add(new Map("Japan", "Japan"));
+        maps.add(new Map("Japan", "Japan2"));
         maps.add(new Map("Castle", "Castle"));
     }
 

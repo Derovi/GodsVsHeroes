@@ -1,6 +1,5 @@
 package by.dero.gvh.lobby.interfaces.cosmetic;
 
-import by.dero.gvh.lobby.interfaces.CosmeticInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import org.bukkit.entity.Player;
 

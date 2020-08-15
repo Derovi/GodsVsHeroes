@@ -8,40 +8,40 @@
   "levels": [
     {
       "cooldown": 0,
-      "radius": 3,
-      "duration": 100,
+      "radius": 4,
+      "duration": 110,
       "cost": 80,
       "material": "BOW",
       "amount": 1
     },
     {
       "cooldown": 0,
-      "radius": 3.5,
-      "duration": 100,
+      "radius": 4.3,
+      "duration": 110,
       "cost": 130,
       "material": "BOW",
       "amount": 1
     },
     {
       "cooldown": 0,
-      "radius": 4,
-      "duration": 100,
+      "radius": 4.6,
+      "duration": 110,
       "cost": 360,
       "material": "BOW",
       "amount": 1
     },
     {
       "cooldown": 0,
-      "radius": 4.5,
-      "duration": 100,
+      "radius": 4.9,
+      "duration": 110,
       "cost": 800,
       "material": "BOW",
       "amount": 1
     },
     {
       "cooldown": 0,
-      "radius": 5,
-      "duration": 100,
+      "radius": 5.2,
+      "duration": 110,
       "cost": 1800,
       "material": "BOW",
       "amount": 1
@@ -49,7 +49,7 @@
     {
       "cooldown": 0,
       "radius": 5.5,
-      "duration": 100,
+      "duration": 110,
       "cost": 4500,
       "material": "BOW",
       "amount": 1

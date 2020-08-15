@@ -19,7 +19,6 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -472,7 +471,32 @@ public class GameUtils {
         return inv.getItem(slot) == null || inv.getItem(slot).getType().equals(Material.AIR);
     }
     
-    private static final String[] romeNumbers = {"0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
+    public static boolean goodOrder(HashMap<String, Integer> order, String className) {
+        if (order == null || order.isEmpty()) {
+            return false;
+        }
+        int need = 0;
+        for (String name : Plugin.getInstance().getData().getClassNameToDescription().get(className).getItemNames()) {
+            ItemDescription desc = Plugin.getInstance().getData().getItems().get(name);
+            if (!desc.isInvisible() && !name.startsWith("default") && desc.getSlot() == 0) {
+                need++;
+            }
+        }
+        if (need != order.size()) {
+            return false;
+        }
+        int[] was = new int[9];
+        for (Integer idx : order.values()) {
+            was[idx % 9]++;
+            if (was[idx % 9] > 1) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    public static final String[] romeNumbers = {"0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
     public static ItemStack getBoosterHead(String name) {
         BoosterInfo info = Plugin.getInstance().getBoosterManager().getBoosters().get(name);
         ItemStack head = Heads.getHead(name);

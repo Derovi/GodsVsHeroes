@@ -1,5 +1,6 @@
 package by.dero.gvh.utils;
 
+import by.dero.gvh.lobby.Lobby;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_12_R1.scoreboard.CraftTeam;

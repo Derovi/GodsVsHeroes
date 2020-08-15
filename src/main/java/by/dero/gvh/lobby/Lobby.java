@@ -1,19 +1,23 @@
 package by.dero.gvh.lobby;
 
 import by.dero.gvh.AdviceManager;
+import by.dero.gvh.FlyingText;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.PluginMode;
 import by.dero.gvh.books.GameStatsBook;
-import by.dero.gvh.lobby.interfaces.BuyCosmeticInterface;
+import by.dero.gvh.books.PlayerStatsBook;
 import by.dero.gvh.lobby.interfaces.CompassInterface;
 import by.dero.gvh.lobby.interfaces.DonateSelectorInterface;
 import by.dero.gvh.lobby.interfaces.InterfaceManager;
+import by.dero.gvh.lobby.interfaces.cosmetic.BuyCosmeticInterface;
 import by.dero.gvh.lobby.monuments.DonatePackChest;
 import by.dero.gvh.lobby.monuments.MonumentManager;
+import by.dero.gvh.lobby.monuments.Totem;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.stats.GameStats;
+import by.dero.gvh.stats.IntTopEntry;
 import by.dero.gvh.stats.PlayerStats;
 import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
@@ -74,12 +78,16 @@ public class Lobby implements PluginMode, Listener {
     private final static PlayerRunnable[] activates = new PlayerRunnable[9];
     @Getter private MonumentManager monumentManager;
     @Getter private InterfaceManager interfaceManager;
+    @Getter
+    private TopManager topManager;
     private PortalManager portalManager;
     private final List<BukkitRunnable> runnables = new ArrayList<>();
     @Getter private final HashMap<String, LobbyPlayer> players = new HashMap<>();
     private final HashSet<UUID> hidePlayers = new HashSet<>();
     private final HashMap<Player, Long> hideShowUsed = new HashMap<>();
     @Getter private DonatePackChest chest;
+    @Getter private Totem totem;
+    @Getter private CristallixTop expTop;
     
     @Override
     public void onEnable() {
@@ -90,7 +98,11 @@ public class Lobby implements PluginMode, Listener {
             RealmInfo info = IRealmService.get().getCurrentRealmInfo();
             info.setLobbyServer(true);
             info.setServicedServers(new String[]{"EWP"});
+        } else {
+            //IRealmService.get().getCurrentRealmInfo().setLobbyServer(true);
         }
+
+        topManager = new TopManager();
 
         try {
             info = new Gson().fromJson(DataUtils.loadOrDefault(new LocalStorage(), "lobby", "lobby",
@@ -173,6 +185,20 @@ public class Lobby implements PluginMode, Listener {
                 spawnBanner(banner.getKey(), banner.getValue());
             }
         }, 1);
+        
+        totem = new Totem(info.getDailyTotem().toLocation(world));
+        new FlyingText(info.getDailyTotem().toLocation(world), Lang.get("interfaces.totem"));
+        expTop = new CristallixTop(() -> {
+            List<IntTopEntry> from = topManager.getTop();
+            ArrayList<Pair<String, String> > top = new ArrayList<>(from.size());
+            for (IntTopEntry intTopEntry : from) {
+                top.add(Pair.of(intTopEntry.getName(),
+                        new PlayerLevel(intTopEntry.getValue()).getLevel() + "★"));
+            }
+            return top;
+        }, "Игрок", "Уровень", "Топ по уровню", 175, 45, info.getTopsPositions().get("exp").toV3(), world.getUID());
+        Bukkit.getScheduler().runTaskTimer(Plugin.getInstance(), expTop::update, 2, 100);
+        new LobbyTabWrapper(Plugin.getInstance());
     }
     
     
@@ -410,6 +436,13 @@ public class Lobby implements PluginMode, Listener {
                 gameStatsBook.open();
             }
         };
+        
+        activates[2] = player -> {
+            PlayerStatsBook playerStatsBook = new PlayerStatsBook(Plugin.getInstance().getBookManager(),
+                    player, player.getName());
+            playerStatsBook.build();
+            playerStatsBook.open();
+        };
     }
     
     public void playerJoined(Player player) {
@@ -446,12 +479,20 @@ public class Lobby implements PluginMode, Listener {
         if (playerStats != null && !playerStats.getGames().isEmpty()) {
             inv.setItem(1, statItem);
         }
+        inv.setItem(2, InterfaceUtils.changeName(GameUtils.getHead(player), Lang.get("lobby.playerStats")));
         inv.setItem(4, cosmeticitem);
         if (hidePlayers.contains(player.getUniqueId())) {
             inv.setItem(8, showitem);
         } else {
             inv.setItem(8, hideitem);
         }
+        monumentManager.getOnShiftClick().putIfAbsent(player.getUniqueId(), new HashMap<>());
+        monumentManager.getOnShiftClick().get(player.getUniqueId()).put(-1, clicker -> {
+            PlayerStatsBook playerStatsBook = new PlayerStatsBook(Plugin.getInstance().getBookManager(),
+                    clicker, player.getName());
+            playerStatsBook.build();
+            playerStatsBook.open();
+        });
         
 //        AdviceManager.sendAdvice(player, "unlockClass", 30, 400,
 //                (pl) -> (!players.containsKey(pl.getName()) ||

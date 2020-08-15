@@ -1,5 +1,6 @@
 package by.dero.gvh.stats;
 
+import by.dero.gvh.utils.PlayerLevel;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,13 @@ public class PlayerStats {
     private int looses = 0;
 
     @Getter
+    @Setter
+    private int abandoned = 0;
+
+    @Getter @Setter
+    private int exp = 0;
+
+    @Getter
     private List<Integer> games = new ArrayList<>();
 
     public void addGame(GameStats gameStats) {
@@ -35,5 +43,10 @@ public class PlayerStats {
             looses++;
         }
         games.add(gameStats.getId());
+        exp += playerStats.getExpGained();
+    }
+    
+    public PlayerLevel getLevel() {
+        return new PlayerLevel(exp);
     }
 }

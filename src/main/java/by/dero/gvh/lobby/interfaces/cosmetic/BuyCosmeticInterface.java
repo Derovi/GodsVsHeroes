@@ -1,9 +1,11 @@
-package by.dero.gvh.lobby.interfaces;
+package by.dero.gvh.lobby.interfaces.cosmetic;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.donate.Donate;
 import by.dero.gvh.donate.DonateType;
 import by.dero.gvh.lobby.Lobby;
+import by.dero.gvh.lobby.interfaces.Interface;
+import by.dero.gvh.lobby.interfaces.InterfaceManager;
 import by.dero.gvh.model.CosmeticInfo;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;

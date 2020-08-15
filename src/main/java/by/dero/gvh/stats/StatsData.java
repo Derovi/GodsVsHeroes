@@ -23,6 +23,14 @@ public class StatsData {
         //collection.insertOne(new Document("_id", "games"), new Document("lastID", "0"), options);
     }
 
+    public int getNextGameId() {
+        BasicDBObject find = new BasicDBObject();
+        find.put("_id", "games");
+        BasicDBObject update = new BasicDBObject();
+        Document obj =  collection.find(new Document(find)).first();
+        return obj.getInteger("lastID");
+    }
+
     public int generateGameId() {
         BasicDBObject find = new BasicDBObject();
         find.put("_id", "games");

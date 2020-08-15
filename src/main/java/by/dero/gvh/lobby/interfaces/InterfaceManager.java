@@ -14,7 +14,7 @@ import java.util.UUID;
 public class InterfaceManager implements Listener {
     @Getter private final HashMap<UUID, ArrayList<Integer>> unlockedSlots = new HashMap<>();
     
-    private final HashMap<String, Interface> playerNameToInterface = new HashMap<>();
+    @Getter private final HashMap<String, Interface> playerNameToInterface = new HashMap<>();
 
     public void register(String playerName, Interface playerInterface) {
         playerNameToInterface.put(playerName, playerInterface);
@@ -43,15 +43,12 @@ public class InterfaceManager implements Listener {
         ArrayList<Integer> unlocked = unlockedSlots.getOrDefault(event.getWhoClicked().getUniqueId(), null);
         if (unlocked == null || !unlocked.contains(event.getSlot())) {
             event.setCancelled(true);
-            playerNameToInterface.get(playerName).clicked(event.getSlot());
         }
+        playerNameToInterface.get(playerName).onSlotClicked(event);
+        playerNameToInterface.get(playerName).clicked(event.getSlot());
     }
 
     private boolean isInterfaceOpened(String playerName) {
         return playerNameToInterface.containsKey(playerName);
-    }
-
-    public HashMap<String, Interface> getPlayerNameToInterface() {
-        return playerNameToInterface;
     }
 }

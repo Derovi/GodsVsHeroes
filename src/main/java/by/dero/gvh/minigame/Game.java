@@ -1,7 +1,6 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.*;
-import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.stats.GameStats;
@@ -171,17 +170,6 @@ public abstract class Game implements Listener {
     public void prepareMap(BuildWorldState state) {}
 
     public void start() {
-        Plugin.getInstance().getBoosterManager().load(Bukkit.getOnlinePlayers());
-        Plugin.getInstance().getBoosterManager().precalcMultipliers(this);
-
-        if (!isMapPrepared()) {
-            prepareMap(lobby.getMapVoting().getMostVoted().getBuildName());
-        }
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            Plugin.getInstance().getCosmeticManager().loadPlayer(player);
-        }
-        mapManager = new MapManager(world);
-        deathAdviceManager = new DeathAdviceManager();
         if (state == State.GAME) {
             System.err.println("Can't start game, already started!");
             return;
@@ -191,7 +179,20 @@ public abstract class Game implements Listener {
             return;
         }
         stats = new GameStats();
+        stats.setMode(info.getMode());
         gameStatsManager = new GameStatsManager(stats);
+        Plugin.getInstance().getBoosterManager().load(Bukkit.getOnlinePlayers());
+        Plugin.getInstance().getBoosterManager().precalcMultipliers(this);
+    
+        if (!isMapPrepared()) {
+            prepareMap(lobby.getMapVoting().getMostVoted().getBuildName());
+        }
+        stats.setMap(lobby.getMapVoting().getMostVoted().getDisplayName());
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Plugin.getInstance().getCosmeticManager().loadPlayer(player);
+        }
+        mapManager = new MapManager(world);
+        deathAdviceManager = new DeathAdviceManager();
         chooseTeams();
     
         for (GamePlayer player : players.values()) {
@@ -376,39 +377,7 @@ public abstract class Game implements Listener {
     }
 
     public void onPlayerKilled(GamePlayer player, GamePlayer killer, Collection<GamePlayer> assists) {
-        try {
-            if (!player.equals(killer)) {
-                rewardManager.give("killEnemy", killer.getPlayer(), "");
-
-                MessagingUtils.sendSubtitle(Lang.get("rewmes.kill").
-                                replace("%exp%", GameUtils.getString(getMultiplier(killer) * rewardManager.get("killEnemy").getCount()))
-                                .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
-                        killer.getPlayer(), 0, 20, 0);
-
-                String kilCode = GameUtils.getTeamColor(killer.getTeam());
-                String tarCode = GameUtils.getTeamColor(player.getTeam());
-                String kilClass = Lang.get("classes." + killer.getClassName());
-                String tarClass = Lang.get("classes." + player.getClassName());
-                Bukkit.getServer().broadcastMessage(Lang.get("game.killGlobalMessage").
-                        replace("%kilCode%", kilCode).replace("%kilClass%", kilClass).
-                        replace("%killer%", killer.getPlayer().getName()).
-                        replace("%tarCode%", tarCode).replace("%tarClass%", tarClass).
-                        replace("%target%", player.getPlayer().getName()));
-
-                if (assists != null) {
-                    for (GamePlayer pl : assists) {
-                        rewardManager.give("assist", pl.getPlayer(), "");
-                        MessagingUtils.sendSubtitle(Lang.get("rewmes.assist").
-                                        replace("%exp%", GameUtils.getString(getMultiplier(pl) * rewardManager.get("assist").getCount()))
-                                .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
-                                pl.getPlayer(), 0, 20, 0);
-                    }
-                }
-                gameStatsManager.addKill(player, killer, assists);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    
     }
 
     private void chooseTeams() {
@@ -486,13 +455,13 @@ public abstract class Game implements Listener {
                 Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
                     if (player.isOnline()) {
                         MessagingUtils.sendTitle(Lang.get("game.won"), Lang.get("game.endResult").
-                                        replace("%exp%", String.valueOf(Game.getInstance().getStats().getPlayers().get(player.getName()).getExpGained())),
+                                        replace("%exp%", String.valueOf(stats.getPlayers().get(player.getName()).getExpGained())),
                                 player, 0, 60, 0);
                     }
                 }, 60);
             } else {
                 MessagingUtils.sendTitle(Lang.get("game.lost"), Lang.get("game.endResult").
-                                replace("%exp%", String.valueOf(Game.getInstance().getStats().getPlayers().get(player.getName()).getExpGained())),
+                                replace("%exp%", String.valueOf(stats.getPlayers().get(player.getName()).getExpGained())),
                         player, 0, 120, 0);
             }
             player.setFireTicks(0);
@@ -719,14 +688,16 @@ public abstract class Game implements Listener {
             MessagingUtils.sendTitle(Lang.get("game.livesNotLeft"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
             return;
         } else {
-            MessagingUtils.sendTitle(Lang.get("game.dead"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
+            if (!gp.isLockedTitles()) {
+                MessagingUtils.sendTitle(Lang.get("game.dead"), deathAdviceManager.nextAdvice(gp), player, 0, 80, 0);
+            }
         }
 
         SafeRunnable runnable = new SafeRunnable() {
             int counter = respawnTime;
             @Override
             public void run() {
-                if (counter < respawnTime && (respawnTime - counter) % 80 == 0) {
+                if (!gp.isLockedTitles() && counter < respawnTime && (respawnTime - counter) % 80 == 0) {
                     MessagingUtils.sendSubtitle(deathAdviceManager.nextAdvice(gp), gp.getPlayer(), 0, 80, 0);
                 }
 
@@ -735,6 +706,7 @@ public abstract class Game implements Listener {
                     return;
                 }
                 if (counter <= 0) {
+                    gp.setLockedTitles(false);
                     toSpawn(gp);
                     onPlayerRespawned(gp);
                     this.cancel();

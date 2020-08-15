@@ -10,11 +10,16 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.UpdateOptions;
+import lombok.Getter;
+import org.bson.BsonDocument;
+import org.bson.BsonInt32;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
 public class GameStatsData {
+    @Getter
     private final MongoCollection<Document> gamesCollection;
+    @Getter
     private final MongoCollection<Document> playersCollection;
     private final MongoDBStorage storage;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -23,6 +28,7 @@ public class GameStatsData {
         this.storage = storage;
         gamesCollection = storage.getDatabase().getCollection("games");
         playersCollection = storage.getDatabase().getCollection("playerStats");
+        playersCollection.createIndex(new BsonDocument("exp", new BsonInt32(-1)));
     }
 
     public GameStats getGameStats(int id) {
@@ -38,9 +44,16 @@ public class GameStatsData {
         Document document = playersCollection.find(
                 Filters.eq("_id", playerName)).first();
         if (document == null) {
-            return null;
+            return new PlayerStats(playerName);
         }
         return gson.fromJson(document.toJson(), PlayerStats.class);
+    }
+
+    public void savePlayerStats(PlayerStats stats) {
+        ReplaceOptions options = new ReplaceOptions();
+        options.upsert(true);
+        Document updater = new Document(BasicDBObject.parse(gson.toJson(stats)));
+        playersCollection.replaceOne(Filters.eq("_id", stats.getName()), updater, options);
     }
 
     public void saveGameStats(GameStats game) {
@@ -60,7 +73,20 @@ public class GameStatsData {
                 playerStats.addGame(game);
                 ReplaceOptions options = new ReplaceOptions();
                 options.upsert(true);
-                System.out.println("Name: " + playerStats.getName());
+                Document updater = new Document(BasicDBObject.parse(gson.toJson(playerStats)));
+                playersCollection.replaceOne(Filters.eq("_id", playerStats.getName()), updater, options);
+            }
+            for (String playerName : game.getDeserters()) {
+                PlayerStats playerStats = new PlayerStats(playerName);
+                Document document = playersCollection.find(
+                        Filters.eq("_id", playerName)).first();
+                if (document != null) {
+                    playerStats = gson.fromJson(document.toJson(), PlayerStats.class);
+                }
+                playerStats.getGames().add(game.getId());
+                playerStats.setAbandoned(playerStats.getAbandoned() + 1);
+                ReplaceOptions options = new ReplaceOptions();
+                options.upsert(true);
                 Document updater = new Document(BasicDBObject.parse(gson.toJson(playerStats)));
                 playersCollection.replaceOne(Filters.eq("_id", playerStats.getName()), updater, options);
             }

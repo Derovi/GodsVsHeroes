@@ -26,4 +26,13 @@ public class GameStats {
     
     @Getter @Setter
     private long startTime;
+    
+    @Getter @Setter
+    private ArrayList<String> deserters = new ArrayList<>();
+    
+    @Getter @Setter
+    private String map;
+    
+    @Getter @Setter
+    private String mode;
 }

@@ -28,7 +28,6 @@ public class SwordThrowInfo extends ItemInfo {
     @CustomDamage
     private int meleeDamage;
 
-
     @Override
     public ItemStack dynamicCustomization(ItemStack itemStack, CustomizationContext context) {
         CosmeticInfo cosmeticInfo = Plugin.getInstance().getCosmeticManager().getByGroup(
