@@ -90,16 +90,16 @@ public class GameEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Block clicked = event.getClickedBlock();
+        String shooterName = event.getPlayer().getName();
         if (clicked != null && inventoryBlocks.contains(clicked.getType())) {
             event.setCancelled(true);
             return;
         }
-        if (!Game.getInstance().getState().equals(Game.State.GAME)) {
+        if (!Game.getInstance().getState().equals(Game.State.GAME) || GameUtils.isDeadPlayer(event.getPlayer())) {
             event.setCancelled(true);
             return;
         }
-        String shooterName = event.getPlayer().getName();
-        GamePlayer gamePlayer = Minigame.getInstance().getGame().getPlayers().get(shooterName);
+        GamePlayer gamePlayer = game.getPlayers().get(shooterName);
     
         ItemStack offItem = event.getPlayer().getInventory().getItemInOffHand();
         Item itemInHand = gamePlayer.getSelectedItem();
