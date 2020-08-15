@@ -9,11 +9,9 @@ import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.stats.GamePlayerStats;
-import by.dero.gvh.utils.Board;
-import by.dero.gvh.utils.GameUtils;
-import by.dero.gvh.utils.IntPosition;
-import by.dero.gvh.utils.MessagingUtils;
+import by.dero.gvh.utils.*;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -202,6 +200,41 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     @Override
     public void onPlayerKilled(GamePlayer player, GamePlayer killer, Collection<GamePlayer> assists) {
         super.onPlayerKilled(player, killer, assists);
+        try {
+            if (!player.equals(killer)) {
+                getRewardManager().give("killEnemy", killer.getPlayer(), "");
+            
+                MessagingUtils.sendSubtitle(Lang.get("rewmes.killEther").
+                                replace("%exp%", GameUtils.getString(getMultiplier(killer) * getRewardManager().get("killEnemy").getCount()))
+                                .replace("%eth%", Integer.toString(this.getEtherCaptureInfo().getEtherForKill())),
+                        killer.getPlayer(), 0, 20, 0);
+            
+                String kilCode = GameUtils.getTeamColor(killer.getTeam());
+                String tarCode = GameUtils.getTeamColor(player.getTeam());
+                String kilClass = Lang.get("classes." + killer.getClassName()) +
+                        " " + new HeroLevel(killer.getPlayerInfo(), killer.getClassName()).getRomeLevel();
+                String tarClass = Lang.get("classes." + player.getClassName()) +
+                        " " + new HeroLevel(player.getPlayerInfo(), player.getClassName()).getRomeLevel();
+                Bukkit.getServer().broadcastMessage(Lang.get("game.killGlobalMessage").
+                        replace("%kilCode%", kilCode).replace("%kilClass%", kilClass).
+                        replace("%killer%", killer.getPlayer().getName()).
+                        replace("%tarCode%", tarCode).replace("%tarClass%", tarClass).
+                        replace("%target%", player.getPlayer().getName()));
+            
+                if (assists != null) {
+                    for (GamePlayer pl : assists) {
+                        getRewardManager().give("assist", pl.getPlayer(), "");
+                        MessagingUtils.sendSubtitle(Lang.get("rewmes.assist").
+                                        replace("%exp%", GameUtils.getString(getMultiplier(pl) * getRewardManager().get("assist").getCount()))
+                                        .replace("%eth%", Integer.toString(this.getEtherCaptureInfo().getEtherForKill())),
+                                pl.getPlayer(), 0, 20, 0);
+                    }
+                }
+                getGameStatsManager().addKill(player, killer, assists);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         addEther(killer.getTeam(), etherCaptureInfo.getEtherForKill());
     }
 
@@ -212,7 +245,6 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         }
         event.setDeathMessage(null);
         final Player player = event.getEntity();
-        //System.out.println("o3: " + player.getLocation().getWorld().getName());
         final float exp = player.getExp();
         
         Location loc = player.getLocation();

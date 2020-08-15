@@ -1,7 +1,6 @@
 package by.dero.gvh.minigame;
 
 import by.dero.gvh.*;
-import by.dero.gvh.minigame.ethercapture.EtherCapture;
 import by.dero.gvh.model.*;
 import by.dero.gvh.model.interfaces.DoubleSpaceInterface;
 import by.dero.gvh.stats.GameStats;
@@ -180,6 +179,7 @@ public abstract class Game implements Listener {
             return;
         }
         stats = new GameStats();
+        stats.setMode(info.getMode());
         gameStatsManager = new GameStatsManager(stats);
         Plugin.getInstance().getBoosterManager().load(Bukkit.getOnlinePlayers());
         Plugin.getInstance().getBoosterManager().precalcMultipliers(this);
@@ -377,41 +377,7 @@ public abstract class Game implements Listener {
     }
 
     public void onPlayerKilled(GamePlayer player, GamePlayer killer, Collection<GamePlayer> assists) {
-        try {
-            if (!player.equals(killer)) {
-                rewardManager.give("killEnemy", killer.getPlayer(), "");
-
-                MessagingUtils.sendSubtitle(Lang.get("rewmes.kill").
-                                replace("%exp%", GameUtils.getString(getMultiplier(killer) * rewardManager.get("killEnemy").getCount()))
-                                .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
-                        killer.getPlayer(), 0, 20, 0);
-
-                String kilCode = GameUtils.getTeamColor(killer.getTeam());
-                String tarCode = GameUtils.getTeamColor(player.getTeam());
-                String kilClass = Lang.get("classes." + killer.getClassName()) +
-                        " " + new HeroLevel(killer.getPlayerInfo(), killer.getClassName()).getRomeLevel();
-                String tarClass = Lang.get("classes." + player.getClassName()) +
-                        " " + new HeroLevel(player.getPlayerInfo(), player.getClassName()).getRomeLevel();
-                Bukkit.getServer().broadcastMessage(Lang.get("game.killGlobalMessage").
-                        replace("%kilCode%", kilCode).replace("%kilClass%", kilClass).
-                        replace("%killer%", killer.getPlayer().getName()).
-                        replace("%tarCode%", tarCode).replace("%tarClass%", tarClass).
-                        replace("%target%", player.getPlayer().getName()));
-
-                if (assists != null) {
-                    for (GamePlayer pl : assists) {
-                        rewardManager.give("assist", pl.getPlayer(), "");
-                        MessagingUtils.sendSubtitle(Lang.get("rewmes.assist").
-                                        replace("%exp%", GameUtils.getString(getMultiplier(pl) * rewardManager.get("assist").getCount()))
-                                .replace("%eth%", Integer.toString(((EtherCapture) this).getEtherCaptureInfo().getEtherForKill())),
-                                pl.getPlayer(), 0, 20, 0);
-                    }
-                }
-                gameStatsManager.addKill(player, killer, assists);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    
     }
 
     private void chooseTeams() {

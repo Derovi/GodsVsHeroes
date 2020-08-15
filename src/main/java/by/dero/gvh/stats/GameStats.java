@@ -32,4 +32,7 @@ public class GameStats {
     
     @Getter @Setter
     private String map;
+    
+    @Getter @Setter
+    private String mode;
 }

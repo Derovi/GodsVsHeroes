@@ -6,12 +6,13 @@ import by.dero.gvh.model.StorageInterface;
 import by.dero.gvh.utils.DataUtils;
 import by.dero.gvh.utils.ResourceUtils;
 import com.google.gson.Gson;
+import lombok.Getter;
 
 public class GameData {
     private final StorageInterface storage;
-    private GameInfo gameInfo;
-    private DeathMatchInfo deathMatchInfo;
-    private EtherCaptureInfo etherCaptureInfo;
+    @Getter private GameInfo gameInfo;
+    @Getter private DeathMatchInfo deathMatchInfo;
+    @Getter private EtherCaptureInfo etherCaptureInfo;
 
     public GameData(StorageInterface storage) {
         this.storage = storage;
@@ -29,17 +30,5 @@ public class GameData {
             System.err.println("Can't load game data!");
             exception.printStackTrace();
         }
-    }
-
-    public GameInfo getGameInfo() {
-        return gameInfo;
-    }
-
-    public DeathMatchInfo getDeathMatchInfo() {
-        return deathMatchInfo;
-    }
-
-    public EtherCaptureInfo getEtherCaptureInfo() {
-        return etherCaptureInfo;
     }
 }

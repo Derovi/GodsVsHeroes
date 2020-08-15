@@ -227,6 +227,7 @@
     "desertionMessage": "§cНельзя покидать границу карты!",
     "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
     "ether": "EtherWar",
+    "deathMatch": "DeathMatch",
     "classSelected": "§bВаш класс §8» §f%class%",
     "expGained": "Опыт §8» §b%exp%",
     "expGainedMult": "Опыт §a×§l%mul%§f §8» §b%exp%",
@@ -334,7 +335,8 @@
     "donate": "§6Донат"
   },
   "rewmes": {
-    "kill": "§6§lУбийство§a +%exp% опыта §8|§a +%eth% эфира",
+    "kill": "§6§lУбийство§a +%exp% опыта",
+    "killEther": "§6§lУбийство§a +%exp% опыта §8|§a +%eth% эфира",
     "assist": "§9§lПомощь§a +%exp% опыта",
     "capture": "§4§lЗахват§a +%exp% опыта"
   },
