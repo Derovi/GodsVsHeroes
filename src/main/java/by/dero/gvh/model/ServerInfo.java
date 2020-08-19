@@ -1,57 +1,28 @@
 package by.dero.gvh.model;
 
+import by.dero.gvh.Plugin;
+import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.Bukkit;
+
 public class ServerInfo {
+    @Getter @Setter
     private String name;
+    @Getter @Setter
     private ServerType type;
+    @Getter @Setter
     private String status = "NO_STATUS";
+    @Getter
+    private String mode;
+    @Getter @Setter
     private int online;
+    @Getter @Setter
     private int maxOnline = 24;
-
-    public ServerInfo() {
-    }
-
-    public ServerInfo(String name, ServerType type) {
+    
+    public ServerInfo(String name, ServerType type, String mode) {
         this.name = name;
         this.type = type;
-    }
-
-    public int getMaxOnline() {
-        return maxOnline;
-    }
-
-    public void setMaxOnline(int maxOnline) {
-        this.maxOnline = maxOnline;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ServerType getType() {
-        return type;
-    }
-
-    public void setType(ServerType type) {
-        this.type = type;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public int getOnline() {
-        return online;
-    }
-
-    public void setOnline(int online) {
-        this.online = online;
+        this.mode = mode;
+        Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> Bukkit.getServer().broadcastMessage("§a§l" + name + " " + this.mode), 200);
     }
 }

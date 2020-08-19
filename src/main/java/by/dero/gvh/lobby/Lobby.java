@@ -93,7 +93,7 @@ public class Lobby implements PluginMode, Listener {
     public void onEnable() {
         instance = this;
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
-                ServerType.LOBBY, 300);
+                ServerType.LOBBY, "lobby", 300);
         if (Plugin.getInstance().getSettings().getServerName().startsWith("EW")) {
             RealmInfo info = IRealmService.get().getCurrentRealmInfo();
             info.setLobbyServer(true);
@@ -601,7 +601,7 @@ public class Lobby implements PluginMode, Listener {
                     return;
                 }
             }
-            
+
             int slot = player.getInventory().getHeldItemSlot();
             if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENDER_CHEST)) {
                 DonateSelectorInterface inter = new DonateSelectorInterface(interfaceManager, player);
@@ -614,17 +614,17 @@ public class Lobby implements PluginMode, Listener {
             }
         }
     }
-    
+
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         event.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onDropItem(PlayerDropItemEvent event) {
         event.setCancelled(true);
     }
-    
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInv(InventoryClickEvent event) {
         if (event.getAction() != InventoryAction.PLACE_ALL &&
@@ -633,7 +633,7 @@ public class Lobby implements PluginMode, Listener {
             event.setCancelled(true);
         }
     }
-    
+
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         event.setCancelled(true);
@@ -643,7 +643,7 @@ public class Lobby implements PluginMode, Listener {
     public void onInventoryMove(InventoryMoveItemEvent event) {
         event.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         event.setCancelled(true);

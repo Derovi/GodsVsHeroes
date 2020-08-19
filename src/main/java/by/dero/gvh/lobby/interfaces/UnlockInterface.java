@@ -107,7 +107,7 @@ public class UnlockInterface extends Interface {
                 spawnUnlockParticles(loc, player, 240,
                         1.7, Math.toRadians(-70), Math.toRadians(70));
                 
-                playerInfo.selectClass(className);
+                playerInfo.setSelectedClass(className);
                 Plugin.getInstance().getPlayerData().savePlayerInfo(playerInfo);
                 Lobby.getInstance().updateDisplays(player);
                 close();
@@ -223,7 +223,7 @@ public class UnlockInterface extends Interface {
                                     spawnUnlockParticles(loc, player, 240,
                                             1.7, Math.toRadians(-70), Math.toRadians(70));
     
-                                    playerInfo.selectClass(className);
+                                    playerInfo.setSelectedClass(className);
                                     Plugin.getInstance().getPlayerData().savePlayerInfo(playerInfo);
                                     Lobby.getInstance().updateDisplays(player);
                                     close();

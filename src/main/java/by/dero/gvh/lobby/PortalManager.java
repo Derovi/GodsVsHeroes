@@ -6,6 +6,8 @@ import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.ServerInfo;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.utils.BridgeUtils;
+import by.dero.gvh.utils.DirectedPosition;
+import by.dero.gvh.utils.Pair;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -32,17 +34,22 @@ public class PortalManager implements Listener {
             return;
         }
         LobbyPlayer player = Lobby.getInstance().getPlayers().get(event.getPlayer().getName());
-        if (Lobby.getInstance().getActiveLobbies().get(player.getPlayer().getName()).isInPortal()) {
+        
+        PlayerLobby playerLobby = Lobby.getInstance().getActiveLobbies().get(player.getPlayer().getName());
+        Pair<String, DirectedPosition> portal = playerLobby.getPortal();
+        if (portal != null) {
             playersInPortal.put(event.getPlayer().getName(), System.currentTimeMillis());
-            playerEnteredPortal(player);
+            playerEnteredPortal(player, portal.getKey());
         }
     }
 
-    private void playerEnteredPortal(LobbyPlayer player) {
+    private void playerEnteredPortal(LobbyPlayer player, String mode) {
         String serverName = null;
         for (ServerInfo info : Plugin.getInstance().getServerData().getSavedGameServers()) {
-            if (info.getType() == ServerType.GAME && info.getStatus().equals(Game.State.WAITING.toString())
-            && info.getMaxOnline() > info.getOnline()) {
+            if (info.getType() == ServerType.GAME &&
+                    info.getMode().equals(mode) &&
+                    info.getStatus().equals(Game.State.WAITING.toString()) &&
+                    info.getMaxOnline() > info.getOnline()) {
                 serverName = info.getName();
                 break;
             }

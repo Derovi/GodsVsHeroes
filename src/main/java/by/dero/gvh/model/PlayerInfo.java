@@ -13,6 +13,7 @@ import java.util.Map;
 public class PlayerInfo {
     @Getter @Setter
     private String name;
+    @Getter @Setter
     private String selectedClass = "warrior";
     @Getter private HashMap<String, Cosmetic> cosmetics = null;
     @Getter @Setter
@@ -27,6 +28,8 @@ public class PlayerInfo {
     private int totemLastTaken = 0;
     @Getter @Setter
     private int totemLevel = 0;
+    @Getter @Setter
+    private String selectedMode = "etherCapture";
     
     public PlayerInfo() {
         this.cosmetics = new HashMap<>();
@@ -149,13 +152,5 @@ public class PlayerInfo {
     
     public boolean isClassUnlocked(String className) {
         return classes.containsKey(className);
-    }
-
-    public String getSelectedClass() {
-        return selectedClass;
-    }
-
-    public void selectClass(String selectedClass) {
-        this.selectedClass = selectedClass;
     }
 }

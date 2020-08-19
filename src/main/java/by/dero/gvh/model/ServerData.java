@@ -9,25 +9,19 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
-import org.bson.BsonDocument;
-import org.bson.BsonInt32;
-import org.bson.BsonValue;
+import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.scheduler.BukkitRunnable;
-import ru.cristalix.core.realm.IRealmService;
-import ru.cristalix.core.scoreboard.IScoreboardService;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ServerData {
     private final MongoCollection<Document> collection;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private List<ServerInfo> savedGameServers;
-    private ServerInfo savedLobbyServer;
-    private int savedOnline;
+    @Getter private List<ServerInfo> savedGameServers;
+    @Getter private ServerInfo savedLobbyServer;
+    @Getter private int savedOnline;
 
     public ServerData(MongoDBStorage storage) {
         collection = storage.getDatabase().getCollection("servers");
@@ -64,6 +58,11 @@ public class ServerData {
             servers.add(gson.fromJson(document.toJson(), ServerInfo.class));
         }
         servers.sort((info1, info2) -> {
+            int modeCmp = info1.getMode().compareTo(info2.getMode());
+            if (modeCmp != 0) {
+                return modeCmp;
+            }
+            
             int status1 = 0;
             if (info1.getStatus().equals(Game.State.GAME_FULL.toString())) {
                 status1 = 1;
@@ -100,8 +99,8 @@ public class ServerData {
         return gson.fromJson(document.toJson(), ServerInfo.class);
     }
 
-    public void register(String serverName, ServerType type, int maxOnline) {
-        ServerInfo serverInfo = new ServerInfo(serverName, type);
+    public void register(String serverName, ServerType type, String mode, int maxOnline) {
+        ServerInfo serverInfo = new ServerInfo(serverName, type, mode);
         serverInfo.setMaxOnline(maxOnline);
         BasicDBObject dbObject = BasicDBObject.parse(gson.toJson(serverInfo));
         dbObject.put("_id", serverName);
@@ -123,17 +122,5 @@ public class ServerData {
     public void updateOnline(String serverName, int online) {
         collection.updateOne(Filters.eq("_id", serverName),
                 new Document("$set", new Document("online", online)));
-    }
-
-    public List<ServerInfo> getSavedGameServers() {
-        return savedGameServers;
-    }
-
-    public ServerInfo getSavedLobbyServer() {
-        return savedLobbyServer;
-    }
-
-    public int getSavedOnline() {
-        return savedOnline;
     }
 }

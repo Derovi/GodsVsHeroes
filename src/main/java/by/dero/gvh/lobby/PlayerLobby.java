@@ -4,9 +4,7 @@ import by.dero.gvh.Plugin;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.PlayerInfo;
 import by.dero.gvh.stats.PlayerStats;
-import by.dero.gvh.utils.Board;
-import by.dero.gvh.utils.MathUtils;
-import by.dero.gvh.utils.Position;
+import by.dero.gvh.utils.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -18,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.util.Vector;
 import ru.cristalix.core.display.data.DataDrawData;
 import ru.cristalix.core.display.data.StringDrawData;
 import ru.cristalix.core.math.V2;
@@ -25,15 +24,16 @@ import ru.cristalix.core.math.V2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class PlayerLobby {
-    private final Player player;
+    @Getter private final Player player;
     private DataDrawData data;
-    private Runnable scoreboardUpdater;
+    @Getter private Runnable scoreboardUpdater;
     @Getter @Setter
     private PlayerStats stats;
 
-    private final List<BukkitRunnable> runnables = new ArrayList<>();
+    @Getter private final List<BukkitRunnable> runnables = new ArrayList<>();
 
     public PlayerLobby(Player player) {
         this.player = player;
@@ -47,16 +47,22 @@ public class PlayerLobby {
 
     }
 
-    public boolean isInPortal() {
-        final Position pos = new Position(player.getLocation());
-        final Position portal = Lobby.getInstance().getInfo().getPortalPosition();
-        return pos.distance(portal) < 2 &&
-                Math.abs(pos.getZ() - portal.getZ()) < 1;
+    public Pair<String, DirectedPosition> getPortal() {
+        DirectedPosition pos = new DirectedPosition(player.getLocation().add(0, 1.5, 0));
+        for (Map.Entry<String, DirectedPosition> portal : Lobby.getInstance().getInfo().getPortals().entrySet()) {
+            DirectedPosition port = portal.getValue();
+            if (port.distance(pos) < 1) {
+                return Pair.of(portal);
+            }
+        }
+        return null;
     }
 
     public void load() {
         stats = Plugin.getInstance().getGameStatsData().getPlayerStats(player.getName());
-        loadPortal();
+        for (DirectedPosition portal : Lobby.getInstance().getInfo().getPortals().values()) {
+            loadPortal(portal);
+        }
         loadBoard();
         loadSelectedClass();
     }
@@ -122,19 +128,22 @@ public class PlayerLobby {
         }.runTaskTimer(Plugin.getInstance(), 20, 20);
     }
 
-    private void loadPortal() {
+    private void loadPortal(DirectedPosition portal) {
         BukkitRunnable runnable = new BukkitRunnable() {
             double angle = 0;
+//            final double portalPitch = portal.getPitch();
             final double turnsPerSec = 0.25;
             final double radius = 1.2;
             final int parts = 3;
-            final Location center = Lobby.getInstance().getInfo().getPortalPosition().toLocation(Lobby.getInstance().getWorld());
+            final Location center = portal.toLocation(Lobby.getInstance().getWorld());
             @Override
             public void run() {
                 for (int i = 0; i < parts; i++) {
-                    final double cur = angle + MathUtils.PI2 * i / parts;
-                    final Location at = center.clone().add(0, MathUtils.sin(cur) * radius,MathUtils.cos(cur) * radius);
-                    player.spawnParticle(Particle.FLAME, at, 0, 0, 0, 0);
+                    double cur = angle + MathUtils.PI2 * i / parts;
+                    Vector kek = MathUtils.rotateAroundAxis(new Vector(0, radius, 0), portal.getDirection(), cur);
+//                    Vector at = new Vector(0, MathUtils.sin(cur) * radius, MathUtils.cos(cur) * radius);
+//                    MathUtils.rotateAroundAxis(at, MathUtils.UPVECTOR, portalPitch);
+                    player.spawnParticle(Particle.FLAME, center.clone().add(kek), 0, 0, 0, 0);
                 }
                 angle = (angle + MathUtils.PI2 * turnsPerSec / 20) % MathUtils.PI2;
             }
@@ -148,17 +157,5 @@ public class PlayerLobby {
             runnable.cancel();
         }
         //selectedClass.unload();
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Runnable getScoreboardUpdater() {
-        return scoreboardUpdater;
-    }
-
-    public List<BukkitRunnable> getRunnables() {
-        return runnables;
     }
 }

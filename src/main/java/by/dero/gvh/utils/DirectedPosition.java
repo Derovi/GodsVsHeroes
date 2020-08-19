@@ -23,6 +23,13 @@ public class DirectedPosition extends Position {
         super(x, y, z);
         setDirection(direction);
     }
+    
+    public double getPitch() {
+        if (dx == 0 && dz == 0) {
+            return 0;
+        }
+        return new Vector(dx, 0, dz).angle(MathUtils.ZEROVECTOR);
+    }
 
     @Override
     public Location toLocation(String worldName) {
@@ -44,5 +51,11 @@ public class DirectedPosition extends Position {
         this.dx = direction.getX();
         this.dy = direction.getY();
         this.dz = direction.getZ();
+    }
+    
+    public void setDirection(double dx, double dy, double dz) {
+        this.dx = dx;
+        this.dy = dy;
+        this.dz = dz;
     }
 }

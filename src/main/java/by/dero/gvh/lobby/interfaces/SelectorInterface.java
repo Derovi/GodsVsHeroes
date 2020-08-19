@@ -32,7 +32,7 @@ public class SelectorInterface extends Interface {
 
         Runnable select = () -> {
             PlayerInfo playerInfo = Plugin.getInstance().getPlayerData().getPlayerInfo(player.getName());
-            playerInfo.selectClass(className);
+            playerInfo.setSelectedClass(className);
             Plugin.getInstance().getPlayerData().savePlayerInfo(playerInfo);
             Lobby.getInstance().updateDisplays(getPlayer());
             close();

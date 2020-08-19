@@ -5,10 +5,19 @@
     "z": -0.5,
     "dx": -1
   },
-  "portalPosition": {
-    "x": -8.5,
-    "y": 88.5,
-    "z": -0.5
+  "portals": {
+    "deathMatch": {
+      "x": -8.5,
+      "y": 98.5,
+      "z": -0.5,
+      "dx": 1
+    },
+    "etherCapture": {
+      "x": -1.5,
+      "y": 88.5,
+      "z": -0.5,
+      "dz": 1
+    }
   },
   "singleBooster": {
     "x": -6.5,
@@ -16,7 +25,7 @@
     "z": 2.5,
     "dx": 1
   },
-  "teamBooster" : {
+  "teamBooster": {
     "x": -6.5,
     "y": 87,
     "z": -3.5,

@@ -5,7 +5,6 @@ import by.dero.gvh.model.storages.MongoDBStorage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ public class PlayerData {
 
     public void selectClass(String playerName, String className) {
         PlayerInfo playerInfo = getPlayerInfo(playerName);
-        playerInfo.selectClass(className);
+        playerInfo.setSelectedClass(className);
         savePlayerInfo(playerName, playerInfo);
         // TODO for database
     }

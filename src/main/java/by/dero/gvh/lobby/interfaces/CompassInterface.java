@@ -11,11 +11,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Collections;
+
 public class CompassInterface extends Interface {
     private final BukkitRunnable interfaceUpdater;
 
     public CompassInterface(InterfaceManager manager, Player player) {
-        super(manager, player, calculateHeight(), Lang.get("compass.title"));
+        super(manager, player, 3, Lang.get("compass.title"));
         interfaceUpdater = new BukkitRunnable() {
             @Override
             public void run() {
@@ -38,6 +40,8 @@ public class CompassInterface extends Interface {
     private void updateItems() {
         clear();
         int index = 0;
+        int line = getHeight();
+        String wasMode = "";
         for (ServerInfo info : Plugin.getInstance().getServerData().getSavedGameServers()) {
             ItemStack itemStack = null;
             int count = info.getOnline();
@@ -64,14 +68,25 @@ public class CompassInterface extends Interface {
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(name);
             itemStack.setItemMeta(meta);
-            if (!info.getStatus().equals(Game.State.WAITING.toString())) {
-                addItem(index % 9, getHeight() - 1 - index / 9, itemStack);
-            } else {
-                if (getHeight() - 1 - index / 9 < getHeight()) {
-                    addButton(index % 9, getHeight() - 1 - index / 9, itemStack, () -> BridgeUtils.redirectPlayer(getPlayer(), info.getName()));
-                }
+            itemStack.setLore(Collections.singletonList(Lang.get("game." + info.getMode())));
+            if (!wasMode.equals(info.getMode())) {
+                line--;
+                index = 0;
+                wasMode = info.getMode();
             }
-            ++index;
+            if (line < 0) {
+                continue;
+            }
+            if (!info.getStatus().equals(Game.State.WAITING.toString())) {
+                addItem(index, line, itemStack);
+            } else {
+                addButton(index, line, itemStack, () -> BridgeUtils.redirectPlayer(getPlayer(), info.getName()));
+            }
+            index++;
+            if (index == 9) {
+                index = 0;
+                line--;
+            }
         }
         //update();
     }

@@ -1,7 +1,6 @@
 package by.dero.gvh.lobby;
 
 import by.dero.gvh.utils.DirectedPosition;
-import by.dero.gvh.utils.Position;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +9,8 @@ import java.util.Map;
 
 public class LobbyInfo {
     @Getter private DirectedPosition spawnPosition;
-    @Getter private Position portalPosition;
+    @SerializedName("portals") @Getter
+    private Map<String, DirectedPosition> portals;
 
     @SerializedName("monuments") @Getter
     private Map<String, DirectedPosition> classNameToMonumentPosition;

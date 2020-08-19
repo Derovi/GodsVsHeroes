@@ -43,7 +43,12 @@ public class Position implements Cloneable {
                         (y - other.y) * (y - other.y) +
                         (z - other.z) * (z - other.z));
     }
-
+    
+    @Override
+    public String toString() {
+        return String.format("Position(x: %s, y: %s, z: %s)", x, y, z);
+    }
+    
     public Vector toVector() {
         return new Vector(x, y, z);
     }

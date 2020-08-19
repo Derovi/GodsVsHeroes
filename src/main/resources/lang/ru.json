@@ -37,7 +37,8 @@
     "rmbDrop": "§aБросание на §8[§f§lПКМ§8]",
     "qDrop": "§aБросание на §8[§f§lQ§8]",
     "totem": "§6§lТотем",
-    "dailyBonus": "§6§lДневной бонус"
+    "dailyBonus": "§6§lДневной бонус",
+    "modeSelector": "§1Выбор режима"
   },
   "cosmetic": {
     "common": "§aОбщее",
@@ -227,7 +228,8 @@
     "desertionMessage": "§cНельзя покидать границу карты!",
     "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
     "ether": "EtherWar",
-    "deathMatch": "DeathMatch",
+    "deathMatch": "Death Match",
+    "etherCapture": "Ether Capture",
     "classSelected": "§bВаш класс §8» §f%class%",
     "expGained": "Опыт §8» §b%exp%",
     "expGainedMult": "Опыт §a×§l%mul%§f §8» §b%exp%",
