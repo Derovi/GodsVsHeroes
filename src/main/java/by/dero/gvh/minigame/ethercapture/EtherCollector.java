@@ -3,13 +3,14 @@ package by.dero.gvh.minigame.ethercapture;
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.CollectorStructure;
 import by.dero.gvh.minigame.Game;
-import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.minigame.RewardManager;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.nmcapi.MovingCrystal;
 import by.dero.gvh.utils.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,8 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static by.dero.gvh.minigame.ethercapture.CollectorStructure.getChanging;
-import static by.dero.gvh.minigame.ethercapture.CollectorStructure.getStages;
+import static by.dero.gvh.minigame.CollectorStructure.getChanging;
+import static by.dero.gvh.minigame.CollectorStructure.getStages;
 
 public class EtherCollector {
     private final int number;
@@ -30,6 +31,7 @@ public class EtherCollector {
     private FlyingText captureIndicator;
     private final double maxHeight = 16;
     @Getter private int captureStatus = 0; // 0 to 36
+    @Getter @Setter
     private int owner = 0;
     private SafeRunnable etherAdd;
     private final int etherDelay;
@@ -181,7 +183,7 @@ public class EtherCollector {
         Bukkit.getServer().broadcastMessage(Lang.get("game.collectorCaptureInform").
                 replace("%num%", "" + (number + 1)).
                 replace("%com%", Lang.get("commands." + (char)('1' + owner))));
-        Minigame.getInstance().getGame().getWorld().playSound(location, Sound.ENTITY_ENDERDRAGON_GROWL, 100, 1);
+        Game.getWorld().playSound(location, Sound.ENTITY_ENDERDRAGON_GROWL, 100, 1);
     }
 
     public void unload() {
@@ -203,14 +205,6 @@ public class EtherCollector {
     }
 
     public void setPosition(IntPosition pos) {
-        location = pos.toLocation(Minigame.getInstance().getGame().getWorld()).add(0,-1,0);
-    }
-
-    public int getOwner () {
-        return owner;
-    }
-
-    public void setOwner (int owner) {
-        this.owner = owner;
+        location = pos.toLocation(Game.getWorld()).add(0,-1,0);
     }
 }

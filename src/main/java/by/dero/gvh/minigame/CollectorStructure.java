@@ -1,4 +1,4 @@
-package by.dero.gvh.minigame.ethercapture;
+package by.dero.gvh.minigame;
 
 import by.dero.gvh.utils.Pair;
 import org.bukkit.Location;

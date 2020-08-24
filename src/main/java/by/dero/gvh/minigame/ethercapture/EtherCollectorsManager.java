@@ -2,8 +2,10 @@ package by.dero.gvh.minigame.ethercapture;
 
 import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
+import by.dero.gvh.minigame.CollectorStructure;
 import by.dero.gvh.utils.IntPosition;
 import by.dero.gvh.utils.SafeRunnable;
+import lombok.Getter;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -11,14 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EtherCollectorsManager {
-    private final List<EtherCollector> collectors = new ArrayList<>();
-    private final EtherCapture game;
+    @Getter private final List<EtherCollector> collectors = new ArrayList<>();
+    @Getter private final EtherCapture game;
     private SafeRunnable playersUpdater;
     private BukkitRunnable collectorsUpdater;
     private List<List<GamePlayer>> playersOnCollector;
     private boolean loaded = false;
-
-
+    
     public EtherCollectorsManager(EtherCapture game) {
         this.game = game;
     }
@@ -89,13 +90,5 @@ public class EtherCollectorsManager {
         collectorsUpdater.cancel();
         playersOnCollector = null;
         CollectorStructure.unload();
-    }
-
-    public List<EtherCollector> getCollectors() {
-        return collectors;
-    }
-
-    public EtherCapture getGame() {
-        return game;
     }
 }

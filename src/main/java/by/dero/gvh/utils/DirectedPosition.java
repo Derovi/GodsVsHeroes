@@ -1,15 +1,17 @@
 package by.dero.gvh.utils;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
+@Getter @Setter
 public class DirectedPosition extends Position {
-    @Getter private double dx = 0;
-    @Getter private double dy = 0;
-    @Getter private double dz = 0;
+    private double dx = 0;
+    private double dy = 0;
+    private double dz = 0;
 
     public DirectedPosition() {
     }

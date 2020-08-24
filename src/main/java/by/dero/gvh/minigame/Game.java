@@ -54,7 +54,7 @@ public abstract class Game implements Listener {
     private AfterParty afterParty;
     @Getter private final GameInfo info;
     @Getter private State state;
-    @Getter private World world = null;
+    @Getter private static World world = null;
     @Getter private final HashMap<String, GamePlayer> players = new HashMap<>();
     @Getter private HashMap<UUID, GameMob> mobs;
     @Getter private final HashMap<String, Location> playerDeathLocations = new HashMap<>();
@@ -645,7 +645,7 @@ public abstract class Game implements Listener {
         player.teleport(info.getLobbyPosition().toLocation(info.getLobbyWorld()));
     }
 
-    private void addItems(GamePlayer player) {
+    protected void addItems(GamePlayer player) {
         player.getItems().clear();
         player.getPlayer().getInventory().clear();
         UnitClassDescription classDescription = Plugin.getInstance().getData().getClassNameToDescription().get(player.getClassName());

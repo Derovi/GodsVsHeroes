@@ -50,6 +50,8 @@ public class GameUtils {
             Sound.BLOCK_NOTE_XYLOPHONE,
     };
     
+    public static final int[] teamColor = {14, 5, 3};
+    
     @Getter
     public static final Color[] brightColors = {
         Color.ORANGE, Color.AQUA, Color.LIME, Color.BLUE, Color.CYAN, Color.MAGENTA, Color.PINK,
