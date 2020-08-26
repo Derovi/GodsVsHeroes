@@ -227,8 +227,10 @@
     "cantUse": "§cВы не можете этого сделать сейчас!",
     "desertionMessage": "§cНельзя покидать границу карты!",
     "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
-    "ether": "EtherWar",
+    "flagCaptureInform": "%com% §b§lзахватила флаг",
+    "ether": "Ether War",
     "deathMatch": "Death Match",
+    "flagCapture": "Flag Capture",
     "etherCapture": "Ether Capture",
     "classSelected": "§bВаш класс §8» §f%class%",
     "expGained": "Опыт §8» §b%exp%",
@@ -340,7 +342,8 @@
     "kill": "§6§lУбийство§a +%exp% опыта",
     "killEther": "§6§lУбийство§a +%exp% опыта §8|§a +%eth% эфира",
     "assist": "§9§lПомощь§a +%exp% опыта",
-    "capture": "§4§lЗахват§a +%exp% опыта"
+    "capture": "§4§lЗахват§a +%exp% опыта",
+    "flagCapture": "§4§lФлаг§a +%exp% опыта"
   },
   "desc": {
     "swordthrow": " Оружие как ближнего, так и дальнего боя. §6§l[ПКМ]§0, чтобы кинуть во врага.",

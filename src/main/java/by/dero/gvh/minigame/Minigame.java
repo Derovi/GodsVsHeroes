@@ -11,6 +11,7 @@ import by.dero.gvh.minigame.commands.SelectCommand;
 import by.dero.gvh.minigame.commands.StartCommand;
 import by.dero.gvh.minigame.deathmatch.DeathMatch;
 import by.dero.gvh.minigame.ethercapture.EtherCapture;
+import by.dero.gvh.minigame.flagCapture.FlagCapture;
 import by.dero.gvh.model.AreaManager;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;
@@ -40,7 +41,8 @@ public class Minigame implements PluginMode {
     
     @Getter private static final ArrayList<String> modes = Lists.newArrayList(
             "etherCapture",
-            "deathMatch"
+            "deathMatch",
+            "flagCapture"
     );
     
 
@@ -51,12 +53,12 @@ public class Minigame implements PluginMode {
 
         gameData = new GameData(new LocalStorage());
         gameData.load();
-        if (gameData.getGameInfo().getMode().equals("deathMatch")) {
-            game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo());
-        } else {
-            game = new EtherCapture(gameData.getGameInfo(), gameData.getEtherCaptureInfo());
+        switch (gameData.getGameInfo().getMode()) {
+            case "deathMatch" : game = new DeathMatch(gameData.getGameInfo(), gameData.getDeathMatchInfo()); break;
+            case "etherCapture" : game = new EtherCapture(gameData.getGameInfo(), gameData.getEtherCaptureInfo()); break;
+            default : game = new FlagCapture(gameData.getGameInfo(), gameData.getFlagCaptureInfo()); break;
         }
-    
+        
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
                 ServerType.GAME, gameData.getGameInfo().getMode(), game.getInfo().getMaxPlayerCount());
 

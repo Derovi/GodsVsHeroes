@@ -7,6 +7,5 @@ import lombok.Setter;
 @Getter @Setter
 public class FlagCaptureInfo {
 	private IntPosition[] flagPoints;
-	private int etherForFlag;
-	private int etherToWin;
+	private int flagsToWin;
 }

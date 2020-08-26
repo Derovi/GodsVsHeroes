@@ -30,7 +30,7 @@ import java.util.Collection;
 
 public class FlagCapture extends Game implements DisplayInteractInterface {
 	@Getter private final FlagCaptureInfo flagCaptureInfo;
-	private final FlagPointManager flagPointManager;
+	@Getter private final FlagPointManager flagPointManager;
 	@Getter private static FlagCapture instance;
 	
 	@Getter @Setter
@@ -51,7 +51,7 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 	@Override
 	public void setDisplays() {
 		for (final GamePlayer gp : getPlayers().values()) {
-			final Board board = new Board(Lang.get("game.ether"), getInfo().getTeamCount() + 9);
+			final Board board = new Board(Lang.get("game.flagCapture"), getInfo().getTeamCount() + 9);
 			final Scoreboard sb = board.getScoreboard();
 			for (int team = 0; team < getInfo().getTeamCount(); team++) {
 				final String t = team + "hp";
@@ -86,7 +86,7 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 			str[i] = Lang.get("commands.stat").replace("%col%", String.valueOf(com.charAt(1)))
 					.replace("%com%", com)
 					.replace("%pts%", flagsCaptured[team] +
-							" (" + (int) ((double) flagsCaptured[team] / flagCaptureInfo.getEtherToWin() * 100) + "%)");
+							" (" + (int) ((double) flagsCaptured[team] / flagCaptureInfo.getFlagsToWin() * 100) + "%)");
 		}
 		str[cnt+1] = "";
 		str[cnt+2] = " ";
@@ -133,7 +133,7 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 		
 		getStats().getPercentToWin().ensureCapacity(getInfo().getTeamCount());
 		for (int i = 0; i < getInfo().getTeamCount(); i++) {
-			getStats().getPercentToWin().add(flagsCaptured[i] * 100 / flagCaptureInfo.getEtherToWin());
+			getStats().getPercentToWin().add(flagsCaptured[i] * 100 / flagCaptureInfo.getFlagsToWin());
 		}
 		
 		Plugin.getInstance().getGameStatsData().saveGameStats(getStats());
@@ -166,6 +166,11 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 	@Override
 	public void onPlayerKilled(GamePlayer player, GamePlayer killer, Collection<GamePlayer> assists) {
 		super.onPlayerKilled(player, killer, assists);
+		for (FlagItem item : flagPointManager.getFlagItems()) {
+			if (item.getCarrier() == player) {
+				item.drop();
+			}
+		}
 		try {
 			if (!player.equals(killer)) {
 				getRewardManager().give("killEnemy", killer.getPlayer(), "");
