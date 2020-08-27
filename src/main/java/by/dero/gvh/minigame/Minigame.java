@@ -16,14 +16,11 @@ import by.dero.gvh.model.AreaManager;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.utils.WorldUtils;
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import ru.cristalix.core.realm.IRealmService;
-
-import java.util.ArrayList;
 
 public class Minigame implements PluginMode {
     @Getter private static Minigame instance;
@@ -38,13 +35,6 @@ public class Minigame implements PluginMode {
     @Getter private LootsManager lootsManager;
     @Getter private LiftManager liftManager;
     public static long startTime;
-    
-    @Getter private static final ArrayList<String> modes = Lists.newArrayList(
-            "etherCapture",
-            "deathMatch",
-            "flagCapture"
-    );
-    
 
     @Override
     public void onEnable() {

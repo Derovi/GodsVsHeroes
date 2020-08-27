@@ -4,7 +4,6 @@ import by.dero.gvh.GamePlayer;
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
 import by.dero.gvh.minigame.GameInfo;
-import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Drawings;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
@@ -248,7 +247,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
         final float exp = player.getExp();
         
         Location loc = player.getLocation();
-        loc.setWorld(Minigame.getInstance().getGame().getWorld());
+        loc.setWorld(getWorld());
 
         getPlayerDeathLocations().put(player.getName(), player.getLocation());
         spawnPlayer(getPlayers().get(player.getName()), getInfo().getRespawnTime());

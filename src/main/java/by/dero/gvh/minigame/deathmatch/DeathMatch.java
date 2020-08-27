@@ -193,12 +193,10 @@ public class DeathMatch extends Game implements DisplayInteractInterface {
         final float exp = player.getExp();
 
         final int team = getPlayers().get(player.getName()).getTeam();
-        int respTime = -1;
+        int respTime = getInfo().getRespawnTime();
 
-        if (currentLivesCount[team] > 0) {
-            --currentLivesCount[team];
-            respTime = getInfo().getRespawnTime();
-        }
+        --currentLivesCount[team];
+    
         player.spigot().respawn();
         spawnPlayer(getPlayers().get(player.getName()), respTime);
         player.setExp(exp);

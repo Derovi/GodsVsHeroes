@@ -117,7 +117,7 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 		super.start();
 		
 		flagPointManager.load();
-		final int teams = getInfo().getTeamCount();
+		int teams = getInfo().getTeamCount();
 		flagsCaptured = new int[teams];
 		for (int index = 0; index < teams; ++index) {
 			flagsCaptured[index] = 0;
@@ -153,9 +153,9 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 	
 	@Override
 	public void prepareMap(BuildWorldState state) {
-		flagCaptureInfo.setFlagPoints(new IntPosition[state.getPoints().get("col").size()]);
-		for (Point point : state.getPoints().get("col")) {
-			System.out.println("col: " + point.getTag() + "|" + point.getV3().toString());
+		flagCaptureInfo.setFlagPoints(new IntPosition[state.getPoints().get("flag").size()]);
+		for (Point point : state.getPoints().get("flag")) {
+			System.out.println("flag: " + point.getTag() + "|" + point.getV3().toString());
 			flagCaptureInfo.getFlagPoints()[Integer.parseInt(point.getTag()) - 1] =
 					new IntPosition((int) point.getV3().getX(),
 							(int) point.getV3().getY(),

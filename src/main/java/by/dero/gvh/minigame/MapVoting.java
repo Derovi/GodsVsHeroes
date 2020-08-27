@@ -31,8 +31,12 @@ public class MapVoting {
     public Set<UUID> votedPlayers = new HashSet<>();
 
     public MapVoting() {
-        maps.add(new Map("Japan", "Japan2"));
-        maps.add(new Map("Castle", "Castle"));
+        if (Minigame.getInstance().getGame().getInfo().getMode().equals("flagCapture")) {
+            maps.add(new Map("Castle", "Castle-ctf"));
+        } else {
+            maps.add(new Map("Japan", "Japan2"));
+            maps.add(new Map("Castle", "Castle"));
+        }
     }
 
     public Map getMap(String displayName) {

@@ -1,9 +1,7 @@
 package by.dero.gvh.model;
 
-import by.dero.gvh.Plugin;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 
 public class ServerInfo {
     @Getter @Setter
@@ -23,6 +21,5 @@ public class ServerInfo {
         this.name = name;
         this.type = type;
         this.mode = mode;
-        Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> Bukkit.getServer().broadcastMessage("§a§l" + name + " " + this.mode), 200);
     }
 }

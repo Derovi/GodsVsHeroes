@@ -227,7 +227,7 @@
     "cantUse": "§cВы не можете этого сделать сейчас!",
     "desertionMessage": "§cНельзя покидать границу карты!",
     "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
-    "flagCaptureInform": "%com% §b§lзахватила флаг",
+    "flagCaptureInform": "%com% §b§lзахватили флаг",
     "ether": "Ether War",
     "deathMatch": "Death Match",
     "flagCapture": "Flag Capture",

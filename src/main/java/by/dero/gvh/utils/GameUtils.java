@@ -51,6 +51,7 @@ public class GameUtils {
     };
     
     public static final int[] teamColor = {14, 5, 3};
+    public static final DyeColor[] dyeTeamColor = {DyeColor.RED, DyeColor.LIME, DyeColor.CYAN};
     
     @Getter
     public static final Color[] brightColors = {
@@ -97,6 +98,9 @@ public class GameUtils {
     }
 
     public static GameObject getObject(LivingEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         return entity instanceof Player ? getPlayer(entity.getName()) : getMob(entity.getUniqueId());
     }
 
@@ -569,5 +573,17 @@ public class GameUtils {
 
     public static Predicate<EntityPlayer> getTargetPlayerPredicate(int team) {
         return (entityPlayer -> entityPlayer != null && isEnemy(entityPlayer.getBukkitEntity(), team));
+    }
+    
+    public static String toString(Object obj) {
+        if (obj instanceof Collection) {
+            StringBuilder s = new StringBuilder("[");
+            for (Object nxt : (Collection) obj) {
+                s.append(toString(nxt)).append(", ");
+            }
+            s.append("]");
+            return s.toString();
+        }
+        return obj.toString();
     }
 }

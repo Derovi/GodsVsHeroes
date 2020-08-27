@@ -7,16 +7,22 @@
   },
   "portals": {
     "deathMatch": {
-      "x": -8.5,
-      "y": 98.5,
-      "z": -0.5,
+      "x": -9,
+      "y": 88.5,
+      "z": -6,
       "dx": 1
     },
     "etherCapture": {
-      "x": -1.5,
+      "x": -9,
+      "y": 88.5,
+      "z": 5,
+      "dx": 1
+    },
+    "flagCapture": {
+      "x": -9.5,
       "y": 88.5,
       "z": -0.5,
-      "dz": 1
+      "dx": 1
     }
   },
   "singleBooster": {

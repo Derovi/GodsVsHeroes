@@ -1,9 +1,7 @@
 package by.dero.gvh.minigame.flagCapture;
 
-import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.CollectorStructure;
 import by.dero.gvh.minigame.Game;
-import by.dero.gvh.utils.SafeRunnable;
 import lombok.Getter;
 import org.bukkit.Location;
 
@@ -15,7 +13,6 @@ public class FlagPointManager {
 	@Getter private final List<FlagItem> flagItems = new ArrayList<>();
 	@Getter private final FlagCapture game;
 	@Getter private static FlagPointManager instance;
-	private SafeRunnable pointUpdater;
 	private boolean loaded = false;
 	
 	public FlagPointManager(FlagCapture game) {
@@ -32,17 +29,9 @@ public class FlagPointManager {
 			Location point = game.getFlagCaptureInfo().getFlagPoints()[team].toLocation(Game.getWorld());
 			CollectorStructure.build(point.clone().add(0, -1, 0));
 			points.add(point.clone());
-			FlagItem flag = new FlagItem(team, point);
+			FlagItem flag = new FlagItem(team, point.clone().add(0, 1, 0));
 			flagItems.add(flag);
 		}
-		
-		pointUpdater = new SafeRunnable() {
-			@Override
-			public void run() {
-			
-			}
-		};
-		pointUpdater.runTaskTimer(Plugin.getInstance(), 1, 1);
 	}
 	
 	public void unload() {
@@ -50,8 +39,11 @@ public class FlagPointManager {
 			return;
 		}
 		loaded = false;
+		for (FlagItem flag : flagItems) {
+			flag.unmountFlag();
+			flag.unload();
+		}
 		points.clear();
-		pointUpdater.cancel();
 		CollectorStructure.unload();
 	}
 }
