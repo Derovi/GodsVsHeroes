@@ -248,7 +248,8 @@
     "boosterBarGlobal": "        §a×§l%val% §fвсем от §6%pl%§f, /thx - отблагодарить",
     "thxSentMany": "§aТы сказал спасибо игрокам §f%pl% §f+§6§l20 §aопыта",
     "thxSentOne": "§aТы сказал спасибо игроку §f%pl% §f+§6§l20 §aопыта",
-    "thxReceived": "§f%pl% §aсказал вам спасибо! §f+§6§l20 §aопыта"
+    "thxReceived": "§f%pl% §aсказал вам спасибо! §f+§6§l20 §aопыта",
+    "cantDeliverFlag": "§cВаш флаг не на базе"
   },
   "loots": {
     "statusSpeed": "§aСкорость §8» §6%amount% §aсек.",

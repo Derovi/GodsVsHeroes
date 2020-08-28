@@ -15,24 +15,26 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class FlagItem {
+	private long droppedLast;
 	private final int team;
 	private Location pickedLoc;
 	@Getter private Location location;
 	private final SafeRunnable updateStatus;
 	@Getter @Setter
 	private GamePlayer carrier;
+	private EntityArmorStand handle = null;
 	private final HashMap<GamePlayer, Double> progress = new HashMap<>();
 	
 	public FlagItem(int team, Location loc) {
@@ -48,16 +50,21 @@ public class FlagItem {
 					location = carrier.getPlayer().getLocation();
 					Location point = FlagPointManager.getInstance().getPoints().get(carrier.getTeam());
 					if (location.distance(point) < 2) {
-						FlagCapture.getInstance().getFlagsCaptured()[carrier.getTeam()]++;
-						FlagCapture.getInstance().updateDisplays();
-						flagCaptured();
-						return;
+						if (FlagPointManager.getInstance().getPoints().get(team).distance(
+								FlagPointManager.getInstance().getFlagItems().get(team).getLocation()) < 1.5) {
+							
+							FlagCapture.getInstance().getFlagsCaptured()[carrier.getTeam()]++;
+							FlagCapture.getInstance().updateDisplays();
+							flagCaptured();
+						} else {
+							MessagingUtils.sendActionBar(Lang.get("game.cantDeliverFlag"), carrier.getPlayer());
+						}
 					}
 				} else {
 					Location point = FlagPointManager.getInstance().getPoints().get(team).clone().add(0, 1, 0);
 					for (GamePlayer gp : Game.getInstance().getPlayers().values()) {
 						if (!GameUtils.isDeadPlayer(gp.getPlayer()) &&
-								location.distance(gp.getPlayer().getLocation()) < 2) {
+								location.distance(gp.getPlayer().getLocation()) < 1.5) {
 							if (gp.getTeam() != team && !gp.isInventoryHided()) {
 								gp.hideInventory();
 								pickup(gp);
@@ -66,11 +73,11 @@ public class FlagItem {
 								if (point.distance(gp.getPlayer().getLocation()) > 1.5) {
 									pickup(gp);
 									location = point.clone();
-									pickedLoc = location.clone();
+									pickedLoc = point.clone();
 									unmountFlag();
 								}
 							}
-							return;
+							break;
 						}
 					}
 				}
@@ -81,16 +88,30 @@ public class FlagItem {
 				}
 			}
 		};
-		updateStatus.runTaskTimer(Plugin.getInstance(), 5, 10);
+		updateStatus.runTaskTimer(Plugin.getInstance(), 5, 5);
 	}
 	
 	public void placeBanner() {
-		Location wh = location.clone().add(0, 1, 0);
-		Block block = wh.getBlock();
-		block.setType(Material.STANDING_BANNER);
-//		CraftBanner banner = new CraftBanner(block);
+		handle = new EntityArmorStand(((CraftWorld) location.getWorld()).world);
+		handle.setPosition(location.x + 0.5, location.y - 1.5, location.z + 0.5);
+		ArmorStand stand = (ArmorStand) handle.getBukkitEntity();
+		GameUtils.setInvisibleFlags(stand);
+		handle.invulnerable = true;
+		handle.setMarker(true);
+		ItemStack flg = new ItemStack(Material.BANNER);
+		BannerMeta meta = (BannerMeta) flg.getItemMeta();
+		meta.setBaseColor(GameUtils.dyeTeamColor[team]);
+		flg.setItemMeta(meta);
+		stand.setHelmet(flg);
+		handle.world.addEntity(handle, CreatureSpawnEvent.SpawnReason.CUSTOM);
+//		Location wh = location.clone().add(0, 1, 0);
+//		Block block = wh.getBlock();
+//		block.setType(Material.STANDING_BANNER);
+//		Banner banner = (Banner) block.getState();
 //		banner.setBaseColor(GameUtils.dyeTeamColor[team]);
-//		banner.update(true);
+//		banner.update();
+//		Bukkit.getServer().broadcastMessage(String.valueOf(block.getType()));
+//		Bukkit.getServer().broadcastMessage(String.valueOf(banner.getBaseColor()));
 	}
 	
 	public void flagCaptured() {
@@ -153,12 +174,8 @@ public class FlagItem {
 	public void pickup(GamePlayer gp) {
 		carrier = gp;
 		
-		for (Location zxc = location.clone(); zxc.getY() - location.getY() < 5; zxc.add(0, 1, 0)) {
-			if (zxc.getBlock().getType().equals(Material.STANDING_BANNER)) {
-				zxc.getBlock().setType(Material.AIR);
-				break;
-			}
-		}
+		this.handle.die();
+		this.handle = null;
 		pickedLoc = gp.getPlayer().getLocation();
 		
 		Player player = gp.getPlayer();
@@ -167,15 +184,20 @@ public class FlagItem {
 		GameUtils.setInvisibleFlags(stand);
 		handle.invulnerable = true;
 		handle.setMarker(true);
-		stand.setHelmet(new ItemStack(Material.BANNER/*, 1, (short) GameUtils.teamColor[team]*/));
+		ItemStack flg = new ItemStack(Material.BANNER);
+		BannerMeta meta = (BannerMeta) flg.getItemMeta();
+		meta.setBaseColor(GameUtils.dyeTeamColor[team]);
+		flg.setItemMeta(meta);
+		stand.setHelmet(flg);
 		handle.world.addEntity(handle, CreatureSpawnEvent.SpawnReason.CUSTOM);
 		player.addPassenger(stand);
 	}
 	
 	public void unload() {
 		updateStatus.cancel();
-		if (carrier == null) {
-			location.clone().add(0, 2, 0).getBlock().setType(Material.AIR);
+		if (handle != null) {
+			handle.die();
+			handle = null;
 		}
 	}
 }

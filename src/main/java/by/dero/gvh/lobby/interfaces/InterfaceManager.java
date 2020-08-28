@@ -28,7 +28,7 @@ public class InterfaceManager implements Listener {
             playerNameToInterface.remove(playerName);
         }
     }
-    
+
     @EventHandler
     public void onItemSelected(InventoryClickEvent event) {
         String playerName = event.getWhoClicked().getName();
