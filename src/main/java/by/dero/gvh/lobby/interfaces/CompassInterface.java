@@ -38,7 +38,6 @@ public class CompassInterface extends Interface {
                 buf = 0;
             }
         }
-        hei += buf > 0 ? 1 : 0;
         return hei;
     }
 
@@ -78,7 +77,7 @@ public class CompassInterface extends Interface {
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(name);
             itemStack.setItemMeta(meta);
-            itemStack.setLore(Collections.singletonList(Lang.get("game." + info.getMode())));
+            itemStack.setLore(Collections.singletonList("§6" + Lang.get("game." + info.getMode())));
             if (!wasMode.equals(info.getMode())) {
                 line--;
                 index = 0;

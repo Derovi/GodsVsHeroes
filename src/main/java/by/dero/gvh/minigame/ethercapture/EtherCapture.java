@@ -50,7 +50,7 @@ public class EtherCapture extends Game implements DisplayInteractInterface {
     @Override
     public void setDisplays() {
         for (final GamePlayer gp : getPlayers().values()) {
-            final Board board = new Board(Lang.get("game.ether"), getInfo().getTeamCount() + 9);
+            final Board board = new Board(Lang.get("game.etherCapture"), getInfo().getTeamCount() + 9);
             final Scoreboard sb = board.getScoreboard();
             for (int team = 0; team < getInfo().getTeamCount(); team++) {
                 final String t = team + "hp";

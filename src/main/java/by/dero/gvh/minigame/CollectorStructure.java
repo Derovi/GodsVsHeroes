@@ -96,7 +96,12 @@ public class CollectorStructure {
         for (Pair<Material, Vector> obj : stages) {
             changeBlock(loc.clone().add(obj.getValue()), obj.getKey());
         }
-
+    }
+    
+    public static void colorBasement(Location loc, byte color) {
+        for (Pair<Material, Vector> obj : changing) {
+            loc.clone().add(obj.getValue()).getBlock().setData(color);
+        }
     }
 
     public static void changeBlock(Location at, Material to) {

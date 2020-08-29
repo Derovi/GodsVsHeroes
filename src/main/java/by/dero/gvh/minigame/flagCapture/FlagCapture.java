@@ -33,6 +33,7 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 	@Getter private final FlagCaptureInfo flagCaptureInfo;
 	@Getter private final FlagPointManager flagPointManager;
 	@Getter private static FlagCapture instance;
+	private SafeRunnable displaysRunnable;
 	
 	@Getter @Setter
 	private int[] flagsCaptured;
@@ -89,7 +90,11 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 					.replace("%pts%", flagsCaptured[team] +
 							" (" + (int) ((double) flagsCaptured[team] / flagCaptureInfo.getFlagsToWin() * 100) + "%)");
 		}
-		str[cnt+1] = "";
+		StringBuilder stat = new StringBuilder(Lang.get("game.flagsStatus"));
+		for (int i = 0; i < getInfo().getTeamCount(); i++) {
+			stat.append(flagPointManager.isFlagOnBase(i) ? GameUtils.getColorPrefix(i) : "§8").append("⚑");
+		}
+		str[cnt+1] = stat.toString();
 		str[cnt+2] = " ";
 		str[cnt+7] = " ";
 		str[cnt+8] = Lang.get("game.online").replace("%online%", String.valueOf(getPlayers().size()));
@@ -126,10 +131,19 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 		
 		setDisplays();
 		updateDisplays();
+		
+		displaysRunnable = new SafeRunnable() {
+			@Override
+			public void run() {
+				updateDisplays();
+			}
+		};
+		displaysRunnable.runTaskTimer(Plugin.getInstance(), 0, 20);
 	}
 	
 	@Override
 	public void finish(int winnerTeam, boolean needFireworks) {
+		displaysRunnable.cancel();
 		super.finish(winnerTeam, needFireworks);
 		
 		getStats().getPercentToWin().ensureCapacity(getInfo().getTeamCount());

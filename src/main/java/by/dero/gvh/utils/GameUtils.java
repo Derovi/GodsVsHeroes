@@ -50,7 +50,7 @@ public class GameUtils {
             Sound.BLOCK_NOTE_XYLOPHONE,
     };
     
-    public static final int[] teamColor = {14, 5, 3};
+    public static final byte[] teamColor = {14, 5, 3};
     public static final DyeColor[] dyeTeamColor = {DyeColor.RED, DyeColor.LIME, DyeColor.CYAN};
     
     @Getter
@@ -585,5 +585,9 @@ public class GameUtils {
             return s.toString();
         }
         return obj.toString();
+    }
+    
+    public static String getColorPrefix(int team) {
+        return Lang.get("commands." + (char)('1' + team)).substring(0, 2);
     }
 }

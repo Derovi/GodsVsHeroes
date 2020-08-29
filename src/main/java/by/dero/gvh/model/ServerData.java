@@ -2,6 +2,7 @@ package by.dero.gvh.model;
 
 import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -58,7 +59,8 @@ public class ServerData {
             servers.add(gson.fromJson(document.toJson(), ServerInfo.class));
         }
         servers.sort((info1, info2) -> {
-            int modeCmp = info1.getMode().compareTo(info2.getMode());
+            int modeCmp = Integer.compare(Minigame.modes.indexOf(info1.getMode()),
+                    Minigame.modes.indexOf(info2.getMode()));
             if (modeCmp != 0) {
                 return modeCmp;
             }

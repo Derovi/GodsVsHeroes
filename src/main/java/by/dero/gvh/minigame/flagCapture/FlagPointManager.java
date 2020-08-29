@@ -2,6 +2,7 @@ package by.dero.gvh.minigame.flagCapture;
 
 import by.dero.gvh.minigame.CollectorStructure;
 import by.dero.gvh.minigame.Game;
+import by.dero.gvh.utils.GameUtils;
 import lombok.Getter;
 import org.bukkit.Location;
 
@@ -26,8 +27,9 @@ public class FlagPointManager {
 		}
 		loaded = true;
 		for (int team = 0; team < Game.getInstance().getInfo().getTeamCount(); team++) {
-			Location point = game.getFlagCaptureInfo().getFlagPoints()[team].toLocation(Game.getWorld());
+			Location point = game.getFlagCaptureInfo().getFlagPoints()[team].toLocation(Game.getWorld()).add(0.5, 0, 0.5);
 			CollectorStructure.build(point.clone().add(0, -1, 0));
+			CollectorStructure.colorBasement(point.clone().add(0, -1, 0), GameUtils.teamColor[team]);
 			points.add(point.clone());
 			FlagItem flag = new FlagItem(team, point.clone().add(0, 1, 0));
 			flagItems.add(flag);
@@ -45,5 +47,9 @@ public class FlagPointManager {
 		}
 		points.clear();
 		CollectorStructure.unload();
+	}
+	
+	public boolean isFlagOnBase(int idx) {
+		return points.get(idx).distance(flagItems.get(idx).getLocation()) < 2 && flagItems.get(idx).getCarrier() == null;
 	}
 }

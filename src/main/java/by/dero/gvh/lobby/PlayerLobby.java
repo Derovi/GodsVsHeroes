@@ -21,10 +21,7 @@ import ru.cristalix.core.display.data.DataDrawData;
 import ru.cristalix.core.display.data.StringDrawData;
 import ru.cristalix.core.math.V2;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PlayerLobby {
     @Getter private final Player player;
@@ -79,7 +76,7 @@ public class PlayerLobby {
     }
 
     private static List<StringDrawData> getStrings(String className) {
-        return Arrays.asList(
+        return Collections.singletonList(
                 StringDrawData.builder().align(1).scale(4).string(className).position(new V2(135, 10)).build()
         );
     }

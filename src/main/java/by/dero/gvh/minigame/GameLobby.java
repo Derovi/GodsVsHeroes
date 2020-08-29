@@ -171,7 +171,7 @@ public class GameLobby implements Listener, DisplayInteractInterface {
         Player player = gamePlayer.getPlayer();
 
         player.setGameMode(GameMode.SURVIVAL);
-        gamePlayer.setBoard(new Board("Lobby", 8 + mapVoting.maps.size()));
+        gamePlayer.setBoard(new Board(Lang.get("game." + game.getInfo().getMode()), 8 + mapVoting.maps.size()));
         for (PotionEffect effect : gamePlayer.getPlayer().getActivePotionEffects()) {
             gamePlayer.getPlayer().removePotionEffect(effect.getType());
         }

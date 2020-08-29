@@ -227,11 +227,11 @@
     "cantUse": "§cВы не можете этого сделать сейчас!",
     "desertionMessage": "§cНельзя покидать границу карты!",
     "collectorCaptureInform": "%com% §8§l ⚔ §b§lКоллектор %num%",
-    "flagCaptureInform": "%com% §b§lзахватили флаг",
+    "flagDeliverInform": "%com% §fдоставили флаг",
     "ether": "Ether War",
-    "deathMatch": "Death Match",
-    "flagCapture": "Flag Capture",
-    "etherCapture": "Ether Capture",
+    "deathMatch": "Бои насмерть",
+    "flagCapture": "Захват флага",
+    "etherCapture": "Захват точек",
     "classSelected": "§bВаш класс §8» §f%class%",
     "expGained": "Опыт §8» §b%exp%",
     "expGainedMult": "Опыт §a×§l%mul%§f §8» §b%exp%",
@@ -249,7 +249,9 @@
     "thxSentMany": "§aТы сказал спасибо игрокам §f%pl% §f+§6§l20 §aопыта",
     "thxSentOne": "§aТы сказал спасибо игроку §f%pl% §f+§6§l20 §aопыта",
     "thxReceived": "§f%pl% §aсказал вам спасибо! §f+§6§l20 §aопыта",
-    "cantDeliverFlag": "§cВаш флаг не на базе"
+    "cantDeliverFlag": "§cВаш флаг не на базе",
+    "flagsStatus": "Статус §8» ",
+    "flagTakenInform": "%com% §8§l⚔ %en%§l⚑"
   },
   "loots": {
     "statusSpeed": "§aСкорость §8» §6%amount% §aсек.",
