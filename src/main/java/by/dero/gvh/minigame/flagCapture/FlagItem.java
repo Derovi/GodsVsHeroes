@@ -115,7 +115,7 @@ public class FlagItem {
 		ArmorStand stand = (ArmorStand) handle.getBukkitEntity();
 		GameUtils.setInvisibleFlags(stand);
 		handle.invulnerable = true;
-		handle.setMarker(true);
+//		handle.setMarker(true);
 		ItemStack flg = new ItemStack(Material.BANNER);
 		BannerMeta meta = (BannerMeta) flg.getItemMeta();
 		meta.setBaseColor(GameUtils.dyeTeamColor[team]);
