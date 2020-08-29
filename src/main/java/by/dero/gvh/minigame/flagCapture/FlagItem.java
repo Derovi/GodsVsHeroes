@@ -27,13 +27,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FlagItem {
-	private long droppedLast;
+	private static final long droppedDelay = 3000;
+	private static final long droppedDeathDelay = 5000;
+	private static final double returnMult = 0.5;
+	@Setter private long droppedLast = 0;
+	@Setter private long droppedDeathLast = 0;
 	private final int team;
-	private Location pickedLoc;
+	@Getter private Location pickedLoc;
 	@Getter private Location location;
 	private final SafeRunnable updateStatus;
-	@Getter @Setter
-	private GamePlayer carrier;
+	@Getter private GamePlayer carrier;
 	private EntityArmorStand handle = null;
 	private final HashMap<GamePlayer, Double> progress = new HashMap<>();
 	
@@ -47,7 +50,7 @@ public class FlagItem {
 			@Override
 			public void run() {
 				if (carrier != null) {
-					location = carrier.getPlayer().getLocation();
+					location = carrier.getPlayer().getLocation().clone();
 					Location point = FlagPointManager.getInstance().getPoints().get(carrier.getTeam());
 					if (location.distance(point) < 2) {
 						if (FlagPointManager.getInstance().getPoints().get(team).distance(
@@ -66,12 +69,27 @@ public class FlagItem {
 						if (!GameUtils.isDeadPlayer(gp.getPlayer()) &&
 								location.distance(gp.getPlayer().getLocation()) < 1.5) {
 							if (gp.getTeam() != team && !gp.isInventoryHided()) {
-								gp.hideInventory();
-								pickup(gp);
-							} else {
-								progress.clear();
-								if (point.distance(gp.getPlayer().getLocation()) > 1.5) {
+								if (System.currentTimeMillis() > droppedLast + droppedDelay &&
+										System.currentTimeMillis() > droppedDeathLast + droppedDeathDelay) {
+									
+									gp.hideInventory();
 									pickup(gp);
+								}
+							} else {
+								if (point.distance(gp.getPlayer().getLocation()) > 1.5) {
+									location = gp.getPlayer().getLocation().clone();
+									double[] dst = {FlagPointManager.getInstance().getPoints().get(0).distance(location),
+													FlagPointManager.getInstance().getPoints().get(1).distance(location)};
+									double rew = dst[team] / (dst[0] + dst[1]) * returnMult *
+											Game.getInstance().getRewardManager().get("flagCaptured").getCount();
+									String name = gp.getPlayer().getName();
+									Game.getInstance().getGameStatsManager().addExp(gp, rew);
+									Game.getInstance().getRewardManager().addExp(name, rew);
+									MessagingUtils.sendSubtitle(Lang.get("rewmes.flagCapture").
+											replace("%exp%", GameUtils.getString(rew)), gp.getPlayer(), 0, 20, 0);
+									
+									pickup(gp);
+									progress.clear();
 									location = point.clone();
 									pickedLoc = point.clone();
 									unmountFlag();
@@ -88,7 +106,7 @@ public class FlagItem {
 				}
 			}
 		};
-		updateStatus.runTaskTimer(Plugin.getInstance(), 5, 5);
+		updateStatus.runTaskTimer(Plugin.getInstance(), 5, 2);
 	}
 	
 	public void placeBanner() {

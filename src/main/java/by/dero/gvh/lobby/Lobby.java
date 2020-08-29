@@ -23,7 +23,6 @@ import by.dero.gvh.utils.*;
 import com.google.gson.Gson;
 import lombok.Getter;
 import org.bukkit.*;
-import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftArmorStand;
@@ -588,12 +587,6 @@ public class Lobby implements PluginMode, Listener {
     @EventHandler (priority = EventPriority.MONITOR)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        Block zxc = event.getClickedBlock();
-        if (zxc != null && !zxc.getType().equals(Material.AIR) && zxc.getState() instanceof Banner) {
-            Banner kek = (Banner) zxc.getState();
-            kek.setBaseColor(DyeColor.values()[(int) (Math.random() * DyeColor.values().length)]);
-            kek.update();
-        }
         if (event.getAction().equals(Action.PHYSICAL)) {
             event.setCancelled(true);
             return;

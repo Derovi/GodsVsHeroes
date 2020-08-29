@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -168,6 +169,7 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 		super.onPlayerKilled(player, killer, assists);
 		for (FlagItem item : flagPointManager.getFlagItems()) {
 			if (item.getCarrier() == player) {
+				item.setDroppedDeathLast(System.currentTimeMillis());
 				item.drop();
 			}
 		}
@@ -234,5 +236,19 @@ public class FlagCapture extends Game implements DisplayInteractInterface {
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		event.setRespawnLocation(getPlayerDeathLocations().get(event.getPlayer().getName()));
+	}
+	
+	@EventHandler
+	public void dropFlag(PlayerToggleSneakEvent event) {
+		for (FlagItem flag : flagPointManager.getFlagItems()) {
+			if (flag.getCarrier() != null && flag.getCarrier().getPlayer() == event.getPlayer()) {
+				flag.setDroppedLast(System.currentTimeMillis());
+//				Bukkit.getServer().broadcastMessage(flag.getLocation().toVector().toString());
+//				Bukkit.getServer().broadcastMessage(flag.getPickedLoc().toVector().toString());
+//				Bukkit.getServer().broadcastMessage("§a------");
+				flag.drop();
+				break;
+			}
+		}
 	}
 }
