@@ -40,7 +40,7 @@ public class TeleportPearls extends Item implements PlayerInteractInterface,
 	@Override
 	public void onProjectileHit (ProjectileHitEvent event) {
 		event.getEntity().remove();
-		if (owner.getVehicle() != null) {
+		if (owner.getVehicle() != null || !owner.getPassengers().isEmpty()) {
 			return;
 		}
 		Location loc = event.getEntity().getLocation();
