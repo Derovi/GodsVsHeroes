@@ -2,8 +2,8 @@ package by.dero.gvh.stats;
 
 import by.dero.gvh.FlyingText;
 import by.dero.gvh.GamePlayer;
+import by.dero.gvh.Plugin;
 import by.dero.gvh.minigame.Game;
-import by.dero.gvh.minigame.Minigame;
 import by.dero.gvh.model.Lang;
 import by.dero.gvh.model.interfaces.DisplayInteractInterface;
 import by.dero.gvh.utils.GameUtils;
@@ -28,11 +28,18 @@ public class GameStatsManager {
                 name = killer.getPlayer().getName();
                 stats = gameStats.getPlayers().get(name);
                 stats.setKills(stats.getKills() + 1);
+                Plugin.getInstance().getQuestManager().push(killer.getPlayer().getUniqueId(), "kills", 1);
+//                try {
+//                    for (UserQuest quest : IQuestService.get().getActiveQuests(killer.getPlayer().getUniqueId(), "Aeth").get()) {
+//                        Bukkit.getServer().broadcastMessage(quest.toString());
+//                    }
+//                } catch (InterruptedException | ExecutionException e) {
+//                    e.printStackTrace();
+//                }
             }
             name = target.getPlayer().getName();
             stats = gameStats.getPlayers().get(name);
             stats.setDeaths(stats.getDeaths() + 1);
-            Minigame.getInstance().getQuestManager().push(target.getPlayer().getUniqueId(), "kills", 1);
         }
         if (Game.getInstance() instanceof DisplayInteractInterface) {
             ((DisplayInteractInterface) Game.getInstance()).updateDisplays();
@@ -50,16 +57,16 @@ public class GameStatsManager {
                 stats = gameStats.getPlayers().get(name);
                 stats.setAssists(stats.getAssists() + 1);
                 stats.setAdvancement(stats.getAdvancement() + assistrew);
-                Minigame.getInstance().getQuestManager().push(player.getPlayer().getUniqueId(), "advancement", (int) assistrew);
+                Plugin.getInstance().getQuestManager().push(player.getPlayer().getUniqueId(), "advancement", (int) assistrew);
             }
             stats = gameStats.getPlayers().get(killer.getPlayer().getName());
             double ot = killcnt - assistrew * assists.size();
             stats.setAdvancement(stats.getAdvancement() + ot);
-            Minigame.getInstance().getQuestManager().push(killer.getPlayer().getUniqueId(), "advancement", (int) ot);
+            Plugin.getInstance().getQuestManager().push(killer.getPlayer().getUniqueId(), "advancement", (int) ot);
         } else {
             stats = gameStats.getPlayers().get(killer.getPlayer().getName());
             stats.setAdvancement(stats.getAdvancement() + killcnt);
-            Minigame.getInstance().getQuestManager().push(killer.getPlayer().getUniqueId(), "advancement", killcnt);
+            Plugin.getInstance().getQuestManager().push(killer.getPlayer().getUniqueId(), "advancement", killcnt);
         }
 
         stats = gameStats.getPlayers().get(target.getPlayer().getName());
@@ -79,7 +86,7 @@ public class GameStatsManager {
             name = target.getPlayer().getName();
             stats = gameStats.getPlayers().get(name);
             stats.setDamageTaken(stats.getDamageTaken() + damage);
-            Minigame.getInstance().getQuestManager().push(target.getPlayer().getUniqueId(), "damage", (int) damage);
+            Plugin.getInstance().getQuestManager().push(target.getPlayer().getUniqueId(), "damage", (int) damage);
         }
     }
 
@@ -97,7 +104,7 @@ public class GameStatsManager {
     public void addCapturePoints(String name, Integer points) {
         GamePlayerStats stats = gameStats.getPlayers().get(name);
         stats.setCapturePoints(stats.getCapturePoints() + points);
-        Minigame.getInstance().getQuestManager().push(GameUtils.getPlayer(name).getPlayer().getUniqueId(), "capture", points);
+        Plugin.getInstance().getQuestManager().push(GameUtils.getPlayer(name).getPlayer().getUniqueId(), "capture", points);
     }
 
     private final LinkedList<FlyingText> texts = new LinkedList<>();

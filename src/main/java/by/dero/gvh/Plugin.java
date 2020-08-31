@@ -11,6 +11,7 @@ import by.dero.gvh.model.loots.LootBoxManager;
 import by.dero.gvh.model.storages.LocalStorage;
 import by.dero.gvh.model.storages.MongoDBStorage;
 import by.dero.gvh.nmcapi.CustomEntities;
+import by.dero.gvh.quests.CoreQuestManager;
 import by.dero.gvh.stats.GameStatsData;
 import by.dero.gvh.stats.StatsData;
 import by.dero.gvh.utils.*;
@@ -48,6 +49,7 @@ import java.io.IOException;
 
 public class Plugin extends JavaPlugin implements Listener {
     @Getter private static Plugin instance;
+    @Getter private CoreQuestManager questManager;
     @Getter private Data data;
     @Getter private PlayerData playerData;
     @Getter private ServerData serverData;
@@ -68,6 +70,7 @@ public class Plugin extends JavaPlugin implements Listener {
         super.onEnable();
         CustomEntities.registerEntities();
         instance = this;
+        questManager = new CoreQuestManager("Aeth");
         new GameUtils();
         try {
             String text = DataUtils.loadOrDefault(new LocalStorage(),

@@ -78,8 +78,7 @@ public class Lobby implements PluginMode, Listener {
     private final static PlayerRunnable[] activates = new PlayerRunnable[9];
     @Getter private MonumentManager monumentManager;
     @Getter private InterfaceManager interfaceManager;
-    @Getter
-    private TopManager topManager;
+    @Getter private TopManager topManager;
     private PortalManager portalManager;
     private final List<BukkitRunnable> runnables = new ArrayList<>();
     @Getter private final HashMap<String, LobbyPlayer> players = new HashMap<>();
@@ -92,6 +91,7 @@ public class Lobby implements PluginMode, Listener {
     @Override
     public void onEnable() {
         instance = this;
+    
         Plugin.getInstance().getServerData().register(Plugin.getInstance().getSettings().getServerName(),
                 ServerType.LOBBY, "lobby", 300);
         if (Plugin.getInstance().getSettings().getServerName().startsWith("EW")) {
@@ -446,6 +446,18 @@ public class Lobby implements PluginMode, Listener {
     }
     
     public void playerJoined(Player player) {
+//        IQuestService.get().setActiveQuests(player.getUniqueId(),
+//                Lists.newArrayList("AETH-D-0", "AETH-D-1", "AETH-D-2", "AETH-D-3", "AETH-D-4"));
+//        Bukkit.getScheduler().runTaskLater(Plugin.getInstance(), () -> {
+//            try {
+//                Bukkit.getServer().broadcastMessage("kek");
+//                for (UserQuest quest : IQuestService.get().getActiveQuests(player.getUniqueId(), "Aeth").get()) {
+//                    Bukkit.getServer().broadcastMessage(quest.toString());
+//                }
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//        }, 100);
         PlayerInventory inv = player.getInventory();
         inv.setHeldItemSlot(0);
         player.setGameMode(GameMode.ADVENTURE);

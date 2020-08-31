@@ -27,8 +27,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import ru.cristalix.core.formatting.Color;
+import ru.cristalix.core.quest.IQuestService;
+import ru.cristalix.core.quest.UserQuest;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class GameUtils {
     public static final double eyeHeight = 1.7775;
@@ -126,7 +129,14 @@ public class GameUtils {
             target.damage(damage);
         } else {
             target.damage(damage, killer);
-            Minigame.getInstance().getQuestManager().push(target.getUniqueId(), "spell_damage", (int) damage);
+            Plugin.getInstance().getQuestManager().push(killer.getUniqueId(), "spell_damage", (int) damage);
+            try {
+                for (UserQuest quest : IQuestService.get().getActiveQuests(killer.getUniqueId(), "Aeth").get()) {
+                    Bukkit.getServer().broadcastMessage(quest.toString());
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
         }
     }
 
