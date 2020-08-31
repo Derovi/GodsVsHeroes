@@ -1,6 +1,6 @@
 {
   "lobbyWorld": "World",
-  "mode": "deathMatch",
+  "mode": "etherCapture",
   "teamCount": 2,
   "minPlayerCount": 12,
   "maxPlayerCount": 20,

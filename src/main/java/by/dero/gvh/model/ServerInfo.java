@@ -11,7 +11,7 @@ public class ServerInfo {
     @Getter @Setter
     private String status = "NO_STATUS";
     @Getter
-    private String mode;
+    private String mode = "etherCapture";
     @Getter @Setter
     private int online;
     @Getter @Setter
