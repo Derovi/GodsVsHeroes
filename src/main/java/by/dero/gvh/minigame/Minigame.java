@@ -15,6 +15,7 @@ import by.dero.gvh.minigame.flagCapture.FlagCapture;
 import by.dero.gvh.model.AreaManager;
 import by.dero.gvh.model.ServerType;
 import by.dero.gvh.model.storages.LocalStorage;
+import by.dero.gvh.quests.CoreQuestManager;
 import by.dero.gvh.utils.WorldUtils;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class Minigame implements PluginMode {
     @Getter private AreaManager areaManager;
     @Getter private GameData gameData;
     @Getter private Game game;
+    @Getter private CoreQuestManager questManager;
 
     @Getter private GameEvents gameEvents;
     @Getter private CommandManager commandManager;
@@ -45,7 +47,8 @@ public class Minigame implements PluginMode {
     public void onEnable() {
         instance = this;
         startTime = System.currentTimeMillis();
-
+        
+        questManager = new CoreQuestManager("TYPE");
         gameData = new GameData(new LocalStorage());
         gameData.load();
         switch (gameData.getGameInfo().getMode()) {

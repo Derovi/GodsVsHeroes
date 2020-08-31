@@ -178,6 +178,7 @@ public class EtherCollector {
             MessagingUtils.sendSubtitle(Lang.get("rewmes.capture").
                     replace("%exp%", String.valueOf(cnt)), entry.getKey().getPlayer(), 0, 20, 0);
         }
+        
         rewards.clear();
         
         Bukkit.getServer().broadcastMessage(Lang.get("game.collectorCaptureInform").

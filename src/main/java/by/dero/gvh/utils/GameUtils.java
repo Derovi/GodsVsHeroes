@@ -126,6 +126,7 @@ public class GameUtils {
             target.damage(damage);
         } else {
             target.damage(damage, killer);
+            Minigame.getInstance().getQuestManager().push(target.getUniqueId(), "spell_damage", (int) damage);
         }
     }
 
